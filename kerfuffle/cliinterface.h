@@ -298,6 +298,8 @@ public:
     explicit CliInterface(QObject *parent, const QVariantList & args);
     virtual ~CliInterface();
 
+    virtual int copyRequiredSignals() const;
+
     virtual bool list() Q_DECL_OVERRIDE;
     virtual bool extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) Q_DECL_OVERRIDE;
     virtual bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
@@ -331,7 +333,6 @@ public:
     QStringList substituteExtractVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password);
     QStringList substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel);
     QStringList substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entries, const Archive::Entry *destination, const QString &password);
-    QStringList substituteCopyVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entries, const Archive::Entry *destination, const QString &password);
     QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QList<Archive::Entry*> &entries, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
     QStringList substituteTestVariables(const QStringList &testArgs);
@@ -363,6 +364,7 @@ public:
 
 protected:
 
+    bool setAddedFiles();
     virtual void handleLine(const QString& line);
     virtual void cacheParameterList();
 
@@ -388,9 +390,18 @@ protected:
      */
     bool passwordQuery();
 
+    void cleanUp();
+
     QString m_oldWorkingDir;
     ParameterList m_param;
     int m_exitCode;
+    QTemporaryDir *m_tempExtractDir;
+    QTemporaryDir *m_tempAddDir;
+    OperationMode m_subOperation;
+    QList<Archive::Entry*> m_passedFiles;
+    QList<Archive::Entry*> m_tempAddedFiles;
+    Archive::Entry *m_passedDestination;
+    CompressionOptions m_passedOptions;
 
 protected slots:
     virtual void readStdout(bool handleAll = false);
@@ -447,7 +458,9 @@ private:
      */
     bool isEmptyDir(const QDir &dir);
 
-    void copyProcessCleanup();
+    void cleanUpExtracting();
+
+    void finishCopying(bool result);
 
     QByteArray m_stdOutData;
     QRegularExpression m_passwordPromptPattern;
@@ -468,13 +481,14 @@ private:
     QString m_extractDestDir;
     QTemporaryDir *m_extractTempDir;
     QTemporaryFile *m_commentTempFile;
-    QList<Archive::Entry*> m_copiedFiles;
+    QList<Archive::Entry*> m_extractedFiles;
 
 protected slots:
     virtual void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 private slots:
     void extractProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void continueCopying(bool result);
 
 };
 }

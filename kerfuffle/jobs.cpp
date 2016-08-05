@@ -519,20 +519,41 @@ void MoveJob::onFinished(bool result)
     }
 }
 
-CopyJob::CopyJob(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options, ReadWriteArchiveInterface *interface)
+CopyJob::CopyJob(const QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options, ReadWriteArchiveInterface *interface)
     : Job(interface)
+    , m_finishedSignalsCount(0)
+    , m_entries(entries)
+    , m_destination(destination)
+    , m_options(options)
 {
-
+    qCDebug(ARK) << "CopyJob started";
 }
 
 void CopyJob::doWork()
 {
-    onFinished(false);
+    qCDebug(ARK) << "CopyJob: going to copy" << m_entries.count() << "file(s)";
+
+    emit description(this, i18np("Copying a file", "Copying %1 files", m_entries.count()));
+
+    ReadWriteArchiveInterface *m_writeInterface =
+        qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
+
+    Q_ASSERT(m_writeInterface);
+
+    connectToArchiveInterfaceSignals();
+    bool ret = m_writeInterface->copyFiles(m_entries, m_destination, m_options);
+
+    if (!archiveInterface()->waitForFinishedSignal()) {
+        onFinished(ret);
+    }
 }
 
 void CopyJob::onFinished(bool result)
 {
-    Job::onFinished(result);
+    m_finishedSignalsCount++;
+    if (m_finishedSignalsCount == archiveInterface()->copyRequiredSignals()) {
+        Job::onFinished(result);
+    }
 }
 
 DeleteJob::DeleteJob(const QList<Archive::Entry*> &entries, ReadWriteArchiveInterface *interface)

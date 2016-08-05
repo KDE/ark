@@ -45,6 +45,7 @@ public:
 
     bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
     bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
+    bool copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
     bool deleteFiles(const QList<Archive::Entry*> &files) Q_DECL_OVERRIDE;
 
 protected:

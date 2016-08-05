@@ -45,22 +45,14 @@ public:
 
 private:
     void continueMoving(bool result);
-    void setAddedFiles();
-    void cleanUpMoving();
+    bool setMovingAddedFiles();
+    void finishMoving(bool result);
 
     enum ParseState {
         ParseStateHeader = 0,
         ParseStateComment,
         ParseStateEntry
     } m_parseState;
-
-    QTemporaryDir *m_moveExtractedDir;
-    QTemporaryDir *m_moveAddedDir;
-    OperationMode m_moveSubOperation;
-    QList<Archive::Entry*> m_movedFiles;
-    QList<Archive::Entry*> m_moveAddedFiles;
-    Archive::Entry *m_moveDestination;
-    CompressionOptions m_moveCompressionOptions;
 
     int m_linesComment;
     QString m_tempComment;

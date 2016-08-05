@@ -239,6 +239,10 @@ private:
     CompressionOptions m_options;
 };
 
+/**
+ * This MoveJob can be used to rename or move entries withing the archive.
+ * @see Archive::moveFiles for more details.
+ */
 class KERFUFFLE_EXPORT MoveJob : public Job
 {
 Q_OBJECT
@@ -259,12 +263,16 @@ private:
     CompressionOptions m_options;
 };
 
+/**
+ * This CopyJob can be used to copy entries withing the archive.
+ * @see Archive::copyFiles for more details.
+ */
 class KERFUFFLE_EXPORT CopyJob : public Job
 {
 Q_OBJECT
 
 public:
-    CopyJob(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+    CopyJob(const QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;

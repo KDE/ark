@@ -100,12 +100,27 @@ public:
     virtual bool extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
     bool waitForFinishedSignal();
 
+    /**
+     * Returns count of required finish signals for a job to be finished.
+     *
+     * These two methods are used by move and copy jobs, which in some plugins implementations have to call
+     * several processes sequentually. For instance, moving entries in zip archive is only possible if
+     * extracting the entries, deleting them, recreating destination folder structure and adding them back again.
+     */
     virtual int moveRequiredSignals() const;
+    virtual int copyRequiredSignals() const;
 
     /**
-     * @return The list of filenames retrieved from the list of entries.
+     * Returns the list of filenames retrieved from the list of entries.
      */
-    static QStringList entryFullPaths(const QList<Archive::Entry*> &entries);
+    static QStringList entryFullPaths(const QList<Archive::Entry*> &entries, const bool withoutTrailingSlashes = false);
+
+    /**
+     * Returns the list of the entries, excluding their children.
+     *
+     * This method relies on entries paths so doesn't require parents to be set.
+     */
+    static QList<Archive::Entry*> entriesWithoutChildren(const QList<Archive::Entry*> &entries);
 
     virtual bool doKill();
     virtual bool doSuspend();
@@ -149,7 +164,7 @@ class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterfac
     Q_OBJECT
 public:
     enum OperationMode  {
-        List, Extract, Add, Move, Delete, Comment, Test
+        List, Extract, Add, Move, Copy, Delete, Comment, Test
     };
 
     explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList & args);

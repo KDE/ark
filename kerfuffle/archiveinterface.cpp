@@ -132,18 +132,44 @@ int ReadOnlyArchiveInterface::moveRequiredSignals() const {
     return 1;
 }
 
+int ReadOnlyArchiveInterface::copyRequiredSignals() const
+{
+    return 1;
+}
+
 void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
 {
     m_waitForFinishedSignal = value;
 }
 
-QStringList ReadOnlyArchiveInterface::entryFullPaths(const QList<Archive::Entry*> &entries)
+QStringList ReadOnlyArchiveInterface::entryFullPaths(const QList<Archive::Entry*> &entries, const bool withoutTrailingSlashes)
 {
     QStringList filesList;
     foreach (const Archive::Entry *file, entries) {
-        filesList << file->fullPath();
+        filesList << file->fullPath(withoutTrailingSlashes);
     }
     return filesList;
+}
+
+QList<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const QList<Archive::Entry *> &entries)
+{
+    // QMap is easy way to get entries sorted by their fullPath.
+    QMap<QString, Archive::Entry*> sortedEntries;
+    foreach (Archive::Entry *entry, entries) {
+        sortedEntries.insert(entry->fullPath(), entry);
+    }
+
+    QList<Archive::Entry*> filteredEntries;
+    QString lastFolder;
+    foreach (Archive::Entry *entry, sortedEntries) {
+        if (lastFolder.count() > 0 && entry->fullPath().startsWith(lastFolder))
+            continue;
+
+        lastFolder = (entry->fullPath().right(1) == QLatin1String("/")) ? entry->fullPath() : QString();
+        filteredEntries << entry;
+    }
+
+    return filteredEntries;
 }
 
 bool ReadOnlyArchiveInterface::isHeaderEncryptionEnabled() const

@@ -94,6 +94,11 @@ void CliInterface::setListEmptyLines(bool emptyLines)
     m_listEmptyLines = emptyLines;
 }
 
+int CliInterface::copyRequiredSignals() const
+{
+    return 2;
+}
+
 bool CliInterface::list()
 {
     resetParsing();
@@ -116,7 +121,7 @@ bool CliInterface::extractFiles(const QList<Archive::Entry*> &files, const QStri
     cacheParameterList();
     m_operationMode = Extract;
     m_compressionOptions = options;
-    m_copiedFiles = files;
+    m_extractedFiles = files;
     m_extractDestDir = destinationDirectory;
     const QStringList extractArgs = m_param.value(ExtractArgs).toStringList();
 
@@ -251,7 +256,19 @@ bool CliInterface::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry
 
 bool CliInterface::copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
-    return false;
+    m_oldWorkingDir = QDir::currentPath();
+    m_tempExtractDir = new QTemporaryDir();
+    m_tempAddDir = new QTemporaryDir();
+    QDir::setCurrent(m_tempExtractDir->path());
+    m_passedFiles = files;
+    m_passedDestination = destination;
+    m_passedOptions = options;
+    m_passedOptions[QStringLiteral("PreservePaths")] = true;
+
+    m_subOperation = Extract;
+    connect(this, &CliInterface::finished, this, &CliInterface::continueCopying);
+
+    return extractFiles(files, QDir::currentPath(), m_passedOptions);
 }
 
 bool CliInterface::deleteFiles(const QList<Archive::Entry*> &files)
@@ -409,7 +426,7 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
                 emit error(i18n("Extraction failed. Make sure you provided the correct password and that enough space is available."));
                 setPassword(QString());
             }
-            copyProcessCleanup();
+            cleanUpExtracting();
             emit finished(false);
             return;
         }
@@ -419,32 +436,57 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
                 emit error(i18ncp("@info",
                                   "Could not move the extracted file to the destination directory.",
                                   "Could not move the extracted files to the destination directory.",
-                                  m_copiedFiles.size()));
-                copyProcessCleanup();
+                                  m_extractedFiles.size()));
+                cleanUpExtracting();
                 emit finished(false);
                 return;
             }
 
-            copyProcessCleanup();
+            cleanUpExtracting();
         }
     }
 
     if (m_compressionOptions.value(QStringLiteral("DragAndDrop")).toBool()) {
-        if (!moveDroppedFilesToDest(m_copiedFiles, m_extractDestDir)) {
+        if (!moveDroppedFilesToDest(m_extractedFiles, m_extractDestDir)) {
             emit error(i18ncp("@info",
                               "Could not move the extracted file to the destination directory.",
                               "Could not move the extracted files to the destination directory.",
-                              m_copiedFiles.size()));
-            copyProcessCleanup();
+                              m_extractedFiles.size()));
+            cleanUpExtracting();
             emit finished(false);
             return;
         }
 
-        copyProcessCleanup();
+        cleanUpExtracting();
     }
 
     emit progress(1.0);
     emit finished(true);
+}
+
+void CliInterface::continueCopying(bool result)
+{
+    if (!result) {
+        finishCopying(false);
+        return;
+    }
+
+    switch (m_subOperation) {
+        case Extract:
+            m_subOperation = Add;
+            m_passedFiles = entriesWithoutChildren(m_passedFiles);
+            if (!setAddedFiles() || !addFiles(m_tempAddedFiles, m_passedDestination, m_passedOptions)) {
+                finishCopying(false);
+            }
+            break;
+
+        case Add:
+            finishCopying(true);
+            break;
+
+        default:
+            Q_ASSERT(false);
+    }
 }
 
 bool CliInterface::moveDroppedFilesToDest(const QList<Archive::Entry*> &files, const QString &finalDest)
@@ -537,7 +579,7 @@ bool CliInterface::isEmptyDir(const QDir &dir)
     return d.count() == 0;
 }
 
-void CliInterface::copyProcessCleanup()
+void CliInterface::cleanUpExtracting()
 {
     if (!m_oldWorkingDir.isEmpty()) {
         QDir::setCurrent(m_oldWorkingDir);
@@ -547,6 +589,14 @@ void CliInterface::copyProcessCleanup()
         delete m_extractTempDir;
         m_extractTempDir = Q_NULLPTR;
     }
+}
+
+void CliInterface::finishCopying(bool result)
+{
+    disconnect(this, &CliInterface::finished, this, &CliInterface::continueCopying);
+    emit progress(1.0);
+    emit finished(result);
+    cleanUp();
 }
 
 bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths)
@@ -720,7 +770,7 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
         }
 
         if (arg == QLatin1String("$Files")) {
-            args << entryFullPaths(entries);
+            args << entryFullPaths(entries, true);
             continue;
         }
 
@@ -754,7 +804,7 @@ QStringList CliInterface::substituteMoveVariables(const QStringList &moveArgs, c
             }
 
             if (arg == QLatin1String("$PathPairs")) {
-                args << entryPathDestinationPairs(entries, destination);
+                args << entryPathDestinationPairs(entriesWithoutChildren(entries), destination);
                 continue;
             }
 
@@ -766,11 +816,6 @@ QStringList CliInterface::substituteMoveVariables(const QStringList &moveArgs, c
     args.removeAll(QString());
 
     return args;
-}
-
-QStringList CliInterface::substituteCopyVariables(const QStringList &moveArgs, const QList<Archive::Entry *> &entries, const Archive::Entry *destination, const QString &password)
-{
-    return QStringList();
 }
 
 QStringList CliInterface::substituteDeleteVariables(const QStringList &deleteArgs, const QList<Archive::Entry*> &entries, const QString &password)
@@ -974,6 +1019,17 @@ bool CliInterface::passwordQuery()
     return true;
 }
 
+void CliInterface::cleanUp()
+{
+    qDeleteAll(m_tempAddedFiles);
+    m_tempAddedFiles.clear();
+    QDir::setCurrent(m_oldWorkingDir);
+    delete m_tempExtractDir;
+    m_tempExtractDir = Q_NULLPTR;
+    delete m_tempAddDir;
+    m_tempAddDir = Q_NULLPTR;
+}
+
 void CliInterface::readStdout(bool handleAll)
 {
     //when hacking this function, please remember the following:
@@ -1049,6 +1105,20 @@ void CliInterface::readStdout(bool handleAll)
             handleLine(QString::fromLocal8Bit(line));
         }
     }
+}
+
+bool CliInterface::setAddedFiles()
+{
+    QDir::setCurrent(m_tempAddDir->path());
+    foreach (const Archive::Entry *file, m_passedFiles) {
+        const QString oldPath = m_tempExtractDir->path() + QLatin1Char('/') + file->fullPath(true);
+        const QString newPath = m_tempAddDir->path() + QLatin1Char('/') + file->name();
+        if (!QFile::rename(oldPath, newPath)) {
+            return false;
+        }
+        m_tempAddedFiles << new Archive::Entry(Q_NULLPTR, file->name());
+    }
+    return true;
 }
 
 void CliInterface::handleLine(const QString& line)
@@ -1319,7 +1389,7 @@ QStringList CliInterface::entryPathDestinationPairs(const QList<Archive::Entry*>
     QStringList pairList;
     if (entries.count() > 1) {
         foreach (const Archive::Entry *file, entries) {
-            pairList << file->fullPath() << destination->fullPath() + file->name();
+            pairList << file->fullPath(true) << destination->fullPath() + file->name();
         }
     }
     else {
