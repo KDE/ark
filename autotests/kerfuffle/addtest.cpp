@@ -42,7 +42,7 @@ void addAllFormatsRows(const QString testName, const QString archiveName, QList<
 
     foreach (QString format, formats) {
         const QString testNameWithFormat = testName + QStringLiteral(" (") + format + QStringLiteral(")");
-        QTest::newRow(testNameWithFormat.toStdString().c_str())
+        QTest::newRow(testNameWithFormat.toUtf8())
             << archiveName + QLatin1Char('.') + format
             << entries
             << destination;

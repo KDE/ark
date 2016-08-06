@@ -446,7 +446,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
                 }
 
                 entriesCounter++;
-                archive_entry_set_pathname(entry, newPathname.toStdString().c_str());
+                archive_entry_set_pathname(entry, newPathname.toUtf8());
             }
         }
         else if (m_filePaths.contains(file)) {

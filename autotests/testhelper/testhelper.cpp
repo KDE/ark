@@ -23,11 +23,11 @@ void TestHelper::verifyAddedEntriesWithDestination(const QList<Archive::Entry*> 
     QStringList expectedPaths = getExpectedNewEntryPaths(argumentEntries, destination);
     QStringList actualPaths = ReadOnlyArchiveInterface::entryFullPaths(newEntries);
     foreach (const QString &path, expectedPaths) {
-        QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive (new entry)")).toStdString().c_str());
+        QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive (new entry)")).toUtf8());
     }
     foreach (const Archive::Entry *entry, oldEntries) {
         const QString path = entry->fullPath();
-        QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive (old entry)")).toStdString().c_str());
+        QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive (old entry)")).toUtf8());
     }
 }
 
@@ -36,14 +36,14 @@ void TestHelper::verifyMovedEntriesWithDestination(const QList<Archive::Entry*> 
     QStringList expectedPaths = getExpectedMovedEntryPaths(oldEntries, argumentEntries, destination);
     QStringList actualPaths = ReadOnlyArchiveInterface::entryFullPaths(newEntries);
     foreach (const QString &path, expectedPaths) {
-        QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive")).toStdString().c_str());
+        QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive")).toUtf8());
     }
     foreach (const QString &path, actualPaths) {
-        QVERIFY2(expectedPaths.contains(path), (QStringLiteral("Entry ") + path + QStringLiteral(" is not expected to be inside the archive")).toStdString().c_str());
+        QVERIFY2(expectedPaths.contains(path), (QStringLiteral("Entry ") + path + QStringLiteral(" is not expected to be inside the archive")).toUtf8());
     }
     foreach (const Archive::Entry *entry, argumentEntries) {
         const QString path = entry->fullPath();
-        QVERIFY2(!actualPaths.contains(path), (QStringLiteral("Entry ") + path + QStringLiteral(" is still inside the archive, when it shouldn't be")).toStdString().c_str());
+        QVERIFY2(!actualPaths.contains(path), (QStringLiteral("Entry ") + path + QStringLiteral(" is still inside the archive, when it shouldn't be")).toUtf8());
     }
 }
 
@@ -52,10 +52,10 @@ void TestHelper::verifyCopiedEntriesWithDestination(const QList<Archive::Entry*>
     QStringList expectedPaths = getExpectedCopiedEntryPaths(oldEntries, argumentEntries, destination);
     QStringList actualPaths = ReadOnlyArchiveInterface::entryFullPaths(newEntries);
     foreach (const QString &path, expectedPaths) {
-        QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive")).toStdString().c_str());
+        QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive")).toUtf8());
     }
     foreach (const QString &path, actualPaths) {
-        QVERIFY2(expectedPaths.contains(path), (QStringLiteral("Entry ") + path + QStringLiteral(" is not expected to be inside the archive")).toStdString().c_str());
+        QVERIFY2(expectedPaths.contains(path), (QStringLiteral("Entry ") + path + QStringLiteral(" is not expected to be inside the archive")).toUtf8());
     }
 }
 

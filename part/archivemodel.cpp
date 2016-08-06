@@ -123,8 +123,8 @@ protected:
         }
 
         EntryMetaDataType column = static_cast<EntryMetaDataType>(m_sortColumn);
-        const QVariant &leftEntryMetaData = leftEntry->property(propertiesList[column].toStdString().c_str());
-        const QVariant &rightEntryMetaData = rightEntry->property(propertiesList[column].toStdString().c_str());
+        const QVariant &leftEntryMetaData = leftEntry->property(propertiesList[column].toUtf8());
+        const QVariant &rightEntryMetaData = rightEntry->property(propertiesList[column].toUtf8());
 
         switch (m_sortColumn) {
         case FullPath:
@@ -211,7 +211,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             }
 
             default:
-                return entry->property(propertiesList[column].toStdString().c_str());
+                return entry->property(propertiesList[column].toUtf8());
             }
         }
         case Qt::DecorationRole:
@@ -627,7 +627,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
 
         QMap<int, QString>::const_iterator i = propertiesList.begin();
         while (i != propertiesList.end()) {
-            if (!receivedEntry->property(i.value().toStdString().c_str()).toString().isEmpty()) {
+            if (!receivedEntry->property(i.value().toUtf8()).toString().isEmpty()) {
                 if (i.key() != CompressedSize || receivedEntry->compressedSizeIsSet) {
                     toInsert << i.key();
                 }
