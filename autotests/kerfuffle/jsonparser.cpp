@@ -67,7 +67,7 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
 
         QVariantMap::const_iterator entryIterator = entryMap.constBegin();
         for (; entryIterator != entryMap.constEnd(); ++entryIterator) {
-            const char *key = entryIterator.key().toStdString().c_str();
+            const char *key = entryIterator.key().toUtf8();
             if (e->property(key).isValid()) {
                 e->setProperty(key, entryIterator.value());
             } else {
