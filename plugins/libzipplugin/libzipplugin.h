@@ -28,6 +28,8 @@
 
 #include "kerfuffle/archiveinterface.h"
 
+#include <zip.h>
+
 using namespace Kerfuffle;
 
 class LibzipPlugin : public ReadWriteArchiveInterface
@@ -46,6 +48,9 @@ public:
     virtual bool deleteFiles(const QList<QVariant>& files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString& comment) Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
+
+private:
+    bool extractEntry(zip_t *archive, const QByteArray &entry, const QString &destination);
 };
 
 #endif // LIBZIPPLUGIN_H

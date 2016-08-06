@@ -27,11 +27,10 @@
 #include "ark_debug.h"
 #include "kerfuffle/kerfuffle_export.h"
 
-#include <zip.h>
-
 #include <KLocalizedString>
 #include <KPluginFactory>
 
+#include <QDataStream>
 #include <QDateTime>
 #include <QDir>
 #include <QFile>
@@ -51,12 +50,11 @@ LibzipPlugin::~LibzipPlugin()
 bool LibzipPlugin::list()
 {
     qCDebug(ARK) << "Listing archive contents:" << QFile::encodeName(filename());
-    zip_t *src;
+    zip_t *archive;
     int err;
     zip_error_t error;
 
     archive = zip_open(QFile::encodeName(filename()), ZIP_RDONLY, &err);
-    //archive = zip_open("", ZIP_RDONLY, &err);
     zip_error_init_with_code(&error, err);
 
     if (archive == NULL) {
@@ -83,27 +81,26 @@ bool LibzipPlugin::list()
             e[IsDirectory] = false;
         }
 
-        zip_stat_t *sb = new zip_stat_t;
-
-        if (zip_stat_index(archive, i, ZIP_FL_ENC_GUESS, sb)) {
+        struct zip_stat sb;
+        if (zip_stat_index(archive, i, ZIP_FL_ENC_GUESS, &sb)) {
             qCDebug(ARK) << "failed to read stat";
             return false;
         }
 
-        if (sb->valid & ZIP_STAT_MTIME) {
-            e[Timestamp] = QDateTime::fromTime_t(sb->mtime);
+        if (sb.valid & ZIP_STAT_MTIME) {
+            e[Timestamp] = QDateTime::fromTime_t(sb.mtime);
         }
-        if (sb->valid & ZIP_STAT_SIZE) {
-            e[Size] = (qlonglong)sb->size;
+        if (sb.valid & ZIP_STAT_SIZE) {
+            e[Size] = (qlonglong)sb.size;
         }
-        if (sb->valid & ZIP_STAT_COMP_SIZE) {
-            e[CompressedSize] = (qlonglong)sb->comp_size;
+        if (sb.valid & ZIP_STAT_COMP_SIZE) {
+            e[CompressedSize] = (qlonglong)sb.comp_size;
         }
-        if (sb->valid & ZIP_STAT_CRC) {
-            e[CRC] = QString::number((qulonglong)sb->crc, 16).toUpper();
+        if (sb.valid & ZIP_STAT_CRC) {
+            e[CRC] = QString::number((qulonglong)sb.crc, 16).toUpper();
         }
-        if (sb->valid & ZIP_STAT_COMP_METHOD) {
-            switch(sb->comp_method) {
+        if (sb.valid & ZIP_STAT_COMP_METHOD) {
+            switch(sb.comp_method) {
                 case ZIP_CM_STORE:
                     e[Method] = QStringLiteral("Store");
                     break;
@@ -115,14 +112,13 @@ bool LibzipPlugin::list()
                     break;
             }
         }
-        if (sb->valid & ZIP_STAT_ENCRYPTION_METHOD) {
-            if (sb->encryption_method != ZIP_EM_NONE) {
+        if (sb.valid & ZIP_STAT_ENCRYPTION_METHOD) {
+            if (sb.encryption_method != ZIP_EM_NONE) {
                 e[IsPasswordProtected] = true;
             }
         }
 
         emit entry(e);
-        delete sb;
     }
 
     zip_discard(archive);
@@ -165,7 +161,96 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
     Q_UNUSED(files)
     Q_UNUSED(destinationDirectory)
     Q_UNUSED(options)
-    qCDebug(ARK) << "Extracting files";
+    qCDebug(ARK) << "Extracting files to:" << destinationDirectory;
+
+    const bool extractAll = files.isEmpty();
+    const bool preservePaths = options.value(QStringLiteral( "PreservePaths" )).toBool();
+    bool removeRootNode = options.value(QStringLiteral("RemoveRootNode"), QVariant()).toBool();
+
+    struct zip *za;
+    struct zip_file *zf;
+    struct zip_stat sb;
+    char buf[100];
+    int len;
+    long long sum;
+
+    zip_t *archive;
+    int err;
+    zip_error_t error;
+
+    archive = zip_open(QFile::encodeName(filename()), ZIP_RDONLY, &err);
+    zip_error_init_with_code(&error, err);
+
+    if (archive == NULL) {
+        qCWarning(ARK) << "Failed to open archive";
+        qCWarning(ARK) << "Error code:" << err;
+        qCWarning(ARK) << "Error string:" << zip_error_strerror(&error);
+        return false;
+    }
+
+    qlonglong nof_entries = zip_get_num_entries(archive, 0);
+
+    if (extractAll) {
+        for (qlonglong i = 0; i < nof_entries; i++) {
+
+        }
+    }
+
+    foreach (const QVariant &v, files) {
+        qCDebug(ARK) << "Extracting:" << v.value<fileRootNodePair>().file;
+        QString dest(destinationDirectory + QLatin1Char('/') + v.value<fileRootNodePair>().file);
+        QByteArray entry(v.value<fileRootNodePair>().file.toUtf8());
+
+        if (!extractEntry(archive, entry, dest)) {
+            qCDebug(ARK) << "Extraction failed";
+            return false;
+        }
+    }
+
+    zip_discard(archive);
+    return true;
+}
+
+bool LibzipPlugin::extractEntry(zip_t *archive, const QByteArray &entry, const QString &destination)
+{
+    zip_file *zf = zip_fopen(archive, entry, 0);
+    if (!zf) {
+        qCDebug(ARK) << "Failed to open file";
+        return false;
+    }
+
+    QFile file(destination);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qCDebug(ARK) << "Failed to open file for writing";
+        return false;
+    }
+
+    QDataStream out(&file);
+
+    struct zip_stat sb;
+    if (zip_stat(archive, entry, 0, &sb) != 0) {
+        qCDebug(ARK) << "Stat failed";
+        return false;
+    }
+
+    qlonglong sum = 0;
+    char buf[100];
+    int len;
+    while (sum != sb.size) {
+        len = zip_fread(zf, buf, 100);
+        if (len < 0) {
+            qCDebug(ARK) << "Failed to read data";
+            return false;
+        }
+        qCDebug(ARK) << "Read:" << len;
+        if (out.writeRawData(buf, len) != len) {
+            qCDebug(ARK) << "Failed to write data";
+            return false;
+        }
+        qCDebug(ARK) << "Wrote:" << len;
+
+        sum += len;
+    }
     return true;
 }
 
