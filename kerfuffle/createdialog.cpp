@@ -35,7 +35,6 @@
 #include "kerfuffle/archive_kerfuffle.h"
 #include "mimetypes.h"
 
-#include <KColorScheme>
 #include <KMessageBox>
 #include <KSharedConfig>
 #include <KUrlRequester>
@@ -80,17 +79,12 @@ CreateDialog::CreateDialog(QWidget *parent,
         m_ui->destFolderUrlRequester->setUrl(startDir);
     }
 
-    KColorScheme colorScheme(QPalette::Active, KColorScheme::View);
-    m_ui->pwdWidget->setBackgroundWarningColor(colorScheme.background(KColorScheme::NegativeBackground).color());
-    m_ui->pwdWidget->setPasswordStrengthMeterVisible(false);
-
     // Populate combobox with mimetypes.
     foreach (const QString &type, m_supportedMimeTypes) {
         m_ui->mimeComboBox->addItem(QMimeDatabase().mimeTypeForName(type).comment());
     }
 
     connect(m_ui->filenameLineEdit, &QLineEdit::textChanged, this, &CreateDialog::slotFileNameEdited);
-    connect(m_ui->collapsibleEncryption, &KCollapsibleGroupBox::expandedChanged, this, &CreateDialog::slotEncryptionToggled);
     connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(m_ui->buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     connect(this, &QDialog::accepted, this, &CreateDialog::slotUpdateDefaultMimeType);
@@ -98,6 +92,8 @@ CreateDialog::CreateDialog(QWidget *parent,
     connect(m_ui->mimeComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &CreateDialog::slotUpdateFilenameExtension);
 
     m_vlayout->addWidget(m_ui);
+
+    m_ui->optionsWidget->setMimeType(currentMimeType());
 
     loadConfiguration();
 
@@ -119,30 +115,7 @@ void CreateDialog::slotFileNameEdited(const QString &fileName)
 
 void CreateDialog::slotUpdateWidgets(int index)
 {
-    const QMimeType mimeType = QMimeDatabase().mimeTypeForName(m_supportedMimeTypes.at(index));
-    const KPluginMetaData metadata = m_pluginManger.preferredPluginFor(mimeType)->metaData();
-    const ArchiveFormat archiveFormat = ArchiveFormat::fromMetadata(mimeType, metadata);
-    Q_ASSERT(archiveFormat.isValid());
-
-    if (archiveFormat.encryptionType() != Archive::Unencrypted) {
-        m_ui->collapsibleEncryption->setEnabled(true);
-        m_ui->collapsibleEncryption->setToolTip(QString());
-    } else {
-        m_ui->collapsibleEncryption->setEnabled(false);
-        m_ui->collapsibleEncryption->setToolTip(i18n("Protection of the archive with password is not possible with the %1 format.",
-                                                mimeType.comment()));
-    }
-
-    if (archiveFormat.maxCompressionLevel() == 0) {
-        m_ui->collapsibleCompression->setEnabled(false);
-    } else {
-        m_ui->collapsibleCompression->setEnabled(true);
-        m_ui->compLevelSlider->setMinimum(archiveFormat.minCompressionLevel());
-        m_ui->compLevelSlider->setMaximum(archiveFormat.maxCompressionLevel());
-        m_ui->compLevelSlider->setValue(archiveFormat.defaultCompressionLevel());
-    }
-
-    slotEncryptionToggled();
+    m_ui->optionsWidget->setMimeType(QMimeDatabase().mimeTypeForName(m_supportedMimeTypes.at(index)));
 }
 
 void CreateDialog::slotUpdateFilenameExtension(int index)
@@ -175,35 +148,32 @@ QUrl CreateDialog::selectedUrl() const
 
 int CreateDialog::compressionLevel() const
 {
-    if (m_ui->compLevelSlider->isEnabled()) {
-        return m_ui->compLevelSlider->value();
-    }
-    return -1;
+    return m_ui->optionsWidget->compressionLevel();
 }
 
 QString CreateDialog::password() const
 {
-    return m_ui->pwdWidget->password();
+    return m_ui->optionsWidget->password();
 }
 
 bool CreateDialog::isEncryptionAvailable() const
 {
-    return m_ui->collapsibleEncryption->isEnabled();
+    return m_ui->optionsWidget->isEncryptionAvailable();
 }
 
 bool CreateDialog::isEncryptionEnabled() const
 {
-    return isEncryptionAvailable() && m_ui->collapsibleEncryption->isExpanded();
+    return m_ui->optionsWidget->isEncryptionEnabled();
 }
 
 bool CreateDialog::isHeaderEncryptionAvailable() const
 {
-    return isEncryptionEnabled() && m_ui->encryptHeaderCheckBox->isEnabled();
+    return m_ui->optionsWidget->isHeaderEncryptionAvailable();
 }
 
 bool CreateDialog::isHeaderEncryptionEnabled() const
 {
-    return isHeaderEncryptionAvailable() && m_ui->encryptHeaderCheckBox->isChecked();
+    return m_ui->optionsWidget->isHeaderEncryptionEnabled();
 }
 
 void CreateDialog::accept()
@@ -213,7 +183,7 @@ void CreateDialog::accept()
         return;
     }
 
-    switch (m_ui->pwdWidget->passwordStatus()) {
+    switch (m_ui->optionsWidget->passwordStatus()) {
     case KNewPasswordWidget::WeakPassword:
     case KNewPasswordWidget::StrongPassword:
         QDialog::accept();
@@ -224,30 +194,6 @@ void CreateDialog::accept()
     default:
         break;
     }
-}
-
-void CreateDialog::slotEncryptionToggled()
-{
-    const KPluginMetaData metadata = m_pluginManger.preferredPluginFor(currentMimeType())->metaData();
-    const ArchiveFormat archiveFormat = ArchiveFormat::fromMetadata(currentMimeType(), metadata);
-    Q_ASSERT(archiveFormat.isValid());
-
-    const bool isExpanded = m_ui->collapsibleEncryption->isExpanded();
-    if (isExpanded && (archiveFormat.encryptionType() == Archive::HeaderEncrypted)) {
-        m_ui->encryptHeaderCheckBox->setEnabled(true);
-        m_ui->encryptHeaderCheckBox->setToolTip(QString());
-    } else {
-        m_ui->encryptHeaderCheckBox->setEnabled(false);
-        // Show the tooltip only if the encryption is still enabled.
-        // This is needed because if the new filter is e.g. tar, the whole encryption group gets disabled.
-        if (isEncryptionEnabled()) {
-            m_ui->encryptHeaderCheckBox->setToolTip(i18n("Protection of the list of files is not possible with the %1 format.",
-                                                         currentMimeType().comment()));
-        } else {
-            m_ui->encryptHeaderCheckBox->setToolTip(QString());
-        }
-    }
-    m_ui->pwdWidget->setEnabled(isExpanded);
 }
 
 void CreateDialog::slotUpdateDefaultMimeType()

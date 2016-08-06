@@ -19,6 +19,11 @@ ecm_add_tests(
     LINK_LIBRARIES testhelper kerfuffle Qt5::Test
     NAME_PREFIX kerfuffle-)
 
+ecm_add_test(
+    adddialogtest.cpp
+    LINK_LIBRARIES kerfuffle Qt5::Test KF5::KIOFileWidgets
+    NAME_PREFIX kerfuffle-)
+
 ecm_add_tests(
     jobstest.cpp
     LINK_LIBRARIES jsoninterface Qt5::Test

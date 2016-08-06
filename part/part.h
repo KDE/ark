@@ -106,7 +106,6 @@ private slots:
     void slotQuickExtractFiles(QAction*);
     void slotAddFiles();
     void slotAddFiles(const QStringList& files, const QString& path = QString());
-    void slotAddDir();
     void slotAddFilesDone(KJob*);
     void slotTestingDone(KJob*);
     void slotDeleteFiles();
@@ -135,6 +134,7 @@ signals:
     void quit();
 
 private:
+    void resetGui();
     void setupView();
     void setupActions();
     bool isSingleFolderArchive() const;
@@ -153,7 +153,6 @@ private:
     QAction *m_extractArchiveAction;
     QAction *m_extractAction;
     QAction *m_addFilesAction;
-    QAction *m_addDirAction;
     QAction *m_deleteFilesAction;
     QAction *m_saveAsAction;
     QAction *m_propertiesAction;
@@ -165,6 +164,7 @@ private:
     QList<QTemporaryDir*>      m_tmpOpenDirList;
     bool                  m_busy;
     OpenFileMode m_openFileMode;
+    QUrl m_lastUsedAddPath;
     QList<Kerfuffle::Archive::Entry*> m_jobTempEntries;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
@@ -176,6 +176,7 @@ private:
     QGroupBox *m_commentBox;
     QPlainTextEdit *m_commentView;
     KMessageWidget *m_commentMsgWidget;
+    KMessageWidget *m_messageWidget;
 };
 
 } // namespace Ark
