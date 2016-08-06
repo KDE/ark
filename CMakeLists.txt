@@ -67,6 +67,9 @@ set_package_properties(LibArchive PROPERTIES
                        DESCRIPTION "A library for dealing with a wide variety of archive file formats"
                        PURPOSE "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LibZip REQUIRED libzip>=1.0)
+
 find_package(SharedMimeInfo QUIET)
 set_package_properties(SharedMimeInfo PROPERTIES
                        TYPE OPTIONAL
