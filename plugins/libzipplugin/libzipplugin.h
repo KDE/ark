@@ -51,6 +51,11 @@ public:
 
 private:
     bool extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths);
+
+    bool m_abortOperation;
+    bool m_overwriteAll;
+    bool m_skipAll;
+
 };
 
 #endif // LIBZIPPLUGIN_H

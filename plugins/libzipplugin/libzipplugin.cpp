@@ -26,6 +26,7 @@
 #include "libzipplugin.h"
 #include "ark_debug.h"
 #include "kerfuffle/kerfuffle_export.h"
+#include "kerfuffle/queries.h"
 
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -39,6 +40,7 @@ K_PLUGIN_FACTORY_WITH_JSON(LibZipPluginFactory, "kerfuffle_libzip.json", registe
 
 LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList & args)
     : ReadWriteArchiveInterface(parent, args)
+    , m_abortOperation(false)
 {
     qCDebug(ARK) << "Initializing libzip plugin";
 }
@@ -51,16 +53,15 @@ bool LibzipPlugin::list()
 {
     qCDebug(ARK) << "Listing archive contents for:" << QFile::encodeName(filename());
     zip_t *archive;
-    int err;
-    zip_error_t error;
+    int errcode;
+    zip_error_t err;
 
-    archive = zip_open(QFile::encodeName(filename()), ZIP_RDONLY, &err);
-    zip_error_init_with_code(&error, err);
+    archive = zip_open(QFile::encodeName(filename()), ZIP_RDONLY, &errcode);
+    zip_error_init_with_code(&err, errcode);
 
     if (archive == NULL) {
-        qCWarning(ARK) << "Failed to open archive";
-        qCWarning(ARK) << "Error code:" << err;
-        qCWarning(ARK) << "Error string:" << zip_error_strerror(&error);
+        qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
+        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
@@ -70,6 +71,10 @@ bool LibzipPlugin::list()
     qCDebug(ARK) << "Found entries:" << nof_entries;
 
     for (zip_int64_t i = 0; i < nof_entries; i++) {
+
+        if (m_abortOperation) {
+            break;
+        }
 
         ArchiveEntry e;
         e[FileName] = QDir::fromNativeSeparators(QString::fromUtf8(zip_get_name(archive, i, ZIP_FL_ENC_GUESS)));
@@ -121,6 +126,7 @@ bool LibzipPlugin::list()
         emit entry(e);
         emit progress(float(i + 1) / nof_entries);
     }
+    m_abortOperation = false;
 
     zip_discard(archive);
     return true;
@@ -154,6 +160,7 @@ bool LibzipPlugin::testArchive()
 bool LibzipPlugin::doKill()
 {
     qCDebug(ARK) << "Killing";
+    m_abortOperation = true;
     return true;
 }
 
@@ -165,25 +172,29 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
     const bool removeRootNode = options.value(QStringLiteral("RemoveRootNode"), QVariant()).toBool();
 
     struct zip *archive;
-    int err;
-    zip_error_t error;
+    int errcode;
+    zip_error_t err;
 
-    archive = zip_open(QFile::encodeName(filename()), ZIP_RDONLY, &err);
-    zip_error_init_with_code(&error, err);
+    archive = zip_open(QFile::encodeName(filename()), ZIP_RDONLY, &errcode);
+    zip_error_init_with_code(&err, errcode);
 
     if (archive == NULL) {
-        qCWarning(ARK) << "Failed to open archive";
-        qCWarning(ARK) << "Error code:" << err;
-        qCWarning(ARK) << "Error string:" << zip_error_strerror(&error);
+        qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
+        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
     qlonglong totalCount;
     extractAll ? totalCount = zip_get_num_entries(archive, 0) : totalCount = files.size();
 
+    m_overwriteAll = false; // Whether to overwrite all files
+    m_skipAll = false; // Whether to skip all files
     if (extractAll) {
         // We extract all entries.
         for (qlonglong i = 0; i < totalCount; i++) {
+            if (m_abortOperation) {
+                break;
+            }
             if (!extractEntry(archive,
                               QDir::fromNativeSeparators(QString::fromUtf8(zip_get_name(archive, i, ZIP_FL_ENC_GUESS))),
                               QString(),
@@ -198,6 +209,9 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
         // We extract only the entries in files.
         qulonglong i = 0;
         foreach (const QVariant &v, files) {
+            if (m_abortOperation) {
+                break;
+            }
             //qCDebug(ARK) << "Extracting:" << v.value<fileRootNodePair>().file;
             if (!extractEntry(archive,
                               v.value<fileRootNodePair>().file,
@@ -210,6 +224,7 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
             emit progress(float(++i) / totalCount);
         }
     }
+    m_abortOperation = false;
 
     zip_discard(archive);
     return true;
@@ -254,6 +269,36 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
 
     if (!QDir().mkpath(QFileInfo(destination).path())) {
         qCDebug(ARK) << "Failed to create parent directory:" << QFileInfo(destination).path();
+    }
+
+    // Handle existing destination files.
+    QString renamedEntry = entry;
+    while (!m_overwriteAll && QFileInfo(destination).exists()) {
+        if (m_skipAll) {
+            return true;
+        } else if (!m_overwriteAll && !m_skipAll) {
+            Kerfuffle::OverwriteQuery query(renamedEntry);
+            emit userQuery(&query);
+            query.waitForResponse();
+
+            if (query.responseCancelled()) {
+                return false;
+            } else if (query.responseSkip()) {
+                return true;
+            } else if (query.responseAutoSkip()) {
+                m_skipAll = true;
+                return true;
+            } else if (query.responseRename()) {
+                const QString newName(query.newFilename());
+                destination = QFileInfo(destination).path() + QLatin1Char('/') + QFileInfo(newName).fileName();
+                renamedEntry = QFileInfo(entry).path() + QLatin1Char('/') + QFileInfo(newName).fileName();
+            } else if (query.responseOverwriteAll()) {
+                m_overwriteAll = true;
+                break;
+            } else if (query.responseOverwrite()) {
+                break;
+            }
+        }
     }
 
     zip_file *zf = zip_fopen(archive, entry.toUtf8(), 0);
