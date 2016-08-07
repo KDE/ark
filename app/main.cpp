@@ -67,7 +67,7 @@ int main(int argc, char **argv)
                          i18n("KDE Archiving tool"),
                          KAboutLicense::GPL,
                          i18n("(c) 1997-2016, The Ark Developers"),
-                         QStringLiteral(),
+                         QString(),
                          QStringLiteral("http://utils.kde.org/projects/ark")
     );
 
@@ -92,22 +92,22 @@ int main(int argc, char **argv)
                         i18n("Former maintainer"),
                         QStringLiteral("helio@kde.org"));
     aboutData.addAuthor(i18n("Georg Robbers"),
-                        QStringLiteral(),
+                        QString(),
                         QStringLiteral("Georg.Robbers@urz.uni-hd.de"));
     aboutData.addAuthor(i18n("Roberto Selbach Teixeira"),
-                        QStringLiteral(),
+                        QString(),
                         QStringLiteral("maragato@kde.org"));
     aboutData.addAuthor(i18n("Francois-Xavier Duranceau"),
-                        QStringLiteral(),
+                        QString(),
                         QStringLiteral("duranceau@kde.org"));
     aboutData.addAuthor(i18n("Emily Ezust (Corel Corporation)"),
-                        QStringLiteral(),
+                        QString(),
                         QStringLiteral("emilye@corel.com"));
     aboutData.addAuthor(i18n("Michael Jarrett (Corel Corporation)"),
-                        QStringLiteral(),
+                        QString(),
                         QStringLiteral("michaelj@corel.com"));
     aboutData.addAuthor(i18n("Robert Palmbos"),
-                        QStringLiteral(),
+                        QString(),
                         QStringLiteral("palm9744@kettering.edu"));
 
     aboutData.addCredit(i18n("Bryce Corkins"),
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
                         QStringLiteral("smitty@absamail.co.za"));
     aboutData.addCredit(i18n("Andrew Smith"),
                         i18n("bkisofs code"),
-                        QStringLiteral(),
+                        QString(),
                         QStringLiteral("http://littlesvr.ca/misc/contactandrew.php"));
 
     application.setWindowIcon(QIcon::fromTheme(QStringLiteral("ark")));
