@@ -119,6 +119,7 @@ bool LibzipPlugin::list()
         }
 
         emit entry(e);
+        emit progress(float(i + 1) / nof_entries);
     }
 
     zip_discard(archive);
@@ -191,9 +192,11 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
                 qCDebug(ARK) << "Extraction failed";
                 return false;
             }
+            emit progress(float(i + 1) / totalCount);
         }
     } else {
         // We extract only the entries in files.
+        qulonglong i = 0;
         foreach (const QVariant &v, files) {
             //qCDebug(ARK) << "Extracting:" << v.value<fileRootNodePair>().file;
             if (!extractEntry(archive,
@@ -204,6 +207,7 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
                 qCDebug(ARK) << "Extraction failed";
                 return false;
             }
+            emit progress(float(++i) / totalCount);
         }
     }
 
