@@ -50,7 +50,7 @@ public:
     virtual bool testArchive() Q_DECL_OVERRIDE;
 
 private:
-    bool extractEntry(zip_t *archive, const QByteArray &entry, const QString &destination);
+    bool extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths);
 };
 
 #endif // LIBZIPPLUGIN_H
