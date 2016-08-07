@@ -199,7 +199,7 @@ int main(int argc, char **argv)
 
             AddToArchive *addToArchiveJob = new AddToArchive(&application);
             application.setQuitOnLastWindowClosed(false);
-            application.connect(addToArchiveJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
+            QObject::connect(addToArchiveJob, &KJob::result, &application, &QCoreApplication::quit, Qt::QueuedConnection);
 
             if (parser.isSet(QStringLiteral("changetofirstpath"))) {
                 qCDebug(ARK) << "Setting changetofirstpath";
@@ -237,7 +237,7 @@ int main(int argc, char **argv)
 
             BatchExtract *batchJob = new BatchExtract(&application);
             application.setQuitOnLastWindowClosed(false);
-            application.connect(batchJob, SIGNAL(result(KJob*)), SLOT(quit()), Qt::QueuedConnection);
+            QObject::connect(batchJob, &KJob::result, &application, &QCoreApplication::quit, Qt::QueuedConnection);
 
             for (int i = 0; i < urls.count(); ++i) {
                 qCDebug(ARK) << "Adding url" << QUrl::fromUserInput(urls.at(i), QString(), QUrl::AssumeLocalFile);
