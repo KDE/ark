@@ -41,7 +41,6 @@ K_PLUGIN_FACTORY_WITH_JSON(LibZipPluginFactory, "kerfuffle_libzip.json", registe
 LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList & args)
     : ReadWriteArchiveInterface(parent, args)
     , m_abortOperation(false)
-    , m_isPasswordProtected(false)
 {
     qCDebug(ARK) << "Initializing libzip plugin";
 }
@@ -125,7 +124,6 @@ bool LibzipPlugin::list()
         if (sb.valid & ZIP_STAT_ENCRYPTION_METHOD) {
             if (sb.encryption_method != ZIP_EM_NONE) {
                 e[IsPasswordProtected] = true;
-                m_isPasswordProtected = true;
             }
         }
 
