@@ -151,8 +151,26 @@ bool LibzipPlugin::deleteFiles(const QList<QVariant> &files)
 
 bool LibzipPlugin::addComment(const QString& comment)
 {
-    Q_UNUSED(comment)
-    return false;
+    struct zip *archive;
+    int errcode;
+    zip_error_t err;
+
+    // Open archive.
+    archive = zip_open(QFile::encodeName(filename()), 0, &errcode);
+    zip_error_init_with_code(&err, errcode);
+    if (archive == NULL) {
+        qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
+        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
+        return false;
+    }
+
+    if (zip_set_archive_comment(archive, comment.toUtf8(), comment.length())) {
+        qCCritical(ARK) << "Failed to set comment:" << zip_strerror(archive);
+        return false;
+    }
+
+    zip_close(archive);
+    return true;
 }
 
 bool LibzipPlugin::testArchive()
