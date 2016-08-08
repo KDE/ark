@@ -300,8 +300,7 @@ void ExtractJob::doWork()
 
     connectToArchiveInterfaceSignals();
 
-    qCDebug(ARK) << "Starting extraction with selected files:"
-             << m_files
+    qCDebug(ARK) << "Starting extraction with" << m_files.count() << "selected files."
              << "Destination dir:" << m_destinationDir
              << "Options:" << m_options;
 
