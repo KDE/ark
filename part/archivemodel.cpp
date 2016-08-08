@@ -844,6 +844,8 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
 void ArchiveModel::slotLoadingFinished(KJob *job)
 {
     if (!job->error()) {
+        QElapsedTimer timer;
+        timer.start();
         int i = 0;
         foreach(const ArchiveEntry &entry, m_newArchiveEntries) {
             newEntry(entry, DoNotNotifyViews);
@@ -853,7 +855,7 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
         endResetModel();
         m_newArchiveEntries.clear();
 
-        qCDebug(ARK) << "Added" << i << "entries to model";
+        qCDebug(ARK) << "Added" << i << "entries to model in" << timer.elapsed() << "ms";
     }
 
     emit loadingFinished(job);
