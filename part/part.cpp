@@ -602,21 +602,22 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
     // #190507: triggeredAction->data.isNull() means it's the "Extract to..."
     //          action, and we do not want it to run here
     if (!triggeredAction->data().isNull()) {
-        const QString userDestination = triggeredAction->data().toString();
-        qCDebug(ARK) << "Extract to user dest" << userDestination;
+        QString userDestination = triggeredAction->data().toString();
         QString finalDestinationDirectory;
         const QString detectedSubfolder = detectSubfolder();
         qCDebug(ARK) << "Detected subfolder" << detectedSubfolder;
 
         if (!isSingleFolderArchive()) {
-            finalDestinationDirectory = userDestination +
-                                        QDir::separator() + detectedSubfolder;
+            if (!userDestination.endsWith(QDir::separator())) {
+                userDestination.append(QDir::separator());
+            }
+            finalDestinationDirectory = userDestination + detectedSubfolder;
             QDir(userDestination).mkdir(detectedSubfolder);
         } else {
             finalDestinationDirectory = userDestination;
         }
 
-        qCDebug(ARK) << "Extract to final dest" << finalDestinationDirectory;
+        qCDebug(ARK) << "Extracting to:" << finalDestinationDirectory;
 
         Kerfuffle::ExtractionOptions options;
         options[QStringLiteral("PreservePaths")] = true;

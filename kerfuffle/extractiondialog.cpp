@@ -274,7 +274,11 @@ QUrl ExtractionDialog::destinationDirectory() const
 {
     if (extractToSubfolder()) {
         QUrl subUrl = fileWidget->baseUrl();
-        subUrl.setPath(subUrl.path() + QLatin1Char('/') + subfolder());
+        if (subUrl.path().endsWith(QDir::separator())) {
+            subUrl.setPath(subUrl.path() + subfolder());
+        } else {
+            subUrl.setPath(subUrl.path() + QDir::separator() + subfolder());
+        }
 
         return subUrl;
     } else {
