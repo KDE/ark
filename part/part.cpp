@@ -331,14 +331,14 @@ void Part::setupActions()
     m_openFileAction->setText(i18nc("open a file with external program", "&Open"));
     m_openFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     m_openFileAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with the associated application"));
-    connect(m_openFileAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
+    connect(m_openFileAction, &QAction::triggered, m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
     m_signalMapper->setMapping(m_openFileAction, OpenFile);
 
     m_openFileWithAction = actionCollection()->addAction(QStringLiteral("openfilewith"));
     m_openFileWithAction->setText(i18nc("open a file with external program", "Open &With..."));
     m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     m_openFileWithAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with an external program"));
-    connect(m_openFileWithAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
+    connect(m_openFileWithAction, &QAction::triggered, m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
     m_signalMapper->setMapping(m_openFileWithAction, OpenFileWith);
 
     m_previewAction = actionCollection()->addAction(QStringLiteral("preview"));
@@ -346,7 +346,7 @@ void Part::setupActions()
     m_previewAction->setIcon(QIcon::fromTheme(QStringLiteral("document-preview-archive")));
     m_previewAction->setToolTip(i18nc("@info:tooltip", "Click to preview the selected file"));
     actionCollection()->setDefaultShortcut(m_previewAction, Qt::CTRL + Qt::Key_P);
-    connect(m_previewAction, SIGNAL(triggered(bool)), m_signalMapper, SLOT(map()));
+    connect(m_previewAction, &QAction::triggered, m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
     m_signalMapper->setMapping(m_previewAction, Preview);
 
     m_extractArchiveAction = actionCollection()->addAction(QStringLiteral("extract_all"));
@@ -370,8 +370,8 @@ void Part::setupActions()
     m_addFilesAction->setText(i18n("Add &Files..."));
     m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
     actionCollection()->setDefaultShortcut(m_addFilesAction, Qt::ALT + Qt::Key_A);
-    connect(m_addFilesAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotAddFiles()));
+    connect(m_addFilesAction, &QAction::triggered,
+            this, static_cast<void (Part::*)()>(&Part::slotAddFiles));
 
     m_deleteFilesAction = actionCollection()->addAction(QStringLiteral("delete"));
     m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
@@ -602,21 +602,22 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
     // #190507: triggeredAction->data.isNull() means it's the "Extract to..."
     //          action, and we do not want it to run here
     if (!triggeredAction->data().isNull()) {
-        const QString userDestination = triggeredAction->data().toString();
-        qCDebug(ARK) << "Extract to user dest" << userDestination;
+        QString userDestination = triggeredAction->data().toString();
         QString finalDestinationDirectory;
         const QString detectedSubfolder = detectSubfolder();
         qCDebug(ARK) << "Detected subfolder" << detectedSubfolder;
 
         if (!isSingleFolderArchive()) {
-            finalDestinationDirectory = userDestination +
-                                        QDir::separator() + detectedSubfolder;
+            if (!userDestination.endsWith(QDir::separator())) {
+                userDestination.append(QDir::separator());
+            }
+            finalDestinationDirectory = userDestination + detectedSubfolder;
             QDir(userDestination).mkdir(detectedSubfolder);
         } else {
             finalDestinationDirectory = userDestination;
         }
 
-        qCDebug(ARK) << "Extract to final dest" << finalDestinationDirectory;
+        qCDebug(ARK) << "Extracting to:" << finalDestinationDirectory;
 
         Kerfuffle::ExtractionOptions options;
         options[QStringLiteral("PreservePaths")] = true;
