@@ -84,7 +84,7 @@ bool LibzipPlugin::list()
         e[FileName] = QDir::fromNativeSeparators(QString::fromUtf8(zip_get_name(archive, i, ZIP_FL_ENC_GUESS)));
         e[InternalID] = e[FileName];
 
-        if (e[FileName].toString().endsWith(QLatin1Char('/'))) {
+        if (e[FileName].toString().endsWith(QDir::separator())) {
             e[IsDirectory] = true;
         } else {
             e[IsDirectory] = false;
@@ -262,12 +262,12 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
 
 bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths)
 {
-    const bool isDirectory = entry.endsWith(QLatin1Char('/'));
+    const bool isDirectory = entry.endsWith(QDir::separator());
 
     // Add trailing slash to destDir if not present.
     QString destDirCorrected(destDir);
-    if (!destDir.endsWith(QLatin1Char('/'))) {
-        destDirCorrected.append(QLatin1Char('/'));
+    if (!destDir.endsWith(QDir::separator())) {
+        destDirCorrected.append(QDir::separator());
     }
 
     // Remove rootnode if supplied and set destination path.
@@ -319,8 +319,8 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
                 return true;
             } else if (query.responseRename()) {
                 const QString newName(query.newFilename());
-                destination = QFileInfo(destination).path() + QLatin1Char('/') + QFileInfo(newName).fileName();
-                renamedEntry = QFileInfo(entry).path() + QLatin1Char('/') + QFileInfo(newName).fileName();
+                destination = QFileInfo(destination).path() + QDir::separator() + QFileInfo(newName).fileName();
+                renamedEntry = QFileInfo(entry).path() + QDir::separator() + QFileInfo(newName).fileName();
             } else if (query.responseOverwriteAll()) {
                 m_overwriteAll = true;
                 break;
