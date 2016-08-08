@@ -55,7 +55,7 @@ private:
     bool m_abortOperation;
     bool m_overwriteAll;
     bool m_skipAll;
-
+    bool m_isPasswordProtected;
 };
 
 #endif // LIBZIPPLUGIN_H

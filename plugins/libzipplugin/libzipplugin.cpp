@@ -41,6 +41,7 @@ K_PLUGIN_FACTORY_WITH_JSON(LibZipPluginFactory, "kerfuffle_libzip.json", registe
 LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList & args)
     : ReadWriteArchiveInterface(parent, args)
     , m_abortOperation(false)
+    , m_isPasswordProtected(false)
 {
     qCDebug(ARK) << "Initializing libzip plugin";
 }
@@ -52,25 +53,29 @@ LibzipPlugin::~LibzipPlugin()
 bool LibzipPlugin::list()
 {
     qCDebug(ARK) << "Listing archive contents for:" << QFile::encodeName(filename());
+
     zip_t *archive;
     int errcode;
     zip_error_t err;
 
+    // Open archive.
     archive = zip_open(QFile::encodeName(filename()), ZIP_RDONLY, &errcode);
     zip_error_init_with_code(&err, errcode);
-
     if (archive == NULL) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
         emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
+    // Fetch archive comment.
     m_comment = QString::fromUtf8(zip_get_archive_comment(archive, 0, ZIP_FL_ENC_GUESS));
 
-    zip_int64_t nof_entries = zip_get_num_entries(archive, 0);
-    qCDebug(ARK) << "Found entries:" << nof_entries;
+    // Get number of archive entries.
+    qlonglong nofEntries = zip_get_num_entries(archive, 0);
+    qCDebug(ARK) << "Found entries:" << nofEntries;
 
-    for (zip_int64_t i = 0; i < nof_entries; i++) {
+    // Loop through all archive entries.
+    for (zip_int64_t i = 0; i < nofEntries; i++) {
 
         if (m_abortOperation) {
             break;
@@ -120,15 +125,16 @@ bool LibzipPlugin::list()
         if (sb.valid & ZIP_STAT_ENCRYPTION_METHOD) {
             if (sb.encryption_method != ZIP_EM_NONE) {
                 e[IsPasswordProtected] = true;
+                m_isPasswordProtected = true;
             }
         }
 
         emit entry(e);
-        emit progress(float(i + 1) / nof_entries);
+        emit progress(float(i + 1) / nofEntries);
     }
     m_abortOperation = false;
 
-    zip_discard(archive);
+    zip_close(archive);
     return true;
 }
 
@@ -159,7 +165,7 @@ bool LibzipPlugin::testArchive()
 
 bool LibzipPlugin::doKill()
 {
-    qCDebug(ARK) << "Killing";
+    qCDebug(ARK) << "Killing action...";
     m_abortOperation = true;
     return true;
 }
@@ -175,23 +181,31 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
     int errcode;
     zip_error_t err;
 
+    // Open archive.
     archive = zip_open(QFile::encodeName(filename()), ZIP_RDONLY, &errcode);
     zip_error_init_with_code(&err, errcode);
-
     if (archive == NULL) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
         emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
-    qlonglong totalCount;
-    extractAll ? totalCount = zip_get_num_entries(archive, 0) : totalCount = files.size();
+    // Set password if known.
+    if (!password().isEmpty()) {
+        qCDebug(ARK) << "Password already known. Setting...";
+        zip_set_default_password(archive, password().toUtf8());
+    }
 
+    // Get number of archive entries.
+    qlonglong nofEntries;
+    extractAll ? nofEntries = zip_get_num_entries(archive, 0) : nofEntries = files.size();
+
+    // Extract entries.
     m_overwriteAll = false; // Whether to overwrite all files
     m_skipAll = false; // Whether to skip all files
     if (extractAll) {
         // We extract all entries.
-        for (qlonglong i = 0; i < totalCount; i++) {
+        for (qlonglong i = 0; i < nofEntries; i++) {
             if (m_abortOperation) {
                 break;
             }
@@ -203,7 +217,7 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
                 qCDebug(ARK) << "Extraction failed";
                 return false;
             }
-            emit progress(float(i + 1) / totalCount);
+            emit progress(float(i + 1) / nofEntries);
         }
     } else {
         // We extract only the entries in files.
@@ -221,12 +235,12 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
                 qCDebug(ARK) << "Extraction failed";
                 return false;
             }
-            emit progress(float(++i) / totalCount);
+            emit progress(float(++i) / nofEntries);
         }
     }
     m_abortOperation = false;
 
-    zip_discard(archive);
+    zip_close(archive);
     return true;
 }
 
@@ -240,35 +254,34 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         destDirCorrected.append(QLatin1Char('/'));
     }
 
+    // Remove rootnode if supplied and set destination path.
     QString destination;
     if (preservePaths) {
         if (rootNode.isEmpty()) {
-            destination = QStringLiteral("%1%2").arg(destDirCorrected).arg(entry);
+            destination = destDirCorrected + entry;
         } else {
             //qCDebug(ARK) << "Removing rootnode:" << rootNode;
             QString truncatedEntry = entry;
             truncatedEntry.remove(0, rootNode.size());
-            destination = QStringLiteral("%1%2").arg(destDirCorrected).arg(truncatedEntry);
+            destination = destDirCorrected + truncatedEntry;
         }
     } else {
         if (isDirectory) {
             qCDebug(ARK) << "Skipping directory:" << entry;
             return true;
         }
-        destination = QStringLiteral("%1%2").arg(destDirCorrected).arg(QFileInfo(entry).fileName());
+        destination = destDirCorrected + QFileInfo(entry).fileName();
+    }
+
+    // Create parent directories for files. For directories create them.
+    if (!QDir().mkpath(QFileInfo(destination).path())) {
+        qCDebug(ARK) << "Failed to create directory:" << QFileInfo(destination).path();
+        emit error(xi18n("Failed to create directory: %1", QFileInfo(destination).path()));
+        return false;
     }
 
     if (isDirectory) {
-        //qCDebug(ARK) << "Creating directory:" << QFileInfo(destination).path();
-        if (!QDir().mkpath(QFileInfo(destination).path())) {
-            qCDebug(ARK) << "Failed to create directory:" << QFileInfo(destination).path();
-            return false;
-        }
         return true;
-    }
-
-    if (!QDir().mkpath(QFileInfo(destination).path())) {
-        qCDebug(ARK) << "Failed to create parent directory:" << QFileInfo(destination).path();
     }
 
     // Handle existing destination files.
@@ -276,7 +289,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     while (!m_overwriteAll && QFileInfo(destination).exists()) {
         if (m_skipAll) {
             return true;
-        } else if (!m_overwriteAll && !m_skipAll) {
+        } else {
             Kerfuffle::OverwriteQuery query(renamedEntry);
             emit userQuery(&query);
             query.waitForResponse();
@@ -301,27 +314,53 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         }
     }
 
-    zip_file *zf = zip_fopen(archive, entry.toUtf8(), 0);
-    if (!zf) {
-        qCDebug(ARK) << "Failed to open file";
-        return false;
+    // Handle password-protected files.
+    zip_file *zf = NULL;
+    bool firstTry = true;
+    while (!zf) {
+        zf = zip_fopen(archive, entry.toUtf8(), 0);
+        if (zf) {
+            break;
+        } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD ||
+                   zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_WRONGPASSWD) {
+            Kerfuffle::PasswordNeededQuery query(filename(), !firstTry);
+            emit userQuery(&query);
+            query.waitForResponse();
+
+            if (query.responseCancelled()) {
+                emit cancelled();
+                return false;
+            }
+            setPassword(query.password());
+
+            if (zip_set_default_password(archive, password().toUtf8())) {
+                qCDebug(ARK) << "Failed to set password for:" << entry;
+            }
+            firstTry = false;
+        } else {
+            qCDebug(ARK) << "Failed to open file:" << zip_strerror(archive) << zip_error_code_zip(zip_get_error(archive));
+            return false;
+        }
     }
 
     //qCDebug(ARK) << "Writing to:" << destination;
     QFile file(destination);
     if (!file.open(QIODevice::WriteOnly)) {
         qCDebug(ARK) << "Failed to open file for writing";
+        emit error(xi18n("Failed to open file for writing: %1", destination));
         return false;
     }
 
     QDataStream out(&file);
 
+    // Get statistic for entry. Used below to get entry size.
     struct zip_stat sb;
     if (zip_stat(archive, entry.toUtf8(), 0, &sb) != 0) {
         qCDebug(ARK) << "Stat failed";
         return false;
     }
 
+    // Write archive entry to file. We use a read/write buffer of 1000 chars.
     qulonglong sum = 0;
     char buf[1000];
     int len;
@@ -329,11 +368,13 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         len = zip_fread(zf, buf, 1000);
         if (len < 0) {
             qCDebug(ARK) << "Failed to read data";
+            emit error(xi18n("Failed to read data for entry: %1", entry));
             return false;
         }
         //qCDebug(ARK) << "Read:" << len;
         if (out.writeRawData(buf, len) != len) {
             qCDebug(ARK) << "Failed to write data";
+            emit error(xi18n("Failed to write data for entry: %1", entry));
             return false;
         }
         //qCDebug(ARK) << "Wrote:" << len;
