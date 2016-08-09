@@ -375,7 +375,7 @@ DeleteJob* Archive::deleteFiles(const QList<QVariant> & files)
         return Q_NULLPTR;
     }
 
-    qCDebug(ARK) << "Going to delete files" << files;
+    qCDebug(ARK) << "Going to delete" << files.size() << "files";
 
     if (m_iface->isReadOnly()) {
         return 0;
