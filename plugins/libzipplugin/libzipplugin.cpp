@@ -145,8 +145,45 @@ bool LibzipPlugin::addFiles(const QStringList &files, const CompressionOptions &
 
 bool LibzipPlugin::deleteFiles(const QList<QVariant> &files)
 {
-    Q_UNUSED(files)
-    return false;
+    struct zip *archive;
+    int errcode;
+    zip_error_t err;
+
+    // Open archive.
+    archive = zip_open(QFile::encodeName(filename()), 0, &errcode);
+    zip_error_init_with_code(&err, errcode);
+    if (archive == NULL) {
+        qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
+        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
+        return false;
+    }
+
+    int i = 0;
+    foreach (const QVariant &v, files) {
+
+        if (m_abortOperation) {
+            break;
+        }
+
+        qlonglong index = zip_name_locate(archive, v.toString().toUtf8(), ZIP_FL_ENC_GUESS);
+        if (index == -1) {
+            qCCritical(ARK) << "Could not find entry to delete:" << v.toString();
+            emit error(xi18n("Failed to delete entry: %1", v.toString()));
+            return false;
+        }
+        if (zip_delete(archive, index) == -1) {
+            qCCritical(ARK) << "Could not delete entry" << v.toString() << ":" << zip_strerror(archive);
+            emit error(xi18n("Failed to delete entry: %1", QString::fromUtf8(zip_strerror(archive))));
+            return false;
+        }
+        emit entryRemoved(v.toString());
+        emit progress(float(++i) / files.size());
+    }
+    qCDebug(ARK) << "Deleted" << i << "entries";
+    m_abortOperation = false;
+
+    zip_close(archive);
+    return true;
 }
 
 bool LibzipPlugin::addComment(const QString& comment)
