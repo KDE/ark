@@ -153,7 +153,12 @@ private:
     QAction *m_extractArchiveAction;
     QAction *m_extractAction;
     QAction *m_addFilesAction;
+    QAction *m_addFilesToAction;
+    QAction *m_renameFileAction;
     QAction *m_deleteFilesAction;
+    QAction *m_cutFilesAction;
+    QAction *m_copyFilesAction;
+    QAction *m_pasteFilesAction;
     QAction *m_saveAsAction;
     QAction *m_propertiesAction;
     QAction *m_editCommentAction;
@@ -166,6 +171,7 @@ private:
     OpenFileMode m_openFileMode;
     QUrl m_lastUsedAddPath;
     QList<Kerfuffle::Archive::Entry*> m_jobTempEntries;
+    QList<Kerfuffle::Archive::Entry*> m_filesToMoveOrCopy;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;

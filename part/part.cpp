@@ -364,10 +364,25 @@ void Part::setupActions()
 
     m_addFilesAction = actionCollection()->addAction(QStringLiteral("add"));
     m_addFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
-    m_addFilesAction->setText(i18n("Add &Files..."));
+    m_addFilesAction->setText(i18n("Add &Files to root..."));
     m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
     connect(m_addFilesAction, SIGNAL(triggered(bool)),
             this, SLOT(slotAddFiles()));
+
+    m_addFilesToAction = actionCollection()->addAction(QStringLiteral("addto"));
+    m_addFilesToAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
+    m_addFilesToAction->setText(i18n("Add &Files to..."));
+    m_addFilesToAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
+//    connect(m_addFilesAction, SIGNAL(triggered(bool)),
+//            this, SLOT(slotAddFiles()));
+
+    m_renameFileAction = actionCollection()->addAction(QStringLiteral("rename"));
+    m_renameFileAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-rename")));
+    m_renameFileAction->setText(i18n("&Rename"));
+    actionCollection()->setDefaultShortcut(m_renameFileAction, Qt::Key_F2);
+    m_renameFileAction->setToolTip(i18nc("@info:tooltip", "Click to rename the selected file"));
+//    connect(m_renameFileAction, &QAction::triggered,
+//            this, &Part::slotShowProperties);
 
     m_deleteFilesAction = actionCollection()->addAction(QStringLiteral("delete"));
     m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
@@ -376,6 +391,30 @@ void Part::setupActions()
     m_deleteFilesAction->setToolTip(i18nc("@info:tooltip", "Click to delete the selected files"));
     connect(m_deleteFilesAction, &QAction::triggered,
             this, &Part::slotDeleteFiles);
+
+    m_cutFilesAction = actionCollection()->addAction(QStringLiteral("cut"));
+    m_cutFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
+    m_cutFilesAction->setText(i18nc("@action:inmenu", "C&ut"));
+    actionCollection()->setDefaultShortcut(m_cutFilesAction, Qt::CTRL + Qt::Key_X);
+    m_cutFilesAction->setToolTip(i18nc("@info:tooltip", "Click to cut the selected files"));
+//    connect(m_cutFilesAction, &QAction::triggered,
+//            this, &Part::slotShowProperties);
+
+    m_copyFilesAction = actionCollection()->addAction(QStringLiteral("copy"));
+    m_copyFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
+    m_copyFilesAction->setText(i18nc("@action:inmenu", "C&opy"));
+    actionCollection()->setDefaultShortcut(m_copyFilesAction, Qt::CTRL + Qt::Key_C);
+    m_copyFilesAction->setToolTip(i18nc("@info:tooltip", "Click to copy the selected files"));
+//    connect(m_copyFilesAction, &QAction::triggered,
+//            this, &Part::slotShowProperties);
+
+    m_pasteFilesAction = actionCollection()->addAction(QStringLiteral("paste"));
+    m_pasteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste")));
+    m_pasteFilesAction->setText(i18nc("@action:inmenu", "Pa&ste"));
+    actionCollection()->setDefaultShortcut(m_pasteFilesAction, Qt::CTRL + Qt::Key_P);
+    m_pasteFilesAction->setToolTip(i18nc("@info:tooltip", "Click to paste the files here"));
+//    connect(m_pasteFilesAction, &QAction::triggered,
+//            this, &Part::slotShowProperties);
 
     m_propertiesAction = actionCollection()->addAction(QStringLiteral("properties"));
     m_propertiesAction->setIcon(QIcon::fromTheme(QStringLiteral("document-properties")));
@@ -429,6 +468,10 @@ void Part::updateActions()
                                m_model->rowCount() > 0);
     m_addFilesAction->setEnabled(!isBusy() &&
                                  isWritable);
+    m_addFilesToAction->setEnabled(!isBusy() &&
+                                   isWritable &&
+                                   entry->isDir() &&
+                                   (selectedEntriesCount == 1));
     m_deleteFilesAction->setEnabled(!isBusy() &&
                                     isWritable &&
                                     (selectedEntriesCount > 0));
@@ -442,6 +485,21 @@ void Part::updateActions()
                                      (selectedEntriesCount == 1));
     m_propertiesAction->setEnabled(!isBusy() &&
                                    m_model->archive());
+
+    m_renameFileAction->setEnabled(!isBusy() &&
+                                   isWritable &&
+                                   (selectedEntriesCount == 1));
+    m_cutFilesAction->setEnabled(!isBusy() &&
+                                 isWritable &&
+                                 (selectedEntriesCount > 0));
+    m_copyFilesAction->setEnabled(!isBusy() &&
+                                  isWritable &&
+                                  (selectedEntriesCount > 0));
+    m_pasteFilesAction->setEnabled(!isBusy() &&
+                                   isWritable &&
+                                   entry->isDir() &&
+                                   (selectedEntriesCount == 1) &&
+                                   (m_filesToMoveOrCopy.count() > 0));
 
     m_commentView->setEnabled(!isBusy());
     m_commentMsgWidget->setEnabled(!isBusy());
