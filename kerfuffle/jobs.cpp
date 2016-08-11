@@ -29,6 +29,7 @@
 #include "ark_debug.h"
 
 #include <QDir>
+#include <QDirIterator>
 #include <QFileInfo>
 #include <QRegularExpression>
 #include <QThread>
@@ -420,15 +421,7 @@ AddJob::AddJob(const QStringList& files, const CompressionOptions& options , Rea
 
 void AddJob::doWork()
 {
-    qCDebug(ARK) << "AddJob: going to add" << m_files.count() << "file(s)";
-
-    emit description(this, i18np("Adding a file", "Adding %1 files", m_files.count()));
-
-    ReadWriteArchiveInterface *m_writeInterface =
-        qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
-
-    Q_ASSERT(m_writeInterface);
-
+    // Set current dir.
     const QString globalWorkDir = m_options.value(QStringLiteral("GlobalWorkDir")).toString();
     const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
     if (!globalWorkDir.isEmpty()) {
@@ -436,6 +429,33 @@ void AddJob::doWork()
         m_oldWorkingDir = QDir::currentPath();
         QDir::setCurrent(globalWorkDir);
     }
+
+    // Count total number of entries to be added.
+    qulonglong totalCount = 0;
+    QElapsedTimer timer;
+    timer.start();
+    foreach (const QString &f, m_files) {
+        totalCount++;
+        if (QFileInfo(f).isDir()) {
+            QDirIterator it(f, QDir::AllEntries | QDir::Readable | QDir::Hidden |
+                            QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+            while (it.hasNext()) {
+                it.next();
+                totalCount++;
+            }
+        }
+    }
+    qCDebug(ARK) << "Counted" << totalCount << "entries in" << timer.elapsed() << "ms";
+
+    m_options[QStringLiteral("NumberOfEntries")] = totalCount;
+
+    qCDebug(ARK) << "AddJob: going to add" << totalCount << "entries";
+    emit description(this, i18np("Adding a file", "Adding %1 files", totalCount));
+
+    ReadWriteArchiveInterface *m_writeInterface =
+        qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
+
+    Q_ASSERT(m_writeInterface);
 
     // The file paths must be relative to GlobalWorkDir.
     QStringList relativeFiles;

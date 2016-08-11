@@ -19,8 +19,8 @@
 <contrib>Update of &ark; man page in 2015 and 2016.</contrib>
 <email>rthomsen6@gmail.com</email></author>
 
-<date>2016-03-19</date><!--Update only when changing/reviewing this man page-->
-<releaseinfo>16.04</releaseinfo><!--Update only when changing/reviewing this man page-->
+<date>2016-08-09</date><!--Update only when changing/reviewing this man page-->
+<releaseinfo>16.08</releaseinfo><!--Update only when changing/reviewing this man page-->
 <productname>KDE Applications</productname>
 </refentryinfo>
 
@@ -50,7 +50,7 @@ file</replaceable></group>
 <group choice="opt"><option>-d</option></group>
 <group choice="opt"><option>-o</option> <replaceable>
 directory</replaceable></group>
-<arg choice="opt">&kde; Generic Options</arg>
+<arg choice="opt">&kf5; Generic Options</arg>
 <arg choice="opt">&Qt; Generic Options</arg>
 </cmdsynopsis>
 </refsynopsisdiv>
@@ -172,6 +172,19 @@ a subfolder by the name of the archive will be created.</para>
 
 </variablelist>
 </refsect2>
+</refsect1>
+
+<refsect1>
+<title>See Also</title>
+<simplelist>
+<member>More detailed user documentation is available from <ulink
+url="help:/ark">help:/ark</ulink>
+(either enter this &URL; into &konqueror;, or run
+<userinput><command>khelpcenter</command>
+<parameter>help:/ark</parameter></userinput>).</member>
+<member>kf5options(7)</member>
+<member>qt5options(7)</member>
+</simplelist>
 </refsect1>
 
 <refsect1>
