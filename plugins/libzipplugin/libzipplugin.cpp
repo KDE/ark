@@ -75,7 +75,7 @@ bool LibzipPlugin::list()
     qCDebug(ARK) << "Found entries:" << nofEntries;
 
     // Loop through all archive entries.
-    for (qulonglong i = 0; i < nofEntries; i++) {
+    for (qlonglong i = 0; i < nofEntries; i++) {
 
         if (m_abortOperation) {
             break;
@@ -310,7 +310,21 @@ bool LibzipPlugin::addComment(const QString& comment)
 bool LibzipPlugin::testArchive()
 {
     qCDebug(ARK) << "Testing archive";
-    return false;
+
+    zip_t *archive;
+    int errcode;
+    zip_error_t err;
+
+    // Open archive performing extra consistency checks.
+    archive = zip_open(QFile::encodeName(filename()), ZIP_CHECKCONS, &errcode);
+    zip_error_init_with_code(&err, errcode);
+    if (archive == NULL) {
+        qCCritical(ARK) << "Failed to open archive:" << zip_error_strerror(&err);
+        return false;
+    }
+
+    emit testSuccess();
+    return true;
 }
 
 bool LibzipPlugin::doKill()
@@ -355,7 +369,7 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
     m_skipAll = false; // Whether to skip all files
     if (extractAll) {
         // We extract all entries.
-        for (qulonglong i = 0; i < nofEntries; i++) {
+        for (qlonglong i = 0; i < nofEntries; i++) {
             if (m_abortOperation) {
                 break;
             }

@@ -15,6 +15,7 @@
     "X-KDE-Kerfuffle-ReadWrite": true,
     "X-KDE-Priority": 200,
     "application/zip": {
-        "SupportsWriteComment": true
+        "SupportsWriteComment": true,
+        "SupportsTesting": true
     }
 }
