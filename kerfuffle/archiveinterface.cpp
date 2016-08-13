@@ -151,7 +151,7 @@ QStringList ReadOnlyArchiveInterface::entryFullPaths(const QList<Archive::Entry*
     return filesList;
 }
 
-QList<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const QList<Archive::Entry *> &entries)
+QList<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const QList<Archive::Entry*> &entries)
 {
     // QMap is easy way to get entries sorted by their fullPath.
     QMap<QString, Archive::Entry*> sortedEntries;

@@ -24,6 +24,25 @@ Archive::Entry::~Entry()
     clear();
 }
 
+void Archive::Entry::copyMetaData(const Archive::Entry *sourceEntry)
+{
+    setProperty("fullPath", sourceEntry->property("fullPath"));
+    setProperty("permissions", sourceEntry->property("permissions"));
+    setProperty("owner", sourceEntry->property("owner"));
+    setProperty("group", sourceEntry->property("group"));
+    setProperty("size", sourceEntry->property("size"));
+    setProperty("compressedSize", sourceEntry->property("compressedSize"));
+    setProperty("link", sourceEntry->property("link"));
+    setProperty("ratio", sourceEntry->property("ratio"));
+    setProperty("CRC", sourceEntry->property("CRC"));
+    setProperty("method", sourceEntry->property("method"));
+    setProperty("version", sourceEntry->property("version"));
+    setProperty("timestamp", sourceEntry->property("timestamp").toDateTime());
+    setProperty("isDirectory", sourceEntry->property("isDirectory"));
+    setProperty("comment", sourceEntry->property("comment"));
+    setProperty("isPasswordProtected", sourceEntry->property("isPasswordProtected"));
+}
+
 QVector<Archive::Entry*> Archive::Entry::entries()
 {
     Q_ASSERT(isDir());
@@ -104,41 +123,40 @@ int Archive::Entry::row() const
     return 0;
 }
 
-Archive::Entry *Archive::Entry::find(const QString & name)
+Archive::Entry *Archive::Entry::find(const QString &name) const
 {
-    foreach(Entry *entry, m_entries) {
+    foreach (Entry *entry, m_entries) {
         if (entry && (entry->name() == name)) {
             return entry;
         }
     }
-    return 0;
+    return Q_NULLPTR;
 }
 
-Archive::Entry *Archive::Entry::findByPath(const QStringList & pieces, int index)
+Archive::Entry *Archive::Entry::findByPath(const QStringList &pieces, int index) const
 {
     if (index == pieces.count()) {
-        return 0;
+        return Q_NULLPTR;
     }
 
     Entry *next = find(pieces.at(index));
-
     if (index == pieces.count() - 1) {
         return next;
     }
     if (next && next->isDir()) {
         return next->findByPath(pieces, index + 1);
     }
-    return 0;
+    return Q_NULLPTR;
 }
 
 void Archive::Entry::returnDirEntries(QList<Entry*> *store)
 {
-        foreach(Entry *entry, m_entries) {
-            if (entry->isDir()) {
-                store->prepend(entry);
-                entry->returnDirEntries(store);
-            }
+    foreach(Entry *entry, m_entries) {
+        if (entry->isDir()) {
+            store->prepend(entry);
+            entry->returnDirEntries(store);
         }
+    }
 }
 
 void Archive::Entry::clear()

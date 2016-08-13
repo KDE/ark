@@ -246,6 +246,8 @@ bool CliInterface::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry
     m_operationMode = Move;
 
     m_removedFiles = files;
+    QList<Archive::Entry*> withoutChildren = entriesWithoutChildren(files);
+    setNewMovedFiles(files, destination, withoutChildren.count());
 
     const auto moveArgs = m_param.value(MoveArgs).toStringList();
 
@@ -374,6 +376,10 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         foreach (const QString &fullPath, removedFullPaths) {
             emit entryRemoved(fullPath);
         }
+        foreach (Archive::Entry *e, m_newMovedFiles) {
+            emit entry(e);
+        }
+        m_newMovedFiles.clear();
     }
 
     if (m_operationMode == Add) {
@@ -784,7 +790,7 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
     return args;
 }
 
-QStringList CliInterface::substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entries, const Archive::Entry *destination, const QString &password)
+QStringList CliInterface::substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination, const QString &password)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -804,7 +810,7 @@ QStringList CliInterface::substituteMoveVariables(const QStringList &moveArgs, c
             }
 
             if (arg == QLatin1String("$PathPairs")) {
-                args << entryPathDestinationPairs(entriesWithoutChildren(entries), destination);
+                args << entryPathDestinationPairs(entriesWithoutChildren, destination);
                 continue;
             }
 
@@ -904,6 +910,53 @@ QStringList CliInterface::substituteTestVariables(const QStringList &testArgs)
     args.removeAll(QString());
 
     return args;
+}
+
+void CliInterface::setNewMovedFiles(const QList<Archive::Entry*> &entries, const Archive::Entry *destination, int entriesWithoutChildren)
+{
+    m_newMovedFiles.clear();
+    QMap<QString, const Archive::Entry*> entryMap;
+    foreach (const Archive::Entry* entry, entries) {
+        entryMap.insert(entry->fullPath(), entry);
+    }
+
+    QString lastFolder;
+
+    QString newPath;
+    int nameLength = 0;
+    foreach (const Archive::Entry* entry, entryMap) {
+        if (lastFolder.count() > 0 && entry->fullPath().startsWith(lastFolder)) {
+            // Replace last moved or copied folder path with destination path.
+            int charsCount = entry->fullPath().count() - lastFolder.count();
+            if (entriesWithoutChildren > 1) {
+                charsCount += nameLength;
+            }
+            newPath = destination->fullPath() + entry->fullPath().right(charsCount);
+        }
+        else {
+            if (entriesWithoutChildren > 1) {
+                newPath = destination->fullPath() + entry->name();
+            }
+            else {
+                // If there is only one passed file in the list,
+                // we have to use destination as newPath.
+                newPath = destination->fullPath(true);
+            }
+            if (entry->isDir()) {
+                newPath += QLatin1Char('/');
+                nameLength = entry->name().count() + 1; // plus slash
+                lastFolder = entry->fullPath();
+            }
+            else {
+                nameLength = 0;
+                lastFolder = QString();
+            }
+        }
+        Archive::Entry *newEntry = new Archive::Entry(Q_NULLPTR);
+        newEntry->copyMetaData(entry);
+        newEntry->setFullPath(newPath);
+        m_newMovedFiles << newEntry;
+    }
 }
 
 QString CliInterface::preservePathSwitch(bool preservePaths) const
@@ -1384,16 +1437,16 @@ QString CliInterface::escapeFileName(const QString& fileName) const
     return fileName;
 }
 
-QStringList CliInterface::entryPathDestinationPairs(const QList<Archive::Entry*> &entries, const Archive::Entry *destination)
+QStringList CliInterface::entryPathDestinationPairs(const QList<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination)
 {
     QStringList pairList;
-    if (entries.count() > 1) {
-        foreach (const Archive::Entry *file, entries) {
+    if (entriesWithoutChildren.count() > 1) {
+        foreach (const Archive::Entry *file, entriesWithoutChildren) {
             pairList << file->fullPath(true) << destination->fullPath() + file->name();
         }
     }
     else {
-        pairList << entries.at(0)->fullPath(true) << destination->fullPath(true);
+        pairList << entriesWithoutChildren.at(0)->fullPath(true) << destination->fullPath(true);
     }
     return pairList;
 }
