@@ -52,6 +52,8 @@ public:
     explicit Entry(QObject *parent = Q_NULLPTR, QString fullPath = QString(), QString rootNode = QString());
     ~Entry();
 
+    void copyMetaData(const Archive::Entry *sourceEntry);
+
     QVector<Entry*> entries();
     const QVector<Entry*> entries() const;
     void setEntryAt(int index, Entry *value);
@@ -65,8 +67,8 @@ public:
     void setIsDirectory(const bool isDirectory);
     bool isDir() const;
     int row() const;
-    Entry *find(const QString & name);
-    Entry *findByPath(const QStringList & pieces, int index = 0);
+    Entry *find(const QString &name) const;
+    Entry *findByPath(const QStringList & pieces, int index = 0) const;
     void returnDirEntries(QList<Entry*> *store);
     void clear();
 

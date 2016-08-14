@@ -1,9 +1,6 @@
 /*
  * ark -- archiver for the KDE project
  *
- * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
- * Copyright (C) 2009 Raphael Kubo da Costa <rakuco@FreeBSD.org>
- * Copyright (C) 2015 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
  * Copyright (C) 2016 Ragnar Thomsen <rthomsen6@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,76 +25,42 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef CREATEDIALOG_H
-#define CREATEDIALOG_H
+#ifndef COMPRESSIONOPTIONSWIDGET_H
+#define COMPRESSIONOPTIONSWIDGET_H
 
-#include "archive_kerfuffle.h"
 #include "kerfuffle_export.h"
-#include "pluginmanager.h"
+#include "archive_kerfuffle.h"
+#include "ui_compressionoptionswidget.h"
 
-#include <KConfigGroup>
-
-#include <QDialog>
 #include <QMimeType>
-
-class QUrl;
-class QVBoxLayout;
+#include <QWidget>
 
 namespace Kerfuffle
 {
-
-class KERFUFFLE_EXPORT CreateDialog : public QDialog
+class KERFUFFLE_EXPORT CompressionOptionsWidget : public QWidget, public Ui::CompressionOptionsWidget
 {
     Q_OBJECT
 
 public:
-    explicit CreateDialog(QWidget *parent,
-                          const QString &caption,
-                          const QUrl &startDir);
-    QUrl selectedUrl() const;
-    QString password() const;
-    QMimeType currentMimeType() const;
-    bool setMimeType(const QString &mimeTypeName);
+    explicit CompressionOptionsWidget(QWidget *parent = Q_NULLPTR,
+                                      const CompressionOptions &opts = QHash<QString, QVariant>());
     int compressionLevel() const;
-
-    /**
-     * @return Whether the user can encrypt the new archive.
-     */
+    QString password() const;
+    CompressionOptions commpressionOptions() const;
     bool isEncryptionAvailable() const;
-
-    /**
-     * @return Whether the user has chosen to encrypt the new archive.
-     */
     bool isEncryptionEnabled() const;
-
-    /**
-     * @return Whether the user can encrypt the list of files in the new archive.
-     */
     bool isHeaderEncryptionAvailable() const;
-
-    /**
-     * @return Whether the user has chosen to encrypt the list of files in the new archive.
-     */
     bool isHeaderEncryptionEnabled() const;
+    KNewPasswordWidget::PasswordStatus passwordStatus() const;
 
-public slots:
-    virtual void accept() Q_DECL_OVERRIDE;
+    void setEncryptionVisible(bool visible);
+    void setMimeType(const QMimeType &mimeType);
 
 private:
-    void loadConfiguration();
+    void updateWidgets();
 
-    class CreateDialogUI *m_ui;
-    QVBoxLayout *m_vlayout;
-    KConfigGroup m_config;
-    QStringList m_supportedMimeTypes;
-    PluginManager m_pluginManger;
-    CompressionOptions m_compOptions;
-
-private slots:
-    void slotFileNameEdited(const QString &text);
-    void slotUpdateWidgets(int index);
-    void slotUpdateDefaultMimeType();
-    void slotUpdateFilenameExtension(int index);
+    QMimeType m_mimetype;
+    CompressionOptions m_opts;
 };
 }
 

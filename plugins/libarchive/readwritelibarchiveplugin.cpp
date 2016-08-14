@@ -439,7 +439,9 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
 
             if (found) {
                 if (mode == Copy) {
-                    writeEntry(entry);
+                    if (!writeEntry(entry)) {
+                        return false;
+                    }
                 }
                 else {
                     emit entryRemoved(file);
@@ -471,6 +473,9 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
         if (writeEntry(entry)) {
             if (mode == Add) {
                 entriesCounter++;
+            }
+            else if (mode == Move || mode == Copy) {
+                emitEntryFromArchiveEntry(entry);
             }
         }
         else {

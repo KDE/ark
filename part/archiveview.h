@@ -23,6 +23,7 @@
 #define ARCHIVEVIEW_H
 
 #include <QTreeView>
+#include <QtWidgets/QLineEdit>
 
 class ArchiveView : public QTreeView
 {
@@ -36,6 +37,21 @@ public:
     virtual void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
 
     void setModel(QAbstractItemModel *model) Q_DECL_OVERRIDE;
+
+    void openEntryEditor(QModelIndex index);
+
+protected:
+    virtual bool eventFilter(QObject *object, QEvent *event) Q_DECL_OVERRIDE;
+    virtual void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+
+signals:
+    void entryChanged(QString name);
+
+private:
+    void closeEntryEditor();
+    QModelIndex m_editorIndex;
+    QLineEdit *m_entryEditor;
 };
 
 #endif /* ARCHIVEVIEW_H */

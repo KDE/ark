@@ -31,6 +31,7 @@
 #include "archiveinterface.h"
 #include "archiveentry.h"
 #include "kerfuffle_export.h"
+#include "part/archivemodel.h"
 
 #include <QProcess>
 #include <QRegularExpression>
@@ -332,10 +333,15 @@ public:
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteExtractVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password);
     QStringList substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel);
-    QStringList substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entries, const Archive::Entry *destination, const QString &password);
+    QStringList substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination, const QString &password);
     QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QList<Archive::Entry*> &entries, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
     QStringList substituteTestVariables(const QStringList &testArgs);
+
+    /**
+     * @see ArchiveModel::entryPathsFromDestination
+     */
+    void setNewMovedFiles(const QList<Archive::Entry*> &entries, const Archive::Entry *destination, int entriesWithoutChildren);
 
     /**
      * @return The preserve path switch, according to the @p preservePaths extraction option.
@@ -437,13 +443,14 @@ private:
     virtual QString escapeFileName(const QString &fileName) const;
 
     /**
-     * Constructs a list of path pairs which will be supplied to rn command.
+     * Returns a list of path pairs which will be supplied to rn command.
      * <src_file_1> <dest_file_1> [ <src_file_2> <dest_file_2> ... ]
+     * Also constructs a list of new entries resulted in moving.
      *
-     * @param entries List of archive entries
+     * @param entriesWithoutChildren List of archive entries
      * @param destination Must be a directory entry if QList contains more that one entry
      */
-    virtual QStringList entryPathDestinationPairs(const QList<Archive::Entry*> &entries, const Archive::Entry *destination);
+    QStringList entryPathDestinationPairs(const QList<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination);
 
     /**
      * Wrapper around KProcess::write() or KPtyDevice::write(), depending on
@@ -473,6 +480,7 @@ private:
 #endif
 
     QList<Archive::Entry*> m_removedFiles;
+    QList<Archive::Entry*> m_newMovedFiles;
     bool m_listEmptyLines;
     bool m_abortingOperation;
     QString m_storedFileName;

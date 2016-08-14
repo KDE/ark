@@ -1,11 +1,11 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark_part" version="14">
+<kpartgui name="ark_part" version="15">
 <MenuBar>
 	<Menu name="archive">
 		<text>&amp;Archive</text>
 		<Action name="ark_file_save_as" group="file_save"/>
 		<Action name="add" group="archive_edit"/>
-		<Action name="add-dir" group="archive_edit"/>
+		<Action name="addto" group="archive_edit"/>
 		<Action name="edit_comment" group="archive_edit"/>
 		<Action name="extract_all" group="archive_extract"/>
 		<Action name="properties" group="archive_props"/>
@@ -32,6 +32,7 @@
 	<Action name="openfile"/>
 	<Separator/>
 	<Action name="add"/>
+	<Action name="addto"/>
 	<Action name="delete"/>
 </ToolBar>
 <Menu name="context_menu">
@@ -39,7 +40,14 @@
 	<Action name="openfile"/>
 	<Action name="openfilewith"/>
 	<Separator/>
+	<Action name="rename"/>
 	<Action name="delete"/>
 	<Action name="extract"/>
+	<Separator/>
+	<Action name="cut"/>
+	<Action name="copy"/>
+	<Action name="paste"/>
+	<Separator/>
+    <Action name="addto"/>
 </Menu>
 </kpartgui>
