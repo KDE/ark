@@ -125,7 +125,12 @@ public:
 
     static bool hasDuplicatedEntries(const QStringList &entries);
 
-    const QHash<QString, QPixmap> entryIcons() const;
+    static QMap<QString, Archive::Entry*> entryMap(const QList<Archive::Entry*> &entries);
+
+    const QHash<QString, QIcon> entryIcons() const;
+
+    QMap<QString, Kerfuffle::Archive::Entry*> filesToMove;
+    QMap<QString, Kerfuffle::Archive::Entry*> filesToCopy;
 
 signals:
     void loadingStarted();
@@ -170,7 +175,7 @@ private:
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
     Archive::Entry m_rootEntry;
-    QHash<QString, QPixmap> m_entryIcons;
+    QHash<QString, QIcon> m_entryIcons;
 
     QString m_dbusPathName;
 };

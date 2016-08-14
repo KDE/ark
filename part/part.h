@@ -199,9 +199,8 @@ private:
     OpenFileMode m_openFileMode;
     QUrl m_lastUsedAddPath;
     QList<Kerfuffle::Archive::Entry*> m_jobTempEntries;
-    QList<Kerfuffle::Archive::Entry*> m_filesToMove;
-    QList<Kerfuffle::Archive::Entry*> m_filesToCopy;
     Kerfuffle::Archive::Entry *m_destination;
+    QModelIndexList m_cutIndexes;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;

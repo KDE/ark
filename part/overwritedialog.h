@@ -51,7 +51,7 @@ class KERFUFFLE_EXPORT OverwriteDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit OverwriteDialog(QWidget *parent, const QList<const Archive::Entry*> &entries, const QHash<QString, QPixmap> &icons, bool error = false);
+    explicit OverwriteDialog(QWidget *parent, const QList<const Archive::Entry*> &entries, const QHash<QString, QIcon> &icons, bool error = false);
     virtual ~OverwriteDialog();
 
 private:

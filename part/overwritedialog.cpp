@@ -30,7 +30,7 @@
 namespace Kerfuffle
 {
 
-OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Entry*> &entries, const QHash<QString, QPixmap> &icons, bool error)
+OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Entry*> &entries, const QHash<QString, QIcon> &icons, bool error)
         : QDialog(parent)
         , m_buttonBox(Qt::Horizontal)
         , m_okButton(i18n("OK"))

@@ -216,7 +216,9 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
         }
         case Qt::DecorationRole:
             if (index.column() == 0) {
-                return m_entryIcons.value(entry->fullPath(true));
+                const Archive::Entry *e = static_cast<Archive::Entry*>(index.internalPointer());
+                QIcon::Mode mode = (filesToMove.contains(e->fullPath())) ? QIcon::Disabled : QIcon::Normal;
+                return m_entryIcons.value(e->fullPath(true)).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small), mode);
             }
             return QVariant();
         case Qt::FontRole: {
@@ -698,15 +700,15 @@ void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)
 
     // Save an icon for each newly added entry.
     QMimeDatabase db;
-    QPixmap pixmap;
+    QIcon icon;
     if (entry->isDir()) {
-        pixmap = QPixmap(QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                                           IconSize(KIconLoader::Small)));
+        icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                                         IconSize(KIconLoader::Small));
     } else {
-        pixmap = QPixmap(QIcon::fromTheme(db.mimeTypeForFile(entry->fullPath()).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                    IconSize(KIconLoader::Small)));
+        icon = QIcon::fromTheme(db.mimeTypeForFile(entry->fullPath()).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                         IconSize(KIconLoader::Small));
     }
-    m_entryIcons.insert(entry->fullPath(true), pixmap);
+    m_entryIcons.insert(entry->fullPath(true), icon);
 }
 
 Kerfuffle::Archive* ArchiveModel::archive() const
@@ -979,7 +981,16 @@ bool ArchiveModel::hasDuplicatedEntries(const QStringList &entries)
     return false;
 }
 
-const QHash<QString, QPixmap> ArchiveModel::entryIcons() const
+QMap<QString, Archive::Entry*> ArchiveModel::entryMap(const QList<Archive::Entry*> &entries)
+{
+    QMap<QString, Archive::Entry*> map;
+    foreach (Archive::Entry *entry, entries) {
+        map.insert(entry->fullPath(), entry);
+    }
+    return map;
+}
+
+const QHash<QString, QIcon> ArchiveModel::entryIcons() const
 {
     return m_entryIcons;
 }

@@ -493,7 +493,7 @@ void Part::updateActions()
     m_pasteFilesAction->setEnabled(!isBusy() &&
                                    isWritable &&
                                    (selectedEntriesCount == 0 || (selectedEntriesCount == 1 && isDir)) &&
-                                   (m_filesToMove.count() > 0 || m_filesToCopy.count() > 0));
+                                   (m_model->filesToMove.count() > 0 || m_model->filesToCopy.count() > 0));
 
     m_commentView->setEnabled(!isBusy());
     m_commentMsgWidget->setEnabled(!isBusy());
@@ -801,8 +801,8 @@ bool Part::confirmAndDelete(const QString &targetFile)
 
 void Part::slotLoadingStarted()
 {
-    m_filesToMove.clear();
-    m_filesToCopy.clear();
+    m_model->filesToMove.clear();
+    m_model->filesToCopy.clear();
 }
 
 void Part::slotLoadingFinished(KJob *job)
@@ -1364,15 +1364,27 @@ void Part::slotEditFileName()
 
 void Part::slotCutFiles()
 {
-    m_filesToMove = filesForIndexes(addChildren(m_view->selectionModel()->selectedRows()));
-    m_filesToCopy.clear();
+    QModelIndexList selectedRows = addChildren(m_view->selectionModel()->selectedRows());
+    m_model->filesToMove = ArchiveModel::entryMap(filesForIndexes(selectedRows));
+    m_model->filesToCopy.clear();
+    foreach (const QModelIndex &row, m_cutIndexes) {
+        m_view->dataChanged(row, row);
+    }
+    m_cutIndexes = selectedRows;
+    foreach (const QModelIndex &row, m_cutIndexes) {
+        m_view->dataChanged(row, row);
+    }
     updateActions();
 }
 
 void Part::slotCopyFiles()
 {
-    m_filesToCopy = filesForIndexes(addChildren(m_view->selectionModel()->selectedRows()));
-    m_filesToMove.clear();
+    m_model->filesToCopy = ArchiveModel::entryMap(filesForIndexes(addChildren(m_view->selectionModel()->selectedRows())));
+    foreach (const QModelIndex &row, m_cutIndexes) {
+        m_view->dataChanged(row, row);
+    }
+    m_cutIndexes.clear();
+    m_model->filesToMove.clear();
     updateActions();
 }
 
@@ -1409,9 +1421,9 @@ void Part::slotPasteFiles()
         m_destination = new Archive::Entry(Q_NULLPTR, m_destination->fullPath());
     }
 
-    if (m_filesToMove.count() > 0) {
+    if (m_model->filesToMove.count() > 0) {
         // Changing destination to include new entry path if pasting only 1 entry.
-        QList<Archive::Entry*> entriesWithoutChildren = ReadOnlyArchiveInterface::entriesWithoutChildren(m_filesToMove);
+        QList<Archive::Entry*> entriesWithoutChildren = ReadOnlyArchiveInterface::entriesWithoutChildren(m_model->filesToMove.values());
         if (entriesWithoutChildren.count() == 1) {
             const Archive::Entry *entry = entriesWithoutChildren.first();
             const QString nameWithSlash = entry->name() + ((entry->isDir()) ? QLatin1String("/") : QString());
@@ -1429,12 +1441,14 @@ void Part::slotPasteFiles()
                 return;
             }
         }
-        slotPasteFiles(m_filesToMove, m_destination, entriesWithoutChildren.count());
-        m_filesToMove.clear();
+        QList<Archive::Entry*> entryList = m_model->filesToMove.values();
+        slotPasteFiles(entryList, m_destination, entriesWithoutChildren.count());
+        m_model->filesToMove.clear();
     }
     else {
-        slotPasteFiles(m_filesToCopy, m_destination, 0);
-        m_filesToCopy.clear();
+        QList<Archive::Entry*> entryList = m_model->filesToCopy.values();
+        slotPasteFiles(entryList, m_destination, 0);
+        m_model->filesToCopy.clear();
     }
     updateActions();
 }
@@ -1510,8 +1524,8 @@ void Part::slotAddFilesDone(KJob* job)
         // Hide the "archive will be created as soon as you add a file" message.
         m_messageWidget->hide();
     }
-    m_filesToMove.clear();
-    m_filesToCopy.clear();
+    m_model->filesToMove.clear();
+    m_model->filesToCopy.clear();
 }
 
 void Part::slotPasteFilesDone(KJob *job)
@@ -1519,8 +1533,8 @@ void Part::slotPasteFilesDone(KJob *job)
     if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     }
-    m_filesToMove.clear();
-    m_filesToCopy.clear();
+    m_model->filesToMove.clear();
+    m_model->filesToCopy.clear();
 }
 
 void Part::slotDeleteFilesDone(KJob* job)
@@ -1528,8 +1542,8 @@ void Part::slotDeleteFilesDone(KJob* job)
     if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     }
-    m_filesToMove.clear();
-    m_filesToCopy.clear();
+    m_model->filesToMove.clear();
+    m_model->filesToCopy.clear();
 }
 
 void Part::slotDeleteFiles()
