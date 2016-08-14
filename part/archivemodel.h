@@ -85,29 +85,6 @@ public:
     void encryptArchive(const QString &password, bool encryptHeader);
 
     /**
-     * Returns the string list of entry paths, which will be a result of adding/moving/copying entries.
-     *
-     * @param entries The entries which will be added/moved/copied.
-     * @param destination Destination path within the archive to which entries have to be added. For renaming an entry
-     * the path has to contain a new filename too.
-     * @param entriesWithoutChildren Entries count, excluding their children. For AddJob or CopyJob 0 MUST be passed.
-     *
-     * @return For entries
-     *  some/dir/
-     *  some/dir/entry
-     *  some/dir/some/entry
-     *  some/another/entry
-     * and destination
-     *  some/destination
-     * will return
-     *  some/destination/dir/
-     *  some/destination/dir/entry
-     *  some/destination/dir/some/enty
-     *  some/destination/entry
-     */
-    static QStringList entryPathsFromDestination(QStringList entries, const Archive::Entry *destination, int entriesWithoutChildren);
-
-    /**
      * Constructs a list of conflicting entries.
      *
      * @param conflictingEntries Reference to the empty mutable entries list, which will be constructed.

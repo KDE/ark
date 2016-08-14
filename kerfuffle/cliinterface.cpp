@@ -251,7 +251,7 @@ bool CliInterface::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry
 
     const auto moveArgs = m_param.value(MoveArgs).toStringList();
 
-    const auto args = substituteMoveVariables(moveArgs, files, destination, password());
+    const auto args = substituteMoveVariables(moveArgs, withoutChildren, destination, password());
 
     return runProcess(m_param.value(MoveProgram).toStringList(), args);
 }

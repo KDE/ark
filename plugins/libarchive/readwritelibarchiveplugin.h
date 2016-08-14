@@ -82,14 +82,14 @@ private:
     QSaveFile m_tempFile;
     ArchiveWrite m_archiveWriter;
 
-    // New added files by addFiles methods. It's assigned to m_filePaths
+    // New added files by addFiles methods. It's assigned to m_filesPaths
     // and then is used by processOldEntries method (in Add mode) for skipping already written entries.
     QStringList m_writtenFiles;
 
     // Passed argument from job which is used by processOldEntries method.
-    QStringList m_filePaths;
+    QStringList m_filesPaths;
+    int m_entriesWithoutChildren;
     const Archive::Entry *m_destination;
-    QString m_lastMovedFolder;
 };
 
 #endif // READWRITELIBARCHIVEPLUGIN_H

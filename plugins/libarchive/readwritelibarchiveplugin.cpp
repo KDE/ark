@@ -116,7 +116,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
     // If we have old archive entries.
     if (!creatingNewFile) {
         qCDebug(ARK) << "Copying any old entries";
-        m_filePaths = m_writtenFiles;
+        m_filesPaths = m_writtenFiles;
         isSuccessful = processOldEntries(no_entries, Add);
         if (isSuccessful) {
             qCDebug(ARK) << "Added" << no_entries << "old entries to archive";
@@ -148,7 +148,8 @@ bool ReadWriteLibarchivePlugin::moveFiles(const QList<Archive::Entry*> &files, A
 
     // Copy old elements from previous archive to new archive.
     int no_entries = 0;
-    m_filePaths = entryFullPaths(entriesWithoutChildren(files));
+    m_filesPaths = entryFullPaths(files);
+    m_entriesWithoutChildren = entriesWithoutChildren(files).count();
     m_destination = destination;
     const bool isSuccessful = processOldEntries(no_entries, Move);
     if (isSuccessful) {
@@ -178,7 +179,8 @@ bool ReadWriteLibarchivePlugin::copyFiles(const QList<Archive::Entry*> &files, A
 
     // Copy old elements from previous archive to new archive.
     int no_entries = 0;
-    m_filePaths = entryFullPaths(entriesWithoutChildren(files));
+    m_filesPaths = entryFullPaths(files);
+    m_entriesWithoutChildren = 0; // we don't care
     m_destination = destination;
     const bool isSuccessful = processOldEntries(no_entries, Copy);
     if (isSuccessful) {
@@ -206,7 +208,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry*> &files)
 
     // Copy old elements from previous archive to new archive.
     int no_entries = 0;
-    m_filePaths = entryFullPaths(files);
+    m_filesPaths = entryFullPaths(files);
     const bool isSuccessful = processOldEntries(no_entries, Delete);
     if (isSuccessful) {
         qCDebug(ARK) << "Removed" << no_entries << "entries from archive";
@@ -393,51 +395,26 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
 {
     struct archive_entry *entry;
 
-    m_lastMovedFolder = QString();
     entriesCounter = 0;
-    // If destination path doesn't contain a target entry name, we have to remember to include it
-    // while moving or copying folder contents.
-    int nameLength = 0;
+
+    QMap<QString, QString> pathMap;
+    if (mode == Move || mode == Copy) {
+        m_filesPaths.sort();
+        QStringList resultList = entryPathsFromDestination(m_filesPaths, m_destination, m_entriesWithoutChildren);
+        const int listSize = m_filesPaths.count();
+        Q_ASSERT(listSize == resultList.count());
+        for (int i = 0; i < listSize; ++i) {
+            pathMap.insert(m_filesPaths.at(i), resultList.at(i));
+        }
+    }
+
     while ((mode != Add || !m_abortOperation) && archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK) {
 
         const QString file = QFile::decodeName(archive_entry_pathname(entry));
 
         if (mode == Move || mode == Copy) {
-            QString newPathname;
-            bool found = true;
-            if (m_lastMovedFolder.count() > 0 && file.startsWith(m_lastMovedFolder)) {
-                // Replace last moved or copied folder path with destination path.
-                int charsCount = file.count() - m_lastMovedFolder.count();
-                if (mode == Copy || m_filePaths.count() > 1) {
-                    charsCount += nameLength;
-                }
-                newPathname = m_destination->fullPath() + file.right(charsCount);
-            }
-            else if (m_filePaths.contains(file)) {
-                const QString name = file.split(QLatin1Char('/'), QString::SkipEmptyParts).last();
-                if (mode == Copy || m_filePaths.count() > 1) {
-                    newPathname = m_destination->fullPath() + name;
-                }
-                else {
-                    // If the mode is set to Move and there is only one passed file in the list,
-                    // we have to use destination as newPathname.
-                    newPathname = m_destination->fullPath();
-                }
-                if (file.right(1) == QLatin1String("/")) {
-                    nameLength = name.count() + 1; // plus slash
-                    m_lastMovedFolder = file;
-                }
-                else {
-                    nameLength = 0; // plus slash
-                    m_lastMovedFolder = QString();
-                }
-            }
-            else {
-                found = false;
-                m_lastMovedFolder = QString();
-            }
-
-            if (found) {
+            const QString newPathname = pathMap.value(file);
+            if (!newPathname.isEmpty()) {
                 if (mode == Copy) {
                     if (!writeEntry(entry)) {
                         return false;
@@ -451,7 +428,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
                 archive_entry_set_pathname(entry, newPathname.toUtf8());
             }
         }
-        else if (m_filePaths.contains(file)) {
+        else if (m_filesPaths.contains(file)) {
             archive_read_data_skip(m_archiveReader.data());
             switch (mode) {
                 case Delete:

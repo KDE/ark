@@ -181,7 +181,6 @@ private:
     QAction *m_extractArchiveAction;
     QAction *m_extractAction;
     QAction *m_addFilesAction;
-    QAction *m_addFilesToAction;
     QAction *m_renameFileAction;
     QAction *m_deleteFilesAction;
     QAction *m_cutFilesAction;

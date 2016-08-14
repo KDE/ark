@@ -5,7 +5,6 @@
 		<text>&amp;Archive</text>
 		<Action name="ark_file_save_as" group="file_save"/>
 		<Action name="add" group="archive_edit"/>
-		<Action name="addto" group="archive_edit"/>
 		<Action name="edit_comment" group="archive_edit"/>
 		<Action name="extract_all" group="archive_extract"/>
 		<Action name="properties" group="archive_props"/>
@@ -37,7 +36,6 @@
 	<Action name="openfile"/>
 	<Separator/>
 	<Action name="add"/>
-	<Action name="addto"/>
 	<Action name="delete"/>
 </ToolBar>
 <Menu name="context_menu">
@@ -53,6 +51,6 @@
 	<Action name="copy"/>
 	<Action name="paste"/>
 	<Separator/>
-    <Action name="addto"/>
+    <Action name="add"/>
 </Menu>
 </kpartgui>

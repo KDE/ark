@@ -172,6 +172,52 @@ QList<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const QL
     return filteredEntries;
 }
 
+QStringList ReadOnlyArchiveInterface::entryPathsFromDestination(QStringList entries, const Archive::Entry *destination, int entriesWithoutChildren)
+{
+    QStringList paths = QStringList();
+    entries.sort();
+    QString lastFolder;
+    const QString destinationPath = (destination == Q_NULLPTR) ? QString() : destination->fullPath();
+
+    QString newPath;
+    int nameLength = 0;
+        foreach (const QString &entryPath, entries) {
+            if (lastFolder.count() > 0 && entryPath.startsWith(lastFolder)) {
+                // Replace last moved or copied folder path with destination path.
+                int charsCount = entryPath.count() - lastFolder.count();
+                if (entriesWithoutChildren != 1) {
+                    charsCount += nameLength;
+                }
+                newPath = destinationPath + entryPath.right(charsCount);
+            }
+            else {
+                const QString name = entryPath.split(QLatin1Char('/'), QString::SkipEmptyParts).last();
+                if (entriesWithoutChildren != 1) {
+                    newPath = destinationPath + name;
+                    if (entryPath.right(1) == QLatin1String("/")) {
+                        newPath += QLatin1Char('/');
+                    }
+                }
+                else {
+                    // If the mode is set to Move and there is only one passed file in the list,
+                    // we have to use destination as newPath.
+                    newPath = destinationPath;
+                }
+                if (entryPath.right(1) == QLatin1String("/")) {
+                    nameLength = name.count() + 1; // plus slash
+                    lastFolder = entryPath;
+                }
+                else {
+                    nameLength = 0;
+                    lastFolder = QString();
+                }
+            }
+            paths << newPath;
+        }
+
+    return paths;
+}
+
 bool ReadOnlyArchiveInterface::isHeaderEncryptionEnabled() const
 {
     return m_isHeaderEncryptionEnabled;
