@@ -17,8 +17,13 @@
 		<Action name="openfile"/>
 		<Action name="openfilewith"/>
 		<Separator/>
+		<Action name="rename"/>
 		<Action name="delete"/>
 		<Action name="extract"/>
+		<Separator/>
+		<Action name="cut"/>
+		<Action name="copy"/>
+		<Action name="paste"/>
 	</Menu>
 	<Menu name="settings">
 		<text>&amp;Settings</text>
