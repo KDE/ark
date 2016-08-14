@@ -87,6 +87,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
         : KParts::ReadWritePart(parent),
           m_splitter(Q_NULLPTR),
           m_busy(false),
+          m_archiveIsLoaded(false),
           m_jobTracker(Q_NULLPTR)
 {
     Q_UNUSED(args)
@@ -807,12 +808,16 @@ void Part::slotLoadingFinished(KJob *job)
 
             // The file failed to open, so reset the open archive, info panel and caption.
             m_model->setArchive(Q_NULLPTR);
+            m_archiveIsLoaded = false;
 
             m_infoPanel->setPrettyFileName(QString());
             m_infoPanel->updateWithDefaults();
 
             emit setWindowCaption(QString());
         }
+    }
+    else {
+        m_archiveIsLoaded = true;
     }
 
     m_view->sortByColumn(0, Qt::AscendingOrder);
@@ -1213,7 +1218,7 @@ void Part::adjustColumns()
 
 void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *destination, const QString &relPath)
 {
-    if (filesToAdd.isEmpty()) {
+    if (!m_archiveIsLoaded || filesToAdd.isEmpty()) {
         return;
     }
 
