@@ -79,6 +79,10 @@
       <comment xml:lang="pt">Pacote de aplicação AppImage</comment>
       <comment xml:lang="sk">Balík aplikácie AppImage</comment>
       <comment xml:lang="sl">Zbirka programov AppImage</comment>
+      <comment xml:lang="sr">ап‑имејџ пакет програма</comment>
+      <comment xml:lang="sr@ijekavian">ап‑имејџ пакет програма</comment>
+      <comment xml:lang="sr@ijekavianlatin">AppImage paket programa</comment>
+      <comment xml:lang="sr@latin">AppImage paket programa</comment>
       <comment xml:lang="sv">AppImage programpacke</comment>
       <comment xml:lang="uk">пакунок програми AppImage</comment>
       <sub-class-of type="application/x-executable"/>
