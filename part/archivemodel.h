@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

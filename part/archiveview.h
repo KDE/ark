@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv (at@at) stud.ntnu.no>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

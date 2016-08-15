@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2010-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
- * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
