@@ -125,7 +125,8 @@ ParameterList CliPlugin::parameterList() const
         p[DiskFullPatterns] = QStringList() << QStringLiteral("write error \\(disk full\\?\\)")
                                             << QStringLiteral("No space left on device");
         p[TestArgs] = QStringList() << QStringLiteral("-t")
-                                    << QStringLiteral("$Archive");
+                                    << QStringLiteral("$Archive")
+                                    << QStringLiteral("$PasswordSwitch");
         p[TestPassedPattern] = QStringLiteral("^No errors detected in compressed data of ");
     }
     return p;

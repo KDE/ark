@@ -26,6 +26,7 @@
 #include <QAbstractItemModel>
 #include <QScopedPointer>
 
+#include <KMessageWidget>
 #include <kjobtrackerinterface.h>
 #include "kerfuffle/archiveentry.h"
 
@@ -85,6 +86,11 @@ public:
      */
     void encryptArchive(const QString &password, bool encryptHeader);
 
+    void countEntriesAndSize();
+    qulonglong numberOfFiles() const;
+    qulonglong numberOfFolders() const;
+    qulonglong uncompressedSize() const;
+
     /**
      * Constructs a list of conflicting entries.
      *
@@ -116,6 +122,7 @@ signals:
     void extractionFinished(bool success);
     void error(const QString& error, const QString& details);
     void droppedFiles(const QStringList& files, const Archive::Entry*, const QString&);
+    void messageWidget(KMessageWidget::MessageType type, const QString& msg);
 
 private slots:
     void slotNewEntryFromSetArchive(Archive::Entry *entry);
@@ -149,6 +156,8 @@ private:
     void insertEntry(Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
     void newEntry(Kerfuffle::Archive::Entry *receivedEntry, InsertBehaviour behaviour);
 
+    void traverseAndCountDirNode(Archive::Entry *dir);
+
     QList<Kerfuffle::Archive::Entry*> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
@@ -156,6 +165,10 @@ private:
     QHash<QString, QIcon> m_entryIcons;
 
     QString m_dbusPathName;
+
+    qulonglong m_numberOfFiles;
+    qulonglong m_numberOfFolders;
+    qulonglong m_uncompressedSize;
 };
 
 #endif // ARCHIVEMODEL_H

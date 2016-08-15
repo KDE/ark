@@ -32,7 +32,8 @@
 
 #include <QCryptographicHash>
 #include <QDialog>
-#include <QFuture>
+
+class QLabel;
 
 namespace Kerfuffle
 {
@@ -41,19 +42,13 @@ class KERFUFFLE_EXPORT PropertiesDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit PropertiesDialog(QWidget *parent, Archive *archive);
-
-private slots:
-    void slotShowSha1();
-    void slotShowSha256();
+    explicit PropertiesDialog(QWidget *parent, Archive *archive, qulonglong numberOfFiles, qulonglong numberOfFolders, qulonglong size);
 
 private:
-    QString calcHash(QCryptographicHash::Algorithm algorithm);
+    QString calcHash(QCryptographicHash::Algorithm algorithm, const QString &path);
+    void showChecksum(QCryptographicHash::Algorithm algorithm, const QString &fileName, QLabel *label);
 
     class PropertiesDialogUI *m_ui;
-    QByteArray m_byteArray;
-    QFuture<QString> m_futureCalcSha1;
-    QFuture<QString> m_futureCalcSha256;
 };
 }
 

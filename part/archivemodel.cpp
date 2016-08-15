@@ -29,6 +29,7 @@
 #include <kio/global.h>
 
 #include <QDBusConnection>
+#include <QElapsedTimer>
 #include <QMimeData>
 #include <QRegularExpression>
 #include <QUrl>
@@ -151,6 +152,8 @@ ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
     , m_rootEntry()
     , m_dbusPathName(dbusPathName)
+    , m_numberOfFiles(0)
+    , m_numberOfFolders(0)
 {
     m_rootEntry.setProperty("isDirectory", true);
 }
@@ -368,6 +371,7 @@ int ArchiveModel::rowCount(const QModelIndex &parent) const
 
 int ArchiveModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent)
     return m_showColumns.size();
 }
 
@@ -453,6 +457,13 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
     Q_UNUSED(action)
 
     if (!data->hasUrls()) {
+        return false;
+    }
+
+    if (archive()->isReadOnly() ||
+        (archive()->encryptionType() != Archive::Unencrypted &&
+         archive()->password().isEmpty())) {
+        emit messageWidget(KMessageWidget::Error, i18n("Adding files is not supported for this archive."));
         return false;
     }
 
@@ -672,16 +683,20 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
 
 void ArchiveModel::slotLoadingFinished(KJob *job)
 {
-    int i = 0;
-    foreach(Archive::Entry *entry, m_newArchiveEntries) {
-        newEntry(entry, DoNotNotifyViews);
-        i++;
-    }
-    beginResetModel();
-    endResetModel();
-    m_newArchiveEntries.clear();
+    if (!job->error()) {
+        QElapsedTimer timer;
+        timer.start();
+        int i = 0;
+        foreach(Archive::Entry *entry, m_newArchiveEntries) {
+            newEntry(entry, DoNotNotifyViews);
+            i++;
+        }
+        beginResetModel();
+        endResetModel();
+        m_newArchiveEntries.clear();
 
-    qCDebug(ARK) << "Added" << i << "entries to model";
+        qCDebug(ARK) << "Added" << i << "entries to model in" << timer.elapsed() << "ms";
+    }
 
     emit loadingFinished(job);
 }
@@ -984,4 +999,53 @@ void ArchiveModel::slotCleanupEmptyDirs()
         rawEntry->getParent()->removeEntryAt(rawEntry->row());
         endRemoveRows();
     }
+}
+
+void ArchiveModel::countEntriesAndSize() {
+
+    // This function is used to count the number of folders/files and
+    // the total compressed size. This is needed for PropertiesDialog
+    // to update the corresponding values after adding/deleting files.
+
+    // When ArchiveModel has been properly fixed, this code can likely
+    // be removed.
+
+    m_numberOfFiles = 0;
+    m_numberOfFolders = 0;
+    m_uncompressedSize = 0;
+
+    QElapsedTimer timer;
+    timer.start();
+
+    traverseAndCountDirNode(&m_rootEntry);
+
+    qCDebug(ARK) << "Time to count entries and size:" << timer.elapsed() << "ms";
+}
+
+void ArchiveModel::traverseAndCountDirNode(Archive::Entry *dir)
+{
+    foreach(Archive::Entry *entry, dir->entries()) {
+        if (entry->isDir()) {
+            traverseAndCountDirNode(entry);
+            m_numberOfFolders++;
+        } else {
+            m_numberOfFiles++;
+            m_uncompressedSize += entry->property("size").toULongLong();
+        }
+    }
+}
+
+qulonglong ArchiveModel::numberOfFiles() const
+{
+    return m_numberOfFiles;
+}
+
+qulonglong ArchiveModel::numberOfFolders() const
+{
+    return m_numberOfFolders;
+}
+
+qulonglong ArchiveModel::uncompressedSize() const
+{
+    return m_uncompressedSize;
 }

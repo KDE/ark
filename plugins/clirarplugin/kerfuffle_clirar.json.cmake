@@ -51,6 +51,7 @@
         "CompressionLevelMin": 0,
         "SupportsWriteComment": true,
         "SupportsTesting": true,
-        "HeaderEncryption": true
+        "HeaderEncryption": true,
+        "SupportsMultiVolume": true
     }
 }

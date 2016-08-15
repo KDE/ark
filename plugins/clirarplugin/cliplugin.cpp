@@ -38,7 +38,6 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         , m_parseState(ParseStateTitle)
         , m_isUnrar5(false)
         , m_isPasswordProtected(false)
-        , m_isMultiVolume(false)
         , m_isSolid(false)
         , m_remainingIgnoreLines(1) //The first line of UNRAR output is empty.
         , m_linesComment(0)
@@ -58,6 +57,7 @@ void CliPlugin::resetParsing()
     m_parseState = ParseStateTitle;
     m_remainingIgnoreLines = 1;
     m_comment.clear();
+    m_numberOfVolumes = 0;
 }
 
 ParameterList CliPlugin::parameterList() const
@@ -84,6 +84,7 @@ ParameterList CliPlugin::parameterList() const
         p[PasswordSwitch] = QStringList() << QStringLiteral( "-p$Password" );
         p[PasswordHeaderSwitch] = QStringList() << QStringLiteral("-hp$Password");
         p[CompressionLevelSwitch] = QStringLiteral("-m$CompressionLevel");
+        p[MultiVolumeSwitch] = QStringLiteral("-v$VolumeSizek");
         p[DeleteArgs] = QStringList() << QStringLiteral( "d" )
                                       << QStringLiteral( "$PasswordSwitch" )
                                       << QStringLiteral( "$Archive" )
@@ -101,6 +102,7 @@ ParameterList CliPlugin::parameterList() const
                                    << QStringLiteral( "$Archive" )
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$CompressionLevelSwitch")
+                                   << QStringLiteral("$MultiVolumeSwitch")
                                    << QStringLiteral( "$Files" );
         p[MoveArgs] = QStringList() << QStringLiteral( "rn" )
                                     << QStringLiteral( "$PasswordSwitch" )
@@ -118,8 +120,13 @@ ParameterList CliPlugin::parameterList() const
                                        << QStringLiteral("$Archive");
         p[CommentSwitch] = QStringLiteral("-z$CommentFile");
         p[TestArgs] = QStringList() << QStringLiteral("t")
-                                    << QStringLiteral("$Archive");
+                                    << QStringLiteral("$Archive")
+                                    << QStringLiteral("$PasswordSwitch");
         p[TestPassedPattern] = QStringLiteral("^All OK$");
+        // rar will sometimes create multi-volume archives where first volume is
+        // called name.part1.rar and other times name.part01.rar.
+        p[MultiVolumeSuffix] = QStringList() << QStringLiteral("part01.$Suffix")
+                                             << QStringLiteral("part1.$Suffix");
     }
 
     return p;
@@ -198,9 +205,12 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
         // "Details: " indicates end of header.
         if (line.startsWith(QStringLiteral("Details: "))) {
             ignoreLines(1, ParseStateEntryDetails);
-            if (line.contains(QLatin1String("volume")) && !m_isMultiVolume) {
-                m_isMultiVolume = true;
-                qCDebug(ARK) << "Multi-volume archive detected";
+            if (line.contains(QLatin1String("volume"))) {
+                m_numberOfVolumes++;
+                if (!isMultiVolume()) {
+                    setMultiVolume(true);
+                    qCDebug(ARK) << "Multi-volume archive detected";
+                }
             }
             if (line.contains(QLatin1String("solid")) && !m_isSolid) {
                 m_isSolid = true;
@@ -299,9 +309,12 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
 
         if (rxCommentEnd.match(line).hasMatch()) {
 
-            if (line.startsWith(QLatin1String("Volume")) && !m_isMultiVolume) {
-                m_isMultiVolume = true;
-                qCDebug(ARK) << "Multi-volume archive detected";
+            if (line.startsWith(QLatin1String("Volume "))) {
+                m_numberOfVolumes++;
+                if (!isMultiVolume()) {
+                    setMultiVolume(true);
+                    qCDebug(ARK) << "Multi-volume archive detected";
+                }
             }
             if (line.startsWith(QLatin1String("Solid archive")) && !m_isSolid) {
                 m_isSolid = true;
@@ -329,6 +342,8 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         // Horizontal line indicates end of header.
         if (line.startsWith(QStringLiteral("--------------------"))) {
             m_parseState = ParseStateEntryFileName;
+        } else if (line.startsWith(QLatin1String("Volume "))) {
+            m_numberOfVolumes++;
         }
         return;
     }

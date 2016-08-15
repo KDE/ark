@@ -60,7 +60,6 @@ private:
 
     bool m_isUnrar5;
     bool m_isPasswordProtected;
-    bool m_isMultiVolume;
     bool m_isSolid;
 
     int m_remainingIgnoreLines;

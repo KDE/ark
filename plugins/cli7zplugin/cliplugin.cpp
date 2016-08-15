@@ -54,6 +54,7 @@ void CliPlugin::resetParsing()
 {
     m_parseState = ParseStateTitle;
     m_comment.clear();
+    m_numberOfVolumes = 0;
 }
 
 ParameterList CliPlugin::parameterList() const
@@ -82,6 +83,7 @@ ParameterList CliPlugin::parameterList() const
                                    << QStringLiteral("$Archive")
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$CompressionLevelSwitch")
+                                   << QStringLiteral("$MultiVolumeSwitch")
                                    << QStringLiteral("$Files");
         p[MoveArgs] = QStringList() << QStringLiteral("rn")
                                     << QStringLiteral("$PasswordSwitch")
@@ -92,7 +94,8 @@ ParameterList CliPlugin::parameterList() const
                                       << QStringLiteral("$Archive")
                                       << QStringLiteral("$Files");
         p[TestArgs] = QStringList() << QStringLiteral("t")
-                                    << QStringLiteral("$Archive");
+                                    << QStringLiteral("$Archive")
+                                    << QStringLiteral("$PasswordSwitch");
         p[TestPassedPattern] = QStringLiteral("^Everything is Ok$");
 
         p[FileExistsExpression] = QStringList()
@@ -106,10 +109,12 @@ ParameterList CliPlugin::parameterList() const
                                            << QStringLiteral("S")  //autoskip
                                            << QStringLiteral("Q"); //cancel
         p[PasswordPromptPattern] = QStringLiteral("Enter password \\(will not be echoed\\)");
-        p[ExtractionFailedPatterns] = QStringList() << QStringLiteral("ERROR: E_FAIL");
+        p[ExtractionFailedPatterns] = QStringList() << QStringLiteral("ERROR: E_FAIL") << QStringLiteral("Open ERROR: Can not open the file as \\[7z\\] archive");
         p[CorruptArchivePatterns] = QStringList() << QStringLiteral("Unexpected end of archive")
                                                   << QStringLiteral("Headers Error");
         p[DiskFullPatterns] = QStringList() << QStringLiteral("No space left on device");
+        p[MultiVolumeSwitch] = QStringLiteral("-v$VolumeSizek");
+        p[MultiVolumeSuffix] = QStringList() << QStringLiteral("$Suffix.001");
     }
 
     return p;
@@ -166,12 +171,15 @@ bool CliPlugin::readListLine(const QString& line)
                 m_archiveType = ArchiveTypeZip;
             } else if (type == QLatin1String("Rar")) {
                 m_archiveType = ArchiveTypeRar;
+            } else if (type == QLatin1String("Split")) {
+                setMultiVolume(true);
             } else {
                 // Should not happen
                 qCWarning(ARK) << "Unsupported archive type";
                 return false;
             }
-
+        } else if (line.startsWith(QStringLiteral("Volumes = "))) {
+            m_numberOfVolumes = line.section(QLatin1Char('='), 1).trimmed().toInt();
         } else if (rxComment.match(line).hasMatch()) {
             m_parseState = ParseStateComment;
             m_comment.append(line.section(QLatin1Char('='), 1) + QLatin1Char('\n'));

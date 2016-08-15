@@ -276,6 +276,12 @@ void CliUnarchiverTest::testExtraction_data()
             << QList<Archive::Entry*>()
             << optionsPreservePaths
             << 5;
+
+    QTest::newRow("rar with hidden folder and files")
+            << QFINDTESTDATA("data/hidden_files.rar")
+            << QList<Archive::Entry*>()
+            << optionsPreservePaths
+            << 4;
 }
 
 // TODO: we can remove this test (which is duplicated from kerfuffle/archivetest)
@@ -311,7 +317,7 @@ void CliUnarchiverTest::testExtraction()
     QFETCH(int, expectedExtractedEntriesCount);
     int extractedEntriesCount = 0;
 
-    QDirIterator dirIt(destDir.path(), QDir::AllEntries | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+    QDirIterator dirIt(destDir.path(), QDir::AllEntries | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
     while (dirIt.hasNext()) {
         extractedEntriesCount++;
         dirIt.next();

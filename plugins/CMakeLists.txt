@@ -1,3 +1,10 @@
+function(kerfuffle_add_plugin plugin)
+    kcoreaddons_add_plugin(${plugin}
+        SOURCES ${ARGN}
+        INSTALL_NAMESPACE kerfuffle)
+    target_link_libraries(${plugin} kerfuffle)
+endfunction()
+
 add_subdirectory( libarchive )
 add_subdirectory( clirarplugin )
 add_subdirectory( cli7zplugin )

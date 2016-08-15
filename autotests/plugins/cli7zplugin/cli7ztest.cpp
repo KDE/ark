@@ -99,6 +99,9 @@ void Cli7zTest::testList_data()
 {
     QTest::addColumn<QString>("outputTextFile");
     QTest::addColumn<int>("expectedEntriesCount");
+    QTest::addColumn<bool>("isMultiVolume");
+    // Is zero for non-multi-volume archives:
+    QTest::addColumn<int>("numberOfVolumes");
     // Index of some entry to be tested.
     QTest::addColumn<int>("someEntryIndex");
     // Entry metadata.
@@ -108,34 +111,48 @@ void Cli7zTest::testList_data()
     QTest::addColumn<qulonglong>("expectedSize");
     QTest::addColumn<QString>("expectedTimestamp");
 
+    // p7zip version 16.02 tests
+
+    QTest::newRow("normal-file-1602")
+            << QFINDTESTDATA("data/archive-with-symlink-1602.txt") << 10 << false << 0
+            << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T20:41:48");
+
+    QTest::newRow("encrypted-1602")
+            << QFINDTESTDATA("data/archive-encrypted-1602.txt") << 4 << false << 0
+            << 1 << QStringLiteral("file2.txt") << false << true << (qulonglong) 14 << QStringLiteral("2016-03-02T22:37:55");
+
+    QTest::newRow("multi-volume-1602")
+            << QFINDTESTDATA("data/archive-multivol-1602.txt") << 2 << true << 5
+            << 1 << QStringLiteral("largefile2") << false << false << (qulonglong) 2097152 << QStringLiteral("2016-07-17T11:26:19");
+
     // p7zip version 15.14 tests
 
     QTest::newRow("normal-file-1514")
-            << QFINDTESTDATA("data/archive-with-symlink-1514.txt") << 10
+            << QFINDTESTDATA("data/archive-with-symlink-1514.txt") << 10 << false << 0
             << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     QTest::newRow("encrypted-1514")
-            << QFINDTESTDATA("data/archive-encrypted-1514.txt") << 9
+            << QFINDTESTDATA("data/archive-encrypted-1514.txt") << 9 << false << 0
             << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     // p7zip version 15.09 tests
 
     QTest::newRow("normal-file-1509")
-            << QFINDTESTDATA("data/archive-with-symlink-1509.txt") << 10
+            << QFINDTESTDATA("data/archive-with-symlink-1509.txt") << 10 << false << 0
             << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     QTest::newRow("encrypted-1509")
-            << QFINDTESTDATA("data/archive-encrypted-1509.txt") << 9
+            << QFINDTESTDATA("data/archive-encrypted-1509.txt") << 9 << false << 0
             << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     // p7zip version 9.38.1 tests
 
     QTest::newRow("normal-file-9381")
-            << QFINDTESTDATA("data/archive-with-symlink-9381.txt") << 10
+            << QFINDTESTDATA("data/archive-with-symlink-9381.txt") << 10 << false << 0
             << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     QTest::newRow("encrypted-9381")
-            << QFINDTESTDATA("data/archive-encrypted-9381.txt") << 9
+            << QFINDTESTDATA("data/archive-encrypted-9381.txt") << 9 << false << 0
             << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 }
 
@@ -158,6 +175,12 @@ void Cli7zTest::testList()
     }
 
     QCOMPARE(signalSpy.count(), expectedEntriesCount);
+
+    QFETCH(bool, isMultiVolume);
+    QCOMPARE(plugin->isMultiVolume(), isMultiVolume);
+
+    QFETCH(int, numberOfVolumes);
+    QCOMPARE(plugin->numberOfVolumes(), numberOfVolumes);
 
     QFETCH(int, someEntryIndex);
     QVERIFY(someEntryIndex < signalSpy.count());
@@ -233,11 +256,12 @@ void Cli7zTest::testAddArgs_data()
     QTest::addColumn<QString>("password");
     QTest::addColumn<bool>("encryptHeader");
     QTest::addColumn<int>("compressionLevel");
+    QTest::addColumn<ulong>("volumeSize");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("unencrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QString() << false << 5
+            << QString() << false << 5 << 0UL
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.7z"),
@@ -246,7 +270,7 @@ void Cli7zTest::testAddArgs_data()
 
     QTest::newRow("encrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QStringLiteral("1234") << false << 5
+            << QStringLiteral("1234") << false << 5 << 0UL
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.7z"),
@@ -256,13 +280,23 @@ void Cli7zTest::testAddArgs_data()
 
     QTest::newRow("header-encrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QStringLiteral("1234") << true << 5
+            << QStringLiteral("1234") << true << 5 << 0UL
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.7z"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("-mhe=on"),
                    QStringLiteral("-mx=5")
+               };
+
+    QTest::newRow("multi-volume")
+            << QStringLiteral("/tmp/foo.7z")
+            << QString() << false << 5 << 2500UL
+            << QStringList {
+                   QStringLiteral("a"),
+                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("-mx=5"),
+                   QStringLiteral("-v2500k")
                };
 }
 
@@ -276,13 +310,15 @@ void Cli7zTest::testAddArgs()
                                   QStringLiteral("$Archive"),
                                   QStringLiteral("$PasswordSwitch"),
                                   QStringLiteral("$CompressionLevelSwitch"),
+                                  QStringLiteral("$MultiVolumeSwitch"),
                                   QStringLiteral("$Files") };
 
     QFETCH(QString, password);
     QFETCH(bool, encryptHeader);
     QFETCH(int, compressionLevel);
+    QFETCH(ulong, volumeSize);
 
-    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, password, encryptHeader, compressionLevel);
+    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, password, encryptHeader, compressionLevel, volumeSize);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

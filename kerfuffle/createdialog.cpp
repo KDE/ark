@@ -151,6 +151,11 @@ int CreateDialog::compressionLevel() const
     return m_ui->optionsWidget->compressionLevel();
 }
 
+ulong CreateDialog::volumeSize() const
+{
+    return m_ui->optionsWidget->volumeSize();
+}
+
 QString CreateDialog::password() const
 {
     return m_ui->optionsWidget->password();

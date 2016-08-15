@@ -21,12 +21,14 @@
  */
 
 #include "cliplugin.h"
+#include "queries.h"
 
 #include <QJsonArray>
 #include <QJsonParseError>
 
 #include <KLocalizedString>
 #include <KPluginFactory>
+#include <KPtyProcess>
 
 using namespace Kerfuffle;
 
@@ -49,31 +51,7 @@ bool CliPlugin::list()
     m_operationMode = List;
 
     const auto args = substituteListVariables(m_param.value(ListArgs).toStringList(), password());
-
-    if (!runProcess(m_param.value(ListProgram).toStringList(), args)) {
-        return false;
-    }
-
-    if (!password().isEmpty()) {
-
-        // lsar -json exits with error code 1 if the archive is header-encrypted and the password is wrong.
-        if (m_exitCode == 1) {
-            qCWarning(ARK) << "Wrong password, list() aborted";
-            emit error(i18n("Wrong password."));
-            emit finished(false);
-            killProcess();
-            setPassword(QString());
-            return false;
-        }
-
-        // lsar -json exits with error code 2 if the archive is header-encrypted and no password is given as argument.
-        // At this point we have already asked a password to the user, so we can just list() again.
-        if (m_exitCode == 2) {
-            return CliPlugin::list();
-        }
-    }
-
-    return true;
+    return runProcess(m_param.value(ListProgram).toStringList(), args);
 }
 
 bool CliPlugin::extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
@@ -96,6 +74,7 @@ bool CliPlugin::extractFiles(const QList<Archive::Entry*> &files, const QString 
 void CliPlugin::resetParsing()
 {
     m_jsonOutput.clear();
+    m_numberOfVolumes = 0;
 }
 
 ParameterList CliPlugin::parameterList() const
@@ -161,14 +140,84 @@ void CliPlugin::cacheParameterList()
     Q_ASSERT(m_param.contains(ListProgram));
 }
 
-void CliPlugin::handleLine(const QString& line)
+bool CliPlugin::handleLine(const QString& line)
 {
     // Collect the json output line by line.
     if (m_operationMode == List) {
         m_jsonOutput += line + QLatin1Char('\n');
     }
 
-    CliInterface::handleLine(line);
+    // TODO: is this check really needed?
+    if (m_operationMode == Copy) {
+        if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
+            qCWarning(ARK) << "Error in extraction:" << line;
+            emit error(i18n("Extraction failed because of an unexpected error."));
+            return false;
+        }
+    }
+
+    if (m_operationMode == List) {
+        // This can only be an header-encrypted archive.
+        if (checkForPasswordPromptMessage(line)) {
+            qCDebug(ARK) << "Detected header-encrypted RAR archive";
+
+            Kerfuffle::PasswordNeededQuery query(filename());
+            emit userQuery(&query);
+            query.waitForResponse();
+
+            if (query.responseCancelled()) {
+                emit cancelled();
+                // Process is gone, so we emit finished() manually and we return true.
+                emit finished(false);
+                return true;
+            }
+
+            setPassword(query.password());
+            CliPlugin::list();
+        }
+    }
+
+    return true;
+}
+
+void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    qCDebug(ARK) << "Process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
+
+    if (m_process) {
+        //handle all the remaining data in the process
+        readStdout(true);
+
+        delete m_process;
+        m_process = Q_NULLPTR;
+    }
+
+    // #193908 - #222392
+    // Don't emit finished() if the job was killed quietly.
+    if (m_abortingOperation) {
+        return;
+    }
+
+    if (!password().isEmpty()) {
+
+        // lsar -json exits with error code 1 if the archive is header-encrypted and the password is wrong.
+        if (exitCode == 1) {
+            qCWarning(ARK) << "Wrong password, list() aborted";
+            emit error(i18n("Wrong password."));
+            emit finished(false);
+            setPassword(QString());
+            return;
+        }
+    }
+
+    // lsar -json exits with error code 2 if the archive is header-encrypted and no password is given as argument.
+    // At this point we are asking a password to the user and we are going to list() again after we get one.
+    // This means that we cannot emit finished here.
+    if (exitCode == 2) {
+        return;
+    }
+
+    emit finished(true);
 }
 
 void CliPlugin::readJsonOutput()
@@ -182,6 +231,15 @@ void CliPlugin::readJsonOutput()
     }
 
     const QJsonObject json = jsonDoc.object();
+
+    const QJsonObject properties = json.value(QStringLiteral("lsarProperties")).toObject();
+    const QJsonArray volumes = properties.value(QStringLiteral("XADVolumes")).toArray();
+    if (volumes.count() > 1) {
+        qCDebug(ARK) << "Detected multivolume archive";
+        m_numberOfVolumes = volumes.count();
+        setMultiVolume(true);
+    }
+
     const QJsonArray entries = json.value(QStringLiteral("lsarContents")).toArray();
 
     foreach (const QJsonValue& value, entries) {

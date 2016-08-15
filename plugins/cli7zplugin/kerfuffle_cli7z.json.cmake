@@ -47,13 +47,15 @@
         "CompressionLevelMax": 9,
         "CompressionLevelMin": 0,
         "SupportsTesting": true,
-        "HeaderEncryption": true
+        "HeaderEncryption": true,
+        "SupportsMultiVolume": true
     },
     "application/zip": {
         "CompressionLevelDefault": 5,
         "CompressionLevelMax": 9,
         "CompressionLevelMin": 0,
         "SupportsTesting": true,
-        "Encryption": true
+        "Encryption": true,
+        "SupportsMultiVolume": true
     }
 }

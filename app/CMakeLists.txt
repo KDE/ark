@@ -48,11 +48,13 @@ install(FILES arkui.rc    DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/ark)
 
 set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp ark_debug.cpp)
 
-add_library(extracthere MODULE ${extracthere_SRCS})
+kcoreaddons_add_plugin(extracthere
+    SOURCES ${extracthere_SRCS}
+    INSTALL_NAMESPACE kf5/kio_dnd)
+
 kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop DEFAULT_SERVICE_TYPE)
 
 target_link_libraries(extracthere kerfuffle KF5::Parts KF5::KIOWidgets KF5::KIOFileWidgets)
-install(TARGETS extracthere DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/kio_dnd)
 
 # compressfileitemaction plugin
 

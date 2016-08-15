@@ -2,7 +2,6 @@
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (c) 2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
- * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -85,11 +84,15 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(QMimeType mimeType READ mimeType CONSTANT)
     Q_PROPERTY(bool isReadOnly READ isReadOnly CONSTANT)
     Q_PROPERTY(bool isSingleFolderArchive READ isSingleFolderArchive)
+    Q_PROPERTY(bool isMultiVolume READ isMultiVolume WRITE setMultiVolume)
+    Q_PROPERTY(bool numberOfVolumes READ numberOfVolumes)
     Q_PROPERTY(EncryptionType encryptionType READ encryptionType)
     Q_PROPERTY(qulonglong numberOfFiles READ numberOfFiles)
+    Q_PROPERTY(qulonglong numberOfFolders READ numberOfFolders)
     Q_PROPERTY(qulonglong unpackedSize READ unpackedSize)
     Q_PROPERTY(qulonglong packedSize READ packedSize)
     Q_PROPERTY(QString subfolderName READ subfolderName)
+    Q_PROPERTY(QString password READ password)
 
 public:
 
@@ -106,16 +109,22 @@ public:
     QString fileName() const;
     QString comment() const;
     QMimeType mimeType();
-    bool isReadOnly() const;
+    bool isReadOnly();
     bool isSingleFolderArchive();
+    bool isMultiVolume();
+    void setMultiVolume(bool value);
     bool hasComment() const;
+    int numberOfVolumes() const;
     EncryptionType encryptionType();
+    QString password() const;
     qulonglong numberOfFiles();
+    qulonglong numberOfFolders();
     qulonglong unpackedSize();
     qulonglong packedSize() const;
     QString subfolderName();
     void setCompressionOptions(const CompressionOptions &opts);
     CompressionOptions compressionOptions() const;
+    QString multiVolumeName() const;
 
     static Archive *create(const QString &fileName, QObject *parent = 0);
     static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
@@ -200,12 +209,14 @@ private:
     bool m_hasBeenListed;
     bool m_isReadOnly;
     bool m_isSingleFolderArchive;
+    bool m_isMultiVolume;
 
     QString m_subfolderName;
     qulonglong m_extractedFilesSize;
     ArchiveError m_error;
     EncryptionType m_encryptionType;
     qulonglong m_numberOfFiles;
+    qulonglong m_numberOfFolders;
     CompressionOptions m_compOptions;
     QMimeType m_mimeType;
 };

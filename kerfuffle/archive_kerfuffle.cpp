@@ -34,6 +34,7 @@
 #include "pluginmanager.h"
 
 #include <QEventLoop>
+#include <QRegularExpression>
 
 #include <KPluginFactory>
 #include <KPluginLoader>
@@ -59,7 +60,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
         return new Archive(NoPlugin, parent);
     }
 
-    Archive *archive;
+    Archive *archive = Q_NULLPTR;
     foreach (Plugin *plugin, offers) {
         archive = create(fileName, plugin, parent);
         // Use the first valid plugin, according to the priority sorting.
@@ -114,10 +115,12 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
         , m_hasBeenListed(false)
         , m_isReadOnly(isReadOnly)
         , m_isSingleFolderArchive(false)
+        , m_isMultiVolume(false)
         , m_extractedFilesSize(0)
         , m_error(NoError)
         , m_encryptionType(Unencrypted)
         , m_numberOfFiles(0)
+        , m_numberOfFolders(0)
 {
     qCDebug(ARK) << "Created archive instance";
 
@@ -134,11 +137,24 @@ Archive::~Archive()
 
 QString Archive::completeBaseName() const
 {
+    const QString suffix = QFileInfo(fileName()).suffix();
     QString base = QFileInfo(fileName()).completeBaseName();
 
     // Special case for compressed tar archives.
     if (base.right(4).toUpper() == QLatin1String(".TAR")) {
         base.chop(4);
+
+    // Multi-volume 7z's are named name.7z.001.
+    } else if (base.right(3).toUpper() == QLatin1String(".7Z")) {
+        base.chop(3);
+
+    // Multi-volume zip's are named name.zip.001.
+    } else if (base.right(4).toUpper() == QLatin1String(".ZIP")) {
+        base.chop(4);
+
+    // For multivolume rar's we want to remove the ".partNNN" suffix.
+    } else if (suffix.toUpper() == QLatin1String("RAR")) {
+        base.remove(QRegularExpression(QStringLiteral("\\.part[0-9]{1,3}$")));
     }
 
     return base;
@@ -191,9 +207,10 @@ QMimeType Archive::mimeType()
     return m_mimeType;
 }
 
-bool Archive::isReadOnly() const
+bool Archive::isReadOnly()
 {
-    return isValid() ? (m_iface->isReadOnly() || m_isReadOnly) : false;
+    return isValid() ? (m_iface->isReadOnly() || m_isReadOnly ||
+                        (isMultiVolume() && (m_numberOfFiles > 0 || m_numberOfFolders > 0))) : false;
 }
 
 bool Archive::isSingleFolderArchive()
@@ -211,6 +228,25 @@ bool Archive::hasComment() const
     return isValid() ? !comment().isEmpty() : false;
 }
 
+bool Archive::isMultiVolume()
+{
+    if (!isValid()) {
+        return false;
+    }
+    listIfNotListed();
+    return m_iface->isMultiVolume();
+}
+
+void Archive::setMultiVolume(bool value)
+{
+    m_iface->setMultiVolume(value);
+}
+
+int Archive::numberOfVolumes() const
+{
+    return m_iface->numberOfVolumes();
+}
+
 Archive::EncryptionType Archive::encryptionType()
 {
     if (!isValid()) {
@@ -221,6 +257,11 @@ Archive::EncryptionType Archive::encryptionType()
     return m_encryptionType;
 }
 
+QString Archive::password() const
+{
+    return m_iface->password();
+}
+
 qulonglong Archive::numberOfFiles()
 {
     if (!isValid()) {
@@ -229,6 +270,16 @@ qulonglong Archive::numberOfFiles()
 
     listIfNotListed();
     return m_numberOfFiles;
+}
+
+qulonglong Archive::numberOfFolders()
+{
+    if (!isValid()) {
+        return 0;
+    }
+
+    listIfNotListed();
+    return m_numberOfFolders;
 }
 
 qulonglong Archive::unpackedSize()
@@ -258,9 +309,7 @@ QString Archive::subfolderName()
 
 void Archive::onNewEntry(const Archive::Entry *entry)
 {
-    if (!entry->isDir()) {
-        m_numberOfFiles++;
-    }
+    entry->isDir() ? m_numberOfFolders++ : m_numberOfFiles++;
 }
 
 bool Archive::isValid() const
@@ -298,6 +347,10 @@ ListJob* Archive::list()
     if (!m_hasBeenListed) {
         connect(job, &ListJob::result, this, &Archive::onListFinished);
     }
+
+    // FIXME: this is only a temporary workaround. See T3300 for a proper fix.
+    m_hasBeenListed = true;
+
     return job;
 }
 
@@ -307,7 +360,7 @@ DeleteJob* Archive::deleteFiles(QList<Archive::Entry*> &entries)
         return Q_NULLPTR;
     }
 
-    qCDebug(ARK) << "Going to delete entries" << entries;
+    qCDebug(ARK) << "Going to delete" << entries.size() << "entries";
 
     if (m_iface->isReadOnly()) {
         return 0;
@@ -455,8 +508,6 @@ void Archive::onListFinished(KJob* job)
         // If we already know the password, it means that the archive is header-encrypted.
         m_encryptionType = m_iface->password().isEmpty() ? Encrypted : HeaderEncrypted;
     }
-
-    m_hasBeenListed = true;
 }
 
 void Archive::listIfNotListed()
@@ -490,6 +541,11 @@ void Archive::setCompressionOptions(const CompressionOptions &opts)
 CompressionOptions Archive::compressionOptions() const
 {
     return m_compOptions;
+}
+
+QString Archive::multiVolumeName() const
+{
+    return m_iface->multiVolumeName();
 }
 
 } // namespace Kerfuffle

@@ -127,14 +127,19 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 
 bool MainWindow::loadPart()
 {
-    KPluginFactory *factory = 0;
-    KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("ark_part"));
+    KPluginFactory *factory = Q_NULLPTR;
 
-    if (service) {
-        factory = KPluginLoader(service->library()).factory();
+    const auto plugins = KPluginLoader::findPlugins(QString(), [](const KPluginMetaData& metaData) {
+        return metaData.pluginId() == QStringLiteral("arkpart") &&
+               metaData.serviceTypes().contains(QStringLiteral("KParts/ReadOnlyPart")) &&
+               metaData.serviceTypes().contains(QStringLiteral("Browser/View"));
+    });
+
+    if (!plugins.isEmpty()) {
+        factory = KPluginLoader(plugins.first().fileName()).factory();
     }
 
-    m_part = factory ? static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this)) : 0;
+    m_part = factory ? static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this)) : Q_NULLPTR;
 
     if (!m_part) {
         KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
@@ -294,6 +299,10 @@ void MainWindow::newArchive()
         m_openArgs.metaData()[QStringLiteral("fixedMimeType")] = fixedMimeType;
         if (dialog.data()->compressionLevel() > -1) {
             m_openArgs.metaData()[QStringLiteral("compressionLevel")] = QString::number(dialog.data()->compressionLevel());
+        }
+        if (dialog.data()->volumeSize() > 0) {
+            qCDebug(ARK) << "Setting volume size:" << QString::number(dialog.data()->volumeSize());
+            m_openArgs.metaData()[QStringLiteral("volumeSize")] = QString::number(dialog.data()->volumeSize());
         }
         m_openArgs.metaData()[QStringLiteral("encryptionPassword")] = password;
 

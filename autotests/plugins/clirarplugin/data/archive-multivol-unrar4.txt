@@ -1,0 +1,68 @@
+
+UNRAR 4.20 freeware      Copyright (c) 1993-2012 Alexander Roshal
+
+Volume testmultivol.part1.rar
+
+Pathname/Comment
+                  Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver
+               Host OS    Solid   Old
+-------------------------------------------------------------------------------
+ largefile1
+               2097152  1048494  --> 17-07-16 11:25 -rw-rw-r-- D1D888DB m3g 2.9
+                  Unix       No   No
+-------------------------------------------------------------------------------
+    1          2097152  1048494  49%       volume 1
+
+Volume testmultivol.part2.rar
+
+Pathname/Comment
+                  Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver
+               Host OS    Solid   Old
+-------------------------------------------------------------------------------
+ largefile1
+               2097152  1048494  <-> 17-07-16 11:25 -rw-rw-r-- 034C76D1 m3g 2.9
+                  Unix       No   No
+-------------------------------------------------------------------------------
+    0                0  1048494   0%       volume 2
+
+Volume testmultivol.part3.rar
+
+Pathname/Comment
+                  Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver
+               Host OS    Solid   Old
+-------------------------------------------------------------------------------
+ largefile1
+               2097152     5613  <-- 17-07-16 11:25 -rw-rw-r-- 147E8FFD m3g 2.9
+                  Unix       No   No
+ largefile2
+               2097152  1042837  --> 17-07-16 11:26 -rw-rw-r-- 0B319F93 m3g 2.9
+                  Unix       No   No
+-------------------------------------------------------------------------------
+    1          2097152  1048450  49%       volume 3
+
+Volume testmultivol.part4.rar
+
+Pathname/Comment
+                  Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver
+               Host OS    Solid   Old
+-------------------------------------------------------------------------------
+ largefile2
+               2097152  1048492  <-> 17-07-16 11:26 -rw-rw-r-- BE13353A m3g 2.9
+                  Unix       No   No
+-------------------------------------------------------------------------------
+    0                0  1048492   0%       volume 4
+
+Volume testmultivol.part5.rar
+
+Pathname/Comment
+                  Size   Packed Ratio  Date   Time     Attr      CRC   Meth Ver
+               Host OS    Solid   Old
+-------------------------------------------------------------------------------
+ largefile2
+               2097152    11231  <-- 17-07-16 11:26 -rw-rw-r-- 934DAE71 m3g 2.9
+                  Unix       No   No
+-------------------------------------------------------------------------------
+    0                0    11231   0%       volume 5
+
+    2          4194304  4205161 100%
+

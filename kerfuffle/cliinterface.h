@@ -285,7 +285,9 @@ enum CliInterfaceParameters {
     CommentSwitch,
     TestProgram,
     TestArgs,
-    TestPassedPattern
+    TestPassedPattern,
+    MultiVolumeSwitch,
+    MultiVolumeSuffix
 };
 
 typedef QHash<int, QVariant> ParameterList;
@@ -333,11 +335,11 @@ public:
 
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteExtractVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password);
-    QStringList substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel);
+    QStringList substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize);
     QStringList substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination, const QString &password);
     QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QList<Archive::Entry*> &entries, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
-    QStringList substituteTestVariables(const QStringList &testArgs);
+    QStringList substituteTestVariables(const QStringList &testArgs, const QString &password);
 
     /**
      * @see ArchiveModel::entryPathsFromDestination
@@ -364,15 +366,41 @@ public:
      */
     QString compressionLevelSwitch(int level) const;
 
+    QString multiVolumeSwitch(ulong volumeSize) const;
+
     /**
      * @return The list of selected files to extract.
      */
     QStringList extractFilesList(const QList<Archive::Entry*> &files) const;
 
+    QString multiVolumeName() const Q_DECL_OVERRIDE;
+
 protected:
 
     bool setAddedFiles();
-    virtual void handleLine(const QString& line);
+
+    /**
+     * Handles the given @p line.
+     * @return True if the line is ok. False if the line contains/triggers a "fatal" error
+     * or a canceled user query. If false is returned, the caller is supposed to call killProcess().
+     */
+    virtual bool handleLine(const QString& line);
+
+    bool checkForErrorMessage(const QString& line, int parameterIndex);
+
+    /**
+     * Checks whether a line of the program's output is a password prompt.
+     *
+     * It uses the regular expression in the @c PasswordPromptPattern parameter
+     * for the check.
+     *
+     * @param line A line of the program's output.
+     *
+     * @return @c true if the given @p line is a password prompt, @c false
+     * otherwise.
+     */
+    bool checkForPasswordPromptMessage(const QString& line);
+
     virtual void cacheParameterList();
 
     /**
@@ -400,8 +428,6 @@ protected:
     void cleanUp();
 
     QString m_oldWorkingDir;
-    ParameterList m_param;
-    int m_exitCode;
     QTemporaryDir *m_tempExtractDir;
     QTemporaryDir *m_tempAddDir;
     OperationMode m_subOperation;
@@ -410,27 +436,22 @@ protected:
     Archive::Entry *m_passedDestination;
     CompressionOptions m_passedOptions;
 
+    ParameterList m_param;
+
+#ifdef Q_OS_WIN
+    KProcess *m_process;
+#else
+    KPtyProcess *m_process;
+#endif
+
+    bool m_abortingOperation;
+
 protected slots:
     virtual void readStdout(bool handleAll = false);
 
 private:
 
-    /**
-     * Checks whether a line of the program's output is a password prompt.
-     *
-     * It uses the regular expression in the @c PasswordPromptPattern parameter
-     * for the check.
-     *
-     * @param line A line of the program's output.
-     *
-     * @return @c true if the given @p line is a password prompt, @c false
-     * otherwise.
-     */
-
-    bool checkForPasswordPromptMessage(const QString& line);
-
     bool handleFileExistsMessage(const QString& filename);
-    bool checkForErrorMessage(const QString& line, int parameterIndex);
     bool checkForTestSuccessMessage(const QString& line);
 
     /**
@@ -474,16 +495,10 @@ private:
     QRegularExpression m_passwordPromptPattern;
     QHash<int, QList<QRegularExpression> > m_patternCache;
 
-#ifdef Q_OS_WIN
-    KProcess *m_process;
-#else
-    KPtyProcess *m_process;
-#endif
-
     QList<Archive::Entry*> m_removedFiles;
     QList<Archive::Entry*> m_newMovedFiles;
+    int m_exitCode;
     bool m_listEmptyLines;
-    bool m_abortingOperation;
     QString m_storedFileName;
 
     CompressionOptions m_compressionOptions;

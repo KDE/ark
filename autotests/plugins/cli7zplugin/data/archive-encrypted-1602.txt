@@ -1,0 +1,59 @@
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,8 CPUs x64)
+
+Scanning the drive for archives:
+1 file, 276 bytes (1 KiB)
+
+Listing archive: testpassfiles.7z
+
+--
+Path = testpassfiles.7z
+Type = 7z
+Physical Size = 276
+Headers Size = 212
+Method = LZMA2:12 7zAES
+Solid = +
+Blocks = 1
+
+----------
+Path = file1.txt
+Size = 32
+Packed Size = 64
+Modified = 2016-03-02 22:37:55
+Attributes = A_ -rw-rw-r--
+CRC = 034EE5C7
+Encrypted = +
+Method = LZMA2:12 7zAES:19
+Block = 0
+
+Path = file2.txt
+Size = 14
+Packed Size = 
+Modified = 2016-03-02 22:37:55
+Attributes = A_ -rw-rw-r--
+CRC = A5BA4A7B
+Encrypted = +
+Method = LZMA2:12 7zAES:19
+Block = 0
+
+Path = file3.txt
+Size = 32
+Packed Size = 
+Modified = 2016-03-02 22:37:54
+Attributes = A_ -rw-rw-r--
+CRC = 99D12E31
+Encrypted = +
+Method = LZMA2:12 7zAES:19
+Block = 0
+
+Path = file4.txt
+Size = 32
+Packed Size = 
+Modified = 2016-03-02 22:37:50
+Attributes = A_ -rw-rw-r--
+CRC = A04F9191
+Encrypted = +
+Method = LZMA2:12 7zAES:19
+Block = 0
+

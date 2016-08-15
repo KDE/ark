@@ -100,6 +100,9 @@ void CliRarTest::testList_data()
 {
     QTest::addColumn<QString>("outputTextFile");
     QTest::addColumn<int>("expectedEntriesCount");
+    QTest::addColumn<bool>("isMultiVolume");
+    // Is zero for non-multi-volume archives:
+    QTest::addColumn<int>("numberOfVolumes");
     // Index of some entry to be tested.
     QTest::addColumn<int>("someEntryIndex");
     // Entry metadata.
@@ -114,46 +117,56 @@ void CliRarTest::testList_data()
     // Unrar 5 tests
 
     QTest::newRow("normal-file-unrar5")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8
+            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8 << false << 0
             << 2 << QStringLiteral("rartest/file2.txt") << false << false << QString() << (qulonglong) 14 << (qulonglong) 23 << QStringLiteral("2016-03-21T08:57:36");
 
     QTest::newRow("symlink-unrar5")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8
+            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8 << false << 0
             << 3 << QStringLiteral("rartest/linktofile1.txt") << false << false << QStringLiteral("file1.txt") << (qulonglong) 9 << (qulonglong) 9 << QStringLiteral("2016-03-21T08:58:16");
 
     QTest::newRow("encrypted-unrar5")
-            << QFINDTESTDATA("data/archive-encrypted-unrar5.txt") << 7
+            << QFINDTESTDATA("data/archive-encrypted-unrar5.txt") << 7 << false << 0
             << 2 << QStringLiteral("rartest/file2.txt") << false << true << QString() << (qulonglong) 14 << (qulonglong) 32 << QStringLiteral("2016-03-21T17:03:36");
 
     QTest::newRow("recovery-record-unrar5")
-            << QFINDTESTDATA("data/archive-recovery-record-unrar5.txt") << 3
+            << QFINDTESTDATA("data/archive-recovery-record-unrar5.txt") << 3 << false << 0
             << 0 << QStringLiteral("file1.txt") << false << false << QString() << (qulonglong) 32 << (qulonglong) 33 << QStringLiteral("2015-07-26T19:04:38");
 
     QTest::newRow("corrupt-archive-unrar5")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar5.txt") << 8
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar5.txt") << 8 << false << 0
             << 6 << QStringLiteral("dir1/") << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-05-14T01:45:24");
+
+    //Note: The number of entries will be the total number of all entries in all volumes, i.e. if a file spans 3 volumes it will count as 3 entries.
+    QTest::newRow("multivolume-archive-unrar5")
+            << QFINDTESTDATA("data/archive-multivol-unrar5.txt") << 6 << true << 5
+            << 5 << QStringLiteral("largefile2") << false << false << QString() << (qulonglong) 2097152 << (qulonglong) 11231 << QStringLiteral("2016-07-17T11:26:19");
 
     // Unrar 4 tests
 
     QTest::newRow("normal-file-unrar4")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8
+            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8 << false << 0
             << 2 << QStringLiteral("rartest/file2.txt") << false << false << QString() << (qulonglong) 14 << (qulonglong) 23 << QStringLiteral("2016-03-21T08:57:00");
 
     QTest::newRow("symlink-unrar4")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8
+            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8 << false << 0
             << 3 << QStringLiteral("rartest/linktofile1.txt") << false << false << QStringLiteral("file1.txt") << (qulonglong) 9 << (qulonglong) 9 << QStringLiteral("2016-03-21T08:58:00");
 
     QTest::newRow("encrypted-unrar4")
-            << QFINDTESTDATA("data/archive-encrypted-unrar4.txt") << 7
+            << QFINDTESTDATA("data/archive-encrypted-unrar4.txt") << 7 << false << 0
             << 2 << QStringLiteral("rartest/file2.txt") << false << true << QString() << (qulonglong) 14 << (qulonglong) 32 << QStringLiteral("2016-03-21T17:03:00");
 
     QTest::newRow("recovery-record-unrar4")
-            << QFINDTESTDATA("data/archive-recovery-record-unrar4.txt") << 3
+            << QFINDTESTDATA("data/archive-recovery-record-unrar4.txt") << 3 << false << 0
             << 0 << QStringLiteral("file1.txt") << false << false << QString() << (qulonglong) 32 << (qulonglong) 33 << QStringLiteral("2015-07-26T19:04:00");
 
     QTest::newRow("corrupt-archive-unrar4")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar4.txt") << 8
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar4.txt") << 8 << false << 0
             << 6 << QStringLiteral("dir1/") << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-05-14T01:45:00");
+
+    //Note: The number of entries will be the total number of all entries in all volumes, i.e. if a file spans 3 volumes it will count as 3 entries.
+    QTest::newRow("multivolume-archive-unrar4")
+            << QFINDTESTDATA("data/archive-multivol-unrar4.txt") << 6 << true << 5
+            << 5 << QStringLiteral("largefile2") << false << false << QString() << (qulonglong) 2097152 << (qulonglong) 11231 << QStringLiteral("2016-07-17T11:26:00");
 
     /*
      * Check that the plugin will not crash when reading corrupted archives, which
@@ -163,7 +176,7 @@ void CliRarTest::testList_data()
      * See bug 262857 and commit 2042997013432cdc6974f5b26d39893a21e21011.
      */
     QTest::newRow("corrupt-archive-unrar3")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar3.txt") << 1
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar3.txt") << 1 << true << 1
             << 0 << QStringLiteral("some-file.ext") << false << false << QString() << (qulonglong) 732522496 << (qulonglong) 14851208 << QStringLiteral("2010-10-29T20:47:00");
 }
 
@@ -186,6 +199,12 @@ void CliRarTest::testList()
     }
 
     QCOMPARE(signalSpy.count(), expectedEntriesCount);
+
+    QFETCH(bool, isMultiVolume);
+    QCOMPARE(rarPlugin->isMultiVolume(), isMultiVolume);
+
+    QFETCH(int, numberOfVolumes);
+    QCOMPARE(rarPlugin->numberOfVolumes(), numberOfVolumes);
 
     QFETCH(int, someEntryIndex);
     QVERIFY(someEntryIndex < signalSpy.count());
@@ -267,11 +286,12 @@ void CliRarTest::testAddArgs_data()
     QTest::addColumn<QString>("password");
     QTest::addColumn<bool>("encryptHeader");
     QTest::addColumn<int>("compressionLevel");
+    QTest::addColumn<ulong>("volumeSize");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("unencrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QString() << false << 3
+            << QString() << false << 3 << 0UL
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.rar"),
@@ -280,7 +300,7 @@ void CliRarTest::testAddArgs_data()
 
     QTest::newRow("encrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QStringLiteral("1234") << false << 3
+            << QStringLiteral("1234") << false << 3 << 0UL
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.rar"),
@@ -290,12 +310,22 @@ void CliRarTest::testAddArgs_data()
 
     QTest::newRow("header-encrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QStringLiteral("1234") << true << 3
+            << QStringLiteral("1234") << true << 3 << 0UL
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("-hp1234"),
                    QStringLiteral("-m3")
+               };
+
+    QTest::newRow("multi-volume")
+            << QStringLiteral("/tmp/foo.rar")
+            << QString() << false << 3 << 2500UL
+            << QStringList {
+                   QStringLiteral("a"),
+                   QStringLiteral("/tmp/foo.rar"),
+                   QStringLiteral("-m3"),
+                   QStringLiteral("-v2500k")
                };
 }
 
@@ -309,13 +339,15 @@ void CliRarTest::testAddArgs()
                                   QStringLiteral("$Archive"),
                                   QStringLiteral("$PasswordSwitch"),
                                   QStringLiteral("$CompressionLevelSwitch"),
+                                  QStringLiteral("$MultiVolumeSwitch"),
                                   QStringLiteral("$Files") };
 
     QFETCH(QString, password);
     QFETCH(bool, encryptHeader);
     QFETCH(int, compressionLevel);
+    QFETCH(ulong, volumeSize);
 
-    QStringList replacedArgs = rarPlugin->substituteAddVariables(addArgs, {}, password, encryptHeader, compressionLevel);
+    QStringList replacedArgs = rarPlugin->substituteAddVariables(addArgs, {}, password, encryptHeader, compressionLevel, volumeSize);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

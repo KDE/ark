@@ -49,7 +49,7 @@ public:
     }
 };
 
-PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive)
+PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive, qulonglong numberOfFiles, qulonglong numberOfFolders, qulonglong size)
         : QDialog(parent, Qt::Dialog)
 {
     qCDebug(ARK) << "PropertiesDialog loaded";
@@ -64,9 +64,11 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive)
     m_ui->lblArchiveType->setText(archive->mimeType().comment());
     m_ui->lblMimetype->setText(archive->mimeType().name());
     m_ui->lblReadOnly->setText(archive->isReadOnly() ?  i18n("yes") : i18n("no"));
+    m_ui->lblMultiVolume->setText(archive->isMultiVolume() ? i18n("yes (%1 volumes)", archive->numberOfVolumes()) : i18n("no"));
     m_ui->lblHasComment->setText(archive->hasComment() ?  i18n("yes") : i18n("no"));
-    m_ui->lblNumberOfFiles->setText(QString::number(archive->numberOfFiles()));
-    m_ui->lblUnpackedSize->setText(KIO::convertSize(archive->unpackedSize()));
+    m_ui->lblNumberOfEntries->setText(i18np("%1 file", "%1 files", numberOfFiles) +
+                                      i18np(", %1 folder", ", %1 folders", numberOfFolders));
+    m_ui->lblUnpackedSize->setText(KIO::convertSize(size));
     m_ui->lblPackedSize->setText(KIO::convertSize(archive->packedSize()));
     m_ui->lblCompressionRatio->setText(QString::number(float(archive->unpackedSize()) / float(archive->packedSize()), 'f', 1));
     m_ui->lblLastModified->setText(fi.lastModified().toString(QStringLiteral("yyyy-MM-dd HH:mm")));
@@ -99,53 +101,41 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive)
     QIcon icon = QIcon::fromTheme(archive->mimeType().iconName());
     m_ui->lblIcon->setPixmap(icon.pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop)));
 
+    m_ui->lblMD5->setText(i18n("Calculating..."));
     m_ui->lblSHA1->setText(i18n("Calculating..."));
     m_ui->lblSHA256->setText(i18n("Calculating..."));
 
-    QFile file(archive->fileName());
-    if (file.open(QIODevice::ReadOnly)) {
-        m_byteArray = file.readAll();
-        file.close();
-
-        QCryptographicHash hashMD5(QCryptographicHash::Md5);
-        hashMD5.addData(m_byteArray);
-        m_ui->lblMD5->setText(QLatin1String(hashMD5.result().toHex()));
-
-        // The two SHA hashes take some time to calculate, so run them in another thread.
-        QFutureWatcher<QString> *watchCalcSha1 = new QFutureWatcher<QString>;
-        connect(watchCalcSha1, SIGNAL(finished()), this, SLOT(slotShowSha1()));
-        m_futureCalcSha1 = QtConcurrent::run(this, &PropertiesDialog::calcHash, QCryptographicHash::Sha1);
-        watchCalcSha1->setFuture(m_futureCalcSha1);
-
-        QFutureWatcher<QString> *watchCalcSha256 = new QFutureWatcher<QString>;
-        connect(watchCalcSha256, SIGNAL(finished()), this, SLOT(slotShowSha256()));
-        m_futureCalcSha256 = QtConcurrent::run(this, &PropertiesDialog::calcHash, QCryptographicHash::Sha256);
-        watchCalcSha256->setFuture(m_futureCalcSha256);
-    } else {
-        m_ui->lblMD5->setText(QString());
-        m_ui->lblSHA1->setText(QString());
-        m_ui->lblSHA256->setText(QString());
-    }
+    showChecksum(QCryptographicHash::Md5, archive->fileName(), m_ui->lblMD5);
+    showChecksum(QCryptographicHash::Sha1, archive->fileName(), m_ui->lblSHA1);
+    showChecksum(QCryptographicHash::Sha256, archive->fileName(), m_ui->lblSHA256);
 
     connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
 }
 
-QString PropertiesDialog::calcHash(QCryptographicHash::Algorithm algorithm)
+QString PropertiesDialog::calcHash(QCryptographicHash::Algorithm algorithm, const QString &path)
 {
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly)) {
+        return QString();
+    }
+
     QCryptographicHash hash(algorithm);
-    hash.addData(m_byteArray);
+    hash.addData(&file);
 
-    return QLatin1String(hash.result().toHex());
+    return QString::fromLatin1(hash.result().toHex());
 }
 
-void PropertiesDialog::slotShowSha1()
+void PropertiesDialog::showChecksum(QCryptographicHash::Algorithm algorithm, const QString &fileName, QLabel *label)
 {
-    m_ui->lblSHA1->setText(m_futureCalcSha1.result());
-}
+    // Calculate checksum in another thread.
+    auto futureWatcher = new QFutureWatcher<QString>(this);
+    connect(futureWatcher, &QFutureWatcher<QString>::finished, this, [=]() {
+        label->setText(futureWatcher->result());
+        futureWatcher->deleteLater();
+    });
 
-void PropertiesDialog::slotShowSha256()
-{
-    m_ui->lblSHA256->setText(m_futureCalcSha256.result());
+    auto future = QtConcurrent::run(this, &PropertiesDialog::calcHash, algorithm, fileName);
+    futureWatcher->setFuture(future);
 }
 
 }

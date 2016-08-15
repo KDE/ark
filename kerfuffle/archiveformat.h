@@ -43,7 +43,8 @@ public:
                            int maxCompLevel,
                            int defaultCompLevel,
                            bool supportsWriteComment,
-                           bool supportsTesting);
+                           bool supportsTesting,
+                           bool suppportsMultiVolume);
 
     /**
      * @return The archive format of the given @p mimeType, according to the given @p metadata.
@@ -65,6 +66,7 @@ public:
     int defaultCompressionLevel() const;
     bool supportsWriteComment() const;
     bool supportsTesting() const;
+    bool supportsMultiVolume() const;
 
 private:
     QMimeType m_mimeType;
@@ -74,6 +76,7 @@ private:
     int m_defaultCompressionLevel;
     bool m_supportsWriteComment;
     bool m_supportsTesting;
+    bool m_supportsMultiVolume;
 };
 
 }

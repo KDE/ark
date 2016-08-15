@@ -31,6 +31,7 @@
 #include "ark_debug.h"
 
 #include <QDir>
+#include <QDirIterator>
 #include <QFileInfo>
 #include <QRegularExpression>
 #include <QThread>
@@ -137,7 +138,7 @@ void Job::connectToArchiveInterfaceSignals()
     connect(archiveInterface(), &ReadOnlyArchiveInterface::entryRemoved, this, &Job::onEntryRemoved);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &Job::onProgress);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::info, this, &Job::onInfo);
-    connect(archiveInterface(), &ReadOnlyArchiveInterface::finished, this, &Job::onFinished, Qt::DirectConnection);
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::finished, this, &Job::onFinished);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::userQuery, this, &Job::onUserQuery);
 }
 
@@ -305,7 +306,7 @@ void ExtractJob::doWork()
 
     connectToArchiveInterfaceSignals();
 
-    qCDebug(ARK) << "Starting extraction with selected files:"
+    qCDebug(ARK) << "Starting extraction with" << m_entries.count() << "selected files."
              << m_entries
              << "Destination dir:" << m_destinationDir
              << "Options:" << m_options;
@@ -346,8 +347,8 @@ TempExtractJob::TempExtractJob(Archive::Entry *entry, bool passwordProtectedHint
     , m_entry(entry)
     , m_passwordProtectedHint(passwordProtectedHint)
 {
+    m_tmpExtractDir = new QTemporaryDir();
 }
-
 
 QString TempExtractJob::validatedFilePath() const
 {
@@ -373,6 +374,11 @@ ExtractionOptions TempExtractJob::extractionOptions() const
     return options;
 }
 
+QTemporaryDir *TempExtractJob::tempDir() const
+{
+    return m_tmpExtractDir;
+}
+
 void TempExtractJob::doWork()
 {
     emit description(this, i18n("Extracting one file"));
@@ -388,33 +394,21 @@ void TempExtractJob::doWork()
     }
 }
 
+QString TempExtractJob::extractionDir() const
+{
+    return m_tmpExtractDir->path();
+}
+
 PreviewJob::PreviewJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : TempExtractJob(entry, passwordProtectedHint, interface)
 {
     qCDebug(ARK) << "PreviewJob started";
 }
 
-QString PreviewJob::extractionDir() const
-{
-    return m_tmpExtractDir.path();
-}
-
 OpenJob::OpenJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : TempExtractJob(entry, passwordProtectedHint, interface)
 {
     qCDebug(ARK) << "OpenJob started";
-
-    m_tmpExtractDir = new QTemporaryDir();
-}
-
-QTemporaryDir *OpenJob::tempDir() const
-{
-    return m_tmpExtractDir;
-}
-
-QString OpenJob::extractionDir() const
-{
-    return m_tmpExtractDir->path();
 }
 
 OpenWithJob::OpenWithJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
@@ -434,15 +428,7 @@ AddJob::AddJob(const QList<Archive::Entry*> &entries, const Archive::Entry *dest
 
 void AddJob::doWork()
 {
-    qCDebug(ARK) << "AddJob: going to add" << m_entries.count() << "file(s)";
-
-    emit description(this, i18np("Adding a file", "Adding %1 files", m_entries.count()));
-
-    ReadWriteArchiveInterface *m_writeInterface =
-        qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
-
-    Q_ASSERT(m_writeInterface);
-
+    // Set current dir.
     const QString globalWorkDir = m_options.value(QStringLiteral("GlobalWorkDir")).toString();
     const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
     if (!globalWorkDir.isEmpty()) {
@@ -450,6 +436,33 @@ void AddJob::doWork()
         m_oldWorkingDir = QDir::currentPath();
         QDir::setCurrent(globalWorkDir);
     }
+
+    // Count total number of entries to be added.
+    qulonglong totalCount = 0;
+    QElapsedTimer timer;
+    timer.start();
+    foreach (const Archive::Entry* entry, m_entries) {
+        totalCount++;
+        if (QFileInfo(entry->fullPath()).isDir()) {
+            QDirIterator it(entry->fullPath(), QDir::AllEntries | QDir::Readable | QDir::Hidden |
+                            QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+            while (it.hasNext()) {
+                it.next();
+                totalCount++;
+            }
+        }
+    }
+    qCDebug(ARK) << "Counted" << totalCount << "entries in" << timer.elapsed() << "ms";
+
+    m_options[QStringLiteral("NumberOfEntries")] = totalCount;
+
+    qCDebug(ARK) << "AddJob: going to add" << totalCount << "entries";
+    emit description(this, i18np("Adding a file", "Adding %1 files", totalCount));
+
+    ReadWriteArchiveInterface *m_writeInterface =
+        qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
+
+    Q_ASSERT(m_writeInterface);
 
     // The file paths must be relative to GlobalWorkDir.
     foreach (Archive::Entry *entry, m_entries) {
