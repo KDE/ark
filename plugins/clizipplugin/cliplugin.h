@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,6 +24,10 @@
 
 #include "kerfuffle/cliinterface.h"
 
+#include <QTemporaryDir>
+
+using namespace Kerfuffle;
+
 class KERFUFFLE_EXPORT CliPlugin : public Kerfuffle::CliInterface
 {
     Q_OBJECT
@@ -36,7 +41,16 @@ public:
     virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 
+    virtual bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual int moveRequiredSignals() const Q_DECL_OVERRIDE;
+
+private slots:
+    void continueMoving(bool result);
+
 private:
+    bool setMovingAddedFiles();
+    void finishMoving(bool result);
+
     enum ParseState {
         ParseStateHeader = 0,
         ParseStateComment,

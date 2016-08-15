@@ -9,11 +9,19 @@ target_link_libraries(jsoninterface kerfuffle)
 
 ecm_add_tests(
     addtoarchivetest.cpp
-    archivetest.cpp
+    extracttest.cpp
+    addtest.cpp
+    movetest.cpp
+    copytest.cpp
     createdialogtest.cpp
     metadatatest.cpp
     mimetypetest.cpp
-    LINK_LIBRARIES kerfuffle Qt5::Test
+    LINK_LIBRARIES testhelper kerfuffle Qt5::Test
+    NAME_PREFIX kerfuffle-)
+
+ecm_add_test(
+    adddialogtest.cpp
+    LINK_LIBRARIES kerfuffle Qt5::Test KF5::KIOFileWidgets
     NAME_PREFIX kerfuffle-)
 
 ecm_add_tests(

@@ -4,6 +4,7 @@
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2010-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -123,8 +124,8 @@ protected:
         }
 
         EntryMetaDataType column = static_cast<EntryMetaDataType>(m_sortColumn);
-        const QVariant &leftEntryMetaData = leftEntry->property(propertiesList[column].toStdString().c_str());
-        const QVariant &rightEntryMetaData = rightEntry->property(propertiesList[column].toStdString().c_str());
+        const QVariant &leftEntryMetaData = leftEntry->property(propertiesList[column].toUtf8());
+        const QVariant &rightEntryMetaData = rightEntry->property(propertiesList[column].toUtf8());
 
         switch (m_sortColumn) {
         case FullPath:
@@ -211,12 +212,14 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             }
 
             default:
-                return entry->property(propertiesList[column].toStdString().c_str());
+                return entry->property(propertiesList[column].toUtf8());
             }
         }
         case Qt::DecorationRole:
             if (index.column() == 0) {
-                return *m_entryIcons.value(entry->property("fullPath").toString());
+                const Archive::Entry *e = static_cast<Archive::Entry*>(index.internalPointer());
+                QIcon::Mode mode = (filesToMove.contains(e->fullPath())) ? QIcon::Disabled : QIcon::Normal;
+                return m_entryIcons.value(e->fullPath(true)).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small), mode);
             }
             return QVariant();
         case Qt::FontRole: {
@@ -448,9 +451,6 @@ QMimeData *ArchiveModel::mimeData(const QModelIndexList &indexes) const
 bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent)
 {
     Q_UNUSED(action)
-    Q_UNUSED(row)
-    Q_UNUSED(column)
-    Q_UNUSED(parent)
 
     if (!data->hasUrls()) {
         return false;
@@ -461,26 +461,16 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
         paths << url.toLocalFile();
     }
 
-    //for now, this code is not used because adding files to paths inside the
-    //archive is not supported yet. need a solution for this later.
-    QString path;
-#if 0
-    if (parent.isValid()) {
-        QModelIndex droppedOnto = index(row, column, parent);
-        Archive::Entry *entry = entryForIndex(droppedOnto);
-        if (entry->isDir()) {
-            qCDebug(ARK) << "Using entry";
-            path = entry->fileName.toString();
-        } else {
-            path = entryForIndex(parent)->fileName.toString();
+    const Archive::Entry *entry = Q_NULLPTR;
+    QModelIndex droppedOnto = index(row, column, parent);
+    if (droppedOnto.isValid()) {
+        entry = entryForIndex(droppedOnto);
+        if (!entry->isDir()) {
+            entry = entry->getParent();
         }
     }
 
-    qCDebug(ARK) << "Dropped onto " << path;
-
-#endif
-
-    emit droppedFiles(paths, path);
+    emit droppedFiles(paths, entry, QString());
 
     return true;
 }
@@ -504,7 +494,7 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
 
 Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
 {
-    QStringList pieces = entry->property("fullPath").toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+    QStringList pieces = entry->fullPath().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
     if (pieces.isEmpty()) {
         return Q_NULLPTR;
     }
@@ -543,13 +533,13 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
 
             entry->setProperty("fullPath", (parent == &m_rootEntry)
                                            ? piece
-                                           : parent->property("fullPath").toString() + QLatin1Char( '/' ) + piece);
+                                           : parent->fullPath(true) + QLatin1Char('/') + piece);
             entry->setProperty("isDirectory", true);
             insertEntry(entry);
         }
         if (!entry->isDir()) {
             Archive::Entry *e = new Archive::Entry(parent);
-            copyEntryMetaData(e, entry);
+            e->copyMetaData(entry);
             // Maybe we have both a file and a directory of the same name.
             // We avoid removing previous entries unless necessary.
             insertEntry(e);
@@ -588,7 +578,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         Q_UNUSED(index);
 
         beginRemoveRows(indexForEntry(parent), entry->row(), entry->row());
-        delete m_entryIcons.take(parent->entries().at(entry->row())->property("fullPath").toString());
+        m_entryIcons.remove(parent->entries().at(entry->row())->fullPath(true));
         parent->removeEntryAt(entry->row());
         endRemoveRows();
     }
@@ -615,7 +605,7 @@ void ArchiveModel::slotNewEntry(Archive::Entry *entry)
 
 void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behaviour)
 {
-    if (receivedEntry->property("fullPath").toString().isEmpty()) {
+    if (receivedEntry->fullPath().isEmpty()) {
         qCDebug(ARK) << "Weird, received empty entry (no filename) - skipping";
         return;
     }
@@ -627,7 +617,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
 
         QMap<int, QString>::const_iterator i = propertiesList.begin();
         while (i != propertiesList.end()) {
-            if (!receivedEntry->property(i.value().toStdString().c_str()).toString().isEmpty()) {
+            if (!receivedEntry->property(i.value().toUtf8()).toString().isEmpty()) {
                 if (i.key() != CompressedSize || receivedEntry->compressedSizeIsSet) {
                     toInsert << i.key();
                 }
@@ -644,7 +634,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     //#194241: Filenames such as "./file" should be displayed as "file"
     //#241967: Entries called "/" should be ignored
     //#355839: Entries called "//" should be ignored
-    QString entryFileName = cleanFileName(receivedEntry->property("fullPath").toString());
+    QString entryFileName = cleanFileName(receivedEntry->fullPath());
     if (entryFileName.isEmpty()) { // The entry contains only "." or "./"
         return;
     }
@@ -671,7 +661,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     const QString name = path.last();
     Archive::Entry *entry = parent->find(name);
     if (entry) {
-        copyEntryMetaData(entry, receivedEntry);
+        entry->copyMetaData(receivedEntry);
         entry->setProperty("fullPath", entryFileName);
         delete receivedEntry;
     } else {
@@ -696,25 +686,6 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
     emit loadingFinished(job);
 }
 
-void ArchiveModel::copyEntryMetaData(Archive::Entry *destinationEntry, const Archive::Entry *sourceEntry)
-{
-    destinationEntry->setProperty("fullPath", sourceEntry->property("fullPath"));
-    destinationEntry->setProperty("permissions", sourceEntry->property("permissions"));
-    destinationEntry->setProperty("owner", sourceEntry->property("owner"));
-    destinationEntry->setProperty("group", sourceEntry->property("group"));
-    destinationEntry->setProperty("size", sourceEntry->property("size"));
-    destinationEntry->setProperty("compressedSize", sourceEntry->property("compressedSize"));
-    destinationEntry->setProperty("link", sourceEntry->property("link"));
-    destinationEntry->setProperty("ratio", sourceEntry->property("ratio"));
-    destinationEntry->setProperty("CRC", sourceEntry->property("CRC"));
-    destinationEntry->setProperty("method", sourceEntry->property("method"));
-    destinationEntry->setProperty("version", sourceEntry->property("version"));
-    destinationEntry->setProperty("timestamp", sourceEntry->property("timestamp").toDateTime());
-    destinationEntry->setProperty("isDirectory", sourceEntry->property("isDirectory"));
-    destinationEntry->setProperty("comment", sourceEntry->property("comment"));
-    destinationEntry->setProperty("isPasswordProtected", sourceEntry->property("isPasswordProtected"));
-}
-
 void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)
 {
     Q_ASSERT(entry);
@@ -730,15 +701,15 @@ void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)
 
     // Save an icon for each newly added entry.
     QMimeDatabase db;
-    const QPixmap *pixmap;
+    QIcon icon;
     if (entry->isDir()) {
-        pixmap = new QPixmap(QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                                           IconSize(KIconLoader::Small)));
+        icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                                         IconSize(KIconLoader::Small));
     } else {
-        pixmap = new QPixmap(QIcon::fromTheme(db.mimeTypeForFile(entry->property("fullPath").toString()).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                    IconSize(KIconLoader::Small)));
+        icon = QIcon::fromTheme(db.mimeTypeForFile(entry->fullPath()).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                         IconSize(KIconLoader::Small));
     }
-    m_entryIcons.insert(entry->property("fullPath").toString(), pixmap);
+    m_entryIcons.insert(entry->fullPath(true), icon);
 }
 
 Kerfuffle::Archive* ArchiveModel::archive() const
@@ -785,7 +756,7 @@ ExtractJob* ArchiveModel::extractFile(Archive::Entry *file, const QString& desti
 ExtractJob* ArchiveModel::extractFiles(const QList<Archive::Entry*>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
 {
     Q_ASSERT(m_archive);
-    ExtractJob *newJob = m_archive->copyFiles(files, destinationDir, options);
+    ExtractJob *newJob = m_archive->extractFiles(files, destinationDir, options);
     connect(newJob, &ExtractJob::userQuery, this, &ArchiveModel::slotUserQuery);
     return newJob;
 }
@@ -814,16 +785,51 @@ OpenWithJob *ArchiveModel::openWith(Archive::Entry *file) const
     return job;
 }
 
-AddJob* ArchiveModel::addFiles(QList<Archive::Entry*> &entries, const CompressionOptions& options)
+AddJob* ArchiveModel::addFiles(QList<Archive::Entry*> &entries, const Archive::Entry *destination, const CompressionOptions& options)
 {
     if (!m_archive) {
         return Q_NULLPTR;
     }
 
     if (!m_archive->isReadOnly()) {
-        AddJob *job = m_archive->addFiles(entries, options);
+        AddJob *job = m_archive->addFiles(entries, destination, options);
         connect(job, &AddJob::newEntry, this, &ArchiveModel::slotNewEntry);
         connect(job, &AddJob::userQuery, this, &ArchiveModel::slotUserQuery);
+
+
+        return job;
+    }
+    return Q_NULLPTR;
+}
+
+Kerfuffle::MoveJob *ArchiveModel::moveFiles(QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options)
+{
+    if (!m_archive) {
+        return Q_NULLPTR;
+    }
+
+    if (!m_archive->isReadOnly()) {
+        MoveJob *job = m_archive->moveFiles(entries, destination, options);
+        connect(job, &MoveJob::newEntry, this, &ArchiveModel::slotNewEntry);
+        connect(job, &MoveJob::userQuery, this, &ArchiveModel::slotUserQuery);
+        connect(job, &MoveJob::entryRemoved, this, &ArchiveModel::slotEntryRemoved);
+        connect(job, &MoveJob::finished, this, &ArchiveModel::slotCleanupEmptyDirs);
+
+
+        return job;
+    }
+    return Q_NULLPTR;
+}
+Kerfuffle::CopyJob *ArchiveModel::copyFiles(QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options)
+{
+    if (!m_archive) {
+        return Q_NULLPTR;
+    }
+
+    if (!m_archive->isReadOnly()) {
+        CopyJob *job = m_archive->copyFiles(entries, destination, options);
+        connect(job, &CopyJob::newEntry, this, &ArchiveModel::slotNewEntry);
+        connect(job, &CopyJob::userQuery, this, &ArchiveModel::slotUserQuery);
 
 
         return job;
@@ -855,6 +861,95 @@ void ArchiveModel::encryptArchive(const QString &password, bool encryptHeader)
     m_archive->encrypt(password, encryptHeader);
 }
 
+bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingEntries, const QStringList &entries, bool allowMerging) const
+{
+    bool error = false;
+
+    // We can't accept destination as an argument, because it can be a new entry path for renaming.
+    const Archive::Entry *destination;
+    {
+        QStringList destinationParts = entries.first().split(QLatin1Char('/'), QString::SkipEmptyParts);
+        destinationParts.removeLast();
+        if (destinationParts.count() > 0) {
+            destination = m_rootEntry.findByPath(destinationParts);
+        }
+        else {
+            destination = &m_rootEntry;
+        }
+    }
+    const Archive::Entry *lastDirEntry = destination;
+    QString skippedDirPath;
+
+    foreach (const QString &entry, entries) {
+        if (skippedDirPath.count() > 0 && entry.startsWith(skippedDirPath)) {
+            continue;
+        }
+        else {
+            skippedDirPath.clear();
+        }
+
+        while (!entry.startsWith(lastDirEntry->fullPath())) {
+            lastDirEntry = lastDirEntry->getParent();
+        }
+
+        bool isDir = entry.right(1) == QLatin1String("/");
+        const Archive::Entry *archiveEntry = lastDirEntry->find(entry.split(QLatin1Char('/'), QString::SkipEmptyParts).last());
+
+        if (archiveEntry != Q_NULLPTR) {
+            if (archiveEntry->isDir() != isDir || !allowMerging) {
+                if (isDir) {
+                    skippedDirPath = lastDirEntry->fullPath();
+                }
+
+                if (!error) {
+                    conflictingEntries.clear();
+                    error = true;
+                }
+                conflictingEntries << archiveEntry;
+            }
+            else {
+                if (isDir) {
+                    lastDirEntry = archiveEntry;
+                }
+                else if (!error) {
+                    conflictingEntries << archiveEntry;
+                }
+            }
+        }
+        else if (isDir) {
+            skippedDirPath = entry;
+        }
+    }
+
+    return error;
+}
+
+bool ArchiveModel::hasDuplicatedEntries(const QStringList &entries)
+{
+    QStringList tempList;
+    foreach (const QString &entry, entries) {
+        if (tempList.contains(entry)) {
+            return true;
+        }
+        tempList << entry;
+    }
+    return false;
+}
+
+QMap<QString, Archive::Entry*> ArchiveModel::entryMap(const QList<Archive::Entry*> &entries)
+{
+    QMap<QString, Archive::Entry*> map;
+    foreach (Archive::Entry *entry, entries) {
+        map.insert(entry->fullPath(), entry);
+    }
+    return map;
+}
+
+const QHash<QString, QIcon> ArchiveModel::entryIcons() const
+{
+    return m_entryIcons;
+}
+
 void ArchiveModel::slotCleanupEmptyDirs()
 {
     QList<QPersistentModelIndex> queue;
@@ -871,7 +966,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         Archive::Entry *entry = entryForIndex(node);
 
         if (!hasChildren(node)) {
-            if (entry->property("fullPath").toString().isEmpty()) {
+            if (entry->fullPath().isEmpty()) {
                 nodesToDelete << node;
             }
         } else {
@@ -885,7 +980,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         Archive::Entry *rawEntry = static_cast<Archive::Entry*>(node.internalPointer());
         qCDebug(ARK) << "Delete with parent entries " << rawEntry->getParent()->entries() << " and row " << rawEntry->row();
         beginRemoveRows(parent(node), rawEntry->row(), rawEntry->row());
-        delete m_entryIcons.take(rawEntry->getParent()->entries().at(rawEntry->row())->property("fullPath").toString());
+        m_entryIcons.remove(rawEntry->getParent()->entries().at(rawEntry->row())->fullPath(true));
         rawEntry->getParent()->removeEntryAt(rawEntry->row());
         endRemoveRows();
     }

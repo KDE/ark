@@ -64,12 +64,12 @@ bool JSONArchiveInterface::open()
     return !m_archive.isEmpty();
 }
 
-bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry*> &files, const Kerfuffle::CompressionOptions& options)
+bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry*>& files, const Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options)
 {
     Q_UNUSED(options)
 
     foreach (const Kerfuffle::Archive::Entry *entry, files) {
-        const QString &path = entry->property("fullPath").toString();
+        const QString &path = destination->fullPath() + entry->fullPath();
         if (m_archive.contains(path)) {
             return false;
         }
@@ -83,7 +83,25 @@ bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry*> &fil
     return true;
 }
 
-bool JSONArchiveInterface::copyFiles(const QList<Kerfuffle::Archive::Entry*>& files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options)
+bool JSONArchiveInterface::moveFiles(const QList<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::ExtractionOptions& options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(options)
+
+    return true;
+}
+
+bool JSONArchiveInterface::copyFiles(const QList<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(options)
+
+    return false;
+}
+
+bool JSONArchiveInterface::extractFiles(const QList<Kerfuffle::Archive::Entry*>& files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions& options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destinationDirectory)
@@ -95,7 +113,7 @@ bool JSONArchiveInterface::copyFiles(const QList<Kerfuffle::Archive::Entry*>& fi
 bool JSONArchiveInterface::deleteFiles(const QList<Kerfuffle::Archive::Entry*>& files)
 {
     foreach (const Kerfuffle::Archive::Entry *file, files) {
-        const QString &fileName = file->property("fullPath").toString();
+        const QString &fileName = file->fullPath();
         if (m_archive.contains(fileName)) {
             m_archive.remove(fileName);
             emit entryRemoved(fileName);

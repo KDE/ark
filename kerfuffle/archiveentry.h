@@ -1,6 +1,27 @@
-//
-// Created by mvlabat on 5/27/16.
-//
+/*
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES ( INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION ) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * ( INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #ifndef ARK_ENTRY_H
 #define ARK_ENTRY_H
@@ -52,6 +73,8 @@ public:
     explicit Entry(QObject *parent = Q_NULLPTR, QString fullPath = QString(), QString rootNode = QString());
     ~Entry();
 
+    void copyMetaData(const Archive::Entry *sourceEntry);
+
     QVector<Entry*> entries();
     const QVector<Entry*> entries() const;
     void setEntryAt(int index, Entry *value);
@@ -60,13 +83,14 @@ public:
     Entry *getParent() const;
     void setParent(Entry *parent);
     void setFullPath(const QString &fullPath);
-    void setIsDirectory(const bool isDirectory);
-    int row() const;
-    bool isDir() const;
+    QString fullPath(bool withoutTrailingSlash = false) const;
     QString name() const;
-    Entry *find(const QString & name);
-    Entry *findByPath(const QStringList & pieces, int index = 0);
-    void returnDirEntries(QList<Entry *> *store);
+    void setIsDirectory(const bool isDirectory);
+    bool isDir() const;
+    int row() const;
+    Entry *find(const QString &name) const;
+    Entry *findByPath(const QStringList & pieces, int index = 0) const;
+    void returnDirEntries(QList<Entry*> *store);
     void clear();
 
     bool operator==(const Archive::Entry &right) const;
@@ -81,6 +105,7 @@ private:
     Entry           *m_parent;
 
     QString m_fullPath;
+    QString m_fullPathWithoutTrailingSlash;
     QString m_permissions;
     QString m_owner;
     QString m_group;

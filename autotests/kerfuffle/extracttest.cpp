@@ -33,7 +33,7 @@
 
 using namespace Kerfuffle;
 
-class ArchiveTest : public QObject
+class ExtractTest : public QObject
 {
     Q_OBJECT
 
@@ -42,12 +42,11 @@ private Q_SLOTS:
     void testProperties();
     void testExtraction_data();
     void testExtraction();
-    void testCreateEncryptedArchive();
 };
 
-QTEST_GUILESS_MAIN(ArchiveTest)
+QTEST_GUILESS_MAIN(ExtractTest)
 
-void ArchiveTest::testProperties_data()
+void ExtractTest::testProperties_data()
 {
     QTest::addColumn<QString>("archivePath");
     QTest::addColumn<QString>("expectedBaseName");
@@ -173,7 +172,7 @@ void ArchiveTest::testProperties_data()
             << QStringLiteral("test");
 }
 
-void ArchiveTest::testProperties()
+void ExtractTest::testProperties()
 {
     QFETCH(QString, archivePath);
     Archive *archive = Archive::create(archivePath, this);
@@ -210,7 +209,7 @@ void ArchiveTest::testProperties()
     archive->deleteLater();
 }
 
-void ArchiveTest::testExtraction_data()
+void ExtractTest::testExtraction_data()
 {
     QTest::addColumn<QString>("archivePath");
     QTest::addColumn<QList<Archive::Entry*>>("entriesToExtract");
@@ -512,7 +511,7 @@ void ArchiveTest::testExtraction_data()
             << 6;
 }
 
-void ArchiveTest::testExtraction()
+void ExtractTest::testExtraction()
 {
     QFETCH(QString, archivePath);
     Archive *archive = Archive::create(archivePath, this);
@@ -529,7 +528,7 @@ void ArchiveTest::testExtraction()
 
     QFETCH(QList<Archive::Entry*>, entriesToExtract);
     QFETCH(ExtractionOptions, extractionOptions);
-    auto extractionJob = archive->copyFiles(entriesToExtract, destDir.path(), extractionOptions);
+    auto extractionJob = archive->extractFiles(entriesToExtract, destDir.path(), extractionOptions);
 
     QEventLoop eventLoop(this);
     connect(extractionJob, &KJob::result, &eventLoop, &QEventLoop::quit);
@@ -550,21 +549,4 @@ void ArchiveTest::testExtraction()
     archive->deleteLater();
 }
 
-void ArchiveTest::testCreateEncryptedArchive()
-{
-    Archive *archive = Archive::create(QStringLiteral("foo.zip"));
-    QVERIFY(archive);
-
-    if (!archive->isValid()) {
-        QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
-    }
-
-    QCOMPARE(archive->encryptionType(), Archive::Unencrypted);
-
-    archive->encrypt(QStringLiteral("1234"), false);
-    QCOMPARE(archive->encryptionType(), Archive::Encrypted);
-
-    archive->deleteLater();
-}
-
-#include "archivetest.moc"
+#include "extracttest.moc"

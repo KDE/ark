@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2010-2011,2014 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -59,18 +60,6 @@ void CliPlugin::resetParsing()
     m_comment.clear();
 }
 
-// #272281: the proprietary unrar program does not like trailing '/'s
-//          in directories passed to it when extracting only part of
-//          the files in an archive.
-QString CliPlugin::escapeFileName(const QString &fileName) const
-{
-    if (fileName.endsWith(QLatin1Char('/'))) {
-        return fileName.left(fileName.length() - 1);
-    }
-
-    return fileName;
-}
-
 ParameterList CliPlugin::parameterList() const
 {
     static ParameterList p;
@@ -78,7 +67,7 @@ ParameterList CliPlugin::parameterList() const
     if (p.isEmpty()) {
         p[CaptureProgress] = true;
         p[ListProgram] = p[ExtractProgram] = p[TestProgram] = QStringList() << QStringLiteral( "unrar" );
-        p[DeleteProgram] = p[AddProgram] = QStringList() << QStringLiteral( "rar" );
+        p[DeleteProgram] = p[MoveProgram] = p[AddProgram] = QStringList() << QStringLiteral( "rar" );
 
         p[ListArgs] = QStringList() << QStringLiteral("vt")
                                     << QStringLiteral("-v")
@@ -113,6 +102,10 @@ ParameterList CliPlugin::parameterList() const
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$CompressionLevelSwitch")
                                    << QStringLiteral( "$Files" );
+        p[MoveArgs] = QStringList() << QStringLiteral( "rn" )
+                                    << QStringLiteral( "$PasswordSwitch" )
+                                    << QStringLiteral( "$Archive" )
+                                    << QStringLiteral( "$PathPairs" );
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
         p[WrongPasswordPatterns] = QStringList() << QStringLiteral("password incorrect") << QStringLiteral("wrong password");
         p[ExtractionFailedPatterns] = QStringList() << QStringLiteral( "CRC failed" )

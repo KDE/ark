@@ -29,6 +29,8 @@
 
 #include "cliplugin.h"
 #include "pluginmanager.h"
+#include "autotests/testhelper/testhelper.h"
+#include "kerfuffle/jobs.h"
 
 using namespace Kerfuffle;
 

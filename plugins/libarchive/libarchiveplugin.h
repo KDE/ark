@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -41,23 +42,21 @@ class LibarchivePlugin : public ReadWriteArchiveInterface
     Q_OBJECT
 
 public:
-    explicit LibarchivePlugin(QObject *parent, const QVariantList& args);
+    explicit LibarchivePlugin(QObject *parent, const QVariantList &args);
     virtual ~LibarchivePlugin();
 
     virtual bool list() Q_DECL_OVERRIDE;
     virtual bool doKill() Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QList<Archive::Entry*>& files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) Q_DECL_OVERRIDE;
 
-    virtual bool addFiles(const QList<Archive::Entry*>& files, const CompressionOptions& options) Q_DECL_OVERRIDE;
-    virtual bool deleteFiles(const QList<Archive::Entry*>& files) Q_DECL_OVERRIDE;
-    virtual bool addComment(const QString& comment) Q_DECL_OVERRIDE;
+    virtual bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
+    virtual bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
+    virtual bool copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
+    virtual bool deleteFiles(const QList<Archive::Entry*> &files) Q_DECL_OVERRIDE;
+    virtual bool addComment(const QString &comment) Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
 
 protected:
-    void emitEntryFromArchiveEntry(struct archive_entry *entry);
-    void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
-    void copyData(const QString& filename, struct archive *source, struct archive *dest, bool partialprogress = true);
-
     struct ArchiveReadCustomDeleter
     {
         static inline void cleanup(struct archive *a)
@@ -81,6 +80,12 @@ protected:
     typedef QScopedPointer<struct archive, ArchiveReadCustomDeleter> ArchiveRead;
     typedef QScopedPointer<struct archive, ArchiveWriteCustomDeleter> ArchiveWrite;
 
+    bool initializeReader();
+    void emitEntryFromArchiveEntry(struct archive_entry *entry);
+    void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
+    void copyData(const QString& filename, struct archive *source, struct archive *dest, bool partialprogress = true);
+
+    ArchiveRead m_archiveReader;
     ArchiveRead m_archiveReadDisk;
     bool m_abortOperation;
 

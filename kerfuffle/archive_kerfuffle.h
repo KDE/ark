@@ -2,6 +2,7 @@
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (c) 2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -45,6 +46,8 @@ class ListJob;
 class ExtractJob;
 class DeleteJob;
 class AddJob;
+class MoveJob;
+class CopyJob;
 class CommentJob;
 class TestJob;
 class OpenJob;
@@ -111,6 +114,8 @@ public:
     qulonglong unpackedSize();
     qulonglong packedSize() const;
     QString subfolderName();
+    void setCompressionOptions(const CompressionOptions &opts);
+    CompressionOptions compressionOptions() const;
 
     static Archive *create(const QString &fileName, QObject *parent = 0);
     static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
@@ -144,16 +149,31 @@ public:
      *
      * GlobalWorkDir - Change to this dir before adding the new files.
      * The path names should then be added relative to this directory.
-     *
-     * TODO: find a way to actually add files to specific locations in
-     * the archive
-     * (not supported yet) GlobalPathInArchive - a path relative to the
-     * archive root where the files will be added under
-     *
      */
-    AddJob* addFiles(QList<Archive::Entry*> &files, const CompressionOptions& options = CompressionOptions());
+    AddJob* addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
 
-    ExtractJob* copyFiles(const QList<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
+    /**
+     * Renames or moves entries within the archive.
+     *
+     * @param files All the renamed or moved files and their child entries (for renaming a directory too).
+     * @param destination New entry name (for renaming) or destination folder (for moving).
+     * If ReadOnlyArchiveInterface::entriesWithoutChildren(files).count() returns 1, then it's renaming,
+     * so you must specify the resulted entry name, even if it's not going to be changed.
+     * Otherwise (if count is more than 1) it's moving, so destination must conatin only targeted folder path
+     * or be empty, if moving to the root.
+     */
+    MoveJob* moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
+
+    /**
+     * Copies entries within the archive.
+     *
+     * @param files All the renamed or moved files and their child entries (for renaming a directory too).
+     * @param destination Destination path. It must conatin only targeted folder path or be empty,
+     * if copying to the root.
+     */
+    CopyJob* copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
+
+    ExtractJob* extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
 
     PreviewJob* preview(Archive::Entry *entry);
     OpenJob* open(Archive::Entry *entry);
@@ -186,6 +206,7 @@ private:
     ArchiveError m_error;
     EncryptionType m_encryptionType;
     qulonglong m_numberOfFiles;
+    CompressionOptions m_compOptions;
     QMimeType m_mimeType;
 };
 

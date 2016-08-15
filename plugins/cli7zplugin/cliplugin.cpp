@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -61,7 +62,7 @@ ParameterList CliPlugin::parameterList() const
 
     if (p.isEmpty()) {
         //p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[AddProgram] = p[TestProgram] = QStringList() << QStringLiteral("7z");
+        p[ListProgram] = p[ExtractProgram] = p[DeleteProgram] = p[MoveProgram] = p[AddProgram] = p[TestProgram] = QStringList() << QStringLiteral("7z");
         p[ListArgs] = QStringList() << QStringLiteral("l")
                                     << QStringLiteral("-slt")
                                     << QStringLiteral("$PasswordSwitch")
@@ -77,10 +78,15 @@ ParameterList CliPlugin::parameterList() const
         p[WrongPasswordPatterns] = QStringList() << QStringLiteral("Wrong password");
         p[CompressionLevelSwitch] = QStringLiteral("-mx=$CompressionLevel");
         p[AddArgs] = QStringList() << QStringLiteral("a")
+                                   << QStringLiteral("-l")
                                    << QStringLiteral("$Archive")
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$CompressionLevelSwitch")
                                    << QStringLiteral("$Files");
+        p[MoveArgs] = QStringList() << QStringLiteral("rn")
+                                    << QStringLiteral("$PasswordSwitch")
+                                    << QStringLiteral("$Archive")
+                                    << QStringLiteral("$PathPairs");
         p[DeleteArgs] = QStringList() << QStringLiteral("d")
                                       << QStringLiteral("$PasswordSwitch")
                                       << QStringLiteral("$Archive")
@@ -214,7 +220,7 @@ bool CliPlugin::readListLine(const QString& line)
             m_currentArchiveEntry->setProperty("isDirectory", isDirectory);
             if (isDirectory) {
                 const QString directoryName =
-                    m_currentArchiveEntry->property("fullPath").toString();
+                    m_currentArchiveEntry->fullPath();
                 if (!directoryName.endsWith(QLatin1Char('/'))) {
                     const bool isPasswordProtected = (line.at(12) == QLatin1Char('+'));
                     m_currentArchiveEntry->setProperty("fullPath", QString(directoryName + QLatin1Char('/')));
@@ -233,7 +239,7 @@ bool CliPlugin::readListLine(const QString& line)
         } else if (line.startsWith(QStringLiteral("Block = ")) ||
                    line.startsWith(QStringLiteral("Version = "))) {
             m_isFirstInformationEntry = true;
-            if (!m_currentArchiveEntry->property("fullPath").toString().isEmpty()) {
+            if (!m_currentArchiveEntry->fullPath().isEmpty()) {
                 emit entry(m_currentArchiveEntry);
             }
             else {

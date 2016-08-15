@@ -2,6 +2,7 @@
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (c) 2009-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -316,7 +317,7 @@ DeleteJob* Archive::deleteFiles(QList<Archive::Entry*> &entries)
     return newJob;
 }
 
-AddJob* Archive::addFiles(QList<Archive::Entry*> &files, const CompressionOptions& options)
+AddJob* Archive::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
 {
     if (!isValid()) {
         return Q_NULLPTR;
@@ -330,12 +331,48 @@ AddJob* Archive::addFiles(QList<Archive::Entry*> &files, const CompressionOption
     qCDebug(ARK) << "Going to add files" << files << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
 
-    AddJob *newJob = new AddJob(files, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    AddJob *newJob = new AddJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
     connect(newJob, &AddJob::result, this, &Archive::onAddFinished);
     return newJob;
 }
 
-ExtractJob* Archive::copyFiles(const QList<Archive::Entry*> &files, const QString& destinationDir, const ExtractionOptions& options)
+MoveJob* Archive::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    CompressionOptions newOptions = options;
+    if (encryptionType() != Unencrypted) {
+        newOptions[QStringLiteral("PasswordProtectedHint")] = true;
+    }
+
+    qCDebug(ARK) << "Going to move files" << files << "with options" << newOptions;
+    Q_ASSERT(!m_iface->isReadOnly());
+
+    MoveJob *newJob = new MoveJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    return newJob;
+}
+
+CopyJob* Archive::copyFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    CompressionOptions newOptions = options;
+    if (encryptionType() != Unencrypted) {
+        newOptions[QStringLiteral("PasswordProtectedHint")] = true;
+    }
+
+    qCDebug(ARK) << "Going to copy files" << files << "with options" << newOptions;
+    Q_ASSERT(!m_iface->isReadOnly());
+
+    CopyJob *newJob = new CopyJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    return newJob;
+}
+
+ExtractJob* Archive::extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options)
 {
     if (!isValid()) {
         return Q_NULLPTR;
@@ -443,6 +480,16 @@ void Archive::listIfNotListed()
 void Archive::onUserQuery(Query* query)
 {
     query->execute();
+}
+
+void Archive::setCompressionOptions(const CompressionOptions &opts)
+{
+    m_compOptions = opts;
+}
+
+CompressionOptions Archive::compressionOptions() const
+{
+    return m_compOptions;
 }
 
 } // namespace Kerfuffle

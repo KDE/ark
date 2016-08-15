@@ -8,6 +8,8 @@ set(kerfuffle_SRCS
     previewsettingspage.cpp
     settingspage.cpp
     jobs.cpp
+    adddialog.cpp
+    compressionoptionswidget.cpp
     createdialog.cpp
     extractiondialog.cpp
     propertiesdialog.cpp
@@ -29,6 +31,7 @@ ki18n_wrap_ui(kerfuffle_SRCS
     extractionsettings.ui
     previewsettings.ui
     propertiesdialog.ui
+    compressionoptionswidget.ui
 )
 
 ecm_qt_declare_logging_category(kerfuffle_SRCS

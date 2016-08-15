@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv (at@at) stud.ntnu.no>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,6 +24,7 @@
 #define ARCHIVEVIEW_H
 
 #include <QTreeView>
+#include <QtWidgets/QLineEdit>
 
 class ArchiveView : public QTreeView
 {
@@ -36,6 +38,21 @@ public:
     virtual void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
 
     void setModel(QAbstractItemModel *model) Q_DECL_OVERRIDE;
+
+    void openEntryEditor(QModelIndex index);
+
+protected:
+    virtual bool eventFilter(QObject *object, QEvent *event) Q_DECL_OVERRIDE;
+    virtual void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+
+signals:
+    void entryChanged(QString name);
+
+private:
+    void closeEntryEditor();
+    QModelIndex m_editorIndex;
+    QLineEdit *m_entryEditor;
 };
 
 #endif /* ARCHIVEVIEW_H */

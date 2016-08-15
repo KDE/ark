@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -73,7 +74,9 @@ public:
     Kerfuffle::OpenJob* open(Archive::Entry *file) const;
     Kerfuffle::OpenWithJob* openWith(Archive::Entry *file) const;
 
-    Kerfuffle::AddJob* addFiles(QList<Archive::Entry*> &entries, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::AddJob* addFiles(QList<Archive::Entry*> &entries, const Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::MoveJob* moveFiles(QList<Archive::Entry*> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::CopyJob* copyFiles(QList<Archive::Entry*> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
     Kerfuffle::DeleteJob* deleteFiles(QList<Archive::Entry*> entries);
 
     /**
@@ -82,12 +85,37 @@ public:
      */
     void encryptArchive(const QString &password, bool encryptHeader);
 
+    /**
+     * Constructs a list of conflicting entries.
+     *
+     * @param conflictingEntries Reference to the empty mutable entries list, which will be constructed.
+     * If the method returns false, this list will contain only entries which produce a critical conflict.
+     * @param entries New entries paths list.
+     * @param allowMerging Boolean variable indicating whether merging is permitted.
+     * If true, existing entries won't generate an error.
+     *
+     * @return Boolean variable indicating whether conflicts are not critical (true for not critical,
+     * false for critical). For example, if there are both "some/file" (not a directory) and "some/file/" (a directory)
+     * entries for both new and existing paths, the method will return false. Also, if merging is not allowed,
+     * this method will return false for entries with the same path and types.
+     */
+    bool conflictingEntries(QList<const Archive::Entry*> &conflictingEntries, const QStringList &entries, bool allowMerging) const;
+
+    static bool hasDuplicatedEntries(const QStringList &entries);
+
+    static QMap<QString, Archive::Entry*> entryMap(const QList<Archive::Entry*> &entries);
+
+    const QHash<QString, QIcon> entryIcons() const;
+
+    QMap<QString, Kerfuffle::Archive::Entry*> filesToMove;
+    QMap<QString, Kerfuffle::Archive::Entry*> filesToCopy;
+
 signals:
     void loadingStarted();
     void loadingFinished(KJob *);
     void extractionFinished(bool success);
     void error(const QString& error, const QString& details);
-    void droppedFiles(const QStringList& files, const QString& path = QString());
+    void droppedFiles(const QStringList& files, const Archive::Entry*, const QString&);
 
 private slots:
     void slotNewEntryFromSetArchive(Archive::Entry *entry);
@@ -118,7 +146,6 @@ private:
      * of the change.
      */
     enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
-    void copyEntryMetaData(Archive::Entry *destinationEntry, const Archive::Entry *sourceEntry);
     void insertEntry(Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
     void newEntry(Kerfuffle::Archive::Entry *receivedEntry, InsertBehaviour behaviour);
 
@@ -126,7 +153,7 @@ private:
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
     Archive::Entry m_rootEntry;
-    QHash<QString, const QPixmap*> m_entryIcons;
+    QHash<QString, QIcon> m_entryIcons;
 
     QString m_dbusPathName;
 };

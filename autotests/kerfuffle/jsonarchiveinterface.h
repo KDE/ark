@@ -55,8 +55,10 @@ public:
     virtual bool list() Q_DECL_OVERRIDE;
     virtual bool open() Q_DECL_OVERRIDE;
 
-    virtual bool addFiles(const QList<Kerfuffle::Archive::Entry*>& files, const Kerfuffle::CompressionOptions& options) Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QList<Kerfuffle::Archive::Entry*>& files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool addFiles(const QList<Kerfuffle::Archive::Entry*>& files, const Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool moveFiles(const QList<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool copyFiles(const QList<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool extractFiles(const QList<Kerfuffle::Archive::Entry*>& files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions& options) Q_DECL_OVERRIDE;
     virtual bool deleteFiles(const QList<Kerfuffle::Archive::Entry*>& files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString& comment) Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;

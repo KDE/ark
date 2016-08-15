@@ -31,6 +31,7 @@
 #include <QTextStream>
 
 #include <KPluginLoader>
+#include <QtCore/QVariant>
 
 QTEST_GUILESS_MAIN(Cli7zTest)
 
@@ -163,7 +164,7 @@ void Cli7zTest::testList()
     Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry*>();
 
     QFETCH(QString, expectedName);
-    QCOMPARE(entry->property("fullPath").toString(), expectedName);
+    QCOMPARE(entry->fullPath(), expectedName);
 
     QFETCH(bool, isDirectory);
     QCOMPARE(entry->isDir(), isDirectory);
@@ -300,7 +301,7 @@ void Cli7zTest::testExtractArgs_data()
     QTest::newRow("preserve paths, encrypted")
             << QStringLiteral("/tmp/foo.7z")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QStringLiteral("1234")
@@ -308,28 +309,28 @@ void Cli7zTest::testExtractArgs_data()
                    QStringLiteral("x"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.7z"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("preserve paths, unencrypted")
             << QStringLiteral("/tmp/foo.7z")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QString()
             << QStringList {
                    QStringLiteral("x"),
                    QStringLiteral("/tmp/foo.7z"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, encrypted")
             << QStringLiteral("/tmp/foo.7z")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QStringLiteral("1234")
@@ -337,21 +338,21 @@ void Cli7zTest::testExtractArgs_data()
                    QStringLiteral("e"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.7z"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, unencrypted")
             << QStringLiteral("/tmp/foo.7z")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QString()
             << QStringList {
                    QStringLiteral("e"),
                    QStringLiteral("/tmp/foo.7z"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 }
@@ -371,7 +372,7 @@ void Cli7zTest::testExtractArgs()
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, preservePaths, password);
+    QStringList replacedArgs = plugin->substituteExtractVariables(extractArgs, files, preservePaths, password);
     QVERIFY(replacedArgs.size() >= extractArgs.size());
 
     QFETCH(QStringList, expectedArgs);

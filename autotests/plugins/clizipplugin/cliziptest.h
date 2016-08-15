@@ -27,7 +27,8 @@
 #define CLIZIPTEST_H
 
 #include "cliplugin.h"
-#include <QObject>
+#include "autotests/testhelper/testhelper.h"
+#include "kerfuffle/jobs.h"
 
 using namespace Kerfuffle;
 

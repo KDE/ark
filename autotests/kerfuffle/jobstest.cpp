@@ -209,7 +209,7 @@ void JobsTest::testListJob()
     QCOMPARE(archiveEntries.size(), expectedEntryNames.size());
 
     for (int i = 0; i < archiveEntries.size(); i++) {
-        QCOMPARE(archiveEntries.at(i)->property("fullPath").toString(), expectedEntryNames.at(i));
+        QCOMPARE(archiveEntries.at(i)->fullPath(), expectedEntryNames.at(i));
     }
 
     listJob->deleteLater();
@@ -317,7 +317,7 @@ void JobsTest::testRemoveEntries()
 
     QList<Archive::Entry*> expectedRemainingEntries;
     Q_FOREACH (Archive::Entry *entry, entries) {
-        if (!fullPathsToDelete.contains(entry->property("fullPath").toString())) {
+        if (!fullPathsToDelete.contains(entry->fullPath())) {
             expectedRemainingEntries.append(entry);
         }
     }
@@ -340,6 +340,7 @@ void JobsTest::testAddEntries_data()
     QTest::addColumn<QString>("jsonArchive");
     QTest::addColumn<QList<Archive::Entry*>>("originalEntries");
     QTest::addColumn<QList<Archive::Entry*>>("entriesToAdd");
+    QTest::addColumn<Archive::Entry*>("destinationEntry");
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
             << QList<Archive::Entry*> {
@@ -350,7 +351,8 @@ void JobsTest::testAddEntries_data()
             }
             << QList<Archive::Entry*> {
                 new Archive::Entry(this, QStringLiteral("foo.txt"))
-            };
+            }
+            << new Archive::Entry(this);
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
             << QList<Archive::Entry*> {
@@ -362,7 +364,31 @@ void JobsTest::testAddEntries_data()
             << QList<Archive::Entry*> {
                 new Archive::Entry(this, QStringLiteral("foo.txt")),
                 new Archive::Entry(this, QStringLiteral("bar.txt"))
-            };
+            }
+            << new Archive::Entry(this);
+
+    QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
+             << QList<Archive::Entry*> {
+                 new Archive::Entry(this, QStringLiteral("a.txt")),
+                 new Archive::Entry(this, QStringLiteral("aDir/")),
+                 new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                 new Archive::Entry(this, QStringLiteral("c.txt"))
+             }
+             << QList<Archive::Entry*> {
+                 new Archive::Entry(this, QStringLiteral("foo.txt")),
+                 new Archive::Entry(this, QStringLiteral("bar.txt"))
+             }
+             << new Archive::Entry(this, QStringLiteral("aDir/"));
+
+    QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
+             << QList<Archive::Entry*> {
+                 new Archive::Entry(this, QStringLiteral("a.txt")),
+                 new Archive::Entry(this, QStringLiteral("aDir/")),
+                 new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                 new Archive::Entry(this, QStringLiteral("c.txt"))
+             }
+             << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))}
+             << new Archive::Entry(this, QStringLiteral("aDir/"));
 
     // Error test: if we add an already existent entry, the archive must not change.
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
@@ -372,7 +398,8 @@ void JobsTest::testAddEntries_data()
                 new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
                 new Archive::Entry(this, QStringLiteral("c.txt"))
             }
-            << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))};
+            << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))}
+            << new Archive::Entry(this);
 }
 
 void JobsTest::testAddEntries()
@@ -383,26 +410,39 @@ void JobsTest::testAddEntries()
 
     QFETCH(QList<Archive::Entry*>, originalEntries);
     QStringList originalFullPaths = QStringList();
-    Q_FOREACH (Archive::Entry *entry, originalEntries) {
-        originalFullPaths.append(entry->property("fullPath").toString());
+    Q_FOREACH (const Archive::Entry *entry, originalEntries) {
+        originalFullPaths.append(entry->fullPath());
     }
     auto currentEntries = listEntries(iface);
     QCOMPARE(currentEntries.size(), originalEntries.size());
 
     QFETCH(QList<Archive::Entry*>, entriesToAdd);
-    AddJob *addJob = new AddJob(entriesToAdd, CompressionOptions(), iface);
+    QFETCH(Archive::Entry*, destinationEntry);
+    AddJob *addJob = new AddJob(entriesToAdd, destinationEntry, CompressionOptions(), iface);
     startAndWaitForResult(addJob);
 
-    currentEntries = listEntries(iface);
-
+    QStringList expectedAddedFullPaths = QStringList();
+    const QString destinationPath = destinationEntry->fullPath();
     int expectedEntriesCount = originalEntries.size();
-    Q_FOREACH (Archive::Entry *entry, entriesToAdd) {
-        if (!originalFullPaths.contains(entry->property("fullPath").toString())) {
+    Q_FOREACH (const Archive::Entry *entry, entriesToAdd) {
+        const QString fullPath = destinationPath + entry->fullPath();
+        if (!originalFullPaths.contains(fullPath)) {
             expectedEntriesCount++;
+            expectedAddedFullPaths << destinationPath + entry->fullPath();
         }
     }
 
+    currentEntries = listEntries(iface);
     QCOMPARE(currentEntries.size(), expectedEntriesCount);
+
+    QStringList currentFullPaths = QStringList();
+    Q_FOREACH (const Archive::Entry* entry, currentEntries) {
+        currentFullPaths << entry->fullPath();
+    }
+
+    Q_FOREACH (const QString fullPath, expectedAddedFullPaths) {
+        QVERIFY(currentFullPaths.contains(fullPath));
+    }
 
     iface->deleteLater();
 }

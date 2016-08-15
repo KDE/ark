@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,6 +32,7 @@
 #include "archiveinterface.h"
 #include "archiveentry.h"
 #include "kerfuffle_export.h"
+#include "part/archivemodel.h"
 
 #include <QProcess>
 #include <QRegularExpression>
@@ -237,6 +239,25 @@ enum CliInterfaceParameters {
      */
     AddArgs,
 
+    ///////////////[ MOVE ]/////////////
+
+    /**
+     * QStringList
+     * The names to the program that will handle adding in this
+     * archive format (eg "rar"). Will be searched for in PATH
+     */
+    MoveProgram,
+    /**
+     * QStringList
+     * The arguments that are passed to the program above for
+     * moving inside the archive. Special strings that will be
+     * substituted:
+     * $Archive - the path of the archive
+     * $Files - the files selected to be moved
+     * $Destinations - new path of each file selected to be moved
+     */
+    MoveArgs,
+
     ///////////////[ ENCRYPT ]/////////////
 
     /**
@@ -274,17 +295,18 @@ class KERFUFFLE_EXPORT CliInterface : public ReadWriteArchiveInterface
     Q_OBJECT
 
 public:
-    enum OperationMode  {
-        List, Copy, Add, Delete, Comment, Test
-    };
     OperationMode m_operationMode;
 
     explicit CliInterface(QObject *parent, const QVariantList & args);
     virtual ~CliInterface();
 
+    virtual int copyRequiredSignals() const;
+
     virtual bool list() Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QList<Archive::Entry*> &files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
-    virtual bool addFiles(const QList<Archive::Entry*> &files, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) Q_DECL_OVERRIDE;
+    virtual bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual bool deleteFiles(const QList<Archive::Entry*> &files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString &comment) Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
@@ -310,11 +332,17 @@ public:
     bool moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths);
 
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
-    QStringList substituteCopyVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password);
+    QStringList substituteExtractVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password);
     QStringList substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel);
+    QStringList substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination, const QString &password);
     QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QList<Archive::Entry*> &entries, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
     QStringList substituteTestVariables(const QStringList &testArgs);
+
+    /**
+     * @see ArchiveModel::entryPathsFromDestination
+     */
+    void setNewMovedFiles(const QList<Archive::Entry*> &entries, const Archive::Entry *destination, int entriesWithoutChildren);
 
     /**
      * @return The preserve path switch, according to the @p preservePaths extraction option.
@@ -339,10 +367,11 @@ public:
     /**
      * @return The list of selected files to extract.
      */
-    QStringList copyFilesList(const QList<Archive::Entry*> &files) const;
+    QStringList extractFilesList(const QList<Archive::Entry*> &files) const;
 
 protected:
 
+    bool setAddedFiles();
     virtual void handleLine(const QString& line);
     virtual void cacheParameterList();
 
@@ -368,8 +397,18 @@ protected:
      */
     bool passwordQuery();
 
+    void cleanUp();
+
+    QString m_oldWorkingDir;
     ParameterList m_param;
     int m_exitCode;
+    QTemporaryDir *m_tempExtractDir;
+    QTemporaryDir *m_tempAddDir;
+    OperationMode m_subOperation;
+    QList<Archive::Entry*> m_passedFiles;
+    QList<Archive::Entry*> m_tempAddedFiles;
+    Archive::Entry *m_passedDestination;
+    CompressionOptions m_passedOptions;
 
 protected slots:
     virtual void readStdout(bool handleAll = false);
@@ -405,6 +444,16 @@ private:
     virtual QString escapeFileName(const QString &fileName) const;
 
     /**
+     * Returns a list of path pairs which will be supplied to rn command.
+     * <src_file_1> <dest_file_1> [ <src_file_2> <dest_file_2> ... ]
+     * Also constructs a list of new entries resulted in moving.
+     *
+     * @param entriesWithoutChildren List of archive entries
+     * @param destination Must be a directory entry if QList contains more that one entry
+     */
+    QStringList entryPathDestinationPairs(const QList<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination);
+
+    /**
      * Wrapper around KProcess::write() or KPtyDevice::write(), depending on
      * the platform.
      */
@@ -417,7 +466,9 @@ private:
      */
     bool isEmptyDir(const QDir &dir);
 
-    void copyProcessCleanup();
+    void cleanUpExtracting();
+
+    void finishCopying(bool result);
 
     QByteArray m_stdOutData;
     QRegularExpression m_passwordPromptPattern;
@@ -430,20 +481,23 @@ private:
 #endif
 
     QList<Archive::Entry*> m_removedFiles;
+    QList<Archive::Entry*> m_newMovedFiles;
     bool m_listEmptyLines;
     bool m_abortingOperation;
     QString m_storedFileName;
 
     CompressionOptions m_compressionOptions;
-    QString m_oldWorkingDir;
     QString m_extractDestDir;
     QTemporaryDir *m_extractTempDir;
     QTemporaryFile *m_commentTempFile;
-    QList<Archive::Entry*> m_copiedFiles;
+    QList<Archive::Entry*> m_extractedFiles;
+
+protected slots:
+    virtual void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 private slots:
-    void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
-    void copyProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void extractProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void continueCopying(bool result);
 
 };
 }

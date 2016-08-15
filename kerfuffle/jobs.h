@@ -2,6 +2,7 @@
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (c) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -224,7 +225,7 @@ class KERFUFFLE_EXPORT AddJob : public Job
     Q_OBJECT
 
 public:
-    AddJob(QList<Archive::Entry*> &files, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+    AddJob(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
@@ -234,7 +235,56 @@ protected slots:
 
 private:
     QString m_oldWorkingDir;
-    QList<Archive::Entry*> m_entries;
+    const QList<Archive::Entry*> m_entries;
+    const Archive::Entry *m_destination;
+    CompressionOptions m_options;
+};
+
+/**
+ * This MoveJob can be used to rename or move entries withing the archive.
+ * @see Archive::moveFiles for more details.
+ */
+class KERFUFFLE_EXPORT MoveJob : public Job
+{
+Q_OBJECT
+
+public:
+    MoveJob(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+
+public slots:
+    virtual void doWork() Q_DECL_OVERRIDE;
+
+protected slots:
+    virtual void onFinished(bool result) Q_DECL_OVERRIDE;
+
+private:
+    int m_finishedSignalsCount;
+    const QList<Archive::Entry*> m_entries;
+    Archive::Entry *m_destination;
+    CompressionOptions m_options;
+};
+
+/**
+ * This CopyJob can be used to copy entries withing the archive.
+ * @see Archive::copyFiles for more details.
+ */
+class KERFUFFLE_EXPORT CopyJob : public Job
+{
+Q_OBJECT
+
+public:
+    CopyJob(const QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+
+public slots:
+    virtual void doWork() Q_DECL_OVERRIDE;
+
+protected slots:
+    virtual void onFinished(bool result) Q_DECL_OVERRIDE;
+
+private:
+    int m_finishedSignalsCount;
+    const QList<Archive::Entry*> m_entries;
+    Archive::Entry *m_destination;
     CompressionOptions m_options;
 };
 
@@ -243,7 +293,7 @@ class KERFUFFLE_EXPORT DeleteJob : public Job
     Q_OBJECT
 
 public:
-    DeleteJob(QList<Archive::Entry*> &files, ReadWriteArchiveInterface *interface);
+    DeleteJob(const QList<Archive::Entry*> &files, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;

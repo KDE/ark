@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,6 +32,7 @@
 
 #include <QDir>
 #include <QStringList>
+#include <QtCore/QSaveFile>
 
 using namespace Kerfuffle;
 
@@ -39,16 +41,56 @@ class ReadWriteLibarchivePlugin : public LibarchivePlugin
     Q_OBJECT
 
 public:
-    explicit ReadWriteLibarchivePlugin(QObject *parent, const QVariantList& args);
+    explicit ReadWriteLibarchivePlugin(QObject *parent, const QVariantList &args);
     ~ReadWriteLibarchivePlugin();
 
-    bool addFiles(const QList<Archive::Entry*>& files, const CompressionOptions& options) Q_DECL_OVERRIDE;
-    bool deleteFiles(const QList<Archive::Entry*>& files) Q_DECL_OVERRIDE;
+    bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
+    bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
+    bool copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
+    bool deleteFiles(const QList<Archive::Entry*> &files) Q_DECL_OVERRIDE;
+
+protected:
+    bool initializeWriter(const bool creatingNewFile = false, const CompressionOptions &options = CompressionOptions());
+    bool initializeWriterFilters();
+    bool initializeNewFileWriterFilters(const CompressionOptions &options);
+    void finish(const bool isSuccessful);
 
 private:
-    bool writeFile(const QString& relativeName, struct archive* arch);
+    /**
+     * Processes all the existing entries and does manipulations to them
+     * based on the OperationMode (Add/Move/Copy/Delete).
+     *
+     * @param entriesCounter Counter of added/moved/copied/deleted entries.
+     *
+     * @return bool indicating whether the operation was successful.
+     */
+    bool processOldEntries(int &entriesCounter, OperationMode mode);
 
+    /**
+     * Writes entry being read into memory.
+     *
+     * @return bool indicating whether the operation was successful.
+     */
+    bool writeEntry(struct archive_entry *entry);
+
+    /**
+     * Writes entry from physical disk.
+     *
+     * @return bool indicating whether the operation was successful.
+     */
+    bool writeFile(const QString &relativeName, const QString &destination);
+
+    QSaveFile m_tempFile;
+    ArchiveWrite m_archiveWriter;
+
+    // New added files by addFiles methods. It's assigned to m_filesPaths
+    // and then is used by processOldEntries method (in Add mode) for skipping already written entries.
     QStringList m_writtenFiles;
+
+    // Passed argument from job which is used by processOldEntries method.
+    QStringList m_filesPaths;
+    int m_entriesWithoutChildren;
+    const Archive::Entry *m_destination;
 };
 
 #endif // READWRITELIBARCHIVEPLUGIN_H

@@ -192,7 +192,7 @@ void CliRarTest::testList()
     Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry*>();
 
     QFETCH(QString, expectedName);
-    QCOMPARE(entry->property("fullPath").toString(), expectedName);
+    QCOMPARE(entry->fullPath(), expectedName);
 
     QFETCH(bool, isDirectory);
     QCOMPARE(entry->isDir(), isDirectory);
@@ -334,7 +334,7 @@ void CliRarTest::testExtractArgs_data()
     QTest::newRow("preserve paths, encrypted")
             << QStringLiteral("/tmp/foo.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QStringLiteral("1234")
@@ -344,14 +344,14 @@ void CliRarTest::testExtractArgs_data()
                    QStringLiteral("x"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("preserve paths, unencrypted")
             << QStringLiteral("/tmp/foo.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QString()
@@ -360,14 +360,14 @@ void CliRarTest::testExtractArgs_data()
                    QStringLiteral("-p-"),
                    QStringLiteral("x"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, encrypted")
             << QStringLiteral("/tmp/foo.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QStringLiteral("1234")
@@ -377,14 +377,14 @@ void CliRarTest::testExtractArgs_data()
                    QStringLiteral("e"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, unencrypted")
             << QStringLiteral("/tmp/foo.rar")
             << QList<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QString()
@@ -393,7 +393,7 @@ void CliRarTest::testExtractArgs_data()
                    QStringLiteral("-p-"),
                    QStringLiteral("e"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 }
@@ -415,7 +415,7 @@ void CliRarTest::testExtractArgs()
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = rarPlugin->substituteCopyVariables(extractArgs, files, preservePaths, password);
+    QStringList replacedArgs = rarPlugin->substituteExtractVariables(extractArgs, files, preservePaths, password);
     QVERIFY(replacedArgs.size() >= extractArgs.size());
 
     QFETCH(QStringList, expectedArgs);

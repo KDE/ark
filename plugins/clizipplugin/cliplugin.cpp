@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -189,5 +190,96 @@ bool CliPlugin::readListLine(const QString &line)
     return true;
 }
 
+bool CliPlugin::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+{
+    m_oldWorkingDir = QDir::currentPath();
+    m_tempExtractDir = new QTemporaryDir();
+    m_tempAddDir = new QTemporaryDir();
+    QDir::setCurrent(m_tempExtractDir->path());
+    m_passedFiles = files;
+    m_passedDestination = destination;
+    m_passedOptions = options;
+
+    m_subOperation = Extract;
+    connect(this, &CliPlugin::finished, this, &CliPlugin::continueMoving);
+
+    return extractFiles(files, QDir::currentPath(), options);
+}
+
+int CliPlugin::moveRequiredSignals() const {
+    return 4;
+}
+
+void CliPlugin::continueMoving(bool result)
+{
+    if (!result) {
+        finishMoving(false);
+        return;
+    }
+
+    switch (m_subOperation) {
+        case Extract:
+            m_subOperation = Delete;
+            if (!deleteFiles(m_passedFiles)) {
+                finishMoving(false);
+            }
+            break;
+
+        case Delete:
+            m_subOperation = Add;
+            if (!setMovingAddedFiles() || !addFiles(m_tempAddedFiles, m_passedDestination, m_passedOptions)) {
+                finishMoving(false);
+            }
+            break;
+
+        case Add:
+            finishMoving(true);
+            break;
+
+        default:
+            Q_ASSERT(false);
+    }
+}
+
+bool CliPlugin::setMovingAddedFiles()
+{
+    m_passedFiles = entriesWithoutChildren(m_passedFiles);
+    // If there are more files being moved than 1, we have destination as a destination folder,
+    // otherwise it's new entry full path.
+    if (m_passedFiles.count() > 1) {
+        return setAddedFiles();
+    }
+
+    QDir::setCurrent(m_tempAddDir->path());
+    const Archive::Entry *file = m_passedFiles.at(0);
+    const QString oldPath = m_tempExtractDir->path() + QLatin1Char('/') + file->fullPath(true);
+    const QString newPath = m_tempAddDir->path() + QLatin1Char('/') + m_passedDestination->name();
+    if (!QFile::rename(oldPath, newPath)) {
+        return false;
+    }
+    m_tempAddedFiles << new Archive::Entry(Q_NULLPTR, m_passedDestination->name());
+
+    // We have to exclude file name from destination path in order to pass it to addFiles method.
+    const QString destinationPath = m_passedDestination->fullPath();
+    int destinationLength = destinationPath.count();
+    bool iteratedChar = false;
+    do {
+        destinationLength--;
+        if (destinationPath.at(destinationLength) != QLatin1Char('/')) {
+            iteratedChar = true;
+        }
+    } while (destinationLength > 0 && !(iteratedChar && destinationPath.at(destinationLength) == QLatin1Char('/')));
+    m_passedDestination->setProperty("fullPath", destinationPath.left(destinationLength + 1));
+
+    return true;
+}
+
+void CliPlugin::finishMoving(bool result)
+{
+    disconnect(this, &CliPlugin::finished, this, &CliPlugin::continueMoving);
+    emit progress(1.0);
+    emit finished(result);
+    cleanUp();
+}
 
 #include "cliplugin.moc"
