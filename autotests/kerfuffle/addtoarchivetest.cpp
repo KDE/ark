@@ -43,6 +43,7 @@ private Q_SLOTS:
     void init();
     void testCompressHere_data();
     void testCompressHere();
+    void testCreateEncryptedArchive();
 };
 
 void AddToArchiveTest::init()
@@ -230,6 +231,23 @@ void AddToArchiveTest::testCompressHere()
     QCOMPARE(archive->numberOfFolders(), expectedNumberOfFolders);
 
     QVERIFY(QFile(archive->fileName()).remove());
+}
+
+void AddToArchiveTest::testCreateEncryptedArchive()
+{
+    Archive *archive = Archive::create(QStringLiteral("foo.zip"));
+    QVERIFY(archive);
+
+    if (!archive->isValid()) {
+        QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
+    }
+
+    QCOMPARE(archive->encryptionType(), Archive::Unencrypted);
+
+    archive->encrypt(QStringLiteral("1234"), false);
+    QCOMPARE(archive->encryptionType(), Archive::Encrypted);
+
+    archive->deleteLater();
 }
 
 QTEST_MAIN(AddToArchiveTest)

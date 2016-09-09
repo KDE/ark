@@ -25,13 +25,11 @@
 
 #include "singlefileplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle/kerfuffle_export.h"
+#include "kerfuffle/archiveentry.h"
 #include "kerfuffle/queries.h"
 
-#include <QByteArray>
 #include <QFile>
 #include <QFileInfo>
-#include <QString>
 
 #include <KFilterDev>
 #include <KLocalizedString>
@@ -46,7 +44,7 @@ LibSingleFileInterface::~LibSingleFileInterface()
 {
 }
 
-bool LibSingleFileInterface::copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options)
+bool LibSingleFileInterface::extractFiles(const QList<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options)
 {
     Q_UNUSED(files)
     Q_UNUSED(options)
@@ -107,13 +105,8 @@ bool LibSingleFileInterface::list()
 {
     qCDebug(ARK) << "Listing archive contents";
 
-    const QString filename = uncompressedFileName();
-
-    Kerfuffle::ArchiveEntry e;
-
-    e[Kerfuffle::FileName] = filename;
-    e[Kerfuffle::InternalID] = filename;
-
+    Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry();
+    e->setProperty("fullPath", uncompressedFileName());
     emit entry(e);
 
     return true;

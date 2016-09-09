@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009-2010 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -25,6 +26,7 @@
 #define CLIPLUGIN_H
 
 #include "kerfuffle/cliinterface.h"
+#include "kerfuffle/archiveentry.h"
 
 class CliPlugin : public Kerfuffle::CliInterface
 {
@@ -63,7 +65,8 @@ private:
     } m_parseState;
 
     int m_linesComment;
-    Kerfuffle::ArchiveEntry m_currentArchiveEntry;
+    Kerfuffle::Archive::Entry *m_currentArchiveEntry;
+    bool m_isFirstInformationEntry;
 };
 
 #endif // CLIPLUGIN_H

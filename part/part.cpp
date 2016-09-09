@@ -4,6 +4,7 @@
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,6 +25,7 @@
 #include "part.h"
 #include "ark_debug.h"
 #include "adddialog.h"
+#include "overwritedialog.h"
 #include "archiveformat.h"
 #include "archivemodel.h"
 #include "archiveview.h"
@@ -31,7 +33,6 @@
 #include "dnddbusinterfaceadaptor.h"
 #include "infopanel.h"
 #include "jobtracker.h"
-#include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/extractionsettingspage.h"
 #include "kerfuffle/jobs.h"
@@ -87,6 +88,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
         : KParts::ReadWritePart(parent),
           m_splitter(Q_NULLPTR),
           m_busy(false),
+          m_archiveIsLoaded(false),
           m_jobTracker(Q_NULLPTR)
 {
     Q_UNUSED(args)
@@ -163,12 +165,15 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     setupView();
     setupActions();
 
+    connect(m_view, &ArchiveView::entryChanged,
+            this, &Part::slotRenameFile);
+
     connect(m_model, &ArchiveModel::loadingStarted,
             this, &Part::slotLoadingStarted);
     connect(m_model, &ArchiveModel::loadingFinished,
             this, &Part::slotLoadingFinished);
     connect(m_model, &ArchiveModel::droppedFiles,
-            this, static_cast<void (Part::*)(const QStringList&, const QString&)>(&Part::slotAddFiles));
+            this, static_cast<void (Part::*)(const QStringList&, const Archive::Entry*, const QString&)>(&Part::slotAddFiles));
     connect(m_model, &ArchiveModel::error,
             this, &Part::slotError);
     connect(m_model, &ArchiveModel::messageWidget,
@@ -354,40 +359,63 @@ void Part::setupActions()
     m_extractArchiveAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
     m_extractArchiveAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose how to extract all the files in the archive"));
     actionCollection()->setDefaultShortcut(m_extractArchiveAction, Qt::CTRL + Qt::SHIFT + Qt::Key_E);
-    connect(m_extractArchiveAction, &QAction::triggered,
-            this, &Part::slotExtractArchive);
+    connect(m_extractArchiveAction, &QAction::triggered, this, &Part::slotExtractArchive);
 
     m_extractAction = actionCollection()->addAction(QStringLiteral("extract"));
     m_extractAction->setText(i18nc("@action:inmenu", "&Extract"));
     m_extractAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
     actionCollection()->setDefaultShortcut(m_extractAction, Qt::CTRL + Qt::Key_E);
     m_extractAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
-    connect(m_extractAction, &QAction::triggered,
-            this, &Part::slotShowExtractionDialog);
+    connect(m_extractAction, &QAction::triggered, this, &Part::slotShowExtractionDialog);
 
     m_addFilesAction = actionCollection()->addAction(QStringLiteral("add"));
     m_addFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
-    m_addFilesAction->setText(i18n("Add &Files..."));
+    m_addFilesAction->setText(i18n("Add &Files to..."));
     m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
     actionCollection()->setDefaultShortcut(m_addFilesAction, Qt::ALT + Qt::Key_A);
-    connect(m_addFilesAction, &QAction::triggered,
-            this, static_cast<void (Part::*)()>(&Part::slotAddFiles));
+    connect(m_addFilesAction, &QAction::triggered, this, static_cast<void (Part::*)()>(&Part::slotAddFiles));
+
+    m_renameFileAction = actionCollection()->addAction(QStringLiteral("rename"));
+    m_renameFileAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-rename")));
+    m_renameFileAction->setText(i18n("&Rename"));
+    actionCollection()->setDefaultShortcut(m_renameFileAction, Qt::Key_F2);
+    m_renameFileAction->setToolTip(i18nc("@info:tooltip", "Click to rename the selected file"));
+    connect(m_renameFileAction, &QAction::triggered, this, &Part::slotEditFileName);
 
     m_deleteFilesAction = actionCollection()->addAction(QStringLiteral("delete"));
     m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
     m_deleteFilesAction->setText(i18n("De&lete"));
     actionCollection()->setDefaultShortcut(m_deleteFilesAction, Qt::Key_Delete);
     m_deleteFilesAction->setToolTip(i18nc("@info:tooltip", "Click to delete the selected files"));
-    connect(m_deleteFilesAction, &QAction::triggered,
-            this, &Part::slotDeleteFiles);
+    connect(m_deleteFilesAction, &QAction::triggered, this, &Part::slotDeleteFiles);
+
+    m_cutFilesAction = actionCollection()->addAction(QStringLiteral("cut"));
+    m_cutFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
+    m_cutFilesAction->setText(i18nc("@action:inmenu", "C&ut"));
+    actionCollection()->setDefaultShortcut(m_cutFilesAction, Qt::CTRL + Qt::Key_X);
+    m_cutFilesAction->setToolTip(i18nc("@info:tooltip", "Click to cut the selected files"));
+    connect(m_cutFilesAction, &QAction::triggered, this, &Part::slotCutFiles);
+
+    m_copyFilesAction = actionCollection()->addAction(QStringLiteral("copy"));
+    m_copyFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
+    m_copyFilesAction->setText(i18nc("@action:inmenu", "C&opy"));
+    actionCollection()->setDefaultShortcut(m_copyFilesAction, Qt::CTRL + Qt::Key_C);
+    m_copyFilesAction->setToolTip(i18nc("@info:tooltip", "Click to copy the selected files"));
+    connect(m_copyFilesAction, &QAction::triggered, this, &Part::slotCopyFiles);
+
+    m_pasteFilesAction = actionCollection()->addAction(QStringLiteral("paste"));
+    m_pasteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste")));
+    m_pasteFilesAction->setText(i18nc("@action:inmenu", "Pa&ste"));
+    actionCollection()->setDefaultShortcut(m_pasteFilesAction, Qt::CTRL + Qt::Key_V);
+    m_pasteFilesAction->setToolTip(i18nc("@info:tooltip", "Click to paste the files here"));
+    connect(m_pasteFilesAction, &QAction::triggered, this, static_cast<void (Part::*)()>(&Part::slotPasteFiles));
 
     m_propertiesAction = actionCollection()->addAction(QStringLiteral("properties"));
     m_propertiesAction->setIcon(QIcon::fromTheme(QStringLiteral("document-properties")));
     m_propertiesAction->setText(i18nc("@action:inmenu", "&Properties"));
     actionCollection()->setDefaultShortcut(m_propertiesAction, Qt::ALT + Qt::Key_Return);
     m_propertiesAction->setToolTip(i18nc("@info:tooltip", "Click to see properties for archive"));
-    connect(m_propertiesAction, &QAction::triggered,
-            this, &Part::slotShowProperties);
+    connect(m_propertiesAction, &QAction::triggered, this, &Part::slotShowProperties);
 
     m_editCommentAction = actionCollection()->addAction(QStringLiteral("edit_comment"));
     m_editCommentAction->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
@@ -413,7 +441,7 @@ void Part::setupActions()
 void Part::updateActions()
 {
     bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly();
-    bool isDirectory = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[IsDirectory].toBool();
+    const Archive::Entry *entry = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
     int selectedEntriesCount = m_view->selectionModel()->selectedRows().count();
 
     // We disable adding files if the archive is encrypted but the password is
@@ -438,12 +466,12 @@ void Part::updateActions()
     // Figure out if entry size is larger than preview size limit.
     const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
     const bool limit = ArkSettings::limitPreviewFileSize();
-    const qlonglong size = m_model->entryForIndex(m_view->selectionModel()->currentIndex())[Size].toLongLong();
-    bool isPreviewable = (!limit || (limit && size < maxPreviewSize));
+    bool isPreviewable = (!limit || (limit && entry != Q_NULLPTR && entry->property("size").toLongLong() < maxPreviewSize));
 
+    const bool isDir = (entry == Q_NULLPTR) ? false : entry->isDir();
     m_previewAction->setEnabled(!isBusy() &&
                                 isPreviewable &&
-                                !isDirectory &&
+                                !isDir &&
                                 (selectedEntriesCount == 1));
     m_extractArchiveAction->setEnabled(!isBusy() &&
                                        (m_model->rowCount() > 0));
@@ -459,14 +487,28 @@ void Part::updateActions()
                                     (selectedEntriesCount > 0));
     m_openFileAction->setEnabled(!isBusy() &&
                                  isPreviewable &&
-                                 !isDirectory &&
+                                 !isDir &&
                                  (selectedEntriesCount == 1));
     m_openFileWithAction->setEnabled(!isBusy() &&
                                      isPreviewable &&
-                                     !isDirectory &&
+                                     !isDir &&
                                      (selectedEntriesCount == 1));
     m_propertiesAction->setEnabled(!isBusy() &&
                                    m_model->archive());
+
+    m_renameFileAction->setEnabled(!isBusy() &&
+                                   isWritable &&
+                                   (selectedEntriesCount == 1));
+    m_cutFilesAction->setEnabled(!isBusy() &&
+                                 isWritable &&
+                                 (selectedEntriesCount > 0));
+    m_copyFilesAction->setEnabled(!isBusy() &&
+                                  isWritable &&
+                                  (selectedEntriesCount > 0));
+    m_pasteFilesAction->setEnabled(!isBusy() &&
+                                   isWritable &&
+                                   (selectedEntriesCount == 0 || (selectedEntriesCount == 1 && isDir)) &&
+                                   (m_model->filesToMove.count() > 0 || m_model->filesToCopy.count() > 0));
 
     m_commentView->setEnabled(!isBusy());
     m_commentMsgWidget->setEnabled(!isBusy());
@@ -779,6 +821,8 @@ bool Part::confirmAndDelete(const QString &targetFile)
 
 void Part::slotLoadingStarted()
 {
+    m_model->filesToMove.clear();
+    m_model->filesToCopy.clear();
 }
 
 void Part::slotLoadingFinished(KJob *job)
@@ -793,12 +837,16 @@ void Part::slotLoadingFinished(KJob *job)
 
             // The file failed to open, so reset the open archive, info panel and caption.
             m_model->setArchive(Q_NULLPTR);
+            m_archiveIsLoaded = false;
 
             m_infoPanel->setPrettyFileName(QString());
             m_infoPanel->updateWithDefaults();
 
             emit setWindowCaption(QString());
         }
+    }
+    else {
+        m_archiveIsLoaded = true;
     }
 
     m_view->sortByColumn(0, Qt::AscendingOrder);
@@ -831,7 +879,7 @@ void Part::slotLoadingFinished(KJob *job)
         displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive is empty or Ark could not open its content."));
     } else if (m_model->rowCount() == 1) {
         if (m_model->archive()->mimeType().inherits(QStringLiteral("application/x-cd-image")) &&
-            m_model->entryForIndex(m_model->index(0, 0))[FileName].toString() == QLatin1String("README.TXT")) {
+            m_model->entryForIndex(m_model->index(0, 0))->fullPath() == QLatin1String("README.TXT")) {
             qCWarning(ARK) << "Detected ISO image with UDF filesystem";
             displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
         }
@@ -879,31 +927,30 @@ void Part::slotOpenEntry(int mode)
     qCDebug(ARK) << "Opening with mode" << mode;
 
     QModelIndex index = m_view->selectionModel()->currentIndex();
-    const ArchiveEntry& entry =  m_model->entryForIndex(index);
+    Archive::Entry *entry = m_model->entryForIndex(index);
 
     // Don't open directories.
-    if (entry[IsDirectory].toBool()) {
+    if (entry->isDir()) {
         return;
     }
 
     // We don't support opening symlinks.
-    if (entry[Link].toBool()) {
+    if (!entry->property("link").toString().isEmpty()) {
         displayMsgWidget(KMessageWidget::Information, i18n("Ark cannot open symlinks."));
         return;
     }
 
     // Extract the entry.
-    if (!entry.isEmpty()) {
+    if (!entry->fullPath().isEmpty()) {
 
         m_openFileMode = static_cast<OpenFileMode>(mode);
         KJob *job = Q_NULLPTR;
 
         if (m_openFileMode == Preview) {
-            job = m_model->preview(entry[InternalID].toString());
+            job = m_model->preview(entry);
             connect(job, &KJob::result, this, &Part::slotPreviewExtractedEntry);
         } else {
-            const QString file = entry[InternalID].toString();
-            job = (m_openFileMode == OpenFile) ? m_model->open(file) : m_model->openWith(file);
+            job = (m_openFileMode == OpenFile) ? m_model->open(entry) : m_model->openWith(entry);
             connect(job, &KJob::result, this, &Part::slotOpenExtractedEntry);
         }
 
@@ -1000,7 +1047,7 @@ void Part::slotWatchedFileModified(const QString& file)
         QStringList list = QStringList() << file;
 
         qCDebug(ARK) << "Updating file" << file << "with path" << relPath;
-        slotAddFiles(list, relPath);
+        slotAddFiles(list, Q_NULLPTR, relPath);
     }
     // This is needed because some apps, such as Kate, delete and recreate
     // files when saving.
@@ -1066,7 +1113,7 @@ void Part::slotShowExtractionDialog()
         updateQuickExtractMenu(m_extractArchiveAction);
         updateQuickExtractMenu(m_extractAction);
 
-        QVariantList files;
+        QList<Archive::Entry*> files;
 
         // If the user has chosen to extract only selected entries, fetch these
         // from the QTreeView.
@@ -1117,21 +1164,21 @@ QModelIndexList Part::addChildren(const QModelIndexList &list) const
     return ret;
 }
 
-QList<QVariant> Part::filesForIndexes(const QModelIndexList& list) const
+QList<Archive::Entry*> Part::filesForIndexes(const QModelIndexList& list) const
 {
-    QVariantList ret;
+    QList<Archive::Entry*> ret;
 
     foreach(const QModelIndex& index, list) {
-        const ArchiveEntry& entry = m_model->entryForIndex(index);
-        ret << entry[InternalID].toString();
+        ret << m_model->entryForIndex(index);
     }
 
     return ret;
 }
 
-QList<QVariant> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) const
+QList<Kerfuffle::Archive::Entry*> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) const
 {
-    QVariantList fileList;
+    QList<Kerfuffle::Archive::Entry*> fileList;
+    QStringList fullPathsList;
 
     foreach (const QModelIndex& index, list) {
 
@@ -1147,16 +1194,19 @@ QList<QVariant> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) c
         }
 
         // Fetch the root node for the unselected parent.
-        const QString rootInternalID =
-            m_model->entryForIndex(selectionRoot).value(InternalID).toString();
+        const QString rootFileName = selectionRoot.isValid()
+            ? m_model->entryForIndex(selectionRoot)->fullPath()
+            : QString();
 
 
         // Append index with root node to fileList.
         QModelIndexList alist = QModelIndexList() << index;
-        foreach (const QVariant &file, filesForIndexes(alist)) {
-            QVariant v = QVariant::fromValue(fileRootNodePair(file.toString(), rootInternalID));
-            if (!fileList.contains(v)) {
-                fileList.append(v);
+        foreach (Archive::Entry *entry, filesForIndexes(alist)) {
+            const QString fullPath = entry->fullPath();
+            if (!fullPathsList.contains(fullPath)) {
+                entry->rootNode = rootFileName;
+                fileList.append(entry);
+                fullPathsList.append(fullPath);
             }
         }
     }
@@ -1196,13 +1246,45 @@ void Part::adjustColumns()
     m_view->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 }
 
-void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
+void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *destination, const QString &relPath)
 {
-    if (filesToAdd.isEmpty()) {
+    if (!m_archiveIsLoaded || filesToAdd.isEmpty()) {
         return;
     }
 
-    qCDebug(ARK) << "Adding " << filesToAdd << " to " << path;
+    QStringList withChildPaths;
+    foreach (const QString& file, filesToAdd) {
+        m_jobTempEntries.push_back(new Archive::Entry(Q_NULLPTR, file));
+        if (QFileInfo(file).isDir()) {
+            withChildPaths << file + QLatin1Char('/');
+            QDirIterator it(file, QDir::AllEntries | QDir::Readable | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+            while (it.hasNext()) {
+                QString path = it.next();
+                if (it.fileInfo().isDir()) {
+                    path += QLatin1Char('/');
+                }
+                withChildPaths << path;
+            }
+        }
+        else {
+            withChildPaths << file;
+        }
+    }
+
+    withChildPaths = ReadOnlyArchiveInterface::entryPathsFromDestination(withChildPaths, destination, 0);
+    QList<const Archive::Entry*> conflictingEntries;
+    bool error = m_model->conflictingEntries(conflictingEntries, withChildPaths, true);
+
+    if (conflictingEntries.count() > 0) {
+        QPointer<OverwriteDialog> overwriteDialog = new OverwriteDialog(widget(), conflictingEntries, m_model->entryIcons(), error);
+        int ret = overwriteDialog->exec();
+        delete overwriteDialog;
+        if (ret == QDialog::Rejected) {
+            qDeleteAll(m_jobTempEntries);
+            m_jobTempEntries.clear();
+            return;
+        }
+    }
 
     // GlobalWorkDir is used by AddJob and should contain the part of the
     // absolute path of files to be added that should NOT be included in the
@@ -1215,8 +1297,12 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     // path represents the path of the file within the archive. This needs to
     // be removed from globalWorkDir, otherwise the files will be added to the
     // root of the archive. In the example above, path would be "somedir/".
-    if (!path.isEmpty()) {
-        globalWorkDir.remove(path);
+    if (!relPath.isEmpty()) {
+        globalWorkDir.remove(relPath);
+        qCDebug(ARK) << "Adding" << filesToAdd << "to" << relPath;
+    }
+    else {
+        qCDebug(ARK) << "Adding " << filesToAdd << ((destination == Q_NULLPTR) ? QString() : QStringLiteral("to ") + destination->fullPath());
     }
 
     // Remove trailing slash (needed when adding dirs).
@@ -1232,8 +1318,10 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
     qCDebug(ARK) << "Detected GlobalWorkDir to be " << globalWorkDir;
     options[QStringLiteral("GlobalWorkDir")] = globalWorkDir;
 
-    AddJob *job = m_model->addFiles(filesToAdd, options);
+    AddJob *job = m_model->addFiles(m_jobTempEntries, destination, options);
     if (!job) {
+        qDeleteAll(m_jobTempEntries);
+        m_jobTempEntries.clear();
         return;
     }
 
@@ -1245,7 +1333,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const QString& path)
 
 void Part::slotAddFiles()
 {
-    // If compression options are already set, we dont use the values from CreateDialog.
+    // If compression options are already set, we don't use the values from CreateDialog.
     CompressionOptions opts;
     if (m_model->archive()->compressionOptions().isEmpty()) {
         if (arguments().metaData().contains(QStringLiteral("compressionLevel"))) {
@@ -1257,6 +1345,18 @@ void Part::slotAddFiles()
         m_model->archive()->setCompressionOptions(opts);
     } else {
         opts = m_model->archive()->compressionOptions();
+    }
+
+    QString dialogTitle = i18nc("@title:window", "Add Files");
+    const Archive::Entry *destination = Q_NULLPTR;
+    if (m_view->selectionModel()->selectedRows().count() == 1) {
+        destination = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
+        if (destination->isDir()) {
+            dialogTitle = i18nc("@title:window", "Add Files to %1", destination->fullPath());;
+        }
+        else {
+            destination = Q_NULLPTR;
+        }
     }
 
     qCDebug(ARK) << "Opening AddDialog with opts:" << opts;
@@ -1272,7 +1372,7 @@ void Part::slotAddFiles()
     //          and nothing happens.
 
     QPointer<AddDialog> dlg = new AddDialog(widget(),
-                                            i18nc("@title:window", "Add Files"),
+                                            dialogTitle,
                                             m_lastUsedAddPath,
                                             m_model->archive()->mimeType(),
                                             opts);
@@ -1281,13 +1381,179 @@ void Part::slotAddFiles()
         qCDebug(ARK) << "Selected files:" << dlg->selectedFiles();
         qCDebug(ARK) << "Options:" << dlg->compressionOptions();
         m_model->archive()->setCompressionOptions(dlg->compressionOptions());
-        slotAddFiles(dlg->selectedFiles(), QString());
+        slotAddFiles(dlg->selectedFiles(), destination, QString());
     }
     delete dlg;
 }
 
+void Part::slotEditFileName()
+{
+    QModelIndex currentIndex = m_view->selectionModel()->currentIndex();
+    currentIndex = (currentIndex.parent().isValid())
+                   ? currentIndex.parent().child(currentIndex.row(), 0)
+                   : m_model->index(currentIndex.row(), 0);
+    m_view->openEntryEditor(currentIndex);
+}
+
+void Part::slotCutFiles()
+{
+    QModelIndexList selectedRows = addChildren(m_view->selectionModel()->selectedRows());
+    m_model->filesToMove = ArchiveModel::entryMap(filesForIndexes(selectedRows));
+    qCDebug(ARK) << "Entries marked to cut:" << m_model->filesToMove.values();
+    m_model->filesToCopy.clear();
+    foreach (const QModelIndex &row, m_cutIndexes) {
+        m_view->dataChanged(row, row);
+    }
+    m_cutIndexes = selectedRows;
+    foreach (const QModelIndex &row, m_cutIndexes) {
+        m_view->dataChanged(row, row);
+    }
+    updateActions();
+}
+
+void Part::slotCopyFiles()
+{
+    m_model->filesToCopy = ArchiveModel::entryMap(filesForIndexes(addChildren(m_view->selectionModel()->selectedRows())));
+    qCDebug(ARK) << "Entries marked to copy:" << m_model->filesToCopy.values();
+    foreach (const QModelIndex &row, m_cutIndexes) {
+        m_view->dataChanged(row, row);
+    }
+    m_cutIndexes.clear();
+    m_model->filesToMove.clear();
+    updateActions();
+}
+
+void Part::slotRenameFile(QString name)
+{
+    if (name == QStringLiteral(".") || name == QStringLiteral("..") || name.contains(QLatin1Char('/'))) {
+        QMessageBox messageBox(QMessageBox::Warning,
+                               i18n("Invalid filename"),
+                               i18n("Filename can't contain slashes and can't be equal to \".\" or \"..\""),
+                               QMessageBox::Ok);
+        messageBox.exec();
+        return;
+    }
+    const Archive::Entry *entry = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
+    QList<Archive::Entry*> entriesToMove = filesForIndexes(addChildren(m_view->selectionModel()->selectedRows()));
+
+    m_destination = new Archive::Entry();
+    const QString &entryPath = entry->fullPath(true);
+    const QString rootPath = entryPath.left(entryPath.count() - entry->name().count());
+    m_destination->setFullPath(rootPath + name + ((entry->isDir()) ? QLatin1Char('/') : QChar()));
+
+    slotPasteFiles(entriesToMove, m_destination, 1);
+}
+
+void Part::slotPasteFiles()
+{
+    m_destination = (m_view->selectionModel()->selectedRows().count() > 0)
+                    ? m_model->entryForIndex(m_view->selectionModel()->currentIndex())
+                    : Q_NULLPTR;
+    if (m_destination == Q_NULLPTR) {
+        m_destination = new Archive::Entry(Q_NULLPTR, QString());
+    }
+    else {
+        m_destination = new Archive::Entry(Q_NULLPTR, m_destination->fullPath());
+    }
+
+    if (m_model->filesToMove.count() > 0) {
+        // Changing destination to include new entry path if pasting only 1 entry.
+        QList<Archive::Entry*> entriesWithoutChildren = ReadOnlyArchiveInterface::entriesWithoutChildren(m_model->filesToMove.values());
+        if (entriesWithoutChildren.count() == 1) {
+            const Archive::Entry *entry = entriesWithoutChildren.first();
+            const QString nameWithSlash = entry->name() + ((entry->isDir()) ? QLatin1String("/") : QString());
+            m_destination->setFullPath(m_destination->fullPath() + nameWithSlash);
+        }
+
+        foreach (const Archive::Entry *entry, entriesWithoutChildren) {
+            if (entry->isDir() && m_destination->fullPath().startsWith(entry->fullPath())) {
+                QMessageBox messageBox(QMessageBox::Warning,
+                                       i18n("Moving a folder into itself"),
+                                       i18n("Folders can't be moved into themselves."),
+                                       QMessageBox::Ok);
+                messageBox.exec();
+                delete m_destination;
+                return;
+            }
+        }
+        QList<Archive::Entry*> entryList = m_model->filesToMove.values();
+        slotPasteFiles(entryList, m_destination, entriesWithoutChildren.count());
+        m_model->filesToMove.clear();
+    }
+    else {
+        QList<Archive::Entry*> entryList = m_model->filesToCopy.values();
+        slotPasteFiles(entryList, m_destination, 0);
+        m_model->filesToCopy.clear();
+    }
+    m_cutIndexes.clear();
+    updateActions();
+}
+
+void Part::slotPasteFiles(QList<Kerfuffle::Archive::Entry*> &files, Kerfuffle::Archive::Entry *destination, int entriesWithoutChildren)
+{
+    if (files.isEmpty()) {
+        delete m_destination;
+        return;
+    }
+
+    QStringList filesPaths = ReadOnlyArchiveInterface::entryFullPaths(files);
+    QStringList newPaths = ReadOnlyArchiveInterface::entryPathsFromDestination(filesPaths, destination, entriesWithoutChildren);
+
+    if (ArchiveModel::hasDuplicatedEntries(newPaths)) {
+        QMessageBox messageBox(QMessageBox::Warning,
+                               i18n("Pasting entries with the same name"),
+                               i18n("Entries with the same names can't be pasted to the same destination."),
+                               QMessageBox::Ok);
+        messageBox.exec();
+        delete m_destination;
+        return;
+    }
+
+    QList<const Archive::Entry*> conflictingEntries;
+    bool error = m_model->conflictingEntries(conflictingEntries, newPaths, false);
+
+    if (conflictingEntries.count() != 0) {
+        QPointer<OverwriteDialog> overwriteDialog = new OverwriteDialog(widget(), conflictingEntries, m_model->entryIcons(), error);
+        int ret = overwriteDialog->exec();
+        delete overwriteDialog;
+        if (ret == QDialog::Rejected) {
+            delete m_destination;
+            return;
+        }
+    }
+
+    if (entriesWithoutChildren > 0) {
+        qCDebug(ARK) << "Moving" << files << "to" << destination;
+    }
+    else {
+        qCDebug(ARK) << "Copying " << files << "to" << destination;
+    }
+
+    CompressionOptions options(m_model->archive()->compressionOptions());
+
+    KJob *job;
+    if (entriesWithoutChildren != 0) {
+        job = m_model->moveFiles(files, destination, options);
+    }
+    else {
+        job = m_model->copyFiles(files, destination, options);
+    }
+
+    if (job) {
+        connect(job, &KJob::result,
+                this, &Part::slotPasteFilesDone);
+        registerJob(job);
+        job->start();
+    }
+    else {
+        delete m_destination;
+    }
+}
+
 void Part::slotAddFilesDone(KJob* job)
 {
+    qDeleteAll(m_jobTempEntries);
+    m_jobTempEntries.clear();
     if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     } else {
@@ -1305,6 +1571,19 @@ void Part::slotAddFilesDone(KJob* job)
             openUrl(QUrl::fromLocalFile(m_model->archive()->multiVolumeName()));
         }
     }
+    m_cutIndexes.clear();
+    m_model->filesToMove.clear();
+    m_model->filesToCopy.clear();
+}
+
+void Part::slotPasteFilesDone(KJob *job)
+{
+    if (job->error() && job->error() != KJob::KilledJobError) {
+        KMessageBox::error(widget(), job->errorString());
+    }
+    m_cutIndexes.clear();
+    m_model->filesToMove.clear();
+    m_model->filesToCopy.clear();
 }
 
 void Part::slotDeleteFilesDone(KJob* job)
@@ -1312,6 +1591,9 @@ void Part::slotDeleteFilesDone(KJob* job)
     if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     }
+    m_cutIndexes.clear();
+    m_model->filesToMove.clear();
+    m_model->filesToCopy.clear();
 }
 
 void Part::slotDeleteFiles()
@@ -1418,11 +1700,11 @@ void Part::slotShowContextMenu()
 
 void Part::displayMsgWidget(KMessageWidget::MessageType type, const QString& msg)
 {
-    // The widget could be already visible, so hide it.
-    m_messageWidget->hide();
-    m_messageWidget->setText(msg);
-    m_messageWidget->setMessageType(type);
-    m_messageWidget->animatedShow();
+    KMessageWidget *msgWidget = new KMessageWidget();
+    msgWidget->setText(msg);
+    msgWidget->setMessageType(type);
+    m_vlayout->insertWidget(0, msgWidget);
+    msgWidget->animatedShow();
 }
 
 } // namespace Ark

@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2010-2011,2014 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,14 +23,13 @@
 
 #include "cliplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle/kerfuffle_export.h"
+#include "kerfuffle/archiveentry.h"
 
 #include <QDateTime>
-#include <QRegularExpression>
 
 #include <KPluginFactory>
 
-using namespace Kerfuffle;
+    using namespace Kerfuffle;
 
 K_PLUGIN_FACTORY_WITH_JSON(CliPluginFactory, "kerfuffle_clirar.json", registerPlugin<CliPlugin>();)
 
@@ -60,18 +60,6 @@ void CliPlugin::resetParsing()
     m_numberOfVolumes = 0;
 }
 
-// #272281: the proprietary unrar program does not like trailing '/'s
-//          in directories passed to it when extracting only part of
-//          the files in an archive.
-QString CliPlugin::escapeFileName(const QString &fileName) const
-{
-    if (fileName.endsWith(QLatin1Char('/'))) {
-        return fileName.left(fileName.length() - 1);
-    }
-
-    return fileName;
-}
-
 ParameterList CliPlugin::parameterList() const
 {
     static ParameterList p;
@@ -79,7 +67,7 @@ ParameterList CliPlugin::parameterList() const
     if (p.isEmpty()) {
         p[CaptureProgress] = true;
         p[ListProgram] = p[ExtractProgram] = p[TestProgram] = QStringList() << QStringLiteral( "unrar" );
-        p[DeleteProgram] = p[AddProgram] = QStringList() << QStringLiteral( "rar" );
+        p[DeleteProgram] = p[MoveProgram] = p[AddProgram] = QStringList() << QStringLiteral( "rar" );
 
         p[ListArgs] = QStringList() << QStringLiteral("vt")
                                     << QStringLiteral("-v")
@@ -116,6 +104,10 @@ ParameterList CliPlugin::parameterList() const
                                    << QStringLiteral("$CompressionLevelSwitch")
                                    << QStringLiteral("$MultiVolumeSwitch")
                                    << QStringLiteral( "$Files" );
+        p[MoveArgs] = QStringList() << QStringLiteral( "rn" )
+                                    << QStringLiteral( "$PasswordSwitch" )
+                                    << QStringLiteral( "$Archive" )
+                                    << QStringLiteral( "$PathPairs" );
         p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
         p[WrongPasswordPatterns] = QStringList() << QStringLiteral("password incorrect") << QStringLiteral("wrong password");
         p[ExtractionFailedPatterns] = QStringList() << QStringLiteral( "CRC failed" )
@@ -261,18 +253,18 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
 
 void CliPlugin::handleUnrar5Entry() {
 
-    ArchiveEntry e;
+    Archive::Entry *e = new Archive::Entry();
 
     QString compressionRatio = m_unrar5Details.value(QStringLiteral("ratio"));
     compressionRatio.chop(1); // Remove the '%'
-    e[Ratio] = compressionRatio;
+    e->setProperty("ratio", compressionRatio);
 
     QString time = m_unrar5Details.value(QStringLiteral("mtime"));
     QDateTime ts = QDateTime::fromString(time, QStringLiteral("yyyy-MM-dd HH:mm:ss,zzz"));
-    e[Timestamp] = ts;
+    e->setProperty("timestamp", ts);
 
     bool isDirectory = (m_unrar5Details.value(QStringLiteral("type")) == QLatin1String("Directory"));
-    e[IsDirectory] = isDirectory;
+    e->setProperty("isDirectory", isDirectory);
 
     if (isDirectory && !m_unrar5Details.value(QStringLiteral("name")).endsWith(QLatin1Char('/'))) {
         m_unrar5Details[QStringLiteral("name")] += QLatin1Char('/');
@@ -281,26 +273,25 @@ void CliPlugin::handleUnrar5Entry() {
     QString compression = m_unrar5Details.value(QStringLiteral("compression"));
     int optionPos = compression.indexOf(QLatin1Char('-'));
     if (optionPos != -1) {
-        e[Method] = compression.mid(optionPos);
-        e[Version] = compression.left(optionPos).trimmed();
+        e->setProperty("method", compression.mid(optionPos));
+        e->setProperty("version", compression.left(optionPos).trimmed());
     } else {
         // No method specified.
-        e[Method].clear();
-        e[Version] = compression;
+        e->setProperty("method", QStringLiteral(""));
+        e->setProperty("version", compression);
     }
 
     m_isPasswordProtected = m_unrar5Details.value(QStringLiteral("flags")).contains(QStringLiteral("encrypted"));
-    e[IsPasswordProtected] = m_isPasswordProtected;
+    e->setProperty("isPasswordProtected", m_isPasswordProtected);
 
-    e[FileName] = m_unrar5Details.value(QStringLiteral("name"));
-    e[InternalID] = m_unrar5Details.value(QStringLiteral("name"));
-    e[Size] = m_unrar5Details.value(QStringLiteral("size"));
-    e[CompressedSize] = m_unrar5Details.value(QStringLiteral("packed size"));
-    e[Permissions] = m_unrar5Details.value(QStringLiteral("attributes"));
-    e[CRC] = m_unrar5Details.value(QStringLiteral("crc32"));
+    e->setProperty("fullPath", m_unrar5Details.value(QStringLiteral("name")));
+    e->setProperty("size", m_unrar5Details.value(QStringLiteral("size")));
+    e->setProperty("compressedSize", m_unrar5Details.value(QStringLiteral("packed size")));
+    e->setProperty("permissions", m_unrar5Details.value(QStringLiteral("attributes")));
+    e->setProperty("CRC", m_unrar5Details.value(QStringLiteral("crc32")));
 
-    if (e[Permissions].toString().startsWith(QLatin1Char('l'))) {
-        e[Link] = m_unrar5Details.value(QStringLiteral("target"));
+    if (e->property("permissions").toString().startsWith(QLatin1Char('l'))) {
+        e->setProperty("link", m_unrar5Details.value(QStringLiteral("target")));
     }
 
     m_unrar5Details.clear();
@@ -469,7 +460,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
 
 void CliPlugin::handleUnrar4Entry() {
 
-    ArchiveEntry e;
+    Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
 
     QDateTime ts = QDateTime::fromString(QString(m_unrar4Details.at(4) + QLatin1Char(' ') + m_unrar4Details.at(5)),
                                          QStringLiteral("dd-MM-yy hh:mm"));
@@ -478,11 +469,11 @@ void CliPlugin::handleUnrar4Entry() {
     if (ts.date().year() < 1950) {
         ts = ts.addYears(100);
     }
-    e[Timestamp] = ts;
+    e->setProperty("timestamp", ts);
 
     bool isDirectory = ((m_unrar4Details.at(6).at(0) == QLatin1Char('d')) ||
                         (m_unrar4Details.at(6).at(1) == QLatin1Char('D')));
-    e[IsDirectory] = isDirectory;
+    e->setProperty("isDirectory", isDirectory);
 
     if (isDirectory && !m_unrar4Details.at(0).endsWith(QLatin1Char('/'))) {
         m_unrar4Details[0] += QLatin1Char('/');
@@ -501,23 +492,22 @@ void CliPlugin::handleUnrar4Entry() {
     } else {
         compressionRatio.chop(1); // Remove the '%'
     }
-    e[Ratio] = compressionRatio;
+    e->setProperty("ratio", compressionRatio);
 
     // TODO:
     // - Permissions differ depending on the system the entry was added
     //   to the archive.
-    e[FileName] = m_unrar4Details.at(0);
-    e[InternalID] = m_unrar4Details.at(0);
-    e[Size] = m_unrar4Details.at(1);
-    e[CompressedSize] = m_unrar4Details.at(2);
-    e[Permissions] = m_unrar4Details.at(6);
-    e[CRC] = m_unrar4Details.at(7);
-    e[Method] = m_unrar4Details.at(8);
-    e[Version] = m_unrar4Details.at(9);
-    e[IsPasswordProtected] = m_isPasswordProtected;
+    e->setProperty("fullPath", m_unrar4Details.at(0));
+    e->setProperty("size", m_unrar4Details.at(1));
+    e->setProperty("compressedSize", m_unrar4Details.at(2));
+    e->setProperty("permissions", m_unrar4Details.at(6));
+    e->setProperty("CRC", m_unrar4Details.at(7));
+    e->setProperty("method", m_unrar4Details.at(8));
+    e->setProperty("version", m_unrar4Details.at(9));
+    e->setProperty("isPasswordProtected", m_isPasswordProtected);
 
-    if (e[Permissions].toString().startsWith(QLatin1Char('l'))) {
-        e[Link] = m_unrar4Details.at(10);
+    if (e->property("permissions").toString().startsWith(QLatin1Char('l'))) {
+        e->setProperty("link", m_unrar4Details.at(10));
     }
 
     m_unrar4Details.clear();

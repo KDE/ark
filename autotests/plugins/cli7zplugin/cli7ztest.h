@@ -28,6 +28,8 @@
 
 #include "cliplugin.h"
 #include "pluginmanager.h"
+#include "autotests/testhelper/testhelper.h"
+#include "kerfuffle/jobs.h"
 
 using namespace Kerfuffle;
 
@@ -52,7 +54,5 @@ private:
     PluginManager m_pluginManger;
     Plugin *m_plugin;
 };
-
-Q_DECLARE_METATYPE(ArchiveEntry)
 
 #endif

@@ -45,6 +45,8 @@ class ListJob;
 class ExtractJob;
 class DeleteJob;
 class AddJob;
+class MoveJob;
+class CopyJob;
 class CommentJob;
 class TestJob;
 class OpenJob;
@@ -54,43 +56,11 @@ class PreviewJob;
 class Query;
 class ReadOnlyArchiveInterface;
 
-/**
- * Meta data related to one entry in a compressed archive.
- *
- * When creating a plugin, information about every single entry in
- * an archive is contained in an ArchiveEntry, and metadata
- * is set with the entries in this enum.
- *
- * Please notice that not all archive formats support all the properties
- * below, so set those that are available.
- */
-enum EntryMetaDataType {
-    FileName = 0,        /**< The entry's file name */
-    InternalID,          /**< The entry's ID for Ark's internal manipulation */
-    Permissions,         /**< The entry's permissions */
-    Owner,               /**< The user the entry belongs to */
-    Group,               /**< The user group the entry belongs to */
-    Size,                /**< The entry's original size */
-    CompressedSize,      /**< The compressed size for the entry */
-    Link,                /**< The entry is a symbolic link */
-    Ratio,               /**< The compression ratio for the entry */
-    CRC,                 /**< The entry's CRC */
-    Method,              /**< The compression method used on the entry */
-    Version,             /**< The archiver version needed to extract the entry */
-    Timestamp,           /**< The timestamp for the current entry */
-    IsDirectory,         /**< The entry is a directory */
-    Comment,
-    IsPasswordProtected, /**< The entry is password-protected */
-    Custom = 1048576
-};
-
 enum ArchiveError {
     NoError = 0,
     NoPlugin,
     FailedPlugin
 };
-
-typedef QHash<int, QVariant> ArchiveEntry;
 
 /**
 These are the extra options for doing the compression. Naming convention
@@ -99,43 +69,6 @@ Rar, etc), followed by the property name used
  */
 typedef QHash<QString, QVariant> CompressionOptions;
 typedef QHash<QString, QVariant> ExtractionOptions;
-
-/**
- * Stores a filename and rootnode pair. This is used to cut an individual
- * rootnode from the path of each file, e.g. when drag'n'drop extracting a
- * selection of files.
- */
-struct fileRootNodePair
-{
-    QString file;
-    QString rootNode;
-
-    fileRootNodePair()
-    {}
-
-    fileRootNodePair(const QString &f)
-        : file(f)
-    {}
-
-    fileRootNodePair(const QString &f, const QString &n)
-        : file(f),
-          rootNode(n)
-    {}
-
-    // Required to compare QVariants with this type.
-    bool operator==(const fileRootNodePair &right) const
-    {
-        if (file == right.file)
-            return true;
-        else
-            return false;
-    }
-    bool operator<(const fileRootNodePair &) const
-    {
-        return false;
-    }
-};
-QDebug operator<<(QDebug d, const fileRootNodePair &pair);
 
 class KERFUFFLE_EXPORT Archive : public QObject
 {
@@ -169,6 +102,8 @@ public:
         Encrypted,
         HeaderEncrypted
     };
+
+    class Entry;
 
     QString completeBaseName() const;
     QString fileName() const;
@@ -214,7 +149,7 @@ public:
      */
     ListJob* list();
 
-    DeleteJob* deleteFiles(const QList<QVariant> & files);
+    DeleteJob* deleteFiles(QList<Archive::Entry*> &entries);
     CommentJob* addComment(const QString &comment);
     TestJob* testArchive();
 
@@ -223,20 +158,35 @@ public:
      *
      * GlobalWorkDir - Change to this dir before adding the new files.
      * The path names should then be added relative to this directory.
-     *
-     * TODO: find a way to actually add files to specific locations in
-     * the archive
-     * (not supported yet) GlobalPathInArchive - a path relative to the
-     * archive root where the files will be added under
-     *
      */
-    AddJob* addFiles(const QStringList & files, const CompressionOptions& options = CompressionOptions());
+    AddJob* addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
 
-    ExtractJob* copyFiles(const QList<QVariant> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
+    /**
+     * Renames or moves entries within the archive.
+     *
+     * @param files All the renamed or moved files and their child entries (for renaming a directory too).
+     * @param destination New entry name (for renaming) or destination folder (for moving).
+     * If ReadOnlyArchiveInterface::entriesWithoutChildren(files).count() returns 1, then it's renaming,
+     * so you must specify the resulted entry name, even if it's not going to be changed.
+     * Otherwise (if count is more than 1) it's moving, so destination must conatin only targeted folder path
+     * or be empty, if moving to the root.
+     */
+    MoveJob* moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
 
-    PreviewJob* preview(const QString &file);
-    OpenJob* open(const QString &file);
-    OpenWithJob* openWith(const QString &file);
+    /**
+     * Copies entries within the archive.
+     *
+     * @param files All the renamed or moved files and their child entries (for renaming a directory too).
+     * @param destination Destination path. It must conatin only targeted folder path or be empty,
+     * if copying to the root.
+     */
+    CopyJob* copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
+
+    ExtractJob* extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
+
+    PreviewJob* preview(Archive::Entry *entry);
+    OpenJob* open(Archive::Entry *entry);
+    OpenWithJob* openWith(Archive::Entry *entry);
 
     /**
      * @param password The password to encrypt the archive with.
@@ -248,7 +198,7 @@ private slots:
     void onListFinished(KJob*);
     void onAddFinished(KJob*);
     void onUserQuery(Kerfuffle::Query*);
-    void onNewEntry(const ArchiveEntry &entry);
+    void onNewEntry(const Archive::Entry *entry);
 
 private:
     Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = 0);
@@ -274,6 +224,5 @@ private:
 } // namespace Kerfuffle
 
 Q_DECLARE_METATYPE(Kerfuffle::Archive::EncryptionType)
-Q_DECLARE_METATYPE(Kerfuffle::fileRootNodePair)
 
 #endif // ARCHIVE_H

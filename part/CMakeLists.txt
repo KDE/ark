@@ -7,6 +7,7 @@ set(arkpart_PART_SRCS
 	archivemodel.cpp
 	archiveview.cpp
 	jobtracker.cpp
+	overwritedialog.cpp
     )
 
 ecm_qt_declare_logging_category(arkpart_PART_SRCS

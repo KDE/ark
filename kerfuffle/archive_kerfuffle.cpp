@@ -2,6 +2,7 @@
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (c) 2009-2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -26,18 +27,13 @@
  */
 
 #include "archive_kerfuffle.h"
-#include "ark_debug.h"
+#include "archiveentry.h"
 #include "archiveinterface.h"
 #include "jobs.h"
 #include "mimetypes.h"
 #include "pluginmanager.h"
 
-#include <QByteArray>
-#include <QDebug>
 #include <QEventLoop>
-#include <QFile>
-#include <QFileInfo>
-#include <QMimeDatabase>
 #include <QRegularExpression>
 
 #include <KPluginFactory>
@@ -45,12 +41,6 @@
 
 namespace Kerfuffle
 {
-
-QDebug operator<<(QDebug d, const fileRootNodePair &pair)
-{
-    d.nospace() << "fileRootNodePair(" << pair.file << "," << pair.rootNode << ")";
-    return d.space();
-}
 
 Archive *Archive::create(const QString &fileName, QObject *parent)
 {
@@ -60,8 +50,6 @@ Archive *Archive::create(const QString &fileName, QObject *parent)
 Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, QObject *parent)
 {
     qCDebug(ARK) << "Going to create archive" << fileName;
-
-    qRegisterMetaType<ArchiveEntry>("ArchiveEntry");
 
     PluginManager pluginManager;
     const QMimeType mimeType = fixedMimeType.isEmpty() ? determineMimeType(fileName) : QMimeDatabase().mimeTypeForName(fixedMimeType);
@@ -138,9 +126,6 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
 
     Q_ASSERT(archiveInterface);
     archiveInterface->setParent(this);
-
-    QMetaType::registerComparators<fileRootNodePair>();
-    QMetaType::registerDebugStreamOperator<fileRootNodePair>();
 
     connect(m_iface, &ReadOnlyArchiveInterface::entry, this, &Archive::onNewEntry);
 }
@@ -322,9 +307,9 @@ QString Archive::subfolderName()
     return m_subfolderName;
 }
 
-void Archive::onNewEntry(const ArchiveEntry &entry)
+void Archive::onNewEntry(const Archive::Entry *entry)
 {
-    entry[IsDirectory].toBool() ? m_numberOfFolders++ : m_numberOfFiles++;
+    entry->isDir() ? m_numberOfFolders++ : m_numberOfFiles++;
 }
 
 bool Archive::isValid() const
@@ -369,23 +354,23 @@ ListJob* Archive::list()
     return job;
 }
 
-DeleteJob* Archive::deleteFiles(const QList<QVariant> & files)
+DeleteJob* Archive::deleteFiles(QList<Archive::Entry*> &entries)
 {
     if (!isValid()) {
         return Q_NULLPTR;
     }
 
-    qCDebug(ARK) << "Going to delete" << files.size() << "files";
+    qCDebug(ARK) << "Going to delete" << entries.size() << "entries";
 
     if (m_iface->isReadOnly()) {
         return 0;
     }
-    DeleteJob *newJob = new DeleteJob(files, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    DeleteJob *newJob = new DeleteJob(entries, static_cast<ReadWriteArchiveInterface*>(m_iface));
 
     return newJob;
 }
 
-AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& options)
+AddJob* Archive::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
 {
     if (!isValid()) {
         return Q_NULLPTR;
@@ -399,12 +384,48 @@ AddJob* Archive::addFiles(const QStringList & files, const CompressionOptions& o
     qCDebug(ARK) << "Going to add files" << files << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
 
-    AddJob *newJob = new AddJob(files, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    AddJob *newJob = new AddJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
     connect(newJob, &AddJob::result, this, &Archive::onAddFinished);
     return newJob;
 }
 
-ExtractJob* Archive::copyFiles(const QList<QVariant>& files, const QString& destinationDir, const ExtractionOptions& options)
+MoveJob* Archive::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    CompressionOptions newOptions = options;
+    if (encryptionType() != Unencrypted) {
+        newOptions[QStringLiteral("PasswordProtectedHint")] = true;
+    }
+
+    qCDebug(ARK) << "Going to move files" << files << "with options" << newOptions;
+    Q_ASSERT(!m_iface->isReadOnly());
+
+    MoveJob *newJob = new MoveJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    return newJob;
+}
+
+CopyJob* Archive::copyFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+{
+    if (!isValid()) {
+        return Q_NULLPTR;
+    }
+
+    CompressionOptions newOptions = options;
+    if (encryptionType() != Unencrypted) {
+        newOptions[QStringLiteral("PasswordProtectedHint")] = true;
+    }
+
+    qCDebug(ARK) << "Going to copy files" << files << "with options" << newOptions;
+    Q_ASSERT(!m_iface->isReadOnly());
+
+    CopyJob *newJob = new CopyJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    return newJob;
+}
+
+ExtractJob* Archive::extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options)
 {
     if (!isValid()) {
         return Q_NULLPTR;
@@ -419,33 +440,33 @@ ExtractJob* Archive::copyFiles(const QList<QVariant>& files, const QString& dest
     return newJob;
 }
 
-PreviewJob *Archive::preview(const QString &file)
+PreviewJob *Archive::preview(Archive::Entry *entry)
 {
     if (!isValid()) {
         return Q_NULLPTR;
     }
 
-    PreviewJob *job = new PreviewJob(file, (encryptionType() != Unencrypted), m_iface);
+    PreviewJob *job = new PreviewJob(entry, (encryptionType() != Unencrypted), m_iface);
     return job;
 }
 
-OpenJob *Archive::open(const QString &file)
+OpenJob *Archive::open(Archive::Entry *entry)
 {
     if (!isValid()) {
         return Q_NULLPTR;
     }
 
-    OpenJob *job = new OpenJob(file, (encryptionType() != Unencrypted), m_iface);
+    OpenJob *job = new OpenJob(entry, (encryptionType() != Unencrypted), m_iface);
     return job;
 }
 
-OpenWithJob *Archive::openWith(const QString &file)
+OpenWithJob *Archive::openWith(Archive::Entry *entry)
 {
     if (!isValid()) {
         return Q_NULLPTR;
     }
 
-    OpenWithJob *job = new OpenWithJob(file, (encryptionType() != Unencrypted), m_iface);
+    OpenWithJob *job = new OpenWithJob(entry, (encryptionType() != Unencrypted), m_iface);
     return job;
 }
 

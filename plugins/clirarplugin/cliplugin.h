@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009-2010 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -34,7 +35,6 @@ public:
     virtual ~CliPlugin();
 
     virtual void resetParsing() Q_DECL_OVERRIDE;
-    virtual QString escapeFileName(const QString &fileName) const Q_DECL_OVERRIDE;
     virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 

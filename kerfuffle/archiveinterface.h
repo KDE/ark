@@ -2,6 +2,7 @@
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (c) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -29,7 +30,9 @@
 #define ARCHIVEINTERFACE_H
 
 #include "archive_kerfuffle.h"
+#include "archive_entry.h"
 #include "kerfuffle_export.h"
+#include "kerfuffle/archiveentry.h"
 
 #include <QObject>
 #include <QStringList>
@@ -98,8 +101,53 @@ public:
      * @note If returning false, make sure to emit the error() signal beforewards to notify
      * the user of the error condition.
      */
-    virtual bool copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
+    virtual bool extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
     bool waitForFinishedSignal();
+
+    /**
+     * Returns count of required finish signals for a job to be finished.
+     *
+     * These two methods are used by move and copy jobs, which in some plugins implementations have to call
+     * several processes sequentually. For instance, moving entries in zip archive is only possible if
+     * extracting the entries, deleting them, recreating destination folder structure and adding them back again.
+     */
+    virtual int moveRequiredSignals() const;
+    virtual int copyRequiredSignals() const;
+
+    /**
+     * Returns the list of filenames retrieved from the list of entries.
+     */
+    static QStringList entryFullPaths(const QList<Archive::Entry*> &entries, const bool withoutTrailingSlashes = false);
+
+    /**
+     * Returns the list of the entries, excluding their children.
+     *
+     * This method relies on entries paths so doesn't require parents to be set.
+     */
+    static QList<Archive::Entry*> entriesWithoutChildren(const QList<Archive::Entry*> &entries);
+
+    /**
+     * Returns the string list of entry paths, which will be a result of adding/moving/copying entries.
+     *
+     * @param entries The entries which will be added/moved/copied.
+     * @param destination Destination path within the archive to which entries have to be added. For renaming an entry
+     * the path has to contain a new filename too.
+     * @param entriesWithoutChildren Entries count, excluding their children. For AddJob or CopyJob 0 MUST be passed.
+     *
+     * @return For entries
+     *  some/dir/
+     *  some/dir/entry
+     *  some/dir/some/entry
+     *  some/another/entry
+     * and destination
+     *  some/destination
+     * will return
+     *  some/destination/dir/
+     *  some/destination/dir/entry
+     *  some/destination/dir/some/enty
+     *  some/destination/entry
+     */
+    static QStringList entryPathsFromDestination(QStringList entries, const Archive::Entry *destination, int entriesWithoutChildren);
 
     virtual bool doKill();
     virtual bool doSuspend();
@@ -112,7 +160,7 @@ public:
 signals:
     void cancelled();
     void error(const QString &message, const QString &details = QString());
-    void entry(const ArchiveEntry &archiveEntry);
+    void entry(Archive::Entry *archiveEntry);
     void entryRemoved(const QString &path);
     void progress(double progress);
     void info(const QString &info);
@@ -146,6 +194,10 @@ class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterfac
 {
     Q_OBJECT
 public:
+    enum OperationMode  {
+        List, Extract, Add, Move, Copy, Delete, Comment, Test
+    };
+
     explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList & args);
     virtual ~ReadWriteArchiveInterface();
 
@@ -153,8 +205,10 @@ public:
 
     //see archive.h for a list of what the compressionoptions might
     //contain
-    virtual bool addFiles(const QStringList & files, const CompressionOptions& options) = 0;
-    virtual bool deleteFiles(const QList<QVariant> & files) = 0;
+    virtual bool addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) = 0;
+    virtual bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
+    virtual bool copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
+    virtual bool deleteFiles(const QList<Archive::Entry*> &files) = 0;
     virtual bool addComment(const QString &comment) = 0;
 };
 

@@ -2,6 +2,7 @@
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (c) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,6 +32,7 @@
 #include "kerfuffle_export.h"
 #include "archiveinterface.h"
 #include "archive_kerfuffle.h"
+#include "archiveentry.h"
 #include "queries.h"
 
 #include <KJob>
@@ -57,6 +59,7 @@ protected:
     virtual void emitResult();
 
     ReadOnlyArchiveInterface *archiveInterface();
+    QList<Archive::Entry*> m_archiveEntries;
 
     void connectToArchiveInterfaceSignals();
 
@@ -67,7 +70,7 @@ protected slots:
     virtual void onCancelled();
     virtual void onError(const QString &message, const QString &details);
     virtual void onInfo(const QString &info);
-    virtual void onEntry(const ArchiveEntry &archiveEntry);
+    virtual void onEntry(Archive::Entry *entry);
     virtual void onProgress(double progress);
     virtual void onEntryRemoved(const QString &path);
     virtual void onFinished(bool result);
@@ -76,7 +79,7 @@ protected slots:
 signals:
     void entryRemoved(const QString & entry);
     void error(const QString& errorMessage, const QString& details);
-    void newEntry(const ArchiveEntry &);
+    void newEntry(Archive::Entry*);
     void userQuery(Kerfuffle::Query*);
 
 private:
@@ -114,7 +117,7 @@ private:
     qlonglong m_filesCount;
 
 private slots:
-    void onNewEntry(const ArchiveEntry&);
+    void onNewEntry(const Archive::Entry*);
 };
 
 class KERFUFFLE_EXPORT ExtractJob : public Job
@@ -122,7 +125,7 @@ class KERFUFFLE_EXPORT ExtractJob : public Job
     Q_OBJECT
 
 public:
-    ExtractJob(const QVariantList& files, const QString& destinationDir, const ExtractionOptions& options, ReadOnlyArchiveInterface *interface);
+    ExtractJob(const QList<Archive::Entry*> &entries, const QString& destinationDir, const ExtractionOptions& options, ReadOnlyArchiveInterface *interface);
 
     QString destinationDirectory() const;
     ExtractionOptions extractionOptions() const;
@@ -134,7 +137,7 @@ private:
     // TODO: Maybe this should be a method if ExtractionOptions were a class?
     void setDefaultOptions();
 
-    QVariantList m_files;
+    QList<Archive::Entry*> m_entries;
     QString m_destinationDir;
     ExtractionOptions m_options;
 };
@@ -149,7 +152,7 @@ class KERFUFFLE_EXPORT TempExtractJob : public Job
     Q_OBJECT
 
 public:
-    TempExtractJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
+    TempExtractJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
 
     /**
      * @return The absolute path of the extracted file.
@@ -171,7 +174,7 @@ public slots:
 private:
     QString extractionDir() const;
 
-    QString m_file;
+    Archive::Entry *m_entry;
     QTemporaryDir *m_tmpExtractDir;
     bool m_passwordProtectedHint;
 };
@@ -185,7 +188,7 @@ class KERFUFFLE_EXPORT PreviewJob : public TempExtractJob
     Q_OBJECT
 
 public:
-    PreviewJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
+    PreviewJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
 };
 
 /**
@@ -197,7 +200,7 @@ class KERFUFFLE_EXPORT OpenJob : public TempExtractJob
     Q_OBJECT
 
 public:
-    OpenJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
+    OpenJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
 };
 
 class KERFUFFLE_EXPORT OpenWithJob : public OpenJob
@@ -205,7 +208,7 @@ class KERFUFFLE_EXPORT OpenWithJob : public OpenJob
     Q_OBJECT
 
 public:
-    OpenWithJob(const QString& file, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
+    OpenWithJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
 };
 
 class KERFUFFLE_EXPORT AddJob : public Job
@@ -213,7 +216,7 @@ class KERFUFFLE_EXPORT AddJob : public Job
     Q_OBJECT
 
 public:
-    AddJob(const QStringList& files, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+    AddJob(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
@@ -223,7 +226,56 @@ protected slots:
 
 private:
     QString m_oldWorkingDir;
-    QStringList m_files;
+    const QList<Archive::Entry*> m_entries;
+    const Archive::Entry *m_destination;
+    CompressionOptions m_options;
+};
+
+/**
+ * This MoveJob can be used to rename or move entries withing the archive.
+ * @see Archive::moveFiles for more details.
+ */
+class KERFUFFLE_EXPORT MoveJob : public Job
+{
+Q_OBJECT
+
+public:
+    MoveJob(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+
+public slots:
+    virtual void doWork() Q_DECL_OVERRIDE;
+
+protected slots:
+    virtual void onFinished(bool result) Q_DECL_OVERRIDE;
+
+private:
+    int m_finishedSignalsCount;
+    const QList<Archive::Entry*> m_entries;
+    Archive::Entry *m_destination;
+    CompressionOptions m_options;
+};
+
+/**
+ * This CopyJob can be used to copy entries withing the archive.
+ * @see Archive::copyFiles for more details.
+ */
+class KERFUFFLE_EXPORT CopyJob : public Job
+{
+Q_OBJECT
+
+public:
+    CopyJob(const QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+
+public slots:
+    virtual void doWork() Q_DECL_OVERRIDE;
+
+protected slots:
+    virtual void onFinished(bool result) Q_DECL_OVERRIDE;
+
+private:
+    int m_finishedSignalsCount;
+    const QList<Archive::Entry*> m_entries;
+    Archive::Entry *m_destination;
     CompressionOptions m_options;
 };
 
@@ -232,13 +284,13 @@ class KERFUFFLE_EXPORT DeleteJob : public Job
     Q_OBJECT
 
 public:
-    DeleteJob(const QVariantList& files, ReadWriteArchiveInterface *interface);
+    DeleteJob(const QList<Archive::Entry*> &files, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
-    QVariantList m_files;
+    QList<Archive::Entry*> m_entries;
 };
 
 class KERFUFFLE_EXPORT CommentJob : public Job

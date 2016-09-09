@@ -4,6 +4,7 @@
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2010-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,190 +23,64 @@
  */
 
 #include "archivemodel.h"
-#include "ark_debug.h"
-#include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/jobs.h"
 
-#include <KIconLoader>
 #include <KLocalizedString>
 #include <kio/global.h>
 
-#include <QDateTime>
 #include <QDBusConnection>
 #include <QElapsedTimer>
 #include <QMimeData>
-#include <QMimeDatabase>
-#include <QPersistentModelIndex>
 #include <QRegularExpression>
 #include <QUrl>
 
 using namespace Kerfuffle;
 
-class ArchiveDirNode;
-
 //used to speed up the loading of large archives
-static ArchiveNode* s_previousMatch = Q_NULLPTR;
+static Archive::Entry *s_previousMatch = Q_NULLPTR;
 Q_GLOBAL_STATIC(QStringList, s_previousPieces)
 
-
-// TODO: This class hierarchy needs some love.
-//       Having a parent take a child class as a parameter in the constructor
-//       should trigger one's spider-sense (TM).
-class ArchiveNode
-{
-public:
-    ArchiveNode(ArchiveDirNode *parent, const ArchiveEntry & entry)
-        : m_parent(parent)
-    {
-        setEntry(entry);
-    }
-
-    virtual ~ArchiveNode()
-    {
-    }
-
-    const ArchiveEntry &entry() const
-    {
-        return m_entry;
-    }
-
-    void setEntry(const ArchiveEntry& entry)
-    {
-        m_entry = entry;
-
-        const QStringList pieces = entry[FileName].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
-        m_name = pieces.isEmpty() ? QString() : pieces.last();
-
-        QMimeDatabase db;
-        if (entry[IsDirectory].toBool()) {
-            m_icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                                               IconSize(KIconLoader::Small));
-        } else {
-            m_icon = QIcon::fromTheme(db.mimeTypeForFile(m_entry[FileName].toString()).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                                          IconSize(KIconLoader::Small));
-        }
-    }
-
-    ArchiveDirNode *parent() const
-    {
-        return m_parent;
-    }
-
-    int row() const;
-
-    virtual bool isDir() const
-    {
-        return false;
-    }
-
-    QPixmap icon() const
-    {
-        return m_icon;
-    }
-
-    QString name() const
-    {
-        return m_name;
-    }
-
-protected:
-    void setIcon(const QPixmap &icon)
-    {
-        m_icon = icon;
-    }
-
-private:
-    ArchiveEntry    m_entry;
-    QPixmap         m_icon;
-    QString         m_name;
-    ArchiveDirNode *m_parent;
+/**
+ * Meta data related to one entry in a compressed archive.
+ *
+ * This is used for indexing entry properties as numbers
+ * and for determining data displaying order in part's view.
+ */
+enum EntryMetaDataType {
+    FullPath,            /**< The entry's file name */
+    Size,                /**< The entry's original size */
+    CompressedSize,      /**< The compressed size for the entry */
+    Permissions,         /**< The entry's permissions */
+    Owner,               /**< The user the entry belongs to */
+    Group,               /**< The user group the entry belongs to */
+    Ratio,               /**< The compression ratio for the entry */
+    CRC,                 /**< The entry's CRC */
+    Method,              /**< The compression method used on the entry */
+    Version,             /**< The archiver version needed to extract the entry */
+    Timestamp,           /**< The timestamp for the current entry */
+    Comment,
 };
 
-
-class ArchiveDirNode: public ArchiveNode
-{
-public:
-    ArchiveDirNode(ArchiveDirNode *parent, const ArchiveEntry & entry)
-        : ArchiveNode(parent, entry)
-    {
-    }
-
-    ~ArchiveDirNode()
-    {
-        clear();
-    }
-
-    QList<ArchiveNode*> entries()
-    {
-        return m_entries;
-    }
-
-    void setEntryAt(int index, ArchiveNode* value)
-    {
-        m_entries[index] = value;
-    }
-
-    void appendEntry(ArchiveNode* entry)
-    {
-        m_entries.append(entry);
-    }
-
-    void removeEntryAt(int index)
-    {
-        delete m_entries.takeAt(index);
-    }
-
-    virtual bool isDir() const
-    {
-        return true;
-    }
-
-    ArchiveNode* find(const QString & name)
-    {
-        foreach(ArchiveNode *node, m_entries) {
-            if (node && (node->name() == name)) {
-                return node;
-            }
-        }
-        return 0;
-    }
-
-    ArchiveNode* findByPath(const QStringList & pieces, int index = 0)
-    {
-        if (index == pieces.count()) {
-            return 0;
-        }
-
-        ArchiveNode *next = find(pieces.at(index));
-
-        if (index == pieces.count() - 1) {
-            return next;
-        }
-        if (next && next->isDir()) {
-            return static_cast<ArchiveDirNode*>(next)->findByPath(pieces, index + 1);
-        }
-        return 0;
-    }
-
-    void returnDirNodes(QList<ArchiveDirNode*> *store)
-    {
-        foreach(ArchiveNode *node, m_entries) {
-            if (node->isDir()) {
-                store->prepend(static_cast<ArchiveDirNode*>(node));
-                static_cast<ArchiveDirNode*>(node)->returnDirNodes(store);
-            }
-        }
-    }
-
-    void clear()
-    {
-        qDeleteAll(m_entries);
-        m_entries.clear();
-    }
-
-private:
-    QList<ArchiveNode*> m_entries;
-};
+/**
+ * Mappings between column indexes and entry properties.
+ */
+static QMap<int, QString> initializePropertiesList() {
+    QMap<int, QString> propertiesList = QMap<int, QString>();
+    propertiesList.insert(FullPath, QStringLiteral("fullPath"));
+    propertiesList.insert(Size, QStringLiteral("size"));
+    propertiesList.insert(CompressedSize, QStringLiteral("compressedSize"));
+    propertiesList.insert(Permissions, QStringLiteral("permissions"));
+    propertiesList.insert(Owner, QStringLiteral("owner"));
+    propertiesList.insert(Group, QStringLiteral("group"));
+    propertiesList.insert(Ratio, QStringLiteral("ratio"));
+    propertiesList.insert(CRC, QStringLiteral("CRC"));
+    propertiesList.insert(Method, QStringLiteral("method"));
+    propertiesList.insert(Version, QStringLiteral("version"));
+    propertiesList.insert(Timestamp, QStringLiteral("timestamp"));
+    propertiesList.insert(Comment, QStringLiteral("comment"));
+    return propertiesList;
+}
+static const QMap<int, QString> propertiesList = initializePropertiesList();
 
 /**
  * Helper functor used by qStableSort.
@@ -227,7 +102,7 @@ public:
     {
     }
 
-    inline bool operator()(const QPair<ArchiveNode*, int> &left, const QPair<ArchiveNode*, int> &right) const
+    inline bool operator()(const QPair<Archive::Entry*, int> &left, const QPair<Archive::Entry*, int> &right) const
     {
         if (m_sortOrder == Qt::AscendingOrder) {
             return lessThan(left, right);
@@ -237,29 +112,30 @@ public:
     }
 
 protected:
-    bool lessThan(const QPair<ArchiveNode*, int> &left, const QPair<ArchiveNode*, int> &right) const
+    bool lessThan(const QPair<Archive::Entry*, int> &left, const QPair<Archive::Entry*, int> &right) const
     {
-        const ArchiveNode * const leftNode = left.first;
-        const ArchiveNode * const rightNode = right.first;
+        const Archive::Entry * const leftEntry = left.first;
+        const Archive::Entry * const rightEntry = right.first;
 
         // #234373: sort folders before files
-        if ((leftNode->isDir()) && (!rightNode->isDir())) {
+        if ((leftEntry->isDir()) && (!rightEntry->isDir())) {
             return (m_sortOrder == Qt::AscendingOrder);
-        } else if ((!leftNode->isDir()) && (rightNode->isDir())) {
+        } else if ((!leftEntry->isDir()) && (rightEntry->isDir())) {
             return !(m_sortOrder == Qt::AscendingOrder);
         }
 
-        const QVariant &leftEntry = leftNode->entry()[m_sortColumn];
-        const QVariant &rightEntry = rightNode->entry()[m_sortColumn];
+        EntryMetaDataType column = static_cast<EntryMetaDataType>(m_sortColumn);
+        const QVariant &leftEntryMetaData = leftEntry->property(propertiesList[column].toUtf8());
+        const QVariant &rightEntryMetaData = rightEntry->property(propertiesList[column].toUtf8());
 
         switch (m_sortColumn) {
-        case FileName:
-            return leftNode->name() < rightNode->name();
+        case FullPath:
+            return leftEntry->name() < rightEntry->name();
         case Size:
         case CompressedSize:
-            return leftEntry.toInt() < rightEntry.toInt();
+            return leftEntryMetaData.toInt() < rightEntryMetaData.toInt();
         default:
-            return leftEntry.toString() < rightEntry.toString();
+            return leftEntryMetaData.toString() < rightEntryMetaData.toString();
         }
 
         // We should not get here.
@@ -272,68 +148,59 @@ private:
     Qt::SortOrder m_sortOrder;
 };
 
-int ArchiveNode::row() const
-{
-    if (parent()) {
-        return parent()->entries().indexOf(const_cast<ArchiveNode*>(this));
-    }
-    return 0;
-}
-
 ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
-    , m_rootNode(new ArchiveDirNode(0, ArchiveEntry()))
+    , m_rootEntry()
     , m_dbusPathName(dbusPathName)
     , m_numberOfFiles(0)
     , m_numberOfFolders(0)
 {
+    m_rootEntry.setProperty("isDirectory", true);
 }
 
 ArchiveModel::~ArchiveModel()
 {
-    delete m_rootNode;
-    m_rootNode = 0;
 }
 
 QVariant ArchiveModel::data(const QModelIndex &index, int role) const
 {
     if (index.isValid()) {
-        ArchiveNode *node = static_cast<ArchiveNode*>(index.internalPointer());
+        Archive::Entry *entry = static_cast<Archive::Entry*>(index.internalPointer());
         switch (role) {
         case Qt::DisplayRole: {
             //TODO: complete the columns
-            int columnId = m_showColumns.at(index.column());
-            switch (columnId) {
-            case FileName:
-                return node->name();
+            int column = m_showColumns.at(index.column());
+            switch (column) {
+            case FullPath:
+                return entry->name();
             case Size:
-                if (node->isDir()) {
+                if (entry->isDir()) {
                     int dirs;
                     int files;
                     const int children = childCount(index, dirs, files);
                     return KIO::itemsSummaryString(children, files, dirs, 0, false);
-                } else if (node->entry().contains(Link)) {
+                } else if (!entry->property("link").toString().isEmpty()) {
                     return QVariant();
                 } else {
-                    return KIO::convertSize(node->entry()[ Size ].toULongLong());
+                    return KIO::convertSize(entry->property("size").toULongLong());
                 }
             case CompressedSize:
-                if (node->isDir() || node->entry().contains(Link)) {
+                if (entry->isDir() || !entry->property("link").toString().isEmpty()) {
                     return QVariant();
                 } else {
-                    qulonglong compressedSize = node->entry()[ CompressedSize ].toULongLong();
+                    qulonglong compressedSize = entry->property("compressedSize").toULongLong();
                     if (compressedSize != 0) {
                         return KIO::convertSize(compressedSize);
                     } else {
                         return QVariant();
                     }
                 }
-            case Ratio: // TODO: Use node->entry()[Ratio] when available
-                if (node->isDir() || node->entry().contains(Link)) {
+            case Ratio: // TODO: Use entry->metaData()[Ratio] when available
+                if (entry->isDir() || !entry->property("link").toString().isEmpty()) {
                     return QVariant();
                 } else {
-                    qulonglong compressedSize = node->entry()[ CompressedSize ].toULongLong();
-                    qulonglong size = node->entry()[ Size ].toULongLong();
+                    qulonglong compressedSize = entry->property("compressedSize").toULongLong();
+                    qulonglong size = entry->property("size").toULongLong();
                     if (compressedSize == 0 || size == 0) {
                         return QVariant();
                     } else {
@@ -343,23 +210,24 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                 }
 
             case Timestamp: {
-                const QDateTime timeStamp = node->entry().value(Timestamp).toDateTime();
+                const QDateTime timeStamp = entry->property("timestamp").toDateTime();
                 return QLocale().toString(timeStamp, QLocale::ShortFormat);
             }
 
             default:
-                return node->entry().value(columnId);
+                return entry->property(propertiesList[column].toUtf8());
             }
-            break;
         }
         case Qt::DecorationRole:
             if (index.column() == 0) {
-                return node->icon();
+                const Archive::Entry *e = static_cast<Archive::Entry*>(index.internalPointer());
+                QIcon::Mode mode = (filesToMove.contains(e->fullPath())) ? QIcon::Disabled : QIcon::Normal;
+                return m_entryIcons.value(e->fullPath(true)).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small), mode);
             }
             return QVariant();
         case Qt::FontRole: {
             QFont f;
-            f.setItalic(node->entry()[ IsPasswordProtected ].toBool());
+            f.setItalic(entry->property("isPasswordProtected").toBool());
             return f;
         }
         default:
@@ -392,7 +260,7 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
         int columnId = m_showColumns.at(section);
 
         switch (columnId) {
-        case FileName:
+        case FullPath:
             return i18nc("Name of a file inside an archive", "Name");
         case Size:
             return i18nc("Uncompressed size of a file inside an archive", "Size");
@@ -428,13 +296,15 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
 QModelIndex ArchiveModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (hasIndex(row, column, parent)) {
-        ArchiveDirNode *parentNode = parent.isValid() ? static_cast<ArchiveDirNode*>(parent.internalPointer()) : m_rootNode;
+        const Archive::Entry *parentEntry = parent.isValid()
+                                            ? static_cast<Archive::Entry*>(parent.internalPointer())
+                                            : &m_rootEntry;
 
-        Q_ASSERT(parentNode->isDir());
+        Q_ASSERT(parentEntry->isDir());
 
-        ArchiveNode *item = parentNode->entries().value(row, 0);
-        if (item) {
-            return createIndex(row, column, item);
+        const Archive::Entry *item = parentEntry->entries().value(row, Q_NULLPTR);
+        if (item != Q_NULLPTR) {
+            return createIndex(row, column, const_cast<Archive::Entry*>(item));
         }
     }
 
@@ -444,35 +314,35 @@ QModelIndex ArchiveModel::index(int row, int column, const QModelIndex &parent) 
 QModelIndex ArchiveModel::parent(const QModelIndex &index) const
 {
     if (index.isValid()) {
-        ArchiveNode *item = static_cast<ArchiveNode*>(index.internalPointer());
+        Archive::Entry *item = static_cast<Archive::Entry*>(index.internalPointer());
         Q_ASSERT(item);
-        if (item->parent() && (item->parent() != m_rootNode)) {
-            return createIndex(item->parent()->row(), 0, item->parent());
+        if (item->getParent() && (item->getParent() != &m_rootEntry)) {
+            return createIndex(item->getParent()->row(), 0, item->getParent());
         }
     }
     return QModelIndex();
 }
 
-ArchiveEntry ArchiveModel::entryForIndex(const QModelIndex &index)
+Archive::Entry *ArchiveModel::entryForIndex(const QModelIndex &index)
 {
     if (index.isValid()) {
-        ArchiveNode *item = static_cast<ArchiveNode*>(index.internalPointer());
+        Archive::Entry *item = static_cast<Archive::Entry*>(index.internalPointer());
         Q_ASSERT(item);
-        return item->entry();
+        return item;
     }
-    return ArchiveEntry();
+    return Q_NULLPTR;
 }
 
 int ArchiveModel::childCount(const QModelIndex &index, int &dirs, int &files) const
 {
     if (index.isValid()) {
         dirs = files = 0;
-        ArchiveNode *item = static_cast<ArchiveNode*>(index.internalPointer());
+        Archive::Entry *item = static_cast<Archive::Entry*>(index.internalPointer());
         Q_ASSERT(item);
         if (item->isDir()) {
-            const QList<ArchiveNode*> entries = static_cast<ArchiveDirNode*>(item)->entries();
-            foreach(const ArchiveNode *node, entries) {
-                if (node->isDir()) {
+            const QVector<Archive::Entry*> entries = item->entries();
+            foreach(const Archive::Entry *entry, entries) {
+                if (entry->isDir()) {
                     dirs++;
                 } else {
                     files++;
@@ -488,10 +358,12 @@ int ArchiveModel::childCount(const QModelIndex &index, int &dirs, int &files) co
 int ArchiveModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.column() <= 0) {
-        ArchiveNode *parentNode = parent.isValid() ? static_cast<ArchiveNode*>(parent.internalPointer()) : m_rootNode;
+        const Archive::Entry *parentEntry = parent.isValid()
+                                            ? static_cast<Archive::Entry*>(parent.internalPointer())
+                                            : &m_rootEntry;
 
-        if (parentNode && parentNode->isDir()) {
-            return static_cast<ArchiveDirNode*>(parentNode)->entries().count();
+        if (parentEntry && parentEntry->isDir()) {
+            return parentEntry->entries().count();
         }
     }
     return 0;
@@ -511,16 +383,16 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
 
     emit layoutAboutToBeChanged();
 
-    QList<ArchiveDirNode*> dirNodes;
-    m_rootNode->returnDirNodes(&dirNodes);
-    dirNodes.append(m_rootNode);
+    QList<Archive::Entry*> dirEntries;
+    m_rootEntry.returnDirEntries(&dirEntries);
+    dirEntries.append(&m_rootEntry);
 
     const ArchiveModelSorter modelSorter(m_showColumns.at(column), order);
 
-    foreach(ArchiveDirNode* dir, dirNodes) {
-        QVector < QPair<ArchiveNode*,int> > sorting(dir->entries().count());
+    foreach(Archive::Entry *dir, dirEntries) {
+        QVector < QPair<Archive::Entry*,int> > sorting(dir->entries().count());
         for (int i = 0; i < dir->entries().count(); ++i) {
-            ArchiveNode *item = dir->entries().at(i);
+            Archive::Entry *item = dir->entries().at(i);
             sorting[i].first = item;
             sorting[i].second = i;
         }
@@ -530,7 +402,7 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
         QModelIndexList fromIndexes;
         QModelIndexList toIndexes;
         for (int r = 0; r < sorting.count(); ++r) {
-            ArchiveNode *item = sorting.at(r).first;
+            Archive::Entry *item = sorting.at(r).first;
             toIndexes.append(createIndex(r, 0, item));
             fromIndexes.append(createIndex(sorting.at(r).second, 0, sorting.at(r).first));
             dir->setEntryAt(r, sorting.at(r).first);
@@ -539,8 +411,8 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
         changePersistentIndexList(fromIndexes, toIndexes);
 
         emit dataChanged(
-            index(0, 0, indexForNode(dir)),
-            index(dir->entries().size() - 1, 0, indexForNode(dir)));
+            index(0, 0, indexForEntry(dir)),
+            index(dir->entries().size() - 1, 0, indexForEntry(dir)));
     }
 
     emit layoutChanged();
@@ -583,9 +455,6 @@ QMimeData *ArchiveModel::mimeData(const QModelIndexList &indexes) const
 bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent)
 {
     Q_UNUSED(action)
-    Q_UNUSED(row)
-    Q_UNUSED(column)
-    Q_UNUSED(parent)
 
     if (!data->hasUrls()) {
         return false;
@@ -603,25 +472,16 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
         paths << url.toLocalFile();
     }
 
-    //for now, this code is not used because adding files to paths inside the
-    //archive is not supported yet. need a solution for this later.
-    QString path;
-#if 0
-    if (parent.isValid()) {
-        QModelIndex droppedOnto = index(row, column, parent);
-        if (entryForIndex(droppedOnto).value(IsDirectory).toBool()) {
-            qCDebug(ARK) << "Using entry";
-            path = entryForIndex(droppedOnto).value(FileName).toString();
-        } else {
-            path = entryForIndex(parent).value(FileName).toString();
+    const Archive::Entry *entry = Q_NULLPTR;
+    QModelIndex droppedOnto = index(row, column, parent);
+    if (droppedOnto.isValid()) {
+        entry = entryForIndex(droppedOnto);
+        if (!entry->isDir()) {
+            entry = entry->getParent();
         }
     }
 
-    qCDebug(ARK) << "Dropped onto " << path;
-
-#endif
-
-    emit droppedFiles(paths, path);
+    emit droppedFiles(paths, entry, QString());
 
     return true;
 }
@@ -643,9 +503,9 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
     return fileName;
 }
 
-ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
+Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
 {
-    QStringList pieces = entry[ FileName ].toString().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+    QStringList pieces = entry->fullPath().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
     if (pieces.isEmpty()) {
         return Q_NULLPTR;
     }
@@ -667,32 +527,35 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
 
             //if match return it
             if (equal) {
-                return static_cast<ArchiveDirNode*>(s_previousMatch);
+                return s_previousMatch;
             }
         }
     }
 
-    ArchiveDirNode *parent = m_rootNode;
+    Archive::Entry *parent = &m_rootEntry;
 
     foreach(const QString &piece, pieces) {
-        ArchiveNode *node = parent->find(piece);
-        if (!node) {
-            ArchiveEntry e;
-            e[ FileName ] = (parent == m_rootNode) ?
-                            piece : parent->entry()[ FileName ].toString() + QLatin1Char( '/' ) + piece;
-            e[ InternalID ] = e.value(FileName);
-            e[ IsDirectory ] = true;
-            node = new ArchiveDirNode(parent, e);
-            insertNode(node);
+        Archive::Entry *entry = parent->find(piece);
+        if (!entry) {
+            // Directory entry will be traversed later (that happens for some archive formats, 7z for instance).
+            // We have to create one before, in order to construct tree from its children,
+            // and then delete the existing one (see ArchiveModel::newEntry).
+            entry = new Archive::Entry(parent);
+
+            entry->setProperty("fullPath", (parent == &m_rootEntry)
+                                           ? piece
+                                           : parent->fullPath(true) + QLatin1Char('/') + piece);
+            entry->setProperty("isDirectory", true);
+            insertEntry(entry);
         }
-        if (!node->isDir()) {
-            ArchiveEntry e(node->entry());
-            node = new ArchiveDirNode(parent, e);
-            //Maybe we have both a file and a directory of the same name
-            // We avoid removing previous entries unless necessary
-            insertNode(node);
+        if (!entry->isDir()) {
+            Archive::Entry *e = new Archive::Entry(parent);
+            e->copyMetaData(entry);
+            // Maybe we have both a file and a directory of the same name.
+            // We avoid removing previous entries unless necessary.
+            insertEntry(e);
         }
-        parent = static_cast<ArchiveDirNode*>(node);
+        parent = entry;
     }
 
     s_previousMatch = parent;
@@ -700,13 +563,14 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
 
     return parent;
 }
-QModelIndex ArchiveModel::indexForNode(ArchiveNode *node)
+
+QModelIndex ArchiveModel::indexForEntry(Archive::Entry *entry)
 {
-    Q_ASSERT(node);
-    if (node != m_rootNode) {
-        Q_ASSERT(node->parent());
-        Q_ASSERT(node->parent()->isDir());
-        return createIndex(node->row(), 0, node);
+    Q_ASSERT(entry);
+    if (entry != &m_rootEntry) {
+        Q_ASSERT(entry->getParent());
+        Q_ASSERT(entry->getParent()->isDir());
+        return createIndex(entry->row(), 0, entry);
     }
     return QModelIndex();
 }
@@ -718,18 +582,15 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         return;
     }
 
-    ArchiveNode *entry = m_rootNode->findByPath(entryFileName.split(QLatin1Char( '/' ), QString::SkipEmptyParts));
+    Archive::Entry *entry = m_rootEntry.findByPath(entryFileName.split(QLatin1Char( '/' ), QString::SkipEmptyParts));
     if (entry) {
-        ArchiveDirNode *parent = entry->parent();
-        QModelIndex index = indexForNode(entry);
+        Archive::Entry *parent = entry->getParent();
+        QModelIndex index = indexForEntry(entry);
         Q_UNUSED(index);
 
-        beginRemoveRows(indexForNode(parent), entry->row(), entry->row());
-
-        //delete parent->entries()[ entry->row() ];
-        //parent->entries()[ entry->row() ] = 0;
+        beginRemoveRows(indexForEntry(parent), entry->row(), entry->row());
+        m_entryIcons.remove(parent->entries().at(entry->row())->fullPath(true));
         parent->removeEntryAt(entry->row());
-
         endRemoveRows();
     }
 }
@@ -739,7 +600,7 @@ void ArchiveModel::slotUserQuery(Kerfuffle::Query *query)
     query->execute();
 }
 
-void ArchiveModel::slotNewEntryFromSetArchive(const ArchiveEntry& entry)
+void ArchiveModel::slotNewEntryFromSetArchive(Archive::Entry *entry)
 {
     // we cache all entries that appear when opening a new archive
     // so we can all them together once it's done, this is a huge
@@ -748,14 +609,14 @@ void ArchiveModel::slotNewEntryFromSetArchive(const ArchiveEntry& entry)
     m_newArchiveEntries.push_back(entry);
 }
 
-void ArchiveModel::slotNewEntry(const ArchiveEntry& entry)
+void ArchiveModel::slotNewEntry(Archive::Entry *entry)
 {
     newEntry(entry, NotifyViews);
 }
 
-void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour behaviour)
+void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behaviour)
 {
-    if (receivedEntry[FileName].toString().isEmpty()) {
+    if (receivedEntry->fullPath().isEmpty()) {
         qCDebug(ARK) << "Weird, received empty entry (no filename) - skipping";
         return;
     }
@@ -763,28 +624,16 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
     //if there are no addidional columns registered, then have a look at the
     //entry and populate some
     if (m_showColumns.isEmpty()) {
-        //these are the columns we are interested in showing in the display
-        static const QList<int> columnsForDisplay =
-            QList<int>()
-            << FileName
-            << Size
-            << CompressedSize
-            << Permissions
-            << Owner
-            << Group
-            << Ratio
-            << CRC
-            << Method
-            << Version
-            << Timestamp
-            << Comment;
-
         QList<int> toInsert;
 
-        foreach(int column, columnsForDisplay) {
-            if (receivedEntry.contains(column)) {
-                toInsert << column;
+        QMap<int, QString>::const_iterator i = propertiesList.begin();
+        while (i != propertiesList.end()) {
+            if (!receivedEntry->property(i.value().toUtf8()).toString().isEmpty()) {
+                if (i.key() != CompressedSize || receivedEntry->compressedSizeIsSet) {
+                    toInsert << i.key();
+                }
             }
+            ++i;
         }
         beginInsertColumns(QModelIndex(), 0, toInsert.size() - 1);
         m_showColumns << toInsert;
@@ -793,51 +642,42 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
         qCDebug(ARK) << "Showing columns: " << m_showColumns;
     }
 
-    //make a copy
-    ArchiveEntry entry = receivedEntry;
-
     //#194241: Filenames such as "./file" should be displayed as "file"
     //#241967: Entries called "/" should be ignored
     //#355839: Entries called "//" should be ignored
-    QString entryFileName = cleanFileName(entry[FileName].toString());
+    QString entryFileName = cleanFileName(receivedEntry->fullPath());
     if (entryFileName.isEmpty()) { // The entry contains only "." or "./"
         return;
     }
-    entry[FileName] = entryFileName;
+    receivedEntry->setProperty("fullPath", entryFileName);
 
-    /// 1. Skip already created nodes
-    if (m_rootNode) {
-        ArchiveNode *existing = m_rootNode->findByPath(entry[ FileName ].toString().split(QLatin1Char( '/' )));
-        if (existing) {
-            qCDebug(ARK) << "Refreshing entry for" << entry[FileName].toString();
+    /// 1. Skip already created entries
+    Archive::Entry *existing = m_rootEntry.findByPath(entryFileName.split(QLatin1Char( '/' )));
+    if (existing) {
+        qCDebug(ARK) << "Refreshing entry for" << entryFileName;
 
-            // Multi-volume files are repeated at least in RAR archives.
-            // In that case, we need to sum the compressed size for each volume
-            qulonglong currentCompressedSize = existing->entry()[CompressedSize].toULongLong();
-            entry[CompressedSize] = currentCompressedSize + entry[CompressedSize].toULongLong();
-
-            //TODO: benchmark whether it's a bad idea to reset the entry here.
-            existing->setEntry(entry);
-            return;
-        }
+        existing->setProperty("fullPath", entryFileName);
+        // Multi-volume files are repeated at least in RAR archives.
+        // In that case, we need to sum the compressed size for each volume
+        qulonglong currentCompressedSize = existing->property("compressedSize").toULongLong();
+        existing->setProperty("compressedSize", currentCompressedSize + receivedEntry->property("compressedSize").toULongLong());
+        return;
     }
 
-    /// 2. Find Parent Node, creating missing ArchiveDirNodes in the process
-    ArchiveDirNode *parent = parentFor(entry);
+    /// 2. Find Parent Entry, creating missing direcotry ArchiveEntries in the process
+    Archive::Entry *parent = parentFor(receivedEntry);
 
-    /// 3. Create an ArchiveNode
-    const QStringList path = entry[FileName].toString().split(QLatin1Char('/'), QString::SkipEmptyParts);
+    /// 3. Create an Archive::Entry
+    const QStringList path = entryFileName.split(QLatin1Char('/'), QString::SkipEmptyParts);
     const QString name = path.last();
-    ArchiveNode *node = parent->find(name);
-    if (node) {
-        node->setEntry(entry);
+    Archive::Entry *entry = parent->find(name);
+    if (entry) {
+        entry->copyMetaData(receivedEntry);
+        entry->setProperty("fullPath", entryFileName);
+        delete receivedEntry;
     } else {
-        if (entry[ FileName ].toString().endsWith(QLatin1Char( '/' )) || (entry.contains(IsDirectory) && entry[ IsDirectory ].toBool())) {
-            node = new ArchiveDirNode(parent, entry);
-        } else {
-            node = new ArchiveNode(parent, entry);
-        }
-        insertNode(node, behaviour);
+        receivedEntry->setParent(parent);
+        insertEntry(receivedEntry, behaviour);
     }
 }
 
@@ -847,7 +687,7 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
         QElapsedTimer timer;
         timer.start();
         int i = 0;
-        foreach(const ArchiveEntry &entry, m_newArchiveEntries) {
+        foreach(Archive::Entry *entry, m_newArchiveEntries) {
             newEntry(entry, DoNotNotifyViews);
             i++;
         }
@@ -861,18 +701,30 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
     emit loadingFinished(job);
 }
 
-void ArchiveModel::insertNode(ArchiveNode *node, InsertBehaviour behaviour)
+void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)
 {
-    Q_ASSERT(node);
-    ArchiveDirNode *parent = node->parent();
+    Q_ASSERT(entry);
+    Archive::Entry *parent = entry->getParent();
     Q_ASSERT(parent);
     if (behaviour == NotifyViews) {
-        beginInsertRows(indexForNode(parent), parent->entries().count(), parent->entries().count());
+        beginInsertRows(indexForEntry(parent), parent->entries().count(), parent->entries().count());
     }
-    parent->appendEntry(node);
+    parent->appendEntry(entry);
     if (behaviour == NotifyViews) {
         endInsertRows();
     }
+
+    // Save an icon for each newly added entry.
+    QMimeDatabase db;
+    QIcon icon;
+    if (entry->isDir()) {
+        icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                                         IconSize(KIconLoader::Small));
+    } else {
+        icon = QIcon::fromTheme(db.mimeTypeForFile(entry->fullPath()).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                         IconSize(KIconLoader::Small));
+    }
+    m_entryIcons.insert(entry->fullPath(true), icon);
 }
 
 Kerfuffle::Archive* ArchiveModel::archive() const
@@ -884,7 +736,7 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
 {
     m_archive.reset(archive);
 
-    m_rootNode->clear();
+    m_rootEntry.clear();
     s_previousMatch = Q_NULLPTR;
     s_previousPieces->clear();
 
@@ -909,22 +761,22 @@ KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
     return job;
 }
 
-ExtractJob* ArchiveModel::extractFile(const QVariant& fileName, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
+ExtractJob* ArchiveModel::extractFile(Archive::Entry *file, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
 {
-    QList<QVariant> files;
-    files << QVariant::fromValue(fileRootNodePair(fileName.toString()));
+    QList<Archive::Entry*> files;
+    files << file;
     return extractFiles(files, destinationDir, options);
 }
 
-ExtractJob* ArchiveModel::extractFiles(const QList<QVariant>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
+ExtractJob* ArchiveModel::extractFiles(const QList<Archive::Entry*>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
 {
     Q_ASSERT(m_archive);
-    ExtractJob *newJob = m_archive->copyFiles(files, destinationDir, options);
+    ExtractJob *newJob = m_archive->extractFiles(files, destinationDir, options);
     connect(newJob, &ExtractJob::userQuery, this, &ArchiveModel::slotUserQuery);
     return newJob;
 }
 
-Kerfuffle::PreviewJob *ArchiveModel::preview(const QString& file) const
+Kerfuffle::PreviewJob *ArchiveModel::preview(Archive::Entry *file) const
 {
     Q_ASSERT(m_archive);
     PreviewJob *job = m_archive->preview(file);
@@ -932,7 +784,7 @@ Kerfuffle::PreviewJob *ArchiveModel::preview(const QString& file) const
     return job;
 }
 
-OpenJob *ArchiveModel::open(const QString& file) const
+OpenJob *ArchiveModel::open(Archive::Entry *file) const
 {
     Q_ASSERT(m_archive);
     OpenJob *job = m_archive->open(file);
@@ -940,7 +792,7 @@ OpenJob *ArchiveModel::open(const QString& file) const
     return job;
 }
 
-OpenWithJob *ArchiveModel::openWith(const QString& file) const
+OpenWithJob *ArchiveModel::openWith(Archive::Entry *file) const
 {
     Q_ASSERT(m_archive);
     OpenWithJob *job = m_archive->openWith(file);
@@ -948,14 +800,14 @@ OpenWithJob *ArchiveModel::openWith(const QString& file) const
     return job;
 }
 
-AddJob* ArchiveModel::addFiles(const QStringList & filenames, const CompressionOptions& options)
+AddJob* ArchiveModel::addFiles(QList<Archive::Entry*> &entries, const Archive::Entry *destination, const CompressionOptions& options)
 {
     if (!m_archive) {
         return Q_NULLPTR;
     }
 
     if (!m_archive->isReadOnly()) {
-        AddJob *job = m_archive->addFiles(filenames, options);
+        AddJob *job = m_archive->addFiles(entries, destination, options);
         connect(job, &AddJob::newEntry, this, &ArchiveModel::slotNewEntry);
         connect(job, &AddJob::userQuery, this, &ArchiveModel::slotUserQuery);
 
@@ -965,11 +817,46 @@ AddJob* ArchiveModel::addFiles(const QStringList & filenames, const CompressionO
     return Q_NULLPTR;
 }
 
-DeleteJob* ArchiveModel::deleteFiles(const QList<QVariant> & files)
+Kerfuffle::MoveJob *ArchiveModel::moveFiles(QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options)
+{
+    if (!m_archive) {
+        return Q_NULLPTR;
+    }
+
+    if (!m_archive->isReadOnly()) {
+        MoveJob *job = m_archive->moveFiles(entries, destination, options);
+        connect(job, &MoveJob::newEntry, this, &ArchiveModel::slotNewEntry);
+        connect(job, &MoveJob::userQuery, this, &ArchiveModel::slotUserQuery);
+        connect(job, &MoveJob::entryRemoved, this, &ArchiveModel::slotEntryRemoved);
+        connect(job, &MoveJob::finished, this, &ArchiveModel::slotCleanupEmptyDirs);
+
+
+        return job;
+    }
+    return Q_NULLPTR;
+}
+Kerfuffle::CopyJob *ArchiveModel::copyFiles(QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options)
+{
+    if (!m_archive) {
+        return Q_NULLPTR;
+    }
+
+    if (!m_archive->isReadOnly()) {
+        CopyJob *job = m_archive->copyFiles(entries, destination, options);
+        connect(job, &CopyJob::newEntry, this, &ArchiveModel::slotNewEntry);
+        connect(job, &CopyJob::userQuery, this, &ArchiveModel::slotUserQuery);
+
+
+        return job;
+    }
+    return Q_NULLPTR;
+}
+
+DeleteJob* ArchiveModel::deleteFiles(QList<Archive::Entry*> entries)
 {
     Q_ASSERT(m_archive);
     if (!m_archive->isReadOnly()) {
-        DeleteJob *job = m_archive->deleteFiles(files);
+        DeleteJob *job = m_archive->deleteFiles(entries);
         connect(job, &DeleteJob::entryRemoved, this, &ArchiveModel::slotEntryRemoved);
 
         connect(job, &DeleteJob::finished, this, &ArchiveModel::slotCleanupEmptyDirs);
@@ -989,6 +876,95 @@ void ArchiveModel::encryptArchive(const QString &password, bool encryptHeader)
     m_archive->encrypt(password, encryptHeader);
 }
 
+bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingEntries, const QStringList &entries, bool allowMerging) const
+{
+    bool error = false;
+
+    // We can't accept destination as an argument, because it can be a new entry path for renaming.
+    const Archive::Entry *destination;
+    {
+        QStringList destinationParts = entries.first().split(QLatin1Char('/'), QString::SkipEmptyParts);
+        destinationParts.removeLast();
+        if (destinationParts.count() > 0) {
+            destination = m_rootEntry.findByPath(destinationParts);
+        }
+        else {
+            destination = &m_rootEntry;
+        }
+    }
+    const Archive::Entry *lastDirEntry = destination;
+    QString skippedDirPath;
+
+    foreach (const QString &entry, entries) {
+        if (skippedDirPath.count() > 0 && entry.startsWith(skippedDirPath)) {
+            continue;
+        }
+        else {
+            skippedDirPath.clear();
+        }
+
+        while (!entry.startsWith(lastDirEntry->fullPath())) {
+            lastDirEntry = lastDirEntry->getParent();
+        }
+
+        bool isDir = entry.right(1) == QLatin1String("/");
+        const Archive::Entry *archiveEntry = lastDirEntry->find(entry.split(QLatin1Char('/'), QString::SkipEmptyParts).last());
+
+        if (archiveEntry != Q_NULLPTR) {
+            if (archiveEntry->isDir() != isDir || !allowMerging) {
+                if (isDir) {
+                    skippedDirPath = lastDirEntry->fullPath();
+                }
+
+                if (!error) {
+                    conflictingEntries.clear();
+                    error = true;
+                }
+                conflictingEntries << archiveEntry;
+            }
+            else {
+                if (isDir) {
+                    lastDirEntry = archiveEntry;
+                }
+                else if (!error) {
+                    conflictingEntries << archiveEntry;
+                }
+            }
+        }
+        else if (isDir) {
+            skippedDirPath = entry;
+        }
+    }
+
+    return error;
+}
+
+bool ArchiveModel::hasDuplicatedEntries(const QStringList &entries)
+{
+    QStringList tempList;
+    foreach (const QString &entry, entries) {
+        if (tempList.contains(entry)) {
+            return true;
+        }
+        tempList << entry;
+    }
+    return false;
+}
+
+QMap<QString, Archive::Entry*> ArchiveModel::entryMap(const QList<Archive::Entry*> &entries)
+{
+    QMap<QString, Archive::Entry*> map;
+    foreach (Archive::Entry *entry, entries) {
+        map.insert(entry->fullPath(), entry);
+    }
+    return map;
+}
+
+const QHash<QString, QIcon> ArchiveModel::entryIcons() const
+{
+    return m_entryIcons;
+}
+
 void ArchiveModel::slotCleanupEmptyDirs()
 {
     QList<QPersistentModelIndex> queue;
@@ -1002,10 +978,10 @@ void ArchiveModel::slotCleanupEmptyDirs()
     //breadth-first traverse
     while (!queue.isEmpty()) {
         QPersistentModelIndex node = queue.takeFirst();
-        ArchiveEntry entry = entryForIndex(node);
+        Archive::Entry *entry = entryForIndex(node);
 
         if (!hasChildren(node)) {
-            if (!entry.contains(InternalID)) {
+            if (entry->fullPath().isEmpty()) {
                 nodesToDelete << node;
             }
         } else {
@@ -1016,10 +992,11 @@ void ArchiveModel::slotCleanupEmptyDirs()
     }
 
     foreach(const QPersistentModelIndex& node, nodesToDelete) {
-        ArchiveNode *rawNode = static_cast<ArchiveNode*>(node.internalPointer());
-        qCDebug(ARK) << "Delete with parent entries " << rawNode->parent()->entries() << " and row " << rawNode->row();
-        beginRemoveRows(parent(node), rawNode->row(), rawNode->row());
-        rawNode->parent()->removeEntryAt(rawNode->row());
+        Archive::Entry *rawEntry = static_cast<Archive::Entry*>(node.internalPointer());
+        qCDebug(ARK) << "Delete with parent entries " << rawEntry->getParent()->entries() << " and row " << rawEntry->row();
+        beginRemoveRows(parent(node), rawEntry->row(), rawEntry->row());
+        m_entryIcons.remove(rawEntry->getParent()->entries().at(rawEntry->row())->fullPath(true));
+        rawEntry->getParent()->removeEntryAt(rawEntry->row());
         endRemoveRows();
     }
 }
@@ -1040,20 +1017,20 @@ void ArchiveModel::countEntriesAndSize() {
     QElapsedTimer timer;
     timer.start();
 
-    traverseAndCountDirNode(m_rootNode);
+    traverseAndCountDirNode(&m_rootEntry);
 
     qCDebug(ARK) << "Time to count entries and size:" << timer.elapsed() << "ms";
 }
 
-void ArchiveModel::traverseAndCountDirNode(ArchiveDirNode *dir)
+void ArchiveModel::traverseAndCountDirNode(Archive::Entry *dir)
 {
-    foreach(ArchiveNode *node, dir->entries()) {
-        if (node->isDir()) {
-            traverseAndCountDirNode(dynamic_cast<ArchiveDirNode*>(node));
+    foreach(Archive::Entry *entry, dir->entries()) {
+        if (entry->isDir()) {
+            traverseAndCountDirNode(entry);
             m_numberOfFolders++;
         } else {
             m_numberOfFiles++;
-            m_uncompressedSize += node->entry()[Size].toULongLong();
+            m_uncompressedSize += entry->property("size").toULongLong();
         }
     }
 }

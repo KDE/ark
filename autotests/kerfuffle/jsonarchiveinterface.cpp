@@ -26,6 +26,7 @@
 #include "jsonarchiveinterface.h"
 
 #include <qfile.h>
+#include "kerfuffle/archiveentry.h"
 
 JSONArchiveInterface::JSONArchiveInterface(QObject *parent, const QVariantList& args)
     : Kerfuffle::ReadWriteArchiveInterface(parent, args)
@@ -63,25 +64,44 @@ bool JSONArchiveInterface::open()
     return !m_archive.isEmpty();
 }
 
-bool JSONArchiveInterface::addFiles(const QStringList& files, const Kerfuffle::CompressionOptions& options)
+bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry*>& files, const Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options)
 {
     Q_UNUSED(options)
 
-    foreach (const QString& file, files) {
-        if (m_archive.contains(file)) {
+    foreach (const Kerfuffle::Archive::Entry *entry, files) {
+        const QString &path = destination->fullPath() + entry->fullPath();
+        if (m_archive.contains(path)) {
             return false;
         }
 
-        Kerfuffle::ArchiveEntry e;
-        e[Kerfuffle::FileName] = file;
+        Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(Q_NULLPTR);
+        e->setProperty("fullPath", path);
 
-        m_archive[file] = e;
+        m_archive[path] = e;
     }
 
     return true;
 }
 
-bool JSONArchiveInterface::copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options)
+bool JSONArchiveInterface::moveFiles(const QList<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::ExtractionOptions& options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(options)
+
+    return true;
+}
+
+bool JSONArchiveInterface::copyFiles(const QList<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(options)
+
+    return false;
+}
+
+bool JSONArchiveInterface::extractFiles(const QList<Kerfuffle::Archive::Entry*>& files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions& options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destinationDirectory)
@@ -90,10 +110,10 @@ bool JSONArchiveInterface::copyFiles(const QList<QVariant>& files, const QString
     return true;
 }
 
-bool JSONArchiveInterface::deleteFiles(const QList<QVariant>& files)
+bool JSONArchiveInterface::deleteFiles(const QList<Kerfuffle::Archive::Entry*>& files)
 {
-    foreach (const QVariant& file, files) {
-        const QString fileName = file.toString();
+    foreach (const Kerfuffle::Archive::Entry *file, files) {
+        const QString &fileName = file->fullPath();
         if (m_archive.contains(fileName)) {
             m_archive.remove(fileName);
             emit entryRemoved(fileName);

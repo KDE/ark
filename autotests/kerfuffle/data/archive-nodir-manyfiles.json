@@ -1,8 +1,8 @@
 [
     {
-        "FileName": "a.txt"
+        "fullPath": "a.txt"
     },
     {
-        "FileName": "file.txt"
+        "fullPath": "file.txt"
     }
 ]
