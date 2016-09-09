@@ -302,7 +302,7 @@ public:
     explicit CliInterface(QObject *parent, const QVariantList & args);
     virtual ~CliInterface();
 
-    virtual int copyRequiredSignals() const;
+    virtual int copyRequiredSignals() const Q_DECL_OVERRIDE;
 
     virtual bool list() Q_DECL_OVERRIDE;
     virtual bool extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) Q_DECL_OVERRIDE;
