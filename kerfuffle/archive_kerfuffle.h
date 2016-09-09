@@ -73,7 +73,6 @@ typedef QHash<QString, QVariant> ExtractionOptions;
 class KERFUFFLE_EXPORT Archive : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(EncryptionType)
 
     /**
      *  Complete base name, without the "tar" extension (if any).
@@ -102,6 +101,7 @@ public:
         Encrypted,
         HeaderEncrypted
     };
+    Q_ENUM(EncryptionType)
 
     class Entry;
 
@@ -222,7 +222,5 @@ private:
 };
 
 } // namespace Kerfuffle
-
-Q_DECLARE_METATYPE(Kerfuffle::Archive::EncryptionType)
 
 #endif // ARCHIVE_H
