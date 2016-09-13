@@ -464,7 +464,8 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
     return true;
 }
 
-bool ReadWriteLibarchivePlugin::writeEntry(struct archive_entry *entry) {
+bool ReadWriteLibarchivePlugin::writeEntry(struct archive_entry *entry)
+{
     const int returnCode = archive_write_header(m_archiveWriter.data(), entry);
     const QString file = QFile::decodeName(archive_entry_pathname(entry));
 

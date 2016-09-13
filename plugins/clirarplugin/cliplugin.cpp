@@ -174,8 +174,8 @@ bool CliPlugin::readListLine(const QString &line)
     return true;
 }
 
-void CliPlugin::handleUnrar5Line(const QString &line) {
-
+void CliPlugin::handleUnrar5Line(const QString &line)
+{
     // Parses the comment field.
     if (m_parseState == ParseStateComment) {
 
@@ -251,8 +251,8 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
     }
 }
 
-void CliPlugin::handleUnrar5Entry() {
-
+void CliPlugin::handleUnrar5Entry()
+{
     Archive::Entry *e = new Archive::Entry();
 
     QString compressionRatio = m_unrar5Details.value(QStringLiteral("ratio"));
@@ -298,8 +298,8 @@ void CliPlugin::handleUnrar5Entry() {
     emit entry(e);
 }
 
-void CliPlugin::handleUnrar4Line(const QString &line) {
-
+void CliPlugin::handleUnrar4Line(const QString &line)
+{
     // Parses the comment field.
     if (m_parseState == ParseStateComment) {
 
@@ -458,8 +458,8 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
     }
 }
 
-void CliPlugin::handleUnrar4Entry() {
-
+void CliPlugin::handleUnrar4Entry()
+{
     Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
 
     QDateTime ts = QDateTime::fromString(QString(m_unrar4Details.at(4) + QLatin1Char(' ') + m_unrar4Details.at(5)),
@@ -514,7 +514,8 @@ void CliPlugin::handleUnrar4Entry() {
     emit entry(e);
 }
 
-void CliPlugin::ignoreLines(int lines, ParseState nextState) {
+void CliPlugin::ignoreLines(int lines, ParseState nextState)
+{
     m_remainingIgnoreLines = lines;
     m_parseState = nextState;
 }

@@ -64,7 +64,8 @@ enum EntryMetaDataType {
 /**
  * Mappings between column indexes and entry properties.
  */
-static QMap<int, QString> initializePropertiesList() {
+static QMap<int, QString> initializePropertiesList()
+{
     QMap<int, QString> propertiesList = QMap<int, QString>();
     propertiesList.insert(FullPath, QStringLiteral("fullPath"));
     propertiesList.insert(Size, QStringLiteral("size"));
@@ -1001,8 +1002,8 @@ void ArchiveModel::slotCleanupEmptyDirs()
     }
 }
 
-void ArchiveModel::countEntriesAndSize() {
-
+void ArchiveModel::countEntriesAndSize()
+{
     // This function is used to count the number of folders/files and
     // the total compressed size. This is needed for PropertiesDialog
     // to update the corresponding values after adding/deleting files.
