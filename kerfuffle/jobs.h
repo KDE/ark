@@ -50,13 +50,10 @@ class KERFUFFLE_EXPORT Job : public KJob
 public:
     void start();
 
-    bool isRunning() const;
-
 protected:
     Job(ReadOnlyArchiveInterface *interface);
     virtual ~Job();
     virtual bool doKill();
-    virtual void emitResult();
 
     ReadOnlyArchiveInterface *archiveInterface();
     QList<Archive::Entry*> m_archiveEntries;
@@ -85,7 +82,6 @@ signals:
 private:
     ReadOnlyArchiveInterface *m_archiveInterface;
 
-    bool m_isRunning;
     QElapsedTimer jobTimer;
 
     class Private;

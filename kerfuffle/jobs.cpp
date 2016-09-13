@@ -39,8 +39,6 @@
 
 #include <KLocalizedString>
 
-//#define DEBUG_RACECONDITION
-
 namespace Kerfuffle
 {
 
@@ -51,7 +49,6 @@ public:
         : QThread(parent)
         , q(job)
     {
-        connect(q, &KJob::result, this, &QThread::quit);
     }
 
     virtual void run() Q_DECL_OVERRIDE;
@@ -63,20 +60,11 @@ private:
 void Job::Private::run()
 {
     q->doWork();
-
-    if (q->isRunning()) {
-        exec();
-    }
-
-#ifdef DEBUG_RACECONDITION
-    QThread::sleep(2);
-#endif
 }
 
 Job::Job(ReadOnlyArchiveInterface *interface)
     : KJob()
     , m_archiveInterface(interface)
-    , m_isRunning(false)
     , d(new Private(this))
 {
     static bool onlyOnce = false;
@@ -105,15 +93,9 @@ ReadOnlyArchiveInterface *Job::archiveInterface()
     return m_archiveInterface;
 }
 
-bool Job::isRunning() const
-{
-    return m_isRunning;
-}
-
 void Job::start()
 {
     jobTimer.start();
-    m_isRunning = true;
 
     if (archiveInterface()->waitForFinishedSignal()) {
         // CLI-based interfaces run a QProcess, no need to use threads.
@@ -122,12 +104,6 @@ void Job::start()
         // Run the job in another thread.
         d->start();
     }
-}
-
-void Job::emitResult()
-{
-    m_isRunning = false;
-    KJob::emitResult();
 }
 
 void Job::connectToArchiveInterfaceSignals()
