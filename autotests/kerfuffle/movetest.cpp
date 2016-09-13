@@ -32,14 +32,14 @@ class MoveTest : public QObject
 Q_OBJECT
 
 private:
-    void addAllFormatsRows(const QString testName, const QString archiveName, QList<Archive::Entry*> entries, Archive::Entry *destination) {
+    void addAllFormatsRows(const QString &testName, const QString &archiveName, const QList<Archive::Entry*> &entries, Archive::Entry *destination) {
         QStringList formats = QStringList()
             << QStringLiteral("7z")
             << QStringLiteral("rar")
             << QStringLiteral("tar.bz2")
             << QStringLiteral("zip");
 
-            foreach (QString format, formats) {
+            foreach (const QString &format, formats) {
                 const QString testNameWithFormat = testName + QStringLiteral(" (") + format + QStringLiteral(")");
                 QTest::newRow(testNameWithFormat.toUtf8())
                     << archiveName + QLatin1Char('.') + format
