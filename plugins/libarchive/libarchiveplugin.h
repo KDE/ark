@@ -87,7 +87,6 @@ protected:
 
     ArchiveRead m_archiveReader;
     ArchiveRead m_archiveReadDisk;
-    bool m_abortOperation;
 
 private:
     int extractionFlags() const;

@@ -33,6 +33,7 @@
 
 #include <QDirIterator>
 #include <QSaveFile>
+#include <QThread>
 
 K_PLUGIN_FACTORY_WITH_JSON(ReadWriteLibarchivePluginFactory, "kerfuffle_libarchive.json", registerPlugin<ReadWriteLibarchivePlugin>();)
 
@@ -71,7 +72,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
                                     : destination->fullPath();
 
     foreach(Archive::Entry *selectedFile, files) {
-        if (m_abortOperation) {
+        if (QThread::currentThread()->isInterruptionRequested()) {
             break;
         }
 
@@ -89,7 +90,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
                             QDir::Hidden | QDir::NoDotAndDotDot,
                             QDirIterator::Subdirectories);
 
-            while (!m_abortOperation && it.hasNext()) {
+            while (!QThread::currentThread()->isInterruptionRequested() && it.hasNext()) {
                 QString path = it.next();
 
                 if ((it.fileName() == QLatin1String("..")) ||
@@ -126,8 +127,6 @@ bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry*> &files, co
             qCDebug(ARK) << "Adding entries failed";
         }
     }
-
-    m_abortOperation = false;
 
     finish(isSuccessful);
     return isSuccessful;
@@ -409,7 +408,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
         }
     }
 
-    while ((mode != Add || !m_abortOperation) && archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK) {
+    while ((mode != Add || !QThread::currentThread()->isInterruptionRequested()) && archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK) {
 
         const QString file = QFile::decodeName(archive_entry_pathname(entry));
 

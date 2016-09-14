@@ -167,6 +167,11 @@ void Job::onUserQuery(Query *query)
 
 bool Job::doKill()
 {
+    if (d->isRunning()) {
+        d->requestInterruption();
+        d->wait();
+    }
+
     bool ret = archiveInterface()->doKill();
     if (!ret) {
         qCWarning(ARK) << "Killing does not seem to be supported here.";

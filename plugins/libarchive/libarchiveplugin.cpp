@@ -32,11 +32,11 @@
 #include <KLocalizedString>
 
 #include <QDirIterator>
+#include <QThread>
 
 LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList &args)
     : ReadWriteArchiveInterface(parent, args)
     , m_archiveReadDisk(archive_read_disk_new())
-    , m_abortOperation(false)
     , m_cachedArchiveEntryCount(0)
     , m_emitNoEntries(false)
     , m_extractedFilesSize(0)
@@ -66,7 +66,7 @@ bool LibarchivePlugin::list()
     int result = ARCHIVE_RETRY;
 
     bool firstEntry = true;
-    while (!m_abortOperation && (result = archive_read_next_header(m_archiveReader.data(), &aentry)) == ARCHIVE_OK) {
+    while (!QThread::currentThread()->isInterruptionRequested() && (result = archive_read_next_header(m_archiveReader.data(), &aentry)) == ARCHIVE_OK) {
 
         if (firstEntry) {
             qDebug(ARK) << "Detected format for first entry:" << archive_format_name(m_archiveReader.data());
@@ -82,7 +82,6 @@ bool LibarchivePlugin::list()
         m_cachedArchiveEntryCount++;
         archive_read_data_skip(m_archiveReader.data());
     }
-    m_abortOperation = false;
 
     if (result != ARCHIVE_EOF) {
         const QString errorString = QLatin1String(archive_error_string(m_archiveReader.data()));
@@ -137,7 +136,6 @@ bool LibarchivePlugin::testArchive()
 
 bool LibarchivePlugin::doKill()
 {
-    m_abortOperation = true;
     return true;
 }
 
@@ -199,7 +197,7 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry*> &files, const Q
     QString fileBeingRenamed;
 
     // Iterate through all entries in archive.
-    while (!m_abortOperation && (archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK)) {
+    while (!QThread::currentThread()->isInterruptionRequested() && (archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK)) {
 
         if (!extractAll && remainingFiles.isEmpty()) {
             break;
@@ -383,8 +381,6 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry*> &files, const Q
         }
 
     } // While entries left to read in archive.
-
-    m_abortOperation = false;
 
     qCDebug(ARK) << "Extracted" << no_entries << "entries";
 
