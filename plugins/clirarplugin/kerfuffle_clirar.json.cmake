@@ -45,6 +45,15 @@
         "rar"
     ],
     "X-KDE-Priority": 120,
+    "application/vnd.rar": {
+        "CompressionLevelDefault": 3,
+        "CompressionLevelMax": 5,
+        "CompressionLevelMin": 0,
+        "SupportsWriteComment": true,
+        "SupportsTesting": true,
+        "HeaderEncryption": true,
+        "SupportsMultiVolume": true
+    },
     "application/x-rar": {
         "CompressionLevelDefault": 3,
         "CompressionLevelMax": 5,
