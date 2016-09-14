@@ -154,7 +154,7 @@ void AddToArchiveTest::testCompressHere_data()
         qDebug() << "7z/zip executable not found in path. Skipping compress-here-(ZIP) tests.";
     }
 
-    if (!PluginManager().preferredWritePluginsFor(QMimeDatabase().mimeTypeForName(QStringLiteral("application/x-rar"))).isEmpty()) {
+    if (!PluginManager().preferredWritePluginsFor(QMimeDatabase().mimeTypeForName(QStringLiteral("application/vnd.rar"))).isEmpty()) {
         QTest::newRow("compress here (as RAR) - dir with files")
             << QStringLiteral("rar")
             << QStringList {QFINDTESTDATA("data/testdir")}

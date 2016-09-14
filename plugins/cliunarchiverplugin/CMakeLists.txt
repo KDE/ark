@@ -1,6 +1,7 @@
 ########### next target ###############
 
-set(SUPPORTED_CLIUNARCHIVER_MIMETYPES "application/x-rar;")
+# TODO: drop application/x-rar alias once distributions ship shared-mime-info 1.7
+set(SUPPORTED_CLIUNARCHIVER_MIMETYPES "application/vnd.rar;application/x-rar;")
 
 set(kerfuffle_cliunarchiver_SRCS cliplugin.cpp)
 
@@ -9,7 +10,11 @@ ecm_qt_declare_logging_category(kerfuffle_cliunarchiver_SRCS
                                 IDENTIFIER ARK
                                 CATEGORY_NAME ark.cliunarchiver)
 
-set(SUPPORTED_MIMETYPES "application/x-rar")
+# NOTE: the first double-quotes of the first mime and the last
+# double-quotes of the last mime must NOT be escaped.
+set(SUPPORTED_MIMETYPES
+    "application/vnd.rar\",
+    \"application/x-rar")
 
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_cliunarchiver.json.cmake

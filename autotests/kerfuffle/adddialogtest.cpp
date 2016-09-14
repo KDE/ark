@@ -79,8 +79,8 @@ void AddDialogTest::testBasicWidgets_data()
         qDebug() << "7z format not available, skipping test.";
     }
 
-    if (writeMimeTypes.contains(QStringLiteral("application/x-rar"))) {
-        QTest::newRow("rar") << QStringLiteral("application/x-rar") << true << 2 << 5;
+    if (writeMimeTypes.contains(QStringLiteral("application/vnd.rar"))) {
+        QTest::newRow("rar") << QStringLiteral("application/vnd.rar") << true << 2 << 5;
     } else {
         qDebug() << "rar format not available, skipping test.";
     }
