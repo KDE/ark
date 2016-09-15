@@ -37,7 +37,7 @@ public:
     virtual void dragMoveEvent(class QDragMoveEvent * event) Q_DECL_OVERRIDE;
     virtual void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
 
-    void openEntryEditor(QModelIndex index);
+    void openEntryEditor(const QModelIndex &index);
 
 protected:
     virtual bool eventFilter(QObject *object, QEvent *event) Q_DECL_OVERRIDE;
@@ -45,7 +45,7 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
 signals:
-    void entryChanged(QString name);
+    void entryChanged(const QString &name);
 
 private:
     void closeEntryEditor();

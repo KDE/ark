@@ -445,7 +445,7 @@ void JobsTest::testAddEntries()
         currentFullPaths << entry->fullPath();
     }
 
-    Q_FOREACH (const QString fullPath, expectedAddedFullPaths) {
+    Q_FOREACH (const QString &fullPath, expectedAddedFullPaths) {
         QVERIFY(currentFullPaths.contains(fullPath));
     }
 

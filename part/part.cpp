@@ -305,8 +305,10 @@ void Part::setupView()
             this, &Part::adjustColumns);
 }
 
-void Part::slotActivated(QModelIndex)
+void Part::slotActivated(const QModelIndex &index)
 {
+    Q_UNUSED(index)
+
     // The activated signal is emitted when items are selected with the mouse,
     // so do nothing if CTRL or SHIFT key is pressed.
     if (QGuiApplication::keyboardModifiers() != Qt::ShiftModifier &&
@@ -1424,7 +1426,7 @@ void Part::slotCopyFiles()
     updateActions();
 }
 
-void Part::slotRenameFile(QString name)
+void Part::slotRenameFile(const QString &name)
 {
     if (name == QStringLiteral(".") || name == QStringLiteral("..") || name.contains(QLatin1Char('/'))) {
         QMessageBox messageBox(QMessageBox::Warning,

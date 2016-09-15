@@ -144,7 +144,7 @@ void ArchiveView::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void ArchiveView::openEntryEditor(QModelIndex index)
+void ArchiveView::openEntryEditor(const QModelIndex &index)
 {
     m_editorIndex = index;
     openPersistentEditor(index);

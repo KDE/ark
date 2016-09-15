@@ -132,7 +132,7 @@ private slots:
     void slotEditFileName();
     void slotCutFiles();
     void slotCopyFiles();
-    void slotRenameFile(QString name);
+    void slotRenameFile(const QString &name);
     void slotPasteFiles();
     void slotAddFilesDone(KJob*);
     void slotPasteFilesDone(KJob*);
@@ -141,7 +141,7 @@ private slots:
     void slotDeleteFilesDone(KJob*);
     void slotShowProperties();
     void slotShowContextMenu();
-    void slotActivated(QModelIndex);
+    void slotActivated(const QModelIndex &index);
     void slotToggleInfoPanel(bool);
     void slotSaveAs();
     void updateActions();

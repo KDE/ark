@@ -203,7 +203,7 @@ QStringList TestHelper::getExpectedCopiedEntryPaths(const QList<Archive::Entry*>
     return expectedPaths;
 }
 
-QMap<QString, Archive::Entry*> TestHelper::getEntryMap(const QList<Archive::Entry *> entries)
+QMap<QString, Archive::Entry*> TestHelper::getEntryMap(const QList<Archive::Entry *> &entries)
 {
     QMap<QString, Archive::Entry*> map;
     foreach (Archive::Entry* entry, entries) {

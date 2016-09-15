@@ -26,7 +26,7 @@
 #include "archiveentry.h"
 
 namespace Kerfuffle {
-Archive::Entry::Entry(QObject *parent, QString fullPath, QString rootNode)
+Archive::Entry::Entry(QObject *parent, const QString &fullPath, const QString &rootNode)
     : QObject(parent)
     , rootNode(rootNode)
     , compressedSizeIsSet(true)
