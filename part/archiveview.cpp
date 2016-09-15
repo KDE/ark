@@ -35,23 +35,18 @@
 ArchiveView::ArchiveView(QWidget *parent)
     : QTreeView(parent)
 {
-}
-
-void ArchiveView::setModel(QAbstractItemModel *model)
-{
-    QTreeView::setModel(model);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setAlternatingRowColors(true);
     setAnimated(true);
     setAllColumnsShowFocus(true);
     setSortingEnabled(true);
-
-    //drag and drop
     setDragEnabled(true);
-    setAcceptDrops(true);
     setDropIndicatorShown(true);
-    setDragDropMode(QAbstractItemView::DragDrop);
+    // #368807: drops must be initially disabled, otherwise they will override the MainWindow's ones.
+    // They will be enabled in Part::slotLoadingFinished().
+    setAcceptDrops(false);
+    setDragDropMode(QAbstractItemView::NoDragDrop);
 }
 
 void ArchiveView::startDrag(Qt::DropActions supportedActions)

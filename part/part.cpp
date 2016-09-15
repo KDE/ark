@@ -292,8 +292,6 @@ void Part::setupView()
 
     m_view->setModel(m_model);
 
-    m_view->setSortingEnabled(true);
-
     connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &Part::updateActions);
     connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged,
@@ -859,6 +857,9 @@ void Part::slotLoadingFinished(KJob *job)
 
     // After loading all files, resize the columns to fit all fields
     m_view->header()->resizeSections(QHeaderView::ResizeToContents);
+    // Now we can start accepting drops in the archive view.
+    m_view->setAcceptDrops(true);
+    m_view->setDragDropMode(QAbstractItemView::DragDrop);
 
     updateActions();
 
