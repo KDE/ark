@@ -1464,7 +1464,7 @@ void Part::slotPasteFiles()
         QList<Archive::Entry*> entriesWithoutChildren = ReadOnlyArchiveInterface::entriesWithoutChildren(m_model->filesToMove.values());
         if (entriesWithoutChildren.count() == 1) {
             const Archive::Entry *entry = entriesWithoutChildren.first();
-            const QString nameWithSlash = entry->name() + ((entry->isDir()) ? QLatin1String("/") : QString());
+            const QString nameWithSlash = entry->name() + ((entry->isDir()) ? QLatin1Char('/') : QChar());
             m_destination->setFullPath(m_destination->fullPath() + nameWithSlash);
         }
 
