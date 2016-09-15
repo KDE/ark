@@ -55,8 +55,8 @@ OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Ent
     m_cancelButton.setIcon(QIcon::fromTheme(QStringLiteral("dialog-cancel")));
     m_buttonBox.addButton(&m_cancelButton, QDialogButtonBox::RejectRole);
 
-    connect(&m_buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(&m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(&m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(&m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
     foreach (const Archive::Entry *entry, entries) {
         QListWidgetItem *item = new QListWidgetItem(icons.value(entry->fullPath(true)), entry->fullPath(true));
