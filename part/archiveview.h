@@ -34,8 +34,6 @@ public:
     virtual void dropEvent(class QDropEvent * event) Q_DECL_OVERRIDE;
     virtual void dragMoveEvent(class QDragMoveEvent * event) Q_DECL_OVERRIDE;
     virtual void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
-
-    void setModel(QAbstractItemModel *model) Q_DECL_OVERRIDE;
 };
 
 #endif /* ARCHIVEVIEW_H */
