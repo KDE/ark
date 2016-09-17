@@ -723,10 +723,6 @@ bool Part::openFile()
 
     m_infoPanel->setIndex(QModelIndex());
 
-    if (arguments().metaData()[QStringLiteral("showExtractDialog")] == QLatin1String("true")) {
-        QTimer::singleShot(0, this, &Part::slotShowExtractionDialog);
-    }
-
     const QString password = arguments().metaData()[QStringLiteral("encryptionPassword")];
     if (!password.isEmpty()) {
         m_model->encryptArchive(password,
@@ -886,6 +882,10 @@ void Part::slotLoadingFinished(KJob *job)
             qCWarning(ARK) << "Detected ISO image with UDF filesystem";
             displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
         }
+    }
+
+    if (arguments().metaData()[QStringLiteral("showExtractDialog")] == QLatin1String("true")) {
+        QTimer::singleShot(0, this, &Part::slotShowExtractionDialog);
     }
 }
 
