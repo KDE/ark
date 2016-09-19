@@ -43,8 +43,7 @@ ArchiveView::ArchiveView(QWidget *parent)
     setDropIndicatorShown(true);
     // #368807: drops must be initially disabled, otherwise they will override the MainWindow's ones.
     // They will be enabled in Part::slotLoadingFinished().
-    setAcceptDrops(false);
-    setDragDropMode(QAbstractItemView::NoDragDrop);
+    setDropsEnabled(false);
 }
 
 void ArchiveView::startDrag(Qt::DropActions supportedActions)
@@ -58,6 +57,11 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
     QTreeView::startDrag(supportedActions);
 }
 
+void ArchiveView::setDropsEnabled(bool enabled)
+{
+    setAcceptDrops(enabled);
+    setDragDropMode(enabled ? QAbstractItemView::DragDrop : QAbstractItemView::NoDragDrop);
+}
 
 void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 {

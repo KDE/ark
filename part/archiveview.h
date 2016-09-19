@@ -34,6 +34,11 @@ public:
     virtual void dropEvent(class QDropEvent * event) Q_DECL_OVERRIDE;
     virtual void dragMoveEvent(class QDragMoveEvent * event) Q_DECL_OVERRIDE;
     virtual void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
+
+    /**
+     * Set whether the view should accept drop events.
+     */
+    void setDropsEnabled(bool enabled);
 };
 
 #endif /* ARCHIVEVIEW_H */

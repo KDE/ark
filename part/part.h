@@ -33,6 +33,7 @@
 #include <QModelIndex>
 
 class ArchiveModel;
+class ArchiveView;
 class InfoPanel;
 
 class KAboutData;
@@ -145,7 +146,7 @@ private:
     void registerJob(KJob *job);
 
     ArchiveModel         *m_model;
-    QTreeView            *m_view;
+    ArchiveView          *m_view;
     QAction *m_previewAction;
     QAction *m_openFileAction;
     QAction *m_openFileWithAction;

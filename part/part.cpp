@@ -674,6 +674,7 @@ bool Part::openFile()
         job->start();
     } else {
         updateActions();
+        m_view->setDropsEnabled(true);
     }
 
     m_infoPanel->setIndex(QModelIndex());
@@ -805,8 +806,7 @@ void Part::slotLoadingFinished(KJob *job)
     // After loading all files, resize the columns to fit all fields
     m_view->header()->resizeSections(QHeaderView::ResizeToContents);
     // Now we can start accepting drops in the archive view.
-    m_view->setAcceptDrops(true);
-    m_view->setDragDropMode(QAbstractItemView::DragDrop);
+    m_view->setDropsEnabled(true);
 
     updateActions();
 
