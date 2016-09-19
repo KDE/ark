@@ -196,7 +196,7 @@ private:
     QSplitter            *m_splitter;
     QList<QTemporaryDir*>      m_tmpExtractDirList;
     bool                  m_busy;
-    bool                  m_archiveIsLoaded;
+
     OpenFileMode m_openFileMode;
     QUrl m_lastUsedAddPath;
     QList<Kerfuffle::Archive::Entry*> m_jobTempEntries;
