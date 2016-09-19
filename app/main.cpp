@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 
     aboutData.addAuthor(i18n("Elvis Angelaccio"),
                         i18n("Maintainer"),
-                        QStringLiteral("elvis.angelaccio@kdemail.net"));
+                        QStringLiteral("elvis.angelaccio@kde.org"));
     aboutData.addAuthor(i18n("Ragnar Thomsen"),
                         i18n("Maintainer, KF5 port"),
                         QStringLiteral("rthomsen6@gmail.com"));

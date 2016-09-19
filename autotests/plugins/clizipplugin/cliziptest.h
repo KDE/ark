@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions

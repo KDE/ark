@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009,2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
- * Copyright (C) 2015 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (C) 2015 Elvis Angelaccio <elvis.angelaccio@kde.org>
  * Copyright (C) 2016 Ragnar Thomsen <rthomsen6@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
