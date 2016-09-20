@@ -29,7 +29,8 @@ arch:
     - "make"
     - "sudo make install"
     # run the tests using the xvfb-run wrapper
-    - "xvfb-run --auto-servernum ctest --output-on-failure"
+    # https://bugzilla.redhat.com/show_bug.cgi?id=904851#c5 fixes 'libGL error: failed to load driver: swrast'
+    - "xvfb-run -s \"-screen 0 640x480x24\" ctest --output-on-failure"
 
 script:
   - "curl -s https://raw.githubusercontent.com/mikkeloscar/arch-travis/master/arch-travis.sh | bash"
