@@ -104,12 +104,13 @@ bool LibarchivePlugin::list()
         m_cachedArchiveEntryCount++;
         archive_read_data_skip(arch_reader.data());
     }
-    m_abortOperation = false;
 
     if (result != ARCHIVE_EOF) {
-        const QString errorString = QLatin1String(archive_error_string(arch_reader.data()));
-        // FIXME: what about the other archive_error_string() calls? Do they also happen to return empty strings?
-        emit error(errorString.isEmpty() ? i18nc("@info", "Could not read until the end of the archive") : errorString);
+        if (!m_abortOperation) {
+            const QString errorString = QLatin1String(archive_error_string(arch_reader.data()));
+            // FIXME: what about the other archive_error_string() calls? Do they also happen to return empty strings?
+            emit error(errorString.isEmpty() ? i18nc("@info", "Could not read until the end of the archive") : errorString);
+        }
         return false;
     }
 
