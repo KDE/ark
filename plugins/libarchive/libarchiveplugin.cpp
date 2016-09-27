@@ -84,9 +84,7 @@ bool LibarchivePlugin::list()
     }
 
     if (result != ARCHIVE_EOF) {
-        const QString errorString = QLatin1String(archive_error_string(m_archiveReader.data()));
-        // FIXME: what about the other archive_error_string() calls? Do they also happen to return empty strings?
-        emit error(errorString.isEmpty() ? i18nc("@info", "Could not read until the end of the archive") : errorString);
+        qCWarning(ARK) << "Could not read until the end of the archive:" << QLatin1String(archive_error_string(m_archiveReader.data()));
         return false;
     }
 
