@@ -1,13 +1,34 @@
 {
     "KPlugin": {
-        "Icon": "ark",
+        "Icon": "ark", 
         "MimeTypes": [
             "application/octet-stream"
-        ],
-        "Name": "'Extract' service menu",
+        ], 
+        "Name": "'Extract' service menu", 
+        "Name[ca@valencia]": "Menú de servei «Extreu»", 
+        "Name[ca]": "Menú de servei «Extreu»", 
+        "Name[cs]": "Servisní nabídka 'Rozbalit'", 
+        "Name[de]": "„Entpacken“ im Servicemenü", 
+        "Name[es]": "Menú de servicio para «Extraer»", 
+        "Name[et]": "Lahtipakkimise teenusemenüü", 
+        "Name[fi]": "Pura-palveluvalikko", 
+        "Name[he]": "תפריט שירות \"חילוץ\"", 
+        "Name[it]": "Menu di servizio «Estrai»", 
+        "Name[nl]": "Servicemenu 'Uitpakken'", 
+        "Name[pl]": "Menu usługi 'Wypakuj'", 
+        "Name[pt]": "Menu do serviço 'Extrair'", 
+        "Name[sk]": "Servisná ponuka 'Rozbaliť'", 
+        "Name[sl]": "Meni storitve razširjanja", 
+        "Name[sr@ijekavian]": "Сервисни мени распакивања", 
+        "Name[sr@ijekavianlatin]": "Servisni meni raspakivanja", 
+        "Name[sr@latin]": "Servisni meni raspakivanja", 
+        "Name[sr]": "Сервисни мени распакивања", 
+        "Name[sv]": "'Tjänstmeny 'Packa upp'", 
+        "Name[uk]": "Службове меню «Видобути»", 
+        "Name[x-test]": "xx'Extract' service menuxx", 
         "ServiceTypes": [
             "KFileItemAction/Plugin"
         ]
-    },
+    }, 
     "MimeType": "application/octet-stream;"
 }
