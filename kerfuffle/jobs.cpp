@@ -67,12 +67,6 @@ Job::Job(ReadOnlyArchiveInterface *interface)
     , m_archiveInterface(interface)
     , d(new Private(this))
 {
-    static bool onlyOnce = false;
-    if (!onlyOnce) {
-        qRegisterMetaType<QPair<QString, QString> >("QPair<QString,QString>");
-        onlyOnce = true;
-    }
-
     setCapabilities(KJob::Killable);
 }
 
