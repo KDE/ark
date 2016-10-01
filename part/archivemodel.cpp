@@ -679,7 +679,7 @@ ArchiveDirNode* ArchiveModel::parentFor(const ArchiveEntry& entry)
         if (!node) {
             ArchiveEntry e;
             e[ FileName ] = (parent == m_rootNode) ?
-                            piece : parent->entry()[ FileName ].toString() + QLatin1Char( '/' ) + piece;
+                            piece + QLatin1Char('/') : parent->entry()[FileName].toString() + piece + QLatin1Char('/');
             e[ InternalID ] = e.value(FileName);
             e[ IsDirectory ] = true;
             node = new ArchiveDirNode(parent, e);
