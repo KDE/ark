@@ -219,6 +219,11 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry*> &files, const Q
         // entryName is the name inside the archive, full path
         QString entryName = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(entry)));
 
+        // Some archive types e.g. AppImage prepend all entries with "./" so remove this part.
+        if (entryName.startsWith(QLatin1String("./"))) {
+            entryName.remove(0, 2);
+        }
+
         // For now we just can't handle absolute filenames in a tar archive.
         // TODO: find out what to do here!!
         if (entryName.startsWith(QLatin1Char( '/' ))) {
