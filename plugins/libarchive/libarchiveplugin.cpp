@@ -286,14 +286,13 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
                 entryFI = QFileInfo(fileWithoutPath);
 
             // OR, if the file has a rootNode attached, remove it from file path.
-            } else if (!extractAll && removeRootNode && entryName != fileBeingRenamed &&
-                       !files.at(index).value<fileRootNodePair>().rootNode.isEmpty()) {
-
-                //qCDebug(ARK) << "Removing" << files.at(index).value<fileRootNodePair>().rootNode << "from" << entryName;
-
-                const QString truncatedFilename(entryName.remove(0, files.at(index).value<fileRootNodePair>().rootNode.size()));
-                archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
-                entryFI = QFileInfo(truncatedFilename);
+            } else if (!extractAll && removeRootNode && entryName != fileBeingRenamed) {
+                const QString rootNode = files.at(index).value<fileRootNodePair>().rootNode;
+                if (!rootNode.isEmpty()) {
+                    const QString truncatedFilename = entryName.remove(entryName.indexOf(rootNode), rootNode.size());
+                    archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
+                    entryFI = QFileInfo(truncatedFilename);
+                }
             }
 
             // Check if the file about to be written already exists.

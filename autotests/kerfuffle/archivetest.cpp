@@ -557,6 +557,17 @@ void ArchiveTest::testExtraction_data()
             << QVariantList()
             << optionsPreservePaths
             << 3;
+
+    archivePath = QFINDTESTDATA("data/firmware-pine64-20160329-6.1.aarch64.rpm");
+    QTest::newRow("#369535: broken drag-and-drop from rpm")
+            << archivePath
+            << QVariantList {
+                   // Remember that RPM paths start with ./
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("./boot/sunxi-spl.bin"), QStringLiteral("boot/"))),
+                   QVariant::fromValue(fileRootNodePair(QStringLiteral("./boot/u-boot.img"), QStringLiteral("boot/")))
+               }
+            << dragAndDropOptions
+            << 2;
 }
 
 void ArchiveTest::testExtraction()
