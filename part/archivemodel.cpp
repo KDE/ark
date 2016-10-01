@@ -544,8 +544,8 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
             entry = new Archive::Entry(parent);
 
             entry->setProperty("fullPath", (parent == &m_rootEntry)
-                                           ? piece
-                                           : parent->fullPath(true) + QLatin1Char('/') + piece);
+                                           ? piece + QLatin1Char('/')
+                                           : parent->fullPath(false) + piece + QLatin1Char('/'));
             entry->setProperty("isDirectory", true);
             insertEntry(entry);
         }
@@ -651,6 +651,14 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
         return;
     }
     receivedEntry->setProperty("fullPath", entryFileName);
+
+    // For some archive formats (e.g. AppImage and RPM) paths of folders do not
+    // contain a trailing slash, so we append it.
+    if (receivedEntry->property("isDirectory").toBool() &&
+        !receivedEntry->property("fullPath").toString().endsWith(QLatin1Char('/'))) {
+        receivedEntry->setProperty("fullPath", receivedEntry->property("fullPath").toString() + QLatin1Char('/'));
+        qCDebug(ARK) << "Trailing slash appended to entry:" << receivedEntry->property("fullPath");
+    }
 
     /// 1. Skip already created entries
     Archive::Entry *existing = m_rootEntry.findByPath(entryFileName.split(QLatin1Char( '/' )));
