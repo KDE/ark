@@ -262,9 +262,8 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry*> &files, const Q
             } else if (!extractAll && removeRootNode && entryName != fileBeingRenamed) {
                 const QString &rootNode = files.at(index)->rootNode;
                 if (!rootNode.isEmpty()) {
-                    //qCDebug(ARK) << "Removing" << files.at(index).value<fileRootNodePair>().rootNode << "from" << entryName;
+                    const QString truncatedFilename(entryName.remove(entryName.indexOf(rootNode), rootNode.size()));
 
-                    const QString truncatedFilename(entryName.remove(0, rootNode.size()));
                     archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
                     entryFI = QFileInfo(truncatedFilename);
                 }

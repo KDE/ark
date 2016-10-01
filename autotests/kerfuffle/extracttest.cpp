@@ -543,6 +543,15 @@ void ExtractTest::testExtraction_data()
             << optionsPreservePaths
             << 7;
 
+    archivePath = QFINDTESTDATA("data/hello-1.0-x86_64.AppImage");
+    QTest::newRow("extract selected entries from an AppImage with path")
+            << archivePath
+            << QList<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("usr/bin/hello"), QString())
+               }
+            << optionsPreservePaths
+            << 3;
+
     archivePath = QFINDTESTDATA("data/archive-multivolume.7z.001");
     QTest::newRow("extract all entries from a multivolume 7z archive with path")
             << archivePath
@@ -556,6 +565,25 @@ void ExtractTest::testExtraction_data()
             << QList<Archive::Entry*>()
             << optionsPreservePaths
             << 3;
+
+    archivePath = QFINDTESTDATA("data/firmware-pine64-20160329-6.1.aarch64.rpm");
+    QTest::newRow("extract selected entries from rpm with path")
+            << archivePath
+            << QList<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("boot/sunxi-spl.bin"), QString())
+               }
+            << optionsPreservePaths
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/firmware-pine64-20160329-6.1.aarch64.rpm");
+    QTest::newRow("#369535: broken drag-and-drop from rpm")
+            << archivePath
+            << QList<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("boot/sunxi-spl.bin"), QStringLiteral("boot/")),
+                   new Archive::Entry(this, QStringLiteral("boot/u-boot.img"), QStringLiteral("boot/"))
+               }
+            << dragAndDropOptions
+            << 2;
 }
 
 void ExtractTest::testExtraction()
