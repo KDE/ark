@@ -805,6 +805,14 @@ void ArchiveModel::newEntry(const ArchiveEntry& receivedEntry, InsertBehaviour b
     }
     entry[FileName] = entryFileName;
 
+    // For some archive formats (e.g. AppImage and RPM) paths of folders do not
+    // contain a trailing slash, so we append it.
+    if (entry[IsDirectory].toBool() && !entry[FileName].toString().endsWith(QLatin1Char('/'))) {
+        entry[FileName] = entry[FileName].toString() + QLatin1Char('/');
+        entry[InternalID] = entry[FileName];
+        qCDebug(ARK) << "Trailing slash appended to entry:" << entry[FileName];
+    }
+
     /// 1. Skip already created nodes
     if (m_rootNode) {
         ArchiveNode *existing = m_rootNode->findByPath(entry[ FileName ].toString().split(QLatin1Char( '/' )));
