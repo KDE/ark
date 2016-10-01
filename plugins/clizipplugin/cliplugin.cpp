@@ -177,6 +177,7 @@ bool CliPlugin::readListLine(const QString &line)
                 e->setProperty("isPasswordProtected", true);
             }
             e->setProperty("compressedSize", rxMatch.captured(6).toInt());
+            e->setProperty("method", rxMatch.captured(7));
 
             const QDateTime ts(QDate::fromString(rxMatch.captured(8), QStringLiteral("yyyyMMdd")),
                                QTime::fromString(rxMatch.captured(9), QStringLiteral("hhmmss")));
