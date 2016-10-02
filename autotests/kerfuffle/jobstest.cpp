@@ -47,8 +47,8 @@ protected Q_SLOTS:
 
 private Q_SLOTS:
     // ListJob-related tests
-    void testListJob_data();
-    void testListJob();
+    void testLoadJob_data();
+    void testLoadJob();
 
     // ExtractJob-related tests
     void testExtractJobAccessors();
@@ -104,11 +104,11 @@ QList<Archive::Entry*> JobsTest::listEntries(JSONArchiveInterface *iface)
 {
     m_entries.clear();
 
-    ListJob *listJob = new ListJob(iface);
-    connect(listJob, &Job::newEntry,
+    auto job = new LoadJob(iface);
+    connect(job, &Job::newEntry,
             this, &JobsTest::slotNewEntry);
 
-    startAndWaitForResult(listJob);
+    startAndWaitForResult(job);
 
     return m_entries;
 }
@@ -120,7 +120,7 @@ void JobsTest::startAndWaitForResult(KJob *job)
     m_eventLoop.exec();
 }
 
-void JobsTest::testListJob_data()
+void JobsTest::testLoadJob_data()
 {
     QTest::addColumn<QString>("jsonArchive");
     QTest::addColumn<qlonglong>("expectedExtractedFilesSize");
@@ -184,24 +184,24 @@ void JobsTest::testListJob_data()
                };
 }
 
-void JobsTest::testListJob()
+void JobsTest::testLoadJob()
 {
     QFETCH(QString, jsonArchive);
     JSONArchiveInterface *iface = createArchiveInterface(jsonArchive);
     QVERIFY(iface);
 
-    ListJob *listJob = new ListJob(iface);
-    listJob->setAutoDelete(false);
-    startAndWaitForResult(listJob);
+    auto loadJob = new LoadJob(iface);
+    loadJob->setAutoDelete(false);
+    startAndWaitForResult(loadJob);
 
     QFETCH(qlonglong, expectedExtractedFilesSize);
-    QCOMPARE(listJob->extractedFilesSize(), expectedExtractedFilesSize);
+    QCOMPARE(loadJob->extractedFilesSize(), expectedExtractedFilesSize);
 
     QFETCH(bool, isPasswordProtected);
-    QCOMPARE(listJob->isPasswordProtected(), isPasswordProtected);
+    QCOMPARE(loadJob->isPasswordProtected(), isPasswordProtected);
 
     QFETCH(bool, isSingleFolder);
-    QCOMPARE(listJob->isSingleFolderArchive(), isSingleFolder);
+    QCOMPARE(loadJob->isSingleFolderArchive(), isSingleFolder);
 
     QFETCH(QStringList, expectedEntryNames);
     auto archiveEntries = listEntries(iface);
@@ -212,7 +212,7 @@ void JobsTest::testListJob()
         QCOMPARE(archiveEntries.at(i)->fullPath(), expectedEntryNames.at(i));
     }
 
-    listJob->deleteLater();
+    loadJob->deleteLater();
 }
 
 void JobsTest::testExtractJobAccessors()

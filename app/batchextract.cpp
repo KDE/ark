@@ -28,18 +28,16 @@
 
 #include "batchextract.h"
 #include "ark_debug.h"
-#include "kerfuffle/archive_kerfuffle.h"
 #include "kerfuffle/extractiondialog.h"
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/queries.h"
 
+#include <KIO/JobTracker>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRun>
-#include <KIO/RenameDialog>
 #include <kwidgetjobtracker.h>
 
-#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
 #include <QPointer>
@@ -64,46 +62,21 @@ BatchExtract::~BatchExtract()
     }
 }
 
-void BatchExtract::addExtraction(Kerfuffle::Archive* archive)
+void BatchExtract::addExtraction(const QUrl& url)
 {
     QString destination = destinationFolder();
-    const bool isSingleFolderRPM = (archive->isSingleFolderArchive() &&
-                                   (archive->mimeType().name() == QLatin1String("application/x-rpm")));
 
-    if ((autoSubfolder()) && (!archive->isSingleFolderArchive() || isSingleFolderRPM)) {
-        const QDir d(destination);
-        QString subfolderName = archive->subfolderName();
+    auto job = Kerfuffle::Archive::batchExtract(url.toLocalFile(), destination, autoSubfolder(), preservePaths());
 
-        // Special case for single folder RPM archives.
-        // We don't want the autodetected folder to have a meaningless "usr" name.
-        if (isSingleFolderRPM && subfolderName == QStringLiteral("usr")) {
-            qCDebug(ARK) << "Detected single folder RPM archive. Using archive basename as subfolder name";
-            subfolderName = QFileInfo(archive->fileName()).completeBaseName();
-        }
-
-        if (d.exists(subfolderName)) {
-            subfolderName = KIO::suggestName(QUrl::fromUserInput(destination, QString(), QUrl::AssumeLocalFile), subfolderName);
-        }
-
-        d.mkdir(subfolderName);
-
-        destination += QLatin1Char( '/' ) + subfolderName;
-    }
-
-    Kerfuffle::ExtractionOptions options;
-    options[QStringLiteral("PreservePaths")] = preservePaths();
-
-    Kerfuffle::ExtractJob *job = archive->extractFiles(QList<Kerfuffle::Archive::Entry*>(), destination, options);
-
-    qCDebug(ARK) << QString(QStringLiteral("Registering job from archive %1, to %2, preservePaths %3")).arg(archive->fileName(), destination, QString::number(preservePaths()));
+    qCDebug(ARK) << QString(QStringLiteral("Registering job from archive %1, to %2, preservePaths %3")).arg(url.toLocalFile(), destination, QString::number(preservePaths()));
 
     addSubjob(job);
 
-    m_fileNames[job] = qMakePair(archive->fileName(), destination);
+    m_fileNames[job] = qMakePair(url.toLocalFile(), destination);
 
     connect(job, SIGNAL(percent(KJob*,ulong)),
             this, SLOT(forwardProgress(KJob*,ulong)));
-    connect(job, &Kerfuffle::Job::userQuery,
+    connect(job, &Kerfuffle::BatchExtractJob::userQuery,
             this, &BatchExtract::slotUserQuery);
 }
 
@@ -129,14 +102,13 @@ void BatchExtract::start()
 
 void BatchExtract::slotStartJob()
 {
-    // If none of the archives could be loaded, there is no subjob to run
     if (m_inputs.isEmpty()) {
         emitResult();
         return;
     }
 
-    foreach(Kerfuffle::Archive *archive, m_inputs) {
-        addExtraction(archive);
+    foreach (const auto& url, m_inputs) {
+        addExtraction(url);
     }
 
     KIO::getJobTracker()->registerJob(this);
@@ -167,24 +139,23 @@ void BatchExtract::slotResult(KJob *job)
     // TODO: The user must be informed about which file caused the error, and that the other files
     //       in the queue will not be extracted.
     if (job->error()) {
-        qCDebug(ARK) << "There was en error:" << job->error() << ", errorText:" << job->errorText();
+        qCDebug(ARK) << "There was en error:" << job->error() << ", errorText:" << job->errorString();
 
-        setErrorText(job->errorText());
+        setErrorText(job->errorString());
         setError(job->error());
 
         removeSubjob(job);
 
         if (job->error() != KJob::KilledJobError) {
-            KMessageBox::error(NULL, job->errorText().isEmpty() ?
-                                     i18n("There was an error during extraction.") : job->errorText());
+            KMessageBox::error(Q_NULLPTR, job->errorString().isEmpty() ?
+                                     i18n("There was an error during extraction.") : job->errorString());
         }
 
         emitResult();
-
         return;
-    } else {
-        removeSubjob(job);
     }
+
+    removeSubjob(job);
 
     if (!hasSubjobs()) {
         if (openDestinationAfterExtraction()) {
@@ -213,21 +184,16 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
     setPercent(jobPart *(m_initialJobCount - subjobs().size()) + percent / m_initialJobCount);
 }
 
-bool BatchExtract::addInput(const QUrl& url)
+void BatchExtract::addInput(const QUrl& url)
 {
     qCDebug(ARK) << "Adding archive" << url.toLocalFile();
 
-    Kerfuffle::Archive *archive = Kerfuffle::Archive::create(url.toLocalFile(), this);
-    Q_ASSERT(archive);
-
     if (!QFileInfo::exists(url.toLocalFile())) {
         m_failedFiles.append(url.fileName());
-        return false;
+        return;
     }
 
-    m_inputs.append(archive);
-
-    return true;
+    m_inputs.append(url);
 }
 
 bool BatchExtract::openDestinationAfterExtraction() const
@@ -280,14 +246,36 @@ bool BatchExtract::showExtractDialog()
     dialog.data()->setCurrentUrl(QUrl::fromUserInput(destinationFolder(), QString(), QUrl::AssumeLocalFile));
     dialog.data()->setPreservePaths(preservePaths());
 
+    // Only one archive, we need a LoadJob to get the single-folder and subfolder properties.
+    // TODO: find a better way (e.g. let the dialog handle everything), otherwise we list
+    // the archive twice (once here and once in the following BatchExtractJob).
+    Kerfuffle::LoadJob *loadJob = Q_NULLPTR;
     if (m_inputs.size() == 1) {
-        if (m_inputs.at(0)->isSingleFolderArchive()) {
-            dialog.data()->setSingleFolderArchive(true);
-        }
-        dialog.data()->setSubfolder(m_inputs.at(0)->subfolderName());
+        loadJob = Kerfuffle::Archive::load(m_inputs.at(0).toLocalFile(), this);
+        // We need to access the job after result has been emitted, if the user rejects the dialog.
+        loadJob->setAutoDelete(false);
+
+        connect(loadJob, &KJob::result, this, [=](KJob *job) {
+            if (job->error()) {
+                return;
+            }
+
+            auto archive = qobject_cast<Kerfuffle::LoadJob*>(job)->archive();
+            dialog->setSingleFolderArchive(archive->isSingleFolder());
+            dialog->setSubfolder(archive->subfolderName());
+        });
+
+        connect(loadJob, &KJob::result, dialog.data(), &Kerfuffle::ExtractionDialog::setReadyGui);
+        dialog->setBusyGui();
+        // NOTE: we exploit the dialog->exec() below to run this job.
+        loadJob->start();
     }
 
     if (!dialog.data()->exec()) {
+        if (loadJob) {
+            loadJob->kill();
+            loadJob->deleteLater();
+        }
         delete dialog.data();
         return false;
     }

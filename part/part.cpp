@@ -568,11 +568,44 @@ void Part::slotTestArchive()
     job->start();
 }
 
+void Part::createArchive()
+{
+    const QString fixedMimeType = arguments().metaData()[QStringLiteral("fixedMimeType")];
+    m_model->createEmptyArchive(localFilePath(), fixedMimeType, m_model);
+
+    if (arguments().metaData().contains(QStringLiteral("volumeSize"))) {
+        m_model->archive()->setMultiVolume(true);
+    }
+
+    const QString password = arguments().metaData()[QStringLiteral("encryptionPassword")];
+    if (!password.isEmpty()) {
+        m_model->encryptArchive(password,
+                                arguments().metaData()[QStringLiteral("encryptHeader")] == QLatin1String("true"));
+    }
+
+    updateActions();
+    m_view->setDropsEnabled(true);
+}
+
+void Part::loadArchive()
+{
+    const QString fixedMimeType = arguments().metaData()[QStringLiteral("fixedMimeType")];
+    auto job = m_model->loadArchive(localFilePath(), fixedMimeType, m_model);
+
+    if (job) {
+        registerJob(job);
+        job->start();
+    } else {
+        updateActions();
+    }
+}
+
 void Part::resetGui()
 {
     m_messageWidget->hide();
     m_commentView->clear();
     m_commentBox->hide();
+    m_infoPanel->setIndex(QModelIndex());
 }
 
 void Part::slotTestingDone(KJob* job)
@@ -687,46 +720,12 @@ bool Part::openFile()
         return false;
     }
 
-    const QString fixedMimeType = arguments().metaData()[QStringLiteral("fixedMimeType")];
-    QScopedPointer<Kerfuffle::Archive> archive(Kerfuffle::Archive::create(localFilePath(), fixedMimeType, m_model));
-    Q_ASSERT(archive);
+    const bool creatingNewArchive = arguments().metaData()[QStringLiteral("createNewArchive")] == QLatin1String("true");
 
-    if (archive->error() == NoPlugin) {
-        displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Ark was not able to open <filename>%1</filename>. No suitable plugin found.<nl/>"
-                                                                "Ark does not seem to support this file type.",
-                                                                QFileInfo(localFilePath()).fileName()));
-        return false;
-    }
-
-    if (archive->error() == FailedPlugin) {
-        displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Ark was not able to open <filename>%1</filename>. Failed to load a suitable plugin.<nl/>"
-                                                                "Make sure any executables needed to handle the archive type are installed.",
-                                                                QFileInfo(localFilePath()).fileName()));
-        return false;
-    }
-
-    Q_ASSERT(archive->isValid());
-
-    if (arguments().metaData().contains(QStringLiteral("volumeSize"))) {
-        archive.data()->setMultiVolume(true);
-    }
-
-    // Plugin loaded successfully.
-    KJob *job = m_model->setArchive(archive.take());
-    if (job) {
-        registerJob(job);
-        job->start();
+    if (creatingNewArchive) {
+        createArchive();
     } else {
-        updateActions();
-        m_view->setDropsEnabled(true);
-    }
-
-    m_infoPanel->setIndex(QModelIndex());
-
-    const QString password = arguments().metaData()[QStringLiteral("encryptionPassword")];
-    if (!password.isEmpty()) {
-        m_model->encryptArchive(password,
-                                arguments().metaData()[QStringLiteral("encryptHeader")] == QLatin1String("true"));
+        loadArchive();
     }
 
     return true;
@@ -828,12 +827,11 @@ void Part::slotLoadingFinished(KJob *job)
             if (job->error() != KJob::KilledJobError) {
                 displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error:<nl/><message>%2</message>",
                                                                localFilePath(),
-                                                               job->errorText()));
+                                                               job->errorString()));
             }
 
             // The file failed to open, so reset the open archive, info panel and caption.
-            m_model->setArchive(Q_NULLPTR);
-
+            m_model->reset();
             m_infoPanel->setPrettyFileName(QString());
             m_infoPanel->updateWithDefaults();
 
@@ -1063,7 +1061,7 @@ void Part::slotError(const QString& errorMessage, const QString& details)
 
 bool Part::isSingleFolderArchive() const
 {
-    return m_model->archive()->isSingleFolderArchive();
+    return m_model->archive()->isSingleFolder();
 }
 
 QString Part::detectSubfolder() const

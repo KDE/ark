@@ -23,7 +23,7 @@
  */
 
 #include "archivemodel.h"
-#include "kerfuffle/jobs.h"
+#include "jobs.h"
 
 #include <KLocalizedString>
 #include <kio/global.h>
@@ -693,8 +693,11 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
 void ArchiveModel::slotLoadingFinished(KJob *job)
 {
     if (!job->error()) {
+
+        m_archive.reset(qobject_cast<LoadJob*>(job)->archive());
         QElapsedTimer timer;
         timer.start();
+
         int i = 0;
         foreach(Archive::Entry *entry, m_newArchiveEntries) {
             newEntry(entry, DoNotNotifyViews);
@@ -741,33 +744,38 @@ Kerfuffle::Archive* ArchiveModel::archive() const
     return m_archive.data();
 }
 
-KJob* ArchiveModel::setArchive(Kerfuffle::Archive *archive)
+void ArchiveModel::reset()
 {
-    m_archive.reset(archive);
-
+    m_archive.reset(Q_NULLPTR);
     m_rootEntry.clear();
     s_previousMatch = Q_NULLPTR;
     s_previousPieces->clear();
-
-    Kerfuffle::ListJob *job = Q_NULLPTR;
-
     m_newArchiveEntries.clear();
-    if (m_archive) {
-        job = m_archive->list(); // TODO: call "open" or "create"?
-        if (job) {
-            connect(job, &Kerfuffle::ListJob::newEntry, this, &ArchiveModel::slotNewEntryFromSetArchive);
-            connect(job, &Kerfuffle::ListJob::result, this, &ArchiveModel::slotLoadingFinished);
-            connect(job, &Kerfuffle::ListJob::userQuery, this, &ArchiveModel::slotUserQuery);
 
-            emit loadingStarted();
-
-            // TODO: make sure if it's ok to not have calls to beginRemoveColumns here
-            m_showColumns.clear();
-        }
-    }
+    // TODO: make sure if it's ok to not have calls to beginRemoveColumns here
+    m_showColumns.clear();
     beginResetModel();
     endResetModel();
-    return job;
+}
+
+void ArchiveModel::createEmptyArchive(const QString &path, const QString &mimeType, QObject *parent)
+{
+    reset();
+    m_archive.reset(Archive::createEmpty(path, mimeType, parent));
+}
+
+KJob *ArchiveModel::loadArchive(const QString &path, const QString &mimeType, QObject *parent)
+{
+    reset();
+
+    auto loadJob = Archive::load(path, mimeType, parent);
+    connect(loadJob, &KJob::result, this, &ArchiveModel::slotLoadingFinished);
+    connect(loadJob, &Job::newEntry, this, &ArchiveModel::slotNewEntryFromSetArchive);
+    connect(loadJob, &Job::userQuery, this, &ArchiveModel::slotUserQuery);
+
+    emit loadingStarted();
+
+    return loadJob;
 }
 
 ExtractJob* ArchiveModel::extractFile(Archive::Entry *file, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const

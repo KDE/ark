@@ -36,7 +36,9 @@
 #include <QRegularExpression>
 #include <QThread>
 #include <QTimer>
+#include <QUrl>
 
+#include <KIO/RenameDialog>
 #include <KLocalizedString>
 
 namespace Kerfuffle
@@ -62,13 +64,22 @@ void Job::Private::run()
     q->doWork();
 }
 
-Job::Job(ReadOnlyArchiveInterface *interface)
+Job::Job(Archive *archive, ReadOnlyArchiveInterface *interface)
     : KJob()
+    , m_archive(archive)
     , m_archiveInterface(interface)
     , d(new Private(this))
 {
     setCapabilities(KJob::Killable);
 }
+
+Job::Job(Archive *archive)
+    : Job(archive, Q_NULLPTR)
+{}
+
+Job::Job(ReadOnlyArchiveInterface *interface)
+    : Job(Q_NULLPTR, interface)
+{}
 
 Job::~Job()
 {
@@ -84,12 +95,50 @@ Job::~Job()
 
 ReadOnlyArchiveInterface *Job::archiveInterface()
 {
+    // Use the archive interface.
+    if (archive()) {
+        return archive()->interface();
+    }
+
+    // Use the interface passed to this job (e.g. JSONArchiveInterface in jobstest.cpp).
     return m_archiveInterface;
+}
+
+Archive *Job::archive() const
+{
+    return m_archive;
+}
+
+QString Job::errorString() const
+{
+    if (!errorText().isEmpty()) {
+        return errorText();
+    }
+
+    if (archive()) {
+        if (archive()->error() == NoPlugin) {
+            return i18n("No suitable plugin found. Ark does not seem to support this file type.");
+        }
+
+        if (archive()->error() == FailedPlugin) {
+            return i18n("Failed to load a suitable plugin. Make sure any executables needed to handle the archive type are installed.");
+        }
+    }
+
+    return QString();
 }
 
 void Job::start()
 {
     jobTimer.start();
+
+    // We have an archive but it's not valid, nothing to do.
+    if (archive() && !archive()->isValid()) {
+        QTimer::singleShot(0, this, [=]() {
+            onFinished(false);
+        });
+        return;
+    }
 
     if (archiveInterface()->waitForFinishedSignal()) {
         // CLI-based interfaces run a QProcess, no need to use threads.
@@ -151,6 +200,10 @@ void Job::onFinished(bool result)
 {
     qCDebug(ARK) << "Job finished, result:" << result << ", time:" << jobTimer.elapsed() << "ms";
 
+    if (archive() && !archive()->isValid()) {
+        setError(KJob::UserDefinedError);
+    }
+
     emitResult();
 }
 
@@ -173,22 +226,31 @@ bool Job::doKill()
     return ret;
 }
 
-ListJob::ListJob(ReadOnlyArchiveInterface *interface)
-    : Job(interface)
+LoadJob::LoadJob(Archive *archive, ReadOnlyArchiveInterface *interface)
+    : Job(archive, interface)
     , m_isSingleFolderArchive(true)
     , m_isPasswordProtected(false)
     , m_extractedFilesSize(0)
     , m_dirCount(0)
     , m_filesCount(0)
 {
-    qCDebug(ARK) << "ListJob started";
-    connect(this, &ListJob::newEntry, this, &ListJob::onNewEntry);
+    qCDebug(ARK) << "LoadJob started";
+    connect(this, &LoadJob::newEntry, this, &LoadJob::onNewEntry);
 }
 
-void ListJob::doWork()
+LoadJob::LoadJob(Archive *archive)
+    : LoadJob(archive, Q_NULLPTR)
+{}
+
+LoadJob::LoadJob(ReadOnlyArchiveInterface *interface)
+    : LoadJob(Q_NULLPTR, interface)
+{}
+
+void LoadJob::doWork()
 {
     emit description(this, i18n("Loading archive..."));
     connectToArchiveInterfaceSignals();
+
     bool ret = archiveInterface()->list();
 
     if (!archiveInterface()->waitForFinishedSignal()) {
@@ -196,17 +258,32 @@ void ListJob::doWork()
     }
 }
 
-qlonglong ListJob::extractedFilesSize() const
+void LoadJob::onFinished(bool result)
+{
+    if (archive()) {
+        archive()->setProperty("unpackedSize", extractedFilesSize());
+        archive()->setProperty("isSingleFolder", isSingleFolderArchive());
+        const auto name = subfolderName().isEmpty() ? archive()->completeBaseName() : subfolderName();
+        archive()->setProperty("subfolderName", name);
+        if (isPasswordProtected()) {
+            archive()->setProperty("encryptionType",  archive()->password().isEmpty() ? Archive::Encrypted : Archive::HeaderEncrypted);
+        }
+    }
+
+    Job::onFinished(result);
+}
+
+qlonglong LoadJob::extractedFilesSize() const
 {
     return m_extractedFilesSize;
 }
 
-bool ListJob::isPasswordProtected() const
+bool LoadJob::isPasswordProtected() const
 {
     return m_isPasswordProtected;
 }
 
-bool ListJob::isSingleFolderArchive() const
+bool LoadJob::isSingleFolderArchive() const
 {
     if (m_filesCount == 1 && m_dirCount == 0) {
         return false;
@@ -215,7 +292,7 @@ bool ListJob::isSingleFolderArchive() const
     return m_isSingleFolderArchive;
 }
 
-void ListJob::onNewEntry(const Archive::Entry *entry)
+void LoadJob::onNewEntry(const Archive::Entry *entry)
 {
     m_extractedFilesSize += entry->property("size").toLongLong();
     m_isPasswordProtected |= entry->property("isPasswordProtected").toBool();
@@ -243,13 +320,112 @@ void ListJob::onNewEntry(const Archive::Entry *entry)
     }
 }
 
-QString ListJob::subfolderName() const
+QString LoadJob::subfolderName() const
 {
     if (!isSingleFolderArchive()) {
         return QString();
     }
 
     return m_subfolderName;
+}
+
+BatchExtractJob::BatchExtractJob(LoadJob *loadJob, const QString &destination, bool autoSubfolder, bool preservePaths)
+    : Job(loadJob->archive())
+    , m_loadJob(loadJob)
+    , m_destination(destination)
+    , m_autoSubfolder(autoSubfolder)
+    , m_preservePaths(preservePaths)
+{
+    qCDebug(ARK) << "BatchExtractJob created";
+}
+
+void BatchExtractJob::doWork()
+{
+    connect(m_loadJob, &KJob::result, this, &BatchExtractJob::slotLoadingFinished);
+
+    // Forward signals
+    connect(m_loadJob, &Kerfuffle::Job::newEntry, this, &BatchExtractJob::newEntry);
+    connect(m_loadJob, &Kerfuffle::Job::userQuery, this, &BatchExtractJob::userQuery);
+    m_loadJob->start();
+}
+
+void BatchExtractJob::slotLoadingFinished(KJob *job)
+{
+    if (job->error()) {
+        emitResult();
+        return;
+    }
+
+    // Now we can start extraction.
+    setupDestination();
+
+    Kerfuffle::ExtractionOptions options;
+    options[QStringLiteral("PreservePaths")] = m_preservePaths;
+
+    auto extractJob = archive()->extractFiles({}, m_destination, options);
+    if (extractJob) {
+        connect(extractJob, &KJob::result, this, &BatchExtractJob::emitResult);
+        connect(extractJob, &Kerfuffle::Job::userQuery, this, &BatchExtractJob::userQuery);
+        extractJob->start();
+    } else {
+        emitResult();
+    }
+}
+
+void BatchExtractJob::setupDestination()
+{
+    const bool isSingleFolderRPM = (archive()->isSingleFolder() &&
+                                   (archive()->mimeType().name() == QLatin1String("application/x-rpm")));
+
+    if (m_autoSubfolder && (!archive()->isSingleFolder() || isSingleFolderRPM)) {
+        const QDir d(m_destination);
+        QString subfolderName = archive()->subfolderName();
+
+        // Special case for single folder RPM archives.
+        // We don't want the autodetected folder to have a meaningless "usr" name.
+        if (isSingleFolderRPM && subfolderName == QStringLiteral("usr")) {
+            qCDebug(ARK) << "Detected single folder RPM archive. Using archive basename as subfolder name";
+            subfolderName = QFileInfo(archive()->fileName()).completeBaseName();
+        }
+
+        if (d.exists(subfolderName)) {
+            subfolderName = KIO::suggestName(QUrl::fromUserInput(m_destination, QString(), QUrl::AssumeLocalFile), subfolderName);
+        }
+
+        d.mkdir(subfolderName);
+
+        m_destination += QLatin1Char( '/' ) + subfolderName;
+    }
+}
+
+CreateJob::CreateJob(Archive *archive, const QList<Archive::Entry *> &entries, const CompressionOptions &options)
+    : Job(archive)
+    , m_entries(entries)
+    , m_options(options)
+{
+    qCDebug(ARK) << "CreateJob created";
+}
+
+void CreateJob::enableEncryption(const QString &password, bool encryptHeader)
+{
+    archive()->encrypt(password, encryptHeader);
+}
+
+void CreateJob::setMultiVolume(bool isMultiVolume)
+{
+    archive()->setMultiVolume(isMultiVolume);
+}
+
+void CreateJob::doWork()
+{
+    auto addJob = archive()->addFiles(m_entries, new Archive::Entry(this), m_options);
+
+    if (addJob) {
+        connect(addJob, &KJob::result, this, &CreateJob::emitResult);
+        addJob->start();
+    } else {
+        emitResult();
+    }
 }
 
 ExtractJob::ExtractJob(const QList<Archive::Entry*> &entries, const QString &destinationDir, const ExtractionOptions &options, ReadOnlyArchiveInterface *interface)

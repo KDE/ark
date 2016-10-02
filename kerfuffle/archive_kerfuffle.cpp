@@ -33,11 +33,11 @@
 #include "mimetypes.h"
 #include "pluginmanager.h"
 
-#include <QEventLoop>
-#include <QRegularExpression>
-
+#include <KLocalizedString>
 #include <KPluginFactory>
 #include <KPluginLoader>
+
+#include <QRegularExpression>
 
 namespace Kerfuffle
 {
@@ -101,6 +101,51 @@ Archive *Archive::create(const QString &fileName, Plugin *plugin, QObject *paren
     return new Archive(iface, !plugin->isReadWrite(), parent);
 }
 
+BatchExtractJob *Archive::batchExtract(const QString &fileName, const QString &destination, bool autoSubfolder, bool preservePaths, QObject *parent)
+{
+    auto loadJob = load(fileName, parent);
+    auto batchJob = new BatchExtractJob(loadJob, destination, autoSubfolder, preservePaths);
+
+    return batchJob;
+}
+
+CreateJob *Archive::create(const QString &fileName, const QString &mimeType, const QList<Archive::Entry *> &entries, const CompressionOptions &options, QObject *parent)
+{
+    auto archive = create(fileName, mimeType, parent);
+    auto createJob = new CreateJob(archive, entries, options);
+
+    return createJob;
+}
+
+Archive *Archive::createEmpty(const QString &fileName, const QString &mimeType, QObject *parent)
+{
+    auto archive = create(fileName, mimeType, parent);
+    Q_ASSERT(archive->isEmpty());
+
+    return archive;
+}
+
+LoadJob *Archive::load(const QString &fileName, QObject *parent)
+{
+    return load(fileName, QString(), parent);
+}
+
+LoadJob *Archive::load(const QString &fileName, const QString &mimeType, QObject *parent)
+{
+    auto archive = create(fileName, mimeType, parent);
+    auto loadJob = new LoadJob(archive);
+
+    return loadJob;
+}
+
+LoadJob *Archive::load(const QString &fileName, Plugin *plugin, QObject *parent)
+{
+    auto archive = create(fileName, plugin, parent);
+    auto loadJob = new LoadJob(archive);
+
+    return loadJob;
+}
+
 Archive::Archive(ArchiveError errorCode, QObject *parent)
         : QObject(parent)
         , m_iface(Q_NULLPTR)
@@ -112,9 +157,8 @@ Archive::Archive(ArchiveError errorCode, QObject *parent)
 Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent)
         : QObject(parent)
         , m_iface(archiveInterface)
-        , m_hasBeenListed(false)
         , m_isReadOnly(isReadOnly)
-        , m_isSingleFolderArchive(false)
+        , m_isSingleFolder(false)
         , m_isMultiVolume(false)
         , m_extractedFilesSize(0)
         , m_error(NoError)
@@ -124,8 +168,8 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
 {
     qCDebug(ARK) << "Created archive instance";
 
-    Q_ASSERT(archiveInterface);
-    archiveInterface->setParent(this);
+    Q_ASSERT(m_iface);
+    m_iface->setParent(this);
 
     connect(m_iface, &ReadOnlyArchiveInterface::entry, this, &Archive::onNewEntry);
 }
@@ -207,20 +251,24 @@ QMimeType Archive::mimeType()
     return m_mimeType;
 }
 
-bool Archive::isReadOnly()
+bool Archive::isEmpty() const
 {
-    return isValid() ? (m_iface->isReadOnly() || m_isReadOnly ||
-                        (isMultiVolume() && (m_numberOfFiles > 0 || m_numberOfFolders > 0))) : false;
+    return (numberOfFiles() == 0) && (numberOfFolders() == 0);
 }
 
-bool Archive::isSingleFolderArchive()
+bool Archive::isReadOnly() const
+{
+    return isValid() ? (m_iface->isReadOnly() || m_isReadOnly ||
+                        (isMultiVolume() && (numberOfFiles() > 0 || numberOfFolders() > 0))) : false;
+}
+
+bool Archive::isSingleFolder() const
 {
     if (!isValid()) {
         return false;
     }
 
-    listIfNotListed();
-    return m_isSingleFolderArchive;
+    return m_isSingleFolder;
 }
 
 bool Archive::hasComment() const
@@ -228,12 +276,12 @@ bool Archive::hasComment() const
     return isValid() ? !comment().isEmpty() : false;
 }
 
-bool Archive::isMultiVolume()
+bool Archive::isMultiVolume() const
 {
     if (!isValid()) {
         return false;
     }
-    listIfNotListed();
+
     return m_iface->isMultiVolume();
 }
 
@@ -247,13 +295,12 @@ int Archive::numberOfVolumes() const
     return m_iface->numberOfVolumes();
 }
 
-Archive::EncryptionType Archive::encryptionType()
+Archive::EncryptionType Archive::encryptionType() const
 {
     if (!isValid()) {
         return Unencrypted;
     }
 
-    listIfNotListed();
     return m_encryptionType;
 }
 
@@ -262,33 +309,30 @@ QString Archive::password() const
     return m_iface->password();
 }
 
-qulonglong Archive::numberOfFiles()
+qulonglong Archive::numberOfFiles() const
 {
     if (!isValid()) {
         return 0;
     }
 
-    listIfNotListed();
     return m_numberOfFiles;
 }
 
-qulonglong Archive::numberOfFolders()
+qulonglong Archive::numberOfFolders() const
 {
     if (!isValid()) {
         return 0;
     }
 
-    listIfNotListed();
     return m_numberOfFolders;
 }
 
-qulonglong Archive::unpackedSize()
+qulonglong Archive::unpackedSize() const
 {
     if (!isValid()) {
         return 0;
     }
 
-    listIfNotListed();
     return m_extractedFilesSize;
 }
 
@@ -297,13 +341,12 @@ qulonglong Archive::packedSize() const
     return isValid() ? QFileInfo(fileName()).size() : 0;
 }
 
-QString Archive::subfolderName()
+QString Archive::subfolderName() const
 {
     if (!isValid()) {
         return QString();
     }
 
-    listIfNotListed();
     return m_subfolderName;
 }
 
@@ -320,38 +363,6 @@ bool Archive::isValid() const
 ArchiveError Archive::error() const
 {
     return m_error;
-}
-
-KJob* Archive::open()
-{
-    return 0;
-}
-
-KJob* Archive::create()
-{
-    return 0;
-}
-
-ListJob* Archive::list()
-{
-    if (!isValid() || !QFileInfo::exists(fileName())) {
-        return Q_NULLPTR;
-    }
-
-    qCDebug(ARK) << "Going to list files";
-
-    ListJob *job = new ListJob(m_iface);
-
-    //if this job has not been listed before, we grab the opportunity to
-    //collect some information about the archive
-    if (!m_hasBeenListed) {
-        connect(job, &ListJob::result, this, &Archive::onListFinished);
-    }
-
-    // FIXME: this is only a temporary workaround. See T3300 for a proper fix.
-    m_hasBeenListed = true;
-
-    return job;
 }
 
 DeleteJob* Archive::deleteFiles(QList<Archive::Entry*> &entries)
@@ -489,42 +500,8 @@ void Archive::onAddFinished(KJob* job)
     //folders/files other places than the root.
     //TODO: handle the case of creating a new file and singlefolderarchive
     //then.
-    if (m_isSingleFolderArchive && !job->error()) {
-        m_isSingleFolderArchive = false;
-    }
-}
-
-void Archive::onListFinished(KJob* job)
-{
-    ListJob *ljob = qobject_cast<ListJob*>(job);
-    m_extractedFilesSize = ljob->extractedFilesSize();
-    m_isSingleFolderArchive = ljob->isSingleFolderArchive();
-    m_subfolderName = ljob->subfolderName();
-    if (m_subfolderName.isEmpty()) {
-        m_subfolderName = completeBaseName();
-    }
-
-    if (ljob->isPasswordProtected()) {
-        // If we already know the password, it means that the archive is header-encrypted.
-        m_encryptionType = m_iface->password().isEmpty() ? Encrypted : HeaderEncrypted;
-    }
-}
-
-void Archive::listIfNotListed()
-{
-    if (!m_hasBeenListed) {
-        ListJob *job = list();
-        if (!job) {
-            return;
-        }
-
-        connect(job, &ListJob::userQuery, this, &Archive::onUserQuery);
-
-        QEventLoop loop(this);
-
-        connect(job, &KJob::result, &loop, &QEventLoop::quit);
-        job->start();
-        loop.exec(); // krazy:exclude=crashy
+    if (m_isSingleFolder && !job->error()) {
+        m_isSingleFolder = false;
     }
 }
 
@@ -546,6 +523,11 @@ CompressionOptions Archive::compressionOptions() const
 QString Archive::multiVolumeName() const
 {
     return m_iface->multiVolumeName();
+}
+
+ReadOnlyArchiveInterface *Archive::interface()
+{
+    return m_iface;
 }
 
 } // namespace Kerfuffle

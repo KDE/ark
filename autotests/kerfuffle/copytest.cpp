@@ -23,7 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "autotests/testhelper/testhelper.h"
+#include "testhelper.h"
 
 using namespace Kerfuffle;
 
@@ -173,7 +173,12 @@ void CopyTest::testCopying()
     QFETCH(QString, archiveName);
     const QString archivePath = temporaryDir.path() + QLatin1Char('/') + archiveName;
     Q_ASSERT(QFile::copy(QFINDTESTDATA(QStringLiteral("data/") + archiveName), archivePath));
-    Archive *archive = Archive::create(archivePath, this);
+
+    auto loadJob = Archive::load(archivePath);
+    QVERIFY(loadJob);
+
+    TestHelper::startAndWaitForResult(loadJob);
+    auto archive = loadJob->archive();
     QVERIFY(archive);
 
     if (!archive->isValid()) {

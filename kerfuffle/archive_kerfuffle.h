@@ -30,18 +30,18 @@
 
 #include "kerfuffle_export.h"
 
-#include <QHash>
-#include <QMimeType>
-#include <QObject>
-#include <QVariant>
-
+#include <KJob>
 #include <KPluginMetaData>
 
-class KJob;
+#include <QHash>
+#include <QMimeType>
+#include <QVariant>
 
 namespace Kerfuffle
 {
-class ListJob;
+class LoadJob;
+class BatchExtractJob;
+class CreateJob;
 class ExtractJob;
 class DeleteJob;
 class AddJob;
@@ -81,16 +81,17 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(QString fileName READ fileName CONSTANT)
     Q_PROPERTY(QString comment READ comment CONSTANT)
     Q_PROPERTY(QMimeType mimeType READ mimeType CONSTANT)
+    Q_PROPERTY(bool isEmpty READ isEmpty)
     Q_PROPERTY(bool isReadOnly READ isReadOnly CONSTANT)
-    Q_PROPERTY(bool isSingleFolderArchive READ isSingleFolderArchive)
+    Q_PROPERTY(bool isSingleFolder MEMBER m_isSingleFolder READ isSingleFolder)
     Q_PROPERTY(bool isMultiVolume READ isMultiVolume WRITE setMultiVolume)
     Q_PROPERTY(bool numberOfVolumes READ numberOfVolumes)
-    Q_PROPERTY(EncryptionType encryptionType READ encryptionType)
+    Q_PROPERTY(EncryptionType encryptionType MEMBER m_encryptionType READ encryptionType)
     Q_PROPERTY(qulonglong numberOfFiles READ numberOfFiles)
     Q_PROPERTY(qulonglong numberOfFolders READ numberOfFolders)
-    Q_PROPERTY(qulonglong unpackedSize READ unpackedSize)
+    Q_PROPERTY(qulonglong unpackedSize MEMBER m_extractedFilesSize READ unpackedSize)
     Q_PROPERTY(qulonglong packedSize READ packedSize)
-    Q_PROPERTY(QString subfolderName READ subfolderName)
+    Q_PROPERTY(QString subfolderName MEMBER m_subfolderName READ subfolderName)
     Q_PROPERTY(QString password READ password)
 
 public:
@@ -109,45 +110,67 @@ public:
     QString fileName() const;
     QString comment() const;
     QMimeType mimeType();
-    bool isReadOnly();
-    bool isSingleFolderArchive();
-    bool isMultiVolume();
+    bool isEmpty() const;
+    bool isReadOnly() const;
+    bool isSingleFolder() const;
+    bool isMultiVolume() const;
     void setMultiVolume(bool value);
     bool hasComment() const;
     int numberOfVolumes() const;
-    EncryptionType encryptionType();
+    EncryptionType encryptionType() const;
     QString password() const;
-    qulonglong numberOfFiles();
-    qulonglong numberOfFolders();
-    qulonglong unpackedSize();
+    qulonglong numberOfFiles() const;
+    qulonglong numberOfFolders() const;
+    qulonglong unpackedSize() const;
     qulonglong packedSize() const;
-    QString subfolderName();
+    QString subfolderName() const;
     void setCompressionOptions(const CompressionOptions &opts);
     CompressionOptions compressionOptions() const;
     QString multiVolumeName() const;
-
-    static Archive *create(const QString &fileName, QObject *parent = 0);
-    static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
+    ReadOnlyArchiveInterface *interface();
 
     /**
-     * Create an archive instance from a given @p plugin.
-     * @param fileName The name of the archive.
-     * @return A valid archive if the plugin could be loaded, an invalid one otherwise (with the FailedPlugin error set).
+     * @return Batch extraction job for @p filename to @p destination.
+     * @param autoSubfolder Whether the job will extract into a subfolder.
+     * @param preservePaths Whether the job will preserve paths.
+     * @param parent The parent for the archive.
      */
-    static Archive *create(const QString &fileName, Plugin *plugin, QObject *parent = Q_NULLPTR);
+    static BatchExtractJob *batchExtract(const QString &fileName, const QString &destination, bool autoSubfolder, bool preservePaths, QObject *parent = Q_NULLPTR);
+
+    /**
+     * @return Job to create an archive for the given @p entries.
+     * @param fileName The name of the new archive.
+     * @param mimeType The mimetype of the new archive.
+     */
+    static CreateJob* create(const QString &fileName, const QString &mimeType, const QList<Archive::Entry*> &entries, const CompressionOptions& options, QObject *parent = Q_NULLPTR);
+
+    /**
+     * @return An empty archive with name @p fileName, mimetype @p mimeType and @p parent as parent.
+     */
+    static Archive *createEmpty(const QString &fileName, const QString &mimeType, QObject *parent = Q_NULLPTR);
+
+    /**
+     * @return Job to load the archive @p fileName.
+     * @param parent The parent of the archive that will be loaded.
+     */
+    static LoadJob* load(const QString &fileName, QObject *parent = Q_NULLPTR);
+
+    /**
+     * @return Job to load the archive @p fileName with mimetype @p mimeType.
+     * @param parent The parent of the archive that will be loaded.
+     */
+    static LoadJob* load(const QString &fileName, const QString &mimeType, QObject *parent = Q_NULLPTR);
+
+    /**
+     * @return Job to load the archive @p fileName by using @p plugin.
+     * @param parent The parent of the archive that will be loaded.
+     */
+    static LoadJob* load(const QString &fileName, Plugin *plugin, QObject *parent = Q_NULLPTR);
 
     ~Archive();
 
     ArchiveError error() const;
     bool isValid() const;
-
-    KJob* open();
-    KJob* create();
-
-    /**
-     * @return A ListJob if the archive already exists. A null pointer otherwise.
-     */
-    ListJob* list();
 
     DeleteJob* deleteFiles(QList<Archive::Entry*> &entries);
     CommentJob* addComment(const QString &comment);
@@ -195,7 +218,6 @@ public:
     void encrypt(const QString &password, bool encryptHeader);
 
 private slots:
-    void onListFinished(KJob*);
     void onAddFinished(KJob*);
     void onUserQuery(Kerfuffle::Query*);
     void onNewEntry(const Archive::Entry *entry);
@@ -204,11 +226,19 @@ private:
     Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = 0);
     Archive(ArchiveError errorCode, QObject *parent = 0);
 
-    void listIfNotListed();
+    static Archive *create(const QString &fileName, QObject *parent = 0);
+    static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
+
+    /**
+     * Create an archive instance from a given @p plugin.
+     * @param fileName The name of the archive.
+     * @return A valid archive if the plugin could be loaded, an invalid one otherwise (with the FailedPlugin error set).
+     */
+    static Archive *create(const QString &fileName, Plugin *plugin, QObject *parent = Q_NULLPTR);
+
     ReadOnlyArchiveInterface *m_iface;
-    bool m_hasBeenListed;
     bool m_isReadOnly;
-    bool m_isSingleFolderArchive;
+    bool m_isSingleFolder;
     bool m_isMultiVolume;
 
     QString m_subfolderName;

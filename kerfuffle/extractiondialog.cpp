@@ -201,6 +201,21 @@ QString ExtractionDialog::subfolder() const
     return m_ui->subfolder->text();
 }
 
+void ExtractionDialog::setBusyGui()
+{
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    fileWidget->setEnabled(false);
+    m_ui->setEnabled(false);
+    // TODO: tell the user why the dialog is busy (e.g. "archive is being loaded").
+}
+
+void ExtractionDialog::setReadyGui()
+{
+    QApplication::restoreOverrideCursor();
+    fileWidget->setEnabled(true);
+    m_ui->setEnabled(true);
+}
+
 ExtractionDialog::~ExtractionDialog()
 {
     delete m_ui;

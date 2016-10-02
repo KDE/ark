@@ -27,8 +27,9 @@
  */
 
 #include "addtoarchive.h"
-#include "ark_debug.h"
+#include "archiveentry.h"
 #include "archive_kerfuffle.h"
+#include "ark_debug.h"
 #include "createdialog.h"
 #include "jobs.h"
 
@@ -38,7 +39,6 @@
 #include <KLocalizedString>
 #include <kio/job.h>
 
-#include <QDebug>
 #include <QFileInfo>
 #include <QDir>
 #include <QMimeDatabase>
@@ -48,7 +48,9 @@
 namespace Kerfuffle
 {
 AddToArchive::AddToArchive(QObject *parent)
-        : KJob(parent), m_changeToFirstPath(false)
+        : KJob(parent)
+        , m_changeToFirstPath(false)
+        , m_enableHeaderEncryption(false)
 {
 }
 
@@ -134,19 +136,13 @@ void AddToArchive::start()
 
 void AddToArchive::slotStartJob()
 {
-    Kerfuffle::CompressionOptions options;
-
     if (m_entries.isEmpty()) {
         KMessageBox::error(NULL, i18n("No input files were given."));
         emitResult();
         return;
     }
 
-    Kerfuffle::Archive *archive;
-    if (!m_filename.isEmpty()) {
-        archive = Kerfuffle::Archive::create(m_filename, m_mimeType, this);
-        qCDebug(ARK) << "Set filename to " << m_filename;
-    } else {
+    if (m_filename.isEmpty()) {
         if (m_autoFilenameSuffix.isEmpty()) {
             KMessageBox::error(Q_NULLPTR, xi18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
             emitResult();
@@ -171,32 +167,11 @@ void AddToArchive::slotStartJob()
             finalName = base + QLatin1Char( '_' ) + QString::number(appendNumber) + QLatin1Char( '.' ) + m_autoFilenameSuffix;
         }
 
-        qCDebug(ARK) << "Autoset filename to "<< finalName;
-        archive = Kerfuffle::Archive::create(finalName, m_mimeType, this);
+        qCDebug(ARK) << "Autoset filename to" << finalName;
+        m_filename = finalName;
     }
 
-    Q_ASSERT(archive);
-
-    if (!archive->isValid()) {
-        if (archive->error() == NoPlugin) {
-            KMessageBox::error(Q_NULLPTR, i18n("Failed to create the new archive. No suitable plugin found."));
-            emitResult();
-            return;
-        }
-        if (archive->error() == FailedPlugin) {
-            KMessageBox::error(Q_NULLPTR, i18n("Failed to create the new archive. Could not load a suitable plugin."));
-            emitResult();
-            return;
-        }
-    } else if (archive->isReadOnly()) {
-        KMessageBox::error(Q_NULLPTR, i18n("It is not possible to create archives of this type."));
-        emitResult();
-        return;
-    }
-
-    if (!m_password.isEmpty()) {
-        archive->encrypt(m_password, m_enableHeaderEncryption);
-    }
+    Kerfuffle::CompressionOptions options;
 
     if (m_changeToFirstPath) {
         if (m_firstPath.isEmpty()) {
@@ -215,22 +190,23 @@ void AddToArchive::slotStartJob()
         qCDebug(ARK) << "Setting GlobalWorkDir to " << stripDir.path();
     }
 
-    Kerfuffle::AddJob *job =
-        archive->addFiles(m_entries, new Archive::Entry(this), options);
+    auto createJob = Archive::create(m_filename, m_mimeType, m_entries, options, this);
 
-    KIO::getJobTracker()->registerJob(job);
+    if (!m_password.isEmpty()) {
+        createJob->enableEncryption(m_password, m_enableHeaderEncryption);
+    }
 
-    connect(job, &Kerfuffle::AddJob::result, this, &AddToArchive::slotFinished);
-
-    job->start();
+    KIO::getJobTracker()->registerJob(createJob);
+    connect(createJob, &KJob::result, this, &AddToArchive::slotFinished);
+    createJob->start();
 }
 
 void AddToArchive::slotFinished(KJob *job)
 {
     qCDebug(ARK) << "AddToArchive job finished";
 
-    if (job->error() && !job->errorText().isEmpty()) {
-        KMessageBox::error(Q_NULLPTR, job->errorText());
+    if (job->error() && !job->errorString().isEmpty()) {
+        KMessageBox::error(Q_NULLPTR, job->errorString());
     }
 
     emitResult();

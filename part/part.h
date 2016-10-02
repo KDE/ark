@@ -164,6 +164,8 @@ signals:
     void quit();
 
 private:
+    void createArchive();
+    void loadArchive();
     void resetGui();
     void setupView();
     void setupActions();

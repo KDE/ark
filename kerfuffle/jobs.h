@@ -48,12 +48,21 @@ class KERFUFFLE_EXPORT Job : public KJob
     Q_OBJECT
 
 public:
-    void start();
+
+    /**
+     * @return The archive processed by this job.
+     * @warning This method should not be called before start().
+     */
+    Archive *archive() const;
+    QString errorString() const Q_DECL_OVERRIDE;
+    void start() Q_DECL_OVERRIDE;
 
 protected:
+    Job(Archive *archive, ReadOnlyArchiveInterface *interface);
+    Job(Archive *archive);
     Job(ReadOnlyArchiveInterface *interface);
     virtual ~Job();
-    virtual bool doKill();
+    virtual bool doKill() Q_DECL_OVERRIDE;
 
     ReadOnlyArchiveInterface *archiveInterface();
     QList<Archive::Entry*> m_archiveEntries;
@@ -80,20 +89,38 @@ signals:
     void userQuery(Kerfuffle::Query*);
 
 private:
+    Archive *m_archive;
     ReadOnlyArchiveInterface *m_archiveInterface;
-
     QElapsedTimer jobTimer;
 
     class Private;
     Private * const d;
 };
 
-class KERFUFFLE_EXPORT ListJob : public Job
+/**
+ * Load an existing archive.
+ * Example usage:
+ *
+ * \code
+ *
+ * auto job = Archive::load(filename);
+ * connect(job, &KJob::result, [](KJob *job) {
+ *     if (!job->error) {
+ *         auto archive = qobject_cast<Archive::LoadJob*>(job)->archive();
+ *         // do something with archive.
+ *     }
+ * });
+ * job->start();
+ *
+ * \endcode
+ */
+class KERFUFFLE_EXPORT LoadJob : public Job
 {
     Q_OBJECT
 
 public:
-    explicit ListJob(ReadOnlyArchiveInterface *interface);
+    explicit LoadJob(Archive *archive);
+    explicit LoadJob(ReadOnlyArchiveInterface *interface);
 
     qlonglong extractedFilesSize() const;
     bool isPasswordProtected() const;
@@ -103,7 +130,12 @@ public:
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
 
+protected slots:
+    virtual void onFinished(bool result) Q_DECL_OVERRIDE;
+
 private:
+    explicit LoadJob(Archive *archive, ReadOnlyArchiveInterface *interface);
+
     bool m_isSingleFolderArchive;
     bool m_isPasswordProtected;
     QString m_subfolderName;
@@ -114,6 +146,66 @@ private:
 
 private slots:
     void onNewEntry(const Archive::Entry*);
+};
+
+/**
+ * Perform a batch extraction of an existing archive.
+ * Internally it runs a LoadJob before the actual extraction,
+ * to figure out properties such as the subfolder name.
+ */
+class KERFUFFLE_EXPORT BatchExtractJob : public Job
+{
+    Q_OBJECT
+
+public:
+    explicit BatchExtractJob(LoadJob *loadJob, const QString &destination, bool autoSubfolder, bool preservePaths);
+
+signals:
+    void newEntry(Archive::Entry *entry);
+    void userQuery(Query *query);
+
+public slots:
+    virtual void doWork() Q_DECL_OVERRIDE;
+
+private slots:
+    void slotLoadingFinished(KJob *job);
+
+private:
+    void setupDestination();
+
+    LoadJob *m_loadJob;
+    QString m_destination;
+    bool m_autoSubfolder;
+    bool m_preservePaths;
+};
+
+/**
+ * Create a new archive given a bunch of entries.
+ */
+class KERFUFFLE_EXPORT CreateJob : public Job
+{
+    Q_OBJECT
+
+public:
+    explicit CreateJob(Archive *archive, const QList<Archive::Entry*> &entries, const CompressionOptions& options);
+
+    /**
+     * @param password The password to encrypt the archive with.
+     * @param encryptHeader Whether to encrypt also the list of files.
+     */
+    void enableEncryption(const QString &password, bool encryptHeader);
+
+    /**
+     * Set whether the new archive should be multivolume.
+     */
+    void setMultiVolume(bool isMultiVolume);
+
+public slots:
+    virtual void doWork() Q_DECL_OVERRIDE;
+
+private:
+    QList<Archive::Entry*> m_entries;
+    CompressionOptions m_options;
 };
 
 class KERFUFFLE_EXPORT ExtractJob : public Job

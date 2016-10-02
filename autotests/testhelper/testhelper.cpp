@@ -31,15 +31,15 @@ void TestHelper::startAndWaitForResult(KJob *job)
 {
     QObject::connect(job, &KJob::result, &m_eventLoop, &QEventLoop::quit);
     job->start();
-    m_eventLoop.exec();
+    m_eventLoop.exec(); // krazy:exclude=crashy
 }
 
 QList<Archive::Entry*> TestHelper::getEntryList(Archive *archive)
 {
     QList<Archive::Entry*> list = QList<Archive::Entry*>();
-    ListJob *listJob = archive->list();
-    QObject::connect(listJob, &Job::newEntry, [&list](Archive::Entry* entry) { list << entry; });
-    startAndWaitForResult(listJob);
+    auto loadJob = Archive::load(archive->fileName());
+    QObject::connect(loadJob, &Job::newEntry, [&list](Archive::Entry* entry) { list << entry; });
+    startAndWaitForResult(loadJob);
     return list;
 }
 

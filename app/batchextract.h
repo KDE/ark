@@ -29,9 +29,10 @@
 #ifndef BATCHEXTRACT_H
 #define BATCHEXTRACT_H
 
-#include <kcompositejob.h>
+#include <KCompositeJob>
 
 #include <QMap>
+#include <QVector>
 
 namespace Kerfuffle
 {
@@ -63,15 +64,15 @@ public:
     virtual ~BatchExtract();
 
     /**
-     * Creates an ExtractJob for the given @p archive and puts it on the queue.
+     * Creates a BatchExtractJob for the given @p url and puts it on the queue.
      *
-     * If necessary, the destination directory for the archive is created.
+     * If necessary, the destination directory for the archive is created by the job.
      *
-     * @param archive           The archive that will be extracted.
+     * @param url The url of the archive that will be extracted.
      *
      * @see setAutoSubfolder
      */
-    void addExtraction(Kerfuffle::Archive* archive);
+    void addExtraction(const QUrl& url);
 
     /**
      * A wrapper that calls slotStartJob() when the event loop has started.
@@ -106,13 +107,8 @@ public:
      * Adds a file to the list of files that will be extracted.
      *
      * @param url The file that will be added to the list.
-     *
-     * @return @c true  The file exists and a suitable plugin
-     *                  could be found for it.
-     * @return @c false The file does not exist or a suitable
-     *                  plugin could not be found.
      */
-    bool addInput(const QUrl& url);
+    void addInput(const QUrl& url);
 
     /**
      * Shows the extract options dialog before extracting the files.
@@ -220,7 +216,7 @@ private:
     QMap<KJob*, QPair<QString, QString> > m_fileNames;
     bool m_autoSubfolder;
 
-    QList<Kerfuffle::Archive*> m_inputs;
+    QVector<QUrl> m_inputs;
     QString m_destinationFolder;
     QStringList m_failedFiles;
     bool m_preservePaths;

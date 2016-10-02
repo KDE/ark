@@ -23,12 +23,12 @@
 #ifndef ARCHIVEMODEL_H
 #define ARCHIVEMODEL_H
 
-#include <QAbstractItemModel>
-#include <QScopedPointer>
+#include "archiveentry.h"
 
 #include <KMessageWidget>
-#include <kjobtrackerinterface.h>
-#include "kerfuffle/archiveentry.h"
+
+#include <QAbstractItemModel>
+#include <QScopedPointer>
 
 using Kerfuffle::Archive;
 
@@ -62,7 +62,9 @@ public:
     QMimeData *mimeData(const QModelIndexList & indexes) const Q_DECL_OVERRIDE;
     bool dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent) Q_DECL_OVERRIDE;
 
-    KJob* setArchive(Kerfuffle::Archive *archive);
+    void reset();
+    void createEmptyArchive(const QString &path, const QString &mimeType, QObject *parent);
+    KJob* loadArchive(const QString &path, const QString &mimeType, QObject *parent);
     Kerfuffle::Archive *archive() const;
 
     Archive::Entry *entryForIndex(const QModelIndex &index);

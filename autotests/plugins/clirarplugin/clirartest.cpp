@@ -25,14 +25,13 @@
  */
 
 #include "clirartest.h"
-#include "kerfuffle/archiveentry.h"
+
+#include <KPluginLoader>
 
 #include <QFile>
 #include <QSignalSpy>
 #include <QTest>
 #include <QTextStream>
-
-#include <KPluginLoader>
 
 QTEST_GUILESS_MAIN(CliRarTest)
 
@@ -73,7 +72,11 @@ void CliRarTest::testArchive()
     }
 
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, m_plugin, this);
+    auto loadJob = Archive::load(archivePath, m_plugin, this);
+    QVERIFY(loadJob);
+
+    TestHelper::startAndWaitForResult(loadJob);
+    auto archive = loadJob->archive();
     QVERIFY(archive);
 
     if (!archive->isValid()) {
@@ -87,7 +90,7 @@ void CliRarTest::testArchive()
     QCOMPARE(archive->isReadOnly(), isReadOnly);
 
     QFETCH(bool, isSingleFolder);
-    QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
+    QCOMPARE(archive->isSingleFolder(), isSingleFolder);
 
     QFETCH(Archive::EncryptionType, expectedEncryptionType);
     QCOMPARE(archive->encryptionType(), expectedEncryptionType);

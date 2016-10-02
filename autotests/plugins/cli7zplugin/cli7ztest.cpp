@@ -24,6 +24,7 @@
  */
 
 #include "cli7ztest.h"
+#include "testhelper.h"
 
 #include <QFile>
 #include <QSignalSpy>
@@ -31,7 +32,6 @@
 #include <QTextStream>
 
 #include <KPluginLoader>
-#include <QtCore/QVariant>
 
 QTEST_GUILESS_MAIN(Cli7zTest)
 
@@ -72,7 +72,11 @@ void Cli7zTest::testArchive()
     }
 
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, m_plugin, this);
+    auto loadJob = Archive::load(archivePath, m_plugin, this);
+    QVERIFY(loadJob);
+
+    TestHelper::startAndWaitForResult(loadJob);
+    auto archive = loadJob->archive();
     QVERIFY(archive);
 
     if (!archive->isValid()) {
@@ -86,7 +90,7 @@ void Cli7zTest::testArchive()
     QCOMPARE(archive->isReadOnly(), isReadOnly);
 
     QFETCH(bool, isSingleFolder);
-    QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
+    QCOMPARE(archive->isSingleFolder(), isSingleFolder);
 
     QFETCH(Archive::EncryptionType, expectedEncryptionType);
     QCOMPARE(archive->encryptionType(), expectedEncryptionType);

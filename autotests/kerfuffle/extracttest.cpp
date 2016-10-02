@@ -24,8 +24,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "kerfuffle/archive_kerfuffle.h"
-#include "kerfuffle/jobs.h"
+#include "testhelper.h"
 
 #include <QDirIterator>
 #include <QStandardPaths>
@@ -62,8 +61,8 @@ void ExtractTest::testProperties_data()
     QTest::newRow("non-existent tar archive")
             << QStringLiteral("/tmp/foo.tar.gz")
             << QStringLiteral("foo")
-            << false << false << false << false << 0 << Archive::Unencrypted
-            << QString();
+            << false << false << true << false << 0 << Archive::Unencrypted
+            << QStringLiteral("foo");
 
     // Test non-archive file
     QTest::newRow("not an archive")
@@ -195,7 +194,11 @@ void ExtractTest::testProperties_data()
 void ExtractTest::testProperties()
 {
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, this);
+    auto loadJob = Archive::load(archivePath, this);
+    QVERIFY(loadJob);
+
+    TestHelper::startAndWaitForResult(loadJob);
+    auto archive = loadJob->archive();
     QVERIFY(archive);
 
     if (!archive->isValid()) {
@@ -218,7 +221,7 @@ void ExtractTest::testProperties()
     }
 
     QFETCH(bool, isSingleFolder);
-    QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
+    QCOMPARE(archive->isSingleFolder(), isSingleFolder);
 
     QFETCH(bool, isMultiVolume);
     QCOMPARE(archive->isMultiVolume(), isMultiVolume);
@@ -589,7 +592,12 @@ void ExtractTest::testExtraction_data()
 void ExtractTest::testExtraction()
 {
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, this);
+    auto loadJob = Archive::load(archivePath, this);
+    QVERIFY(loadJob);
+
+    Archive *archive = Q_NULLPTR;
+    TestHelper::startAndWaitForResult(loadJob);
+    archive = loadJob->archive();
     QVERIFY(archive);
 
     if (!archive->isValid()) {
@@ -605,10 +613,7 @@ void ExtractTest::testExtraction()
     QFETCH(ExtractionOptions, extractionOptions);
     auto extractionJob = archive->extractFiles(entriesToExtract, destDir.path(), extractionOptions);
 
-    QEventLoop eventLoop(this);
-    connect(extractionJob, &KJob::result, &eventLoop, &QEventLoop::quit);
-    extractionJob->start();
-    eventLoop.exec(); // krazy:exclude=crashy
+    TestHelper::startAndWaitForResult(extractionJob);
 
     QFETCH(int, expectedExtractedEntriesCount);
     int extractedEntriesCount = 0;
