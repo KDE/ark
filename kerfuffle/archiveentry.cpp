@@ -108,17 +108,17 @@ void Archive::Entry::setParent(Archive::Entry *parent)
 void Archive::Entry::setFullPath(const QString &fullPath)
 {
     m_fullPath = fullPath;
-    m_fullPathWithoutTrailingSlash = fullPath;
-    if (m_fullPathWithoutTrailingSlash.right(1) == QLatin1String("/")) {
-        m_fullPathWithoutTrailingSlash.chop(1);
-    }
-    const QStringList pieces = m_fullPath.split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+    const QStringList pieces = m_fullPath.split(QLatin1Char('/'), QString::SkipEmptyParts);
     m_name = pieces.isEmpty() ? QString() : pieces.last();
 }
 
 QString Archive::Entry::fullPath(bool withoutTrailingSlash) const
 {
-    return (withoutTrailingSlash) ? m_fullPathWithoutTrailingSlash : m_fullPath;
+    if (withoutTrailingSlash && m_fullPath.endsWith(QLatin1Char('/'))) {
+        return m_fullPath.left(m_fullPath.size() - 1);
+    } else {
+        return m_fullPath;
+    }
 }
 
 QString Archive::Entry::name() const

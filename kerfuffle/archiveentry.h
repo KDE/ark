@@ -105,7 +105,6 @@ private:
     Entry           *m_parent;
 
     QString m_fullPath;
-    QString m_fullPathWithoutTrailingSlash;
     QString m_permissions;
     QString m_owner;
     QString m_group;

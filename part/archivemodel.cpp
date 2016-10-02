@@ -36,7 +36,7 @@
 
 using namespace Kerfuffle;
 
-//used to speed up the loading of large archives
+// Used to speed up the loading of large archives.
 static Archive::Entry *s_previousMatch = Q_NULLPTR;
 Q_GLOBAL_STATIC(QStringList, s_previousPieces)
 
@@ -58,7 +58,7 @@ enum EntryMetaDataType {
     Method,              /**< The compression method used on the entry */
     Version,             /**< The archiver version needed to extract the entry */
     Timestamp,           /**< The timestamp for the current entry */
-    Comment,
+    Comment
 };
 
 /**
@@ -118,7 +118,7 @@ protected:
         const Archive::Entry * const leftEntry = left.first;
         const Archive::Entry * const rightEntry = right.first;
 
-        // #234373: sort folders before files
+        // #234373: sort folders before files.
         if ((leftEntry->isDir()) && (!rightEntry->isDir())) {
             return (m_sortOrder == Qt::AscendingOrder);
         } else if ((!leftEntry->isDir()) && (rightEntry->isDir())) {
@@ -169,7 +169,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
         Archive::Entry *entry = static_cast<Archive::Entry*>(index.internalPointer());
         switch (role) {
         case Qt::DisplayRole: {
-            //TODO: complete the columns
+            // TODO: complete the columns.
             int column = m_showColumns.at(index.column());
             switch (column) {
             case FullPath:
@@ -196,7 +196,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                         return QVariant();
                     }
                 }
-            case Ratio: // TODO: Use entry->metaData()[Ratio] when available
+            case Ratio: // TODO: Use entry->metaData()[Ratio] when available.
                 if (entry->isDir() || !entry->property("link").toString().isEmpty()) {
                     return QVariant();
                 } else {
@@ -280,7 +280,7 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
         case Method:
             return i18nc("Compression method", "Method");
         case Version:
-            //TODO: what exactly is a file version?
+            // TODO: what exactly is a file version?
             return i18nc("File version", "Version");
         case Timestamp:
             return i18nc("Timestamp", "Date");
@@ -288,7 +288,6 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
             return i18nc("File comment", "Comment");
         default:
             return i18nc("Unnamed column", "??");
-
         }
     }
     return QVariant();
@@ -453,7 +452,7 @@ QMimeData *ArchiveModel::mimeData(const QModelIndexList &indexes) const
     return mimeData;
 }
 
-bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent)
+bool ArchiveModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
     Q_UNUSED(action)
 
@@ -491,7 +490,7 @@ bool ArchiveModel::dropMimeData(const QMimeData * data, Qt::DropAction action, i
 QString ArchiveModel::cleanFileName(const QString& fileName)
 {
     // Skip entries with filename "/" or "//" or "."
-    // "." is present in ISO files
+    // "." is present in ISO files.
     QRegularExpression pattern(QStringLiteral("/+|\\."));
     QRegularExpressionMatch match;
     if (fileName.contains(pattern, &match) && match.captured() == fileName) {
@@ -506,19 +505,20 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
 
 Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
 {
-    QStringList pieces = entry->fullPath().split(QLatin1Char( '/' ), QString::SkipEmptyParts);
+    QStringList pieces = entry->fullPath().split(QLatin1Char('/'), QString::SkipEmptyParts);
     if (pieces.isEmpty()) {
         return Q_NULLPTR;
     }
     pieces.removeLast();
 
+    // Used to speed up loading of large archives.
     if (s_previousMatch) {
-        //the number of path elements must be the same for the shortcut
-        //to work
+        // The number of path elements must be the same for the shortcut
+        // to work.
         if (s_previousPieces->count() == pieces.count()) {
             bool equal = true;
 
-            //make sure all the pieces match up
+            // Check if all pieces match.
             for (int i = 0; i < s_previousPieces->count(); ++i) {
                 if (s_previousPieces->at(i) != pieces.at(i)) {
                     equal = false;
@@ -526,7 +526,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
                 }
             }
 
-            //if match return it
+            // If match return it.
             if (equal) {
                 return s_previousMatch;
             }
@@ -583,7 +583,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         return;
     }
 
-    Archive::Entry *entry = m_rootEntry.findByPath(entryFileName.split(QLatin1Char( '/' ), QString::SkipEmptyParts));
+    Archive::Entry *entry = m_rootEntry.findByPath(entryFileName.split(QLatin1Char('/'), QString::SkipEmptyParts));
     if (entry) {
         Archive::Entry *parent = entry->getParent();
         QModelIndex index = indexForEntry(entry);
@@ -603,10 +603,10 @@ void ArchiveModel::slotUserQuery(Kerfuffle::Query *query)
 
 void ArchiveModel::slotNewEntryFromSetArchive(Archive::Entry *entry)
 {
-    // we cache all entries that appear when opening a new archive
+    // We cache all entries that appear when opening a new archive
     // so we can all them together once it's done, this is a huge
     // performance improvement because we save from doing lots of
-    // begin/endInsertRows
+    // begin/endInsertRows.
     m_newArchiveEntries.push_back(entry);
 }
 
@@ -643,9 +643,9 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
         qCDebug(ARK) << "Showing columns: " << m_showColumns;
     }
 
-    //#194241: Filenames such as "./file" should be displayed as "file"
-    //#241967: Entries called "/" should be ignored
-    //#355839: Entries called "//" should be ignored
+    // #194241: Filenames such as "./file" should be displayed as "file"
+    // #241967: Entries called "/" should be ignored
+    // #355839: Entries called "//" should be ignored
     QString entryFileName = cleanFileName(receivedEntry->fullPath());
     if (entryFileName.isEmpty()) { // The entry contains only "." or "./"
         return;
@@ -660,8 +660,8 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
         qCDebug(ARK) << "Trailing slash appended to entry:" << receivedEntry->property("fullPath");
     }
 
-    /// 1. Skip already created entries
-    Archive::Entry *existing = m_rootEntry.findByPath(entryFileName.split(QLatin1Char( '/' )));
+    // Skip already created entries.
+    Archive::Entry *existing = m_rootEntry.findByPath(entryFileName.split(QLatin1Char('/')));
     if (existing) {
         qCDebug(ARK) << "Refreshing entry for" << entryFileName;
 
@@ -673,13 +673,12 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
         return;
     }
 
-    /// 2. Find Parent Entry, creating missing direcotry ArchiveEntries in the process
+    // Find parent entry, creating missing directory Archive::Entry's in the process.
     Archive::Entry *parent = parentFor(receivedEntry);
 
-    /// 3. Create an Archive::Entry
+    // Create an Archive::Entry.
     const QStringList path = entryFileName.split(QLatin1Char('/'), QString::SkipEmptyParts);
-    const QString name = path.last();
-    Archive::Entry *entry = parent->find(name);
+    Archive::Entry *entry = parent->find(path.last());
     if (entry) {
         entry->copyMetaData(receivedEntry);
         entry->setProperty("fullPath", entryFileName);
@@ -729,13 +728,11 @@ void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)
     // Save an icon for each newly added entry.
     QMimeDatabase db;
     QIcon icon;
-    if (entry->isDir()) {
-        icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                                         IconSize(KIconLoader::Small));
-    } else {
-        icon = QIcon::fromTheme(db.mimeTypeForFile(entry->fullPath()).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                         IconSize(KIconLoader::Small));
-    }
+    entry->isDir()
+    ? icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                                       IconSize(KIconLoader::Small))
+    : icon = QIcon::fromTheme(db.mimeTypeForFile(entry->fullPath()).iconName()).pixmap(IconSize(KIconLoader::Small),
+                                                                                       IconSize(KIconLoader::Small));
     m_entryIcons.insert(entry->fullPath(true), icon);
 }
 
@@ -780,8 +777,7 @@ KJob *ArchiveModel::loadArchive(const QString &path, const QString &mimeType, QO
 
 ExtractJob* ArchiveModel::extractFile(Archive::Entry *file, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
 {
-    QList<Archive::Entry*> files;
-    files << file;
+    QList<Archive::Entry*> files({file});
     return extractFiles(files, destinationDir, options);
 }
 
@@ -987,12 +983,12 @@ void ArchiveModel::slotCleanupEmptyDirs()
     QList<QPersistentModelIndex> queue;
     QList<QPersistentModelIndex> nodesToDelete;
 
-    //add root nodes
+    // Add root nodes.
     for (int i = 0; i < rowCount(); ++i) {
         queue.append(QPersistentModelIndex(index(i, 0)));
     }
 
-    //breadth-first traverse
+    // Breadth-first traverse.
     while (!queue.isEmpty()) {
         QPersistentModelIndex node = queue.takeFirst();
         Archive::Entry *entry = entryForIndex(node);
