@@ -57,8 +57,7 @@ enum EntryMetaDataType {
     CRC,                 /**< The entry's CRC */
     Method,              /**< The compression method used on the entry */
     Version,             /**< The archiver version needed to extract the entry */
-    Timestamp,           /**< The timestamp for the current entry */
-    Comment
+    Timestamp            /**< The timestamp for the current entry */
 };
 
 /**
@@ -78,7 +77,6 @@ static QMap<int, QString> initializePropertiesList()
     propertiesList.insert(Method, QStringLiteral("method"));
     propertiesList.insert(Version, QStringLiteral("version"));
     propertiesList.insert(Timestamp, QStringLiteral("timestamp"));
-    propertiesList.insert(Comment, QStringLiteral("comment"));
     return propertiesList;
 }
 static const QMap<int, QString> propertiesList = initializePropertiesList();
@@ -284,8 +282,6 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
             return i18nc("File version", "Version");
         case Timestamp:
             return i18nc("Timestamp", "Date");
-        case Comment:
-            return i18nc("File comment", "Comment");
         default:
             return i18nc("Unnamed column", "??");
         }

@@ -65,7 +65,6 @@ class Archive::Entry : public QObject
     Q_PROPERTY(QString version MEMBER m_version)
     Q_PROPERTY(QDateTime timestamp MEMBER m_timestamp)
     Q_PROPERTY(bool isDirectory MEMBER m_isDirectory WRITE setIsDirectory)
-    Q_PROPERTY(QString comment MEMBER m_comment)
     Q_PROPERTY(bool isPasswordProtected MEMBER m_isPasswordProtected)
 
 public:
@@ -117,7 +116,6 @@ private:
     QString m_version;
     QDateTime m_timestamp;
     bool m_isDirectory;
-    QString m_comment;
     bool m_isPasswordProtected;
 };
 

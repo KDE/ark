@@ -60,7 +60,6 @@ void Archive::Entry::copyMetaData(const Archive::Entry *sourceEntry)
     setProperty("version", sourceEntry->property("version"));
     setProperty("timestamp", sourceEntry->property("timestamp").toDateTime());
     setProperty("isDirectory", sourceEntry->property("isDirectory"));
-    setProperty("comment", sourceEntry->property("comment"));
     setProperty("isPasswordProtected", sourceEntry->property("isPasswordProtected"));
 }
 
