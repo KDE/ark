@@ -224,6 +224,13 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry*> &files, const Q
             entryName.remove(0, 2);
         }
 
+        // Static libraries (*.a) contain the two entries "/" and "//".
+        // We just skip these to allow extracting this archive type.
+        if (entryName == QLatin1String("/") || entryName == QLatin1String("//")) {
+            archive_read_data_skip(m_archiveReader.data());
+            continue;
+        }
+
         // For now we just can't handle absolute filenames in a tar archive.
         // TODO: find out what to do here!!
         if (entryName.startsWith(QLatin1Char( '/' ))) {
