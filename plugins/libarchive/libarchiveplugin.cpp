@@ -61,6 +61,7 @@ bool LibarchivePlugin::list()
 
     m_cachedArchiveEntryCount = 0;
     m_extractedFilesSize = 0;
+    qulonglong compressedArchiveSize = QFileInfo(filename()).size();
 
     struct archive_entry *aentry;
     int result = ARCHIVE_RETRY;
@@ -78,6 +79,8 @@ bool LibarchivePlugin::list()
         }
 
         m_extractedFilesSize += (qlonglong)archive_entry_size(aentry);
+
+        emit progress(float(archive_filter_bytes(m_archiveReader.data(), -1))/float(compressedArchiveSize));
 
         m_cachedArchiveEntryCount++;
         archive_read_data_skip(m_archiveReader.data());
