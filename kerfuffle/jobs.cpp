@@ -343,7 +343,7 @@ void BatchExtractJob::doWork()
 {
     connect(m_loadJob, &KJob::result, this, &BatchExtractJob::slotLoadingFinished);
 
-    // Forward signals
+    // Forward LoadJob's signals.
     connect(m_loadJob, &Kerfuffle::Job::newEntry, this, &BatchExtractJob::newEntry);
     connect(m_loadJob, &Kerfuffle::Job::userQuery, this, &BatchExtractJob::userQuery);
     m_loadJob->start();
@@ -352,7 +352,9 @@ void BatchExtractJob::doWork()
 void BatchExtractJob::slotLoadingFinished(KJob *job)
 {
     if (job->error()) {
-        emitResult();
+        // Forward errors as well.
+        onError(job->errorString(), QString());
+        onFinished(false);
         return;
     }
 
