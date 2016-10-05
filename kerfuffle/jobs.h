@@ -84,7 +84,6 @@ protected slots:
 
 signals:
     void entryRemoved(const QString & entry);
-    void error(const QString& errorMessage, const QString& details);
     void newEntry(Archive::Entry*);
     void userQuery(Kerfuffle::Query*);
 
