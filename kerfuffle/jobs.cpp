@@ -248,7 +248,7 @@ LoadJob::LoadJob(ReadOnlyArchiveInterface *interface)
 
 void LoadJob::doWork()
 {
-    emit description(this, i18n("Loading archive..."));
+    emit description(this, i18n("Loading archive"));
     connectToArchiveInterfaceSignals();
 
     bool ret = archiveInterface()->list();
