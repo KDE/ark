@@ -29,7 +29,6 @@
 #include <kio/global.h>
 
 #include <QDBusConnection>
-#include <QElapsedTimer>
 #include <QMimeData>
 #include <QRegularExpression>
 #include <QUrl>
@@ -499,7 +498,7 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
     return fileName;
 }
 
-Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
+Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehaviour behaviour)
 {
     QStringList pieces = entry->fullPath().split(QLatin1Char('/'), QString::SkipEmptyParts);
     if (pieces.isEmpty()) {
@@ -543,14 +542,14 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry)
                                            ? piece + QLatin1Char('/')
                                            : parent->fullPath(false) + piece + QLatin1Char('/'));
             entry->setProperty("isDirectory", true);
-            insertEntry(entry);
+            insertEntry(entry, behaviour);
         }
         if (!entry->isDir()) {
             Archive::Entry *e = new Archive::Entry(parent);
             e->copyMetaData(entry);
             // Maybe we have both a file and a directory of the same name.
             // We avoid removing previous entries unless necessary.
-            insertEntry(e);
+            insertEntry(e, behaviour);
         }
         parent = entry;
     }
@@ -597,18 +596,14 @@ void ArchiveModel::slotUserQuery(Kerfuffle::Query *query)
     query->execute();
 }
 
-void ArchiveModel::slotNewEntryFromSetArchive(Archive::Entry *entry)
-{
-    // We cache all entries that appear when opening a new archive
-    // so we can all them together once it's done, this is a huge
-    // performance improvement because we save from doing lots of
-    // begin/endInsertRows.
-    m_newArchiveEntries.push_back(entry);
-}
-
 void ArchiveModel::slotNewEntry(Archive::Entry *entry)
 {
     newEntry(entry, NotifyViews);
+}
+
+void ArchiveModel::slotListEntry(Archive::Entry *entry)
+{
+    newEntry(entry, DoNotNotifyViews);
 }
 
 void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behaviour)
@@ -632,9 +627,13 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
             }
             ++i;
         }
-        beginInsertColumns(QModelIndex(), 0, toInsert.size() - 1);
+        if (behaviour == NotifyViews) {
+            beginInsertColumns(QModelIndex(), 0, toInsert.size() - 1);
+        }
         m_showColumns << toInsert;
-        endInsertColumns();
+        if (behaviour == NotifyViews) {
+            endInsertColumns();
+        }
 
         qCDebug(ARK) << "Showing columns: " << m_showColumns;
     }
@@ -670,7 +669,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     }
 
     // Find parent entry, creating missing directory Archive::Entry's in the process.
-    Archive::Entry *parent = parentFor(receivedEntry);
+    Archive::Entry *parent = parentFor(receivedEntry, behaviour);
 
     // Create an Archive::Entry.
     const QStringList path = entryFileName.split(QLatin1Char('/'), QString::SkipEmptyParts);
@@ -690,19 +689,9 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
     if (!job->error()) {
 
         m_archive.reset(qobject_cast<LoadJob*>(job)->archive());
-        QElapsedTimer timer;
-        timer.start();
 
-        int i = 0;
-        foreach(Archive::Entry *entry, m_newArchiveEntries) {
-            newEntry(entry, DoNotNotifyViews);
-            i++;
-        }
         beginResetModel();
         endResetModel();
-        m_newArchiveEntries.clear();
-
-        qCDebug(ARK) << "Added" << i << "entries to model in" << timer.elapsed() << "ms";
     }
 
     emit loadingFinished(job);
@@ -743,7 +732,6 @@ void ArchiveModel::reset()
     m_rootEntry.clear();
     s_previousMatch = Q_NULLPTR;
     s_previousPieces->clear();
-    m_newArchiveEntries.clear();
 
     // TODO: make sure if it's ok to not have calls to beginRemoveColumns here
     m_showColumns.clear();
@@ -763,7 +751,7 @@ KJob *ArchiveModel::loadArchive(const QString &path, const QString &mimeType, QO
 
     auto loadJob = Archive::load(path, mimeType, parent);
     connect(loadJob, &KJob::result, this, &ArchiveModel::slotLoadingFinished);
-    connect(loadJob, &Job::newEntry, this, &ArchiveModel::slotNewEntryFromSetArchive);
+    connect(loadJob, &Job::newEntry, this, &ArchiveModel::slotListEntry);
     connect(loadJob, &Job::userQuery, this, &ArchiveModel::slotUserQuery);
 
     emit loadingStarted();

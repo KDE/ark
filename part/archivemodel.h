@@ -127,8 +127,8 @@ signals:
     void messageWidget(KMessageWidget::MessageType type, const QString& msg);
 
 private slots:
-    void slotNewEntryFromSetArchive(Archive::Entry *entry);
     void slotNewEntry(Archive::Entry *entry);
+    void slotListEntry(Archive::Entry *entry);
     void slotLoadingFinished(KJob *job);
     void slotEntryRemoved(const QString & path);
     void slotUserQuery(Kerfuffle::Query *query);
@@ -146,7 +146,8 @@ private:
      */
     QString cleanFileName(const QString& fileName);
 
-    Archive::Entry *parentFor(const Kerfuffle::Archive::Entry *entry);
+    enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
+    Archive::Entry *parentFor(const Kerfuffle::Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
     QModelIndex indexForEntry(Archive::Entry *entry);
     static bool compareAscending(const QModelIndex& a, const QModelIndex& b);
     static bool compareDescending(const QModelIndex& a, const QModelIndex& b);
@@ -154,13 +155,12 @@ private:
      * Insert the node @p node into the model, ensuring all views are notified
      * of the change.
      */
-    enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
+
     void insertEntry(Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
     void newEntry(Kerfuffle::Archive::Entry *receivedEntry, InsertBehaviour behaviour);
 
     void traverseAndCountDirNode(Archive::Entry *dir);
 
-    QList<Kerfuffle::Archive::Entry*> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
     Archive::Entry m_rootEntry;
