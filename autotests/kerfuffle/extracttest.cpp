@@ -597,6 +597,7 @@ void ExtractTest::testExtraction()
     QFETCH(QString, archivePath);
     auto loadJob = Archive::load(archivePath, this);
     QVERIFY(loadJob);
+    loadJob->setAutoDelete(false);
 
     Archive *archive = Q_NULLPTR;
     TestHelper::startAndWaitForResult(loadJob);
@@ -615,6 +616,8 @@ void ExtractTest::testExtraction()
     QFETCH(QList<Archive::Entry*>, entriesToExtract);
     QFETCH(ExtractionOptions, extractionOptions);
     auto extractionJob = archive->extractFiles(entriesToExtract, destDir.path(), extractionOptions);
+    QVERIFY(extractionJob);
+    extractionJob->setAutoDelete(false);
 
     TestHelper::startAndWaitForResult(extractionJob);
 
@@ -629,6 +632,8 @@ void ExtractTest::testExtraction()
 
     QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount);
 
+    loadJob->deleteLater();
+    extractionJob->deleteLater();
     archive->deleteLater();
 }
 
