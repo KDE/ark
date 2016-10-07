@@ -109,6 +109,7 @@ void AddTest::testAdding()
 
     auto loadJob = Archive::load(archivePath);
     QVERIFY(loadJob);
+    loadJob->setAutoDelete(false);
 
     TestHelper::startAndWaitForResult(loadJob);
     auto archive = loadJob->archive();
@@ -131,6 +132,7 @@ void AddTest::testAdding()
     QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(archive);
     TestHelper::verifyAddedEntriesWithDestination(files, destination, oldEntries, resultedEntries);
 
+    loadJob->deleteLater();
     archive->deleteLater();
 }
 

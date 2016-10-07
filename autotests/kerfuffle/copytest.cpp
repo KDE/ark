@@ -176,6 +176,7 @@ void CopyTest::testCopying()
 
     auto loadJob = Archive::load(archivePath);
     QVERIFY(loadJob);
+    loadJob->setAutoDelete(false);
 
     TestHelper::startAndWaitForResult(loadJob);
     auto archive = loadJob->archive();
@@ -198,6 +199,7 @@ void CopyTest::testCopying()
     QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(archive);
     TestHelper::verifyCopiedEntriesWithDestination(files, destination, oldEntries, resultedEntries);
 
+    loadJob->deleteLater();
     archive->deleteLater();
 }
 

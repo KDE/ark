@@ -196,9 +196,11 @@ void ExtractTest::testProperties()
     QFETCH(QString, archivePath);
     auto loadJob = Archive::load(archivePath, this);
     QVERIFY(loadJob);
+    loadJob->setAutoDelete(false);
 
     TestHelper::startAndWaitForResult(loadJob);
     auto archive = loadJob->archive();
+
     QVERIFY(archive);
 
     if (!archive->isValid()) {
@@ -235,6 +237,7 @@ void ExtractTest::testProperties()
     QFETCH(QString, expectedSubfolderName);
     QCOMPARE(archive->subfolderName(), expectedSubfolderName);
 
+    loadJob->deleteLater();
     archive->deleteLater();
 }
 

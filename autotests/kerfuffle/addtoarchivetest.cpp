@@ -249,6 +249,7 @@ void AddToArchiveTest::testCompressHere()
     QFETCH(QString, expectedArchiveName);
     auto loadJob = Archive::load(QFINDTESTDATA(QStringLiteral("data/%1").arg(expectedArchiveName)));
     QVERIFY(loadJob);
+    loadJob->setAutoDelete(false);
 
     TestHelper::startAndWaitForResult(loadJob);
     auto archive = loadJob->archive();
@@ -267,6 +268,7 @@ void AddToArchiveTest::testCompressHere()
 
     QVERIFY(QFile(archive->fileName()).remove());
 
+    loadJob->deleteLater();
     archive->deleteLater();
 }
 
