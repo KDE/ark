@@ -181,6 +181,8 @@ void CopyTest::testCopying()
     TestHelper::startAndWaitForResult(loadJob);
     auto archive = loadJob->archive();
     QVERIFY(archive);
+    // This job needs to be delete before the CopyJob starts.
+    delete loadJob;
 
     if (!archive->isValid()) {
         QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
@@ -199,7 +201,6 @@ void CopyTest::testCopying()
     QList<Archive::Entry*> resultedEntries = TestHelper::getEntryList(archive);
     TestHelper::verifyCopiedEntriesWithDestination(files, destination, oldEntries, resultedEntries);
 
-    loadJob->deleteLater();
     archive->deleteLater();
 }
 
