@@ -248,7 +248,7 @@ LoadJob::LoadJob(ReadOnlyArchiveInterface *interface)
 
 void LoadJob::doWork()
 {
-    emit description(this, i18n("Loading archive"));
+    emit description(this, i18n("Loading archive"), qMakePair(i18n("Archive"), archiveInterface()->filename()));
     connectToArchiveInterfaceSignals();
 
     bool ret = archiveInterface()->list();
@@ -448,7 +448,7 @@ void ExtractJob::doWork()
     } else {
         desc = i18np("Extracting one file", "Extracting %1 files", m_entries.count());
     }
-    emit description(this, desc);
+    emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
 
     QFileInfo destDirInfo(m_destinationDir);
     if (destDirInfo.isDir() && (!destDirInfo.isWritable() || !destDirInfo.isExecutable())) {
@@ -609,7 +609,9 @@ void AddJob::doWork()
     m_options[QStringLiteral("NumberOfEntries")] = totalCount;
 
     qCDebug(ARK) << "AddJob: going to add" << totalCount << "entries";
-    emit description(this, i18np("Adding a file", "Adding %1 files", totalCount));
+
+    QString desc = i18np("Adding a file", "Adding %1 files", totalCount);
+    emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
 
     ReadWriteArchiveInterface *m_writeInterface =
         qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
@@ -661,7 +663,8 @@ void MoveJob::doWork()
 {
     qCDebug(ARK) << "MoveJob: going to move" << m_entries.count() << "file(s)";
 
-    emit description(this, i18np("Moving a file", "Moving %1 files", m_entries.count()));
+    QString desc = i18np("Moving a file", "Moving %1 files", m_entries.count());
+    emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
 
     ReadWriteArchiveInterface *m_writeInterface =
         qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
@@ -698,7 +701,8 @@ void CopyJob::doWork()
 {
     qCDebug(ARK) << "CopyJob: going to copy" << m_entries.count() << "file(s)";
 
-    emit description(this, i18np("Copying a file", "Copying %1 files", m_entries.count()));
+    QString desc = i18np("Copying a file", "Copying %1 files", m_entries.count());
+    emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
 
     ReadWriteArchiveInterface *m_writeInterface =
         qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
@@ -729,7 +733,8 @@ DeleteJob::DeleteJob(const QList<Archive::Entry*> &entries, ReadWriteArchiveInte
 
 void DeleteJob::doWork()
 {
-    emit description(this, i18np("Deleting a file from the archive", "Deleting %1 files", m_entries.count()));
+    QString desc = i18np("Deleting a file from the archive", "Deleting %1 files", m_entries.count());
+    emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
 
     ReadWriteArchiveInterface *m_writeInterface =
         qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
@@ -777,7 +782,8 @@ void TestJob::doWork()
 {
     qCDebug(ARK) << "TestJob started";
 
-    emit description(this, i18n("Testing archive"));
+    emit description(this, i18n("Testing archive"), qMakePair(i18n("Archive"), archiveInterface()->filename()));
+
     connectToArchiveInterfaceSignals();
     connect(archiveInterface(), &ReadOnlyArchiveInterface::testSuccess, this, &TestJob::onTestSuccess);
 
