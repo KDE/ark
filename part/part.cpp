@@ -1696,11 +1696,11 @@ void Part::slotShowContextMenu()
 
 void Part::displayMsgWidget(KMessageWidget::MessageType type, const QString& msg)
 {
-    KMessageWidget *msgWidget = new KMessageWidget();
-    msgWidget->setText(msg);
-    msgWidget->setMessageType(type);
-    m_vlayout->insertWidget(0, msgWidget);
-    msgWidget->animatedShow();
+    // The widget could be already visible, so hide it.
+    m_messageWidget->hide();
+    m_messageWidget->setText(msg);
+    m_messageWidget->setMessageType(type);
+    m_messageWidget->animatedShow();
 }
 
 } // namespace Ark
