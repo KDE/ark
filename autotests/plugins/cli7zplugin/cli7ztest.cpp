@@ -106,6 +106,7 @@ void Cli7zTest::testList_data()
     QTest::addColumn<bool>("isMultiVolume");
     // Is zero for non-multi-volume archives:
     QTest::addColumn<int>("numberOfVolumes");
+    QTest::addColumn<QStringList>("compressionMethods");
     // Index of some entry to be tested.
     QTest::addColumn<int>("someEntryIndex");
     // Entry metadata.
@@ -118,45 +119,45 @@ void Cli7zTest::testList_data()
     // p7zip version 16.02 tests
 
     QTest::newRow("normal-file-1602")
-            << QFINDTESTDATA("data/archive-with-symlink-1602.txt") << 10 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-1602.txt") << 10 << false << 0 << QStringList{QStringLiteral("LZMA2")}
             << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T20:41:48");
 
     QTest::newRow("encrypted-1602")
-            << QFINDTESTDATA("data/archive-encrypted-1602.txt") << 4 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-1602.txt") << 4 << false << 0 << QStringList{QStringLiteral("LZMA2"), QStringLiteral("7zAES")}
             << 1 << QStringLiteral("file2.txt") << false << true << (qulonglong) 14 << QStringLiteral("2016-03-02T22:37:55");
 
     QTest::newRow("multi-volume-1602")
-            << QFINDTESTDATA("data/archive-multivol-1602.txt") << 2 << true << 5
+            << QFINDTESTDATA("data/archive-multivol-1602.txt") << 2 << true << 5 << QStringList{QStringLiteral("LZMA2")}
             << 1 << QStringLiteral("largefile2") << false << false << (qulonglong) 2097152 << QStringLiteral("2016-07-17T11:26:19");
 
     // p7zip version 15.14 tests
 
     QTest::newRow("normal-file-1514")
-            << QFINDTESTDATA("data/archive-with-symlink-1514.txt") << 10 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-1514.txt") << 10 << false << 0 << QStringList{QStringLiteral("LZMA2")}
             << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     QTest::newRow("encrypted-1514")
-            << QFINDTESTDATA("data/archive-encrypted-1514.txt") << 9 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-1514.txt") << 9 << false << 0 << QStringList{QStringLiteral("LZMA2"), QStringLiteral("7zAES")}
             << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     // p7zip version 15.09 tests
 
     QTest::newRow("normal-file-1509")
-            << QFINDTESTDATA("data/archive-with-symlink-1509.txt") << 10 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-1509.txt") << 10 << false << 0 << QStringList{QStringLiteral("LZMA2")}
             << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     QTest::newRow("encrypted-1509")
-            << QFINDTESTDATA("data/archive-encrypted-1509.txt") << 9 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-1509.txt") << 9 << false << 0 << QStringList{QStringLiteral("LZMA2"), QStringLiteral("7zAES")}
             << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     // p7zip version 9.38.1 tests
 
     QTest::newRow("normal-file-9381")
-            << QFINDTESTDATA("data/archive-with-symlink-9381.txt") << 10 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-9381.txt") << 10 << false << 0 << QStringList{QStringLiteral("LZMA2")}
             << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     QTest::newRow("encrypted-9381")
-            << QFINDTESTDATA("data/archive-encrypted-9381.txt") << 9 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-9381.txt") << 9 << false << 0 << QStringList{QStringLiteral("LZMA2"), QStringLiteral("7zAES")}
             << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 }
 
@@ -164,7 +165,8 @@ void Cli7zTest::testList()
 {
     qRegisterMetaType<Archive::Entry*>("Archive::Entry*");
     CliPlugin *plugin = new CliPlugin(this, {QStringLiteral("dummy.7z")});
-    QSignalSpy signalSpy(plugin, &CliPlugin::entry);
+    QSignalSpy signalSpyEntry(plugin, &CliPlugin::entry);
+    QSignalSpy signalSpyCompMethod(plugin, &CliPlugin::compressionMethodFound);
 
     QFETCH(QString, outputTextFile);
     QFETCH(int, expectedEntriesCount);
@@ -178,7 +180,7 @@ void Cli7zTest::testList()
         QVERIFY(plugin->readListLine(line));
     }
 
-    QCOMPARE(signalSpy.count(), expectedEntriesCount);
+    QCOMPARE(signalSpyEntry.count(), expectedEntriesCount);
 
     QFETCH(bool, isMultiVolume);
     QCOMPARE(plugin->isMultiVolume(), isMultiVolume);
@@ -186,9 +188,13 @@ void Cli7zTest::testList()
     QFETCH(int, numberOfVolumes);
     QCOMPARE(plugin->numberOfVolumes(), numberOfVolumes);
 
+    QCOMPARE(signalSpyCompMethod.count(), 1);
+    QFETCH(QStringList, compressionMethods);
+    QCOMPARE(signalSpyCompMethod.at(0).at(0).toStringList(), compressionMethods);
+
     QFETCH(int, someEntryIndex);
-    QVERIFY(someEntryIndex < signalSpy.count());
-    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry*>();
+    QVERIFY(someEntryIndex < signalSpyEntry.count());
+    Archive::Entry *entry = signalSpyEntry.at(someEntryIndex).at(0).value<Archive::Entry*>();
 
     QFETCH(QString, expectedName);
     QCOMPARE(entry->fullPath(), expectedName);
