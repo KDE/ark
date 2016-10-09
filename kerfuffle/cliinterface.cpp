@@ -1313,8 +1313,7 @@ bool CliInterface::handleLine(const QString& line)
             return true;
         }
 
-        readListLine(line);
-        return true;
+        return readListLine(line);
     }
 
     if (m_operationMode == Test) {

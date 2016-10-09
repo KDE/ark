@@ -27,6 +27,7 @@
 
 #include <QDateTime>
 
+#include <KLocalizedString>
 #include <KPluginFactory>
 
     using namespace Kerfuffle;
@@ -56,6 +57,7 @@ void CliPlugin::resetParsing()
 {
     m_parseState = ParseStateTitle;
     m_remainingIgnoreLines = 1;
+    m_unrarVersion.clear();
     m_comment.clear();
     m_numberOfVolumes = 0;
 }
@@ -148,9 +150,9 @@ bool CliPlugin::readListLine(const QString &line)
 
         if (matchVersion.hasMatch()) {
             m_parseState = ParseStateComment;
-            QString unrarVersion = matchVersion.captured(1);
-            qCDebug(ARK) << "UNRAR version" << unrarVersion << "detected";
-            if (unrarVersion.toFloat() >= 5) {
+            m_unrarVersion = matchVersion.captured(1);
+            qCDebug(ARK) << "UNRAR version" << m_unrarVersion << "detected";
+            if (m_unrarVersion.toFloat() >= 5) {
                 m_isUnrar5 = true;
                 qCDebug(ARK) << "Using UNRAR 5 parser";
             } else {
@@ -166,15 +168,14 @@ bool CliPlugin::readListLine(const QString &line)
     // Or see what version of unrar we are dealing with and call specific
     // handler functions.
     } else if (m_isUnrar5) {
-        handleUnrar5Line(line);
+        return handleUnrar5Line(line);
     } else {
-        handleUnrar4Line(line);
+        return handleUnrar4Line(line);
     }
-
     return true;
 }
 
-void CliPlugin::handleUnrar5Line(const QString &line)
+bool CliPlugin::handleUnrar5Line(const QString &line)
 {
     // Parses the comment field.
     if (m_parseState == ParseStateComment) {
@@ -195,7 +196,7 @@ void CliPlugin::handleUnrar5Line(const QString &line)
             m_comment.append(line + QLatin1Char('\n'));
         }
 
-        return;
+        return true;
     }
 
     // Parses the header, which is whatever is between the comment field
@@ -217,7 +218,7 @@ void CliPlugin::handleUnrar5Line(const QString &line)
                 qCDebug(ARK) << "Solid archive detected";
             }
         }
-        return;
+        return true;
     }
 
     // Parses the entry details for each entry.
@@ -227,7 +228,7 @@ void CliPlugin::handleUnrar5Line(const QString &line)
         // each volume.
         if (line.startsWith(QLatin1String("Archive: "))) {
             m_parseState = ParseStateHeader;
-            return;
+            return true;
 
         // Empty line indicates end of entry.
         } else if (line.trimmed().isEmpty() && !m_unrar5Details.isEmpty()) {
@@ -238,7 +239,7 @@ void CliPlugin::handleUnrar5Line(const QString &line)
             // All detail lines should contain a colon.
             if (!line.contains(QLatin1Char(':'))) {
                 qCWarning(ARK) << "Unrecognized line:" << line;
-                return;
+                return true;
             }
 
             // The details are on separate lines, so we store them in the QHash
@@ -247,8 +248,9 @@ void CliPlugin::handleUnrar5Line(const QString &line)
                                    line.section(QLatin1Char(':'), 1).trimmed());
         }
 
-        return;
+        return true;
     }
+    return true;
 }
 
 void CliPlugin::handleUnrar5Entry()
@@ -298,7 +300,7 @@ void CliPlugin::handleUnrar5Entry()
     emit entry(e);
 }
 
-void CliPlugin::handleUnrar4Line(const QString &line)
+bool CliPlugin::handleUnrar4Line(const QString &line)
 {
     // Parses the comment field.
     if (m_parseState == ParseStateComment) {
@@ -306,6 +308,20 @@ void CliPlugin::handleUnrar4Line(const QString &line)
         // RegExp matching end of comment field.
         // FIXME: Comment itself could also contain the Archive path string here.
         QRegularExpression rxCommentEnd(QStringLiteral("^(Solid archive|Archive|Volume) .+$"));
+
+        // unrar 4 outputs the following string when opening v5 RAR archives.
+        if (line == QLatin1String("Unsupported archive format. Please update RAR to a newer version.")) {
+            emit error(i18n("Your unrar executable is version %1, which is too old to handle this archive. Please update to a more recent version.",
+                            m_unrarVersion));
+            return false;
+        }
+
+        // unrar 3 reports a non-RAR archive when opening v5 RAR archives.
+        if (line.endsWith(QLatin1String(" is not RAR archive"))) {
+            emit error(i18n("Unrar reported a non-RAR archive. The installed unrar version (%1) is old. Try updating your unrar.",
+                            m_unrarVersion));
+            return false;
+        }
 
         if (rxCommentEnd.match(line).hasMatch()) {
 
@@ -332,7 +348,7 @@ void CliPlugin::handleUnrar4Line(const QString &line)
             m_comment.append(line + QLatin1Char('\n'));
         }
 
-        return;
+        return true;
     }
 
     // Parses the header, which is whatever is between the comment field
@@ -345,7 +361,7 @@ void CliPlugin::handleUnrar4Line(const QString &line)
         } else if (line.startsWith(QLatin1String("Volume "))) {
             m_numberOfVolumes++;
         }
-        return;
+        return true;
     }
 
     // Parses the entry name, which is on the first line of each entry.
@@ -353,7 +369,7 @@ void CliPlugin::handleUnrar4Line(const QString &line)
 
         // Ignore empty lines.
         if (line.trimmed().isEmpty()) {
-            return;
+            return true;
         }
 
         // Three types of subHeaders can be displayed for unrar 3 and 4.
@@ -370,14 +386,14 @@ void CliPlugin::handleUnrar4Line(const QString &line)
             } else if (matchSubHeader.captured(1) == QLatin1String("RR")) {
                 ignoreLines(3, ParseStateEntryFileName);
             }
-            return;
+            return true;
         }
 
         // The entries list ends with a horizontal line, followed by a
         // single summary line or, for multi-volume archives, another header.
         if (line.startsWith(QStringLiteral("-----------------"))) {
             m_parseState = ParseStateHeader;
-            return;
+            return true;
 
         // Encrypted files are marked with an asterisk.
         } else if (line.startsWith(QLatin1Char('*'))) {
@@ -388,7 +404,7 @@ void CliPlugin::handleUnrar4Line(const QString &line)
         // starting with a space is not an entry name.
         } else if (!line.startsWith(QLatin1Char(' '))) {
             qCWarning(ARK) << "Unrecognized line:" << line;
-            return;
+            return true;
 
         // If we reach this, then we can assume the line is an entry name, so
         // save it, and move on to the rest of the entry details.
@@ -398,7 +414,7 @@ void CliPlugin::handleUnrar4Line(const QString &line)
 
         m_parseState = ParseStateEntryDetails;
 
-        return;
+        return true;
     }
 
     // Parses the remainder of the entry details for each entry.
@@ -412,7 +428,7 @@ void CliPlugin::handleUnrar4Line(const QString &line)
         // entry name, so go back to header.
         if (line.startsWith(QStringLiteral("-----------------"))) {
             m_parseState = ParseStateHeader;
-            return;
+            return true;
         }
 
         // In unrar 3 and 4 the details are on a single line, so we
@@ -426,7 +442,7 @@ void CliPlugin::handleUnrar4Line(const QString &line)
         // not an archive entry.
         if (m_unrar4Details.size() != 10) {
             m_parseState = ParseStateHeader;
-            return;
+            return true;
         }
 
         // When unrar 3 and 4 list a symlink, they output an extra line
@@ -434,7 +450,7 @@ void CliPlugin::handleUnrar4Line(const QString &line)
         // the line we ignore, so we first need to ignore one line.
         if (m_unrar4Details.at(6).startsWith(QLatin1Char('l'))) {
             ignoreLines(1, ParseStateLinkTarget);
-            return;
+            return true;
         } else {
             handleUnrar4Entry();
         }
@@ -444,7 +460,7 @@ void CliPlugin::handleUnrar4Line(const QString &line)
         // line.
         ignoreLines(1, ParseStateEntryFileName);
 
-        return;
+        return true;
     }
 
     // Parses a symlink target.
@@ -454,8 +470,9 @@ void CliPlugin::handleUnrar4Line(const QString &line)
         handleUnrar4Entry();
 
         m_parseState = ParseStateEntryFileName;
-        return;
+        return true;
     }
+    return true;
 }
 
 void CliPlugin::handleUnrar4Entry()

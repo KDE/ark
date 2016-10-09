@@ -49,15 +49,16 @@ private:
         ParseStateLinkTarget
     } m_parseState;
 
-    void handleUnrar5Line(const QString &line);
+    bool handleUnrar5Line(const QString &line);
     void handleUnrar5Entry();
-    void handleUnrar4Line(const QString &line);
+    bool handleUnrar4Line(const QString &line);
     void handleUnrar4Entry();
     void ignoreLines(int lines, ParseState nextState);
 
     QStringList m_unrar4Details;
     QHash<QString, QString> m_unrar5Details;
 
+    QString m_unrarVersion;
     bool m_isUnrar5;
     bool m_isPasswordProtected;
     bool m_isSolid;

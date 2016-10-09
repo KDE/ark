@@ -102,6 +102,7 @@ void CliRarTest::testArchive()
 void CliRarTest::testList_data()
 {
     QTest::addColumn<QString>("outputTextFile");
+    QTest::addColumn<QString>("errorMessage");
     QTest::addColumn<int>("expectedEntriesCount");
     QTest::addColumn<bool>("isMultiVolume");
     // Is zero for non-multi-volume archives:
@@ -120,56 +121,68 @@ void CliRarTest::testList_data()
     // Unrar 5 tests
 
     QTest::newRow("normal-file-unrar5")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << QString() << 8 << false << 0
             << 2 << QStringLiteral("rartest/file2.txt") << false << false << QString() << (qulonglong) 14 << (qulonglong) 23 << QStringLiteral("2016-03-21T08:57:36");
 
     QTest::newRow("symlink-unrar5")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << QString() << 8 << false << 0
             << 3 << QStringLiteral("rartest/linktofile1.txt") << false << false << QStringLiteral("file1.txt") << (qulonglong) 9 << (qulonglong) 9 << QStringLiteral("2016-03-21T08:58:16");
 
     QTest::newRow("encrypted-unrar5")
-            << QFINDTESTDATA("data/archive-encrypted-unrar5.txt") << 7 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-unrar5.txt") << QString() << 7 << false << 0
             << 2 << QStringLiteral("rartest/file2.txt") << false << true << QString() << (qulonglong) 14 << (qulonglong) 32 << QStringLiteral("2016-03-21T17:03:36");
 
     QTest::newRow("recovery-record-unrar5")
-            << QFINDTESTDATA("data/archive-recovery-record-unrar5.txt") << 3 << false << 0
+            << QFINDTESTDATA("data/archive-recovery-record-unrar5.txt") << QString() << 3 << false << 0
             << 0 << QStringLiteral("file1.txt") << false << false << QString() << (qulonglong) 32 << (qulonglong) 33 << QStringLiteral("2015-07-26T19:04:38");
 
     QTest::newRow("corrupt-archive-unrar5")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar5.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar5.txt") << QString() << 8 << false << 0
             << 6 << QStringLiteral("dir1/") << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-05-14T01:45:24");
 
     //Note: The number of entries will be the total number of all entries in all volumes, i.e. if a file spans 3 volumes it will count as 3 entries.
     QTest::newRow("multivolume-archive-unrar5")
-            << QFINDTESTDATA("data/archive-multivol-unrar5.txt") << 6 << true << 5
+            << QFINDTESTDATA("data/archive-multivol-unrar5.txt") << QString() << 6 << true << 5
             << 5 << QStringLiteral("largefile2") << false << false << QString() << (qulonglong) 2097152 << (qulonglong) 11231 << QStringLiteral("2016-07-17T11:26:19");
 
     // Unrar 4 tests
 
     QTest::newRow("normal-file-unrar4")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << QString() << 8 << false << 0
             << 2 << QStringLiteral("rartest/file2.txt") << false << false << QString() << (qulonglong) 14 << (qulonglong) 23 << QStringLiteral("2016-03-21T08:57:00");
 
     QTest::newRow("symlink-unrar4")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << QString() << 8 << false << 0
             << 3 << QStringLiteral("rartest/linktofile1.txt") << false << false << QStringLiteral("file1.txt") << (qulonglong) 9 << (qulonglong) 9 << QStringLiteral("2016-03-21T08:58:00");
 
     QTest::newRow("encrypted-unrar4")
-            << QFINDTESTDATA("data/archive-encrypted-unrar4.txt") << 7 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-unrar4.txt") << QString() << 7 << false << 0
             << 2 << QStringLiteral("rartest/file2.txt") << false << true << QString() << (qulonglong) 14 << (qulonglong) 32 << QStringLiteral("2016-03-21T17:03:00");
 
     QTest::newRow("recovery-record-unrar4")
-            << QFINDTESTDATA("data/archive-recovery-record-unrar4.txt") << 3 << false << 0
+            << QFINDTESTDATA("data/archive-recovery-record-unrar4.txt") << QString() << 3 << false << 0
             << 0 << QStringLiteral("file1.txt") << false << false << QString() << (qulonglong) 32 << (qulonglong) 33 << QStringLiteral("2015-07-26T19:04:00");
 
     QTest::newRow("corrupt-archive-unrar4")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar4.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar4.txt") << QString() << 8 << false << 0
             << 6 << QStringLiteral("dir1/") << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-05-14T01:45:00");
+
+    QTest::newRow("RAR5-open-with-unrar4")
+            << QFINDTESTDATA("data/archive-RARv5-unrar4.txt")
+            << QStringLiteral("Your unrar executable is version 4.20, which is too old to handle this archive. Please update to a more recent version.")
+            << 0 << false << 0 << 0 << QString() << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QString();
 
     //Note: The number of entries will be the total number of all entries in all volumes, i.e. if a file spans 3 volumes it will count as 3 entries.
     QTest::newRow("multivolume-archive-unrar4")
-            << QFINDTESTDATA("data/archive-multivol-unrar4.txt") << 6 << true << 5
+            << QFINDTESTDATA("data/archive-multivol-unrar4.txt") << QString() << 6 << true << 5
             << 5 << QStringLiteral("largefile2") << false << false << QString() << (qulonglong) 2097152 << (qulonglong) 11231 << QStringLiteral("2016-07-17T11:26:00");
+
+    // Unrar 3 tests
+
+    QTest::newRow("RAR5-open-with-unrar3")
+            << QFINDTESTDATA("data/archive-RARv5-unrar3.txt")
+            << QStringLiteral("Unrar reported a non-RAR archive. The installed unrar version (3.71) is old. Try updating your unrar.")
+            << 0 << false << 0 << 0 << QString() << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QString();
 
     /*
      * Check that the plugin will not crash when reading corrupted archives, which
@@ -179,7 +192,7 @@ void CliRarTest::testList_data()
      * See bug 262857 and commit 2042997013432cdc6974f5b26d39893a21e21011.
      */
     QTest::newRow("corrupt-archive-unrar3")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar3.txt") << 1 << true << 1
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar3.txt") << QString() << 1 << true << 1
             << 0 << QStringLiteral("some-file.ext") << false << false << QString() << (qulonglong) 732522496 << (qulonglong) 14851208 << QStringLiteral("2010-10-29T20:47:00");
 }
 
@@ -187,7 +200,8 @@ void CliRarTest::testList()
 {
     qRegisterMetaType<Archive::Entry*>("Archive::Entry*");
     CliPlugin *rarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar")});
-    QSignalSpy signalSpy(rarPlugin, &CliPlugin::entry);
+    QSignalSpy signalSpyEntry(rarPlugin, &CliPlugin::entry);
+    QSignalSpy signalSpyError(rarPlugin, &CliPlugin::error);
 
     QFETCH(QString, outputTextFile);
     QFETCH(int, expectedEntriesCount);
@@ -198,10 +212,19 @@ void CliRarTest::testList()
     QTextStream outputStream(&outputText);
     while (!outputStream.atEnd()) {
         const QString line(outputStream.readLine());
-        QVERIFY(rarPlugin->readListLine(line));
+        if (!rarPlugin->readListLine(line)) {
+            break;
+        }
     }
 
-    QCOMPARE(signalSpy.count(), expectedEntriesCount);
+    QFETCH(QString, errorMessage);
+    if (!errorMessage.isEmpty()) {
+        QCOMPARE(signalSpyError.count(), 1);
+        QCOMPARE(signalSpyError.at(0).at(0).toString(), errorMessage);
+        return;
+    }
+
+    QCOMPARE(signalSpyEntry.count(), expectedEntriesCount);
 
     QFETCH(bool, isMultiVolume);
     QCOMPARE(rarPlugin->isMultiVolume(), isMultiVolume);
@@ -210,8 +233,8 @@ void CliRarTest::testList()
     QCOMPARE(rarPlugin->numberOfVolumes(), numberOfVolumes);
 
     QFETCH(int, someEntryIndex);
-    QVERIFY(someEntryIndex < signalSpy.count());
-    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry*>();
+    QVERIFY(someEntryIndex < signalSpyEntry.count());
+    Archive::Entry *entry = signalSpyEntry.at(someEntryIndex).at(0).value<Archive::Entry*>();
 
     QFETCH(QString, expectedName);
     QCOMPARE(entry->fullPath(), expectedName);
