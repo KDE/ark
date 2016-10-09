@@ -44,6 +44,8 @@ public:
     virtual bool moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual int moveRequiredSignals() const Q_DECL_OVERRIDE;
 
+    virtual QString compressionMethodSwitch(const QString &method) const Q_DECL_OVERRIDE;
+
 private slots:
     void continueMoving(bool result);
 

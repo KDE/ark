@@ -25,6 +25,8 @@
 
 #include "archiveformat.h"
 
+#include <QJsonArray>
+
 namespace Kerfuffle
 {
 
@@ -40,7 +42,9 @@ ArchiveFormat::ArchiveFormat(const QMimeType& mimeType,
                              int defaultCompLevel,
                              bool supportsWriteComment,
                              bool supportsTesting,
-                             bool supportsMultiVolume) :
+                             bool supportsMultiVolume,
+                             QStringList compressionMethods,
+                             QString defaultCompressionMethod) :
     m_mimeType(mimeType),
     m_encryptionType(encryptionType),
     m_minCompressionLevel(minCompLevel),
@@ -48,7 +52,9 @@ ArchiveFormat::ArchiveFormat(const QMimeType& mimeType,
     m_defaultCompressionLevel(defaultCompLevel),
     m_supportsWriteComment(supportsWriteComment),
     m_supportsTesting(supportsTesting),
-    m_supportsMultiVolume(supportsMultiVolume)
+    m_supportsMultiVolume(supportsMultiVolume),
+    m_compressionMethods(compressionMethods),
+    m_defaultCompressionMethod(defaultCompressionMethod)
 {
 }
 
@@ -70,6 +76,13 @@ ArchiveFormat ArchiveFormat::fromMetadata(const QMimeType& mimeType, const KPlug
         bool supportsTesting = formatProps[QStringLiteral("SupportsTesting")].toBool();
         bool supportsMultiVolume = formatProps[QStringLiteral("SupportsMultiVolume")].toBool();
 
+        QStringList compressionMethods;
+        QJsonArray array = formatProps[QStringLiteral("CompressionMethods")].toArray();
+        foreach (const QJsonValue &value, array) {
+            compressionMethods.append(value.toString());
+        }
+        QString defaultCompMethod = formatProps[QStringLiteral("CompressionMethodDefault")].toString();
+
         Archive::EncryptionType encType = Archive::Unencrypted;
         if (formatProps[QStringLiteral("HeaderEncryption")].toBool()) {
             encType = Archive::HeaderEncrypted;
@@ -77,7 +90,7 @@ ArchiveFormat ArchiveFormat::fromMetadata(const QMimeType& mimeType, const KPlug
             encType = Archive::Encrypted;
         }
 
-        return ArchiveFormat(mimeType, encType, minCompLevel, maxCompLevel, defaultCompLevel, supportsWriteComment, supportsTesting, supportsMultiVolume);
+        return ArchiveFormat(mimeType, encType, minCompLevel, maxCompLevel, defaultCompLevel, supportsWriteComment, supportsTesting, supportsMultiVolume, compressionMethods, defaultCompMethod);
     }
 
     return ArchiveFormat();
@@ -121,6 +134,16 @@ bool ArchiveFormat::supportsTesting() const
 bool ArchiveFormat::supportsMultiVolume() const
 {
     return m_supportsMultiVolume;
+}
+
+QStringList ArchiveFormat::compressionMethods() const
+{
+    return m_compressionMethods;
+}
+
+QString ArchiveFormat::defaultCompressionMethod() const
+{
+    return m_defaultCompressionMethod;
 }
 
 }

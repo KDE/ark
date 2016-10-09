@@ -83,6 +83,7 @@ ParameterList CliPlugin::parameterList() const
                                    << QStringLiteral("$Archive")
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$CompressionLevelSwitch")
+                                   << QStringLiteral("$CompressionMethodSwitch")
                                    << QStringLiteral("$MultiVolumeSwitch")
                                    << QStringLiteral("$Files");
         p[MoveArgs] = QStringList() << QStringLiteral("rn")
@@ -115,6 +116,10 @@ ParameterList CliPlugin::parameterList() const
         p[DiskFullPatterns] = QStringList() << QStringLiteral("No space left on device");
         p[MultiVolumeSwitch] = QStringLiteral("-v$VolumeSizek");
         p[MultiVolumeSuffix] = QStringList() << QStringLiteral("$Suffix.001");
+        QMap<QString,QVariant> compMethodMap;
+        compMethodMap[QStringLiteral("zip")] = QStringLiteral("-mm=$CompressionMethod");
+        compMethodMap[QStringLiteral("7z")] = QStringLiteral("-m0=$CompressionMethod");
+        p[CompressionMethodSwitch] = compMethodMap;
     }
 
     return p;
@@ -304,6 +309,26 @@ QStringList CliPlugin::passwordHeaderSwitch(const QString& password) const
     passwordHeaderSwitch[0].replace(QLatin1String("$Password"), password);
 
     return passwordHeaderSwitch;
+}
+
+QString CliPlugin::compressionMethodSwitch(const QString &method) const
+{
+    if (method.isEmpty()) {
+        return QString();
+    }
+
+    Q_ASSERT(!filename().isEmpty());
+    Q_ASSERT(m_param.contains(CompressionMethodSwitch));
+
+    QMap<QString,QVariant> switches = m_param.value(CompressionMethodSwitch).toMap();
+    Q_ASSERT(!switches.isEmpty());
+
+    QString compMethodSwitch;
+
+    compMethodSwitch = switches[QFileInfo(filename()).suffix().toLower()].toString();
+    compMethodSwitch.replace(QLatin1String("$CompressionMethod"), method);
+
+    return compMethodSwitch;
 }
 
 #include "cliplugin.moc"

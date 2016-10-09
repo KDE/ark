@@ -69,25 +69,37 @@ void CliZipTest::testAddArgs_data()
     QTest::addColumn<QString>("archiveName");
     QTest::addColumn<QString>("password");
     QTest::addColumn<int>("compressionLevel");
+    QTest::addColumn<QString>("compressionMethod");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("unencrypted")
             << QStringLiteral("/tmp/foo.zip")
-            << QString() << 3
+            << QString() << 3 << QStringLiteral("deflate")
             << QStringList {
                    QStringLiteral("-r"),
                    QStringLiteral("/tmp/foo.zip"),
-                   QStringLiteral("-3")
+                   QStringLiteral("-3"),
+                   QStringLiteral("-Zdeflate")
                };
 
     QTest::newRow("encrypted")
             << QStringLiteral("/tmp/foo.zip")
-            << QStringLiteral("1234") << 3
+            << QStringLiteral("1234") << 3 << QString()
             << QStringList {
                    QStringLiteral("-r"),
                    QStringLiteral("/tmp/foo.zip"),
                    QStringLiteral("-P1234"),
                    QStringLiteral("-3")
+               };
+
+    QTest::newRow("comp-method-bzip2")
+            << QStringLiteral("/tmp/foo.zip")
+            << QString() << 3 << QStringLiteral("bzip2")
+            << QStringList {
+                   QStringLiteral("-r"),
+                   QStringLiteral("/tmp/foo.zip"),
+                   QStringLiteral("-3"),
+                   QStringLiteral("-Zbzip2")
                };
 }
 
@@ -101,12 +113,14 @@ void CliZipTest::testAddArgs()
                                   QStringLiteral("$Archive"),
                                   QStringLiteral("$PasswordSwitch"),
                                   QStringLiteral("$CompressionLevelSwitch"),
+                                  QStringLiteral("$CompressionMethodSwitch"),
                                   QStringLiteral("$Files") };
 
     QFETCH(QString, password);
     QFETCH(int, compressionLevel);
+    QFETCH(QString, compressionMethod);
 
-    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, password, false, compressionLevel, 0);
+    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, password, false, compressionLevel, 0, compressionMethod);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

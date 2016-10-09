@@ -59,6 +59,7 @@ public:
     QMimeType currentMimeType() const;
     bool setMimeType(const QString &mimeTypeName);
     int compressionLevel() const;
+    QString compressionMethod() const;
     ulong volumeSize() const;
 
     /**

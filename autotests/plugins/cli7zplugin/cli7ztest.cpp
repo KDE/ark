@@ -266,47 +266,62 @@ void Cli7zTest::testAddArgs_data()
     QTest::addColumn<QString>("password");
     QTest::addColumn<bool>("encryptHeader");
     QTest::addColumn<int>("compressionLevel");
+    QTest::addColumn<QString>("compressionMethod");
     QTest::addColumn<ulong>("volumeSize");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("unencrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QString() << false << 5 << 0UL
+            << QString() << false << 5 << QStringLiteral("LZMA2") << 0UL
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.7z"),
-                   QStringLiteral("-mx=5")
+                   QStringLiteral("-mx=5"),
+                   QStringLiteral("-m0=LZMA2")
                };
 
     QTest::newRow("encrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QStringLiteral("1234") << false << 5 << 0UL
+            << QStringLiteral("1234") << false << 5 << QStringLiteral("LZMA2") << 0UL
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.7z"),
                    QStringLiteral("-p1234"),
-                   QStringLiteral("-mx=5")
+                   QStringLiteral("-mx=5"),
+                   QStringLiteral("-m0=LZMA2")
                };
 
     QTest::newRow("header-encrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QStringLiteral("1234") << true << 5 << 0UL
+            << QStringLiteral("1234") << true << 5 << QStringLiteral("LZMA2") << 0UL
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.7z"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("-mhe=on"),
-                   QStringLiteral("-mx=5")
+                   QStringLiteral("-mx=5"),
+                   QStringLiteral("-m0=LZMA2")
                };
 
     QTest::newRow("multi-volume")
             << QStringLiteral("/tmp/foo.7z")
-            << QString() << false << 5 << 2500UL
+            << QString() << false << 5 << QStringLiteral("LZMA2") << 2500UL
             << QStringList {
                    QStringLiteral("a"),
                    QStringLiteral("/tmp/foo.7z"),
                    QStringLiteral("-mx=5"),
+                   QStringLiteral("-m0=LZMA2"),
                    QStringLiteral("-v2500k")
+               };
+
+    QTest::newRow("comp-method-bzip2")
+            << QStringLiteral("/tmp/foo.7z")
+            << QString() << false << 5 << QStringLiteral("BZip2") << 0UL
+            << QStringList {
+                   QStringLiteral("a"),
+                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("-mx=5"),
+                   QStringLiteral("-m0=BZip2")
                };
 }
 
@@ -320,6 +335,7 @@ void Cli7zTest::testAddArgs()
                                   QStringLiteral("$Archive"),
                                   QStringLiteral("$PasswordSwitch"),
                                   QStringLiteral("$CompressionLevelSwitch"),
+                                  QStringLiteral("$CompressionMethodSwitch"),
                                   QStringLiteral("$MultiVolumeSwitch"),
                                   QStringLiteral("$Files") };
 
@@ -327,8 +343,9 @@ void Cli7zTest::testAddArgs()
     QFETCH(bool, encryptHeader);
     QFETCH(int, compressionLevel);
     QFETCH(ulong, volumeSize);
+    QFETCH(QString, compressionMethod);
 
-    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, password, encryptHeader, compressionLevel, volumeSize);
+    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, password, encryptHeader, compressionLevel, volumeSize, compressionMethod);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

@@ -38,6 +38,8 @@ public:
     virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 
+    virtual QString compressionMethodSwitch(const QString &method) const Q_DECL_OVERRIDE;
+
 private:
 
     enum ParseState {

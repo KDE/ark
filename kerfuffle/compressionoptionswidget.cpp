@@ -65,6 +65,9 @@ CompressionOptions CompressionOptionsWidget::commpressionOptions() const
         // Convert to kilobytes.
         opts[QStringLiteral("VolumeSize")] = QString::number(volumeSize());
     }
+    if (!compMethodComboBox->currentText().isEmpty()) {
+        opts[QStringLiteral("CompressionMethod")] = compMethodComboBox->currentText();
+    }
 
     return opts;
 }
@@ -76,6 +79,11 @@ int CompressionOptionsWidget::compressionLevel() const
     } else {
         return -1;
     }
+}
+
+QString CompressionOptionsWidget::compressionMethod() const
+{
+    return compMethodComboBox->currentText();
 }
 
 ulong CompressionOptionsWidget::volumeSize() const
@@ -132,14 +140,20 @@ void CompressionOptionsWidget::updateWidgets()
         encryptHeaderCheckBox->setToolTip(QString());
     }
 
-
+    collapsibleCompression->setEnabled(true);
     if (archiveFormat.maxCompressionLevel() == 0) {
-        collapsibleCompression->setEnabled(false);
-        collapsibleCompression->setToolTip(i18n("It is not possible to set compression level for the %1 format.",
+        compLevelSlider->setEnabled(false);
+        lblCompLevel1->setEnabled(false);
+        lblCompLevel2->setEnabled(false);
+        lblCompLevel3->setEnabled(false);
+        compLevelSlider->setToolTip(i18n("It is not possible to set compression level for the %1 format.",
                                                 m_mimetype.comment()));
     } else {
-        collapsibleCompression->setEnabled(true);
-        collapsibleCompression->setToolTip(QString());
+        compLevelSlider->setEnabled(true);
+        lblCompLevel1->setEnabled(true);
+        lblCompLevel2->setEnabled(true);
+        lblCompLevel3->setEnabled(true);
+        compLevelSlider->setToolTip(QString());
         compLevelSlider->setMinimum(archiveFormat.minCompressionLevel());
         compLevelSlider->setMaximum(archiveFormat.maxCompressionLevel());
         if (m_opts.contains(QStringLiteral("CompressionLevel"))) {
@@ -148,6 +162,27 @@ void CompressionOptionsWidget::updateWidgets()
             compLevelSlider->setValue(archiveFormat.defaultCompressionLevel());
         }
     }
+
+    if (archiveFormat.compressionMethods().isEmpty()) {
+        lblCompMethod->setEnabled(false);
+        compMethodComboBox->setEnabled(false);
+        compMethodComboBox->setToolTip(i18n("It is not possible to set compression method for the %1 format.",
+                                            m_mimetype.comment()));
+        compMethodComboBox->clear();
+    } else {
+        lblCompMethod->setEnabled(true);
+        compMethodComboBox->setEnabled(true);
+        compMethodComboBox->setToolTip(QString());
+        compMethodComboBox->clear();
+        compMethodComboBox->insertItems(0, archiveFormat.compressionMethods());
+        if (m_opts.contains(QStringLiteral("CompressionMethod")) &&
+            compMethodComboBox->findText(m_opts.value(QStringLiteral("CompressionMethod")).toString()) > -1) {
+            compMethodComboBox->setCurrentText(m_opts.value(QStringLiteral("CompressionMethod")).toString());
+        } else {
+            compMethodComboBox->setCurrentText(archiveFormat.defaultCompressionMethod());
+        }
+    }
+    collapsibleCompression->setEnabled(compLevelSlider->isEnabled() || compMethodComboBox->isEnabled());
 
     if (archiveFormat.supportsMultiVolume()) {
         collapsibleMultiVolume->setEnabled(true);

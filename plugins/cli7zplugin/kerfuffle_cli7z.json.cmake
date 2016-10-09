@@ -12,7 +12,7 @@
         "Name[es]": "Complemento de archivo 7zip", 
         "Name[et]": "7zip arhiivi plugin", 
         "Name[fi]": "7zip-pakkaustuki", 
-        "Name[fr]": "Module externe d'archive « 7zip »", 
+        "Name[fr]": "Module externe d'archive « 7zip »", 
         "Name[gl]": "Complemento de arquivo de 7zip", 
         "Name[he]": "תוסף ארכיוני 7zip", 
         "Name[it]": "Estensione per archivi 7zip", 
@@ -52,7 +52,16 @@
         "CompressionLevelMin": 0, 
         "HeaderEncryption": true, 
         "SupportsMultiVolume": true, 
-        "SupportsTesting": true
+        "SupportsTesting": true,
+        "CompressionMethods": [
+            "BZip2",
+            "Copy",
+            "Deflate",
+            "LZMA",
+            "LZMA2",
+            "PPMd"
+        ],
+        "CompressionMethodDefault": "LZMA2"
     }, 
     "application/zip": {
         "CompressionLevelDefault": 5, 
@@ -60,6 +69,15 @@
         "CompressionLevelMin": 0, 
         "Encryption": true, 
         "SupportsMultiVolume": true, 
-        "SupportsTesting": true
+        "SupportsTesting": true,
+        "CompressionMethods": [
+            "BZip2",
+            "Copy",
+            "Deflate",
+            "Deflate64",
+            "LZMA",
+            "PPMd"
+        ],
+        "CompressionMethodDefault": "Deflate"
     }
 }

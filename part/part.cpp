@@ -1335,12 +1335,19 @@ void Part::slotAddFiles()
         if (arguments().metaData().contains(QStringLiteral("compressionLevel"))) {
             opts[QStringLiteral("CompressionLevel")] = arguments().metaData()[QStringLiteral("compressionLevel")];
         }
+        if (arguments().metaData().contains(QStringLiteral("compressionMethod"))) {
+            opts[QStringLiteral("CompressionMethod")] = arguments().metaData()[QStringLiteral("compressionMethod")];
+        }
         if (arguments().metaData().contains(QStringLiteral("volumeSize"))) {
             opts[QStringLiteral("VolumeSize")] = arguments().metaData()[QStringLiteral("volumeSize")];
         }
         m_model->archive()->setCompressionOptions(opts);
     } else {
         opts = m_model->archive()->compressionOptions();
+    }
+
+    if (m_model->archive()->property("compressionMethods").toStringList().size() == 1) {
+        opts[QStringLiteral("CompressionMethod")] = m_model->archive()->property("compressionMethods").toStringList().first();
     }
 
     QString dialogTitle = i18nc("@title:window", "Add Files");

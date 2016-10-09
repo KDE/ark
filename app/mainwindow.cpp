@@ -304,6 +304,9 @@ void MainWindow::newArchive()
             qCDebug(ARK) << "Setting volume size:" << QString::number(dialog.data()->volumeSize());
             m_openArgs.metaData()[QStringLiteral("volumeSize")] = QString::number(dialog.data()->volumeSize());
         }
+        if (!dialog.data()->compressionMethod().isEmpty()) {
+            m_openArgs.metaData()[QStringLiteral("compressionMethod")] = dialog.data()->compressionMethod();
+        }
         m_openArgs.metaData()[QStringLiteral("encryptionPassword")] = password;
 
         if (dialog.data()->isHeaderEncryptionEnabled()) {

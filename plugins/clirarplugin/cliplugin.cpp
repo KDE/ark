@@ -104,6 +104,7 @@ ParameterList CliPlugin::parameterList() const
                                    << QStringLiteral( "$Archive" )
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$CompressionLevelSwitch")
+                                   << QStringLiteral("$CompressionMethodSwitch")
                                    << QStringLiteral("$MultiVolumeSwitch")
                                    << QStringLiteral( "$Files" );
         p[MoveArgs] = QStringList() << QStringLiteral( "rn" )
@@ -129,6 +130,7 @@ ParameterList CliPlugin::parameterList() const
         // called name.part1.rar and other times name.part01.rar.
         p[MultiVolumeSuffix] = QStringList() << QStringLiteral("part01.$Suffix")
                                              << QStringLiteral("part1.$Suffix");
+        p[CompressionMethodSwitch] = QStringLiteral("-ma$CompressionMethod");
     }
 
     return p;
@@ -544,6 +546,24 @@ void CliPlugin::ignoreLines(int lines, ParseState nextState)
 {
     m_remainingIgnoreLines = lines;
     m_parseState = nextState;
+}
+
+QString CliPlugin::compressionMethodSwitch(const QString &method) const
+{
+    if (method.isEmpty()) {
+        return QString();
+    }
+
+    Q_ASSERT(m_param.contains(CompressionMethodSwitch));
+    QString compMethodSwitch = m_param.value(CompressionMethodSwitch).toString();
+    Q_ASSERT(!compMethodSwitch.isEmpty());
+    compMethodSwitch.replace(QLatin1String("$CompressionMethod"), method);
+
+    // This is needed for because the user-visible strings are different from the
+    // ones needed by the switch (e.g. RAR4 vs 4).
+    compMethodSwitch.remove(QLatin1String("RAR"));
+
+    return compMethodSwitch;
 }
 
 #include "cliplugin.moc"

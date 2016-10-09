@@ -44,7 +44,9 @@ public:
                            int defaultCompLevel,
                            bool supportsWriteComment,
                            bool supportsTesting,
-                           bool suppportsMultiVolume);
+                           bool suppportsMultiVolume,
+                           QStringList compressionMethods,
+                           QString defaultCompressionMethod);
 
     /**
      * @return The archive format of the given @p mimeType, according to the given @p metadata.
@@ -67,6 +69,8 @@ public:
     bool supportsWriteComment() const;
     bool supportsTesting() const;
     bool supportsMultiVolume() const;
+    QStringList compressionMethods() const;
+    QString defaultCompressionMethod() const;
 
 private:
     QMimeType m_mimeType;
@@ -77,6 +81,8 @@ private:
     bool m_supportsWriteComment;
     bool m_supportsTesting;
     bool m_supportsMultiVolume;
+    QStringList m_compressionMethods;
+    QString m_defaultCompressionMethod;
 };
 
 }

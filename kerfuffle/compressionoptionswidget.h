@@ -45,6 +45,7 @@ public:
     explicit CompressionOptionsWidget(QWidget *parent = Q_NULLPTR,
                                       const CompressionOptions &opts = QHash<QString, QVariant>());
     int compressionLevel() const;
+    QString compressionMethod() const;
     ulong volumeSize() const;
     QString password() const;
     CompressionOptions commpressionOptions() const;

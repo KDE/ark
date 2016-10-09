@@ -233,13 +233,15 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
 
     int compLevel = options.value(QStringLiteral("CompressionLevel"), -1).toInt();
     ulong volumeSize = options.value(QStringLiteral("VolumeSize"), 0).toULongLong();
+    QString compMethod = options.value(QStringLiteral("CompressionMethod")).toString();
 
     const auto args = substituteAddVariables(m_param.value(AddArgs).toStringList(),
                                              filesToPass,
                                              password(),
                                              isHeaderEncryptionEnabled(),
                                              compLevel,
-                                             volumeSize);
+                                             volumeSize,
+                                             compMethod);
 
     return runProcess(m_param.value(AddProgram).toStringList(), args);
 }
@@ -754,7 +756,7 @@ QStringList CliInterface::substituteExtractVariables(const QStringList &extractA
     return args;
 }
 
-QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize)
+QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize, QString compMethod)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -775,6 +777,11 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
 
         if (arg == QLatin1String("$CompressionLevelSwitch")) {
             args << compressionLevelSwitch(compLevel);
+            continue;
+        }
+
+        if (arg == QLatin1String("$CompressionMethodSwitch")) {
+            args << compressionMethodSwitch(compMethod);
             continue;
         }
 
@@ -1035,6 +1042,21 @@ QString CliInterface::compressionLevelSwitch(int level) const
     compLevelSwitch.replace(QLatin1String("$CompressionLevel"), QString::number(level));
 
     return compLevelSwitch;
+}
+
+QString CliInterface::compressionMethodSwitch(const QString &method) const
+{
+    if (method.isEmpty()) {
+        return QString();
+    }
+
+    Q_ASSERT(m_param.contains(CompressionMethodSwitch));
+    QString compMethodSwitch = m_param.value(CompressionMethodSwitch).toString();
+    Q_ASSERT(!compMethodSwitch.isEmpty());
+
+    compMethodSwitch.replace(QLatin1String("$CompressionMethod"), method);
+
+    return compMethodSwitch;
 }
 
 QString CliInterface::multiVolumeSwitch(ulong volumeSize) const

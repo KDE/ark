@@ -116,6 +116,7 @@ ParameterList CliPlugin::parameterList() const
                                    << QStringLiteral("$Archive")
                                    << QStringLiteral("$PasswordSwitch")
                                    << QStringLiteral("$CompressionLevelSwitch")
+                                   << QStringLiteral("$CompressionMethodSwitch")
                                    << QStringLiteral("$Files");
 
         p[PasswordPromptPattern] = QStringLiteral(" password: ");
@@ -128,6 +129,7 @@ ParameterList CliPlugin::parameterList() const
                                     << QStringLiteral("$Archive")
                                     << QStringLiteral("$PasswordSwitch");
         p[TestPassedPattern] = QStringLiteral("^No errors detected in compressed data of ");
+        p[CompressionMethodSwitch] = QStringLiteral("-Z$CompressionMethod");
     }
     return p;
 }
@@ -288,6 +290,22 @@ void CliPlugin::finishMoving(bool result)
     emit progress(1.0);
     emit finished(result);
     cleanUp();
+}
+
+QString CliPlugin::compressionMethodSwitch(const QString &method) const
+{
+    if (method.isEmpty()) {
+        return QString();
+    }
+
+    Q_ASSERT(m_param.contains(CompressionMethodSwitch));
+    QString compMethodSwitch = m_param.value(CompressionMethodSwitch).toString();
+    Q_ASSERT(!compMethodSwitch.isEmpty());
+
+    // We use capitalization of methods in UI, but CLI requires lowercase.
+    compMethodSwitch.replace(QLatin1String("$CompressionMethod"), method.toLower());
+
+    return compMethodSwitch;
 }
 
 QString CliPlugin::convertCompressionMethod(const QString &method)

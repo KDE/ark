@@ -287,7 +287,8 @@ enum CliInterfaceParameters {
     TestArgs,
     TestPassedPattern,
     MultiVolumeSwitch,
-    MultiVolumeSuffix
+    MultiVolumeSuffix,
+    CompressionMethodSwitch
 };
 
 typedef QHash<int, QVariant> ParameterList;
@@ -335,7 +336,7 @@ public:
 
     QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
     QStringList substituteExtractVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password);
-    QStringList substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize);
+    QStringList substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize, QString compMethod);
     QStringList substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination, const QString &password);
     QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QList<Archive::Entry*> &entries, const QString &password);
     QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
@@ -366,6 +367,7 @@ public:
      */
     QString compressionLevelSwitch(int level) const;
 
+    virtual QString compressionMethodSwitch(const QString &method) const;
     QString multiVolumeSwitch(ulong volumeSize) const;
 
     /**

@@ -151,6 +151,11 @@ int CreateDialog::compressionLevel() const
     return m_ui->optionsWidget->compressionLevel();
 }
 
+QString CreateDialog::compressionMethod() const
+{
+    return m_ui->optionsWidget->compressionMethod();
+}
+
 ulong CreateDialog::volumeSize() const
 {
     return m_ui->optionsWidget->volumeSize();

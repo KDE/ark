@@ -44,6 +44,7 @@ public:
      * @return The password header-switch with the given @p password.
      */
     virtual QStringList passwordHeaderSwitch(const QString& password) const Q_DECL_OVERRIDE;
+    virtual QString compressionMethodSwitch(const QString &method) const Q_DECL_OVERRIDE;
 
 private:
     enum ArchiveType {
