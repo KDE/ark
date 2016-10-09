@@ -328,6 +328,10 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
             return false;
         }
 
+        // If we reach this point, then we can be sure that it's not a RAR5
+        // archive, so assume RAR4.
+        emit compressionMethodFound(QStringList{QStringLiteral("RAR4")});
+
         if (rxCommentEnd.match(line).hasMatch()) {
 
             if (line.startsWith(QLatin1String("Volume "))) {
