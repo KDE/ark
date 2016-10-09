@@ -93,6 +93,7 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(qulonglong packedSize READ packedSize)
     Q_PROPERTY(QString subfolderName MEMBER m_subfolderName READ subfolderName)
     Q_PROPERTY(QString password READ password)
+    Q_PROPERTY(QStringList compressionMethods MEMBER m_compressionMethods)
 
 public:
 
@@ -221,6 +222,7 @@ private slots:
     void onAddFinished(KJob*);
     void onUserQuery(Kerfuffle::Query*);
     void onNewEntry(const Archive::Entry *entry);
+    void onCompressionMethodFound(const QStringList &methods);
 
 private:
     Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = 0);
@@ -235,7 +237,6 @@ private:
      * @return A valid archive if the plugin could be loaded, an invalid one otherwise (with the FailedPlugin error set).
      */
     static Archive *create(const QString &fileName, Plugin *plugin, QObject *parent = Q_NULLPTR);
-
     ReadOnlyArchiveInterface *m_iface;
     bool m_isReadOnly;
     bool m_isSingleFolder;
@@ -249,6 +250,7 @@ private:
     qulonglong m_numberOfFolders;
     CompressionOptions m_compOptions;
     QMimeType m_mimeType;
+    QStringList m_compressionMethods;
 };
 
 } // namespace Kerfuffle

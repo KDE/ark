@@ -50,6 +50,7 @@ private slots:
 private:
     bool setMovingAddedFiles();
     void finishMoving(bool result);
+    QString convertCompressionMethod(const QString &method);
 
     enum ParseState {
         ParseStateHeader = 0,
@@ -59,6 +60,7 @@ private:
 
     int m_linesComment;
     QString m_tempComment;
+    QStringList m_compressionMethods;
 };
 
 #endif // CLIPLUGIN_H

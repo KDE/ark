@@ -217,6 +217,11 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
                 m_isSolid = true;
                 qCDebug(ARK) << "Solid archive detected";
             }
+            if (line.contains(QLatin1String("RAR 4"))) {
+                emit compressionMethodFound(QStringList{QStringLiteral("RAR4")});
+            } else if (line.contains(QLatin1String("RAR 5"))) {
+                emit compressionMethodFound(QStringList{QStringLiteral("RAR5")});
+            }
         }
         return true;
     }

@@ -67,6 +67,7 @@ private:
     int m_linesComment;
     Kerfuffle::Archive::Entry *m_currentArchiveEntry;
     bool m_isFirstInformationEntry;
+    QStringList m_compressionMethods;
 };
 
 #endif // CLIPLUGIN_H

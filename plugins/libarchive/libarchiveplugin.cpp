@@ -58,6 +58,10 @@ bool LibarchivePlugin::list()
     }
 
     qDebug(ARK) << "Detected compression filter:" << archive_filter_name(m_archiveReader.data(), 0);
+    QString compMethod = convertCompressionName(QString::fromUtf8(archive_filter_name(m_archiveReader.data(), 0)));
+    if (!compMethod.isEmpty()) {
+        emit compressionMethodFound(QStringList{compMethod});
+    }
 
     m_cachedArchiveEntryCount = 0;
     m_extractedFilesSize = 0;
@@ -529,6 +533,30 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *source,
 
         readBytes = archive_read_data(source, buff, sizeof(buff));
     }
+}
+
+QString LibarchivePlugin::convertCompressionName(const QString &method)
+{
+    if (method == QLatin1String("gzip")) {
+        return QStringLiteral("GZip");
+    } else if (method == QLatin1String("bzip2")) {
+        return QStringLiteral("BZip2");
+    } else if (method == QLatin1String("xz")) {
+        return QStringLiteral("XZ");
+    } else if (method == QLatin1String("compress (.Z)")) {
+        return QStringLiteral("Compress");
+    } else if (method == QLatin1String("lrzip")) {
+        return QStringLiteral("LRZip");
+    } else if (method == QLatin1String("lzip")) {
+        return QStringLiteral("LZip");
+    } else if (method == QLatin1String("lz4")) {
+        return QStringLiteral("LZ4");
+    } else if (method == QLatin1String("lzop")) {
+        return QStringLiteral("lzop");
+    } else if (method == QLatin1String("lzma")) {
+        return QStringLiteral("LZMA");
+    }
+    return QString();
 }
 
 #include "libarchiveplugin.moc"

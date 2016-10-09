@@ -167,6 +167,7 @@ signals:
     void finished(bool result);
     void userQuery(Query *query);
     void testSuccess();
+    void compressionMethodFound(const QStringList);
 
 protected:
 

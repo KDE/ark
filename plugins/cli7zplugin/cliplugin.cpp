@@ -180,6 +180,23 @@ bool CliPlugin::readListLine(const QString& line)
             }
         } else if (line.startsWith(QStringLiteral("Volumes = "))) {
             m_numberOfVolumes = line.section(QLatin1Char('='), 1).trimmed().toInt();
+
+        } else if (line.startsWith(QStringLiteral("Method = "))) {
+            QStringList methods = line.section(QLatin1Char('='), 1).trimmed().split(QLatin1Char(' '), QString::SkipEmptyParts);
+            // LZMA methods are output with some trailing numbers by 7z representing dictionary/block sizes.
+            // We are not interested in these, so remove them.
+            QMutableListIterator<QString> i(methods);
+            while (i.hasNext()) {
+                QString m = i.next();
+                if (m.startsWith(QLatin1String("LZMA2"))) {
+                    m = m.left(5);
+                } else if (m.startsWith(QLatin1String("LZMA"))) {
+                    m = m.left(4);
+                }
+                i.setValue(m);
+            }
+            emit compressionMethodFound(methods);
+
         } else if (rxComment.match(line).hasMatch()) {
             m_parseState = ParseStateComment;
             m_comment.append(line.section(QLatin1Char('='), 1) + QLatin1Char('\n'));
@@ -241,6 +258,19 @@ bool CliPlugin::readListLine(const QString& line)
             m_currentArchiveEntry->setProperty("CRC", line.mid(6).trimmed());
         } else if (line.startsWith(QStringLiteral("Method = "))) {
             m_currentArchiveEntry->setProperty("method", line.mid(9).trimmed());
+
+            // For zip archives we need to check method for each entry.
+            if (m_archiveType == ArchiveTypeZip) {
+                QString method = line.mid(9).trimmed();
+                if (method == QLatin1String("xz")) {
+                    method = QStringLiteral("XZ");
+                }
+                if (!m_compressionMethods.contains(method)) {
+                    m_compressionMethods.append(method);
+                    emit compressionMethodFound(m_compressionMethods);
+                }
+            }
+
         } else if (line.startsWith(QStringLiteral("Encrypted = ")) &&
                    line.size() >= 13) {
             m_currentArchiveEntry->setProperty("isPasswordProtected", line.at(12) == QLatin1Char('+'));

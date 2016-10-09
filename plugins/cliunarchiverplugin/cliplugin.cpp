@@ -240,6 +240,12 @@ void CliPlugin::readJsonOutput()
         setMultiVolume(true);
     }
 
+    QString formatName = json.value(QStringLiteral("lsarFormatName")).toString();
+    if (formatName == QLatin1String("RAR")) {
+        emit compressionMethodFound(QStringList{QStringLiteral("RAR4")});
+    } else if (formatName == QLatin1String("RAR 5")) {
+        emit compressionMethodFound(QStringList{QStringLiteral("RAR5")});
+    }
     const QJsonArray entries = json.value(QStringLiteral("lsarContents")).toArray();
 
     foreach (const QJsonValue& value, entries) {

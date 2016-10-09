@@ -90,6 +90,7 @@ protected:
 
 private:
     int extractionFlags() const;
+    QString convertCompressionName(const QString &method);
 
     int m_cachedArchiveEntryCount;
     qlonglong m_currentExtractedFilesSize;

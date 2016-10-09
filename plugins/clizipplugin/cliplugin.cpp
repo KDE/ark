@@ -179,6 +179,12 @@ bool CliPlugin::readListLine(const QString &line)
             e->setProperty("compressedSize", rxMatch.captured(6).toInt());
             e->setProperty("method", rxMatch.captured(7));
 
+            QString method = convertCompressionMethod(rxMatch.captured(7));
+            if (!m_compressionMethods.contains(method)) {
+                m_compressionMethods.append(method);
+                emit compressionMethodFound(m_compressionMethods);
+            }
+
             const QDateTime ts(QDate::fromString(rxMatch.captured(8), QStringLiteral("yyyyMMdd")),
                                QTime::fromString(rxMatch.captured(9), QStringLiteral("hhmmss")));
             e->setProperty("timestamp", ts);
@@ -282,6 +288,18 @@ void CliPlugin::finishMoving(bool result)
     emit progress(1.0);
     emit finished(result);
     cleanUp();
+}
+
+QString CliPlugin::convertCompressionMethod(const QString &method)
+{
+    if (method == QLatin1String("stor")) {
+        return QStringLiteral("Store");
+    } else if (method.startsWith(QLatin1String("def"))) {
+        return QStringLiteral("Deflate");
+    } else if (method == QLatin1String("bzp2")) {
+        return QStringLiteral("BZip2");
+    }
+    return method;
 }
 
 #include "cliplugin.moc"

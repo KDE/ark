@@ -172,8 +172,19 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
     m_iface->setParent(this);
 
     connect(m_iface, &ReadOnlyArchiveInterface::entry, this, &Archive::onNewEntry);
+    connect(m_iface, &ReadOnlyArchiveInterface::compressionMethodFound, this, &Archive::onCompressionMethodFound);
 }
 
+void Archive::onCompressionMethodFound(const QStringList &methods)
+{
+    // If other methods are found, we dont report "Store" method.
+    QStringList processedMethods = methods;
+    if (processedMethods.size() > 1 &&
+        processedMethods.contains(QStringLiteral("Store"))) {
+        processedMethods.removeOne(QStringLiteral("Store"));
+    }
+    setProperty("compressionMethods", processedMethods);
+}
 
 Archive::~Archive()
 {
