@@ -16,6 +16,7 @@
         "Name[gl]": "Complemento de arquivo RAR", 
         "Name[he]": "תוסף ארכיוני RAR", 
         "Name[it]": "Estensione per archivi RAR", 
+        "Name[ja]": "RAR アーカイブ用プラグイン", 
         "Name[nb]": "Programtillegg for RAR-arkiv", 
         "Name[nl]": "RAR-archiefplug-in", 
         "Name[nn]": "RAR-arkivtillegg", 
