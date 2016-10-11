@@ -121,8 +121,7 @@ void ArchiveView::mouseReleaseEvent(QMouseEvent *event)
 {
     if (m_editorIndex.isValid()) {
         closeEntryEditor();
-    }
-    else {
+    } else {
         QTreeView::mouseReleaseEvent(event);
     }
 }
@@ -131,19 +130,17 @@ void ArchiveView::keyPressEvent(QKeyEvent *event)
 {
     if (m_editorIndex.isValid()) {
         switch (event->key()) {
-            case Qt::Key_Return:
-            case Qt::Key_Enter: {
-                QLineEdit* editor = static_cast<QLineEdit*>(indexWidget(m_editorIndex));
-                emit entryChanged(editor->text());
-                closeEntryEditor();
-                break;
-            }
-
-            default:
-                QTreeView::keyPressEvent(event);
+        case Qt::Key_Return:
+        case Qt::Key_Enter: {
+            QLineEdit* editor = static_cast<QLineEdit*>(indexWidget(m_editorIndex));
+            emit entryChanged(editor->text());
+            closeEntryEditor();
+            break;
         }
-    }
-    else {
+        default:
+            QTreeView::keyPressEvent(event);
+        }
+    } else {
         QTreeView::keyPressEvent(event);
     }
 }

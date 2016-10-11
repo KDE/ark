@@ -884,8 +884,7 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
         destinationParts.removeLast();
         if (destinationParts.count() > 0) {
             destination = m_rootEntry.findByPath(destinationParts);
-        }
-        else {
+        } else {
             destination = &m_rootEntry;
         }
     }
@@ -895,8 +894,7 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
     foreach (const QString &entry, entries) {
         if (skippedDirPath.count() > 0 && entry.startsWith(skippedDirPath)) {
             continue;
-        }
-        else {
+        } else {
             skippedDirPath.clear();
         }
 
@@ -918,8 +916,7 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
                     error = true;
                 }
                 conflictingEntries << archiveEntry;
-            }
-            else {
+            } else {
                 if (isDir) {
                     lastDirEntry = archiveEntry;
                 }
@@ -927,8 +924,7 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
                     conflictingEntries << archiveEntry;
                 }
             }
-        }
-        else if (isDir) {
+        } else if (isDir) {
             skippedDirPath = entry;
         }
     }

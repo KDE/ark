@@ -123,43 +123,36 @@ QStringList TestHelper::getExpectedMovedEntryPaths(const QVector<Archive::Entry*
             const QString entryPath = entry->fullPath();
             if (lastMovedFolder.count() > 0 && entryPath.startsWith(lastMovedFolder)) {
                 expectedPaths << destination->fullPath() + entryPath.right(entryPath.count() - lastMovedFolder.count() + nameLength);
-            }
-            else if (argumentPaths.contains(entryPath)) {
+            } else if (argumentPaths.contains(entryPath)) {
                 QString expectedPath = destination->fullPath() + entry->name();
                 if (entryPath.right(1) == QLatin1String("/")) {
                     expectedPath += QLatin1Char('/');
                     nameLength = entry->name().count() + 1; // plus slash
                     lastMovedFolder = entryPath;
-                }
-                else {
+                } else {
                     nameLength = 0;
                     lastMovedFolder = QString();
                 }
                 expectedPaths << expectedPath;
-            }
-            else {
+            } else {
                 expectedPaths << entryPath;
                 nameLength = 0;
                 lastMovedFolder = QString();
             }
         }
-    }
-    else {
+    } else {
         foreach (const Archive::Entry *entry, entryMap) {
             const QString entryPath = entry->fullPath();
             if (lastMovedFolder.count() > 0 && entryPath.startsWith(lastMovedFolder)) {
                 expectedPaths << destination->fullPath() + entryPath.right(entryPath.count() - lastMovedFolder.count());
-            }
-            else if (argumentPaths.contains(entryPath)) {
+            } else if (argumentPaths.contains(entryPath)) {
                 if (entryPath.right(1) == QLatin1String("/")) {
                     lastMovedFolder = entryPath;
-                }
-                else if (lastMovedFolder.count() > 0) {
+                } else if (lastMovedFolder.count() > 0) {
                     lastMovedFolder = QString();
                 }
                 expectedPaths << destination->fullPath();
-            }
-            else {
+            } else {
                 expectedPaths << entryPath;
             }
         }
@@ -180,21 +173,18 @@ QStringList TestHelper::getExpectedCopiedEntryPaths(const QVector<Archive::Entry
         const QString entryPath = entry->fullPath();
         if (lastCopiedFolder.count() > 0 && entryPath.startsWith(lastCopiedFolder)) {
             expectedPaths << destination->fullPath() + entryPath.right(entryPath.count() - lastCopiedFolder.count() + nameLength);
-        }
-        else if (argumentPaths.contains(entryPath)) {
+        } else if (argumentPaths.contains(entryPath)) {
             QString expectedPath = destination->fullPath() + entry->name();
             if (entryPath.right(1) == QLatin1String("/")) {
                 expectedPath += QLatin1Char('/');
                 nameLength = entry->name().count() + 1; // plus slash
                 lastCopiedFolder = entryPath;
-            }
-            else {
+            } else {
                 nameLength = 0;
                 lastCopiedFolder = QString();
             }
             expectedPaths << expectedPath;
-        }
-        else {
+        } else {
             nameLength = 0;
             lastCopiedFolder = QString();
         }

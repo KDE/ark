@@ -46,8 +46,7 @@ OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Ent
     m_messageIcon.setPixmap(QIcon::fromTheme(QStringLiteral("dialog-warning")).pixmap(QSize(64, 64)));
     if (error) {
         m_messageText.setText(i18n("Files with the following paths already exist. Remove them if you really want to overwrite."));
-    }
-    else {
+    } else {
         m_okButton.setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok")));
         m_messageText.setText(i18n("Files with the following paths already exist. Do you want to continue overwriting them?"));
         m_buttonBox.addButton(&m_okButton, QDialogButtonBox::AcceptRole);

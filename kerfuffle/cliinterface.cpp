@@ -204,8 +204,7 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
             const QString newFilePath = absoluteDestinationPath + file->fullPath(true);
             if (QFile::link(filePath, newFilePath)) {
                 qCDebug(ARK) << "Symlink's created:" << filePath << newFilePath;
-            }
-            else {
+            } else {
                 qCDebug(ARK) << "Can't create symlink" << filePath << newFilePath;
                 delete m_extractTempDir;
                 m_extractTempDir = Q_NULLPTR;
@@ -217,8 +216,7 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
         QDir::setCurrent(m_extractTempDir->path());
 
         filesToPass.push_back(new Archive::Entry(preservedParent, destinationPath.split(QLatin1Char('/'), QString::SkipEmptyParts).at(0)));
-    }
-    else {
+    } else {
         filesToPass = files;
     }
 
@@ -483,20 +481,18 @@ void CliInterface::continueCopying(bool result)
     }
 
     switch (m_subOperation) {
-        case Extract:
-            m_subOperation = Add;
-            m_passedFiles = entriesWithoutChildren(m_passedFiles);
-            if (!setAddedFiles() || !addFiles(m_tempAddedFiles, m_passedDestination, m_passedOptions)) {
-                finishCopying(false);
-            }
-            break;
-
-        case Add:
-            finishCopying(true);
-            break;
-
-        default:
-            Q_ASSERT(false);
+    case Extract:
+        m_subOperation = Add;
+        m_passedFiles = entriesWithoutChildren(m_passedFiles);
+        if (!setAddedFiles() || !addFiles(m_tempAddedFiles, m_passedDestination, m_passedOptions)) {
+            finishCopying(false);
+        }
+        break;
+    case Add:
+        finishCopying(true);
+        break;
+    default:
+        Q_ASSERT(false);
     }
 }
 
@@ -557,14 +553,11 @@ bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry*> &files,
 
                 } else if (skipAll) {
                     continue;
-
                 } else if (overwriteAll) {
-
                     if (!QFile::remove(absDestEntry.absoluteFilePath())) {
                         qCWarning(ARK) << "Failed to remove" << absDestEntry.absoluteFilePath();
                     }
                 }
-
             }
 
             // Create any parent directories.
@@ -952,12 +945,10 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
                 charsCount += nameLength;
             }
             newPath = destination->fullPath() + entry->fullPath().right(charsCount);
-        }
-        else {
+        } else {
             if (entriesWithoutChildren > 1) {
                 newPath = destination->fullPath() + entry->name();
-            }
-            else {
+            } else {
                 // If there is only one passed file in the list,
                 // we have to use destination as newPath.
                 newPath = destination->fullPath(true);
@@ -966,8 +957,7 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
                 newPath += QLatin1Char('/');
                 nameLength = entry->name().count() + 1; // plus slash
                 lastFolder = entry->fullPath();
-            }
-            else {
+            } else {
                 nameLength = 0;
                 lastFolder = QString();
             }
@@ -1494,8 +1484,7 @@ QStringList CliInterface::entryPathDestinationPairs(const QVector<Archive::Entry
         foreach (const Archive::Entry *file, entriesWithoutChildren) {
             pairList << file->fullPath(true) << destination->fullPath() + file->name();
         }
-    }
-    else {
+    } else {
         pairList << entriesWithoutChildren.at(0)->fullPath(true) << destination->fullPath(true);
     }
     return pairList;

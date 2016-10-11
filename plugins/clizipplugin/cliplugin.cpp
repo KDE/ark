@@ -228,26 +228,23 @@ void CliPlugin::continueMoving(bool result)
     }
 
     switch (m_subOperation) {
-        case Extract:
-            m_subOperation = Delete;
-            if (!deleteFiles(m_passedFiles)) {
-                finishMoving(false);
-            }
-            break;
-
-        case Delete:
-            m_subOperation = Add;
-            if (!setMovingAddedFiles() || !addFiles(m_tempAddedFiles, m_passedDestination, m_passedOptions)) {
-                finishMoving(false);
-            }
-            break;
-
-        case Add:
-            finishMoving(true);
-            break;
-
-        default:
-            Q_ASSERT(false);
+    case Extract:
+        m_subOperation = Delete;
+        if (!deleteFiles(m_passedFiles)) {
+            finishMoving(false);
+        }
+        break;
+    case Delete:
+        m_subOperation = Add;
+        if (!setMovingAddedFiles() || !addFiles(m_tempAddedFiles, m_passedDestination, m_passedOptions)) {
+            finishMoving(false);
+        }
+        break;
+    case Add:
+        finishMoving(true);
+        break;
+    default:
+        Q_ASSERT(false);
     }
 }
 

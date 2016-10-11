@@ -1261,8 +1261,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
                 }
                 withChildPaths << path;
             }
-        }
-        else {
+        } else {
             withChildPaths << file;
         }
     }
@@ -1296,8 +1295,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
     if (!relPath.isEmpty()) {
         globalWorkDir.remove(relPath);
         qCDebug(ARK) << "Adding" << filesToAdd << "to" << relPath;
-    }
-    else {
+    } else {
         qCDebug(ARK) << "Adding " << filesToAdd << ((destination == Q_NULLPTR) ? QString() : QStringLiteral("to ") + destination->fullPath());
     }
 
@@ -1356,8 +1354,7 @@ void Part::slotAddFiles()
         destination = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
         if (destination->isDir()) {
             dialogTitle = i18nc("@title:window", "Add Files to %1", destination->fullPath());;
-        }
-        else {
+        } else {
             destination = Q_NULLPTR;
         }
     }
@@ -1454,8 +1451,7 @@ void Part::slotPasteFiles()
                     : Q_NULLPTR;
     if (m_destination == Q_NULLPTR) {
         m_destination = new Archive::Entry(Q_NULLPTR, QString());
-    }
-    else {
+    } else {
         m_destination = new Archive::Entry(Q_NULLPTR, m_destination->fullPath());
     }
 
@@ -1485,8 +1481,7 @@ void Part::slotPasteFiles()
         auto entryList = QVector<Archive::Entry*>::fromList(m_model->filesToMove.values());
         slotPasteFiles(entryList, m_destination, entriesWithoutChildren.count());
         m_model->filesToMove.clear();
-    }
-    else {
+    } else {
         auto entryList = QVector<Archive::Entry*>::fromList(m_model->filesToCopy.values());
         slotPasteFiles(entryList, m_destination, 0);
         m_model->filesToCopy.clear();
@@ -1530,8 +1525,7 @@ void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle:
 
     if (entriesWithoutChildren > 0) {
         qCDebug(ARK) << "Moving" << files << "to" << destination;
-    }
-    else {
+    } else {
         qCDebug(ARK) << "Copying " << files << "to" << destination;
     }
 
@@ -1540,8 +1534,7 @@ void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle:
     KJob *job;
     if (entriesWithoutChildren != 0) {
         job = m_model->moveFiles(files, destination, options);
-    }
-    else {
+    } else {
         job = m_model->copyFiles(files, destination, options);
     }
 
@@ -1550,8 +1543,7 @@ void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle:
                 this, &Part::slotPasteFilesDone);
         registerJob(job);
         job->start();
-    }
-    else {
+    } else {
         delete m_destination;
     }
 }

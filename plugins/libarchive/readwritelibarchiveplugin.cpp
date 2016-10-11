@@ -122,8 +122,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
         isSuccessful = processOldEntries(no_entries, Add);
         if (isSuccessful) {
             qCDebug(ARK) << "Added" << no_entries << "old entries to archive";
-        }
-        else {
+        } else {
             qCDebug(ARK) << "Adding entries failed";
         }
     }
@@ -154,8 +153,7 @@ bool ReadWriteLibarchivePlugin::moveFiles(const QVector<Archive::Entry*> &files,
     const bool isSuccessful = processOldEntries(no_entries, Move);
     if (isSuccessful) {
         qCDebug(ARK) << "Moved" << no_entries << "entries within archive";
-    }
-    else {
+    } else {
         qCDebug(ARK) << "Moving entries failed";
     }
 
@@ -185,8 +183,7 @@ bool ReadWriteLibarchivePlugin::copyFiles(const QVector<Archive::Entry*> &files,
     const bool isSuccessful = processOldEntries(no_entries, Copy);
     if (isSuccessful) {
         qCDebug(ARK) << "Copied" << no_entries << "entries within archive";
-    }
-    else {
+    } else {
         qCDebug(ARK) << "Copying entries failed";
     }
 
@@ -212,8 +209,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVector<Archive::Entry*> &file
     const bool isSuccessful = processOldEntries(no_entries, Delete);
     if (isSuccessful) {
         qCDebug(ARK) << "Removed" << no_entries << "entries from archive";
-    }
-    else {
+    } else {
         qCDebug(ARK) << "Removing entries failed";
     }
 
@@ -246,8 +242,7 @@ bool ReadWriteLibarchivePlugin::initializeWriter(const bool creatingNewFile, con
         if (!initializeNewFileWriterFilters(options)) {
             return false;
         }
-    }
-    else {
+    } else {
         if (!initializeWriterFilters()) {
             return false;
         }
@@ -267,43 +262,43 @@ bool ReadWriteLibarchivePlugin::initializeWriterFilters()
     int ret;
     bool requiresExecutable = false;
     switch (archive_filter_code(m_archiveReader.data(), 0)) {
-        case ARCHIVE_FILTER_GZIP:
-            ret = archive_write_add_filter_gzip(m_archiveWriter.data());
-            break;
-        case ARCHIVE_FILTER_BZIP2:
-            ret = archive_write_add_filter_bzip2(m_archiveWriter.data());
-            break;
-        case ARCHIVE_FILTER_XZ:
-            ret = archive_write_add_filter_xz(m_archiveWriter.data());
-            break;
-        case ARCHIVE_FILTER_LZMA:
-            ret = archive_write_add_filter_lzma(m_archiveWriter.data());
-            break;
-        case ARCHIVE_FILTER_COMPRESS:
-            ret = archive_write_add_filter_compress(m_archiveWriter.data());
-            break;
-        case ARCHIVE_FILTER_LZIP:
-            ret = archive_write_add_filter_lzip(m_archiveWriter.data());
-            break;
-        case ARCHIVE_FILTER_LZOP:
-            ret = archive_write_add_filter_lzop(m_archiveWriter.data());
-            break;
-        case ARCHIVE_FILTER_LRZIP:
-            ret = archive_write_add_filter_lrzip(m_archiveWriter.data());
-            requiresExecutable = true;
-            break;
+    case ARCHIVE_FILTER_GZIP:
+        ret = archive_write_add_filter_gzip(m_archiveWriter.data());
+        break;
+    case ARCHIVE_FILTER_BZIP2:
+        ret = archive_write_add_filter_bzip2(m_archiveWriter.data());
+        break;
+    case ARCHIVE_FILTER_XZ:
+        ret = archive_write_add_filter_xz(m_archiveWriter.data());
+        break;
+    case ARCHIVE_FILTER_LZMA:
+        ret = archive_write_add_filter_lzma(m_archiveWriter.data());
+        break;
+    case ARCHIVE_FILTER_COMPRESS:
+        ret = archive_write_add_filter_compress(m_archiveWriter.data());
+        break;
+    case ARCHIVE_FILTER_LZIP:
+        ret = archive_write_add_filter_lzip(m_archiveWriter.data());
+        break;
+    case ARCHIVE_FILTER_LZOP:
+        ret = archive_write_add_filter_lzop(m_archiveWriter.data());
+        break;
+    case ARCHIVE_FILTER_LRZIP:
+        ret = archive_write_add_filter_lrzip(m_archiveWriter.data());
+        requiresExecutable = true;
+        break;
 #ifdef HAVE_LIBARCHIVE_3_2_0
-        case ARCHIVE_FILTER_LZ4:
-            ret = archive_write_add_filter_lz4(m_archiveWriter.data());
-            break;
+    case ARCHIVE_FILTER_LZ4:
+        ret = archive_write_add_filter_lz4(m_archiveWriter.data());
+        break;
 #endif
-        case ARCHIVE_FILTER_NONE:
-            ret = archive_write_add_filter_none(m_archiveWriter.data());
-            break;
-        default:
-            emit error(i18n("The compression type '%1' is not supported by Ark.",
-                            QLatin1String(archive_filter_name(m_archiveReader.data(), 0))));
-            return false;
+    case ARCHIVE_FILTER_NONE:
+        ret = archive_write_add_filter_none(m_archiveWriter.data());
+        break;
+    default:
+        emit error(i18n("The compression type '%1' is not supported by Ark.",
+                        QLatin1String(archive_filter_name(m_archiveReader.data(), 0))));
+        return false;
     }
 
     // Libarchive emits a warning for lrzip due to using external executable.
@@ -419,30 +414,28 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
                     if (!writeEntry(entry)) {
                         return false;
                     }
-                }
-                else {
+                } else {
                     emit entryRemoved(file);
                 }
 
                 entriesCounter++;
                 archive_entry_set_pathname(entry, newPathname.toUtf8());
             }
-        }
-        else if (m_filesPaths.contains(file)) {
+        } else if (m_filesPaths.contains(file)) {
             archive_read_data_skip(m_archiveReader.data());
             switch (mode) {
-                case Delete:
-                    entriesCounter++;
-                    emit entryRemoved(file);
-                    break;
+            case Delete:
+                entriesCounter++;
+                emit entryRemoved(file);
+                break;
 
-                case Add:
-                    qCDebug(ARK) << file << "is already present in the new archive, skipping.";
-                    break;
+            case Add:
+                qCDebug(ARK) << file << "is already present in the new archive, skipping.";
+                break;
 
-                default:
-                    qCDebug(ARK) << "Mode" << mode << "is not considered for processing old libarchive entries";
-                    Q_ASSERT(false);
+            default:
+                qCDebug(ARK) << "Mode" << mode << "is not considered for processing old libarchive entries";
+                Q_ASSERT(false);
             }
             continue;
         }
@@ -450,12 +443,10 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
         if (writeEntry(entry)) {
             if (mode == Add) {
                 entriesCounter++;
-            }
-            else if (mode == Move || mode == Copy) {
+            } else if (mode == Move || mode == Copy) {
                 emitEntryFromArchiveEntry(entry);
             }
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -469,22 +460,22 @@ bool ReadWriteLibarchivePlugin::writeEntry(struct archive_entry *entry)
     const QString file = QFile::decodeName(archive_entry_pathname(entry));
 
     switch (returnCode) {
-        case ARCHIVE_OK:
-            // If the whole archive is extracted and the total filesize is
-            // available, we use partial progress.
-            copyData(QLatin1String(archive_entry_pathname(entry)), m_archiveReader.data(), m_archiveWriter.data(), false);
-            break;
-        case ARCHIVE_FAILED:
-        case ARCHIVE_FATAL:
-            qCCritical(ARK) << "archive_write_header() has returned" << returnCode
-                            << "with errno" << archive_errno(m_archiveWriter.data());
-            emit error(xi18nc("@info", "Compression failed while processing:<nl/>"
-        "<filename>%1</filename><nl/><nl/>Operation aborted.", file));
-            return false;
-        default:
-            qCDebug(ARK) << "archive_writer_header() has returned" << returnCode
-                         << "which will be ignored.";
-            break;
+    case ARCHIVE_OK:
+        // If the whole archive is extracted and the total filesize is
+        // available, we use partial progress.
+        copyData(QLatin1String(archive_entry_pathname(entry)), m_archiveReader.data(), m_archiveWriter.data(), false);
+        break;
+    case ARCHIVE_FAILED:
+    case ARCHIVE_FATAL:
+        qCCritical(ARK) << "archive_write_header() has returned" << returnCode
+                        << "with errno" << archive_errno(m_archiveWriter.data());
+        emit error(xi18nc("@info", "Compression failed while processing:<nl/>"
+    "<filename>%1</filename><nl/><nl/>Operation aborted.", file));
+        return false;
+    default:
+        qCDebug(ARK) << "archive_writer_header() has returned" << returnCode
+                     << "which will be ignored.";
+        break;
     }
 
     return true;
