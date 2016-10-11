@@ -1437,7 +1437,7 @@ void Part::slotRenameFile(const QString &name)
     QVector<Archive::Entry*> entriesToMove = filesForIndexes(addChildren(m_view->selectionModel()->selectedRows()));
 
     m_destination = new Archive::Entry();
-    const QString &entryPath = entry->fullPath(true);
+    const QString &entryPath = entry->fullPath(NoTrailingSlash);
     const QString rootPath = entryPath.left(entryPath.count() - entry->name().count());
     m_destination->setFullPath(rootPath + name + ((entry->isDir()) ? QLatin1Char('/') : QChar()));
 

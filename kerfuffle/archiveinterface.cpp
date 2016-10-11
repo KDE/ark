@@ -165,11 +165,11 @@ void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
     m_waitForFinishedSignal = value;
 }
 
-QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entry*> &entries, const bool withoutTrailingSlashes)
+QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entry*> &entries, PathFormat format)
 {
     QStringList filesList;
     foreach (const Archive::Entry *file, entries) {
-        filesList << file->fullPath(withoutTrailingSlashes);
+        filesList << file->fullPath(format);
     }
     return filesList;
 }

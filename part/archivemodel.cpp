@@ -220,7 +220,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             if (index.column() == 0) {
                 const Archive::Entry *e = static_cast<Archive::Entry*>(index.internalPointer());
                 QIcon::Mode mode = (filesToMove.contains(e->fullPath())) ? QIcon::Disabled : QIcon::Normal;
-                return m_entryIcons.value(e->fullPath(true)).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small), mode);
+                return m_entryIcons.value(e->fullPath(NoTrailingSlash)).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small), mode);
             }
             return QVariant();
         case Qt::FontRole: {
@@ -540,7 +540,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehav
 
             entry->setProperty("fullPath", (parent == &m_rootEntry)
                                            ? piece + QLatin1Char('/')
-                                           : parent->fullPath(false) + piece + QLatin1Char('/'));
+                                           : parent->fullPath(WithTrailingSlash) + piece + QLatin1Char('/'));
             entry->setProperty("isDirectory", true);
             insertEntry(entry, behaviour);
         }
@@ -585,7 +585,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         Q_UNUSED(index);
 
         beginRemoveRows(indexForEntry(parent), entry->row(), entry->row());
-        m_entryIcons.remove(parent->entries().at(entry->row())->fullPath(true));
+        m_entryIcons.remove(parent->entries().at(entry->row())->fullPath(NoTrailingSlash));
         parent->removeEntryAt(entry->row());
         endRemoveRows();
     }
@@ -718,7 +718,7 @@ void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)
                                                                                                        IconSize(KIconLoader::Small))
     : icon = QIcon::fromTheme(db.mimeTypeForFile(entry->fullPath()).iconName()).pixmap(IconSize(KIconLoader::Small),
                                                                                        IconSize(KIconLoader::Small));
-    m_entryIcons.insert(entry->fullPath(true), icon);
+    m_entryIcons.insert(entry->fullPath(NoTrailingSlash), icon);
 }
 
 Kerfuffle::Archive* ArchiveModel::archive() const
@@ -988,7 +988,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         Archive::Entry *rawEntry = static_cast<Archive::Entry*>(node.internalPointer());
         qCDebug(ARK) << "Delete with parent entries " << rawEntry->getParent()->entries() << " and row " << rawEntry->row();
         beginRemoveRows(parent(node), rawEntry->row(), rawEntry->row());
-        m_entryIcons.remove(rawEntry->getParent()->entries().at(rawEntry->row())->fullPath(true));
+        m_entryIcons.remove(rawEntry->getParent()->entries().at(rawEntry->row())->fullPath(NoTrailingSlash));
         rawEntry->getParent()->removeEntryAt(rawEntry->row());
         endRemoveRows();
     }

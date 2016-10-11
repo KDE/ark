@@ -117,7 +117,7 @@ public:
     /**
      * Returns the list of filenames retrieved from the list of entries.
      */
-    static QStringList entryFullPaths(const QVector<Archive::Entry*> &entries, const bool withoutTrailingSlashes = false);
+    static QStringList entryFullPaths(const QVector<Archive::Entry*> &entries, PathFormat format = WithTrailingSlash);
 
     /**
      * Returns the list of the entries, excluding their children.

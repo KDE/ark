@@ -259,7 +259,7 @@ bool CliPlugin::setMovingAddedFiles()
 
     QDir::setCurrent(m_tempAddDir->path());
     const Archive::Entry *file = m_passedFiles.at(0);
-    const QString oldPath = m_tempExtractDir->path() + QLatin1Char('/') + file->fullPath(true);
+    const QString oldPath = m_tempExtractDir->path() + QLatin1Char('/') + file->fullPath(NoTrailingSlash);
     const QString newPath = m_tempAddDir->path() + QLatin1Char('/') + m_passedDestination->name();
     if (!QFile::rename(oldPath, newPath)) {
         return false;

@@ -111,9 +111,9 @@ void Archive::Entry::setFullPath(const QString &fullPath)
     m_name = pieces.isEmpty() ? QString() : pieces.last();
 }
 
-QString Archive::Entry::fullPath(bool withoutTrailingSlash) const
+QString Archive::Entry::fullPath(PathFormat format) const
 {
-    if (withoutTrailingSlash && m_fullPath.endsWith(QLatin1Char('/'))) {
+    if (format == NoTrailingSlash && m_fullPath.endsWith(QLatin1Char('/'))) {
         return m_fullPath.left(m_fullPath.size() - 1);
     } else {
         return m_fullPath;

@@ -57,7 +57,7 @@ OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Ent
     connect(&m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
     foreach (const Archive::Entry *entry, entries) {
-        QListWidgetItem *item = new QListWidgetItem(icons.value(entry->fullPath(true)), entry->fullPath(true));
+        QListWidgetItem *item = new QListWidgetItem(icons.value(entry->fullPath(NoTrailingSlash)), entry->fullPath(NoTrailingSlash));
         m_entriesList.addItem(item);
     }
 

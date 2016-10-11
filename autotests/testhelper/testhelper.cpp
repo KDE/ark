@@ -94,7 +94,7 @@ QStringList TestHelper::getExpectedNewEntryPaths(const QVector<Archive::Entry*> 
         expectedPaths << destination->fullPath() + entryPath;
 
         if (entryPath.right(1) == QLatin1String("/")) {
-            const QString workingDirectory = testDataPath + QLatin1Char('/') + entry->fullPath(true);
+            const QString workingDirectory = testDataPath + QLatin1Char('/') + entry->fullPath(NoTrailingSlash);
             QDirIterator it(workingDirectory, QDir::AllEntries | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
             while (it.hasNext()) {
                 QString path = it.next();

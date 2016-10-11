@@ -37,6 +37,12 @@
 #include <KIconLoader>
 
 namespace Kerfuffle {
+
+enum PathFormat {
+    NoTrailingSlash,
+    WithTrailingSlash
+};
+
 class Archive::Entry : public QObject
 {
     Q_OBJECT
@@ -82,7 +88,7 @@ public:
     Entry *getParent() const;
     void setParent(Entry *parent);
     void setFullPath(const QString &fullPath);
-    QString fullPath(bool withoutTrailingSlash = false) const;
+    QString fullPath(PathFormat format = WithTrailingSlash) const;
     QString name() const;
     void setIsDirectory(const bool isDirectory);
     bool isDir() const;

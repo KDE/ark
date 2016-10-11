@@ -200,8 +200,8 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
                 preservedParent = file->parent();
             }
 
-            const QString filePath = QDir::currentPath() + QLatin1Char('/') + file->fullPath(true);
-            const QString newFilePath = absoluteDestinationPath + file->fullPath(true);
+            const QString filePath = QDir::currentPath() + QLatin1Char('/') + file->fullPath(NoTrailingSlash);
+            const QString newFilePath = absoluteDestinationPath + file->fullPath(NoTrailingSlash);
             if (QFile::link(filePath, newFilePath)) {
                 qCDebug(ARK) << "Symlink's created:" << filePath << newFilePath;
             } else {
@@ -784,7 +784,7 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
         }
 
         if (arg == QLatin1String("$Files")) {
-            args << entryFullPaths(entries, true);
+            args << entryFullPaths(entries, NoTrailingSlash);
             continue;
         }
 
@@ -852,7 +852,7 @@ QStringList CliInterface::substituteDeleteVariables(const QStringList &deleteArg
 
         if (arg == QLatin1String("$Files")) {
             foreach (const Archive::Entry *e, entries) {
-                args << escapeFileName(e->fullPath(true));
+                args << escapeFileName(e->fullPath(NoTrailingSlash));
             }
             continue;
         }
@@ -951,7 +951,7 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
             } else {
                 // If there is only one passed file in the list,
                 // we have to use destination as newPath.
-                newPath = destination->fullPath(true);
+                newPath = destination->fullPath(NoTrailingSlash);
             }
             if (entry->isDir()) {
                 newPath += QLatin1Char('/');
@@ -1071,7 +1071,7 @@ QStringList CliInterface::extractFilesList(const QVector<Archive::Entry*> &entri
 {
     QStringList filesList;
     foreach (const Archive::Entry *e, entries) {
-        filesList << escapeFileName(e->fullPath(true));
+        filesList << escapeFileName(e->fullPath(NoTrailingSlash));
     }
 
     return filesList;
@@ -1210,7 +1210,7 @@ bool CliInterface::setAddedFiles()
 {
     QDir::setCurrent(m_tempAddDir->path());
     foreach (const Archive::Entry *file, m_passedFiles) {
-        const QString oldPath = m_tempExtractDir->path() + QLatin1Char('/') + file->fullPath(true);
+        const QString oldPath = m_tempExtractDir->path() + QLatin1Char('/') + file->fullPath(NoTrailingSlash);
         const QString newPath = m_tempAddDir->path() + QLatin1Char('/') + file->name();
         if (!QFile::rename(oldPath, newPath)) {
             return false;
@@ -1482,10 +1482,10 @@ QStringList CliInterface::entryPathDestinationPairs(const QVector<Archive::Entry
     QStringList pairList;
     if (entriesWithoutChildren.count() > 1) {
         foreach (const Archive::Entry *file, entriesWithoutChildren) {
-            pairList << file->fullPath(true) << destination->fullPath() + file->name();
+            pairList << file->fullPath(NoTrailingSlash) << destination->fullPath() + file->name();
         }
     } else {
-        pairList << entriesWithoutChildren.at(0)->fullPath(true) << destination->fullPath(true);
+        pairList << entriesWithoutChildren.at(0)->fullPath(NoTrailingSlash) << destination->fullPath(NoTrailingSlash);
     }
     return pairList;
 }
