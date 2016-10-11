@@ -27,8 +27,7 @@
 
 #include "overwritedialog.h"
 
-namespace Kerfuffle
-{
+using namespace Kerfuffle;
 
 OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Entry*> &entries, const QHash<QString, QIcon> &icons, bool error)
         : QDialog(parent)
@@ -68,6 +67,4 @@ OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Ent
 
 OverwriteDialog::~OverwriteDialog()
 {
-}
-
 }

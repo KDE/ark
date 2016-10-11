@@ -28,7 +28,6 @@
 #ifndef OVERWRITEDIALOG_H
 #define OVERWRITEDIALOG_H
 
-#include "kerfuffle_export.h"
 #include "kerfuffle/archiveentry.h"
 
 #include <KFileWidget>
@@ -45,13 +44,11 @@
 
 class QUrl;
 
-namespace Kerfuffle
-{
-class KERFUFFLE_EXPORT OverwriteDialog : public QDialog
+class OverwriteDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit OverwriteDialog(QWidget *parent, const QList<const Archive::Entry*> &entries, const QHash<QString, QIcon> &icons, bool error = false);
+    explicit OverwriteDialog(QWidget *parent, const QList<const Kerfuffle::Archive::Entry*> &entries, const QHash<QString, QIcon> &icons, bool error = false);
     virtual ~OverwriteDialog();
 
 private:
@@ -64,6 +61,5 @@ private:
     QPushButton m_okButton;
     QPushButton m_cancelButton;
 };
-}
 
 #endif
