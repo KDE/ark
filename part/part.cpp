@@ -1439,7 +1439,11 @@ void Part::slotRenameFile(const QString &name)
     m_destination = new Archive::Entry();
     const QString &entryPath = entry->fullPath(NoTrailingSlash);
     const QString rootPath = entryPath.left(entryPath.count() - entry->name().count());
-    m_destination->setFullPath(rootPath + name + ((entry->isDir()) ? QLatin1Char('/') : QChar()));
+    auto path = rootPath + name;
+    if (entry->isDir()) {
+        path += QLatin1Char('/');
+    }
+    m_destination->setFullPath(path);
 
     slotPasteFiles(entriesToMove, m_destination, 1);
 }
