@@ -34,16 +34,16 @@ void TestHelper::startAndWaitForResult(KJob *job)
     m_eventLoop.exec(); // krazy:exclude=crashy
 }
 
-QList<Archive::Entry*> TestHelper::getEntryList(Archive *archive)
+QVector<Archive::Entry*> TestHelper::getEntryList(Archive *archive)
 {
-    QList<Archive::Entry*> list = QList<Archive::Entry*>();
+    QVector<Archive::Entry*> list = QVector<Archive::Entry*>();
     auto loadJob = Archive::load(archive->fileName());
     QObject::connect(loadJob, &Job::newEntry, [&list](Archive::Entry* entry) { list << entry; });
     startAndWaitForResult(loadJob);
     return list;
 }
 
-void TestHelper::verifyAddedEntriesWithDestination(const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QList<Archive::Entry*> &oldEntries, const QList<Archive::Entry*> &newEntries)
+void TestHelper::verifyAddedEntriesWithDestination(const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QVector<Archive::Entry*> &oldEntries, const QVector<Archive::Entry*> &newEntries)
 {
     QStringList expectedPaths = getExpectedNewEntryPaths(argumentEntries, destination);
     QStringList actualPaths = ReadOnlyArchiveInterface::entryFullPaths(newEntries);
@@ -56,7 +56,7 @@ void TestHelper::verifyAddedEntriesWithDestination(const QList<Archive::Entry*> 
     }
 }
 
-void TestHelper::verifyMovedEntriesWithDestination(const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QList<Archive::Entry*> &oldEntries, const QList<Archive::Entry*> &newEntries)
+void TestHelper::verifyMovedEntriesWithDestination(const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QVector<Archive::Entry*> &oldEntries, const QVector<Archive::Entry*> &newEntries)
 {
     QStringList expectedPaths = getExpectedMovedEntryPaths(oldEntries, argumentEntries, destination);
     QStringList actualPaths = ReadOnlyArchiveInterface::entryFullPaths(newEntries);
@@ -72,7 +72,7 @@ void TestHelper::verifyMovedEntriesWithDestination(const QList<Archive::Entry*> 
     }
 }
 
-void TestHelper::verifyCopiedEntriesWithDestination(const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QList<Archive::Entry*> &oldEntries, const QList<Archive::Entry*> &newEntries)
+void TestHelper::verifyCopiedEntriesWithDestination(const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QVector<Archive::Entry*> &oldEntries, const QVector<Archive::Entry*> &newEntries)
 {
     QStringList expectedPaths = getExpectedCopiedEntryPaths(oldEntries, argumentEntries, destination);
     QStringList actualPaths = ReadOnlyArchiveInterface::entryFullPaths(newEntries);
@@ -84,7 +84,7 @@ void TestHelper::verifyCopiedEntriesWithDestination(const QList<Archive::Entry*>
     }
 }
 
-QStringList TestHelper::getExpectedNewEntryPaths(const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination)
+QStringList TestHelper::getExpectedNewEntryPaths(const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination)
 {
     QStringList expectedPaths = QStringList();
     const QString testDataPath = QFINDTESTDATA("data") + QLatin1Char('/');
@@ -109,7 +109,7 @@ QStringList TestHelper::getExpectedNewEntryPaths(const QList<Archive::Entry*> &a
     return expectedPaths;
 }
 
-QStringList TestHelper::getExpectedMovedEntryPaths(const QList<Archive::Entry*> &entryList, const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination)
+QStringList TestHelper::getExpectedMovedEntryPaths(const QVector<Archive::Entry*> &entryList, const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination)
 {
     QStringList expectedPaths = QStringList();
     QMap<QString, Archive::Entry*> entryMap = getEntryMap(entryList);
@@ -167,7 +167,7 @@ QStringList TestHelper::getExpectedMovedEntryPaths(const QList<Archive::Entry*> 
     return expectedPaths;
 }
 
-QStringList TestHelper::getExpectedCopiedEntryPaths(const QList<Archive::Entry*> &entryList, const QList<Archive::Entry*> &argumentEntries, const Archive::Entry *destination)
+QStringList TestHelper::getExpectedCopiedEntryPaths(const QVector<Archive::Entry*> &entryList, const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination)
 {
     QStringList expectedPaths = QStringList();
     QMap<QString, Archive::Entry*> entryMap = getEntryMap(entryList);
@@ -203,7 +203,7 @@ QStringList TestHelper::getExpectedCopiedEntryPaths(const QList<Archive::Entry*>
     return expectedPaths;
 }
 
-QMap<QString, Archive::Entry*> TestHelper::getEntryMap(const QList<Archive::Entry *> &entries)
+QMap<QString, Archive::Entry*> TestHelper::getEntryMap(const QVector<Archive::Entry*> &entries)
 {
     QMap<QString, Archive::Entry*> map;
     foreach (Archive::Entry* entry, entries) {

@@ -71,16 +71,16 @@ public:
     int childCount(const QModelIndex &index, int &dirs, int &files) const;
 
     Kerfuffle::ExtractJob* extractFile(Archive::Entry *file, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
-    Kerfuffle::ExtractJob* extractFiles(const QList<Archive::Entry*>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
+    Kerfuffle::ExtractJob* extractFiles(const QVector<Archive::Entry*>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
 
     Kerfuffle::PreviewJob* preview(Archive::Entry *file) const;
     Kerfuffle::OpenJob* open(Archive::Entry *file) const;
     Kerfuffle::OpenWithJob* openWith(Archive::Entry *file) const;
 
-    Kerfuffle::AddJob* addFiles(QList<Archive::Entry*> &entries, const Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
-    Kerfuffle::MoveJob* moveFiles(QList<Archive::Entry*> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
-    Kerfuffle::CopyJob* copyFiles(QList<Archive::Entry*> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
-    Kerfuffle::DeleteJob* deleteFiles(QList<Archive::Entry*> entries);
+    Kerfuffle::AddJob* addFiles(QVector<Archive::Entry*> &entries, const Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::MoveJob* moveFiles(QVector<Archive::Entry*> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::CopyJob* copyFiles(QVector<Archive::Entry*> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::DeleteJob* deleteFiles(QVector<Archive::Entry*> entries);
 
     /**
      * @param password The password to encrypt the archive with.
@@ -111,7 +111,7 @@ public:
 
     static bool hasDuplicatedEntries(const QStringList &entries);
 
-    static QMap<QString, Archive::Entry*> entryMap(const QList<Archive::Entry*> &entries);
+    static QMap<QString, Archive::Entry*> entryMap(const QVector<Archive::Entry*> &entries);
 
     const QHash<QString, QIcon> entryIcons() const;
 

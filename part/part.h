@@ -126,7 +126,7 @@ private slots:
      * the path has to contain a new filename too.
      * @param entriesWithoutChildren Entries count, excluding their children. For CopyJob 0 MUST be passed.
      */
-    void slotPasteFiles(QList<Kerfuffle::Archive::Entry*> &files, Kerfuffle::Archive::Entry *destination, int entriesWithoutChildren);
+    void slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle::Archive::Entry *destination, int entriesWithoutChildren);
 
     void slotAddFiles();
     void slotEditFileName();
@@ -171,8 +171,8 @@ private:
     void setupActions();
     bool isSingleFolderArchive() const;
     QString detectSubfolder() const;
-    QList<Kerfuffle::Archive::Entry*> filesForIndexes(const QModelIndexList& list) const;
-    QList<Kerfuffle::Archive::Entry*> filesAndRootNodesForIndexes(const QModelIndexList& list) const;
+    QVector<Kerfuffle::Archive::Entry*> filesForIndexes(const QModelIndexList& list) const;
+    QVector<Kerfuffle::Archive::Entry*> filesAndRootNodesForIndexes(const QModelIndexList& list) const;
     QModelIndexList addChildren(const QModelIndexList &list) const;
     void registerJob(KJob *job);
 
@@ -201,7 +201,7 @@ private:
 
     OpenFileMode m_openFileMode;
     QUrl m_lastUsedAddPath;
-    QList<Kerfuffle::Archive::Entry*> m_jobTempEntries;
+    QVector<Kerfuffle::Archive::Entry*> m_jobTempEntries;
     Kerfuffle::Archive::Entry *m_destination;
     QModelIndexList m_cutIndexes;
 

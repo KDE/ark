@@ -44,7 +44,7 @@ LibSingleFileInterface::~LibSingleFileInterface()
 {
 }
 
-bool LibSingleFileInterface::extractFiles(const QList<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options)
+bool LibSingleFileInterface::extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options)
 {
     Q_UNUSED(files)
     Q_UNUSED(options)

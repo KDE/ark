@@ -143,7 +143,7 @@ public:
      * @param fileName The name of the new archive.
      * @param mimeType The mimetype of the new archive.
      */
-    static CreateJob* create(const QString &fileName, const QString &mimeType, const QList<Archive::Entry*> &entries, const CompressionOptions& options, QObject *parent = Q_NULLPTR);
+    static CreateJob* create(const QString &fileName, const QString &mimeType, const QVector<Archive::Entry*> &entries, const CompressionOptions& options, QObject *parent = Q_NULLPTR);
 
     /**
      * @return An empty archive with name @p fileName, mimetype @p mimeType and @p parent as parent.
@@ -173,7 +173,7 @@ public:
     ArchiveError error() const;
     bool isValid() const;
 
-    DeleteJob* deleteFiles(QList<Archive::Entry*> &entries);
+    DeleteJob* deleteFiles(QVector<Archive::Entry*> &entries);
     CommentJob* addComment(const QString &comment);
     TestJob* testArchive();
 
@@ -183,7 +183,7 @@ public:
      * GlobalWorkDir - Change to this dir before adding the new files.
      * The path names should then be added relative to this directory.
      */
-    AddJob* addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
+    AddJob* addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
 
     /**
      * Renames or moves entries within the archive.
@@ -195,7 +195,7 @@ public:
      * Otherwise (if count is more than 1) it's moving, so destination must conatin only targeted folder path
      * or be empty, if moving to the root.
      */
-    MoveJob* moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
+    MoveJob* moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
 
     /**
      * Copies entries within the archive.
@@ -204,9 +204,9 @@ public:
      * @param destination Destination path. It must conatin only targeted folder path or be empty,
      * if copying to the root.
      */
-    CopyJob* copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
+    CopyJob* copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
 
-    ExtractJob* extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
+    ExtractJob* extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
 
     PreviewJob* preview(Archive::Entry *entry);
     OpenJob* open(Archive::Entry *entry);

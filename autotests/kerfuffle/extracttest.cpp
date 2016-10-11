@@ -244,7 +244,7 @@ void ExtractTest::testProperties()
 void ExtractTest::testExtraction_data()
 {
     QTest::addColumn<QString>("archivePath");
-    QTest::addColumn<QList<Archive::Entry*>>("entriesToExtract");
+    QTest::addColumn<QVector<Archive::Entry*>>("entriesToExtract");
     QTest::addColumn<ExtractionOptions>("extractionOptions");
     QTest::addColumn<int>("expectedExtractedEntriesCount");
 
@@ -258,14 +258,14 @@ void ExtractTest::testExtraction_data()
     QString archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
     QTest::newRow("extract the whole simplearchive.tar.gz")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 4;
 
     archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
     QTest::newRow("extract selected entries from a tar.gz, without paths")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
@@ -275,7 +275,7 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
     QTest::newRow("extract selected entries from a tar.gz, preserve paths")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
@@ -285,7 +285,7 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
     QTest::newRow("extract selected entries from a tar.gz, drag-and-drop")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
                    new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir/"))
                }
@@ -295,14 +295,14 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/one_toplevel_folder.zip");
     QTest::newRow("extract the whole one_toplevel_folder.zip")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 9;
 
     archivePath = QFINDTESTDATA("data/one_toplevel_folder.zip");
     QTest::newRow("extract selected entries from a zip, without paths")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
                    new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
@@ -312,7 +312,7 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/one_toplevel_folder.zip");
     QTest::newRow("extract selected entries from a zip, preserve paths")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
                    new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
@@ -322,7 +322,7 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/one_toplevel_folder.zip");
     QTest::newRow("extract selected entries from a zip, drag-and-drop")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A/")),
                    new Archive::Entry(this, QStringLiteral("A/B/C/"), QStringLiteral("A/B/")),
                    new Archive::Entry(this, QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/")),
@@ -334,14 +334,14 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
     QTest::newRow("extract the whole one_toplevel_folder.7z")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 9;
 
     archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
     QTest::newRow("extract selected entries from a 7z, without paths")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
                    new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
@@ -351,7 +351,7 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
     QTest::newRow("extract selected entries from a 7z, preserve paths")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
                    new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
@@ -361,28 +361,28 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
     QTest::newRow("extract selected entries from a 7z, drag-and-drop")
             << archivePath
-            << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("A/B/test2.txt"), QStringLiteral("A/B/"))}
+            << QVector<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("A/B/test2.txt"), QStringLiteral("A/B/"))}
             << dragAndDropOptions
             << 1;
 
     archivePath = QFINDTESTDATA("data/empty_folders.zip");
     QTest::newRow("zip with empty folders")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 5;
 
     archivePath = QFINDTESTDATA("data/empty_folders.tar.gz");
     QTest::newRow("tar with empty folders")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 5;
 
     archivePath = QFINDTESTDATA("data/simplearchive.tar.bz2");
     QTest::newRow("extract selected entries from a bzip2-compressed tarball without path")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
                    new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
@@ -392,14 +392,14 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/simplearchive.tar.bz2");
     QTest::newRow("extract all entries from a bzip2-compressed tarball with path")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 7;
 
     archivePath = QFINDTESTDATA("data/simplearchive.tar.xz");
     QTest::newRow("extract selected entries from a xz-compressed tarball without path")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
                    new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
@@ -409,14 +409,14 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/simplearchive.tar.xz");
     QTest::newRow("extract all entries from a xz-compressed tarball with path")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 7;
 
     archivePath = QFINDTESTDATA("data/simplearchive.tar.lzma");
     QTest::newRow("extract selected entries from a lzma-compressed tarball without path")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
                    new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
@@ -426,14 +426,14 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/simplearchive.tar.lzma");
     QTest::newRow("extract all entries from a lzma-compressed tarball with path")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 7;
 
     archivePath = QFINDTESTDATA("data/simplearchive.tar.Z");
     QTest::newRow("extract selected entries from a compress (.Z)-compressed tarball without path")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
                    new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
@@ -443,14 +443,14 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/simplearchive.tar.Z");
     QTest::newRow("extract all entries from a compress (.Z)-compressed tarball with path")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 7;
 
     archivePath = QFINDTESTDATA("data/simplearchive.tar.lz");
     QTest::newRow("extract selected entries from a lzipped tarball without path")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
                    new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
@@ -460,14 +460,14 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/simplearchive.tar.lz");
     QTest::newRow("extract all entries from a lzipped tarball with path")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 7;
 
     archivePath = QFINDTESTDATA("data/simplearchive.tar.lzo");
     QTest::newRow("extract selected entries from a lzop-compressed tarball without path")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
                    new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                }
@@ -477,7 +477,7 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/simplearchive.tar.lzo");
     QTest::newRow("extract all entries from a lzop-compressed tarball with path")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 7;
 
@@ -486,7 +486,7 @@ void ExtractTest::testExtraction_data()
         archivePath = QFINDTESTDATA("data/simplearchive.tar.lrz");
         QTest::newRow("extract selected entries from a lrzip-compressed tarball without path")
                 << archivePath
-                << QList<Archive::Entry*> {
+                << QVector<Archive::Entry*> {
                        new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
                        new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                    }
@@ -496,7 +496,7 @@ void ExtractTest::testExtraction_data()
         archivePath = QFINDTESTDATA("data/simplearchive.tar.lrz");
         QTest::newRow("extract all entries from a lrzip-compressed tarball with path")
                 << archivePath
-                << QList<Archive::Entry*>()
+                << QVector<Archive::Entry*>()
                 << optionsPreservePaths
                 << 7;
     } else {
@@ -508,7 +508,7 @@ void ExtractTest::testExtraction_data()
         archivePath = QFINDTESTDATA("data/simplearchive.tar.lz4");
         QTest::newRow("extract selected entries from a lz4-compressed tarball without path")
                 << archivePath
-                << QList<Archive::Entry*> {
+                << QVector<Archive::Entry*> {
                        new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
                        new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
                    }
@@ -518,7 +518,7 @@ void ExtractTest::testExtraction_data()
         archivePath = QFINDTESTDATA("data/simplearchive.tar.lz4");
         QTest::newRow("extract all entries from a lz4-compressed tarball with path")
                 << archivePath
-                << QList<Archive::Entry*>()
+                << QVector<Archive::Entry*>()
                 << optionsPreservePaths
                 << 7;
     } else {
@@ -528,7 +528,7 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/simplearchive.xar");
     QTest::newRow("extract selected entries from a xar archive without path")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("dir1/file11.txt"), QString()),
                    new Archive::Entry(this, QStringLiteral("file4.txt"), QString())
                }
@@ -538,21 +538,21 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/simplearchive.xar");
     QTest::newRow("extract all entries from a xar archive with path")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 6;
 
     archivePath = QFINDTESTDATA("data/hello-1.0-x86_64.AppImage");
     QTest::newRow("extract all entries from an AppImage with path")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 7;
 
     archivePath = QFINDTESTDATA("data/hello-1.0-x86_64.AppImage");
     QTest::newRow("extract selected entries from an AppImage with path")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("usr/bin/hello"), QString())
                }
             << optionsPreservePaths
@@ -561,21 +561,21 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/archive-multivolume.7z.001");
     QTest::newRow("extract all entries from a multivolume 7z archive with path")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 3;
 
     archivePath = QFINDTESTDATA("data/archive-multivolume.part1.rar");
     QTest::newRow("extract all entries from a multivolume rar archive with path")
             << archivePath
-            << QList<Archive::Entry*>()
+            << QVector<Archive::Entry*>()
             << optionsPreservePaths
             << 3;
 
     archivePath = QFINDTESTDATA("data/firmware-pine64-20160329-6.1.aarch64.rpm");
     QTest::newRow("extract selected entries from rpm with path")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("boot/sunxi-spl.bin"), QString())
                }
             << optionsPreservePaths
@@ -584,7 +584,7 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/firmware-pine64-20160329-6.1.aarch64.rpm");
     QTest::newRow("#369535: broken drag-and-drop from rpm")
             << archivePath
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("boot/sunxi-spl.bin"), QStringLiteral("boot/")),
                    new Archive::Entry(this, QStringLiteral("boot/u-boot.img"), QStringLiteral("boot/"))
                }
@@ -613,7 +613,7 @@ void ExtractTest::testExtraction()
         QSKIP("Could not create a temporary directory for extraction. Skipping test.", SkipSingle);
     }
 
-    QFETCH(QList<Archive::Entry*>, entriesToExtract);
+    QFETCH(QVector<Archive::Entry*>, entriesToExtract);
     QFETCH(ExtractionOptions, extractionOptions);
     auto extractionJob = archive->extractFiles(entriesToExtract, destDir.path(), extractionOptions);
     QVERIFY(extractionJob);

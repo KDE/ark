@@ -400,7 +400,7 @@ void BatchExtractJob::setupDestination()
     }
 }
 
-CreateJob::CreateJob(Archive *archive, const QList<Archive::Entry *> &entries, const CompressionOptions &options)
+CreateJob::CreateJob(Archive *archive, const QVector<Archive::Entry*> &entries, const CompressionOptions &options)
     : Job(archive)
     , m_entries(entries)
     , m_options(options)
@@ -430,7 +430,7 @@ void CreateJob::doWork()
     }
 }
 
-ExtractJob::ExtractJob(const QList<Archive::Entry*> &entries, const QString &destinationDir, const ExtractionOptions &options, ReadOnlyArchiveInterface *interface)
+ExtractJob::ExtractJob(const QVector<Archive::Entry*> &entries, const QString &destinationDir, const ExtractionOptions &options, ReadOnlyArchiveInterface *interface)
     : Job(interface)
     , m_entries(entries)
     , m_destinationDir(destinationDir)
@@ -570,7 +570,7 @@ OpenWithJob::OpenWithJob(Archive::Entry *entry, bool passwordProtectedHint, Read
     qCDebug(ARK) << "OpenWithJob started";
 }
 
-AddJob::AddJob(const QList<Archive::Entry*> &entries, const Archive::Entry *destination, const CompressionOptions& options , ReadWriteArchiveInterface *interface)
+AddJob::AddJob(const QVector<Archive::Entry*> &entries, const Archive::Entry *destination, const CompressionOptions& options , ReadWriteArchiveInterface *interface)
     : Job(interface)
     , m_entries(entries)
     , m_destination(destination)
@@ -649,7 +649,7 @@ void AddJob::onFinished(bool result)
     Job::onFinished(result);
 }
 
-MoveJob::MoveJob(const QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions& options , ReadWriteArchiveInterface *interface)
+MoveJob::MoveJob(const QVector<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions& options , ReadWriteArchiveInterface *interface)
     : Job(interface)
     , m_finishedSignalsCount(0)
     , m_entries(entries)
@@ -687,7 +687,7 @@ void MoveJob::onFinished(bool result)
     }
 }
 
-CopyJob::CopyJob(const QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options, ReadWriteArchiveInterface *interface)
+CopyJob::CopyJob(const QVector<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options, ReadWriteArchiveInterface *interface)
     : Job(interface)
     , m_finishedSignalsCount(0)
     , m_entries(entries)
@@ -725,7 +725,7 @@ void CopyJob::onFinished(bool result)
     }
 }
 
-DeleteJob::DeleteJob(const QList<Archive::Entry*> &entries, ReadWriteArchiveInterface *interface)
+DeleteJob::DeleteJob(const QVector<Archive::Entry*> &entries, ReadWriteArchiveInterface *interface)
     : Job(interface)
     , m_entries(entries)
 {

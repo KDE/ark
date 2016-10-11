@@ -64,10 +64,10 @@ private Q_SLOTS:
 
 private:
     JSONArchiveInterface *createArchiveInterface(const QString& filePath);
-    QList<Archive::Entry*> listEntries(JSONArchiveInterface *iface);
+    QVector<Archive::Entry*> listEntries(JSONArchiveInterface *iface);
     void startAndWaitForResult(KJob *job);
 
-    QList<Archive::Entry*> m_entries;
+    QVector<Archive::Entry*> m_entries;
     QEventLoop m_eventLoop;
 };
 
@@ -100,7 +100,7 @@ JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
     return iface;
 }
 
-QList<Archive::Entry*> JobsTest::listEntries(JSONArchiveInterface *iface)
+QVector<Archive::Entry*> JobsTest::listEntries(JSONArchiveInterface *iface)
 {
     m_entries.clear();
 
@@ -218,7 +218,7 @@ void JobsTest::testLoadJob()
 void JobsTest::testExtractJobAccessors()
 {
     JSONArchiveInterface *iface = createArchiveInterface(QFINDTESTDATA("data/archive001.json"));
-    ExtractJob *job = new ExtractJob(QList<Archive::Entry*>(), QStringLiteral("/tmp/some-dir"), ExtractionOptions(), iface);
+    ExtractJob *job = new ExtractJob(QVector<Archive::Entry*>(), QStringLiteral("/tmp/some-dir"), ExtractionOptions(), iface);
     ExtractionOptions defaultOptions;
     defaultOptions[QStringLiteral("PreservePaths")] = false;
 
@@ -237,7 +237,7 @@ void JobsTest::testExtractJobAccessors()
     options[QStringLiteral("foo")] = QLatin1String("bar");
     options[QStringLiteral("pi")] = 3.14f;
 
-    job = new ExtractJob(QList<Archive::Entry*>(), QStringLiteral("/root"), options, iface);
+    job = new ExtractJob(QVector<Archive::Entry*>(), QStringLiteral("/root"), options, iface);
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/root"));
     QCOMPARE(job->extractionOptions(), options);
@@ -275,39 +275,39 @@ void JobsTest::testTempExtractJob()
 void JobsTest::testRemoveEntries_data()
 {
     QTest::addColumn<QString>("jsonArchive");
-    QTest::addColumn<QList<Archive::Entry*>>("entries");
-    QTest::addColumn<QList<Archive::Entry*>>("entriesToDelete");
+    QTest::addColumn<QVector<Archive::Entry*>>("entries");
+    QTest::addColumn<QVector<Archive::Entry*>>("entriesToDelete");
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                 new Archive::Entry(this, QStringLiteral("a.txt")),
                 new Archive::Entry(this, QStringLiteral("aDir/")),
                 new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
                 new Archive::Entry(this, QStringLiteral("c.txt"))
             }
-            << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))};
+            << QVector<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))};
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                 new Archive::Entry(this, QStringLiteral("a.txt")),
                 new Archive::Entry(this, QStringLiteral("aDir/")),
                 new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
                 new Archive::Entry(this, QStringLiteral("c.txt"))
             }
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                 new Archive::Entry(this, QStringLiteral("a.txt")),
                 new Archive::Entry(this, QStringLiteral("c.txt"))
             };
 
     // Error test: if we delete non-existent entries, the archive must not change.
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                 new Archive::Entry(this, QStringLiteral("a.txt")),
                 new Archive::Entry(this, QStringLiteral("aDir/")),
                 new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
                 new Archive::Entry(this, QStringLiteral("c.txt"))
             }
-            << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("foo.txt"))};
+            << QVector<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("foo.txt"))};
 }
 
 void JobsTest::testRemoveEntries()
@@ -316,11 +316,11 @@ void JobsTest::testRemoveEntries()
     JSONArchiveInterface *iface = createArchiveInterface(jsonArchive);
     QVERIFY(iface);
 
-    QFETCH(QList<Archive::Entry*>, entries);
-    QFETCH(QList<Archive::Entry*>, entriesToDelete);
+    QFETCH(QVector<Archive::Entry*>, entries);
+    QFETCH(QVector<Archive::Entry*>, entriesToDelete);
     QStringList fullPathsToDelete = iface->entryFullPaths(entriesToDelete);
 
-    QList<Archive::Entry*> expectedRemainingEntries;
+    QVector<Archive::Entry*> expectedRemainingEntries;
     Q_FOREACH (Archive::Entry *entry, entries) {
         if (!fullPathsToDelete.contains(entry->fullPath())) {
             expectedRemainingEntries.append(entry);
@@ -343,67 +343,67 @@ void JobsTest::testRemoveEntries()
 void JobsTest::testAddEntries_data()
 {
     QTest::addColumn<QString>("jsonArchive");
-    QTest::addColumn<QList<Archive::Entry*>>("originalEntries");
-    QTest::addColumn<QList<Archive::Entry*>>("entriesToAdd");
+    QTest::addColumn<QVector<Archive::Entry*>>("originalEntries");
+    QTest::addColumn<QVector<Archive::Entry*>>("entriesToAdd");
     QTest::addColumn<Archive::Entry*>("destinationEntry");
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                 new Archive::Entry(this, QStringLiteral("a.txt")),
                 new Archive::Entry(this, QStringLiteral("aDir/")),
                 new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
                 new Archive::Entry(this, QStringLiteral("c.txt"))
             }
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                 new Archive::Entry(this, QStringLiteral("foo.txt"))
             }
             << new Archive::Entry(this);
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                 new Archive::Entry(this, QStringLiteral("a.txt")),
                 new Archive::Entry(this, QStringLiteral("aDir/")),
                 new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
                 new Archive::Entry(this, QStringLiteral("c.txt"))
             }
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                 new Archive::Entry(this, QStringLiteral("foo.txt")),
                 new Archive::Entry(this, QStringLiteral("bar.txt"))
             }
             << new Archive::Entry(this);
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-             << QList<Archive::Entry*> {
+             << QVector<Archive::Entry*> {
                  new Archive::Entry(this, QStringLiteral("a.txt")),
                  new Archive::Entry(this, QStringLiteral("aDir/")),
                  new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
                  new Archive::Entry(this, QStringLiteral("c.txt"))
              }
-             << QList<Archive::Entry*> {
+             << QVector<Archive::Entry*> {
                  new Archive::Entry(this, QStringLiteral("foo.txt")),
                  new Archive::Entry(this, QStringLiteral("bar.txt"))
              }
              << new Archive::Entry(this, QStringLiteral("aDir/"));
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-             << QList<Archive::Entry*> {
+             << QVector<Archive::Entry*> {
                  new Archive::Entry(this, QStringLiteral("a.txt")),
                  new Archive::Entry(this, QStringLiteral("aDir/")),
                  new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
                  new Archive::Entry(this, QStringLiteral("c.txt"))
              }
-             << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))}
+             << QVector<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))}
              << new Archive::Entry(this, QStringLiteral("aDir/"));
 
     // Error test: if we add an already existent entry, the archive must not change.
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                 new Archive::Entry(this, QStringLiteral("a.txt")),
                 new Archive::Entry(this, QStringLiteral("aDir/")),
                 new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
                 new Archive::Entry(this, QStringLiteral("c.txt"))
             }
-            << QList<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))}
+            << QVector<Archive::Entry*> {new Archive::Entry(this, QStringLiteral("c.txt"))}
             << new Archive::Entry(this);
 }
 
@@ -413,7 +413,7 @@ void JobsTest::testAddEntries()
     JSONArchiveInterface *iface = createArchiveInterface(jsonArchive);
     QVERIFY(iface);
 
-    QFETCH(QList<Archive::Entry*>, originalEntries);
+    QFETCH(QVector<Archive::Entry*>, originalEntries);
     QStringList originalFullPaths = QStringList();
     Q_FOREACH (const Archive::Entry *entry, originalEntries) {
         originalFullPaths.append(entry->fullPath());
@@ -421,7 +421,7 @@ void JobsTest::testAddEntries()
     auto currentEntries = listEntries(iface);
     QCOMPARE(currentEntries.size(), originalEntries.size());
 
-    QFETCH(QList<Archive::Entry*>, entriesToAdd);
+    QFETCH(QVector<Archive::Entry*>, entriesToAdd);
     QFETCH(Archive::Entry*, destinationEntry);
     AddJob *addJob = new AddJob(entriesToAdd, destinationEntry, CompressionOptions(), iface);
     startAndWaitForResult(addJob);

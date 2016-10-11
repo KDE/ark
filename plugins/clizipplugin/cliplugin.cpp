@@ -200,7 +200,7 @@ bool CliPlugin::readListLine(const QString &line)
     return true;
 }
 
-bool CliPlugin::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool CliPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     m_oldWorkingDir = QDir::currentPath();
     m_tempExtractDir = new QTemporaryDir();

@@ -54,7 +54,7 @@ bool CliPlugin::list()
     return runProcess(m_param.value(ListProgram).toStringList(), args);
 }
 
-bool CliPlugin::extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool CliPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     ExtractionOptions newOptions = options;
 

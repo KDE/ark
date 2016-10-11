@@ -212,7 +212,7 @@ void AddToArchive::slotFinished(KJob *job)
     emitResult();
 }
 
-QString AddToArchive::detectBaseName(const QList<Archive::Entry*> &entries) const
+QString AddToArchive::detectBaseName(const QVector<Archive::Entry*> &entries) const
 {
     QFileInfo fileInfo = QFileInfo(entries.first()->fullPath());
     QDir parentDir = fileInfo.dir();

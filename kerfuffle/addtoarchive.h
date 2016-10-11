@@ -61,7 +61,7 @@ public:
     bool showAddDialog();
     void setPreservePaths(bool value);
     void setChangeToFirstPath(bool value);
-    QString detectBaseName(const QList<Archive::Entry*> &entries) const;
+    QString detectBaseName(const QVector<Archive::Entry*> &entries) const;
 
 public slots:
     bool addInput(const QUrl &url);
@@ -83,7 +83,7 @@ private:
     QString m_firstPath;
     QString m_mimeType;
     QString m_password;
-    QList<Archive::Entry*> m_entries;
+    QVector<Archive::Entry*> m_entries;
     bool m_changeToFirstPath;
     bool m_enableHeaderEncryption;
 };

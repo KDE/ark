@@ -65,7 +65,7 @@ protected:
     virtual bool doKill() Q_DECL_OVERRIDE;
 
     ReadOnlyArchiveInterface *archiveInterface();
-    QList<Archive::Entry*> m_archiveEntries;
+    QVector<Archive::Entry*> m_archiveEntries;
 
     void connectToArchiveInterfaceSignals();
 
@@ -186,7 +186,7 @@ class KERFUFFLE_EXPORT CreateJob : public Job
     Q_OBJECT
 
 public:
-    explicit CreateJob(Archive *archive, const QList<Archive::Entry*> &entries, const CompressionOptions& options);
+    explicit CreateJob(Archive *archive, const QVector<Archive::Entry*> &entries, const CompressionOptions& options);
 
     /**
      * @param password The password to encrypt the archive with.
@@ -203,7 +203,7 @@ public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
-    QList<Archive::Entry*> m_entries;
+    QVector<Archive::Entry*> m_entries;
     CompressionOptions m_options;
 };
 
@@ -212,7 +212,7 @@ class KERFUFFLE_EXPORT ExtractJob : public Job
     Q_OBJECT
 
 public:
-    ExtractJob(const QList<Archive::Entry*> &entries, const QString& destinationDir, const ExtractionOptions& options, ReadOnlyArchiveInterface *interface);
+    ExtractJob(const QVector<Archive::Entry*> &entries, const QString& destinationDir, const ExtractionOptions& options, ReadOnlyArchiveInterface *interface);
 
     QString destinationDirectory() const;
     ExtractionOptions extractionOptions() const;
@@ -224,7 +224,7 @@ private:
     // TODO: Maybe this should be a method if ExtractionOptions were a class?
     void setDefaultOptions();
 
-    QList<Archive::Entry*> m_entries;
+    QVector<Archive::Entry*> m_entries;
     QString m_destinationDir;
     ExtractionOptions m_options;
 };
@@ -303,7 +303,7 @@ class KERFUFFLE_EXPORT AddJob : public Job
     Q_OBJECT
 
 public:
-    AddJob(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+    AddJob(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
@@ -313,7 +313,7 @@ protected slots:
 
 private:
     QString m_oldWorkingDir;
-    const QList<Archive::Entry*> m_entries;
+    const QVector<Archive::Entry*> m_entries;
     const Archive::Entry *m_destination;
     CompressionOptions m_options;
 };
@@ -327,7 +327,7 @@ class KERFUFFLE_EXPORT MoveJob : public Job
 Q_OBJECT
 
 public:
-    MoveJob(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+    MoveJob(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
@@ -337,7 +337,7 @@ protected slots:
 
 private:
     int m_finishedSignalsCount;
-    const QList<Archive::Entry*> m_entries;
+    const QVector<Archive::Entry*> m_entries;
     Archive::Entry *m_destination;
     CompressionOptions m_options;
 };
@@ -351,7 +351,7 @@ class KERFUFFLE_EXPORT CopyJob : public Job
 Q_OBJECT
 
 public:
-    CopyJob(const QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
+    CopyJob(const QVector<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
@@ -361,7 +361,7 @@ protected slots:
 
 private:
     int m_finishedSignalsCount;
-    const QList<Archive::Entry*> m_entries;
+    const QVector<Archive::Entry*> m_entries;
     Archive::Entry *m_destination;
     CompressionOptions m_options;
 };
@@ -371,13 +371,13 @@ class KERFUFFLE_EXPORT DeleteJob : public Job
     Q_OBJECT
 
 public:
-    DeleteJob(const QList<Archive::Entry*> &files, ReadWriteArchiveInterface *interface);
+    DeleteJob(const QVector<Archive::Entry*> &files, ReadWriteArchiveInterface *interface);
 
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
-    QList<Archive::Entry*> m_entries;
+    QVector<Archive::Entry*> m_entries;
 };
 
 class KERFUFFLE_EXPORT CommentJob : public Job

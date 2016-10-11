@@ -116,7 +116,7 @@ bool CliInterface::list()
     return true;
 }
 
-bool CliInterface::extractFiles(const QList<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     qCDebug(ARK) << Q_FUNC_INFO << "to" << destinationDirectory;
 
@@ -171,7 +171,7 @@ bool CliInterface::extractFiles(const QList<Archive::Entry*> &files, const QStri
     return true;
 }
 
-bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
+bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
 {
     cacheParameterList();
 
@@ -179,7 +179,7 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
 
     const QStringList addArgs = m_param.value(AddArgs).toStringList();
 
-    QList<Archive::Entry*> filesToPass = QList<Archive::Entry*>();
+    QVector<Archive::Entry*> filesToPass = QVector<Archive::Entry*>();
     // If destination path is specified, we have recreate its structure inside the temp directory
     // and then place symlinks of targeted files there.
     const QString destinationPath = (destination == Q_NULLPTR)
@@ -246,7 +246,7 @@ bool CliInterface::addFiles(const QList<Archive::Entry*> &files, const Archive::
     return runProcess(m_param.value(AddProgram).toStringList(), args);
 }
 
-bool CliInterface::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool CliInterface::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options);
 
@@ -254,7 +254,7 @@ bool CliInterface::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry
     m_operationMode = Move;
 
     m_removedFiles = files;
-    QList<Archive::Entry*> withoutChildren = entriesWithoutChildren(files);
+    QVector<Archive::Entry*> withoutChildren = entriesWithoutChildren(files);
     setNewMovedFiles(files, destination, withoutChildren.count());
 
     const auto moveArgs = m_param.value(MoveArgs).toStringList();
@@ -264,7 +264,7 @@ bool CliInterface::moveFiles(const QList<Archive::Entry*> &files, Archive::Entry
     return runProcess(m_param.value(MoveProgram).toStringList(), args);
 }
 
-bool CliInterface::copyFiles(const QList<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool CliInterface::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     m_oldWorkingDir = QDir::currentPath();
     m_tempExtractDir = new QTemporaryDir();
@@ -281,7 +281,7 @@ bool CliInterface::copyFiles(const QList<Archive::Entry*> &files, Archive::Entry
     return extractFiles(files, QDir::currentPath(), m_passedOptions);
 }
 
-bool CliInterface::deleteFiles(const QList<Archive::Entry*> &files)
+bool CliInterface::deleteFiles(const QVector<Archive::Entry*> &files)
 {
     cacheParameterList();
     m_operationMode = Delete;
@@ -500,7 +500,7 @@ void CliInterface::continueCopying(bool result)
     }
 }
 
-bool CliInterface::moveDroppedFilesToDest(const QList<Archive::Entry*> &files, const QString &finalDest)
+bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry*> &files, const QString &finalDest)
 {
     // Move extracted files from a QTemporaryDir to the final destination.
 
@@ -717,7 +717,7 @@ QStringList CliInterface::substituteListVariables(const QStringList &listArgs, c
     return args;
 }
 
-QStringList CliInterface::substituteExtractVariables(const QStringList &extractArgs, const QList<Archive::Entry*> &entries, bool preservePaths, const QString &password)
+QStringList CliInterface::substituteExtractVariables(const QStringList &extractArgs, const QVector<Archive::Entry*> &entries, bool preservePaths, const QString &password)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -756,7 +756,7 @@ QStringList CliInterface::substituteExtractVariables(const QStringList &extractA
     return args;
 }
 
-QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QList<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize, QString compMethod)
+QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, const QVector<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize, QString compMethod)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -805,7 +805,7 @@ QStringList CliInterface::substituteAddVariables(const QStringList &addArgs, con
     return args;
 }
 
-QStringList CliInterface::substituteMoveVariables(const QStringList &moveArgs, const QList<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination, const QString &password)
+QStringList CliInterface::substituteMoveVariables(const QStringList &moveArgs, const QVector<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination, const QString &password)
 {
     // Required if we call this function from unit tests.
     cacheParameterList();
@@ -839,7 +839,7 @@ QStringList CliInterface::substituteMoveVariables(const QStringList &moveArgs, c
     return args;
 }
 
-QStringList CliInterface::substituteDeleteVariables(const QStringList &deleteArgs, const QList<Archive::Entry*> &entries, const QString &password)
+QStringList CliInterface::substituteDeleteVariables(const QStringList &deleteArgs, const QVector<Archive::Entry*> &entries, const QString &password)
 {
     cacheParameterList();
 
@@ -932,7 +932,7 @@ QStringList CliInterface::substituteTestVariables(const QStringList &testArgs, c
     return args;
 }
 
-void CliInterface::setNewMovedFiles(const QList<Archive::Entry*> &entries, const Archive::Entry *destination, int entriesWithoutChildren)
+void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, const Archive::Entry *destination, int entriesWithoutChildren)
 {
     m_newMovedFiles.clear();
     QMap<QString, const Archive::Entry*> entryMap;
@@ -1077,7 +1077,7 @@ QString CliInterface::multiVolumeSwitch(ulong volumeSize) const
     return multiVolumeSwitch;
 }
 
-QStringList CliInterface::extractFilesList(const QList<Archive::Entry*> &entries) const
+QStringList CliInterface::extractFilesList(const QVector<Archive::Entry*> &entries) const
 {
     QStringList filesList;
     foreach (const Archive::Entry *e, entries) {
@@ -1487,7 +1487,7 @@ QString CliInterface::escapeFileName(const QString& fileName) const
     return fileName;
 }
 
-QStringList CliInterface::entryPathDestinationPairs(const QList<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination)
+QStringList CliInterface::entryPathDestinationPairs(const QVector<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination)
 {
     QStringList pairList;
     if (entriesWithoutChildren.count() > 1) {

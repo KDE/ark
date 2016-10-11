@@ -378,7 +378,7 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
 
     emit layoutAboutToBeChanged();
 
-    QList<Archive::Entry*> dirEntries;
+    QVector<Archive::Entry*> dirEntries;
     m_rootEntry.returnDirEntries(&dirEntries);
     dirEntries.append(&m_rootEntry);
 
@@ -761,11 +761,11 @@ KJob *ArchiveModel::loadArchive(const QString &path, const QString &mimeType, QO
 
 ExtractJob* ArchiveModel::extractFile(Archive::Entry *file, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
 {
-    QList<Archive::Entry*> files({file});
+    QVector<Archive::Entry*> files({file});
     return extractFiles(files, destinationDir, options);
 }
 
-ExtractJob* ArchiveModel::extractFiles(const QList<Archive::Entry*>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
+ExtractJob* ArchiveModel::extractFiles(const QVector<Archive::Entry*>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
 {
     Q_ASSERT(m_archive);
     ExtractJob *newJob = m_archive->extractFiles(files, destinationDir, options);
@@ -797,7 +797,7 @@ OpenWithJob *ArchiveModel::openWith(Archive::Entry *file) const
     return job;
 }
 
-AddJob* ArchiveModel::addFiles(QList<Archive::Entry*> &entries, const Archive::Entry *destination, const CompressionOptions& options)
+AddJob* ArchiveModel::addFiles(QVector<Archive::Entry*> &entries, const Archive::Entry *destination, const CompressionOptions& options)
 {
     if (!m_archive) {
         return Q_NULLPTR;
@@ -814,7 +814,7 @@ AddJob* ArchiveModel::addFiles(QList<Archive::Entry*> &entries, const Archive::E
     return Q_NULLPTR;
 }
 
-Kerfuffle::MoveJob *ArchiveModel::moveFiles(QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options)
+Kerfuffle::MoveJob *ArchiveModel::moveFiles(QVector<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options)
 {
     if (!m_archive) {
         return Q_NULLPTR;
@@ -832,7 +832,7 @@ Kerfuffle::MoveJob *ArchiveModel::moveFiles(QList<Archive::Entry*> &entries, Arc
     }
     return Q_NULLPTR;
 }
-Kerfuffle::CopyJob *ArchiveModel::copyFiles(QList<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options)
+Kerfuffle::CopyJob *ArchiveModel::copyFiles(QVector<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options)
 {
     if (!m_archive) {
         return Q_NULLPTR;
@@ -849,7 +849,7 @@ Kerfuffle::CopyJob *ArchiveModel::copyFiles(QList<Archive::Entry*> &entries, Arc
     return Q_NULLPTR;
 }
 
-DeleteJob* ArchiveModel::deleteFiles(QList<Archive::Entry*> entries)
+DeleteJob* ArchiveModel::deleteFiles(QVector<Archive::Entry*> entries)
 {
     Q_ASSERT(m_archive);
     if (!m_archive->isReadOnly()) {
@@ -948,7 +948,7 @@ bool ArchiveModel::hasDuplicatedEntries(const QStringList &entries)
     return false;
 }
 
-QMap<QString, Archive::Entry*> ArchiveModel::entryMap(const QList<Archive::Entry*> &entries)
+QMap<QString, Archive::Entry*> ArchiveModel::entryMap(const QVector<Archive::Entry*> &entries)
 {
     QMap<QString, Archive::Entry*> map;
     foreach (Archive::Entry *entry, entries) {

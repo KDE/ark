@@ -165,7 +165,7 @@ void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
     m_waitForFinishedSignal = value;
 }
 
-QStringList ReadOnlyArchiveInterface::entryFullPaths(const QList<Archive::Entry*> &entries, const bool withoutTrailingSlashes)
+QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entry*> &entries, const bool withoutTrailingSlashes)
 {
     QStringList filesList;
     foreach (const Archive::Entry *file, entries) {
@@ -174,7 +174,7 @@ QStringList ReadOnlyArchiveInterface::entryFullPaths(const QList<Archive::Entry*
     return filesList;
 }
 
-QList<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const QList<Archive::Entry*> &entries)
+QVector<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const QVector<Archive::Entry*> &entries)
 {
     // QMap is easy way to get entries sorted by their fullPath.
     QMap<QString, Archive::Entry*> sortedEntries;
@@ -182,7 +182,7 @@ QList<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const QL
         sortedEntries.insert(entry->fullPath(), entry);
     }
 
-    QList<Archive::Entry*> filteredEntries;
+    QVector<Archive::Entry*> filteredEntries;
     QString lastFolder;
     foreach (Archive::Entry *entry, sortedEntries) {
         if (lastFolder.count() > 0 && entry->fullPath().startsWith(lastFolder)) {

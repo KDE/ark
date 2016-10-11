@@ -131,14 +131,14 @@ void CliZipTest::testAddArgs()
 void CliZipTest::testExtractArgs_data()
 {
     QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QList<Archive::Entry*>>("files");
+    QTest::addColumn<QVector<Archive::Entry*>>("files");
     QTest::addColumn<bool>("preservePaths");
     QTest::addColumn<QString>("password");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("preserve paths, encrypted")
             << QStringLiteral("/tmp/foo.zip")
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
@@ -152,7 +152,7 @@ void CliZipTest::testExtractArgs_data()
 
     QTest::newRow("preserve paths, unencrypted")
             << QStringLiteral("/tmp/foo.zip")
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
@@ -165,7 +165,7 @@ void CliZipTest::testExtractArgs_data()
 
     QTest::newRow("without paths, encrypted")
             << QStringLiteral("/tmp/foo.zip")
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
@@ -180,7 +180,7 @@ void CliZipTest::testExtractArgs_data()
 
     QTest::newRow("without paths, unencrypted")
             << QStringLiteral("/tmp/foo.zip")
-            << QList<Archive::Entry*> {
+            << QVector<Archive::Entry*> {
                    new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                    new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
@@ -204,7 +204,7 @@ void CliZipTest::testExtractArgs()
                                       QStringLiteral("$Archive"),
                                       QStringLiteral("$Files") };
 
-    QFETCH(QList<Archive::Entry*>, files);
+    QFETCH(QVector<Archive::Entry*>, files);
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
 
