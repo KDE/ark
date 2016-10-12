@@ -25,13 +25,12 @@
 
 #include "testhelper.h"
 
-QEventLoop TestHelper::m_eventLoop;
-
 void TestHelper::startAndWaitForResult(KJob *job)
 {
-    QObject::connect(job, &KJob::result, &m_eventLoop, &QEventLoop::quit);
+    QEventLoop eventLoop;
+    QObject::connect(job, &KJob::result, &eventLoop, &QEventLoop::quit);
     job->start();
-    m_eventLoop.exec(); // krazy:exclude=crashy
+    eventLoop.exec(); // krazy:exclude=crashy
 }
 
 QVector<Archive::Entry*> TestHelper::getEntryList(Archive *archive)

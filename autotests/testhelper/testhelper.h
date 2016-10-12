@@ -58,8 +58,6 @@ private:
      * It's useful when we need a sorted list of entries.
      */
     static QMap<QString, Archive::Entry*> getEntryMap(const QVector<Archive::Entry*> &entries);
-
-    static QEventLoop m_eventLoop;
 };
 
 
