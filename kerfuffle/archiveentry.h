@@ -96,7 +96,6 @@ public:
     Entry *find(const QString &name) const;
     Entry *findByPath(const QStringList & pieces, int index = 0) const;
     void returnDirEntries(QVector<Entry*> *store);
-    void clear();
 
     bool operator==(const Archive::Entry &right) const;
 

@@ -42,7 +42,6 @@ Archive::Entry::Entry(QObject *parent, const QString &fullPath, const QString &r
 
 Archive::Entry::~Entry()
 {
-    clear();
 }
 
 void Archive::Entry::copyMetaData(const Archive::Entry *sourceEntry)
@@ -91,7 +90,7 @@ void Archive::Entry::removeEntryAt(int index)
 {
     Q_ASSERT(isDir());
     Q_ASSERT(index < m_entries.count());
-    delete m_entries.takeAt(index);
+    m_entries.remove(index);
 }
 
 Archive::Entry *Archive::Entry::getParent() const
@@ -176,14 +175,6 @@ void Archive::Entry::returnDirEntries(QVector<Entry*> *store)
             store->prepend(entry);
             entry->returnDirEntries(store);
         }
-    }
-}
-
-void Archive::Entry::clear()
-{
-    if (isDir()) {
-        qDeleteAll(m_entries);
-        m_entries.clear();
     }
 }
 

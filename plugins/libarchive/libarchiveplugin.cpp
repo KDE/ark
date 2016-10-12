@@ -432,7 +432,7 @@ bool LibarchivePlugin::initializeReader()
 
 void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
-    Archive::Entry *e = new Archive::Entry(Q_NULLPTR);
+    auto e = QSharedPointer<Archive::Entry>(new Archive::Entry());
 
 #ifdef _MSC_VER
     e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry))));
@@ -460,7 +460,8 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 
     e->setProperty("timestamp", QDateTime::fromTime_t(archive_entry_mtime(aentry)));
 
-    emit entry(e);
+    emit entry(e.data());
+    m_emittedEntries << e;
 }
 
 int LibarchivePlugin::extractionFlags() const

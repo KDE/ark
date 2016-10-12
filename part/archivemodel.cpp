@@ -148,12 +148,11 @@ private:
 
 ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
-    , m_rootEntry()
     , m_dbusPathName(dbusPathName)
     , m_numberOfFiles(0)
     , m_numberOfFolders(0)
 {
-    m_rootEntry.setProperty("isDirectory", true);
+    initRootEntry();
 }
 
 ArchiveModel::~ArchiveModel()
@@ -293,7 +292,7 @@ QModelIndex ArchiveModel::index(int row, int column, const QModelIndex &parent) 
     if (hasIndex(row, column, parent)) {
         const Archive::Entry *parentEntry = parent.isValid()
                                             ? static_cast<Archive::Entry*>(parent.internalPointer())
-                                            : &m_rootEntry;
+                                            : m_rootEntry.data();
 
         Q_ASSERT(parentEntry->isDir());
 
@@ -311,7 +310,7 @@ QModelIndex ArchiveModel::parent(const QModelIndex &index) const
     if (index.isValid()) {
         Archive::Entry *item = static_cast<Archive::Entry*>(index.internalPointer());
         Q_ASSERT(item);
-        if (item->getParent() && (item->getParent() != &m_rootEntry)) {
+        if (item->getParent() && (item->getParent() != m_rootEntry.data())) {
             return createIndex(item->getParent()->row(), 0, item->getParent());
         }
     }
@@ -355,7 +354,7 @@ int ArchiveModel::rowCount(const QModelIndex &parent) const
     if (parent.column() <= 0) {
         const Archive::Entry *parentEntry = parent.isValid()
                                             ? static_cast<Archive::Entry*>(parent.internalPointer())
-                                            : &m_rootEntry;
+                                            : m_rootEntry.data();
 
         if (parentEntry && parentEntry->isDir()) {
             return parentEntry->entries().count();
@@ -379,8 +378,8 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
     emit layoutAboutToBeChanged();
 
     QVector<Archive::Entry*> dirEntries;
-    m_rootEntry.returnDirEntries(&dirEntries);
-    dirEntries.append(&m_rootEntry);
+    m_rootEntry->returnDirEntries(&dirEntries);
+    dirEntries.append(m_rootEntry.data());
 
     const ArchiveModelSorter modelSorter(m_showColumns.at(column), order);
 
@@ -498,6 +497,12 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
     return fileName;
 }
 
+void ArchiveModel::initRootEntry()
+{
+    m_rootEntry.reset(new Archive::Entry());
+    m_rootEntry->setProperty("isDirectory", true);
+}
+
 Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehaviour behaviour)
 {
     QStringList pieces = entry->fullPath().split(QLatin1Char('/'), QString::SkipEmptyParts);
@@ -528,7 +533,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehav
         }
     }
 
-    Archive::Entry *parent = &m_rootEntry;
+    Archive::Entry *parent = m_rootEntry.data();
 
     foreach(const QString &piece, pieces) {
         Archive::Entry *entry = parent->find(piece);
@@ -538,7 +543,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehav
             // and then delete the existing one (see ArchiveModel::newEntry).
             entry = new Archive::Entry(parent);
 
-            entry->setProperty("fullPath", (parent == &m_rootEntry)
+            entry->setProperty("fullPath", (parent == m_rootEntry.data())
                                            ? piece + QLatin1Char('/')
                                            : parent->fullPath(WithTrailingSlash) + piece + QLatin1Char('/'));
             entry->setProperty("isDirectory", true);
@@ -563,7 +568,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehav
 QModelIndex ArchiveModel::indexForEntry(Archive::Entry *entry)
 {
     Q_ASSERT(entry);
-    if (entry != &m_rootEntry) {
+    if (entry != m_rootEntry.data()) {
         Q_ASSERT(entry->getParent());
         Q_ASSERT(entry->getParent()->isDir());
         return createIndex(entry->row(), 0, entry);
@@ -578,7 +583,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         return;
     }
 
-    Archive::Entry *entry = m_rootEntry.findByPath(entryFileName.split(QLatin1Char('/'), QString::SkipEmptyParts));
+    Archive::Entry *entry = m_rootEntry->findByPath(entryFileName.split(QLatin1Char('/'), QString::SkipEmptyParts));
     if (entry) {
         Archive::Entry *parent = entry->getParent();
         QModelIndex index = indexForEntry(entry);
@@ -656,7 +661,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     }
 
     // Skip already created entries.
-    Archive::Entry *existing = m_rootEntry.findByPath(entryFileName.split(QLatin1Char('/')));
+    Archive::Entry *existing = m_rootEntry->findByPath(entryFileName.split(QLatin1Char('/')));
     if (existing) {
         qCDebug(ARK) << "Refreshing entry for" << entryFileName;
 
@@ -677,7 +682,6 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     if (entry) {
         entry->copyMetaData(receivedEntry);
         entry->setProperty("fullPath", entryFileName);
-        delete receivedEntry;
     } else {
         receivedEntry->setParent(parent);
         insertEntry(receivedEntry, behaviour);
@@ -729,9 +733,9 @@ Kerfuffle::Archive* ArchiveModel::archive() const
 void ArchiveModel::reset()
 {
     m_archive.reset(Q_NULLPTR);
-    m_rootEntry.clear();
     s_previousMatch = Q_NULLPTR;
     s_previousPieces->clear();
+    initRootEntry();
 
     // TODO: make sure if it's ok to not have calls to beginRemoveColumns here
     m_showColumns.clear();
@@ -883,9 +887,9 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
         QStringList destinationParts = entries.first().split(QLatin1Char('/'), QString::SkipEmptyParts);
         destinationParts.removeLast();
         if (destinationParts.count() > 0) {
-            destination = m_rootEntry.findByPath(destinationParts);
+            destination = m_rootEntry->findByPath(destinationParts);
         } else {
-            destination = &m_rootEntry;
+            destination = m_rootEntry.data();
         }
     }
     const Archive::Entry *lastDirEntry = destination;
@@ -1010,7 +1014,7 @@ void ArchiveModel::countEntriesAndSize()
     QElapsedTimer timer;
     timer.start();
 
-    traverseAndCountDirNode(&m_rootEntry);
+    traverseAndCountDirNode(m_rootEntry.data());
 
     qCDebug(ARK) << "Time to count entries and size:" << timer.elapsed() << "ms";
 }

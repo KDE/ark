@@ -146,6 +146,8 @@ private:
      */
     QString cleanFileName(const QString& fileName);
 
+    void initRootEntry();
+
     enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
     Archive::Entry *parentFor(const Kerfuffle::Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
     QModelIndex indexForEntry(Archive::Entry *entry);
@@ -163,7 +165,7 @@ private:
 
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
-    Archive::Entry m_rootEntry;
+    QScopedPointer<Archive::Entry> m_rootEntry;
     QHash<QString, QIcon> m_entryIcons;
 
     QString m_dbusPathName;
