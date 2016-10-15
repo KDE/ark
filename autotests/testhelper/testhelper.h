@@ -42,7 +42,6 @@ public:
     static void startAndWaitForResult(KJob *job);
     static QVector<Archive::Entry*> getEntryList(Archive *archive);
     static void verifyAddedEntriesWithDestination(const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QVector<Archive::Entry*> &oldEntries, const QVector<Archive::Entry*> &newEntries);
-    static void verifyMovedEntriesWithDestination(const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QVector<Archive::Entry*> &oldEntries, const QVector<Archive::Entry*> &newEntries);
     static void verifyCopiedEntriesWithDestination(const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QVector<Archive::Entry*> &oldEntries, const QVector<Archive::Entry*> &newEntries);
 
 private:

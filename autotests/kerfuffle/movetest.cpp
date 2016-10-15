@@ -32,7 +32,7 @@ class MoveTest : public QObject
 Q_OBJECT
 
 private:
-    void addAllFormatsRows(const QString &testName, const QString &archiveName, const QVector<Archive::Entry*> &entries, Archive::Entry *destination) {
+    void addAllFormatsRows(const QString &testName, const QString &archiveName, const QVector<Archive::Entry*> &targetEntries, Archive::Entry *destination, const QStringList &expectedNewPaths) {
         QStringList formats = QStringList()
             << QStringLiteral("7z")
             << QStringLiteral("rar")
@@ -43,9 +43,21 @@ private:
                 const QString testNameWithFormat = testName + QStringLiteral(" (") + format + QStringLiteral(")");
                 QTest::newRow(testNameWithFormat.toUtf8())
                     << archiveName + QLatin1Char('.') + format
-                    << entries
-                    << destination;
+                    << targetEntries
+                    << destination
+                    << expectedNewPaths;
             }
+    }
+
+    // TODO: move this to testhelper.
+    QStringList getEntryPaths(Archive *archive)
+    {
+        QStringList paths;
+        auto loadJob = Archive::load(archive->fileName());
+        QObject::connect(loadJob, &Job::newEntry, [&paths](Archive::Entry* entry) { paths << entry->fullPath(); });
+        TestHelper::startAndWaitForResult(loadJob);
+
+        return paths;
     }
 
 private Q_SLOTS:
@@ -58,15 +70,19 @@ QTEST_GUILESS_MAIN(MoveTest)
 void MoveTest::testMoving_data()
 {
     QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QVector<Archive::Entry*>>("files");
+    QTest::addColumn<QVector<Archive::Entry*>>("targetEntries");
     QTest::addColumn<Archive::Entry*>("destination");
+    QTest::addColumn<QStringList>("expectedNewPaths");
 
     addAllFormatsRows(QStringLiteral("replace a single file"),
                       QStringLiteral("test"),
                       QVector<Archive::Entry*> {
                           new Archive::Entry(this, QStringLiteral("a.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/a.txt")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/a.txt")),
+                      QStringList {
+                          QStringLiteral("empty_dir/a.txt")
+                      });
 
     addAllFormatsRows(QStringLiteral("replace several files"),
                       QStringLiteral("test"),
@@ -74,7 +90,11 @@ void MoveTest::testMoving_data()
                           new Archive::Entry(this, QStringLiteral("a.txt")),
                           new Archive::Entry(this, QStringLiteral("b.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
+                      QStringList {
+                          QStringLiteral("empty_dir/a.txt"),
+                          QStringLiteral("empty_dir/b.txt")
+                      });
 
     addAllFormatsRows(QStringLiteral("replace a root directory"),
                       QStringLiteral("test"),
@@ -86,7 +106,14 @@ void MoveTest::testMoving_data()
                           new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
                           new Archive::Entry(this, QStringLiteral("dir1/b.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/dir/")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
+                      QStringList {
+                          QStringLiteral("empty_dir/a.txt"),
+                          QStringLiteral("empty_dir/b.txt"),
+                          QStringLiteral("empty_dir/dir/"),
+                          QStringLiteral("empty_dir/dir/a.txt"),
+                          QStringLiteral("empty_dir/dir/b.txt"),
+                      });
 
     addAllFormatsRows(QStringLiteral("replace a root directory 2"),
                       QStringLiteral("test"),
@@ -96,7 +123,12 @@ void MoveTest::testMoving_data()
                           new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
                           new Archive::Entry(this, QStringLiteral("dir2/dir/b.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/dir/")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
+                      QStringList {
+                          QStringLiteral("empty_dir/dir/"),
+                          QStringLiteral("empty_dir/dir/a.txt"),
+                          QStringLiteral("empty_dir/dir/b.txt"),
+                      });
 
     addAllFormatsRows(QStringLiteral("replace a directory"),
                       QStringLiteral("test"),
@@ -105,7 +137,12 @@ void MoveTest::testMoving_data()
                           new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                           new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/dir/")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/dir")),
+                      QStringList {
+                          QStringLiteral("empty_dir/dir/"),
+                          QStringLiteral("empty_dir/dir/a.txt"),
+                          QStringLiteral("empty_dir/dir/b.txt"),
+                      });
 
     addAllFormatsRows(QStringLiteral("replace several directories"),
                       QStringLiteral("test"),
@@ -121,7 +158,19 @@ void MoveTest::testMoving_data()
                           new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
                           new Archive::Entry(this, QStringLiteral("dir2/dir/b.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
+                      QStringList {
+                          QStringLiteral("empty_dir/dir1/"),
+                          QStringLiteral("empty_dir/dir1/a.txt"),
+                          QStringLiteral("empty_dir/dir1/b.txt"),
+                          QStringLiteral("empty_dir/dir1/dir/"),
+                          QStringLiteral("empty_dir/dir1/dir/a.txt"),
+                          QStringLiteral("empty_dir/dir1/dir/b.txt"),
+                          QStringLiteral("empty_dir/dir2/"),
+                          QStringLiteral("empty_dir/dir2/dir/"),
+                          QStringLiteral("empty_dir/dir2/dir/a.txt"),
+                          QStringLiteral("empty_dir/dir2/dir/b.txt")
+                      });
 
     addAllFormatsRows(QStringLiteral("replace several entries"),
                       QStringLiteral("test"),
@@ -132,7 +181,14 @@ void MoveTest::testMoving_data()
                           new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
                           new Archive::Entry(this, QStringLiteral("dir1/b.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
+                      QStringList {
+                          QStringLiteral("empty_dir/dir/"),
+                          QStringLiteral("empty_dir/dir/a.txt"),
+                          QStringLiteral("empty_dir/dir/b.txt"),
+                          QStringLiteral("empty_dir/a.txt"),
+                          QStringLiteral("empty_dir/b.txt")
+                      });
 
     addAllFormatsRows(QStringLiteral("move a directory to the root"),
                       QStringLiteral("test"),
@@ -141,7 +197,12 @@ void MoveTest::testMoving_data()
                           new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                           new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("dir/")));
+                      new Archive::Entry(this, QStringLiteral("dir/")),
+                      QStringList {
+                          QStringLiteral("dir/"),
+                          QStringLiteral("dir/a.txt"),
+                          QStringLiteral("dir/b.txt"),
+                      });
 }
 
 void MoveTest::testMoving()
@@ -164,18 +225,40 @@ void MoveTest::testMoving()
         QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
     }
 
-    QFETCH(QVector<Archive::Entry*>, files);
+    QFETCH(QVector<Archive::Entry*>, targetEntries);
     QFETCH(Archive::Entry*, destination);
+    QFETCH(QStringList, expectedNewPaths);
 
-    QVector<Archive::Entry*> oldEntries = TestHelper::getEntryList(archive);
+    // Retrieve current paths in the archive.
+    QStringList oldPaths = getEntryPaths(archive);
 
-    CompressionOptions options = CompressionOptions();
+    // Check that the entries to be moved are in the archive.
+    foreach (const auto entry, targetEntries) {
+        QVERIFY(oldPaths.contains(entry->fullPath()));
+    }
+
+    // Check that the expected paths (after the MoveJob) are not in the archive.
+    foreach (const auto &expectedPath, expectedNewPaths) {
+        QVERIFY(!oldPaths.contains(expectedPath));
+    }
+
+    CompressionOptions options;
     options.setGlobalWorkDir(QFINDTESTDATA("data"));
-    MoveJob *moveJob = archive->moveFiles(files, destination, options);
+    MoveJob *moveJob = archive->moveFiles(targetEntries, destination, options);
     TestHelper::startAndWaitForResult(moveJob);
 
-    QVector<Archive::Entry*> resultedEntries = TestHelper::getEntryList(archive);
-    TestHelper::verifyMovedEntriesWithDestination(files, destination, oldEntries, resultedEntries);
+    // Retrieve the resulting paths.
+    QStringList newPaths = getEntryPaths(archive);
+
+    // Check that the expected paths are now in the archive.
+    foreach (const auto &path, expectedNewPaths) {
+        QVERIFY(newPaths.contains(path));
+    }
+
+    // Check that the target paths are no longer in the archive.
+    foreach (const auto entry, targetEntries) {
+        QVERIFY(!newPaths.contains(entry->fullPath()));
+    }
 
     loadJob->deleteLater();
     archive->deleteLater();

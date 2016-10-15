@@ -39,6 +39,7 @@ QVector<Archive::Entry*> TestHelper::getEntryList(Archive *archive)
     auto loadJob = Archive::load(archive->fileName());
     QObject::connect(loadJob, &Job::newEntry, [&list](Archive::Entry* entry) { list << entry; });
     startAndWaitForResult(loadJob);
+
     return list;
 }
 
@@ -52,22 +53,6 @@ void TestHelper::verifyAddedEntriesWithDestination(const QVector<Archive::Entry*
     foreach (const Archive::Entry *entry, oldEntries) {
         const QString path = entry->fullPath();
         QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive (old entry)")).toUtf8());
-    }
-}
-
-void TestHelper::verifyMovedEntriesWithDestination(const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QVector<Archive::Entry*> &oldEntries, const QVector<Archive::Entry*> &newEntries)
-{
-    QStringList expectedPaths = getExpectedMovedEntryPaths(oldEntries, argumentEntries, destination);
-    QStringList actualPaths = ReadOnlyArchiveInterface::entryFullPaths(newEntries);
-    foreach (const QString &path, expectedPaths) {
-        QVERIFY2(actualPaths.contains(path), (QStringLiteral("No ") + path + QStringLiteral(" inside the archive")).toUtf8());
-    }
-    foreach (const QString &path, actualPaths) {
-        QVERIFY2(expectedPaths.contains(path), (QStringLiteral("Entry ") + path + QStringLiteral(" is not expected to be inside the archive")).toUtf8());
-    }
-    foreach (const Archive::Entry *entry, argumentEntries) {
-        const QString path = entry->fullPath();
-        QVERIFY2(!actualPaths.contains(path), (QStringLiteral("Entry ") + path + QStringLiteral(" is still inside the archive, when it shouldn't be")).toUtf8());
     }
 }
 
@@ -102,57 +87,6 @@ QStringList TestHelper::getExpectedNewEntryPaths(const QVector<Archive::Entry*> 
                     path += QLatin1Char('/');
                 }
                 expectedPaths << path;
-            }
-        }
-    }
-    return expectedPaths;
-}
-
-QStringList TestHelper::getExpectedMovedEntryPaths(const QVector<Archive::Entry*> &entryList, const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination)
-{
-    QStringList expectedPaths = QStringList();
-    QMap<QString, Archive::Entry*> entryMap = getEntryMap(entryList);
-    QStringList argumentPaths = ReadOnlyArchiveInterface::entryFullPaths(argumentEntries);
-    QString lastMovedFolder;
-    if (ReadOnlyArchiveInterface::entriesWithoutChildren(argumentEntries).count() > 1) {
-        // Destination path doesn't contain a target entry name, so we have to remember to include it while moving
-        // folder contents.
-        int nameLength = 0;
-        foreach (const Archive::Entry *entry, entryMap) {
-            const QString entryPath = entry->fullPath();
-            if (lastMovedFolder.count() > 0 && entryPath.startsWith(lastMovedFolder)) {
-                expectedPaths << destination->fullPath() + entryPath.right(entryPath.count() - lastMovedFolder.count() + nameLength);
-            } else if (argumentPaths.contains(entryPath)) {
-                QString expectedPath = destination->fullPath() + entry->name();
-                if (entryPath.right(1) == QLatin1String("/")) {
-                    expectedPath += QLatin1Char('/');
-                    nameLength = entry->name().count() + 1; // plus slash
-                    lastMovedFolder = entryPath;
-                } else {
-                    nameLength = 0;
-                    lastMovedFolder = QString();
-                }
-                expectedPaths << expectedPath;
-            } else {
-                expectedPaths << entryPath;
-                nameLength = 0;
-                lastMovedFolder = QString();
-            }
-        }
-    } else {
-        foreach (const Archive::Entry *entry, entryMap) {
-            const QString entryPath = entry->fullPath();
-            if (lastMovedFolder.count() > 0 && entryPath.startsWith(lastMovedFolder)) {
-                expectedPaths << destination->fullPath() + entryPath.right(entryPath.count() - lastMovedFolder.count());
-            } else if (argumentPaths.contains(entryPath)) {
-                if (entryPath.right(1) == QLatin1String("/")) {
-                    lastMovedFolder = entryPath;
-                } else if (lastMovedFolder.count() > 0) {
-                    lastMovedFolder = QString();
-                }
-                expectedPaths << destination->fullPath();
-            } else {
-                expectedPaths << entryPath;
             }
         }
     }
