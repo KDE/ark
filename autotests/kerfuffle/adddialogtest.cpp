@@ -144,12 +144,12 @@ void AddDialogTest::testBasicWidgets()
 
     if (supportsCompLevel) {
         // Test that the value set by slider is exported from AddDialog.
-        QCOMPARE(dialog->compressionOptions()[QStringLiteral("CompressionLevel")].toInt(), changeToCompLevel);
+        QCOMPARE(dialog->compressionOptions().compressionLevel(), changeToCompLevel);
     }
 
     // Test that passing a compression level in ctor works.
     CompressionOptions opts;
-    opts[QStringLiteral("CompressionLevel")] = initialCompLevel;
+    opts.setCompressionLevel(initialCompLevel);
 
     dialog = new AddDialog(Q_NULLPTR, QString(), QUrl(), mime, opts);
     dialog->slotOpenOptions();

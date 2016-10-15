@@ -400,7 +400,7 @@ AddJob* Archive::addFiles(const QVector<Archive::Entry*> &files, const Archive::
 
     CompressionOptions newOptions = options;
     if (encryptionType() != Unencrypted) {
-        newOptions[QStringLiteral("PasswordProtectedHint")] = true;
+        newOptions.setEncryptedArchiveHint(true);
     }
 
     qCDebug(ARK) << "Going to add files" << files << "with options" << newOptions;
@@ -419,7 +419,7 @@ MoveJob* Archive::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entr
 
     CompressionOptions newOptions = options;
     if (encryptionType() != Unencrypted) {
-        newOptions[QStringLiteral("PasswordProtectedHint")] = true;
+        newOptions.setEncryptedArchiveHint(true);
     }
 
     qCDebug(ARK) << "Going to move files" << files << "with options" << newOptions;
@@ -437,7 +437,7 @@ CopyJob* Archive::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entr
 
     CompressionOptions newOptions = options;
     if (encryptionType() != Unencrypted) {
-        newOptions[QStringLiteral("PasswordProtectedHint")] = true;
+        newOptions.setEncryptedArchiveHint(true);
     }
 
     qCDebug(ARK) << "Going to copy files" << files << "with options" << newOptions;
@@ -455,7 +455,7 @@ ExtractJob* Archive::extractFiles(const QVector<Archive::Entry*> &files, const Q
 
     ExtractionOptions newOptions = options;
     if (encryptionType() != Unencrypted) {
-        newOptions[QStringLiteral( "PasswordProtectedHint" )] = true;
+        newOptions.setEncryptedArchiveHint(true);
     }
 
     ExtractJob *newJob = new ExtractJob(files, destinationDir, newOptions, m_iface);
@@ -519,16 +519,6 @@ void Archive::onAddFinished(KJob* job)
 void Archive::onUserQuery(Query* query)
 {
     query->execute();
-}
-
-void Archive::setCompressionOptions(const CompressionOptions &opts)
-{
-    m_compOptions = opts;
-}
-
-CompressionOptions Archive::compressionOptions() const
-{
-    return m_compOptions;
 }
 
 QString Archive::multiVolumeName() const

@@ -43,7 +43,7 @@ class KERFUFFLE_EXPORT CompressionOptionsWidget : public QWidget, public Ui::Com
 
 public:
     explicit CompressionOptionsWidget(QWidget *parent = Q_NULLPTR,
-                                      const CompressionOptions &opts = QHash<QString, QVariant>());
+                                      const CompressionOptions &opts = {});
     int compressionLevel() const;
     QString compressionMethod() const;
     ulong volumeSize() const;

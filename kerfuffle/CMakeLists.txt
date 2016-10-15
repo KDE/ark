@@ -20,6 +20,7 @@ set(kerfuffle_SRCS
     plugin.cpp
     pluginmanager.cpp
     archiveentry.cpp
+    options.cpp
 )
 
 kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)

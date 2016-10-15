@@ -150,8 +150,8 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
     QDir::setCurrent(destinationDirectory);
 
     const bool extractAll = files.isEmpty();
-    const bool preservePaths = options.value(QStringLiteral( "PreservePaths" )).toBool();
-    bool removeRootNode = options.value(QStringLiteral("RemoveRootNode"), QVariant()).toBool();
+    const bool preservePaths = options.preservePaths();
+    const bool removeRootNode = options.isDragAndDropEnabled();
 
     // To avoid traversing the entire archive when extracting a limited set of
     // entries, we maintain a list of remaining entries and stop when it's

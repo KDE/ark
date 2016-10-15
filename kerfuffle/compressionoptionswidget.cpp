@@ -50,23 +50,22 @@ CompressionOptionsWidget::CompressionOptionsWidget(QWidget *parent,
 
     connect(multiVolumeCheckbox, &QCheckBox::stateChanged, this, &CompressionOptionsWidget::slotMultiVolumeChecked);
 
-    if (m_opts.contains(QStringLiteral("VolumeSize"))) {
+    if (m_opts.isVolumeSizeSet()) {
         multiVolumeCheckbox->setChecked(true);
         // Convert from kilobytes.
-        volumeSizeSpinbox->setValue(m_opts.value(QStringLiteral("VolumeSize")).toDouble() / 1024);
+        volumeSizeSpinbox->setValue(static_cast<double>(m_opts.volumeSize()) / 1024);
     }
 }
 
 CompressionOptions CompressionOptionsWidget::commpressionOptions() const
 {
     CompressionOptions opts;
-    opts[QStringLiteral("CompressionLevel")] = compLevelSlider->value();
+    opts.setCompressionLevel(compLevelSlider->value());
     if (multiVolumeCheckbox->isChecked()) {
-        // Convert to kilobytes.
-        opts[QStringLiteral("VolumeSize")] = QString::number(volumeSize());
+        opts.setVolumeSize(volumeSize());
     }
     if (!compMethodComboBox->currentText().isEmpty()) {
-        opts[QStringLiteral("CompressionMethod")] = compMethodComboBox->currentText();
+        opts.setCompressionMethod(compMethodComboBox->currentText());
     }
 
     return opts;
@@ -156,8 +155,8 @@ void CompressionOptionsWidget::updateWidgets()
         compLevelSlider->setToolTip(QString());
         compLevelSlider->setMinimum(archiveFormat.minCompressionLevel());
         compLevelSlider->setMaximum(archiveFormat.maxCompressionLevel());
-        if (m_opts.contains(QStringLiteral("CompressionLevel"))) {
-            compLevelSlider->setValue(m_opts.value(QStringLiteral("CompressionLevel")).toInt());
+        if (m_opts.isCompressionLevelSet()) {
+            compLevelSlider->setValue(m_opts.compressionLevel());
         } else {
             compLevelSlider->setValue(archiveFormat.defaultCompressionLevel());
         }
@@ -175,9 +174,9 @@ void CompressionOptionsWidget::updateWidgets()
         compMethodComboBox->setToolTip(QString());
         compMethodComboBox->clear();
         compMethodComboBox->insertItems(0, archiveFormat.compressionMethods());
-        if (m_opts.contains(QStringLiteral("CompressionMethod")) &&
-            compMethodComboBox->findText(m_opts.value(QStringLiteral("CompressionMethod")).toString()) > -1) {
-            compMethodComboBox->setCurrentText(m_opts.value(QStringLiteral("CompressionMethod")).toString());
+        if (!m_opts.compressionMethod().isEmpty() &&
+            compMethodComboBox->findText(m_opts.compressionMethod()) > -1) {
+            compMethodComboBox->setCurrentText(m_opts.compressionMethod());
         } else {
             compMethodComboBox->setCurrentText(archiveFormat.defaultCompressionMethod());
         }

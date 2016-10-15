@@ -49,7 +49,7 @@ public:
                        const QString &title,
                        const QUrl &startDir,
                        const QMimeType &mimeType,
-                       const CompressionOptions &opts = QHash<QString, QVariant>());
+                       const CompressionOptions &opts = {});
     virtual ~AddDialog();
     QStringList selectedFiles() const;
     CompressionOptions compressionOptions() const;

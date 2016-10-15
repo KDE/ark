@@ -204,8 +204,6 @@ public:
 
     bool isReadOnly() const Q_DECL_OVERRIDE;
 
-    //see archive.h for a list of what the compressionoptions might
-    //contain
     virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) = 0;
     virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
     virtual bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;

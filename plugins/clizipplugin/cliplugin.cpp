@@ -213,7 +213,7 @@ bool CliPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry 
     m_subOperation = Extract;
     connect(this, &CliPlugin::finished, this, &CliPlugin::continueMoving);
 
-    return extractFiles(files, QDir::currentPath(), options);
+    return extractFiles(files, QDir::currentPath(), ExtractionOptions());
 }
 
 int CliPlugin::moveRequiredSignals() const {

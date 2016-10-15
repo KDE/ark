@@ -273,9 +273,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     qCDebug(ARK) << "Extract to" << destination;
 
     Kerfuffle::ExtractionOptions options;
-    options[QStringLiteral("PreservePaths")] = true;
-    options[QStringLiteral("RemoveRootNode")] = true;
-    options[QStringLiteral("DragAndDrop")] = true;
+    options.setDragAndDropEnabled(true);
 
     // Create and start the ExtractJob.
     ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), destination, options);
@@ -606,6 +604,8 @@ void Part::resetGui()
     m_commentView->clear();
     m_commentBox->hide();
     m_infoPanel->setIndex(QModelIndex());
+    // Also reset format-specific compression options.
+    m_compressionOptions = CompressionOptions();
 }
 
 void Part::slotTestingDone(KJob* job)
@@ -693,9 +693,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
         qCDebug(ARK) << "Extracting to:" << finalDestinationDirectory;
 
-        Kerfuffle::ExtractionOptions options;
-        options[QStringLiteral("PreservePaths")] = true;
-        ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), finalDestinationDirectory, options);
+        ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), finalDestinationDirectory, ExtractionOptions());
         registerJob(job);
 
         connect(job, &KJob::result,
@@ -1120,11 +1118,7 @@ void Part::slotShowExtractionDialog()
         qCDebug(ARK) << "Selected " << files;
 
         Kerfuffle::ExtractionOptions options;
-
-        if (dialog.data()->preservePaths()) {
-            options[QStringLiteral("PreservePaths")] = true;
-        }
-        options[QStringLiteral("FollowExtractionDialogSettings")] = true;
+        options.setPreservePaths(dialog->preservePaths());
 
         const QString destinationDirectory = dialog.data()->destinationDirectory().toLocalFile();
         ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
@@ -1217,12 +1211,6 @@ void Part::slotExtractionDone(KJob* job)
         ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
         Q_ASSERT(extractJob);
 
-        const bool followExtractionDialogSettings =
-            extractJob->extractionOptions().value(QStringLiteral("FollowExtractionDialogSettings"), false).toBool();
-        if (!followExtractionDialogSettings) {
-            return;
-        }
-
         if (ArkSettings::openDestinationFolderAfterExtraction()) {
             qCDebug(ARK) << "Shall open" << extractJob->destinationDirectory();
             QUrl destinationDirectory = QUrl::fromLocalFile(extractJob->destinationDirectory()).adjusted(QUrl::NormalizePathSegments);
@@ -1304,15 +1292,16 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
         globalWorkDir.chop(1);
     }
 
-    CompressionOptions options(m_model->archive()->compressionOptions());
+    // We need to override the global options with a working directory.
+    CompressionOptions compOptions = m_compressionOptions;
 
     // Now take the absolute path of the parent directory.
     globalWorkDir = QFileInfo(globalWorkDir).dir().absolutePath();
 
     qCDebug(ARK) << "Detected GlobalWorkDir to be " << globalWorkDir;
-    options[QStringLiteral("GlobalWorkDir")] = globalWorkDir;
+    compOptions.setGlobalWorkDir(globalWorkDir);
 
-    AddJob *job = m_model->addFiles(m_jobTempEntries, destination, options);
+    AddJob *job = m_model->addFiles(m_jobTempEntries, destination, compOptions);
     if (!job) {
         qDeleteAll(m_jobTempEntries);
         m_jobTempEntries.clear();
@@ -1327,25 +1316,20 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
 
 void Part::slotAddFiles()
 {
-    // If compression options are already set, we don't use the values from CreateDialog.
-    CompressionOptions opts;
-    if (m_model->archive()->compressionOptions().isEmpty()) {
-        if (arguments().metaData().contains(QStringLiteral("compressionLevel"))) {
-            opts[QStringLiteral("CompressionLevel")] = arguments().metaData()[QStringLiteral("compressionLevel")];
-        }
-        if (arguments().metaData().contains(QStringLiteral("compressionMethod"))) {
-            opts[QStringLiteral("CompressionMethod")] = arguments().metaData()[QStringLiteral("compressionMethod")];
-        }
-        if (arguments().metaData().contains(QStringLiteral("volumeSize"))) {
-            opts[QStringLiteral("VolumeSize")] = arguments().metaData()[QStringLiteral("volumeSize")];
-        }
-        m_model->archive()->setCompressionOptions(opts);
-    } else {
-        opts = m_model->archive()->compressionOptions();
+    // Store options from CreateDialog if they are set.
+    if (!m_compressionOptions.isCompressionLevelSet() && arguments().metaData().contains(QStringLiteral("compressionLevel"))) {
+        m_compressionOptions.setCompressionLevel(arguments().metaData()[QStringLiteral("compressionLevel")].toInt());
+    }
+    if (m_compressionOptions.compressionMethod().isEmpty() && arguments().metaData().contains(QStringLiteral("compressionMethod"))) {
+        m_compressionOptions.setCompressionMethod(arguments().metaData()[QStringLiteral("compressionMethod")]);
+    }
+    if (!m_compressionOptions.isVolumeSizeSet() && arguments().metaData().contains(QStringLiteral("volumeSize"))) {
+        m_compressionOptions.setVolumeSize(arguments().metaData()[QStringLiteral("volumeSize")].toInt());
     }
 
-    if (m_model->archive()->property("compressionMethods").toStringList().size() == 1) {
-        opts[QStringLiteral("CompressionMethod")] = m_model->archive()->property("compressionMethods").toStringList().first();
+    const auto compressionMethods = m_model->archive()->property("compressionMethods").toStringList();
+    if (compressionMethods.size() == 1) {
+        m_compressionOptions.setCompressionMethod(compressionMethods.first());
     }
 
     QString dialogTitle = i18nc("@title:window", "Add Files");
@@ -1359,7 +1343,7 @@ void Part::slotAddFiles()
         }
     }
 
-    qCDebug(ARK) << "Opening AddDialog with opts:" << opts;
+    qCDebug(ARK) << "Opening AddDialog with opts:" << m_compressionOptions;
 
     // #264819: passing widget() as the parent will not work as expected.
     //          KFileDialog will create a KFileWidget, which runs an internal
@@ -1375,12 +1359,12 @@ void Part::slotAddFiles()
                                             dialogTitle,
                                             m_lastUsedAddPath,
                                             m_model->archive()->mimeType(),
-                                            opts);
+                                            m_compressionOptions);
 
     if (dlg->exec() == QDialog::Accepted) {
         qCDebug(ARK) << "Selected files:" << dlg->selectedFiles();
         qCDebug(ARK) << "Options:" << dlg->compressionOptions();
-        m_model->archive()->setCompressionOptions(dlg->compressionOptions());
+        m_compressionOptions = dlg->compressionOptions();
         slotAddFiles(dlg->selectedFiles(), destination, QString());
     }
     delete dlg;
@@ -1533,13 +1517,11 @@ void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle:
         qCDebug(ARK) << "Copying " << files << "to" << destination;
     }
 
-    CompressionOptions options(m_model->archive()->compressionOptions());
-
     KJob *job;
     if (entriesWithoutChildren != 0) {
-        job = m_model->moveFiles(files, destination, options);
+        job = m_model->moveFiles(files, destination, CompressionOptions());
     } else {
-        job = m_model->copyFiles(files, destination, options);
+        job = m_model->copyFiles(files, destination, CompressionOptions());
     }
 
     if (job) {

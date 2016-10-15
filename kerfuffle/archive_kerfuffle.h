@@ -29,6 +29,7 @@
 #define ARCHIVE_H
 
 #include "kerfuffle_export.h"
+#include "options.h"
 
 #include <KJob>
 #include <KPluginMetaData>
@@ -61,14 +62,6 @@ enum ArchiveError {
     NoPlugin,
     FailedPlugin
 };
-
-/**
-These are the extra options for doing the compression. Naming convention
-is CamelCase with either Global, or the compression type (such as Zip,
-Rar, etc), followed by the property name used
- */
-typedef QHash<QString, QVariant> CompressionOptions;
-typedef QHash<QString, QVariant> ExtractionOptions;
 
 class KERFUFFLE_EXPORT Archive : public QObject
 {
@@ -125,8 +118,6 @@ public:
     qulonglong unpackedSize() const;
     qulonglong packedSize() const;
     QString subfolderName() const;
-    void setCompressionOptions(const CompressionOptions &opts);
-    CompressionOptions compressionOptions() const;
     QString multiVolumeName() const;
     ReadOnlyArchiveInterface *interface();
 
@@ -248,7 +239,6 @@ private:
     EncryptionType m_encryptionType;
     qulonglong m_numberOfFiles;
     qulonglong m_numberOfFolders;
-    CompressionOptions m_compOptions;
     QMimeType m_mimeType;
     QStringList m_compressionMethods;
 };

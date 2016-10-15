@@ -186,8 +186,8 @@ void AddToArchive::slotStartJob()
             entry->setFullPath(stripDir.absoluteFilePath(entry->fullPath()));
         }
 
-        options[QStringLiteral( "GlobalWorkDir" )] = stripDir.path();
         qCDebug(ARK) << "Setting GlobalWorkDir to " << stripDir.path();
+        options.setGlobalWorkDir(stripDir.path());
     }
 
     auto createJob = Archive::create(m_filename, m_mimeType, m_entries, options, this);

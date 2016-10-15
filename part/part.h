@@ -215,6 +215,7 @@ private:
     QPlainTextEdit *m_commentView;
     KMessageWidget *m_commentMsgWidget;
     KMessageWidget *m_messageWidget;
+    Kerfuffle::CompressionOptions m_compressionOptions;
 };
 
 } // namespace Ark

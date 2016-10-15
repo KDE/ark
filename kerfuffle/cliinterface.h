@@ -503,7 +503,7 @@ private:
     bool m_listEmptyLines;
     QString m_storedFileName;
 
-    CompressionOptions m_compressionOptions;
+    ExtractionOptions m_extractionOptions;
     QString m_extractDestDir;
     QTemporaryDir *m_extractTempDir;
     QTemporaryFile *m_commentTempFile;

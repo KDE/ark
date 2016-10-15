@@ -230,19 +230,19 @@ void CliUnarchiverTest::testExtraction_data()
     QTest::addColumn<ExtractionOptions>("extractionOptions");
     QTest::addColumn<int>("expectedExtractedEntriesCount");
 
-    ExtractionOptions options;
-    options[QStringLiteral("AlwaysUseTmpDir")] = true;
+    ExtractionOptions defaultOptions;
+    defaultOptions.setAlwaysUseTempDir(true);
 
-    ExtractionOptions optionsPreservePaths = options;
-    optionsPreservePaths[QStringLiteral("PreservePaths")] = true;
+    ExtractionOptions optionsNoPaths = defaultOptions;
+    optionsNoPaths.setPreservePaths(false);
 
-    ExtractionOptions dragAndDropOptions = optionsPreservePaths;
-    dragAndDropOptions[QStringLiteral("DragAndDrop")] = true;
+    ExtractionOptions dragAndDropOptions = defaultOptions;
+    dragAndDropOptions.setDragAndDropEnabled(true);
 
     QTest::newRow("extract the whole multiple_toplevel_entries.rar")
             << QFINDTESTDATA("data/multiple_toplevel_entries.rar")
             << QVector<Archive::Entry*>()
-            << optionsPreservePaths
+            << defaultOptions
             << 12;
 
     QTest::newRow("extract selected entries from a rar, without paths")
@@ -251,7 +251,7 @@ void CliUnarchiverTest::testExtraction_data()
                    new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
                    new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
-            << options
+            << optionsNoPaths
             << 2;
 
     QTest::newRow("extract selected entries from a rar, preserve paths")
@@ -260,7 +260,7 @@ void CliUnarchiverTest::testExtraction_data()
                    new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
                    new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
-            << optionsPreservePaths
+            << defaultOptions
             << 4;
 
     QTest::newRow("extract selected entries from a rar, drag-and-drop")
@@ -277,13 +277,13 @@ void CliUnarchiverTest::testExtraction_data()
     QTest::newRow("rar with empty folders")
             << QFINDTESTDATA("data/empty_folders.rar")
             << QVector<Archive::Entry*>()
-            << optionsPreservePaths
+            << defaultOptions
             << 5;
 
     QTest::newRow("rar with hidden folder and files")
             << QFINDTESTDATA("data/hidden_files.rar")
             << QVector<Archive::Entry*>()
-            << optionsPreservePaths
+            << defaultOptions
             << 4;
 }
 

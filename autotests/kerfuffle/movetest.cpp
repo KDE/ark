@@ -170,7 +170,7 @@ void MoveTest::testMoving()
     QVector<Archive::Entry*> oldEntries = TestHelper::getEntryList(archive);
 
     CompressionOptions options = CompressionOptions();
-    options.insert(QStringLiteral("GlobalWorkDir"), QFINDTESTDATA("data"));
+    options.setGlobalWorkDir(QFINDTESTDATA("data"));
     MoveJob *moveJob = archive->moveFiles(files, destination, options);
     TestHelper::startAndWaitForResult(moveJob);
 

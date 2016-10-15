@@ -221,8 +221,6 @@ public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
 
 private:
-    // TODO: Maybe this should be a method if ExtractionOptions were a class?
-    void setDefaultOptions();
 
     QVector<Archive::Entry*> m_entries;
     QString m_destinationDir;

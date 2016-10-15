@@ -363,9 +363,9 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
     }
 
     // Set compression level if passed in CompressionOptions.
-    if (options.contains(QStringLiteral("CompressionLevel"))) {
-        qCDebug(ARK) << "Using compression level:" << options.value(QStringLiteral("CompressionLevel")).toString();
-        ret = archive_write_set_filter_option(m_archiveWriter.data(), NULL, "compression-level", options.value(QStringLiteral("CompressionLevel")).toString().toUtf8());
+    if (options.isCompressionLevelSet()) {
+        qCDebug(ARK) << "Using compression level:" << options.compressionLevel();
+        ret = archive_write_set_filter_option(m_archiveWriter.data(), NULL, "compression-level", QString::number(options.compressionLevel()).toUtf8());
         if (ret != ARCHIVE_OK) {
             qCWarning(ARK) << "Failed to set compression level";
             emit error(xi18nc("@info", "Setting the compression level failed with the following error:<nl/><message>%1</message>",

@@ -124,8 +124,8 @@ void AddTest::testAdding()
 
     QVector<Archive::Entry*> oldEntries = TestHelper::getEntryList(archive);
 
-    CompressionOptions options = CompressionOptions();
-    options.insert(QStringLiteral("GlobalWorkDir"), QFINDTESTDATA("data"));
+    CompressionOptions options;
+    options.setGlobalWorkDir(QFINDTESTDATA("data"));
     AddJob *addJob = archive->addFiles(files, destination, options);
     TestHelper::startAndWaitForResult(addJob);
 

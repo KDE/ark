@@ -122,14 +122,12 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
 
     cacheParameterList();
     m_operationMode = Extract;
-    m_compressionOptions = options;
+    m_extractionOptions = options;
     m_extractedFiles = files;
     m_extractDestDir = destinationDirectory;
     const QStringList extractArgs = m_param.value(ExtractArgs).toStringList();
 
-    if (extractArgs.contains(QStringLiteral("$PasswordSwitch")) &&
-        options.value(QStringLiteral("PasswordProtectedHint")).toBool() &&
-        password().isEmpty()) {
+    if (extractArgs.contains(QStringLiteral("$PasswordSwitch")) && options.encryptedArchiveHint() && password().isEmpty()) {
         qCDebug(ARK) << "Password hint enabled, querying user";
         if (!passwordQuery()) {
             return false;
@@ -139,14 +137,13 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     // Populate the argument list.
     const QStringList args = substituteExtractVariables(extractArgs,
                                                         files,
-                                                        options.value(QStringLiteral("PreservePaths")).toBool(),
+                                                        options.preservePaths(),
                                                         password());
 
     QUrl destDir = QUrl(destinationDirectory);
     QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
 
-    bool useTmpExtractDir = options.value(QStringLiteral("DragAndDrop")).toBool() ||
-                            options.value(QStringLiteral("AlwaysUseTmpDir")).toBool();
+    const bool useTmpExtractDir = options.isDragAndDropEnabled() || options.alwaysUseTempDir();
 
     if (useTmpExtractDir) {
 
@@ -220,26 +217,20 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
         filesToPass = files;
     }
 
-    if (addArgs.contains(QStringLiteral("$PasswordSwitch")) &&
-        options.value(QStringLiteral("PasswordProtectedHint")).toBool() &&
-        password().isEmpty()) {
+    if (addArgs.contains(QStringLiteral("$PasswordSwitch")) && options.encryptedArchiveHint() && password().isEmpty()) {
         qCDebug(ARK) << "Password hint enabled, querying user";
         if (!passwordQuery()) {
             return false;
         }
     }
 
-    int compLevel = options.value(QStringLiteral("CompressionLevel"), -1).toInt();
-    ulong volumeSize = options.value(QStringLiteral("VolumeSize"), 0).toULongLong();
-    QString compMethod = options.value(QStringLiteral("CompressionMethod")).toString();
-
     const auto args = substituteAddVariables(m_param.value(AddArgs).toStringList(),
                                              filesToPass,
                                              password(),
                                              isHeaderEncryptionEnabled(),
-                                             compLevel,
-                                             volumeSize,
-                                             compMethod);
+                                             options.compressionLevel(),
+                                             options.volumeSize(),
+                                             options.compressionMethod());
 
     return runProcess(m_param.value(AddProgram).toStringList(), args);
 }
@@ -271,12 +262,11 @@ bool CliInterface::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
     m_passedFiles = files;
     m_passedDestination = destination;
     m_passedOptions = options;
-    m_passedOptions[QStringLiteral("PreservePaths")] = true;
 
     m_subOperation = Extract;
     connect(this, &CliInterface::finished, this, &CliInterface::continueCopying);
 
-    return extractFiles(files, QDir::currentPath(), m_passedOptions);
+    return extractFiles(files, QDir::currentPath(), ExtractionOptions());
 }
 
 bool CliInterface::deleteFiles(const QVector<Archive::Entry*> &files)
@@ -423,7 +413,7 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
         m_process = Q_NULLPTR;
     }
 
-    if (m_compressionOptions.value(QStringLiteral("AlwaysUseTmpDir")).toBool()) {
+    if (m_extractionOptions.alwaysUseTempDir()) {
         // unar exits with code 1 if extraction fails.
         // This happens at least with wrong passwords or not enough space in the destination folder.
         if (m_exitCode == 1) {
@@ -440,8 +430,8 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
             return;
         }
 
-        if (!m_compressionOptions.value(QStringLiteral("DragAndDrop")).toBool()) {
-            if (!moveToDestination(QDir::current(), QDir(m_extractDestDir), m_compressionOptions[QStringLiteral("PreservePaths")].toBool())) {
+        if (!m_extractionOptions.isDragAndDropEnabled()) {
+            if (!moveToDestination(QDir::current(), QDir(m_extractDestDir), m_extractionOptions.preservePaths())) {
                 emit error(i18ncp("@info",
                                   "Could not move the extracted file to the destination directory.",
                                   "Could not move the extracted files to the destination directory.",
@@ -455,7 +445,7 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
         }
     }
 
-    if (m_compressionOptions.value(QStringLiteral("DragAndDrop")).toBool()) {
+    if (m_extractionOptions.isDragAndDropEnabled()) {
         if (!moveDroppedFilesToDest(m_extractedFiles, m_extractDestDir)) {
             emit error(i18ncp("@info",
                               "Could not move the extracted file to the destination directory.",

@@ -66,7 +66,7 @@ bool CliPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QStrin
     // and then we move the files to the intended destination.
 
     qCDebug(ARK) << "Enabling extraction to temporary directory.";
-    newOptions[QStringLiteral("AlwaysUseTmpDir")] = true;
+    newOptions.setAlwaysUseTempDir(true);
 
     return CliInterface::extractFiles(files, destinationDirectory, newOptions);
 }

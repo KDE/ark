@@ -362,7 +362,7 @@ void BatchExtractJob::slotLoadingFinished(KJob *job)
     setupDestination();
 
     Kerfuffle::ExtractionOptions options;
-    options[QStringLiteral("PreservePaths")] = m_preservePaths;
+    options.setPreservePaths(m_preservePaths);
 
     auto extractJob = archive()->extractFiles({}, m_destination, options);
     if (extractJob) {
@@ -437,7 +437,6 @@ ExtractJob::ExtractJob(const QVector<Archive::Entry*> &entries, const QString &d
     , m_options(options)
 {
     qCDebug(ARK) << "ExtractJob created";
-    setDefaultOptions();
 }
 
 void ExtractJob::doWork()
@@ -468,20 +467,6 @@ void ExtractJob::doWork()
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);
-    }
-}
-
-void ExtractJob::setDefaultOptions()
-{
-    ExtractionOptions defaultOptions;
-
-    defaultOptions[QStringLiteral("PreservePaths")] = false;
-
-    ExtractionOptions::const_iterator it = defaultOptions.constBegin();
-    for (; it != defaultOptions.constEnd(); ++it) {
-        if (!m_options.contains(it.key())) {
-            m_options[it.key()] = it.value();
-        }
     }
 }
 
@@ -518,10 +503,9 @@ QString TempExtractJob::validatedFilePath() const
 ExtractionOptions TempExtractJob::extractionOptions() const
 {
     ExtractionOptions options;
-    options[QStringLiteral("PreservePaths")] = true;
 
     if (m_passwordProtectedHint) {
-        options[QStringLiteral("PasswordProtectedHint")] = true;
+        options.setEncryptedArchiveHint(true);
     }
 
     return options;
@@ -582,7 +566,7 @@ AddJob::AddJob(const QVector<Archive::Entry*> &entries, const Archive::Entry *de
 void AddJob::doWork()
 {
     // Set current dir.
-    const QString globalWorkDir = m_options.value(QStringLiteral("GlobalWorkDir")).toString();
+    const QString globalWorkDir = m_options.globalWorkDir();
     const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
     if (!globalWorkDir.isEmpty()) {
         qCDebug(ARK) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
@@ -604,11 +588,8 @@ void AddJob::doWork()
             }
         }
     }
-    qCDebug(ARK) << "Counted" << totalCount << "entries in" << timer.elapsed() << "ms";
 
-    m_options[QStringLiteral("NumberOfEntries")] = totalCount;
-
-    qCDebug(ARK) << "AddJob: going to add" << totalCount << "entries";
+    qCDebug(ARK) << "AddJob: going to add" << totalCount << "entries, counted in" << timer.elapsed() << "ms";
 
     QString desc = i18np("Adding a file", "Adding %1 files", totalCount);
     emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));

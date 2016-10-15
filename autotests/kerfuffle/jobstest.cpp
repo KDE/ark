@@ -219,34 +219,29 @@ void JobsTest::testExtractJobAccessors()
 {
     JSONArchiveInterface *iface = createArchiveInterface(QFINDTESTDATA("data/archive001.json"));
     ExtractJob *job = new ExtractJob(QVector<Archive::Entry*>(), QStringLiteral("/tmp/some-dir"), ExtractionOptions(), iface);
-    ExtractionOptions defaultOptions;
-    defaultOptions[QStringLiteral("PreservePaths")] = false;
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/tmp/some-dir"));
-    QCOMPARE(job->extractionOptions(), defaultOptions);
+    QVERIFY(job->extractionOptions().preservePaths());
 
     job->setAutoDelete(false);
     startAndWaitForResult(job);
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/tmp/some-dir"));
-    QCOMPARE(job->extractionOptions(), defaultOptions);
     delete job;
 
     ExtractionOptions options;
-    options[QStringLiteral("PreservePaths")] = true;
-    options[QStringLiteral("foo")] = QLatin1String("bar");
-    options[QStringLiteral("pi")] = 3.14f;
+    options.setPreservePaths(false);
 
     job = new ExtractJob(QVector<Archive::Entry*>(), QStringLiteral("/root"), options, iface);
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/root"));
-    QCOMPARE(job->extractionOptions(), options);
+    QVERIFY(!job->extractionOptions().preservePaths());
 
     job->setAutoDelete(false);
     startAndWaitForResult(job);
 
     QCOMPARE(job->destinationDirectory(), QLatin1String("/root"));
-    QCOMPARE(job->extractionOptions(), options);
+    QVERIFY(!job->extractionOptions().preservePaths());
     delete job;
 }
 
@@ -258,13 +253,13 @@ void JobsTest::testTempExtractJob()
     const QString tempDirPath = job->tempDir()->path();
     QVERIFY(QFileInfo::exists(tempDirPath));
     QVERIFY(job->validatedFilePath().endsWith(QLatin1String("anotherDir/file.txt")));
-    QVERIFY(job->extractionOptions()[QStringLiteral("PreservePaths")].toBool());
+    QVERIFY(job->extractionOptions().preservePaths());
 
     job->setAutoDelete(false);
     startAndWaitForResult(job);
 
     QVERIFY(job->validatedFilePath().endsWith(QLatin1String("anotherDir/file.txt")));
-    QVERIFY(job->extractionOptions()[QStringLiteral("PreservePaths")].toBool());
+    QVERIFY(job->extractionOptions().preservePaths());
 
     delete job->tempDir();
     QVERIFY(!QFileInfo::exists(tempDirPath));

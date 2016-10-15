@@ -83,7 +83,7 @@ bool JSONArchiveInterface::addFiles(const QVector<Kerfuffle::Archive::Entry*>& f
     return true;
 }
 
-bool JSONArchiveInterface::moveFiles(const QVector<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::ExtractionOptions& options)
+bool JSONArchiveInterface::moveFiles(const QVector<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destination)
