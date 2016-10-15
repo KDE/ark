@@ -172,7 +172,7 @@ void CopyTest::testCopying()
 
     QFETCH(QString, archiveName);
     const QString archivePath = temporaryDir.path() + QLatin1Char('/') + archiveName;
-    Q_ASSERT(QFile::copy(QFINDTESTDATA(QStringLiteral("data/") + archiveName), archivePath));
+    QVERIFY(QFile::copy(QFINDTESTDATA(QStringLiteral("data/") + archiveName), archivePath));
 
     auto loadJob = Archive::load(archivePath);
     QVERIFY(loadJob);
