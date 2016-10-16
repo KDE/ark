@@ -24,29 +24,42 @@
  */
 
 #include "testhelper.h"
+#include "pluginmanager.h"
 
 using namespace Kerfuffle;
 
 class MoveTest : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
+
+private Q_SLOTS:
+    void testMoving_data();
+    void testMoving();
 
 private:
     void addAllFormatsRows(const QString &testName, const QString &archiveName, const QVector<Archive::Entry*> &targetEntries, Archive::Entry *destination, const QStringList &expectedNewPaths) {
-        QStringList formats = QStringList()
-            << QStringLiteral("7z")
-            << QStringLiteral("rar")
-            << QStringLiteral("tar.bz2")
-            << QStringLiteral("zip");
+        const auto formats = QStringList {
+            QStringLiteral("7z"),
+            QStringLiteral("rar"),
+            QStringLiteral("tar.bz2"),
+            QStringLiteral("zip")
+        };
 
-            foreach (const QString &format, formats) {
-                const QString testNameWithFormat = testName + QStringLiteral(" (") + format + QStringLiteral(")");
-                QTest::newRow(testNameWithFormat.toUtf8())
-                    << archiveName + QLatin1Char('.') + format
+        // Repeat the same test case for each format and for each plugin supporting the format.
+        foreach (const QString &format, formats) {
+            const QString filename = QStringLiteral("%1.%2").arg(archiveName, format);
+            const auto mime = QMimeDatabase().mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
+
+            const auto plugins = m_pluginManager.preferredWritePluginsFor(mime);
+            foreach (const auto plugin, plugins) {
+                QTest::newRow(QStringLiteral("%1 (%2, %3)").arg(testName, format, plugin->metaData().pluginId()).toUtf8())
+                    << filename
+                    << plugin
                     << targetEntries
                     << destination
                     << expectedNewPaths;
             }
+        }
     }
 
     // TODO: move this to testhelper.
@@ -60,9 +73,7 @@ private:
         return paths;
     }
 
-private Q_SLOTS:
-    void testMoving_data();
-    void testMoving();
+    PluginManager m_pluginManager;
 };
 
 QTEST_GUILESS_MAIN(MoveTest)
@@ -70,6 +81,7 @@ QTEST_GUILESS_MAIN(MoveTest)
 void MoveTest::testMoving_data()
 {
     QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<Plugin*>("plugin");
     QTest::addColumn<QVector<Archive::Entry*>>("targetEntries");
     QTest::addColumn<Archive::Entry*>("destination");
     QTest::addColumn<QStringList>("expectedNewPaths");
@@ -213,7 +225,10 @@ void MoveTest::testMoving()
     const QString archivePath = temporaryDir.path() + QLatin1Char('/') + archiveName;
     QVERIFY(QFile::copy(QFINDTESTDATA(QStringLiteral("data/") + archiveName), archivePath));
 
-    auto loadJob = Archive::load(archivePath);
+    QFETCH(Plugin*, plugin);
+    QVERIFY(plugin);
+
+    auto loadJob = Archive::load(archivePath, plugin);
     QVERIFY(loadJob);
     loadJob->setAutoDelete(false);
 
@@ -222,7 +237,7 @@ void MoveTest::testMoving()
     QVERIFY(archive);
 
     if (!archive->isValid()) {
-        QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
+        QSKIP("The plugin could not load the archive. Skipping test.", SkipSingle);
     }
 
     QFETCH(QVector<Archive::Entry*>, targetEntries);
