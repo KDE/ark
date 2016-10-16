@@ -147,7 +147,7 @@ void MoveTest::testMoving_data()
                           new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                           new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/dir")),
+                      new Archive::Entry(this, QStringLiteral("empty_dir/dir/")),
                       QStringList {
                           QStringLiteral("empty_dir/dir/"),
                           QStringLiteral("empty_dir/dir/a.txt"),
