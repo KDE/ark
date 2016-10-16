@@ -182,6 +182,9 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
     const QString destinationPath = (destination == Q_NULLPTR)
                                     ? QString()
                                     : destination->fullPath();
+
+    qCDebug(ARK) << "Adding" << files.count() << "file(s) to destination:" << destinationPath;
+
     if (!destinationPath.isEmpty()) {
         m_extractTempDir = new QTemporaryDir();
         const QString absoluteDestinationPath = m_extractTempDir->path() + QLatin1Char('/') + destinationPath;

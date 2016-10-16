@@ -202,6 +202,8 @@ bool CliPlugin::readListLine(const QString &line)
 
 bool CliPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
+    qCDebug(ARK) << "Moving" << files.count() << "file(s) to destination:" << destination;
+
     m_oldWorkingDir = QDir::currentPath();
     m_tempExtractDir = new QTemporaryDir();
     m_tempAddDir = new QTemporaryDir();
@@ -268,15 +270,21 @@ bool CliPlugin::setMovingAddedFiles()
 
     // We have to exclude file name from destination path in order to pass it to addFiles method.
     const QString destinationPath = m_passedDestination->fullPath();
-    int destinationLength = destinationPath.count();
-    bool iteratedChar = false;
-    do {
-        destinationLength--;
-        if (destinationPath.at(destinationLength) != QLatin1Char('/')) {
-            iteratedChar = true;
-        }
-    } while (destinationLength > 0 && !(iteratedChar && destinationPath.at(destinationLength) == QLatin1Char('/')));
-    m_passedDestination->setProperty("fullPath", destinationPath.left(destinationLength + 1));
+    if (!destinationPath.endsWith(QLatin1Char('/')) || destinationPath.count(QLatin1Char('/')) > 1) {
+        int destinationLength = destinationPath.count();
+        bool iteratedChar = false;
+        do {
+            destinationLength--;
+            if (destinationPath.at(destinationLength) != QLatin1Char('/')) {
+                iteratedChar = true;
+            }
+        } while (destinationLength > 0 && !(iteratedChar && destinationPath.at(destinationLength) == QLatin1Char('/')));
+        m_passedDestination->setProperty("fullPath", destinationPath.left(destinationLength + 1));
+   } else {
+        // ...unless the destination path is already a single folder, e.g. "dir/".
+        // In this case we're going to add to the root, so we just need to set a null destination.
+        m_passedDestination = Q_NULLPTR;
+    }
 
     return true;
 }
