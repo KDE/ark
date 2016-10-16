@@ -111,7 +111,6 @@ void MoveTest::testMoving_data()
     addAllFormatsRows(QStringLiteral("replace a root directory"),
                       QStringLiteral("test"),
                       QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("dir1/")),
                           new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                           new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                           new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
@@ -130,12 +129,11 @@ void MoveTest::testMoving_data()
     addAllFormatsRows(QStringLiteral("replace a root directory 2"),
                       QStringLiteral("test"),
                       QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("dir2/")),
                           new Archive::Entry(this, QStringLiteral("dir2/dir/")),
                           new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
                           new Archive::Entry(this, QStringLiteral("dir2/dir/b.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
+                      new Archive::Entry(this, QStringLiteral("empty_dir/dir/")),
                       QStringList {
                           QStringLiteral("empty_dir/dir/"),
                           QStringLiteral("empty_dir/dir/a.txt"),
