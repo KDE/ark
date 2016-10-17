@@ -32,7 +32,7 @@ class AddTest : public QObject
     Q_OBJECT
 
 private:
-void addAllFormatsRows(const QString &testName, const QString &archiveName, const QVector<Archive::Entry*> &entries, Archive::Entry *destination) {
+void addAllFormatsRows(const QString &testName, const QString &archiveName, const QVector<Archive::Entry*> &entries, Archive::Entry *destination, uint numberOfEntries) {
     QStringList formats = QStringList()
             << QStringLiteral("7z")
             << QStringLiteral("rar")
@@ -44,7 +44,8 @@ void addAllFormatsRows(const QString &testName, const QString &archiveName, cons
         QTest::newRow(testNameWithFormat.toUtf8())
             << archiveName + QLatin1Char('.') + format
             << entries
-            << destination;
+            << destination
+            << numberOfEntries;
     }
 }
 
@@ -60,6 +61,7 @@ void AddTest::testAdding_data()
     QTest::addColumn<QString>("archiveName");
     QTest::addColumn<QVector<Archive::Entry*>>("files");
     QTest::addColumn<Archive::Entry*>("destination");
+    QTest::addColumn<uint>("numberOfEntries");
 
     addAllFormatsRows(QStringLiteral("without destination"),
                       QStringLiteral("test"),
@@ -67,7 +69,8 @@ void AddTest::testAdding_data()
                           new Archive::Entry(this, QStringLiteral("textfile1.txt")),
                           new Archive::Entry(this, QStringLiteral("textfile2.txt")),
                       },
-                      new Archive::Entry(this));
+                      new Archive::Entry(this),
+                      15);
 
     addAllFormatsRows(QStringLiteral("with destination, files"),
                       QStringLiteral("test"),
@@ -75,28 +78,32 @@ void AddTest::testAdding_data()
                           new Archive::Entry(this, QStringLiteral("textfile1.txt")),
                           new Archive::Entry(this, QStringLiteral("textfile2.txt")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
+                      15);
 
     addAllFormatsRows(QStringLiteral("with destination, directory"),
                       QStringLiteral("test"),
                       QVector<Archive::Entry*> {
                           new Archive::Entry(this, QStringLiteral("testdir/")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
+                      16);
 
     addAllFormatsRows(QStringLiteral("without destination, directory 2"),
                       QStringLiteral("test"),
                       QVector<Archive::Entry*> {
                           new Archive::Entry(this, QStringLiteral("testdir2/")),
                       },
-                      new Archive::Entry(this));
+                      new Archive::Entry(this),
+                      17);
 
     addAllFormatsRows(QStringLiteral("with destination, directory 2"),
                       QStringLiteral("test"),
                       QVector<Archive::Entry*> {
                           new Archive::Entry(this, QStringLiteral("testdir2/")),
                       },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")));
+                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
+                      17);
 }
 
 void AddTest::testAdding()
@@ -131,6 +138,9 @@ void AddTest::testAdding()
 
     QVector<Archive::Entry*> resultedEntries = TestHelper::getEntryList(archive);
     TestHelper::verifyAddedEntriesWithDestination(files, destination, oldEntries, resultedEntries);
+
+    QFETCH(uint, numberOfEntries);
+    QCOMPARE(archive->numberOfEntries(), numberOfEntries);
 
     loadJob->deleteLater();
     archive->deleteLater();
