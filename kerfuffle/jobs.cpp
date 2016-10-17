@@ -156,11 +156,15 @@ void Job::connectToArchiveInterfaceSignals()
     connect(archiveInterface(), &ReadOnlyArchiveInterface::cancelled, this, &Job::onCancelled);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::error, this, &Job::onError);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::entry, this, &Job::onEntry);
-    connect(archiveInterface(), &ReadOnlyArchiveInterface::entryRemoved, this, &Job::onEntryRemoved);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &Job::onProgress);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::info, this, &Job::onInfo);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::finished, this, &Job::onFinished);
     connect(archiveInterface(), &ReadOnlyArchiveInterface::userQuery, this, &Job::onUserQuery);
+
+    auto readWriteInterface = qobject_cast<ReadWriteArchiveInterface*>(archiveInterface());
+    if (readWriteInterface) {
+        connect(readWriteInterface, &ReadWriteArchiveInterface::entryRemoved, this, &Job::onEntryRemoved);
+    }
 }
 
 void Job::onCancelled()

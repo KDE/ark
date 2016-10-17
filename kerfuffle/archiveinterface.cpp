@@ -49,7 +49,6 @@ ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVaria
     qCDebug(ARK) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();
     connect(this, &ReadOnlyArchiveInterface::entry, this, &ReadOnlyArchiveInterface::onEntry);
-    connect(this, &ReadOnlyArchiveInterface::entryRemoved, this, &ReadOnlyArchiveInterface::onEntryRemoved);
 }
 
 ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
@@ -60,12 +59,6 @@ void ReadOnlyArchiveInterface::onEntry(Archive::Entry *archiveEntry)
 {
     Q_UNUSED(archiveEntry)
     m_numberOfEntries++;
-}
-
-void ReadOnlyArchiveInterface::onEntryRemoved(const QString &path)
-{
-    Q_UNUSED(path)
-    m_numberOfEntries--;
 }
 
 QString ReadOnlyArchiveInterface::filename() const
@@ -155,6 +148,8 @@ ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVar
         : ReadOnlyArchiveInterface(parent, args)
 {
     qCDebug(ARK) << "Created read-write interface for" << args.first().toString();
+
+    connect(this, &ReadWriteArchiveInterface::entryRemoved, this, &ReadWriteArchiveInterface::onEntryRemoved);
 }
 
 ReadWriteArchiveInterface::~ReadWriteArchiveInterface()
@@ -278,6 +273,12 @@ bool ReadWriteArchiveInterface::isReadOnly() const
 int ReadOnlyArchiveInterface::numberOfEntries() const
 {
     return m_numberOfEntries;
+}
+
+void ReadWriteArchiveInterface::onEntryRemoved(const QString &path)
+{
+    Q_UNUSED(path)
+    m_numberOfEntries--;
 }
 
 } // namespace Kerfuffle

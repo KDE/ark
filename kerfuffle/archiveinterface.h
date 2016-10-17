@@ -162,7 +162,6 @@ signals:
     void cancelled();
     void error(const QString &message, const QString &details = QString());
     void entry(Archive::Entry *archiveEntry);
-    void entryRemoved(const QString &path);
     void progress(double progress);
     void info(const QString &info);
     void finished(bool result);
@@ -194,7 +193,6 @@ private:
 
 private slots:
     void onEntry(Archive::Entry *archiveEntry);
-    void onEntryRemoved(const QString &path);
 };
 
 class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterface
@@ -215,6 +213,12 @@ public:
     virtual bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
     virtual bool deleteFiles(const QVector<Archive::Entry*> &files) = 0;
     virtual bool addComment(const QString &comment) = 0;
+
+signals:
+    void entryRemoved(const QString &path);
+
+private slots:
+    void onEntryRemoved(const QString &path);
 };
 
 } // namespace Kerfuffle
