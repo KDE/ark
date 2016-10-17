@@ -106,6 +106,7 @@ bool CliInterface::list()
     resetParsing();
     cacheParameterList();
     m_operationMode = List;
+    m_numberOfEntries = 0;
 
     const auto args = substituteListVariables(m_param.value(ListArgs).toStringList(), password());
 
@@ -168,8 +169,10 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     return true;
 }
 
-bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
+bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd)
 {
+    Q_UNUSED(numberOfEntriesToAdd)
+
     cacheParameterList();
 
     m_operationMode = Add;
@@ -265,6 +268,7 @@ bool CliInterface::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
     m_passedFiles = files;
     m_passedDestination = destination;
     m_passedOptions = options;
+    m_numberOfEntries = 0;
 
     m_subOperation = Extract;
     connect(this, &CliInterface::finished, this, &CliInterface::continueCopying);

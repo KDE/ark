@@ -65,6 +65,7 @@ bool LibarchivePlugin::list()
 
     m_cachedArchiveEntryCount = 0;
     m_extractedFilesSize = 0;
+    m_numberOfEntries = 0;
     qulonglong compressedArchiveSize = QFileInfo(filename()).size();
 
     struct archive_entry *aentry;
@@ -98,11 +99,12 @@ bool LibarchivePlugin::list()
     return archive_read_close(m_archiveReader.data()) == ARCHIVE_OK;
 }
 
-bool LibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options)
+bool LibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd)
 {
     Q_UNUSED(files)
     Q_UNUSED(destination)
     Q_UNUSED(options)
+    Q_UNUSED(numberOfEntriesToAdd)
     return false;
 }
 

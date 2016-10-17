@@ -80,8 +80,7 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(bool isMultiVolume READ isMultiVolume WRITE setMultiVolume)
     Q_PROPERTY(bool numberOfVolumes READ numberOfVolumes)
     Q_PROPERTY(EncryptionType encryptionType MEMBER m_encryptionType READ encryptionType)
-    Q_PROPERTY(qulonglong numberOfFiles READ numberOfFiles)
-    Q_PROPERTY(qulonglong numberOfFolders READ numberOfFolders)
+    Q_PROPERTY(uint numberOfEntries READ numberOfEntries)
     Q_PROPERTY(qulonglong unpackedSize MEMBER m_extractedFilesSize READ unpackedSize)
     Q_PROPERTY(qulonglong packedSize READ packedSize)
     Q_PROPERTY(QString subfolderName MEMBER m_subfolderName READ subfolderName)
@@ -113,8 +112,7 @@ public:
     int numberOfVolumes() const;
     EncryptionType encryptionType() const;
     QString password() const;
-    qulonglong numberOfFiles() const;
-    qulonglong numberOfFolders() const;
+    uint numberOfEntries() const;
     qulonglong unpackedSize() const;
     qulonglong packedSize() const;
     QString subfolderName() const;
@@ -212,7 +210,6 @@ public:
 private slots:
     void onAddFinished(KJob*);
     void onUserQuery(Kerfuffle::Query*);
-    void onNewEntry(const Archive::Entry *entry);
     void onCompressionMethodFound(const QStringList &methods);
 
 private:

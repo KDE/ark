@@ -40,6 +40,7 @@ namespace Kerfuffle
 ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args)
         : QObject(parent)
         , m_numberOfVolumes(0)
+        , m_numberOfEntries(0)
         , m_waitForFinishedSignal(false)
         , m_isHeaderEncryptionEnabled(false)
         , m_isCorrupt(false)
@@ -47,10 +48,24 @@ ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVaria
 {
     qCDebug(ARK) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();
+    connect(this, &ReadOnlyArchiveInterface::entry, this, &ReadOnlyArchiveInterface::onEntry);
+    connect(this, &ReadOnlyArchiveInterface::entryRemoved, this, &ReadOnlyArchiveInterface::onEntryRemoved);
 }
 
 ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
 {
+}
+
+void ReadOnlyArchiveInterface::onEntry(Archive::Entry *archiveEntry)
+{
+    Q_UNUSED(archiveEntry)
+    m_numberOfEntries++;
+}
+
+void ReadOnlyArchiveInterface::onEntryRemoved(const QString &path)
+{
+    Q_UNUSED(path)
+    m_numberOfEntries--;
 }
 
 QString ReadOnlyArchiveInterface::filename() const
@@ -258,6 +273,11 @@ bool ReadWriteArchiveInterface::isReadOnly() const
     } else {
         return !fileInfo.dir().exists(); // TODO: Should also check if we can create a file in that directory
     }
+}
+
+int ReadOnlyArchiveInterface::numberOfEntries() const
+{
+    return m_numberOfEntries;
 }
 
 } // namespace Kerfuffle

@@ -22,9 +22,9 @@
 
 #include "cliplugin.h"
 #include "ark_debug.h"
+#include "kerfuffle/archiveentry.h"
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
-#include "kerfuffle/archiveentry.h"
 
 #include <KPluginFactory>
 

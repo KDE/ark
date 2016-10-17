@@ -156,6 +156,7 @@ public:
     bool isHeaderEncryptionEnabled() const;
     virtual QString multiVolumeName() const;
     void setMultiVolume(bool value);
+    int numberOfEntries() const;
 
 signals:
     void cancelled();
@@ -181,6 +182,7 @@ protected:
     bool isCorrupt() const;
     QString m_comment;
     int m_numberOfVolumes;
+    int m_numberOfEntries;
 
 private:
     QString m_filename;
@@ -189,6 +191,10 @@ private:
     bool m_isHeaderEncryptionEnabled;
     bool m_isCorrupt;
     bool m_isMultiVolume;
+
+private slots:
+    void onEntry(Archive::Entry *archiveEntry);
+    void onEntryRemoved(const QString &path);
 };
 
 class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterface
@@ -204,7 +210,7 @@ public:
 
     bool isReadOnly() const Q_DECL_OVERRIDE;
 
-    virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options) = 0;
+    virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd = 0) = 0;
     virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
     virtual bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
     virtual bool deleteFiles(const QVector<Archive::Entry*> &files) = 0;

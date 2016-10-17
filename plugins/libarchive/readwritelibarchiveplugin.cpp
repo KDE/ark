@@ -47,11 +47,12 @@ ReadWriteLibarchivePlugin::~ReadWriteLibarchivePlugin()
 {
 }
 
-bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options)
+bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd)
 {
     qCDebug(ARK) << "Adding" << files.size() << "entries with CompressionOptions" << options;
 
     const bool creatingNewFile = !QFileInfo::exists(filename());
+    const uint totalCount = m_numberOfEntries + numberOfEntriesToAdd;
 
     m_writtenFiles.clear();
 
@@ -81,6 +82,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
             return false;
         }
         no_entries++;
+        emit progress(float(no_entries)/float(totalCount));
 
         // For directories, write all subfiles/folders.
         const QString &fullPath = selectedFile->fullPath();
@@ -109,6 +111,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
                     return false;
                 }
                 no_entries++;
+                emit progress(float(no_entries)/float(totalCount));
             }
         }
     }
@@ -119,7 +122,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
     if (!creatingNewFile) {
         qCDebug(ARK) << "Copying any old entries";
         m_filesPaths = m_writtenFiles;
-        isSuccessful = processOldEntries(no_entries, Add);
+        isSuccessful = processOldEntries(no_entries, Add, totalCount);
         if (isSuccessful) {
             qCDebug(ARK) << "Added" << no_entries << "old entries to archive";
         } else {
@@ -150,7 +153,7 @@ bool ReadWriteLibarchivePlugin::moveFiles(const QVector<Archive::Entry*> &files,
     m_filesPaths = entryFullPaths(files);
     m_entriesWithoutChildren = entriesWithoutChildren(files).count();
     m_destination = destination;
-    const bool isSuccessful = processOldEntries(no_entries, Move);
+    const bool isSuccessful = processOldEntries(no_entries, Move, m_numberOfEntries);
     if (isSuccessful) {
         qCDebug(ARK) << "Moved" << no_entries << "entries within archive";
     } else {
@@ -180,7 +183,7 @@ bool ReadWriteLibarchivePlugin::copyFiles(const QVector<Archive::Entry*> &files,
     m_filesPaths = entryFullPaths(files);
     m_entriesWithoutChildren = 0; // we don't care
     m_destination = destination;
-    const bool isSuccessful = processOldEntries(no_entries, Copy);
+    const bool isSuccessful = processOldEntries(no_entries, Copy, m_numberOfEntries);
     if (isSuccessful) {
         qCDebug(ARK) << "Copied" << no_entries << "entries within archive";
     } else {
@@ -206,7 +209,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVector<Archive::Entry*> &file
     // Copy old elements from previous archive to new archive.
     int no_entries = 0;
     m_filesPaths = entryFullPaths(files);
-    const bool isSuccessful = processOldEntries(no_entries, Delete);
+    const bool isSuccessful = processOldEntries(no_entries, Delete, m_numberOfEntries);
     if (isSuccessful) {
         qCDebug(ARK) << "Removed" << no_entries << "entries from archive";
     } else {
@@ -386,11 +389,13 @@ void ReadWriteLibarchivePlugin::finish(const bool isSuccessful)
     m_tempFile.commit();
 }
 
-bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, OperationMode mode)
+bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, OperationMode mode, uint totalCount)
 {
     struct archive_entry *entry;
 
+    const uint newEntries = entriesCounter;
     entriesCounter = 0;
+    int iteratedEntries = 0;
 
     QMap<QString, QString> pathMap;
     if (mode == Move || mode == Copy) {
@@ -419,7 +424,11 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
                 }
 
                 entriesCounter++;
+                iteratedEntries--;
+
+                // Change entry path.
                 archive_entry_set_pathname(entry, newPathname.toUtf8());
+                emitEntryFromArchiveEntry(entry);
             }
         } else if (m_filesPaths.contains(file)) {
             archive_read_data_skip(m_archiveReader.data());
@@ -427,6 +436,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
             case Delete:
                 entriesCounter++;
                 emit entryRemoved(file);
+                emit progress(float(newEntries + entriesCounter + iteratedEntries)/float(totalCount));
                 break;
 
             case Add:
@@ -440,15 +450,19 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
             continue;
         }
 
+        // Write old entries.
         if (writeEntry(entry)) {
             if (mode == Add) {
                 entriesCounter++;
             } else if (mode == Move || mode == Copy) {
-                emitEntryFromArchiveEntry(entry);
+                iteratedEntries++;
+            } else if (mode == Delete) {
+                iteratedEntries++;
             }
         } else {
             return false;
         }
+        emit progress(float(newEntries + entriesCounter + iteratedEntries)/float(totalCount));
     }
 
     return true;

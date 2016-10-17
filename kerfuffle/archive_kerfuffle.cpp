@@ -163,15 +163,12 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
         , m_extractedFilesSize(0)
         , m_error(NoError)
         , m_encryptionType(Unencrypted)
-        , m_numberOfFiles(0)
-        , m_numberOfFolders(0)
 {
     qCDebug(ARK) << "Created archive instance";
 
     Q_ASSERT(m_iface);
     m_iface->setParent(this);
 
-    connect(m_iface, &ReadOnlyArchiveInterface::entry, this, &Archive::onNewEntry);
     connect(m_iface, &ReadOnlyArchiveInterface::compressionMethodFound, this, &Archive::onCompressionMethodFound);
 }
 
@@ -264,13 +261,13 @@ QMimeType Archive::mimeType()
 
 bool Archive::isEmpty() const
 {
-    return (numberOfFiles() == 0) && (numberOfFolders() == 0);
+    return (numberOfEntries() == 0);
 }
 
 bool Archive::isReadOnly() const
 {
     return isValid() ? (m_iface->isReadOnly() || m_isReadOnly ||
-                        (isMultiVolume() && (numberOfFiles() > 0 || numberOfFolders() > 0))) : false;
+                        (isMultiVolume() && (numberOfEntries() > 0))) : false;
 }
 
 bool Archive::isSingleFolder() const
@@ -320,22 +317,13 @@ QString Archive::password() const
     return m_iface->password();
 }
 
-qulonglong Archive::numberOfFiles() const
+uint Archive::numberOfEntries() const
 {
     if (!isValid()) {
         return 0;
     }
 
-    return m_numberOfFiles;
-}
-
-qulonglong Archive::numberOfFolders() const
-{
-    if (!isValid()) {
-        return 0;
-    }
-
-    return m_numberOfFolders;
+    return m_iface->numberOfEntries();
 }
 
 qulonglong Archive::unpackedSize() const
@@ -359,11 +347,6 @@ QString Archive::subfolderName() const
     }
 
     return m_subfolderName;
-}
-
-void Archive::onNewEntry(const Archive::Entry *entry)
-{
-    entry->isDir() ? m_numberOfFolders++ : m_numberOfFiles++;
 }
 
 bool Archive::isValid() const

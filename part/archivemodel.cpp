@@ -663,8 +663,6 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     // Skip already created entries.
     Archive::Entry *existing = m_rootEntry->findByPath(entryFileName.split(QLatin1Char('/')));
     if (existing) {
-        qCDebug(ARK) << "Refreshing entry for" << entryFileName;
-
         existing->setProperty("fullPath", entryFileName);
         // Multi-volume files are repeated at least in RAR archives.
         // In that case, we need to sum the compressed size for each volume

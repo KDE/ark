@@ -44,7 +44,7 @@ public:
     explicit ReadWriteLibarchivePlugin(QObject *parent, const QVariantList &args);
     ~ReadWriteLibarchivePlugin();
 
-    bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
+    bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd = 0) Q_DECL_OVERRIDE;
     bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
     bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
     bool deleteFiles(const QVector<Archive::Entry*> &files) Q_DECL_OVERRIDE;
@@ -64,7 +64,7 @@ private:
      *
      * @return bool indicating whether the operation was successful.
      */
-    bool processOldEntries(int &entriesCounter, OperationMode mode);
+    bool processOldEntries(int &entriesCounter, OperationMode mode, uint totalCount);
 
     /**
      * Writes entry being read into memory.
