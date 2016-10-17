@@ -203,7 +203,7 @@ void MainWindow::openArchive()
 
     connect(dlg, &QDialog::finished, this, [this, dlg](int result) {
         if (result == QDialog::Accepted) {
-            openUrl(dlg->selectedUrls().first());
+            openUrl(dlg->selectedUrls().at(0));
         }
         dlg->deleteLater();
     });
