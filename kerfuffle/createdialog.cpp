@@ -47,6 +47,8 @@ namespace Kerfuffle
 {
 class CreateDialogUI: public QWidget, public Ui::CreateDialog
 {
+    Q_OBJECT
+
 public:
     CreateDialogUI(QWidget *parent = 0)
             : QWidget(parent) {
@@ -240,3 +242,5 @@ bool CreateDialog::setMimeType(const QString &mimeTypeName)
 }
 
 }
+
+#include "createdialog.moc"

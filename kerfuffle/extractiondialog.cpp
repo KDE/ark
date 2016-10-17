@@ -46,6 +46,8 @@ namespace Kerfuffle
 
 class ExtractionDialogUI: public QFrame, public Ui::ExtractionDialog
 {
+    Q_OBJECT
+
 public:
     ExtractionDialogUI(QWidget *parent = 0)
             : QFrame(parent) {
@@ -324,4 +326,7 @@ void ExtractionDialog::restoreWindowSize()
   KConfigGroup group(KSharedConfig::openConfig(), "ExtractDialog");
   KWindowConfig::restoreWindowSize(windowHandle(), group);
 }
+
 }
+
+#include "extractiondialog.moc"

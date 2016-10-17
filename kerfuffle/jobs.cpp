@@ -46,6 +46,8 @@ namespace Kerfuffle
 
 class Job::Private : public QThread
 {
+    Q_OBJECT
+
 public:
     Private(Job *job, QObject *parent = 0)
         : QThread(parent)
@@ -787,4 +789,4 @@ bool TestJob::testSucceeded()
 
 } // namespace Kerfuffle
 
-
+#include "jobs.moc"

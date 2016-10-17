@@ -42,6 +42,8 @@ namespace Kerfuffle
 {
 class PropertiesDialogUI: public QWidget, public Ui::PropertiesDialog
 {
+    Q_OBJECT
+
 public:
     PropertiesDialogUI(QWidget *parent = 0)
             : QWidget(parent) {
@@ -139,4 +141,5 @@ void PropertiesDialog::showChecksum(QCryptographicHash::Algorithm algorithm, con
     futureWatcher->setFuture(future);
 }
 
+#include "propertiesdialog.moc"
 }
