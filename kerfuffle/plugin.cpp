@@ -106,7 +106,6 @@ bool Plugin::findExecutables(const QStringList &executables)
         }
 
         if (QStandardPaths::findExecutable(executable).isEmpty()) {
-            qCDebug(ARK) << "Could not find executable" << executable;
             return false;
         }
     }
