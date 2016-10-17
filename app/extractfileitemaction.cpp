@@ -21,6 +21,7 @@
 
 #include "extractfileitemaction.h"
 
+#include <QFileInfo>
 #include <QMenu>
 
 #include <KPluginFactory>
@@ -44,12 +45,19 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
     QList<QAction*> actions;
     const QIcon icon = QIcon::fromTheme(QStringLiteral("ark"));
 
+    bool readOnlyParentDir = false;
     QList<QUrl> supportedUrls;
     // Filter URLs by supported mimetypes.
     foreach (const QUrl &url, fileItemInfos.urlList()) {
         const QMimeType mimeType = determineMimeType(url.fileName());
-        if (!m_pluginManager->preferredPluginsFor(mimeType).isEmpty()) {
-            supportedUrls << url;
+        if (m_pluginManager->preferredPluginsFor(mimeType).isEmpty()) {
+            continue;
+        }
+        supportedUrls << url;
+        // Check whether we can write in the parent directory of the file.
+        const QString directory = url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
+        if (!QFileInfo(directory).isWritable()) {
+            readOnlyParentDir = true;
         }
     }
 
@@ -81,7 +89,7 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
     extractMenuAction->setMenu(extractMenu);
 
     // #189177: disable extract menu in read-only folders.
-    if (!fileItemInfos.supportsWriting()) {
+    if (readOnlyParentDir) {
         extractMenuAction->setEnabled(false);
     }
 
