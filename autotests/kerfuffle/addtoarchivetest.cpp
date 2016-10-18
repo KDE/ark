@@ -24,6 +24,7 @@
  */
 
 #include "addtoarchive.h"
+#include "jobs.h"
 #include "pluginmanager.h"
 #include "testhelper.h"
 

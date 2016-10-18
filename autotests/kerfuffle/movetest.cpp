@@ -23,58 +23,26 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "abstractaddtest.h"
+#include "archiveentry.h"
+#include "jobs.h"
 #include "testhelper.h"
-#include "pluginmanager.h"
+
+#include <QMimeDatabase>
+#include <QTest>
 
 using namespace Kerfuffle;
 
-class MoveTest : public QObject
+class MoveTest : public AbstractAddTest
 {
     Q_OBJECT
+
+public:
+    MoveTest() : AbstractAddTest() {}
 
 private Q_SLOTS:
     void testMoving_data();
     void testMoving();
-
-private:
-    void addAllFormatsRows(const QString &testName, const QString &archiveName, const QVector<Archive::Entry*> &targetEntries, Archive::Entry *destination, const QStringList &expectedNewPaths, uint numberOfEntries) {
-        const auto formats = QStringList {
-            QStringLiteral("7z"),
-            QStringLiteral("rar"),
-            QStringLiteral("tar.bz2"),
-            QStringLiteral("zip")
-        };
-
-        // Repeat the same test case for each format and for each plugin supporting the format.
-        foreach (const QString &format, formats) {
-            const QString filename = QStringLiteral("%1.%2").arg(archiveName, format);
-            const auto mime = QMimeDatabase().mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
-
-            const auto plugins = m_pluginManager.preferredWritePluginsFor(mime);
-            foreach (const auto plugin, plugins) {
-                QTest::newRow(QStringLiteral("%1 (%2, %3)").arg(testName, format, plugin->metaData().pluginId()).toUtf8())
-                    << filename
-                    << plugin
-                    << targetEntries
-                    << destination
-                    << expectedNewPaths
-                    << numberOfEntries;
-            }
-        }
-    }
-
-    // TODO: move this to testhelper.
-    QStringList getEntryPaths(Archive *archive)
-    {
-        QStringList paths;
-        auto loadJob = Archive::load(archive->fileName());
-        QObject::connect(loadJob, &Job::newEntry, [&paths](Archive::Entry* entry) { paths << entry->fullPath(); });
-        TestHelper::startAndWaitForResult(loadJob);
-
-        return paths;
-    }
-
-    PluginManager m_pluginManager;
 };
 
 QTEST_GUILESS_MAIN(MoveTest)
@@ -88,141 +56,141 @@ void MoveTest::testMoving_data()
     QTest::addColumn<QStringList>("expectedNewPaths");
     QTest::addColumn<uint>("numberOfEntries");
 
-    addAllFormatsRows(QStringLiteral("replace a single file"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("a.txt")),
-                      },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/a.txt")),
-                      QStringList {
-                          QStringLiteral("empty_dir/a.txt")
-                      },
-                      13);
+    setupRows(QStringLiteral("replace a single file"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("a.txt")),
+              },
+              new Archive::Entry(this, QStringLiteral("empty_dir/a.txt")),
+              QStringList {
+                  QStringLiteral("empty_dir/a.txt")
+              },
+              13);
 
-    addAllFormatsRows(QStringLiteral("replace several files"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("a.txt")),
-                          new Archive::Entry(this, QStringLiteral("b.txt")),
-                      },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
-                      QStringList {
-                          QStringLiteral("empty_dir/a.txt"),
-                          QStringLiteral("empty_dir/b.txt")
-                      },
-                      13);
+    setupRows(QStringLiteral("replace several files"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("a.txt")),
+                  new Archive::Entry(this, QStringLiteral("b.txt"))
+              },
+              new Archive::Entry(this, QStringLiteral("empty_dir/")),
+              QStringList {
+                  QStringLiteral("empty_dir/a.txt"),
+                  QStringLiteral("empty_dir/b.txt")
+              },
+              13);
 
-    addAllFormatsRows(QStringLiteral("replace a root directory"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/")),
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir1/b.txt")),
-                      },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
-                      QStringList {
-                          QStringLiteral("empty_dir/a.txt"),
-                          QStringLiteral("empty_dir/b.txt"),
-                          QStringLiteral("empty_dir/dir/"),
-                          QStringLiteral("empty_dir/dir/a.txt"),
-                          QStringLiteral("empty_dir/dir/b.txt"),
-                      },
-                      13);
+    setupRows(QStringLiteral("replace a root directory"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/")),
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir1/b.txt"))
+              },
+              new Archive::Entry(this, QStringLiteral("empty_dir/")),
+              QStringList {
+                  QStringLiteral("empty_dir/a.txt"),
+                  QStringLiteral("empty_dir/b.txt"),
+                  QStringLiteral("empty_dir/dir/"),
+                  QStringLiteral("empty_dir/dir/a.txt"),
+                  QStringLiteral("empty_dir/dir/b.txt")
+              },
+              13);
 
-    addAllFormatsRows(QStringLiteral("replace a root directory 2"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("dir2/dir/")),
-                          new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir2/dir/b.txt")),
-                      },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/dir/")),
-                      QStringList {
-                          QStringLiteral("empty_dir/dir/"),
-                          QStringLiteral("empty_dir/dir/a.txt"),
-                          QStringLiteral("empty_dir/dir/b.txt"),
-                      },
-                      13);
+    setupRows(QStringLiteral("replace a root directory 2"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("dir2/dir/")),
+                  new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir2/dir/b.txt"))
+              },
+              new Archive::Entry(this, QStringLiteral("empty_dir/dir/")),
+              QStringList {
+                  QStringLiteral("empty_dir/dir/"),
+                  QStringLiteral("empty_dir/dir/a.txt"),
+                  QStringLiteral("empty_dir/dir/b.txt")
+              },
+              13);
 
-    addAllFormatsRows(QStringLiteral("replace a directory"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/")),
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
-                      },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/dir/")),
-                      QStringList {
-                          QStringLiteral("empty_dir/dir/"),
-                          QStringLiteral("empty_dir/dir/a.txt"),
-                          QStringLiteral("empty_dir/dir/b.txt"),
-                      },
-                      13);
+    setupRows(QStringLiteral("replace a directory"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/")),
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt"))
+              },
+              new Archive::Entry(this, QStringLiteral("empty_dir/dir/")),
+              QStringList {
+                  QStringLiteral("empty_dir/dir/"),
+                  QStringLiteral("empty_dir/dir/a.txt"),
+                  QStringLiteral("empty_dir/dir/b.txt")
+              },
+              13);
 
-    addAllFormatsRows(QStringLiteral("replace several directories"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("dir1/")),
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/")),
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir1/b.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir2/")),
-                          new Archive::Entry(this, QStringLiteral("dir2/dir/")),
-                          new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir2/dir/b.txt")),
-                      },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
-                      QStringList {
-                          QStringLiteral("empty_dir/dir1/"),
-                          QStringLiteral("empty_dir/dir1/a.txt"),
-                          QStringLiteral("empty_dir/dir1/b.txt"),
-                          QStringLiteral("empty_dir/dir1/dir/"),
-                          QStringLiteral("empty_dir/dir1/dir/a.txt"),
-                          QStringLiteral("empty_dir/dir1/dir/b.txt"),
-                          QStringLiteral("empty_dir/dir2/"),
-                          QStringLiteral("empty_dir/dir2/dir/"),
-                          QStringLiteral("empty_dir/dir2/dir/a.txt"),
-                          QStringLiteral("empty_dir/dir2/dir/b.txt")
-                      },
-                      13);
+    setupRows(QStringLiteral("replace several directories"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("dir1/")),
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/")),
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir1/b.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir2/")),
+                  new Archive::Entry(this, QStringLiteral("dir2/dir/")),
+                  new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir2/dir/b.txt"))
+              },
+              new Archive::Entry(this, QStringLiteral("empty_dir/")),
+              QStringList {
+                  QStringLiteral("empty_dir/dir1/"),
+                  QStringLiteral("empty_dir/dir1/a.txt"),
+                  QStringLiteral("empty_dir/dir1/b.txt"),
+                  QStringLiteral("empty_dir/dir1/dir/"),
+                  QStringLiteral("empty_dir/dir1/dir/a.txt"),
+                  QStringLiteral("empty_dir/dir1/dir/b.txt"),
+                  QStringLiteral("empty_dir/dir2/"),
+                  QStringLiteral("empty_dir/dir2/dir/"),
+                  QStringLiteral("empty_dir/dir2/dir/a.txt"),
+                  QStringLiteral("empty_dir/dir2/dir/b.txt")
+              },
+              13);
 
-    addAllFormatsRows(QStringLiteral("replace several entries"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/")),
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir1/b.txt")),
-                      },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
-                      QStringList {
-                          QStringLiteral("empty_dir/dir/"),
-                          QStringLiteral("empty_dir/dir/a.txt"),
-                          QStringLiteral("empty_dir/dir/b.txt"),
-                          QStringLiteral("empty_dir/a.txt"),
-                          QStringLiteral("empty_dir/b.txt")
-                      },
-                      13);
+    setupRows(QStringLiteral("replace several entries"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/")),
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir1/a.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir1/b.txt"))
+              },
+              new Archive::Entry(this, QStringLiteral("empty_dir/")),
+              QStringList {
+                  QStringLiteral("empty_dir/dir/"),
+                  QStringLiteral("empty_dir/dir/a.txt"),
+                  QStringLiteral("empty_dir/dir/b.txt"),
+                  QStringLiteral("empty_dir/a.txt"),
+                  QStringLiteral("empty_dir/b.txt")
+              },
+              13);
 
-    addAllFormatsRows(QStringLiteral("move a directory to the root"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/")),
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
-                          new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
-                      },
-                      new Archive::Entry(this, QStringLiteral("dir/")),
-                      QStringList {
-                          QStringLiteral("dir/"),
-                          QStringLiteral("dir/a.txt"),
-                          QStringLiteral("dir/b.txt"),
-                      },
-                      13);
+    setupRows(QStringLiteral("move a directory to the root"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/")),
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
+                  new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt"))
+              },
+              new Archive::Entry(this, QStringLiteral("dir/")),
+              QStringList {
+                  QStringLiteral("dir/"),
+                  QStringLiteral("dir/a.txt"),
+                  QStringLiteral("dir/b.txt")
+              },
+              13);
 }
 
 void MoveTest::testMoving()
@@ -245,7 +213,7 @@ void MoveTest::testMoving()
     QVERIFY(archive);
 
     if (!archive->isValid()) {
-        QSKIP("The plugin could not load the archive. Skipping test.", SkipSingle);
+        QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
     }
 
     QFETCH(QVector<Archive::Entry*>, targetEntries);

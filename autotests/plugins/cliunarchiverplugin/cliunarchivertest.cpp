@@ -18,6 +18,7 @@
  */
 
 #include "cliunarchivertest.h"
+#include "jobs.h"
 #include "testhelper.h"
 
 #include <KPluginLoader>

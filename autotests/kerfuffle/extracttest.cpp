@@ -24,6 +24,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "archive_kerfuffle.h"
+#include "jobs.h"
 #include "testhelper.h"
 
 #include <QDirIterator>

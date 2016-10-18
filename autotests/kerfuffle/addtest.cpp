@@ -23,31 +23,21 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "abstractaddtest.h"
+#include "archiveentry.h"
+#include "jobs.h"
 #include "testhelper.h"
+
+#include <QTest>
 
 using namespace Kerfuffle;
 
-class AddTest : public QObject
+class AddTest : public AbstractAddTest
 {
     Q_OBJECT
 
-private:
-void addAllFormatsRows(const QString &testName, const QString &archiveName, const QVector<Archive::Entry*> &entries, Archive::Entry *destination, uint numberOfEntries) {
-    QStringList formats = QStringList()
-            << QStringLiteral("7z")
-            << QStringLiteral("rar")
-            << QStringLiteral("tar.bz2")
-            << QStringLiteral("zip");
-
-    foreach (const QString &format, formats) {
-        const QString testNameWithFormat = testName + QStringLiteral(" (") + format + QStringLiteral(")");
-        QTest::newRow(testNameWithFormat.toUtf8())
-            << archiveName + QLatin1Char('.') + format
-            << entries
-            << destination
-            << numberOfEntries;
-    }
-}
+public:
+    AddTest() : AbstractAddTest() {}
 
 private Q_SLOTS:
     void testAdding_data();
@@ -59,51 +49,73 @@ QTEST_GUILESS_MAIN(AddTest)
 void AddTest::testAdding_data()
 {
     QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QVector<Archive::Entry*>>("files");
+    QTest::addColumn<Plugin*>("plugin");
+    QTest::addColumn<QVector<Archive::Entry*>>("targetEntries");
     QTest::addColumn<Archive::Entry*>("destination");
+    QTest::addColumn<QStringList>("expectedNewPaths");
     QTest::addColumn<uint>("numberOfEntries");
 
-    addAllFormatsRows(QStringLiteral("without destination"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("textfile1.txt")),
-                          new Archive::Entry(this, QStringLiteral("textfile2.txt")),
-                      },
-                      new Archive::Entry(this),
-                      15);
+    setupRows(QStringLiteral("without destination"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("textfile1.txt")),
+                  new Archive::Entry(this, QStringLiteral("textfile2.txt"))
+              },
+              new Archive::Entry(this),
+              QStringList {
+                  QStringLiteral("textfile1.txt"),
+                  QStringLiteral("textfile2.txt")
+              },
+              15);
 
-    addAllFormatsRows(QStringLiteral("with destination, files"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("textfile1.txt")),
-                          new Archive::Entry(this, QStringLiteral("textfile2.txt")),
-                      },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
-                      15);
+    setupRows(QStringLiteral("with destination, files"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("textfile1.txt")),
+                  new Archive::Entry(this, QStringLiteral("textfile2.txt"))
+              },
+              new Archive::Entry(this, QStringLiteral("empty_dir/")),
+              QStringList {
+                  QStringLiteral("empty_dir/textfile1.txt"),
+                  QStringLiteral("empty_dir/textfile2.txt")
+              },
+              15);
 
-    addAllFormatsRows(QStringLiteral("with destination, directory"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("testdir/")),
-                      },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
-                      16);
+    setupRows(QStringLiteral("with destination, directory"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("testdir/")),
+              },
+              new Archive::Entry(this, QStringLiteral("empty_dir/")),
+              QStringList {
+                  QStringLiteral("empty_dir/testdir/testfile1.txt"),
+                  QStringLiteral("empty_dir/testdir/testfile2.txt")
+              },
+              16);
 
-    addAllFormatsRows(QStringLiteral("without destination, directory 2"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("testdir2/")),
-                      },
-                      new Archive::Entry(this),
-                      17);
+    setupRows(QStringLiteral("without destination, directory 2"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("testdir2/")),
+              },
+              new Archive::Entry(this),
+              QStringList {
+                  QStringLiteral("testdir2/testdir/testfile1.txt"),
+                  QStringLiteral("testdir2/testdir/testfile2.txt")
+              },
+              17);
 
-    addAllFormatsRows(QStringLiteral("with destination, directory 2"),
-                      QStringLiteral("test"),
-                      QVector<Archive::Entry*> {
-                          new Archive::Entry(this, QStringLiteral("testdir2/")),
-                      },
-                      new Archive::Entry(this, QStringLiteral("empty_dir/")),
-                      17);
+    setupRows(QStringLiteral("with destination, directory 2"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("testdir2/")),
+              },
+              new Archive::Entry(this, QStringLiteral("empty_dir/")),
+              QStringList {
+                  QStringLiteral("empty_dir/testdir2/testdir/testfile1.txt"),
+                  QStringLiteral("empty_dir/testdir2/testdir/testfile2.txt")
+              },
+              17);
 }
 
 void AddTest::testAdding()
@@ -114,7 +126,10 @@ void AddTest::testAdding()
     const QString archivePath = temporaryDir.path() + QLatin1Char('/') + archiveName;
     QVERIFY(QFile::copy(QFINDTESTDATA(QStringLiteral("data/") + archiveName), archivePath));
 
-    auto loadJob = Archive::load(archivePath);
+    QFETCH(Plugin*, plugin);
+    QVERIFY(plugin);
+
+    auto loadJob = Archive::load(archivePath, plugin);
     QVERIFY(loadJob);
     loadJob->setAutoDelete(false);
 
@@ -126,18 +141,30 @@ void AddTest::testAdding()
         QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
     }
 
-    QFETCH(QVector<Archive::Entry*>, files);
+    QFETCH(QVector<Archive::Entry*>, targetEntries);
     QFETCH(Archive::Entry*, destination);
+    QFETCH(QStringList, expectedNewPaths);
 
-    QVector<Archive::Entry*> oldEntries = TestHelper::getEntryList(archive);
+    // Retrieve current paths in the archive.
+    QStringList oldPaths = getEntryPaths(archive);
+
+    // Check that the expected paths (after the AddJob) are not in the archive.
+    foreach (const auto &expectedPath, expectedNewPaths) {
+        QVERIFY(!oldPaths.contains(expectedPath));
+    }
 
     CompressionOptions options;
     options.setGlobalWorkDir(QFINDTESTDATA("data"));
-    AddJob *addJob = archive->addFiles(files, destination, options);
+    AddJob *addJob = archive->addFiles(targetEntries, destination, options);
     TestHelper::startAndWaitForResult(addJob);
 
-    QVector<Archive::Entry*> resultedEntries = TestHelper::getEntryList(archive);
-    TestHelper::verifyAddedEntriesWithDestination(files, destination, oldEntries, resultedEntries);
+    // Retrieve the resulting paths.
+    QStringList newPaths = getEntryPaths(archive);
+
+    // Check that the expected paths are now in the archive.
+    foreach (const auto &path, expectedNewPaths) {
+        QVERIFY(newPaths.contains(path));
+    }
 
     QFETCH(uint, numberOfEntries);
     QCOMPARE(archive->numberOfEntries(), numberOfEntries);

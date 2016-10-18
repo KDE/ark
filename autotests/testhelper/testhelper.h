@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
+ * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -26,38 +27,12 @@
 #ifndef TESTHELPER_H
 #define TESTHELPER_H
 
-#include "kerfuffle/jobs.h"
-#include "kerfuffle/archiveentry.h"
+class KJob;
 
-#include <QTest>
-#include <QEventLoop>
-#include <QDirIterator>
-
-using namespace Kerfuffle;
-
-class TestHelper
+namespace TestHelper
 {
-public:
+    void startAndWaitForResult(KJob *job);
 
-    static void startAndWaitForResult(KJob *job);
-    static QVector<Archive::Entry*> getEntryList(Archive *archive);
-    static void verifyAddedEntriesWithDestination(const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QVector<Archive::Entry*> &oldEntries, const QVector<Archive::Entry*> &newEntries);
-    static void verifyCopiedEntriesWithDestination(const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination, const QVector<Archive::Entry*> &oldEntries, const QVector<Archive::Entry*> &newEntries);
-
-private:
-    TestHelper() {}
-
-    static QStringList getExpectedNewEntryPaths(const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry *destination);
-    static QStringList getExpectedMovedEntryPaths(const QVector<Archive::Entry*> &entryList, const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry* destination);
-    static QStringList getExpectedCopiedEntryPaths(const QVector<Archive::Entry*> &entryList, const QVector<Archive::Entry*> &argumentEntries, const Archive::Entry* destination);
-
-    /**
-     * Returns map of entries.
-     *
-     * It's useful when we need a sorted list of entries.
-     */
-    static QMap<QString, Archive::Entry*> getEntryMap(const QVector<Archive::Entry*> &entries);
 };
-
 
 #endif //TESTHELPER_H
