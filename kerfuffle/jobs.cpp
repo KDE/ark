@@ -240,7 +240,7 @@ LoadJob::LoadJob(Archive *archive, ReadOnlyArchiveInterface *interface)
     , m_dirCount(0)
     , m_filesCount(0)
 {
-    qCDebug(ARK) << "LoadJob started";
+    qCDebug(ARK) << "LoadJob created";
     connect(this, &LoadJob::newEntry, this, &LoadJob::onNewEntry);
 }
 
@@ -545,19 +545,19 @@ QString TempExtractJob::extractionDir() const
 PreviewJob::PreviewJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : TempExtractJob(entry, passwordProtectedHint, interface)
 {
-    qCDebug(ARK) << "PreviewJob started";
+    qCDebug(ARK) << "PreviewJob created";
 }
 
 OpenJob::OpenJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : TempExtractJob(entry, passwordProtectedHint, interface)
 {
-    qCDebug(ARK) << "OpenJob started";
+    qCDebug(ARK) << "OpenJob created";
 }
 
 OpenWithJob::OpenWithJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : OpenJob(entry, passwordProtectedHint, interface)
 {
-    qCDebug(ARK) << "OpenWithJob started";
+    qCDebug(ARK) << "OpenWithJob created";
 }
 
 AddJob::AddJob(const QVector<Archive::Entry*> &entries, const Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface)
@@ -566,7 +566,7 @@ AddJob::AddJob(const QVector<Archive::Entry*> &entries, const Archive::Entry *de
     , m_destination(destination)
     , m_options(options)
 {
-    qCDebug(ARK) << "AddJob started";
+    qCDebug(ARK) << "AddJob created";
 }
 
 void AddJob::doWork()
@@ -643,7 +643,7 @@ MoveJob::MoveJob(const QVector<Archive::Entry*> &entries, Archive::Entry *destin
     , m_destination(destination)
     , m_options(options)
 {
-    qCDebug(ARK) << "MoveJob started";
+    qCDebug(ARK) << "MoveJob created";
 }
 
 void MoveJob::doWork()
@@ -681,7 +681,7 @@ CopyJob::CopyJob(const QVector<Archive::Entry*> &entries, Archive::Entry *destin
     , m_destination(destination)
     , m_options(options)
 {
-    qCDebug(ARK) << "CopyJob started";
+    qCDebug(ARK) << "CopyJob created";
 }
 
 void CopyJob::doWork()
