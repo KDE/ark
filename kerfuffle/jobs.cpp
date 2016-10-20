@@ -260,7 +260,11 @@ void LoadJob::doWork()
     bool ret = archiveInterface()->list();
 
     if (!archiveInterface()->waitForFinishedSignal()) {
-        onFinished(ret);
+        // onFinished() needs to be called after onNewEntry(), because the former reads members set in the latter.
+        // So we need to put it in the event queue, just like the single-thread case does by emitting finished().
+        QTimer::singleShot(0, this, [=]() {
+            onFinished(ret);
+        });
     }
 }
 
