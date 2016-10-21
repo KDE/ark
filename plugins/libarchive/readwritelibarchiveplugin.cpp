@@ -422,7 +422,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
 
     // Copy old elements from previous archive to new archive.
     int no_entries = 0;
-    while (archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
+    while (!m_abortOperation && archive_read_next_header(arch_reader.data(), &entry) == ARCHIVE_OK) {
 
         const QString entryName = QFile::decodeName(archive_entry_pathname(entry));
 
