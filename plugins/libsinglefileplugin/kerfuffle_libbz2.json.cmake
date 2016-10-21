@@ -12,6 +12,7 @@
         "Description[gl]": "Complemento de libbz2 para Kerfuffle", 
         "Description[it]": "Estensione libbz2 per Kerfuffle", 
         "Description[nl]": "libbz2 plug-in voor Kerfuffle", 
+        "Description[nn]": "libzip2-tillegg til Kerfuffle", 
         "Description[pl]": "wtyczka libbz2 dla Kerfuffle", 
         "Description[pt]": "'Plugin' de libbz2 para o Kerfuffle", 
         "Description[pt_BR]": "Plugin libbz2 para o Kerfuffle", 

@@ -12,6 +12,7 @@
         "Description[gl]": "Complemento de libarchive para Kerfuffle", 
         "Description[it]": "Estensione LibArchive per Kerfuffle", 
         "Description[nl]": "LibArchive plug-in voor Kerfuffle", 
+        "Description[nn]": "LibArchive-tillegg til Kerfuffle", 
         "Description[pl]": "Wtyczka LibArchive dla Kerfuffle", 
         "Description[pt]": "'Plugin' da LibArchive para o Kerfuffle", 
         "Description[pt_BR]": "Plugin LibArchive para a Kerfuffle", 
