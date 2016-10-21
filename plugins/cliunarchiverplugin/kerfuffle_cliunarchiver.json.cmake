@@ -17,6 +17,7 @@
         "Name[he]": "תוסף חילוץ אכיונים", 
         "Name[it]": "Estensione The Unarchiver", 
         "Name[nl]": "De plug-in voor uit archief halen", 
+        "Name[nn]": "Unarchiver-tillegget", 
         "Name[pl]": "Wtyczka wypakowywacza", 
         "Name[pt]": "O 'plugin' do Unarchiver", 
         "Name[pt_BR]": "Plugin Unarchiver", 
