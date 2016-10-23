@@ -408,7 +408,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
         }
     }
 
-    while ((mode != Add || !QThread::currentThread()->isInterruptionRequested()) && archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK) {
+    while (!QThread::currentThread()->isInterruptionRequested() && archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK) {
 
         const QString file = QFile::decodeName(archive_entry_pathname(entry));
 
