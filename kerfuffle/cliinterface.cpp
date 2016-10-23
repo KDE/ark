@@ -340,6 +340,11 @@ void CliInterface::copyProcessFinished(int exitCode, QProcess::ExitStatus exitSt
         m_process = Q_NULLPTR;
     }
 
+    // Don't emit finished() if the job was killed quietly.
+    if (m_abortingOperation) {
+        return;
+    }
+
     if (m_compressionOptions.value(QStringLiteral("AlwaysUseTmpDir")).toBool()) {
         // unar exits with code 1 if extraction fails.
         // This happens at least with wrong passwords or not enough space in the destination folder.
