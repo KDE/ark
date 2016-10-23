@@ -305,7 +305,6 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
         qCDebug(ARK) << "Added" << no_entries << "old entries to archive";
     }
 
-    m_abortOperation = false;
 
     // In the success case, we need to manually close the archive_writer before
     // calling QSaveFile::commit(), otherwise the latter will close() the
@@ -313,7 +312,12 @@ bool ReadWriteLibarchivePlugin::addFiles(const QStringList& files, const Compres
     // TODO: We need to abstract this code better so that we only deal with one
     // object that manages both QSaveFile and ArchiveWriter.
     archive_write_close(arch_writer.data());
-    tempFile.commit();
+    // #365869: avoid data loss if we are aborting the job.
+    if (!m_abortOperation) {
+        tempFile.commit();
+    }
+
+    m_abortOperation = false;
 
     return true;
 }
@@ -456,15 +460,18 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVariantList& files)
     }
     qCDebug(ARK) << "Removed" << no_entries << "entries from archive";
 
-    m_abortOperation = false;
-
     // In the success case, we need to manually close the archive_writer before
     // calling QSaveFile::commit(), otherwise the latter will close() the
     // file descriptor archive_writer is still working on.
     // TODO: We need to abstract this code better so that we only deal with one
     // object that manages both QSaveFile and ArchiveWriter.
     archive_write_close(arch_writer.data());
-    tempFile.commit();
+    // #365869: avoid data loss if we are aborting the job.
+    if (!m_abortOperation) {
+        tempFile.commit();
+    }
+
+    m_abortOperation = false;
 
     return true;
 }
