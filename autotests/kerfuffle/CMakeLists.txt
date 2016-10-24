@@ -9,6 +9,7 @@ target_link_libraries(jsoninterface kerfuffle)
 
 ecm_add_tests(
     addtoarchivetest.cpp
+    loadtest.cpp
     extracttest.cpp
     addtest.cpp
     movetest.cpp
