@@ -23,7 +23,7 @@ set(kerfuffle_SRCS
     options.cpp
 )
 
-kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
+kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc GENERATE_MOC)
 
 ki18n_wrap_ui(kerfuffle_SRCS
     createdialog.ui
