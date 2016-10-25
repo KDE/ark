@@ -174,9 +174,17 @@ void PluginManager::loadPlugins()
     // use this group to write whether a plugin gets disabled.
     const KConfigGroup conf(KSharedConfig::openConfig(), "EnabledPlugins");
 
+    QSet<QString> addedPlugins;
     foreach (const KPluginMetaData &metaData, plugins) {
+        const auto pluginId = metaData.pluginId();
+        // Filter out duplicate plugins.
+        if (addedPlugins.contains(pluginId)) {
+            continue;
+        }
+
         Plugin *plugin = new Plugin(this, metaData);
-        plugin->setEnabled(conf.readEntry(metaData.pluginId(), true));
+        plugin->setEnabled(conf.readEntry(pluginId, true));
+        addedPlugins << pluginId;
         m_plugins << plugin;
     }
 }
