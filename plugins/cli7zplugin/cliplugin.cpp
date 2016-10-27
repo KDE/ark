@@ -224,7 +224,7 @@ bool CliPlugin::readListLine(const QString& line)
 
         if (m_isFirstInformationEntry) {
             m_isFirstInformationEntry = false;
-            m_currentArchiveEntry = new Archive::Entry();
+            m_currentArchiveEntry = new Archive::Entry(this);
             m_currentArchiveEntry->compressedSizeIsSet = false;
         }
         if (line.startsWith(QStringLiteral("Path = "))) {
