@@ -91,7 +91,10 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
           m_jobTracker(Q_NULLPTR)
 {
     Q_UNUSED(args)
-    setComponentData(*createAboutData(), false);
+    KAboutData aboutData(QStringLiteral("ark"),
+                         i18n("ArkPart"),
+                         QStringLiteral("3.0"));
+    setComponentData(aboutData, false);
 
     new DndExtractAdaptor(this);
 
@@ -217,13 +220,6 @@ void Part::slotCommentChanged()
     } else if (m_commentMsgWidget->isVisible() && m_commentView->toPlainText() == m_model->archive()->comment()) {
         m_commentMsgWidget->hide();
     }
-}
-
-KAboutData *Part::createAboutData()
-{
-    return new KAboutData(QStringLiteral("ark"),
-                          i18n("ArkPart"),
-                          QStringLiteral("3.0"));
 }
 
 void Part::registerJob(KJob* job)

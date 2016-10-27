@@ -70,8 +70,6 @@ public:
     Part(QWidget *parentWidget, QObject *parent, const QVariantList &);
     ~Part();
 
-    static KAboutData *createAboutData();
-
     bool openFile() Q_DECL_OVERRIDE;
     bool saveFile() Q_DECL_OVERRIDE;
 
