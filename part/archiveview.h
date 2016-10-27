@@ -55,7 +55,7 @@ signals:
 private:
     void closeEntryEditor();
     QModelIndex m_editorIndex;
-    QLineEdit *m_entryEditor;
+    QLineEdit *m_entryEditor = Q_NULLPTR;
 };
 
 #endif /* ARCHIVEVIEW_H */
