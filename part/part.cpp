@@ -315,7 +315,7 @@ void Part::setupActions()
     // We use a QSignalMapper for the preview, open and openwith actions. This
     // way we can connect all three actions to the same slot slotOpenEntry and
     // pass the OpenFileMode as argument to the slot.
-    m_signalMapper = new QSignalMapper;
+    m_signalMapper = new QSignalMapper(this);
 
     m_showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show Information Panel"), this);
     actionCollection()->addAction(QStringLiteral( "show-infopanel" ), m_showInfoPanelAction);
