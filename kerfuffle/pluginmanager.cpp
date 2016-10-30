@@ -170,9 +170,11 @@ QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const 
 void PluginManager::loadPlugins()
 {
     const QVector<KPluginMetaData> plugins = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"));
+    // This class might be used from executables other than ark (e.g. the tests),
+    // so we need to specify the name of the config file.
     // TODO: once we have a GUI in the settings dialog,
     // use this group to write whether a plugin gets disabled.
-    const KConfigGroup conf(KSharedConfig::openConfig(), "EnabledPlugins");
+    const KConfigGroup conf(KSharedConfig::openConfig(QStringLiteral("arkrc")), "EnabledPlugins");
 
     QSet<QString> addedPlugins;
     foreach (const KPluginMetaData &metaData, plugins) {
