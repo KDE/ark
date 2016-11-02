@@ -96,7 +96,7 @@ private:
     qlonglong m_currentExtractedFilesSize;
     bool m_emitNoEntries;
     qlonglong m_extractedFilesSize;
-    QVector<QSharedPointer<Archive::Entry>> m_emittedEntries;
+    QVector<Archive::Entry*> m_emittedEntries;
 };
 
 #endif // LIBARCHIVEPLUGIN_H

@@ -47,6 +47,10 @@ LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList &args)
 
 LibarchivePlugin::~LibarchivePlugin()
 {
+    foreach (const auto e, m_emittedEntries) {
+        // Entries might be passed to pending slots, so we just schedule their deletion.
+        e->deleteLater();
+    }
 }
 
 bool LibarchivePlugin::list()
@@ -434,7 +438,7 @@ bool LibarchivePlugin::initializeReader()
 
 void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
-    auto e = QSharedPointer<Archive::Entry>(new Archive::Entry());
+    auto e = new Archive::Entry();
 
 #ifdef _MSC_VER
     e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry))));
@@ -462,7 +466,7 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 
     e->setProperty("timestamp", QDateTime::fromTime_t(archive_entry_mtime(aentry)));
 
-    emit entry(e.data());
+    emit entry(e);
     m_emittedEntries << e;
 }
 
