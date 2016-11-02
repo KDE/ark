@@ -363,7 +363,7 @@ void Part::setupActions()
 
     m_addFilesAction = actionCollection()->addAction(QStringLiteral("add"));
     m_addFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
-    m_addFilesAction->setText(i18n("Add &Files to..."));
+    m_addFilesAction->setText(i18n("Add &Files..."));
     m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
     actionCollection()->setDefaultShortcut(m_addFilesAction, Qt::ALT + Qt::Key_A);
     connect(m_addFilesAction, &QAction::triggered, this, static_cast<void (Part::*)()>(&Part::slotAddFiles));
