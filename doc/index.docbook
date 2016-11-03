@@ -44,8 +44,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2016-08-09</date>
-<releaseinfo>Applications 16.08</releaseinfo>
+<date>2016-09-10</date>
+<releaseinfo>Applications 16.12</releaseinfo>
 
 <abstract>
 <para>&ark; is an archive manager by &kde;.</para>
@@ -181,6 +181,13 @@ file type.</para>
 the file with.</para>
 </listitem>
 <listitem>
+<para><guimenuitem>Rename</guimenuitem> (<keycombo action="simul">&Alt;<keycap>F2</keycap></keycombo>)
+This action allows to change names of both files and folders. As in the Dolphin file manager,
+this action can be called via a shortcut and renaming is done via inline editing.
+There are also filename checks provided, which prevent usage of invalid characters such as
+<userinput>/</userinput>, <userinput>.</userinput> and <userinput>..</userinput> in filenames.</para>
+</listitem>
+<listitem>
 <para><guimenuitem>Delete</guimenuitem> (<keycap>Del</keycap>) will remove the currently
 selected file(s) from the archive. Note that this action is undoable.</para>
 </listitem>
@@ -189,6 +196,23 @@ selected file(s) from the archive. Note that this action is undoable.</para>
 action="simul">&Ctrl;<keycap>E</keycap></keycombo>) opens a submenu with previously accessed
 folders, and you can choose to quickly extract into any of these or browse to a non-listed
 folder. See the next section for more details on extraction.</para>
+</listitem>
+<listitem>
+<para><guimenuitem>Cut</guimenuitem> (<keycombo action="simul">&Ctrl;<keycap>X</keycap></keycombo>) /
+<guimenuitem>Copy</guimenuitem> (<keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo>) /
+<guimenuitem>Paste</guimenuitem> (<keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo>):
+As in typical file managers, moving, pasting and copying are provided. 
+Users can move or copy files from different folders (which are expandable in the tree view)
+and paste them to the same destination at once. A folder can be copied into itself, but can not be moved.
+There are also checks for conflicting filenames: You won't be able to copy or move files
+into a folder that has entries with the same names - that could lead to data loss.</para>
+</listitem>
+<listitem>
+<para><guimenuitem>Add Files</guimenuitem> (<keycombo action="simul">&Alt;<keycap>A</keycap></keycombo>)
+This action can be used to add files at any location within the archive.
+If you select a folder and use this action, files will be added to the selected folder.
+Otherwise, the new files will be added to the root of the archive.
+</para>
 </listitem>
 </itemizedlist>
 
@@ -300,6 +324,12 @@ to the root directory of the archive.</para>
 The default compression level proposed by &ark; is usually a good compromise between size and (de)compression speed.
 For most formats the minimum compression level is equivalent to just storing the files, &ie; applying no compression.
 </para>
+<para>For <literal role="extension">rar</literal>, <literal role="extension">7z</literal> and <literal role="extension">zip</literal>
+archives you can select between different compression methods.
+</para>
+<para>Note that using compression methods other than the pre-selected defaults may limit compatiblity with file archivers.
+For example, opening <literal role="extension">zip</literal> archives with compression methods other than <quote>Deflate</quote>
+requires newer archiving software.</para>
 </sect2>
 
 <sect2 id="ark-password-protection">
