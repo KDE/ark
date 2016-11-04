@@ -204,7 +204,8 @@ void CliRarTest::testList_data()
 void CliRarTest::testList()
 {
     qRegisterMetaType<Archive::Entry*>("Archive::Entry*");
-    CliPlugin *rarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar")});
+    CliPlugin *rarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar"),
+                                                QVariant::fromValue(m_plugin->metaData())});
     QSignalSpy signalSpyEntry(rarPlugin, &CliPlugin::entry);
     QSignalSpy signalSpyCompMethod(rarPlugin, &CliPlugin::compressionMethodFound);
     QSignalSpy signalSpyError(rarPlugin, &CliPlugin::error);
@@ -300,17 +301,17 @@ void CliRarTest::testListArgs_data()
 
 void CliRarTest::testListArgs()
 {
+    if (!m_plugin->isValid()) {
+        QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    const QStringList listArgs = { QStringLiteral("vt"),
-                                   QStringLiteral("-v"),
-                                   QStringLiteral("$PasswordSwitch"),
-                                   QStringLiteral("$Archive") };
-
     QFETCH(QString, password);
-    const auto replacedArgs = plugin->substituteListVariables(listArgs, password);
+    const auto replacedArgs = plugin->cliProperties()->listArgs(archiveName, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
@@ -333,9 +334,9 @@ void CliRarTest::testAddArgs_data()
             << QString() << false << 3 << QStringLiteral("RAR4") << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("-m3"),
-                   QStringLiteral("-ma4")
+                   QStringLiteral("-ma4"),
+                   QStringLiteral("/tmp/foo.rar")
                };
 
     QTest::newRow("encrypted")
@@ -343,9 +344,9 @@ void CliRarTest::testAddArgs_data()
             << QStringLiteral("1234") << false << 3 << QString() << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("-p1234"),
-                   QStringLiteral("-m3")
+                   QStringLiteral("-m3"),
+                   QStringLiteral("/tmp/foo.rar")
                };
 
     QTest::newRow("header-encrypted")
@@ -353,9 +354,9 @@ void CliRarTest::testAddArgs_data()
             << QStringLiteral("1234") << true << 3 << QString() << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("-hp1234"),
-                   QStringLiteral("-m3")
+                   QStringLiteral("-m3"),
+                   QStringLiteral("/tmp/foo.rar")
                };
 
     QTest::newRow("multi-volume")
@@ -363,34 +364,31 @@ void CliRarTest::testAddArgs_data()
             << QString() << false << 3 << QString() << 2500UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("-m3"),
-                   QStringLiteral("-v2500k")
+                   QStringLiteral("-v2500k"),
+                   QStringLiteral("/tmp/foo.rar")
                };
     QTest::newRow("comp-method-RAR5")
             << QStringLiteral("/tmp/foo.rar")
             << QString() << false << 3 << QStringLiteral("RAR5") << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("-m3"),
-                   QStringLiteral("-ma5")
+                   QStringLiteral("-ma5"),
+                   QStringLiteral("/tmp/foo.rar")
                };
 }
 
 void CliRarTest::testAddArgs()
 {
-    QFETCH(QString, archiveName);
-    CliPlugin *rarPlugin = new CliPlugin(this, {QVariant(archiveName)});
-    QVERIFY(rarPlugin);
+    if (!m_plugin->isValid()) {
+        QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
+    }
 
-    const QStringList addArgs = { QStringLiteral("a"),
-                                  QStringLiteral("$Archive"),
-                                  QStringLiteral("$PasswordSwitch"),
-                                  QStringLiteral("$CompressionLevelSwitch"),
-                                  QStringLiteral("$CompressionMethodSwitch"),
-                                  QStringLiteral("$MultiVolumeSwitch"),
-                                  QStringLiteral("$Files") };
+    QFETCH(QString, archiveName);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
+    QVERIFY(plugin);
 
     QFETCH(QString, password);
     QFETCH(bool, encryptHeader);
@@ -398,12 +396,12 @@ void CliRarTest::testAddArgs()
     QFETCH(QString, compressionMethod);
     QFETCH(ulong, volumeSize);
 
-    QStringList replacedArgs = rarPlugin->substituteAddVariables(addArgs, {}, password, encryptHeader, compressionLevel, volumeSize, compressionMethod);
+    const auto replacedArgs = plugin->cliProperties()->addArgs(archiveName, {}, password, encryptHeader, compressionLevel, compressionMethod, volumeSize);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
 
-    rarPlugin->deleteLater();
+    plugin->deleteLater();
 }
 
 void CliRarTest::testExtractArgs_data()
@@ -422,9 +420,9 @@ void CliRarTest::testExtractArgs_data()
                }
             << true << QStringLiteral("1234")
             << QStringList {
+                   QStringLiteral("x"),
                    QStringLiteral("-kb"),
                    QStringLiteral("-p-"),
-                   QStringLiteral("x"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("aDir/textfile2.txt"),
@@ -439,9 +437,9 @@ void CliRarTest::testExtractArgs_data()
                }
             << true << QString()
             << QStringList {
+                   QStringLiteral("x"),
                    QStringLiteral("-kb"),
                    QStringLiteral("-p-"),
-                   QStringLiteral("x"),
                    QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
@@ -455,9 +453,9 @@ void CliRarTest::testExtractArgs_data()
                }
             << false << QStringLiteral("1234")
             << QStringList {
+                   QStringLiteral("e"),
                    QStringLiteral("-kb"),
                    QStringLiteral("-p-"),
-                   QStringLiteral("e"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("aDir/textfile2.txt"),
@@ -472,9 +470,9 @@ void CliRarTest::testExtractArgs_data()
                }
             << false << QString()
             << QStringList {
+                   QStringLiteral("e"),
                    QStringLiteral("-kb"),
                    QStringLiteral("-p-"),
-                   QStringLiteral("e"),
                    QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
@@ -483,26 +481,28 @@ void CliRarTest::testExtractArgs_data()
 
 void CliRarTest::testExtractArgs()
 {
-    QFETCH(QString, archiveName);
-    CliPlugin *rarPlugin = new CliPlugin(this, {QVariant(archiveName)});
-    QVERIFY(rarPlugin);
+    if (!m_plugin->isValid()) {
+        QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
+    }
 
-    const QStringList extractArgs = { QStringLiteral("-kb"),
-                                      QStringLiteral("-p-"),
-                                      QStringLiteral("$PreservePathSwitch"),
-                                      QStringLiteral("$PasswordSwitch"),
-                                      QStringLiteral("$Archive"),
-                                      QStringLiteral("$Files") };
+    QFETCH(QString, archiveName);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
+    QVERIFY(plugin);
 
     QFETCH(QVector<Archive::Entry*>, files);
+    QStringList filesList;
+    foreach (const Archive::Entry *e, files) {
+        filesList << e->fullPath(NoTrailingSlash);
+    }
+
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = rarPlugin->substituteExtractVariables(extractArgs, files, preservePaths, password);
-    QVERIFY(replacedArgs.size() >= extractArgs.size());
+    const auto replacedArgs = plugin->cliProperties()->extractArgs(archiveName, filesList, preservePaths, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
 
-    rarPlugin->deleteLater();
+    plugin->deleteLater();
 }

@@ -42,6 +42,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
     , m_linesComment(0)
 {
     qCDebug(ARK) << "Loaded cli_zip plugin";
+    setupCliProperties();
 }
 
 CliPlugin::~CliPlugin()
@@ -78,60 +79,49 @@ QString CliPlugin::escapeFileName(const QString &fileName) const
     return quoted;
 }
 
-ParameterList CliPlugin::parameterList() const
+void CliPlugin::setupCliProperties()
 {
-    static ParameterList p;
+    qCDebug(ARK) << "Setting up parameters...";
 
-    if (p.isEmpty()) {
-        p[CaptureProgress] = false;
-        p[ListProgram] = QStringList() << QStringLiteral("zipinfo");
-        p[ExtractProgram] = p[TestProgram] = QStringList() << QStringLiteral("unzip");
-        p[DeleteProgram] = p[AddProgram] = QStringList() << QStringLiteral("zip");
+    m_cliProps->setProperty("captureProgress", false);
 
-        p[ListArgs] = QStringList() << QStringLiteral("-l")
-                                    << QStringLiteral("-T")
-                                    << QStringLiteral("-z")
-                                    << QStringLiteral("$Archive");
-        p[ExtractArgs] = QStringList() << QStringLiteral("$PreservePathSwitch")
-                                       << QStringLiteral("$PasswordSwitch")
-                                       << QStringLiteral("$Archive")
-                                       << QStringLiteral("$Files");
-        p[PreservePathSwitch] = QStringList() << QStringLiteral("")
-                                              << QStringLiteral("-j");
-        p[PasswordSwitch] = QStringList() << QStringLiteral("-P$Password");
-        p[CompressionLevelSwitch] = QStringLiteral("-$CompressionLevel");
-        p[DeleteArgs] = QStringList() << QStringLiteral("-d")
-                                      << QStringLiteral("$Archive")
-                                      << QStringLiteral("$Files");
+    m_cliProps->setProperty("addProgram", QStringLiteral("zip"));
+    m_cliProps->setProperty("addSwitch", QStringList({QStringLiteral("-r")}));
 
-        p[FileExistsExpression] = QStringList()
-            << QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $");
-        p[FileExistsFileName] = QStringList() << p[FileExistsExpression].toString();
-        p[FileExistsInput] = QStringList() << QStringLiteral("y")  //overwrite
-                                           << QStringLiteral("n")  //skip
-                                           << QStringLiteral("A")  //overwrite all
-                                           << QStringLiteral("N"); //autoskip
+    m_cliProps->setProperty("deleteProgram", QStringLiteral("zip"));
+    m_cliProps->setProperty("deleteSwitch", QStringLiteral("-d"));
 
-        p[AddArgs] = QStringList() << QStringLiteral("-r")
-                                   << QStringLiteral("$Archive")
-                                   << QStringLiteral("$PasswordSwitch")
-                                   << QStringLiteral("$CompressionLevelSwitch")
-                                   << QStringLiteral("$CompressionMethodSwitch")
-                                   << QStringLiteral("$Files");
+    m_cliProps->setProperty("extractProgram", QStringLiteral("unzip"));
+    m_cliProps->setProperty("extractSwitchNoPreserve", QStringList{QStringLiteral("-j")});
 
-        p[PasswordPromptPattern] = QStringLiteral(" password: ");
-        p[WrongPasswordPatterns] = QStringList() << QStringLiteral("incorrect password");
-        p[ExtractionFailedPatterns] = QStringList() << QStringLiteral("unsupported compression method");
-        p[CorruptArchivePatterns] = QStringList() << QStringLiteral("End-of-central-directory signature not found");
-        p[DiskFullPatterns] = QStringList() << QStringLiteral("write error \\(disk full\\?\\)")
-                                            << QStringLiteral("No space left on device");
-        p[TestArgs] = QStringList() << QStringLiteral("-t")
-                                    << QStringLiteral("$Archive")
-                                    << QStringLiteral("$PasswordSwitch");
-        p[TestPassedPattern] = QStringLiteral("^No errors detected in compressed data of ");
-        p[CompressionMethodSwitch] = QStringLiteral("-Z$CompressionMethod");
-    }
-    return p;
+    m_cliProps->setProperty("listProgram", QStringLiteral("zipinfo"));
+    m_cliProps->setProperty("listSwitch", QStringList{QStringLiteral("-l"),
+                                                  QStringLiteral("-T"),
+                                                  QStringLiteral("-z")});
+
+    m_cliProps->setProperty("testProgram", QStringLiteral("unzip"));
+    m_cliProps->setProperty("testSwitch", QStringLiteral("-t"));
+
+    m_cliProps->setProperty("passwordSwitch", QStringList{QStringLiteral("-P$Password")});
+
+    m_cliProps->setProperty("compressionLevelSwitch", QStringLiteral("-$CompressionLevel"));
+    m_cliProps->setProperty("compressionMethodSwitch", QHash<QString,QVariant>{{QStringLiteral("application/zip"), QStringLiteral("-Z$CompressionMethod")},
+                                                                           {QStringLiteral("application/x-java-archive"), QStringLiteral("-Z$CompressionMethod")}});
+    m_cliProps->setProperty("multiVolumeSwitch", QStringLiteral("-v$VolumeSizek"));
+
+    m_cliProps->setProperty("passwordPromptPatterns", QStringList{QStringLiteral(" password: ")});
+    m_cliProps->setProperty("wrongPasswordPatterns", QStringList{QStringLiteral("incorrect password")});
+    m_cliProps->setProperty("testPassedPatterns", QStringList{QStringLiteral("^No errors detected in compressed data of ")});
+    m_cliProps->setProperty("fileExistsPatterns", QStringList{QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $")});
+    m_cliProps->setProperty("fileExistsFileName", QStringList{QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $")});
+    m_cliProps->setProperty("fileExistsInput", QStringList{QStringLiteral("y"),   //Overwrite
+                                                       QStringLiteral("n"),   //Skip
+                                                       QStringLiteral("A"),   //Overwrite all
+                                                       QStringLiteral("N")}); //Autoskip
+    m_cliProps->setProperty("extractionFailedPatterns", QStringList{QStringLiteral("unsupported compression method")});
+    m_cliProps->setProperty("corruptArchivePatterns", QStringList{QStringLiteral("End-of-central-directory signature not found")});
+    m_cliProps->setProperty("diskFullPatterns", QStringList{QStringLiteral("write error \\(disk full\\?\\)"),
+                                                        QStringLiteral("No space left on device")});
 }
 
 bool CliPlugin::readListLine(const QString &line)
@@ -295,22 +285,6 @@ void CliPlugin::finishMoving(bool result)
     emit progress(1.0);
     emit finished(result);
     cleanUp();
-}
-
-QString CliPlugin::compressionMethodSwitch(const QString &method) const
-{
-    if (method.isEmpty()) {
-        return QString();
-    }
-
-    Q_ASSERT(m_param.contains(CompressionMethodSwitch));
-    QString compMethodSwitch = m_param.value(CompressionMethodSwitch).toString();
-    Q_ASSERT(!compMethodSwitch.isEmpty());
-
-    // We use capitalization of methods in UI, but CLI requires lowercase.
-    compMethodSwitch.replace(QLatin1String("$CompressionMethod"), method.toLower());
-
-    return compMethodSwitch;
 }
 
 QString CliPlugin::convertCompressionMethod(const QString &method)

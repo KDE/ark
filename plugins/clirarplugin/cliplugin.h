@@ -36,10 +36,7 @@ public:
     virtual ~CliPlugin();
 
     virtual void resetParsing() Q_DECL_OVERRIDE;
-    virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
-
-    virtual QString compressionMethodSwitch(const QString &method) const Q_DECL_OVERRIDE;
 
 private:
 
@@ -51,6 +48,8 @@ private:
         ParseStateEntryDetails,
         ParseStateLinkTarget
     } m_parseState;
+
+    void setupCliProperties();
 
     bool handleUnrar5Line(const QString &line);
     void handleUnrar5Entry();

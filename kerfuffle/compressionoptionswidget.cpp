@@ -173,7 +173,7 @@ void CompressionOptionsWidget::updateWidgets()
         compMethodComboBox->setEnabled(true);
         compMethodComboBox->setToolTip(QString());
         compMethodComboBox->clear();
-        compMethodComboBox->insertItems(0, archiveFormat.compressionMethods());
+        compMethodComboBox->insertItems(0, archiveFormat.compressionMethods().keys());
         if (!m_opts.compressionMethod().isEmpty() &&
             compMethodComboBox->findText(m_opts.compressionMethod()) > -1) {
             compMethodComboBox->setCurrentText(m_opts.compressionMethod());

@@ -24,6 +24,7 @@
  */
 
 #include "archiveformat.h"
+#include "ark_debug.h"
 
 #include <QJsonArray>
 
@@ -43,7 +44,7 @@ ArchiveFormat::ArchiveFormat(const QMimeType& mimeType,
                              bool supportsWriteComment,
                              bool supportsTesting,
                              bool supportsMultiVolume,
-                             QStringList compressionMethods,
+                             QVariantMap compressionMethods,
                              QString defaultCompressionMethod) :
     m_mimeType(mimeType),
     m_encryptionType(encryptionType),
@@ -76,11 +77,7 @@ ArchiveFormat ArchiveFormat::fromMetadata(const QMimeType& mimeType, const KPlug
         bool supportsTesting = formatProps[QStringLiteral("SupportsTesting")].toBool();
         bool supportsMultiVolume = formatProps[QStringLiteral("SupportsMultiVolume")].toBool();
 
-        QStringList compressionMethods;
-        QJsonArray array = formatProps[QStringLiteral("CompressionMethods")].toArray();
-        foreach (const QJsonValue &value, array) {
-            compressionMethods.append(value.toString());
-        }
+        QVariantMap compressionMethods = formatProps[QStringLiteral("CompressionMethods")].toObject().toVariantMap();
         QString defaultCompMethod = formatProps[QStringLiteral("CompressionMethodDefault")].toString();
 
         Archive::EncryptionType encType = Archive::Unencrypted;
@@ -136,7 +133,7 @@ bool ArchiveFormat::supportsMultiVolume() const
     return m_supportsMultiVolume;
 }
 
-QStringList ArchiveFormat::compressionMethods() const
+QVariantMap ArchiveFormat::compressionMethods() const
 {
     return m_compressionMethods;
 }

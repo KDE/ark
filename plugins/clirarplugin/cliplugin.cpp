@@ -48,6 +48,8 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
 
     // Empty lines are needed for parsing output of unrar.
     setListEmptyLines(true);
+
+    setupCliProperties();
 }
 
 CliPlugin::~CliPlugin()
@@ -63,78 +65,70 @@ void CliPlugin::resetParsing()
     m_numberOfVolumes = 0;
 }
 
-ParameterList CliPlugin::parameterList() const
+void CliPlugin::setupCliProperties()
 {
-    static ParameterList p;
+    qCDebug(ARK) << "Setting up parameters...";
 
-    if (p.isEmpty()) {
-        p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = p[TestProgram] = QStringList() << QStringLiteral("unrar");
-        p[DeleteProgram] = p[MoveProgram] = p[AddProgram] = QStringList() << QStringLiteral("rar");
+    m_cliProps->setProperty("captureProgress", true);
 
-        p[ListArgs] = QStringList() << QStringLiteral("vt")
-                                    << QStringLiteral("-v")
-                                    << QStringLiteral("$PasswordSwitch")
-                                    << QStringLiteral("$Archive");
-        p[ExtractArgs] = QStringList() << QStringLiteral("-kb")
-                                       << QStringLiteral("-p-")
-                                       << QStringLiteral("$PreservePathSwitch")
-                                       << QStringLiteral("$PasswordSwitch")
-                                       << QStringLiteral("$Archive")
-                                       << QStringLiteral("$Files");
-        p[PreservePathSwitch] = QStringList() << QStringLiteral("x")
-                                              << QStringLiteral("e");
-        p[PasswordSwitch] = QStringList() << QStringLiteral("-p$Password");
-        p[PasswordHeaderSwitch] = QStringList() << QStringLiteral("-hp$Password");
-        p[CompressionLevelSwitch] = QStringLiteral("-m$CompressionLevel");
-        p[MultiVolumeSwitch] = QStringLiteral("-v$VolumeSizek");
-        p[DeleteArgs] = QStringList() << QStringLiteral("d")
-                                      << QStringLiteral("$PasswordSwitch")
-                                      << QStringLiteral("$Archive")
-                                      << QStringLiteral("$Files");
-        p[FileExistsExpression] = QStringList()
-                                << QStringLiteral("^\\[Y\\]es, \\[N\\]o, \\[A\\]ll, n\\[E\\]ver, \\[R\\]ename, \\[Q\\]uit $");
-        p[FileExistsFileName] = QStringList() << QStringLiteral("^(.+) already exists. Overwrite it")  // unrar 3 & 4
-                                              << QStringLiteral("^Would you like to replace the existing file (.+)$"); // unrar 5
-        p[FileExistsInput] = QStringList() << QStringLiteral("Y")  //overwrite
-                                           << QStringLiteral("N")  //skip
-                                           << QStringLiteral("A")  //overwrite all
-                                           << QStringLiteral("E")  //autoskip
-                                           << QStringLiteral("Q"); //cancel
-        p[AddArgs] = QStringList() << QStringLiteral("a")
-                                   << QStringLiteral("$Archive")
-                                   << QStringLiteral("$PasswordSwitch")
-                                   << QStringLiteral("$CompressionLevelSwitch")
-                                   << QStringLiteral("$CompressionMethodSwitch")
-                                   << QStringLiteral("$MultiVolumeSwitch")
-                                   << QStringLiteral("$Files");
-        p[MoveArgs] = QStringList() << QStringLiteral("rn")
-                                    << QStringLiteral("$PasswordSwitch")
-                                    << QStringLiteral("$Archive")
-                                    << QStringLiteral("$PathPairs");
-        p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
-        p[WrongPasswordPatterns] = QStringList() << QStringLiteral("password incorrect") << QStringLiteral("wrong password");
-        p[ExtractionFailedPatterns] = QStringList() << QStringLiteral("CRC failed")
-                                                    << QStringLiteral("Cannot find volume");
-        p[CorruptArchivePatterns] = QStringList() << QStringLiteral("Unexpected end of archive")
-                                                  << QStringLiteral("the file header is corrupt");
-        p[DiskFullPatterns] = QStringList() << QStringLiteral("No space left on device");
-        p[CommentArgs] = QStringList() << QStringLiteral("c")
-                                       << QStringLiteral("$CommentSwitch")
-                                       << QStringLiteral("$Archive");
-        p[CommentSwitch] = QStringLiteral("-z$CommentFile");
-        p[TestArgs] = QStringList() << QStringLiteral("t")
-                                    << QStringLiteral("$Archive")
-                                    << QStringLiteral("$PasswordSwitch");
-        p[TestPassedPattern] = QStringLiteral("^All OK$");
-        // rar will sometimes create multi-volume archives where first volume is
-        // called name.part1.rar and other times name.part01.rar.
-        p[MultiVolumeSuffix] = QStringList() << QStringLiteral("part01.$Suffix")
-                                             << QStringLiteral("part1.$Suffix");
-        p[CompressionMethodSwitch] = QStringLiteral("-ma$CompressionMethod");
-    }
+    m_cliProps->setProperty("addProgram", QStringLiteral("rar"));
+    m_cliProps->setProperty("addSwitch", QStringList({QStringLiteral("a")}));
 
-    return p;
+    m_cliProps->setProperty("deleteProgram", QStringLiteral("rar"));
+    m_cliProps->setProperty("deleteSwitch", QStringLiteral("d"));
+
+    m_cliProps->setProperty("extractProgram", QStringLiteral("unrar"));
+    m_cliProps->setProperty("extractSwitch", QStringList{QStringLiteral("x"),
+                                                     QStringLiteral("-kb"),
+                                                     QStringLiteral("-p-")});
+    m_cliProps->setProperty("extractSwitchNoPreserve", QStringList{QStringLiteral("e"),
+                                                               QStringLiteral("-kb"),
+                                                               QStringLiteral("-p-")});
+
+    m_cliProps->setProperty("listProgram", QStringLiteral("unrar"));
+    m_cliProps->setProperty("listSwitch", QStringList{QStringLiteral("vt"),
+                                                  QStringLiteral("-v")});
+
+    m_cliProps->setProperty("moveProgram", QStringLiteral("rar"));
+    m_cliProps->setProperty("moveSwitch", QStringLiteral("rn"));
+
+    m_cliProps->setProperty("testProgram", QStringLiteral("unrar"));
+    m_cliProps->setProperty("testSwitch", QStringLiteral("t"));
+
+    m_cliProps->setProperty("commentSwitch", QStringList{QStringLiteral("c"),
+                                                     QStringLiteral("-z$CommentFile")});
+
+    m_cliProps->setProperty("passwordSwitch", QStringList{QStringLiteral("-p$Password")});
+    m_cliProps->setProperty("passwordSwitchHeaderEnc", QStringList{QStringLiteral("-hp$Password")});
+
+    m_cliProps->setProperty("compressionLevelSwitch", QStringLiteral("-m$CompressionLevel"));
+    m_cliProps->setProperty("compressionMethodSwitch", QHash<QString,QVariant>{{QStringLiteral("application/vnd.rar"), QStringLiteral("-ma$CompressionMethod")},
+                                                                           {QStringLiteral("application/x-rar"), QStringLiteral("-ma$CompressionMethod")}});
+    m_cliProps->setProperty("multiVolumeSwitch", QStringLiteral("-v$VolumeSizek"));
+
+
+    m_cliProps->setProperty("passwordPromptPatterns", QStringList{QStringLiteral("Enter password \\(will not be echoed\\) for")});
+    m_cliProps->setProperty("wrongPasswordPatterns", QStringList{QStringLiteral("password incorrect"),
+                                                             QStringLiteral("wrong password")});
+    m_cliProps->setProperty("testPassedPatterns", QStringList{QStringLiteral("^All OK$")});
+    m_cliProps->setProperty("fileExistsPatterns", QStringList{QStringLiteral("^\\[Y\\]es, \\[N\\]o, \\[A\\]ll, n\\[E\\]ver, \\[R\\]ename, \\[Q\\]uit $")});
+    m_cliProps->setProperty("fileExistsFileName", QStringList{QStringLiteral("^(.+) already exists. Overwrite it"),  // unrar 3 & 4
+                                                          QStringLiteral("^Would you like to replace the existing file (.+)$")}); // unrar 5
+    m_cliProps->setProperty("fileExistsInput", QStringList{QStringLiteral("Y"),   //Overwrite
+                                                       QStringLiteral("N"),   //Skip
+                                                       QStringLiteral("A"),   //Overwrite all
+                                                       QStringLiteral("E"),   //Autoskip
+                                                       QStringLiteral("Q")}); //Cancel
+    m_cliProps->setProperty("extractionFailedPatterns", QStringList{QStringLiteral("CRC failed"),
+                                                                QStringLiteral("Cannot find volume")});
+    m_cliProps->setProperty("corruptArchivePatterns", QStringList{QStringLiteral("Unexpected end of archive"),
+                                                              QStringLiteral("the file header is corrupt")});
+    m_cliProps->setProperty("diskFullPatterns", QStringList{QStringLiteral("No space left on device")});
+
+    // rar will sometimes create multi-volume archives where first volume is
+    // called name.part1.rar and other times name.part01.rar.
+    m_cliProps->setProperty("multiVolumeSuffix", QStringList{QStringLiteral("part01.$Suffix"),
+                                                         QStringLiteral("part1.$Suffix")});
 }
 
 bool CliPlugin::readListLine(const QString &line)
@@ -547,24 +541,6 @@ void CliPlugin::ignoreLines(int lines, ParseState nextState)
 {
     m_remainingIgnoreLines = lines;
     m_parseState = nextState;
-}
-
-QString CliPlugin::compressionMethodSwitch(const QString &method) const
-{
-    if (method.isEmpty()) {
-        return QString();
-    }
-
-    Q_ASSERT(m_param.contains(CompressionMethodSwitch));
-    QString compMethodSwitch = m_param.value(CompressionMethodSwitch).toString();
-    Q_ASSERT(!compMethodSwitch.isEmpty());
-    compMethodSwitch.replace(QLatin1String("$CompressionMethod"), method);
-
-    // This is needed for because the user-visible strings are different from the
-    // ones needed by the switch (e.g. RAR4 vs 4).
-    compMethodSwitch.remove(QLatin1String("RAR"));
-
-    return compMethodSwitch;
 }
 
 #include "cliplugin.moc"

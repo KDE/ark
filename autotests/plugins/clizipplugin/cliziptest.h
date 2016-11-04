@@ -29,6 +29,7 @@
 #include "cliplugin.h"
 #include "autotests/testhelper/testhelper.h"
 #include "kerfuffle/jobs.h"
+#include "pluginmanager.h"
 
 using namespace Kerfuffle;
 
@@ -37,13 +38,17 @@ class CliZipTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
-
+    void initTestCase();
     void testListArgs_data();
     void testListArgs();
     void testAddArgs_data();
     void testAddArgs();
     void testExtractArgs_data();
     void testExtractArgs();
+
+private:
+    PluginManager m_pluginManger;
+    Plugin *m_plugin;
 };
 
 #endif

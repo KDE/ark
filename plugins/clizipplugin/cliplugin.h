@@ -38,18 +38,16 @@ public:
 
     virtual void resetParsing() Q_DECL_OVERRIDE;
     virtual QString escapeFileName(const QString &fileName) const Q_DECL_OVERRIDE;
-    virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 
     virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual int moveRequiredSignals() const Q_DECL_OVERRIDE;
 
-    virtual QString compressionMethodSwitch(const QString &method) const Q_DECL_OVERRIDE;
-
 private slots:
     void continueMoving(bool result);
 
 private:
+    void setupCliProperties();
     bool setMovingAddedFiles();
     void finishMoving(bool result);
     QString convertCompressionMethod(const QString &method);

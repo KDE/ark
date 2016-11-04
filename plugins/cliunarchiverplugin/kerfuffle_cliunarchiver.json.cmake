@@ -41,5 +41,11 @@
         "unar"
     ], 
     "X-KDE-Kerfuffle-ReadWrite": false, 
-    "X-KDE-Priority": 100
+    "X-KDE-Priority": 100,
+    "application/vnd.rar": {
+        "HeaderEncryption": true
+    },
+    "application/x-rar": {
+        "HeaderEncryption": true
+    }
 }

@@ -242,4 +242,6 @@ private:
 
 } // namespace Kerfuffle
 
+Q_DECLARE_METATYPE(KPluginMetaData)
+
 #endif // ARCHIVE_H

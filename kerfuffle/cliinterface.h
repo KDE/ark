@@ -31,6 +31,7 @@
 
 #include "archiveinterface.h"
 #include "archiveentry.h"
+#include "cliproperties.h"
 #include "kerfuffle_export.h"
 #include "part/archivemodel.h"
 
@@ -46,252 +47,6 @@ class QTemporaryFile;
 
 namespace Kerfuffle
 {
-
-enum CliInterfaceParameters {
-
-    ///////////////[ COMMON ]/////////////
-
-    /**
-     * Bool (default false)
-     * Will look for the %-sign in the stdout while working, in the form of
-     * (2%, 14%, 35%, etc etc), and report progress based upon this
-     */
-    CaptureProgress = 0,
-
-    /**
-     * QString
-     * Default: empty
-     * A regexp pattern that matches the program's password prompt.
-     */
-    PasswordPromptPattern,
-
-    ///////////////[ LIST ]/////////////
-
-    /**
-     * QStringList
-     * The names to the program that will handle listing of this
-     * archive (eg "rar"). Will be searched for in PATH
-     */
-    ListProgram,
-    /**
-     * QStringList
-     * The arguments that are passed to the program above for
-     * listing the archive. Special strings that will be
-     * substituted:
-     * $Archive - the path of the archive
-     */
-    ListArgs,
-    /**
-     * QStringList (default empty)
-     * List of regexp patterns that indicate a corrupt archive.
-     */
-    CorruptArchivePatterns,
-
-    ///////////////[ EXTRACT ]/////////////
-
-    /**
-     * QStringList
-     * The names to the program that will handle extracting of this
-     * archive (eg "rar"). Will be searched for in PATH
-     */
-    ExtractProgram,
-    /**
-     * QStringList
-     * The arguments that are passed to the program above for
-     * extracting the archive. Special strings that will be
-     * substituted:
-     * $Archive - the path of the archive
-     * $Files - the files selected to be extracted, if any
-     * $PreservePathSwitch - the flag for extracting with full paths
-     * $PasswordSwitch - the switch setting the password. Note that this
-     * will not be inserted unless the listing function has emitted an
-     * entry with the IsPasswordProtected property set to true.
-     */
-    ExtractArgs,
-    /**
-     * Bool (default false)
-     * When passing directories to the extract program, do not
-     * include trailing slashes
-     * e.g. if the user selected "foo/" and "foo/bar" in the gui, the
-     * paths "foo" and "foo/bar" will be sent to the program.
-     */
-    NoTrailingSlashes,
-    /**
-     * QStringList
-     * This should be a qstringlist with either two elements. The first
-     * string is what PreservePathSwitch in the ExtractArgs will be replaced
-     * with if PreservePath is True/enabled. The second is for the disabled
-     * case. An empty string means that the argument will not be used in
-     * that case.
-     * Example: for rar, "x" means extract with full paths, and "e" means
-     * extract without full paths. in this case we will use the stringlist
-     * ("x", "e"). Or, for another format that might use the switch
-     * "--extractFull" for preservePaths, and nothing otherwise: we use the
-     * stringlist ("--extractFull", "")
-     */
-    PreservePathSwitch,
-    /**
-     * QStringList (default empty)
-     * The format of the root node switch. The variable $Password will be
-     * substituted for the password string. NOTE: supplying passwords
-     * through a virtual terminal is not supported (yet?), because this
-     * is not cross platform compatible. As of KDE 4.3 there are no plans to
-     * change this.
-     * Example: ("-p$Password)
-     * or ("--password", "$Password")
-     */
-    PasswordSwitch,
-    /**
-     * QString
-     * The format of the compression level switch. The variable $CompressionLevel
-     * will be substituted for the level.
-     * Example: ("-mx=$CompressionLevel)
-     */
-    CompressionLevelSwitch,
-    /**
-     * QStringList
-     * This is a stringlist with regexps, defining how to recognize the last
-     * line in a "File already exists" prompt when extracting.
-     */
-    FileExistsExpression,
-    /**
-     * QStringList
-     * This is a stringlist with regexps defining how to recognize the line
-     * containing the filename in a "File already exists" prompt when
-     * extracting. It should have one captured string, which is the filename
-     * of the file/folder that already exists.
-     */
-    FileExistsFileName,
-    /**
-     * int
-     * This sets on what output channel the FileExistsExpression regex
-     * should be applied on, in other words, on what stream the "file
-     * exists" output will appear in. Values accepted:
-     * 0 - Standard error, stderr (default)
-     * 1 - Standard output, stdout
-     */
-    FileExistsMode,
-    /**
-     * QStringList
-     * The various responses that can be supplied as a response to the
-     * "file exists" prompt. The various items are to be supplied in the
-     * following order:
-     * index 0 - Yes (overwrite)
-     * index 1 - No (skip/do not overwrite)
-     * index 2 - All (overwrite all)
-     * index 3 - Do not overwrite any files (autoskip)
-     * index 4 - Cancel operation
-     */
-    FileExistsInput,
-    /**
-      * QStringList
-      * Regexp patterns capturing disk is full error messages.
-      */
-    DiskFullPatterns,
-
-    ///////////////[ DELETE ]/////////////
-
-    /**
-     * QStringList
-     * The names to the program that will handle deleting of elements in this
-     * archive format (eg "rar"). Will be searched for in PATH
-     */
-    DeleteProgram,
-    /**
-     * QStringList
-     * The arguments that are passed to the program above for
-     * deleting from the archive. Special strings that will be
-     * substituted:
-     * $Archive - the path of the archive
-     * $Files - the files selected to be deleted
-     */
-    DeleteArgs,
-    /**
-     * QStringList
-     * Default: empty
-     * A list of regexp patterns that will cause the extraction to exit
-     * with a general fail message
-     */
-    ExtractionFailedPatterns,
-    /**
-     * QStringList
-     * Default: empty
-     * A list of regexp patterns that will alert the user that the password
-     * was wrong.
-     */
-    WrongPasswordPatterns,
-
-    ///////////////[ ADD ]/////////////
-
-    /**
-     * QStringList
-     * The names to the program that will handle adding in this
-     * archive format (eg "rar"). Will be searched for in PATH
-     */
-    AddProgram,
-    /**
-     * QStringList
-     * The arguments that are passed to the program above for
-     * adding to the archive. Special strings that will be
-     * substituted:
-     * $Archive - the path of the archive
-     * $Files - the files selected to be added
-     */
-    AddArgs,
-
-    ///////////////[ MOVE ]/////////////
-
-    /**
-     * QStringList
-     * The names to the program that will handle adding in this
-     * archive format (eg "rar"). Will be searched for in PATH
-     */
-    MoveProgram,
-    /**
-     * QStringList
-     * The arguments that are passed to the program above for
-     * moving inside the archive. Special strings that will be
-     * substituted:
-     * $Archive - the path of the archive
-     * $Files - the files selected to be moved
-     * $Destinations - new path of each file selected to be moved
-     */
-    MoveArgs,
-
-    ///////////////[ ENCRYPT ]/////////////
-
-    /**
-     * QStringList (default empty)
-     * The variable $Password will be
-     * substituted for the password string used to encrypt the header.
-     * Example (rar plugin): ("-hp$Password")
-     */
-    PasswordHeaderSwitch,
-
-    ///////////////[ COMMENT ]/////////////
-
-    /**
-     * QStringList
-     * The arguments that are passed to AddProgram when adding
-     * a comment.
-     */
-    CommentArgs,
-    /**
-     * QString
-     * The variable $CommentFile will be substituted for the file
-     * containing the comment.
-     * Example (rar plugin): -z$CommentFile
-     */
-    CommentSwitch,
-    TestProgram,
-    TestArgs,
-    TestPassedPattern,
-    MultiVolumeSwitch,
-    MultiVolumeSuffix,
-    CompressionMethodSwitch
-};
-
-typedef QHash<int, QVariant> ParameterList;
 
 class KERFUFFLE_EXPORT CliInterface : public ReadWriteArchiveInterface
 {
@@ -315,7 +70,6 @@ public:
     virtual bool testArchive() Q_DECL_OVERRIDE;
 
     virtual void resetParsing() = 0;
-    virtual ParameterList parameterList() const = 0;
     virtual bool readListLine(const QString &line) = 0;
     bool doKill() Q_DECL_OVERRIDE;
     bool doSuspend() Q_DECL_OVERRIDE;
@@ -334,41 +88,10 @@ public:
      */
     bool moveToDestination(const QDir &tempDir, const QDir &destDir, bool preservePaths);
 
-    QStringList substituteListVariables(const QStringList &listArgs, const QString &password);
-    QStringList substituteExtractVariables(const QStringList &extractArgs, const QVector<Archive::Entry*> &entries, bool preservePaths, const QString &password);
-    QStringList substituteAddVariables(const QStringList &addArgs, const QVector<Archive::Entry*> &entries, const QString &password, bool encryptHeader, int compLevel, ulong volumeSize, QString compMethod);
-    QStringList substituteMoveVariables(const QStringList &moveArgs, const QVector<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination, const QString &password);
-    QStringList substituteDeleteVariables(const QStringList &deleteArgs, const QVector<Archive::Entry*> &entries, const QString &password);
-    QStringList substituteCommentVariables(const QStringList &commentArgs, const QString &commentFile);
-    QStringList substituteTestVariables(const QStringList &testArgs, const QString &password);
-
     /**
      * @see ArchiveModel::entryPathsFromDestination
      */
     void setNewMovedFiles(const QVector<Archive::Entry*> &entries, const Archive::Entry *destination, int entriesWithoutChildren);
-
-    /**
-     * @return The preserve path switch, according to the @p preservePaths extraction option.
-     */
-    QString preservePathSwitch(bool preservePaths) const;
-
-    /**
-     * @return The password header-switch with the given @p password.
-     */
-    virtual QStringList passwordHeaderSwitch(const QString& password) const;
-
-    /**
-     * @return The password switch with the given @p password.
-     */
-    QStringList passwordSwitch(const QString& password) const;
-
-    /**
-     * @return The compression level switch with the given @p level.
-     */
-    QString compressionLevelSwitch(int level) const;
-
-    virtual QString compressionMethodSwitch(const QString &method) const;
-    QString multiVolumeSwitch(ulong volumeSize) const;
 
     /**
      * @return The list of selected files to extract.
@@ -376,6 +99,8 @@ public:
     QStringList extractFilesList(const QVector<Archive::Entry*> &files) const;
 
     QString multiVolumeName() const Q_DECL_OVERRIDE;
+
+    CliProperties *cliProperties() const;
 
 protected:
 
@@ -388,23 +113,6 @@ protected:
      */
     virtual bool handleLine(const QString& line);
 
-    bool checkForErrorMessage(const QString& line, int parameterIndex);
-
-    /**
-     * Checks whether a line of the program's output is a password prompt.
-     *
-     * It uses the regular expression in the @c PasswordPromptPattern parameter
-     * for the check.
-     *
-     * @param line A line of the program's output.
-     *
-     * @return @c true if the given @p line is a password prompt, @c false
-     * otherwise.
-     */
-    bool checkForPasswordPromptMessage(const QString& line);
-
-    virtual void cacheParameterList();
-
     /**
      * Run @p programName with the given @p arguments.
      *
@@ -414,7 +122,7 @@ protected:
      * @return @c true if the program was found and the process was started correctly,
      *         @c false otherwise (in which case finished(false) is emitted).
      */
-    bool runProcess(const QStringList& programNames, const QStringList& arguments);
+    bool runProcess(const QString& programName, const QStringList& arguments);
 
     /**
      * Kill the running process. The finished signal is emitted according to @p emitFinished.
@@ -429,6 +137,7 @@ protected:
 
     void cleanUp();
 
+    CliProperties *m_cliProps;
     QString m_oldWorkingDir;
     QTemporaryDir *m_tempExtractDir;
     QTemporaryDir *m_tempAddDir;
@@ -437,8 +146,6 @@ protected:
     QVector<Archive::Entry*> m_tempAddedFiles;
     Archive::Entry *m_passedDestination;
     CompressionOptions m_passedOptions;
-
-    ParameterList m_param;
 
 #ifdef Q_OS_WIN
     KProcess *m_process;
@@ -454,17 +161,6 @@ protected slots:
 private:
 
     bool handleFileExistsMessage(const QString& filename);
-    bool checkForTestSuccessMessage(const QString& line);
-
-    /**
-     * Performs any additional escaping and processing on @p fileName
-     * before passing it to the underlying process.
-     *
-     * The default implementation returns @p fileName unchanged.
-     *
-     * @param fileName String to escape.
-     */
-    virtual QString escapeFileName(const QString &fileName) const;
 
     /**
      * Returns a list of path pairs which will be supplied to rn command.
@@ -488,6 +184,16 @@ private:
      * @return Whether @p dir is an empty directory.
      */
     bool isEmptyDir(const QDir &dir);
+
+    /**
+     * Performs any additional escaping and processing on @p fileName
+     * before passing it to the underlying process.
+     *
+     * The default implementation returns @p fileName unchanged.
+     *
+     * @param fileName String to escape.
+     */
+    virtual QString escapeFileName(const QString &fileName) const;
 
     void cleanUpExtracting();
 

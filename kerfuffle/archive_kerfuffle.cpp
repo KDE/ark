@@ -85,7 +85,8 @@ Archive *Archive::create(const QString &fileName, Plugin *plugin, QObject *paren
         return new Archive(FailedPlugin, parent);
     }
 
-    const QVariantList args = {QVariant(QFileInfo(fileName).absoluteFilePath())};
+    const QVariantList args = {QVariant(QFileInfo(fileName).absoluteFilePath()),
+                               QVariant().fromValue(plugin->metaData())};
     ReadOnlyArchiveInterface *iface = factory->create<ReadOnlyArchiveInterface>(Q_NULLPTR, args);
     if (!iface) {
         qCWarning(ARK) << "Could not create plugin instance" << plugin->metaData().pluginId();

@@ -37,7 +37,6 @@ public:
     virtual bool list() Q_DECL_OVERRIDE;
     virtual bool extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) Q_DECL_OVERRIDE;
     virtual void resetParsing() Q_DECL_OVERRIDE;
-    virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
 
     /**
@@ -50,14 +49,13 @@ protected slots:
 
 protected:
 
-    void cacheParameterList() Q_DECL_OVERRIDE;
     bool handleLine(const QString& line) Q_DECL_OVERRIDE;
 
 private slots:
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus) Q_DECL_OVERRIDE;
 
 private:
-
+    void setupCliProperties();
     void readJsonOutput();
 
     QString m_jsonOutput;

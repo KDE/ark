@@ -47,7 +47,7 @@ class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
 {
     Q_OBJECT
 public:
-    explicit ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args);
+    explicit ReadOnlyArchiveInterface(QObject *parent, const QVariantList &args);
     virtual ~ReadOnlyArchiveInterface();
 
     /**
@@ -157,6 +157,7 @@ public:
     virtual QString multiVolumeName() const;
     void setMultiVolume(bool value);
     int numberOfEntries() const;
+    QMimeType mimetype() const;
 
 signals:
     void cancelled();
@@ -182,9 +183,11 @@ protected:
     QString m_comment;
     int m_numberOfVolumes;
     int m_numberOfEntries;
+    KPluginMetaData m_metaData;
 
 private:
     QString m_filename;
+    QMimeType m_mimetype;
     QString m_password;
     bool m_waitForFinishedSignal;
     bool m_isHeaderEncryptionEnabled;
@@ -203,7 +206,7 @@ public:
         List, Extract, Add, Move, Copy, Delete, Comment, Test
     };
 
-    explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList & args);
+    explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList &args);
     virtual ~ReadWriteArchiveInterface();
 
     bool isReadOnly() const Q_DECL_OVERRIDE;

@@ -141,8 +141,9 @@ void CliUnarchiverTest::testList_data()
 void CliUnarchiverTest::testList()
 {
     qRegisterMetaType<Archive::Entry*>("Archive::Entry*");
-    CliPlugin *unarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar")});
-    QSignalSpy signalSpy(unarPlugin, &CliPlugin::entry);
+    CliPlugin *plugin = new CliPlugin(this, {QStringLiteral("dummy.rar"),
+                                             QVariant::fromValue(m_plugin->metaData())});
+    QSignalSpy signalSpy(plugin, &CliPlugin::entry);
 
     QFETCH(QString, jsonFilePath);
     QFETCH(int, expectedEntriesCount);
@@ -151,7 +152,7 @@ void CliUnarchiverTest::testList()
     QVERIFY(jsonFile.open(QIODevice::ReadOnly));
 
     QTextStream stream(&jsonFile);
-    unarPlugin->setJsonOutput(stream.readAll());
+    plugin->setJsonOutput(stream.readAll());
 
     QCOMPARE(signalSpy.count(), expectedEntriesCount);
 
@@ -177,7 +178,7 @@ void CliUnarchiverTest::testList()
     QFETCH(QString, expectedTimestamp);
     QCOMPARE(entry->property("timestamp").toString(), expectedTimestamp);
 
-    unarPlugin->deleteLater();
+    plugin->deleteLater();
 }
 
 void CliUnarchiverTest::testListArgs_data()
@@ -199,24 +200,25 @@ void CliUnarchiverTest::testListArgs_data()
             << QStringLiteral("1234")
             << QStringList {
                    QStringLiteral("-json"),
-                   QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("-password"),
-                   QStringLiteral("1234")
+                   QStringLiteral("1234"),
+                   QStringLiteral("/tmp/foo.rar")
                };
 }
 
 void CliUnarchiverTest::testListArgs()
 {
+    if (!m_plugin->isValid()) {
+        QSKIP("cliunarchiver plugin not available. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    const QStringList listArgs = { QStringLiteral("-json"),
-                                   QStringLiteral("$Archive"),
-                                   QStringLiteral("$PasswordSwitch") };
-
     QFETCH(QString, password);
-    const auto replacedArgs = plugin->substituteListVariables(listArgs, password);
+    const auto replacedArgs = plugin->cliProperties()->listArgs(archiveName, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
@@ -352,11 +354,11 @@ void CliUnarchiverTest::testExtractArgs_data()
             << QStringLiteral("1234")
             << QStringList {
                    QStringLiteral("-D"),
+                   QStringLiteral("-password"),
+                   QStringLiteral("1234"),
                    QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("aDir/b.txt"),
-                   QStringLiteral("c.txt"),
-                   QStringLiteral("-password"),
-                   QStringLiteral("1234")
+                   QStringLiteral("c.txt")
                };
 
     QTest::newRow("unencrypted, multiple files")
@@ -376,20 +378,24 @@ void CliUnarchiverTest::testExtractArgs_data()
 
 void CliUnarchiverTest::testExtractArgs()
 {
+    if (!m_plugin->isValid()) {
+        QSKIP("cliunarchiver plugin not available. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    const QStringList extractArgs = { QStringLiteral("-D"),
-                                      QStringLiteral("$Archive"),
-                                      QStringLiteral("$Files"),
-                                      QStringLiteral("$PasswordSwitch") };
-
     QFETCH(QVector<Archive::Entry*>, files);
+    QStringList filesList;
+    foreach (const Archive::Entry *e, files) {
+        filesList << e->fullPath(NoTrailingSlash);
+    }
+
     QFETCH(QString, password);
 
-    QStringList replacedArgs = plugin->substituteExtractVariables(extractArgs, files, false, password);
-    QVERIFY(replacedArgs.size() >= extractArgs.size());
+    const auto replacedArgs = plugin->cliProperties()->extractArgs(archiveName, filesList, false, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

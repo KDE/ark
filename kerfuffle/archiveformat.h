@@ -45,7 +45,7 @@ public:
                            bool supportsWriteComment,
                            bool supportsTesting,
                            bool suppportsMultiVolume,
-                           QStringList compressionMethods,
+                           QVariantMap compressionMethods,
                            QString defaultCompressionMethod);
 
     /**
@@ -69,7 +69,7 @@ public:
     bool supportsWriteComment() const;
     bool supportsTesting() const;
     bool supportsMultiVolume() const;
-    QStringList compressionMethods() const;
+    QVariantMap compressionMethods() const;
     QString defaultCompressionMethod() const;
 
 private:
@@ -81,7 +81,7 @@ private:
     bool m_supportsWriteComment;
     bool m_supportsTesting;
     bool m_supportsMultiVolume;
-    QStringList m_compressionMethods;
+    QVariantMap m_compressionMethods;
     QString m_defaultCompressionMethod;
 };
 

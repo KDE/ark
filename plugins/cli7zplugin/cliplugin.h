@@ -37,14 +37,7 @@ public:
     virtual ~CliPlugin();
 
     virtual void resetParsing() Q_DECL_OVERRIDE;
-    virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
-
-    /**
-     * @return The password header-switch with the given @p password.
-     */
-    virtual QStringList passwordHeaderSwitch(const QString& password) const Q_DECL_OVERRIDE;
-    virtual QString compressionMethodSwitch(const QString &method) const Q_DECL_OVERRIDE;
 
 private:
     enum ArchiveType {
@@ -64,6 +57,8 @@ private:
         ParseStateComment,
         ParseStateEntryInformation
     } m_parseState;
+
+    void setupCliProperties();
 
     int m_linesComment;
     Kerfuffle::Archive::Entry *m_currentArchiveEntry;

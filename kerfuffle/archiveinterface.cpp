@@ -28,6 +28,7 @@
 
 #include "archiveinterface.h"
 #include "ark_debug.h"
+#include "mimetypes.h"
 
 #include <kfileitem.h>
 
@@ -46,9 +47,13 @@ ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVaria
         , m_isCorrupt(false)
         , m_isMultiVolume(false)
 {
+    Q_ASSERT(args.size() >= 2);
+
     qCDebug(ARK) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();
+    m_mimetype = determineMimeType(m_filename);
     connect(this, &ReadOnlyArchiveInterface::entry, this, &ReadOnlyArchiveInterface::onEntry);
+    m_metaData = args.at(1).value<KPluginMetaData>();
 }
 
 ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
@@ -144,7 +149,7 @@ QString ReadOnlyArchiveInterface::multiVolumeName() const
     return filename();
 }
 
-ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList & args)
+ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList &args)
         : ReadOnlyArchiveInterface(parent, args)
 {
     qCDebug(ARK) << "Created read-write interface for" << args.first().toString();
@@ -252,6 +257,11 @@ QStringList ReadOnlyArchiveInterface::entryPathsFromDestination(QStringList entr
 bool ReadOnlyArchiveInterface::isHeaderEncryptionEnabled() const
 {
     return m_isHeaderEncryptionEnabled;
+}
+
+QMimeType ReadOnlyArchiveInterface::mimetype() const
+{
+    return m_mimetype;
 }
 
 bool ReadWriteArchiveInterface::isReadOnly() const

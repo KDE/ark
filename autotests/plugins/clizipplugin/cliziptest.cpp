@@ -30,6 +30,17 @@ QTEST_GUILESS_MAIN(CliZipTest)
 
 using namespace Kerfuffle;
 
+void CliZipTest::initTestCase()
+{
+    m_plugin = new Plugin(this);
+    foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
+        if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_clizip")) {
+            m_plugin = plugin;
+            return;
+        }
+    }
+}
+
 void CliZipTest::testListArgs_data()
 {
     QTest::addColumn<QString>("archiveName");
@@ -47,16 +58,16 @@ void CliZipTest::testListArgs_data()
 
 void CliZipTest::testListArgs()
 {
+    if (!m_plugin->isValid()) {
+        QSKIP("clizip plugin not available. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    const QStringList listArgs = { QStringLiteral("-l"),
-                                   QStringLiteral("-T"),
-                                   QStringLiteral("-z"),
-                                   QStringLiteral("$Archive") };
-
-    const auto replacedArgs = plugin->substituteListVariables(listArgs, QString());
+    const auto replacedArgs = plugin->cliProperties()->listArgs(archiveName, QString());
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
@@ -74,12 +85,12 @@ void CliZipTest::testAddArgs_data()
 
     QTest::newRow("unencrypted")
             << QStringLiteral("/tmp/foo.zip")
-            << QString() << 3 << QStringLiteral("deflate")
+            << QString() << 3 << QStringLiteral("Deflate")
             << QStringList {
                    QStringLiteral("-r"),
-                   QStringLiteral("/tmp/foo.zip"),
                    QStringLiteral("-3"),
-                   QStringLiteral("-Zdeflate")
+                   QStringLiteral("-Zdeflate"),
+                   QStringLiteral("/tmp/foo.zip")
                };
 
     QTest::newRow("encrypted")
@@ -87,40 +98,38 @@ void CliZipTest::testAddArgs_data()
             << QStringLiteral("1234") << 3 << QString()
             << QStringList {
                    QStringLiteral("-r"),
-                   QStringLiteral("/tmp/foo.zip"),
                    QStringLiteral("-P1234"),
-                   QStringLiteral("-3")
+                   QStringLiteral("-3"),
+                   QStringLiteral("/tmp/foo.zip")
                };
 
     QTest::newRow("comp-method-bzip2")
             << QStringLiteral("/tmp/foo.zip")
-            << QString() << 3 << QStringLiteral("bzip2")
+            << QString() << 3 << QStringLiteral("BZip2")
             << QStringList {
                    QStringLiteral("-r"),
-                   QStringLiteral("/tmp/foo.zip"),
                    QStringLiteral("-3"),
-                   QStringLiteral("-Zbzip2")
+                   QStringLiteral("-Zbzip2"),
+                   QStringLiteral("/tmp/foo.zip")
                };
 }
 
 void CliZipTest::testAddArgs()
 {
-    QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
-    QVERIFY(plugin);
+    if (!m_plugin->isValid()) {
+        QSKIP("clizip plugin not available. Skipping test.", SkipSingle);
+    }
 
-    const QStringList addArgs = { QStringLiteral("-r"),
-                                  QStringLiteral("$Archive"),
-                                  QStringLiteral("$PasswordSwitch"),
-                                  QStringLiteral("$CompressionLevelSwitch"),
-                                  QStringLiteral("$CompressionMethodSwitch"),
-                                  QStringLiteral("$Files") };
+    QFETCH(QString, archiveName);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
+    QVERIFY(plugin);
 
     QFETCH(QString, password);
     QFETCH(int, compressionLevel);
     QFETCH(QString, compressionMethod);
 
-    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, password, false, compressionLevel, 0, compressionMethod);
+    const auto replacedArgs = plugin->cliProperties()->addArgs(archiveName, {}, password, false, compressionLevel, compressionMethod, 0);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
@@ -195,20 +204,25 @@ void CliZipTest::testExtractArgs_data()
 
 void CliZipTest::testExtractArgs()
 {
+    if (!m_plugin->isValid()) {
+        QSKIP("clizip plugin not available. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    const QStringList extractArgs = { QStringLiteral("$PreservePathSwitch"),
-                                      QStringLiteral("$PasswordSwitch"),
-                                      QStringLiteral("$Archive"),
-                                      QStringLiteral("$Files") };
-
     QFETCH(QVector<Archive::Entry*>, files);
+    QStringList filesList;
+    foreach (const Archive::Entry *e, files) {
+        filesList << e->fullPath(NoTrailingSlash);
+    }
+
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = plugin->substituteExtractVariables(extractArgs, files, preservePaths, password);
+    const auto replacedArgs = plugin->cliProperties()->extractArgs(archiveName, filesList, preservePaths, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

@@ -28,6 +28,8 @@
 #include "kerfuffle/jobs.h"
 #include "kerfuffle/archiveentry.h"
 
+#include <KPluginMetaData>
+
 #include <QDebug>
 #include <QEventLoop>
 #include <QTest>
@@ -91,7 +93,8 @@ void JobsTest::slotNewEntry(Archive::Entry *entry)
 
 JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
 {
-    JSONArchiveInterface *iface = new JSONArchiveInterface(this, {filePath});
+    JSONArchiveInterface *iface = new JSONArchiveInterface(this, {filePath,
+                                                                  QVariant().fromValue(KPluginMetaData())});
     if (!iface->open()) {
         qDebug() << "Could not open" << filePath;
         return Q_NULLPTR;
