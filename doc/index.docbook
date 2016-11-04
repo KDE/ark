@@ -327,7 +327,7 @@ For most formats the minimum compression level is equivalent to just storing the
 <para>For <literal role="extension">rar</literal>, <literal role="extension">7z</literal> and <literal role="extension">zip</literal>
 archives you can select between different compression methods.
 </para>
-<para>Note that using compression methods other than the pre-selected defaults may limit compatiblity with file archivers.
+<para>Note that using compression methods other than the pre-selected defaults may limit compatibility with file archivers.
 For example, opening <literal role="extension">zip</literal> archives with compression methods other than <quote>Deflate</quote>
 requires newer archiving software.</para>
 </sect2>
