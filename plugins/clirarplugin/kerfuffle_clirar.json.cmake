@@ -12,7 +12,7 @@
         "Name[es]": "Complemento de archivo RAR", 
         "Name[et]": "RAR-arhiivi plugin", 
         "Name[fi]": "RAR-pakkaustuki", 
-        "Name[fr]": "Module externe d'archive « RAR »", 
+        "Name[fr]": "Module externe d'archive « RAR »", 
         "Name[gl]": "Complemento de arquivo RAR", 
         "Name[he]": "תוסף ארכיוני RAR", 
         "Name[it]": "Estensione per archivi RAR", 
@@ -53,9 +53,9 @@
         "CompressionLevelMin": 0, 
         "CompressionMethodDefault": "RAR4", 
         "CompressionMethods": {
-            "RAR4" : "4",
-            "RAR5" : "5"
-        },
+            "RAR4": "4", 
+            "RAR5": "5"
+        }, 
         "HeaderEncryption": true, 
         "SupportsMultiVolume": true, 
         "SupportsTesting": true, 
@@ -67,9 +67,9 @@
         "CompressionLevelMin": 0, 
         "CompressionMethodDefault": "RAR4", 
         "CompressionMethods": {
-            "RAR4" : "4",
-            "RAR5" : "5"
-        },
+            "RAR4": "4", 
+            "RAR5": "5"
+        }, 
         "HeaderEncryption": true, 
         "SupportsMultiVolume": true, 
         "SupportsTesting": true, 

@@ -12,7 +12,7 @@
         "Name[es]": "Complemento de archivo ZIP", 
         "Name[et]": "ZIP-arhiivi plugin", 
         "Name[fi]": "ZIP-pakkaustuki", 
-        "Name[fr]": "Module externe d'archive « zip »", 
+        "Name[fr]": "Module externe d'archive « zip »", 
         "Name[gl]": "Complemento de arquivo ZIP", 
         "Name[he]": "תוסף ארכיוני ZIP", 
         "Name[it]": "Estensione per archivi ZIP", 
@@ -58,12 +58,12 @@
         "CompressionLevelDefault": 6, 
         "CompressionLevelMax": 9, 
         "CompressionLevelMin": 0, 
-        "CompressionMethodDefault": "Deflate",
+        "CompressionMethodDefault": "Deflate", 
         "CompressionMethods": {
-            "BZip2" : "bzip2",
-            "Deflate" : "deflate",
-            "Store" : "store"
-        },
+            "BZip2": "bzip2", 
+            "Deflate": "deflate", 
+            "Store": "store"
+        }, 
         "Encryption": true, 
         "SupportsTesting": true
     }

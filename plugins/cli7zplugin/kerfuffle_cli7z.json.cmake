@@ -12,7 +12,7 @@
         "Name[es]": "Complemento de archivo 7zip", 
         "Name[et]": "7zip arhiivi plugin", 
         "Name[fi]": "7zip-pakkaustuki", 
-        "Name[fr]": "Module externe d'archive « 7zip »", 
+        "Name[fr]": "Module externe d'archive « 7zip »", 
         "Name[gl]": "Complemento de arquivo de 7zip", 
         "Name[he]": "תוסף ארכיוני 7zip", 
         "Name[it]": "Estensione per archivi 7zip", 
@@ -52,13 +52,13 @@
         "CompressionLevelMin": 0, 
         "CompressionMethodDefault": "LZMA2", 
         "CompressionMethods": {
-            "BZip2" : "BZip2",
-            "Copy" : "Copy",
-            "Deflate" : "Deflate",
-            "LZMA" : "LZMA",
-            "LZMA2" : "LZMA2",
-            "PPMd" : "PPMd"
-        },
+            "BZip2": "BZip2", 
+            "Copy": "Copy", 
+            "Deflate": "Deflate", 
+            "LZMA": "LZMA", 
+            "LZMA2": "LZMA2", 
+            "PPMd": "PPMd"
+        }, 
         "HeaderEncryption": true, 
         "SupportsMultiVolume": true, 
         "SupportsTesting": true
@@ -69,13 +69,13 @@
         "CompressionLevelMin": 0, 
         "CompressionMethodDefault": "Deflate", 
         "CompressionMethods": {
-            "BZip2" : "BZip2",
-            "Copy" : "Copy",
-            "Deflate" : "Deflate",
-            "Deflate64" : "Deflate64",
-            "LZMA" : "LZMA",
+            "BZip2": "BZip2", 
+            "Copy": "Copy", 
+            "Deflate": "Deflate", 
+            "Deflate64": "Deflate64", 
+            "LZMA": "LZMA", 
             "PPMd": "PPMd"
-        },
+        }, 
         "Encryption": true, 
         "SupportsMultiVolume": true, 
         "SupportsTesting": true
