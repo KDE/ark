@@ -80,72 +80,6 @@ static QMap<int, QString> initializePropertiesList()
 }
 static const QMap<int, QString> propertiesList = initializePropertiesList();
 
-/**
- * Helper functor used by qStableSort.
- *
- * It always sorts folders before files.
- *
- * @internal
- */
-class ArchiveModelSorter
-{
-public:
-    ArchiveModelSorter(int column, Qt::SortOrder order)
-        : m_sortColumn(column)
-        , m_sortOrder(order)
-    {
-    }
-
-    virtual ~ArchiveModelSorter()
-    {
-    }
-
-    inline bool operator()(const QPair<Archive::Entry*, int> &left, const QPair<Archive::Entry*, int> &right) const
-    {
-        if (m_sortOrder == Qt::AscendingOrder) {
-            return lessThan(left, right);
-        } else {
-            return !lessThan(left, right);
-        }
-    }
-
-protected:
-    bool lessThan(const QPair<Archive::Entry*, int> &left, const QPair<Archive::Entry*, int> &right) const
-    {
-        const Archive::Entry * const leftEntry = left.first;
-        const Archive::Entry * const rightEntry = right.first;
-
-        // #234373: sort folders before files.
-        if ((leftEntry->isDir()) && (!rightEntry->isDir())) {
-            return (m_sortOrder == Qt::AscendingOrder);
-        } else if ((!leftEntry->isDir()) && (rightEntry->isDir())) {
-            return !(m_sortOrder == Qt::AscendingOrder);
-        }
-
-        EntryMetaDataType column = static_cast<EntryMetaDataType>(m_sortColumn);
-        const QVariant &leftEntryMetaData = leftEntry->property(propertiesList[column].toUtf8());
-        const QVariant &rightEntryMetaData = rightEntry->property(propertiesList[column].toUtf8());
-
-        switch (m_sortColumn) {
-        case FullPath:
-            return leftEntry->name() < rightEntry->name();
-        case Size:
-        case CompressedSize:
-            return leftEntryMetaData.toInt() < rightEntryMetaData.toInt();
-        default:
-            return leftEntryMetaData.toString() < rightEntryMetaData.toString();
-        }
-
-        // We should not get here.
-        Q_ASSERT(false);
-        return false;
-    }
-
-private:
-    int m_sortColumn;
-    Qt::SortOrder m_sortOrder;
-};
-
 ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
     , m_dbusPathName(dbusPathName)
@@ -381,8 +315,6 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
     m_rootEntry->returnDirEntries(&dirEntries);
     dirEntries.append(m_rootEntry.data());
 
-    const ArchiveModelSorter modelSorter(m_showColumns.at(column), order);
-
     foreach(Archive::Entry *dir, dirEntries) {
         QVector < QPair<Archive::Entry*,int> > sorting(dir->entries().count());
         for (int i = 0; i < dir->entries().count(); ++i) {
@@ -391,7 +323,40 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
             sorting[i].second = i;
         }
 
-        std::stable_sort(sorting.begin(), sorting.end(), modelSorter);
+        std::stable_sort(sorting.begin(), sorting.end(), [=](const QPair<Archive::Entry*, int> &left, const QPair<Archive::Entry*, int> &right) {
+            const auto leftEntry = left.first;
+            const auto rightEntry = right.first;
+            bool isLessThan = false;  // Whether the left entry is less than the right entry.
+
+            // #234373: sort folders before files.
+            if ((leftEntry->isDir()) && (!rightEntry->isDir())) {
+                isLessThan = true;
+            } else if ((!leftEntry->isDir()) && (rightEntry->isDir())) {
+                isLessThan = false;
+            } else {
+                const QVariant leftEntryMetaData = leftEntry->property(propertiesList[column].toUtf8());
+                const QVariant rightEntryMetaData = rightEntry->property(propertiesList[column].toUtf8());
+
+                switch (column) {
+                case FullPath:
+                    isLessThan = leftEntry->name() < rightEntry->name();
+                    break;
+                case Size:
+                case CompressedSize:
+                    isLessThan = leftEntryMetaData.toInt() < rightEntryMetaData.toInt();
+                    break;
+                default:
+                    isLessThan = leftEntryMetaData.toString() < rightEntryMetaData.toString();
+                    break;
+                }
+            }
+
+            if (order == Qt::AscendingOrder) {
+                return isLessThan;
+            }
+            // Descending order.
+            return !isLessThan;
+        });
 
         QModelIndexList fromIndexes;
         QModelIndexList toIndexes;
