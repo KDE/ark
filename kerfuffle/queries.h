@@ -46,14 +46,13 @@ class KERFUFFLE_EXPORT Query
 {
 public:
     /**
-     * Execute the response. Will happen in the GUI thread, so it's
-     * safe to use widgets/gui elements here. Must call setResponse
-     * when done.
+     * Execute the response. It needs to be called from the GUI thread.
      */
     virtual void execute() = 0;
 
     /**
-     * Will block until the response have been set
+     * Will block until the response have been set.
+     * Useful for worker threads that need to show a dialog.
      */
     void waitForResponse();
 

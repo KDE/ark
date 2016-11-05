@@ -215,6 +215,10 @@ void Job::onFinished(bool result)
 
 void Job::onUserQuery(Query *query)
 {
+    if (archiveInterface()->waitForFinishedSignal()) {
+        qCWarning(ARK) << "Plugins run from the main thread should call directly query->execute()";
+    }
+
     emit userQuery(query);
 }
 

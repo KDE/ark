@@ -354,8 +354,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         list();
     } else if (m_operationMode == List && isCorrupt()) {
         Kerfuffle::LoadCorruptQuery query(filename());
-        emit userQuery(&query);
-        query.waitForResponse();
+        query.execute();
         if (!query.responseYes()) {
             emit cancelled();
             emit finished(false);
@@ -495,8 +494,7 @@ bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry*> &files,
 
                     Kerfuffle::OverwriteQuery query(absDestEntry.absoluteFilePath());
                     query.setNoRenameMode(true);
-                    emit userQuery(&query);
-                    query.waitForResponse();
+                    query.execute();
 
                     if (query.responseOverwrite() || query.responseOverwriteAll()) {
                         if (query.responseOverwriteAll()) {
@@ -604,8 +602,7 @@ bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, b
 
             Kerfuffle::OverwriteQuery query(absDestEntry.absoluteFilePath());
             query.setNoRenameMode(true);
-            emit userQuery(&query);
-            query.waitForResponse();
+            query.execute();
 
             if (query.responseOverwrite() || query.responseOverwriteAll()) {
                 if (query.responseOverwriteAll()) {
@@ -727,8 +724,7 @@ void CliInterface::killProcess(bool emitFinished)
 bool CliInterface::passwordQuery()
 {
     Kerfuffle::PasswordNeededQuery query(filename());
-    emit userQuery(&query);
-    query.waitForResponse();
+    query.execute();
 
     if (query.responseCancelled()) {
         emit cancelled();
@@ -866,8 +862,7 @@ bool CliInterface::handleLine(const QString& line)
             qCDebug(ARK) << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
-            emit userQuery(&query);
-            query.waitForResponse();
+            query.execute();
 
             if (query.responseCancelled()) {
                 emit cancelled();
@@ -911,8 +906,7 @@ bool CliInterface::handleLine(const QString& line)
             qCDebug(ARK) << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
-            emit userQuery(&query);
-            query.waitForResponse();
+            query.execute();
 
             if (query.responseCancelled()) {
                 emit cancelled();
@@ -992,11 +986,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
     Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char( '/' ) + m_storedFileName);
     query.setNoRenameMode(true);
-    emit userQuery(&query);
-    qCDebug(ARK) << "Waiting response";
-    query.waitForResponse();
-
-    qCDebug(ARK) << "Finished response";
+    query.execute();
 
     QString responseToProcess;
     const QStringList choices = m_cliProps->property("fileExistsInput").toStringList();

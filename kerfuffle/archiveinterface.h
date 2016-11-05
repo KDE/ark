@@ -166,9 +166,13 @@ signals:
     void progress(double progress);
     void info(const QString &info);
     void finished(bool result);
-    void userQuery(Query *query);
     void testSuccess();
     void compressionMethodFound(const QStringList);
+
+    /**
+     * Emitted when @p query needs to be executed on the GUI thread.
+     */
+    void userQuery(Query *query);
 
 protected:
 

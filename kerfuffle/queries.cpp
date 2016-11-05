@@ -44,7 +44,6 @@ namespace Kerfuffle
 {
 Query::Query()
 {
-    m_responseMutex.lock();
 }
 
 QVariant Query::response() const
@@ -54,11 +53,11 @@ QVariant Query::response() const
 
 void Query::waitForResponse()
 {
+    QMutexLocker locker(&m_responseMutex);
     //if there is no response set yet, wait
     if (!m_data.contains(QStringLiteral("response"))) {
         m_responseCondition.wait(&m_responseMutex);
     }
-    m_responseMutex.unlock();
 }
 
 void Query::setResponse(const QVariant &response)
