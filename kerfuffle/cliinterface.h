@@ -214,6 +214,8 @@ private:
     QTemporaryDir *m_extractTempDir;
     QTemporaryFile *m_commentTempFile;
     QVector<Archive::Entry*> m_extractedFiles;
+    uint m_archiveSizeOnDisk;
+    uint m_listedSize;
 
 protected slots:
     virtual void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
@@ -221,7 +223,7 @@ protected slots:
 private slots:
     void extractProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void continueCopying(bool result);
-
+    void onEntry(Archive::Entry *archiveEntry);
 };
 }
 

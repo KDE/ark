@@ -65,7 +65,9 @@ CliInterface::CliInterface(QObject *parent, const QVariantList & args)
         m_abortingOperation(false),
         m_listEmptyLines(false),
         m_extractTempDir(Q_NULLPTR),
-        m_commentTempFile(Q_NULLPTR)
+        m_commentTempFile(Q_NULLPTR),
+        m_archiveSizeOnDisk(0),
+        m_listedSize(0)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);
@@ -97,6 +99,10 @@ bool CliInterface::list()
     resetParsing();
     m_operationMode = List;
     m_numberOfEntries = 0;
+
+    // To compute progress.
+    m_archiveSizeOnDisk = QFileInfo(filename()).size();
+    connect(this, &ReadOnlyArchiveInterface::entry, this, &CliInterface::onEntry);
 
     if (!runProcess(m_cliProps->property("listProgram").toString(), m_cliProps->listArgs(filename(), password()))) {
         return false;
@@ -1109,6 +1115,19 @@ QString CliInterface::multiVolumeName() const
 CliProperties *CliInterface::cliProperties() const
 {
     return m_cliProps;
+}
+
+void CliInterface::onEntry(Archive::Entry *archiveEntry)
+{
+    if (archiveEntry->compressedSizeIsSet) {
+        m_listedSize += archiveEntry->property("compressedSize").toUInt();
+        if (m_listedSize <= m_archiveSizeOnDisk) {
+            emit progress(float(m_listedSize)/float(m_archiveSizeOnDisk));
+        } else {
+            // In case summed compressed size exceeds archive size on disk.
+            emit progress(1);
+        }
+    }
 }
 
 }
