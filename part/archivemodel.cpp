@@ -391,7 +391,7 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
             sorting[i].second = i;
         }
 
-        qStableSort(sorting.begin(), sorting.end(), modelSorter);
+        std::stable_sort(sorting.begin(), sorting.end(), modelSorter);
 
         QModelIndexList fromIndexes;
         QModelIndexList toIndexes;
