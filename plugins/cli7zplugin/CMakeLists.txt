@@ -23,3 +23,10 @@ kerfuffle_add_plugin(kerfuffle_cli7z ${kerfuffle_cli7z_SRCS})
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_CLI7Z_MIMETYPES}" PARENT_SCOPE)
 set(INSTALLED_KERFUFFLE_PLUGINS "${INSTALLED_KERFUFFLE_PLUGINS}kerfuffle_cli7z;" PARENT_SCOPE)
+
+find_program(P7ZIP 7z)
+if(P7ZIP)
+    message(STATUS "Found p7zip executable: ${P7ZIP}")
+else()
+    message(WARNING "Could not find the 7z executable. Ark won't be able to handle the 7z archive format.")
+endif()

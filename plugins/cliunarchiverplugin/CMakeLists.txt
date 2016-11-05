@@ -25,3 +25,10 @@ kerfuffle_add_plugin(kerfuffle_cliunarchiver ${kerfuffle_cliunarchiver_SRCS})
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_CLIUNARCHIVER_MIMETYPES}"
 PARENT_SCOPE)
 set(INSTALLED_KERFUFFLE_PLUGINS "${INSTALLED_KERFUFFLE_PLUGINS}kerfuffle_cliunarchiver;" PARENT_SCOPE)
+
+find_program(UNAR unar)
+if(UNAR)
+    message(STATUS "Found unar executable: ${UNAR}")
+else()
+    message(WARNING "Could not find the unar executable. Ark requires unar or unrar to extract RAR archives.")
+endif()
