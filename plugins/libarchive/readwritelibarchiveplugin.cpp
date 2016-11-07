@@ -397,6 +397,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
     entriesCounter = 0;
     int iteratedEntries = 0;
 
+    // Create a map that contains old path as key and new path as value.
     QMap<QString, QString> pathMap;
     if (mode == Move || mode == Copy) {
         m_filesPaths.sort();
@@ -416,6 +417,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
             const QString newPathname = pathMap.value(file);
             if (!newPathname.isEmpty()) {
                 if (mode == Copy) {
+                    // Write the old entry.
                     if (!writeEntry(entry)) {
                         return false;
                     }
@@ -441,6 +443,9 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
 
             case Add:
                 qCDebug(ARK) << file << "is already present in the new archive, skipping.";
+                // When overwriting entries, we need to decrement the counter manually,
+                // because entry was emitted.
+                m_numberOfEntries--;
                 break;
 
             default:

@@ -116,6 +116,15 @@ void AddTest::testAdding_data()
                   QStringLiteral("empty_dir/testdir2/testdir/testfile2.txt")
               },
               17);
+
+    setupRows(QStringLiteral("overwriting an existing entry"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> {
+                  new Archive::Entry(this, QStringLiteral("a.txt")),
+              },
+              new Archive::Entry(this),
+              QStringList(),
+              13);
 }
 
 void AddTest::testAdding()
