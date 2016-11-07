@@ -60,14 +60,7 @@
 namespace Kerfuffle
 {
 CliInterface::CliInterface(QObject *parent, const QVariantList & args)
-        : ReadWriteArchiveInterface(parent, args),
-        m_process(0),
-        m_abortingOperation(false),
-        m_listEmptyLines(false),
-        m_extractTempDir(Q_NULLPTR),
-        m_commentTempFile(Q_NULLPTR),
-        m_archiveSizeOnDisk(0),
-        m_listedSize(0)
+    : ReadWriteArchiveInterface(parent, args)
 {
     //because this interface uses the event loop
     setWaitForFinishedSignal(true);

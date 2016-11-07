@@ -53,7 +53,7 @@ class KERFUFFLE_EXPORT CliInterface : public ReadWriteArchiveInterface
     Q_OBJECT
 
 public:
-    OperationMode m_operationMode;
+    OperationMode m_operationMode = List;
 
     explicit CliInterface(QObject *parent, const QVariantList & args);
     virtual ~CliInterface();
@@ -137,23 +137,23 @@ protected:
 
     void cleanUp();
 
-    CliProperties *m_cliProps;
+    CliProperties *m_cliProps = Q_NULLPTR;
     QString m_oldWorkingDir;
-    QTemporaryDir *m_tempExtractDir;
-    QTemporaryDir *m_tempAddDir;
-    OperationMode m_subOperation;
+    QTemporaryDir *m_tempExtractDir = Q_NULLPTR;
+    QTemporaryDir *m_tempAddDir = Q_NULLPTR;
+    OperationMode m_subOperation = List;
     QVector<Archive::Entry*> m_passedFiles;
     QVector<Archive::Entry*> m_tempAddedFiles;
-    Archive::Entry *m_passedDestination;
+    Archive::Entry *m_passedDestination = Q_NULLPTR;
     CompressionOptions m_passedOptions;
 
 #ifdef Q_OS_WIN
-    KProcess *m_process;
+    KProcess *m_process = Q_NULLPTR;
 #else
-    KPtyProcess *m_process;
+    KPtyProcess *m_process = Q_NULLPTR;
 #endif
 
-    bool m_abortingOperation;
+    bool m_abortingOperation = false;
 
 protected slots:
     virtual void readStdout(bool handleAll = false);
@@ -205,17 +205,17 @@ private:
 
     QVector<Archive::Entry*> m_removedFiles;
     QVector<Archive::Entry*> m_newMovedFiles;
-    int m_exitCode;
-    bool m_listEmptyLines;
+    int m_exitCode = 0;
+    bool m_listEmptyLines = false;
     QString m_storedFileName;
 
     ExtractionOptions m_extractionOptions;
     QString m_extractDestDir;
-    QTemporaryDir *m_extractTempDir;
-    QTemporaryFile *m_commentTempFile;
+    QTemporaryDir *m_extractTempDir = Q_NULLPTR;
+    QTemporaryFile *m_commentTempFile = Q_NULLPTR;
     QVector<Archive::Entry*> m_extractedFiles;
-    uint m_archiveSizeOnDisk;
-    uint m_listedSize;
+    uint m_archiveSizeOnDisk = 0;
+    uint m_listedSize = 0;
 
 protected slots:
     virtual void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
