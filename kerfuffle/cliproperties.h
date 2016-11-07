@@ -142,7 +142,7 @@ private:
     QStringList m_fileExistsInput;
     QStringList m_multiVolumeSuffix;
 
-    bool m_captureProgress;
+    bool m_captureProgress = false;
 
     QMimeType m_mimeType;
     KPluginMetaData m_metaData;
