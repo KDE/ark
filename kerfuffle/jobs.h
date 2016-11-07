@@ -397,7 +397,7 @@ class KERFUFFLE_EXPORT TestJob : public Job
     Q_OBJECT
 
 public:
-    TestJob(ReadOnlyArchiveInterface *interface);
+    explicit TestJob(ReadOnlyArchiveInterface *interface);
     bool testSucceeded();
 
 public slots:
