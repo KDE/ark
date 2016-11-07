@@ -44,8 +44,8 @@ ArchiveFormat::ArchiveFormat(const QMimeType& mimeType,
                              bool supportsWriteComment,
                              bool supportsTesting,
                              bool supportsMultiVolume,
-                             QVariantMap compressionMethods,
-                             QString defaultCompressionMethod) :
+                             const QVariantMap& compressionMethods,
+                             const QString& defaultCompressionMethod) :
     m_mimeType(mimeType),
     m_encryptionType(encryptionType),
     m_minCompressionLevel(minCompLevel),

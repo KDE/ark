@@ -45,8 +45,8 @@ public:
                            bool supportsWriteComment,
                            bool supportsTesting,
                            bool suppportsMultiVolume,
-                           QVariantMap compressionMethods,
-                           QString defaultCompressionMethod);
+                           const QVariantMap& compressionMethods,
+                           const QString& defaultCompressionMethod);
 
     /**
      * @return The archive format of the given @p mimeType, according to the given @p metadata.
