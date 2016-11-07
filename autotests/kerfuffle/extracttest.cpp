@@ -404,9 +404,8 @@ void ExtractTest::testExtraction()
     QVERIFY(loadJob);
     loadJob->setAutoDelete(false);
 
-    Archive *archive = Q_NULLPTR;
     TestHelper::startAndWaitForResult(loadJob);
-    archive = loadJob->archive();
+    auto archive = loadJob->archive();
     QVERIFY(archive);
 
     if (!archive->isValid()) {
