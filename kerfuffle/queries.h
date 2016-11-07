@@ -136,7 +136,7 @@ public:
     bool responseCancelled();
     bool dontAskAgain();
 private:
-    QCheckBox *m_chkDontAskAgain;
+    QCheckBox m_chkDontAskAgain;
 };
 
 }
