@@ -317,7 +317,7 @@ private:
 };
 
 /**
- * This MoveJob can be used to rename or move entries withing the archive.
+ * This MoveJob can be used to rename or move entries within the archive.
  * @see Archive::moveFiles for more details.
  */
 class KERFUFFLE_EXPORT MoveJob : public Job

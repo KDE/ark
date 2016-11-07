@@ -176,7 +176,7 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
 
 void Archive::onCompressionMethodFound(const QStringList &methods)
 {
-    // If other methods are found, we dont report "Store" method.
+    // If other methods are found, we don't report "Store" method.
     QStringList processedMethods = methods;
     if (processedMethods.size() > 1 &&
         processedMethods.contains(QStringLiteral("Store"))) {
