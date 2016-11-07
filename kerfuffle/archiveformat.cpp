@@ -31,8 +31,7 @@
 namespace Kerfuffle
 {
 
-ArchiveFormat::ArchiveFormat() :
-    m_encryptionType(Archive::Unencrypted)
+ArchiveFormat::ArchiveFormat()
 {
 }
 

@@ -74,13 +74,13 @@ public:
 
 private:
     QMimeType m_mimeType;
-    Kerfuffle::Archive::EncryptionType m_encryptionType;
-    int m_minCompressionLevel;
-    int m_maxCompressionLevel;
-    int m_defaultCompressionLevel;
-    bool m_supportsWriteComment;
-    bool m_supportsTesting;
-    bool m_supportsMultiVolume;
+    Kerfuffle::Archive::EncryptionType m_encryptionType = Kerfuffle::Archive::Unencrypted;
+    int m_minCompressionLevel = -1;
+    int m_maxCompressionLevel = 0;
+    int m_defaultCompressionLevel = 0;
+    bool m_supportsWriteComment = false;
+    bool m_supportsTesting = false;
+    bool m_supportsMultiVolume = false;
     QVariantMap m_compressionMethods;
     QString m_defaultCompressionMethod;
 };
