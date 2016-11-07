@@ -30,6 +30,7 @@
 
 #include <QDBusConnection>
 #include <QMimeData>
+#include <QMimeDatabase>
 #include <QRegularExpression>
 #include <QUrl>
 

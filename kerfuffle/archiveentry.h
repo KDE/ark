@@ -29,10 +29,7 @@
 #include "archive_kerfuffle.h"
 #include "app/ark_debug.h"
 
-#include <QtGui/QPixmap>
-#include <QtCore/QMimeDatabase>
-#include <QtCore/QDateTime>
-#include <QtGui/QIcon>
+#include <QDateTime>
 
 #include <KIconLoader>
 

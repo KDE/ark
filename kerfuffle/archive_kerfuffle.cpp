@@ -37,6 +37,7 @@
 #include <KPluginFactory>
 #include <KPluginLoader>
 
+#include <QMimeDatabase>
 #include <QRegularExpression>
 
 namespace Kerfuffle

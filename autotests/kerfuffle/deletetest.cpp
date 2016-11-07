@@ -28,6 +28,7 @@
 #include "pluginmanager.h"
 #include "testhelper.h"
 
+#include <QMimeDatabase>
 #include <QTest>
 
 using namespace Kerfuffle;

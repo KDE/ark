@@ -22,10 +22,11 @@
 #include "infopanel.h"
 #include "kerfuffle/archiveentry.h"
 
-#include <QFileInfo>
-
 #include <KLocalizedString>
 #include <kio/global.h>
+
+#include <QFileInfo>
+#include <QMimeDatabase>
 
 using namespace Kerfuffle;
 

@@ -30,6 +30,7 @@
 #include "testhelper.h"
 
 #include <QEventLoop>
+#include <QMimeDatabase>
 #include <QTest>
 
 using namespace Kerfuffle;
