@@ -24,7 +24,8 @@
 #define ARCHIVEVIEW_H
 
 #include <QTreeView>
-#include <QtWidgets/QLineEdit>
+
+class QLineEdit;
 
 class ArchiveView : public QTreeView
 {

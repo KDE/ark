@@ -25,8 +25,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ark_debug.h"
 #include "plugin.h"
+#include "ark_debug.h"
 
 #include <QJsonArray>
 #include <QStandardPaths>

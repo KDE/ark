@@ -23,8 +23,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ARK_ENTRY_H
-#define ARK_ENTRY_H
+#ifndef ARCHIVEENTRY_H
+#define ARCHIVEENTRY_H
 
 #include "archive_kerfuffle.h"
 #include "app/ark_debug.h"
@@ -128,4 +128,4 @@ QDebug KERFUFFLE_EXPORT operator<<(QDebug d, const Kerfuffle::Archive::Entry *en
 
 Q_DECLARE_METATYPE(Kerfuffle::Archive::Entry*)
 
-#endif //ARK_ENTRY_H
+#endif //ARCHIVEENTRY_H

@@ -32,7 +32,7 @@
 
 #include <QDir>
 #include <QStringList>
-#include <QtCore/QSaveFile>
+#include <QSaveFile>
 
 using namespace Kerfuffle;
 
