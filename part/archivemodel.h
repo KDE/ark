@@ -167,6 +167,7 @@ private:
     QScopedPointer<Kerfuffle::Archive> m_archive;
     QScopedPointer<Archive::Entry> m_rootEntry;
     QHash<QString, QIcon> m_entryIcons;
+    QMap<int, QByteArray> m_propertiesMap;
 
     QString m_dbusPathName;
 

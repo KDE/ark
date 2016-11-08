@@ -60,27 +60,6 @@ enum EntryMetaDataType {
     Timestamp            /**< The timestamp for the current entry */
 };
 
-/**
- * Mappings between column indexes and entry properties.
- */
-static QMap<int, QString> initializePropertiesList()
-{
-    QMap<int, QString> propertiesList = QMap<int, QString>();
-    propertiesList.insert(FullPath, QStringLiteral("fullPath"));
-    propertiesList.insert(Size, QStringLiteral("size"));
-    propertiesList.insert(CompressedSize, QStringLiteral("compressedSize"));
-    propertiesList.insert(Permissions, QStringLiteral("permissions"));
-    propertiesList.insert(Owner, QStringLiteral("owner"));
-    propertiesList.insert(Group, QStringLiteral("group"));
-    propertiesList.insert(Ratio, QStringLiteral("ratio"));
-    propertiesList.insert(CRC, QStringLiteral("CRC"));
-    propertiesList.insert(Method, QStringLiteral("method"));
-    propertiesList.insert(Version, QStringLiteral("version"));
-    propertiesList.insert(Timestamp, QStringLiteral("timestamp"));
-    return propertiesList;
-}
-static const QMap<int, QString> propertiesList = initializePropertiesList();
-
 ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
     , m_dbusPathName(dbusPathName)
@@ -88,6 +67,21 @@ ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     , m_numberOfFolders(0)
 {
     initRootEntry();
+
+    // Mappings between column indexes and entry properties.
+    m_propertiesMap = {
+        { FullPath, "fullPath" },
+        { Size, "size" },
+        { CompressedSize, "compressedSize" },
+        { Permissions, "permissions" },
+        { Owner, "owner" },
+        { Group, "group" },
+        { Ratio, "ratio" },
+        { CRC, "CRC" },
+        { Method, "method" },
+        { Version, "version" },
+        { Timestamp, "timestamp" },
+    };
 }
 
 ArchiveModel::~ArchiveModel()
@@ -147,7 +141,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             }
 
             default:
-                return entry->property(propertiesList[column].toUtf8());
+                return entry->property(m_propertiesMap[column]);
             }
         }
         case Qt::DecorationRole:
@@ -335,8 +329,8 @@ void ArchiveModel::sort(int column, Qt::SortOrder order)
             } else if ((!leftEntry->isDir()) && (rightEntry->isDir())) {
                 isLessThan = false;
             } else {
-                const QVariant leftEntryMetaData = leftEntry->property(propertiesList[column].toUtf8());
-                const QVariant rightEntryMetaData = rightEntry->property(propertiesList[column].toUtf8());
+                const QVariant leftEntryMetaData = leftEntry->property(m_propertiesMap[column]);
+                const QVariant rightEntryMetaData = rightEntry->property(m_propertiesMap[column]);
 
                 switch (column) {
                 case FullPath:
@@ -589,9 +583,9 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     if (m_showColumns.isEmpty()) {
         QList<int> toInsert;
 
-        QMap<int, QString>::const_iterator i = propertiesList.begin();
-        while (i != propertiesList.end()) {
-            if (!receivedEntry->property(i.value().toUtf8()).toString().isEmpty()) {
+        auto i = m_propertiesMap.begin();
+        while (i != m_propertiesMap.end()) {
+            if (!receivedEntry->property(i.value()).toString().isEmpty()) {
                 if (i.key() != CompressedSize || receivedEntry->compressedSizeIsSet) {
                     toInsert << i.key();
                 }
