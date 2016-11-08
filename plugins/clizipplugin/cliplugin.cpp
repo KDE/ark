@@ -172,10 +172,7 @@ bool CliPlugin::readListLine(const QString &line)
             e->setProperty("method", rxMatch.captured(7));
 
             QString method = convertCompressionMethod(rxMatch.captured(7));
-            if (!m_compressionMethods.contains(method)) {
-                m_compressionMethods.append(method);
-                emit compressionMethodFound(m_compressionMethods);
-            }
+            emit compressionMethodFound(method);
 
             const QDateTime ts(QDate::fromString(rxMatch.captured(8), QStringLiteral("yyyyMMdd")),
                                QTime::fromString(rxMatch.captured(9), QStringLiteral("hhmmss")));

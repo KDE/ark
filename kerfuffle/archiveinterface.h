@@ -167,7 +167,8 @@ signals:
     void info(const QString &info);
     void finished(bool result);
     void testSuccess();
-    void compressionMethodFound(const QStringList);
+    void compressionMethodFound(const QString &method);
+    void encryptionMethodFound(const QString &method);
 
     /**
      * Emitted when @p query needs to be executed on the GUI thread.

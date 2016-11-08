@@ -60,7 +60,6 @@ private:
 
     int m_linesComment;
     QString m_tempComment;
-    QStringList m_compressionMethods;
 };
 
 #endif // CLIPLUGIN_H

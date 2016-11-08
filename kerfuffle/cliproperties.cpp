@@ -40,8 +40,12 @@ CliProperties::CliProperties(QObject *parent, const KPluginMetaData &metaData, c
 {
 }
 
-QStringList CliProperties::addArgs(const QString &archive, const QStringList &files, const QString &password, bool headerEncryption, int compressionLevel, const QString &compressionMethod, uint volumeSize)
+QStringList CliProperties::addArgs(const QString &archive, const QStringList &files, const QString &password, bool headerEncryption, int compressionLevel, const QString &compressionMethod, const QString &encryptionMethod, uint volumeSize)
 {
+    if (!encryptionMethod.isEmpty()) {
+        Q_ASSERT(!password.isEmpty());
+    }
+
     QStringList args;
     foreach (const QString &s, m_addSwitch) {
         args << s;
@@ -54,6 +58,9 @@ QStringList CliProperties::addArgs(const QString &archive, const QStringList &fi
     }
     if (!compressionMethod.isEmpty()) {
         args << substituteCompressionMethodSwitch(compressionMethod);
+    }
+    if (!encryptionMethod.isEmpty()) {
+        args << substituteEncryptionMethodSwitch(encryptionMethod);
     }
     if (volumeSize > 0) {
         args << substituteMultiVolumeSwitch(volumeSize);
@@ -239,6 +246,28 @@ QString CliProperties::substituteCompressionMethodSwitch(const QString &method) 
     compMethodSwitch.replace(QLatin1String("$CompressionMethod"), cliMethod);
 
     return compMethodSwitch;
+}
+
+QString CliProperties::substituteEncryptionMethodSwitch(const QString &method) const
+{
+    if (method.isEmpty()) {
+        return QString();
+    }
+
+    const ArchiveFormat format = ArchiveFormat::fromMetadata(m_mimeType, m_metaData);
+
+    Q_ASSERT(!format.encryptionMethods().isEmpty());
+
+    QString encMethodSwitch = m_encryptionMethodSwitch[m_mimeType.name()].toString();
+    if (encMethodSwitch.isEmpty()) {
+        return QString();
+    }
+
+    QString cliMethod = format.encryptionMethods().value(method).toString();
+
+    encMethodSwitch.replace(QLatin1String("$EncryptionMethod"), cliMethod);
+
+    return encMethodSwitch;
 }
 
 QString CliProperties::substituteMultiVolumeSwitch(uint volumeSize) const

@@ -46,7 +46,9 @@ public:
                            bool supportsTesting,
                            bool suppportsMultiVolume,
                            const QVariantMap& compressionMethods,
-                           const QString& defaultCompressionMethod);
+                           const QString& defaultCompressionMethod,
+                           const QVariantMap &encryptionMethods,
+                           const QString &defaultEncryptionMethod);
 
     /**
      * @return The archive format of the given @p mimeType, according to the given @p metadata.
@@ -71,6 +73,8 @@ public:
     bool supportsMultiVolume() const;
     QVariantMap compressionMethods() const;
     QString defaultCompressionMethod() const;
+    QVariantMap encryptionMethods() const;
+    QString defaultEncryptionMethod() const;
 
 private:
     QMimeType m_mimeType;
@@ -83,6 +87,8 @@ private:
     bool m_supportsMultiVolume = false;
     QVariantMap m_compressionMethods;
     QString m_defaultCompressionMethod;
+    QVariantMap m_encryptionMethods;
+    QString m_defaultEncryptionMethod;
 };
 
 }

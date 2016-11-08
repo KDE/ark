@@ -1319,11 +1319,15 @@ void Part::slotAddFiles()
     if (m_compressionOptions.compressionMethod().isEmpty() && arguments().metaData().contains(QStringLiteral("compressionMethod"))) {
         m_compressionOptions.setCompressionMethod(arguments().metaData()[QStringLiteral("compressionMethod")]);
     }
+    if (m_compressionOptions.encryptionMethod().isEmpty() && arguments().metaData().contains(QStringLiteral("encryptionMethod"))) {
+        m_compressionOptions.setEncryptionMethod(arguments().metaData()[QStringLiteral("encryptionMethod")]);
+    }
     if (!m_compressionOptions.isVolumeSizeSet() && arguments().metaData().contains(QStringLiteral("volumeSize"))) {
         m_compressionOptions.setVolumeSize(arguments().metaData()[QStringLiteral("volumeSize")].toInt());
     }
 
     const auto compressionMethods = m_model->archive()->property("compressionMethods").toStringList();
+    qCDebug(ARK) << "compmethods:" << compressionMethods;
     if (compressionMethods.size() == 1) {
         m_compressionOptions.setCompressionMethod(compressionMethods.first());
     }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>402</width>
-    <height>90</height>
+    <width>450</width>
+    <height>433</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -23,23 +23,6 @@
       <bool>false</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="1">
-       <widget class="QLabel" name="lblCompLevel2">
-        <property name="text">
-         <string>Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="lblCompLevel3">
-        <property name="text">
-         <string>Max</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="0">
        <widget class="QLabel" name="lblCompLevel1">
         <property name="sizePolicy">
@@ -53,6 +36,13 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="lblCompLevel2">
+        <property name="text">
+         <string>Min</string>
         </property>
        </widget>
       </item>
@@ -87,9 +77,6 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="compMethodComboBox"/>
-      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="lblCompMethod">
         <property name="text">
@@ -99,6 +86,19 @@
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="lblCompLevel3">
+        <property name="text">
+         <string>Max</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="compMethodComboBox"/>
       </item>
      </layout>
     </widget>
@@ -120,15 +120,32 @@
      <property name="expanded">
       <bool>false</bool>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="lblEncMethod">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Encryption method:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="encMethodComboBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
        <widget class="KNewPasswordWidget" name="pwdWidget">
         <property name="enabled">
          <bool>false</bool>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="2" column="0" colspan="2">
        <widget class="QCheckBox" name="encryptHeaderCheckBox">
         <property name="enabled">
          <bool>false</bool>
@@ -218,15 +235,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KNewPasswordWidget</class>
-   <extends>QWidget</extends>
-   <header>knewpasswordwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>KCollapsibleGroupBox</class>
    <extends>QWidget</extends>
    <header>kcollapsiblegroupbox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KNewPasswordWidget</class>
+   <extends>QWidget</extends>
+   <header>knewpasswordwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

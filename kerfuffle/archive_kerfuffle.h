@@ -86,6 +86,7 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(QString subfolderName MEMBER m_subfolderName READ subfolderName)
     Q_PROPERTY(QString password READ password)
     Q_PROPERTY(QStringList compressionMethods MEMBER m_compressionMethods)
+    Q_PROPERTY(QStringList encryptionMethods MEMBER m_encryptionMethods)
 
 public:
 
@@ -210,7 +211,8 @@ public:
 private slots:
     void onAddFinished(KJob*);
     void onUserQuery(Kerfuffle::Query*);
-    void onCompressionMethodFound(const QStringList &methods);
+    void onCompressionMethodFound(const QString &method);
+    void onEncryptionMethodFound(const QString &method);
 
 private:
     Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = 0);
@@ -238,6 +240,7 @@ private:
     qulonglong m_numberOfFolders;
     QMimeType m_mimeType;
     QStringList m_compressionMethods;
+    QStringList m_encryptionMethods;
 };
 
 } // namespace Kerfuffle

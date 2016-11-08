@@ -46,6 +46,7 @@ public:
                                       const CompressionOptions &opts = {});
     int compressionLevel() const;
     QString compressionMethod() const;
+    QString encryptionMethod() const;
     ulong volumeSize() const;
     QString password() const;
     CompressionOptions commpressionOptions() const;
@@ -66,6 +67,7 @@ private:
 
 private slots:
     void slotMultiVolumeChecked(int state);
+    void slotCompMethodChanged(const QString &value);
 };
 }
 

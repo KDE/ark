@@ -1,0 +1,79 @@
+
+7-Zip [64] 16.02 : Copyright (c) 1999-2016 Igor Pavlov : 2016-05-21
+p7zip Version 16.02 (locale=en_US.UTF-8,Utf16=on,HugeFiles=on,64 bits,8 CPUs x64)
+
+Scanning the drive for archives:
+1 file, 781 bytes (1 KiB)
+
+Listing archive: testarchive.zip
+
+--
+Path = testarchive.zip
+Type = zip
+Physical Size = 781
+
+----------
+Path = testarchive
+Folder = +
+Size = 0
+Packed Size = 0
+Modified = 2016-11-06 21:17:02
+Created = 2016-11-06 21:17:02
+Accessed = 2016-11-06 21:17:03
+Attributes = D_ drwxrwxr-x
+Encrypted = -
+Comment = 
+CRC = 
+Method = Store
+Host OS = Unix
+Version = 20
+Volume Index = 0
+
+Path = testarchive/dir1
+Folder = +
+Size = 0
+Packed Size = 0
+Modified = 2015-05-14 00:45:24
+Created = 2016-11-06 21:16:31
+Accessed = 2016-11-06 21:16:35
+Attributes = D_ drwxrwxr-x
+Encrypted = -
+Comment = 
+CRC = 
+Method = Store
+Host OS = Unix
+Version = 20
+Volume Index = 0
+
+Path = testarchive/dir1/file1.txt
+Folder = -
+Size = 32
+Packed Size = 57
+Modified = 2015-05-17 19:41:48
+Created = 2016-11-06 21:16:31
+Accessed = 2016-11-06 21:17:06
+Attributes = _ -rw-rw-r--
+Encrypted = +
+Comment = 
+CRC = 
+Method = AES-256 Deflate
+Host OS = Unix
+Version = 51
+Volume Index = 0
+
+Path = testarchive/file2.txt
+Folder = -
+Size = 33
+Packed Size = 58
+Modified = 2016-11-06 21:17:02
+Created = 2016-11-06 21:17:02
+Accessed = 2016-11-06 21:17:02
+Attributes = _ -rw-rw-r--
+Encrypted = +
+Comment = 
+CRC = 
+Method = AES-256 Deflate
+Host OS = Unix
+Version = 51
+Volume Index = 0
+

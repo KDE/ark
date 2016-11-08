@@ -64,7 +64,7 @@ bool LibarchivePlugin::list()
     qDebug(ARK) << "Detected compression filter:" << archive_filter_name(m_archiveReader.data(), 0);
     QString compMethod = convertCompressionName(QString::fromUtf8(archive_filter_name(m_archiveReader.data(), 0)));
     if (!compMethod.isEmpty()) {
-        emit compressionMethodFound(QStringList{compMethod});
+        emit compressionMethodFound(compMethod);
     }
 
     m_cachedArchiveEntryCount = 0;

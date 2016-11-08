@@ -218,6 +218,7 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
                                           isHeaderEncryptionEnabled(),
                                           options.compressionLevel(),
                                           options.compressionMethod(),
+                                          options.encryptionMethod(),
                                           options.volumeSize()));
 }
 

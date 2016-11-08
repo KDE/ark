@@ -60,6 +60,7 @@ public:
     bool setMimeType(const QString &mimeTypeName);
     int compressionLevel() const;
     QString compressionMethod() const;
+    QString encryptionMethod() const;
     ulong volumeSize() const;
 
     /**

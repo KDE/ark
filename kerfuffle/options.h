@@ -71,6 +71,8 @@ public:
     void setVolumeSize(int size);
     QString compressionMethod() const;
     void setCompressionMethod(const QString &method);
+    QString encryptionMethod() const;
+    void setEncryptionMethod(const QString &method);
     QString globalWorkDir() const;
     void setGlobalWorkDir(const QString &workDir);
 
@@ -78,6 +80,7 @@ private:
     int m_compressionLevel = -1;
     int m_volumeSize = 0;
     QString m_compressionMethod;
+    QString m_encryptionMethod;
     QString m_globalWorkDir;
 };
 

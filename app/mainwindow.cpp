@@ -307,6 +307,10 @@ void MainWindow::newArchive()
         if (!dialog.data()->compressionMethod().isEmpty()) {
             m_openArgs.metaData()[QStringLiteral("compressionMethod")] = dialog.data()->compressionMethod();
         }
+        if (!dialog.data()->encryptionMethod().isEmpty()) {
+            m_openArgs.metaData()[QStringLiteral("encryptionMethod")] = dialog.data()->encryptionMethod();
+        }
+
         m_openArgs.metaData()[QStringLiteral("encryptionPassword")] = password;
 
         if (dialog.data()->isHeaderEncryptionEnabled()) {

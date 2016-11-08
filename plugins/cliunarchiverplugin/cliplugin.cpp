@@ -222,9 +222,9 @@ void CliPlugin::readJsonOutput()
 
     QString formatName = json.value(QStringLiteral("lsarFormatName")).toString();
     if (formatName == QLatin1String("RAR")) {
-        emit compressionMethodFound(QStringList{QStringLiteral("RAR4")});
+        emit compressionMethodFound(QStringLiteral("RAR4"));
     } else if (formatName == QLatin1String("RAR 5")) {
-        emit compressionMethodFound(QStringList{QStringLiteral("RAR5")});
+        emit compressionMethodFound(QStringLiteral("RAR5"));
     }
     const QJsonArray entries = json.value(QStringLiteral("lsarContents")).toArray();
 

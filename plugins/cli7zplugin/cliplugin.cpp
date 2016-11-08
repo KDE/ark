@@ -91,9 +91,10 @@ void CliPlugin::setupCliProperties()
                                                                QStringLiteral("-mhe=on")});
     m_cliProps->setProperty("compressionLevelSwitch", QStringLiteral("-mx=$CompressionLevel"));
     m_cliProps->setProperty("compressionMethodSwitch", QHash<QString,QVariant>{{QStringLiteral("application/x-7z-compressed"), QStringLiteral("-m0=$CompressionMethod")},
-                                                                           {QStringLiteral("application/zip"), QStringLiteral("-mm=$CompressionMethod")}});
+                                                                               {QStringLiteral("application/zip"), QStringLiteral("-mm=$CompressionMethod")}});
+    m_cliProps->setProperty("encryptionMethodSwitch", QHash<QString,QVariant>{{QStringLiteral("application/x-7z-compressed"), QStringLiteral()},
+                                                                              {QStringLiteral("application/zip"), QStringLiteral("-mem=$EncryptionMethod")}});
     m_cliProps->setProperty("multiVolumeSwitch", QStringLiteral("-v$VolumeSizek"));
-
 
     m_cliProps->setProperty("passwordPromptPatterns", QStringList{QStringLiteral("Enter password \\(will not be echoed\\)")});
     m_cliProps->setProperty("wrongPasswordPatterns", QStringList{QStringLiteral("Wrong password")});
@@ -178,19 +179,7 @@ bool CliPlugin::readListLine(const QString& line)
 
         } else if (line.startsWith(QStringLiteral("Method = "))) {
             QStringList methods = line.section(QLatin1Char('='), 1).trimmed().split(QLatin1Char(' '), QString::SkipEmptyParts);
-            // LZMA methods are output with some trailing numbers by 7z representing dictionary/block sizes.
-            // We are not interested in these, so remove them.
-            QMutableListIterator<QString> i(methods);
-            while (i.hasNext()) {
-                QString m = i.next();
-                if (m.startsWith(QLatin1String("LZMA2"))) {
-                    m = m.left(5);
-                } else if (m.startsWith(QLatin1String("LZMA"))) {
-                    m = m.left(4);
-                }
-                i.setValue(m);
-            }
-            emit compressionMethodFound(methods);
+            handleMethods(methods);
 
         } else if (rxComment.match(line).hasMatch()) {
             m_parseState = ParseStateComment;
@@ -256,14 +245,8 @@ bool CliPlugin::readListLine(const QString& line)
 
             // For zip archives we need to check method for each entry.
             if (m_archiveType == ArchiveTypeZip) {
-                QString method = line.mid(9).trimmed();
-                if (method == QLatin1String("xz")) {
-                    method = QStringLiteral("XZ");
-                }
-                if (!m_compressionMethods.contains(method)) {
-                    m_compressionMethods.append(method);
-                    emit compressionMethodFound(m_compressionMethods);
-                }
+                QStringList methods = line.section(QLatin1Char('='), 1).trimmed().split(QLatin1Char(' '), QString::SkipEmptyParts);
+                handleMethods(methods);
             }
 
         } else if (line.startsWith(QStringLiteral("Encrypted = ")) &&
@@ -283,6 +266,36 @@ bool CliPlugin::readListLine(const QString& line)
     }
 
     return true;
+}
+
+void CliPlugin::handleMethods(const QStringList &methods)
+{
+    foreach (const QString &method, methods) {
+
+        QRegularExpression rxEncMethod(QStringLiteral("^(7zAES|AES-128|AES-192|AES-256|ZipCrypto)$"));
+        if (rxEncMethod.match(method).hasMatch()) {
+            QRegularExpression rxAESMethods(QStringLiteral("^(AES-128|AES-192|AES-256)$"));
+            if (rxAESMethods.match(method).hasMatch()) {
+                // Remove dash for AES methods.
+                emit encryptionMethodFound(QString(method).remove(QLatin1Char('-')));
+            } else {
+                emit encryptionMethodFound(method);
+            }
+            continue;
+        }
+
+        // LZMA methods are output with some trailing numbers by 7z representing dictionary/block sizes.
+        // We are not interested in these, so remove them.
+        if (method.startsWith(QLatin1String("LZMA2"))) {
+            emit compressionMethodFound(method.left(5));
+        } else if (method.startsWith(QLatin1String("LZMA"))) {
+            emit compressionMethodFound(method.left(4));
+        } else if (method == QLatin1String("xz")) {
+            emit compressionMethodFound(method.toUpper());
+        } else {
+            emit compressionMethodFound(method);
+        }
+    }
 }
 
 #include "cliplugin.moc"

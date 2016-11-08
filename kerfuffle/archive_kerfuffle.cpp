@@ -172,17 +172,32 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
     m_iface->setParent(this);
 
     connect(m_iface, &ReadOnlyArchiveInterface::compressionMethodFound, this, &Archive::onCompressionMethodFound);
+    connect(m_iface, &ReadOnlyArchiveInterface::encryptionMethodFound, this, &Archive::onEncryptionMethodFound);
 }
 
-void Archive::onCompressionMethodFound(const QStringList &methods)
+void Archive::onCompressionMethodFound(const QString &method)
 {
-    // If other methods are found, we don't report "Store" method.
-    QStringList processedMethods = methods;
-    if (processedMethods.size() > 1 &&
-        processedMethods.contains(QStringLiteral("Store"))) {
-        processedMethods.removeOne(QStringLiteral("Store"));
+    QStringList methods = property("compressionMethods").toStringList();
+
+    if (!methods.contains(method) &&
+        method != QLatin1String("Store")) {
+        methods.append(method);
     }
-    setProperty("compressionMethods", processedMethods);
+    methods.sort();
+
+    setProperty("compressionMethods", methods);
+}
+
+void Archive::onEncryptionMethodFound(const QString &method)
+{
+    QStringList methods = property("encryptionMethods").toStringList();
+
+    if (!methods.contains(method)) {
+        methods.append(method);
+    }
+    methods.sort();
+
+    setProperty("encryptionMethods", methods);
 }
 
 Archive::~Archive()

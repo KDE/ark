@@ -84,10 +84,10 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive, qulonglong
         m_ui->lblPasswordProtected->setText(i18n("no"));
         break;
     case Archive::Encrypted:
-        m_ui->lblPasswordProtected->setText(i18n("yes (excluding the list of files)"));
+        m_ui->lblPasswordProtected->setText(i18n("only file contents (%1)", archive->property("encryptionMethods").toStringList().join(QStringLiteral(", "))));
         break;
     case Archive::HeaderEncrypted:
-        m_ui->lblPasswordProtected->setText(i18n("yes (including the list of files)"));
+        m_ui->lblPasswordProtected->setText(i18n("yes (%1)", archive->property("encryptionMethods").toStringList().join(QStringLiteral(", "))));
         break;
     }
 

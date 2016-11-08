@@ -129,7 +129,7 @@ void CliZipTest::testAddArgs()
     QFETCH(int, compressionLevel);
     QFETCH(QString, compressionMethod);
 
-    const auto replacedArgs = plugin->cliProperties()->addArgs(archiveName, {}, password, false, compressionLevel, compressionMethod, 0);
+    const auto replacedArgs = plugin->cliProperties()->addArgs(archiveName, {}, password, false, compressionLevel, compressionMethod, QString(), 0);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

@@ -49,6 +49,7 @@ CompressionOptionsWidget::CompressionOptionsWidget(QWidget *parent,
     pwdWidget->setPasswordStrengthMeterVisible(false);
 
     connect(multiVolumeCheckbox, &QCheckBox::stateChanged, this, &CompressionOptionsWidget::slotMultiVolumeChecked);
+    connect(compMethodComboBox, &QComboBox::currentTextChanged, this, &CompressionOptionsWidget::slotCompMethodChanged);
 
     if (m_opts.isVolumeSizeSet()) {
         multiVolumeCheckbox->setChecked(true);
@@ -112,8 +113,25 @@ void CompressionOptionsWidget::updateWidgets()
     Q_ASSERT(archiveFormat.isValid());
 
     if (archiveFormat.encryptionType() != Archive::Unencrypted) {
+
         collapsibleEncryption->setEnabled(true);
         collapsibleEncryption->setToolTip(QString());
+
+        encMethodComboBox->clear();
+        encMethodComboBox->insertItems(0, archiveFormat.encryptionMethods().keys());
+
+        if (!m_opts.encryptionMethod().isEmpty() &&
+            encMethodComboBox->findText(m_opts.encryptionMethod()) > -1) {
+            encMethodComboBox->setCurrentText(m_opts.encryptionMethod());
+        } else {
+            encMethodComboBox->setCurrentText(archiveFormat.defaultEncryptionMethod());
+        }
+
+        if (!archiveFormat.encryptionMethods().isEmpty()) {
+            lblEncMethod->setEnabled(true);
+            encMethodComboBox->setEnabled(true);
+        }
+
         pwdWidget->setEnabled(true);
 
         if (archiveFormat.encryptionType() == Archive::HeaderEncrypted) {
@@ -135,6 +153,9 @@ void CompressionOptionsWidget::updateWidgets()
         collapsibleEncryption->setEnabled(false);
         collapsibleEncryption->setToolTip(i18n("Protection of the archive with password is not possible with the %1 format.",
                                                m_mimetype.comment()));
+        lblEncMethod->setEnabled(false);
+        encMethodComboBox->setEnabled(false);
+        encMethodComboBox->clear();
         pwdWidget->setEnabled(false);
         encryptHeaderCheckBox->setToolTip(QString());
     }
@@ -224,6 +245,14 @@ KNewPasswordWidget::PasswordStatus CompressionOptionsWidget::passwordStatus() co
     return pwdWidget->passwordStatus();
 }
 
+QString CompressionOptionsWidget::encryptionMethod() const
+{
+    if (encMethodComboBox->isEnabled() && encMethodComboBox->count() > 1 && !password().isEmpty()) {
+        return encMethodComboBox->currentText();
+    }
+    return QString();
+}
+
 void CompressionOptionsWidget::slotMultiVolumeChecked(int state)
 {
     if (state == Qt::Checked) {
@@ -232,6 +261,25 @@ void CompressionOptionsWidget::slotMultiVolumeChecked(int state)
     } else {
         lblVolumeSize->setEnabled(false);
         volumeSizeSpinbox->setEnabled(false);
+    }
+}
+
+void CompressionOptionsWidget::slotCompMethodChanged(const QString &value)
+{
+    // This hack is needed for the RAR format because the available encryption
+    // method is dependent on the selected compression method. Rar uses AES128
+    // for RAR4 format and AES256 for RAR5 format.
+
+    if (m_mimetype == QMimeDatabase().mimeTypeForName(QStringLiteral("application/vnd.rar")) ||
+        m_mimetype == QMimeDatabase().mimeTypeForName(QStringLiteral("application/x-rar"))) {
+
+        encMethodComboBox->clear();
+        if (value == QLatin1String("RAR4")) {
+            encMethodComboBox->insertItem(0, QStringLiteral("AES128"));
+        } else {
+            encMethodComboBox->insertItem(0, QStringLiteral("AES256"));
+        }
+
     }
 }
 

@@ -44,7 +44,9 @@ ArchiveFormat::ArchiveFormat(const QMimeType& mimeType,
                              bool supportsTesting,
                              bool supportsMultiVolume,
                              const QVariantMap& compressionMethods,
-                             const QString& defaultCompressionMethod) :
+                             const QString& defaultCompressionMethod,
+                             const QVariantMap &encryptionMethods,
+                             const QString &defaultEncryptionMethod) :
     m_mimeType(mimeType),
     m_encryptionType(encryptionType),
     m_minCompressionLevel(minCompLevel),
@@ -54,7 +56,9 @@ ArchiveFormat::ArchiveFormat(const QMimeType& mimeType,
     m_supportsTesting(supportsTesting),
     m_supportsMultiVolume(supportsMultiVolume),
     m_compressionMethods(compressionMethods),
-    m_defaultCompressionMethod(defaultCompressionMethod)
+    m_defaultCompressionMethod(defaultCompressionMethod),
+    m_encryptionMethods(encryptionMethods),
+    m_defaultEncryptionMethod(defaultEncryptionMethod)
 {
 }
 
@@ -79,6 +83,9 @@ ArchiveFormat ArchiveFormat::fromMetadata(const QMimeType& mimeType, const KPlug
         QVariantMap compressionMethods = formatProps[QStringLiteral("CompressionMethods")].toObject().toVariantMap();
         QString defaultCompMethod = formatProps[QStringLiteral("CompressionMethodDefault")].toString();
 
+        QVariantMap encryptionMethods = formatProps[QStringLiteral("EncryptionMethods")].toObject().toVariantMap();
+        QString defaultEncMethod = formatProps[QStringLiteral("EncryptionMethodDefault")].toString();
+
         Archive::EncryptionType encType = Archive::Unencrypted;
         if (formatProps[QStringLiteral("HeaderEncryption")].toBool()) {
             encType = Archive::HeaderEncrypted;
@@ -86,7 +93,18 @@ ArchiveFormat ArchiveFormat::fromMetadata(const QMimeType& mimeType, const KPlug
             encType = Archive::Encrypted;
         }
 
-        return ArchiveFormat(mimeType, encType, minCompLevel, maxCompLevel, defaultCompLevel, supportsWriteComment, supportsTesting, supportsMultiVolume, compressionMethods, defaultCompMethod);
+        return ArchiveFormat(mimeType,
+                             encType,
+                             minCompLevel,
+                             maxCompLevel,
+                             defaultCompLevel,
+                             supportsWriteComment,
+                             supportsTesting,
+                             supportsMultiVolume,
+                             compressionMethods,
+                             defaultCompMethod,
+                             encryptionMethods,
+                             defaultEncMethod);
     }
 
     return ArchiveFormat();
@@ -140,6 +158,16 @@ QVariantMap ArchiveFormat::compressionMethods() const
 QString ArchiveFormat::defaultCompressionMethod() const
 {
     return m_defaultCompressionMethod;
+}
+
+QVariantMap ArchiveFormat::encryptionMethods() const
+{
+    return m_encryptionMethods;
+}
+
+QString ArchiveFormat::defaultEncryptionMethod() const
+{
+    return m_defaultEncryptionMethod;
 }
 
 }

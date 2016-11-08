@@ -110,6 +110,16 @@ void CompressionOptions::setCompressionMethod(const QString &method)
     m_compressionMethod = method;
 }
 
+QString CompressionOptions::encryptionMethod() const
+{
+    return m_encryptionMethod;
+}
+
+void CompressionOptions::setEncryptionMethod(const QString &method)
+{
+    m_encryptionMethod = method;
+}
+
 QString CompressionOptions::globalWorkDir() const
 {
     return m_globalWorkDir;
@@ -125,6 +135,9 @@ QDebug operator<<(QDebug d, const CompressionOptions &options)
     d.nospace() << "(encryption hint: " << options.encryptedArchiveHint();
     if (!options.compressionMethod().isEmpty()) {
         d.nospace() << ", compression method: " << options.compressionMethod();
+    }
+    if (!options.encryptionMethod().isEmpty()) {
+        d.nospace() << ", encryption method: " << options.encryptionMethod();
     }
     if (!options.globalWorkDir().isEmpty()) {
         d.nospace() << ", global work dir: " << options.globalWorkDir();

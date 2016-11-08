@@ -41,6 +41,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         , m_isUnrar5(false)
         , m_isPasswordProtected(false)
         , m_isSolid(false)
+        , m_isRAR5(false)
         , m_remainingIgnoreLines(1) //The first line of UNRAR output is empty.
         , m_linesComment(0)
 {
@@ -215,9 +216,10 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
                 qCDebug(ARK) << "Solid archive detected";
             }
             if (line.contains(QLatin1String("RAR 4"))) {
-                emit compressionMethodFound(QStringList{QStringLiteral("RAR4")});
+                emit compressionMethodFound(QStringLiteral("RAR4"));
             } else if (line.contains(QLatin1String("RAR 5"))) {
-                emit compressionMethodFound(QStringList{QStringLiteral("RAR5")});
+                emit compressionMethodFound(QStringLiteral("RAR5"));
+                m_isRAR5 = true;
             }
         }
         return true;
@@ -287,6 +289,9 @@ void CliPlugin::handleUnrar5Entry()
 
     m_isPasswordProtected = m_unrar5Details.value(QStringLiteral("flags")).contains(QStringLiteral("encrypted"));
     e->setProperty("isPasswordProtected", m_isPasswordProtected);
+    if (m_isPasswordProtected) {
+        m_isRAR5 ? emit encryptionMethodFound(QStringLiteral("AES256")) : emit encryptionMethodFound(QStringLiteral("AES128"));
+    }
 
     e->setProperty("fullPath", m_unrar5Details.value(QStringLiteral("name")));
     e->setProperty("size", m_unrar5Details.value(QStringLiteral("size")));
@@ -327,7 +332,7 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
 
         // If we reach this point, then we can be sure that it's not a RAR5
         // archive, so assume RAR4.
-        emit compressionMethodFound(QStringList{QStringLiteral("RAR4")});
+        emit compressionMethodFound(QStringLiteral("RAR4"));
 
         if (rxCommentEnd.match(line).hasMatch()) {
 
@@ -405,6 +410,7 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
         } else if (line.startsWith(QLatin1Char('*'))) {
             m_isPasswordProtected = true;
             m_unrar4Details.append(QString(line.trimmed()).remove(0, 1)); //Remove the asterisk
+            emit encryptionMethodFound(QStringLiteral("AES128"));
 
         // Entry names always start at the second position, so a line not
         // starting with a space is not an entry name.

@@ -64,6 +64,7 @@ private:
     bool m_isUnrar5;
     bool m_isPasswordProtected;
     bool m_isSolid;
+    bool m_isRAR5;
 
     int m_remainingIgnoreLines;
     int m_linesComment;

@@ -158,6 +158,11 @@ QString CreateDialog::compressionMethod() const
     return m_ui->optionsWidget->compressionMethod();
 }
 
+QString CreateDialog::encryptionMethod() const
+{
+    return m_ui->optionsWidget->encryptionMethod();
+}
+
 ulong CreateDialog::volumeSize() const
 {
     return m_ui->optionsWidget->volumeSize();

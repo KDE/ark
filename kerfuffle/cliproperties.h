@@ -59,6 +59,7 @@ class KERFUFFLE_EXPORT CliProperties: public QObject
     Q_PROPERTY(QStringList passwordSwitchHeaderEnc MEMBER m_passwordSwitchHeaderEnc)
     Q_PROPERTY(QString compressionLevelSwitch MEMBER m_compressionLevelSwitch)
     Q_PROPERTY(QHash<QString,QVariant> compressionMethodSwitch MEMBER m_compressionMethodSwitch)
+    Q_PROPERTY(QHash<QString,QVariant> encryptionMethodSwitch MEMBER m_encryptionMethodSwitch)
     Q_PROPERTY(QString multiVolumeSwitch MEMBER m_multiVolumeSwitch)
 
     Q_PROPERTY(QStringList passwordPromptPatterns MEMBER m_passwordPromptPatterns)
@@ -84,6 +85,7 @@ public:
                         bool headerEncryption,
                         int compressionLevel,
                         const QString &compressionMethod,
+                        const QString &encryptionMethod,
                         uint volumeSize);
     QStringList commentArgs(const QString &archive, const QString &commentfile);
     QStringList deleteArgs(const QString &archive, const QVector<Archive::Entry*> &files, const QString &password);
@@ -106,6 +108,7 @@ private:
     QStringList substitutePasswordSwitch(const QString &password, bool headerEnc = false) const;
     QString substituteCompressionLevelSwitch(int level) const;
     QString substituteCompressionMethodSwitch(const QString &method) const;
+    QString substituteEncryptionMethodSwitch(const QString &method) const;
     QString substituteMultiVolumeSwitch(uint volumeSize) const;
 
     QString m_addProgram;
@@ -128,6 +131,7 @@ private:
     QStringList m_passwordSwitchHeaderEnc;
     QString m_compressionLevelSwitch;
     QHash<QString,QVariant> m_compressionMethodSwitch;
+    QHash<QString,QVariant> m_encryptionMethodSwitch;
     QString m_multiVolumeSwitch;
 
     QStringList m_passwordPromptPatterns;

@@ -59,11 +59,11 @@ private:
     } m_parseState;
 
     void setupCliProperties();
+    void handleMethods(const QStringList &methods);
 
     int m_linesComment;
     Kerfuffle::Archive::Entry *m_currentArchiveEntry;
     bool m_isFirstInformationEntry;
-    QStringList m_compressionMethods;
 };
 
 #endif // CLIPLUGIN_H

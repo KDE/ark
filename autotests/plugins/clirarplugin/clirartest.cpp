@@ -396,7 +396,7 @@ void CliRarTest::testAddArgs()
     QFETCH(QString, compressionMethod);
     QFETCH(ulong, volumeSize);
 
-    const auto replacedArgs = plugin->cliProperties()->addArgs(archiveName, {}, password, encryptHeader, compressionLevel, compressionMethod, volumeSize);
+    const auto replacedArgs = plugin->cliProperties()->addArgs(archiveName, {}, password, encryptHeader, compressionLevel, compressionMethod, QString(), volumeSize);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
