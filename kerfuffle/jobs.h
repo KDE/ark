@@ -341,7 +341,7 @@ private:
 };
 
 /**
- * This CopyJob can be used to copy entries withing the archive.
+ * This CopyJob can be used to copy entries within the archive.
  * @see Archive::copyFiles for more details.
  */
 class KERFUFFLE_EXPORT CopyJob : public Job
