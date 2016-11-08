@@ -145,7 +145,6 @@ private slots:
     void updateActions();
     void updateQuickExtractMenu(QAction *extractAction);
     void selectionChanged();
-    void adjustColumns();
     void setBusyGui();
     void setReadyGui();
     void setFileNameFromArchive();

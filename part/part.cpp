@@ -293,9 +293,6 @@ void Part::setupView()
     connect(m_view, &QTreeView::activated, this, &Part::slotActivated);
 
     connect(m_view, &QWidget::customContextMenuRequested, this, &Part::slotShowContextMenu);
-
-    connect(m_model, &QAbstractItemModel::columnsInserted,
-            this, &Part::adjustColumns);
 }
 
 void Part::slotActivated(const QModelIndex &index)
@@ -1219,11 +1216,6 @@ void Part::slotExtractionDone(KJob* job)
            emit quit();
         }
     }
-}
-
-void Part::adjustColumns()
-{
-    m_view->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 }
 
 void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *destination, const QString &relPath)

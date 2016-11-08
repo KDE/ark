@@ -23,8 +23,7 @@
 #include "archiveview.h"
 #include "ark_debug.h"
 
-#include <QDebug>
-
+#include <QHeaderView>
 #include <QMimeData>
 #include <QApplication>
 #include <QDragEnterEvent>
@@ -46,6 +45,7 @@ ArchiveView::ArchiveView(QWidget *parent)
     // #368807: drops must be initially disabled, otherwise they will override the MainWindow's ones.
     // They will be enabled in Part::slotLoadingFinished().
     setDropsEnabled(false);
+    header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
 void ArchiveView::startDrag(Qt::DropActions supportedActions)
