@@ -440,7 +440,7 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
     auto e = new Archive::Entry();
 
-#ifdef _MSC_VER
+#ifdef Q_OS_WIN
     e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry))));
 #else
     e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry))));
