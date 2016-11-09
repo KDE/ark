@@ -12,7 +12,7 @@
         "Name[es]": "Complemento de archivo 7zip", 
         "Name[et]": "7zip arhiivi plugin", 
         "Name[fi]": "7zip-pakkaustuki", 
-        "Name[fr]": "Module externe d'archive « 7zip »", 
+        "Name[fr]": "Module externe d'archive « 7zip »", 
         "Name[gl]": "Complemento de arquivo de 7zip", 
         "Name[he]": "תוסף ארכיוני 7zip", 
         "Name[it]": "Estensione per archivi 7zip", 
@@ -59,12 +59,12 @@
             "LZMA2": "LZMA2", 
             "PPMd": "PPMd"
         }, 
-        "HeaderEncryption": true,
-        "EncryptionMethodDefault": "AES256",
+        "EncryptionMethodDefault": "AES256", 
         "EncryptionMethods": {
             "AES256": "AES256"
-        },
-        "SupportsMultiVolume": true,
+        }, 
+        "HeaderEncryption": true, 
+        "SupportsMultiVolume": true, 
         "SupportsTesting": true
     }, 
     "application/zip": {
@@ -81,14 +81,14 @@
             "PPMd": "PPMd"
         }, 
         "Encryption": true, 
-        "EncryptionMethodDefault": "AES256",
+        "EncryptionMethodDefault": "AES256", 
         "EncryptionMethods": {
-            "AES128": "AES128",
-            "AES192": "AES192",
-            "AES256": "AES256",
+            "AES128": "AES128", 
+            "AES192": "AES192", 
+            "AES256": "AES256", 
             "ZipCrypto": "ZipCrypto"
-        },
-        "SupportsMultiVolume": true,
+        }, 
+        "SupportsMultiVolume": true, 
         "SupportsTesting": true
     }
 }
