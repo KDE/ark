@@ -33,6 +33,7 @@
         "Name[uk]": "Додаток для архівів ZIP", 
         "Name[x-test]": "xxZIP archive pluginxx", 
         "Name[zh_CN]": "ZIP 归档插件", 
+        "Name[zh_TW]": "ZIP 壓縮檔外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

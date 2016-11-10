@@ -27,6 +27,7 @@
         "Description[uk]": "Додаток libbz2 для Kerfuffle", 
         "Description[x-test]": "xxlibbz2 plugin for Kerfufflexx", 
         "Description[zh_CN]": "Kerfuffle 的 libbz2 插件", 
+        "Description[zh_TW]": "Kerfuffle 的 libbz2 外掛程式", 
         "Id": "kerfuffle_libbz2", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"

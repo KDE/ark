@@ -27,6 +27,7 @@
         "Description[uk]": "Додаток LibArchive для Kerfuffle", 
         "Description[x-test]": "xxLibArchive Plugin for Kerfufflexx", 
         "Description[zh_CN]": "Kerfuffle 的 LibArchive 插件", 
+        "Description[zh_TW]": "Kerfuffle 的 LibArchive 外掛程式", 
         "Id": "kerfuffle_libarchive", 
         "MimeTypes": [
             "@SUPPORTED_READWRITE_MIMETYPES@"

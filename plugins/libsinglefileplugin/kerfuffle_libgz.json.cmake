@@ -27,6 +27,7 @@
         "Description[uk]": "Додаток libgz для Kerfuffle", 
         "Description[x-test]": "xxlibgz plugin for Kerfufflexx", 
         "Description[zh_CN]": "Kerfuffle 的 libgz 插件", 
+        "Description[zh_TW]": "Kerfuffle 的 libgz 外掛程式", 
         "Id": "kerfuffle_libgz", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"

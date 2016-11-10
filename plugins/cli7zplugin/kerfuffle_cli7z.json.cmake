@@ -33,6 +33,7 @@
         "Name[uk]": "Додаток для архівів 7zip", 
         "Name[x-test]": "xx7zip archive pluginxx", 
         "Name[zh_CN]": "7zip 归档插件", 
+        "Name[zh_TW]": "7zip 壓縮檔外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 
