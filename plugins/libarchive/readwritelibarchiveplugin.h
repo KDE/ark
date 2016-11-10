@@ -89,8 +89,8 @@ private:
 
     // Passed argument from job which is used by processOldEntries method.
     QStringList m_filesPaths;
-    int m_entriesWithoutChildren;
-    const Archive::Entry *m_destination;
+    int m_entriesWithoutChildren = 0;
+    const Archive::Entry *m_destination = Q_NULLPTR;
 };
 
 #endif // READWRITELIBARCHIVEPLUGIN_H
