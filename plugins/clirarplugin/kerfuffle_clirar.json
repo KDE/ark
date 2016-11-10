@@ -14,6 +14,7 @@
         "Id": "kerfuffle_clirar", 
         "License": "GPLv2+", 
         "MimeTypes": [
+            "application/vnd.rar",
             "application/x-rar"
         ], 
         "Name": "RAR archive plugin", 
@@ -50,7 +51,7 @@
         "Version": "0.0.1", 
         "Website": "http://www.kde.org"
     }, 
-    "MimeType": "application/x-rar;", 
+    "MimeType": "application/vnd.rar;application/x-rar;",
     "X-KDE-Kerfuffle-APIRevision": "1", 
     "X-KDE-Kerfuffle-EncryptEntries": "application/x-rar", 
     "X-KDE-Kerfuffle-EncryptHeader": "application/x-rar", 

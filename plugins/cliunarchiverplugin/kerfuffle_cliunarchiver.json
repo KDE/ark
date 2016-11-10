@@ -14,6 +14,7 @@
         "Id": "kerfuffle_cliunarchiver", 
         "License": "GPLv2+", 
         "MimeTypes": [
+            "application/vnd.rar",
             "application/x-rar"
         ], 
         "Name": "The Unarchiver plugin", 
@@ -46,7 +47,7 @@
         "Version": "0.0.1", 
         "Website": "http://www.kde.org"
     }, 
-    "MimeType": "application/x-rar;", 
+    "MimeType": "application/vnd.rar;application/x-rar;",
     "X-KDE-Kerfuffle-APIRevision": "1", 
     "X-KDE-Kerfuffle-ReadOnlyExecutables": "lsar;unar;", 
     "X-KDE-Kerfuffle-ReadWrite": "false", 
