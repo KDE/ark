@@ -181,7 +181,6 @@ bool ReadWriteLibarchivePlugin::copyFiles(const QVector<Archive::Entry*> &files,
     // Copy old elements from previous archive to new archive.
     int no_entries = 0;
     m_filesPaths = entryFullPaths(files);
-    m_entriesWithoutChildren = 0; // we don't care
     m_destination = destination;
     const bool isSuccessful = processOldEntries(no_entries, Copy, m_numberOfEntries);
     if (isSuccessful) {
