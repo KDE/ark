@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>140</width>
+    <width>491</width>
     <height>300</height>
    </rect>
   </property>
@@ -82,37 +82,37 @@
     <widget class="QWidget" name="m_metaDataWidget" native="true">
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLabel" name="m_typeLabel">
+       <widget class="KSqueezedTextLabel" name="m_typeLabel">
         <property name="text">
-         <string notr="true">Type</string>
+         <string notr="true">KSqueezedTextLabel</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="m_ownerLabel">
+       <widget class="KSqueezedTextLabel" name="m_ownerLabel">
         <property name="text">
-         <string notr="true">Owner</string>
+         <string notr="true">KSqueezedTextLabel</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="m_groupLabel">
+       <widget class="KSqueezedTextLabel" name="m_groupLabel">
         <property name="text">
-         <string notr="true">Group</string>
+         <string notr="true">KSqueezedTextLabel</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="KSqueezedTextLabel" name="m_targetLabel">
         <property name="text">
-         <string notr="true">Target</string>
+         <string notr="true">KSqueezedTextLabel</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="m_passwordLabel">
+       <widget class="KSqueezedTextLabel" name="m_passwordLabel">
         <property name="text">
-         <string notr="true">Password</string>
+         <string notr="true">KSqueezedTextLabel</string>
         </property>
        </widget>
       </item>
