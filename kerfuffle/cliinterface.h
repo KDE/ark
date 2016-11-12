@@ -139,8 +139,8 @@ protected:
 
     CliProperties *m_cliProps = Q_NULLPTR;
     QString m_oldWorkingDir;
-    QTemporaryDir *m_tempExtractDir = Q_NULLPTR;
-    QTemporaryDir *m_tempAddDir = Q_NULLPTR;
+    QScopedPointer<QTemporaryDir> m_tempWorkingDir;
+    QScopedPointer<QTemporaryDir> m_tempAddDir;
     OperationMode m_subOperation = List;
     QVector<Archive::Entry*> m_passedFiles;
     QVector<Archive::Entry*> m_tempAddedFiles;
@@ -211,8 +211,8 @@ private:
 
     ExtractionOptions m_extractionOptions;
     QString m_extractDestDir;
-    QTemporaryDir *m_extractTempDir = Q_NULLPTR;
-    QTemporaryFile *m_commentTempFile = Q_NULLPTR;
+    QScopedPointer<QTemporaryDir> m_extractTempDir;
+    QScopedPointer<QTemporaryFile> m_commentTempFile;
     QVector<Archive::Entry*> m_extractedFiles;
     uint m_archiveSizeOnDisk = 0;
     uint m_listedSize = 0;

@@ -192,9 +192,9 @@ bool CliPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry 
     qCDebug(ARK) << "Moving" << files.count() << "file(s) to destination:" << destination;
 
     m_oldWorkingDir = QDir::currentPath();
-    m_tempExtractDir = new QTemporaryDir();
-    m_tempAddDir = new QTemporaryDir();
-    QDir::setCurrent(m_tempExtractDir->path());
+    m_tempWorkingDir.reset(new QTemporaryDir());
+    m_tempAddDir.reset(new QTemporaryDir());
+    QDir::setCurrent(m_tempWorkingDir->path());
     m_passedFiles = files;
     m_passedDestination = destination;
     m_passedOptions = options;
@@ -248,7 +248,7 @@ bool CliPlugin::setMovingAddedFiles()
 
     QDir::setCurrent(m_tempAddDir->path());
     const Archive::Entry *file = m_passedFiles.at(0);
-    const QString oldPath = m_tempExtractDir->path() + QLatin1Char('/') + file->fullPath(NoTrailingSlash);
+    const QString oldPath = m_tempWorkingDir->path() + QLatin1Char('/') + file->fullPath(NoTrailingSlash);
     const QString newPath = m_tempAddDir->path() + QLatin1Char('/') + m_passedDestination->name();
     if (!QFile::rename(oldPath, newPath)) {
         return false;

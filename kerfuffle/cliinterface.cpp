@@ -74,7 +74,6 @@ CliInterface::CliInterface(QObject *parent, const QVariantList & args)
 CliInterface::~CliInterface()
 {
     Q_ASSERT(!m_process);
-    delete m_commentTempFile;
 }
 
 void CliInterface::setListEmptyLines(bool emptyLines)
@@ -124,9 +123,7 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     const bool useTmpExtractDir = options.isDragAndDropEnabled() || options.alwaysUseTempDir();
 
     if (useTmpExtractDir) {
-
-        Q_ASSERT(!m_extractTempDir);
-        m_extractTempDir = new QTemporaryDir(QApplication::applicationName() + QLatin1Char('-'));
+        m_extractTempDir.reset(new QTemporaryDir(QApplication::applicationName() + QLatin1Char('-')));
 
         qCDebug(ARK) << "Using temporary extraction dir:" << m_extractTempDir->path();
         if (!m_extractTempDir->isValid()) {
@@ -162,7 +159,7 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
     qCDebug(ARK) << "Adding" << files.count() << "file(s) to destination:" << destinationPath;
 
     if (!destinationPath.isEmpty()) {
-        m_extractTempDir = new QTemporaryDir();
+        m_extractTempDir.reset(new QTemporaryDir());
         const QString absoluteDestinationPath = m_extractTempDir->path() + QLatin1Char('/') + destinationPath;
 
         QDir qDir;
@@ -182,8 +179,6 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
                 qCDebug(ARK) << "Symlink's created:" << filePath << newFilePath;
             } else {
                 qCDebug(ARK) << "Can't create symlink" << filePath << newFilePath;
-                delete m_extractTempDir;
-                m_extractTempDir = Q_NULLPTR;
                 emit finished(false);
                 return false;
             }
@@ -235,9 +230,9 @@ bool CliInterface::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
 bool CliInterface::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     m_oldWorkingDir = QDir::currentPath();
-    m_tempExtractDir = new QTemporaryDir();
-    m_tempAddDir = new QTemporaryDir();
-    QDir::setCurrent(m_tempExtractDir->path());
+    m_tempWorkingDir.reset(new QTemporaryDir());
+    m_tempAddDir.reset(new QTemporaryDir());
+    QDir::setCurrent(m_tempWorkingDir->path());
     m_passedFiles = files;
     m_passedDestination = destination;
     m_passedOptions = options;
@@ -340,10 +335,6 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     }
 
     if (m_operationMode == Add && !isMultiVolume()) {
-        if (m_extractTempDir) {
-            delete m_extractTempDir;
-            m_extractTempDir = Q_NULLPTR;
-        }
         list();
     } else if (m_operationMode == List && isCorrupt()) {
         Kerfuffle::LoadCorruptQuery query(filename());
@@ -546,10 +537,7 @@ void CliInterface::cleanUpExtracting()
         QDir::setCurrent(m_oldWorkingDir);
     }
 
-    if (m_extractTempDir) {
-        delete m_extractTempDir;
-        m_extractTempDir = Q_NULLPTR;
-    }
+    m_extractTempDir.reset();
 }
 
 void CliInterface::finishCopying(bool result)
@@ -735,10 +723,8 @@ void CliInterface::cleanUp()
     qDeleteAll(m_tempAddedFiles);
     m_tempAddedFiles.clear();
     QDir::setCurrent(m_oldWorkingDir);
-    delete m_tempExtractDir;
-    m_tempExtractDir = Q_NULLPTR;
-    delete m_tempAddDir;
-    m_tempAddDir = Q_NULLPTR;
+    m_tempWorkingDir.reset();
+    m_tempAddDir.reset();
 }
 
 void CliInterface::readStdout(bool handleAll)
@@ -825,7 +811,7 @@ bool CliInterface::setAddedFiles()
 {
     QDir::setCurrent(m_tempAddDir->path());
     foreach (const Archive::Entry *file, m_passedFiles) {
-        const QString oldPath = m_tempExtractDir->path() + QLatin1Char('/') + file->fullPath(NoTrailingSlash);
+        const QString oldPath = m_tempWorkingDir->path() + QLatin1Char('/') + file->fullPath(NoTrailingSlash);
         const QString newPath = m_tempAddDir->path() + QLatin1Char('/') + file->name();
         if (!QFile::rename(oldPath, newPath)) {
             return false;
@@ -1064,14 +1050,14 @@ bool CliInterface::addComment(const QString &comment)
 {
     m_operationMode = Comment;
 
-    m_commentTempFile = new QTemporaryFile;
+    m_commentTempFile.reset(new QTemporaryFile());
     if (!m_commentTempFile->open()) {
         qCWarning(ARK) << "Failed to create temporary file for comment";
         emit finished(false);
         return false;
     }
 
-    QTextStream stream(m_commentTempFile);
+    QTextStream stream(m_commentTempFile.data());
     stream << comment << endl;
     m_commentTempFile->close();
 
