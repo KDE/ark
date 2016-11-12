@@ -184,6 +184,7 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
                 qCDebug(ARK) << "Can't create symlink" << filePath << newFilePath;
                 delete m_extractTempDir;
                 m_extractTempDir = Q_NULLPTR;
+                emit finished(false);
                 return false;
             }
         }
