@@ -97,11 +97,7 @@ bool CliInterface::list()
     m_archiveSizeOnDisk = QFileInfo(filename()).size();
     connect(this, &ReadOnlyArchiveInterface::entry, this, &CliInterface::onEntry);
 
-    if (!runProcess(m_cliProps->property("listProgram").toString(), m_cliProps->listArgs(filename(), password()))) {
-        return false;
-    }
-
-    return true;
+    return runProcess(m_cliProps->property("listProgram").toString(), m_cliProps->listArgs(filename(), password()));
 }
 
 bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
@@ -143,15 +139,11 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
         QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
     }
 
-    if (!runProcess(m_cliProps->property("extractProgram").toString(),
+    return runProcess(m_cliProps->property("extractProgram").toString(),
                     m_cliProps->extractArgs(filename(),
                                             extractFilesList(files),
                                             options.preservePaths(),
-                                            password()))) {
-        return false;
-    }
-
-    return true;
+                                            password()));
 }
 
 bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd)
