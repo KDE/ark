@@ -155,9 +155,11 @@ bool MainWindow::loadPart()
 
     statusBar()->hide();
 
-    connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()));
     connect(m_part, SIGNAL(ready()), this, SLOT(updateActions()));
     connect(m_part, SIGNAL(quit()), this, SLOT(quit()));
+    // #365200: this will disable m_recentFilesAction, while openUrl() will enable it.
+    // So updateActions() needs to be called after openUrl() returns.
+    connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()), Qt::QueuedConnection);
 
     return true;
 }
