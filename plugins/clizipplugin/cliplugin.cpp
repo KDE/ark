@@ -26,6 +26,7 @@
 #include "kerfuffle/cliinterface.h"
 #include "kerfuffle/kerfuffle_export.h"
 
+#include <KLocalizedString>
 #include <KPluginFactory>
 
 #include <QDateTime>
@@ -292,6 +293,9 @@ QString CliPlugin::convertCompressionMethod(const QString &method)
         return QStringLiteral("Deflate");
     } else if (method == QLatin1String("bzp2")) {
         return QStringLiteral("BZip2");
+    } else if (method == QLatin1String("u099")) {
+        emit encryptionMethodFound(QStringLiteral("AES"));
+        return i18nc("referred to compression method", "unknown");
     }
     return method;
 }
