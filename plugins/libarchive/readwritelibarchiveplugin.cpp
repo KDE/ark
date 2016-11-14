@@ -227,7 +227,7 @@ bool ReadWriteLibarchivePlugin::initializeWriter(const bool creatingNewFile, con
     // before close()'ing the file descriptor).
     m_tempFile.setFileName(filename());
     if (!m_tempFile.open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
-        emit error(xi18nc("@info", "Failed to create a temporary file to compress <filename>%1</filename>.", filename()));
+        emit error(i18nc("@info", "Failed to create a temporary file for writing data."));
         return false;
     }
 
@@ -251,8 +251,7 @@ bool ReadWriteLibarchivePlugin::initializeWriter(const bool creatingNewFile, con
     }
 
     if (archive_write_open_fd(m_archiveWriter.data(), m_tempFile.handle()) != ARCHIVE_OK) {
-        emit error(xi18nc("@info", "Opening the archive for writing failed with the following error:"
-                          "<nl/><message>%1</message>", QLatin1String(archive_error_string(m_archiveWriter.data()))));
+        emit error(i18nc("@info", "Could not open the archive for writing entries."));
         return false;
     }
 
@@ -306,8 +305,8 @@ bool ReadWriteLibarchivePlugin::initializeWriterFilters()
     // Libarchive emits a warning for lrzip due to using external executable.
     if ((requiresExecutable && ret != ARCHIVE_WARN) ||
         (!requiresExecutable && ret != ARCHIVE_OK)) {
-        emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
-                          QLatin1String(archive_error_string(m_archiveWriter.data()))));
+        qCWarning(ARK) << "Failed to set compression method:" << archive_error_string(m_archiveWriter.data());
+        emit error(i18nc("@info", "Could not set the compression method."));
         return false;
     }
 
@@ -359,8 +358,8 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
     // Libarchive emits a warning for lrzip due to using external executable.
     if ((requiresExecutable && ret != ARCHIVE_WARN) ||
         (!requiresExecutable && ret != ARCHIVE_OK)) {
-        emit error(xi18nc("@info", "Setting the compression method failed with the following error:<nl/><message>%1</message>",
-                          QLatin1String(archive_error_string(m_archiveWriter.data()))));
+        qCWarning(ARK) << "Failed to set compression method:" << archive_error_string(m_archiveWriter.data());
+        emit error(i18nc("@info", "Could not set the compression method."));
         return false;
     }
 
@@ -369,9 +368,8 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
         qCDebug(ARK) << "Using compression level:" << options.compressionLevel();
         ret = archive_write_set_filter_option(m_archiveWriter.data(), NULL, "compression-level", QString::number(options.compressionLevel()).toUtf8());
         if (ret != ARCHIVE_OK) {
-            qCWarning(ARK) << "Failed to set compression level";
-            emit error(xi18nc("@info", "Setting the compression level failed with the following error:<nl/><message>%1</message>",
-                              QLatin1String(archive_error_string(m_archiveWriter.data()))));
+            qCWarning(ARK) << "Failed to set compression level" << archive_error_string(m_archiveWriter.data());
+            emit error(i18nc("@info", "Could not set the compression level."));
             return false;
         }
     }
@@ -475,8 +473,6 @@ bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, Operation
 bool ReadWriteLibarchivePlugin::writeEntry(struct archive_entry *entry)
 {
     const int returnCode = archive_write_header(m_archiveWriter.data(), entry);
-    const QString file = QFile::decodeName(archive_entry_pathname(entry));
-
     switch (returnCode) {
     case ARCHIVE_OK:
         // If the whole archive is extracted and the total filesize is
@@ -487,8 +483,7 @@ bool ReadWriteLibarchivePlugin::writeEntry(struct archive_entry *entry)
     case ARCHIVE_FATAL:
         qCCritical(ARK) << "archive_write_header() has returned" << returnCode
                         << "with errno" << archive_errno(m_archiveWriter.data());
-        emit error(xi18nc("@info", "Compression failed while processing:<nl/>"
-    "<filename>%1</filename><nl/><nl/>Operation aborted.", file));
+        emit error(i18nc("@info", "Could not compress entry, operation aborted."));
         return false;
     default:
         qCDebug(ARK) << "archive_writer_header() has returned" << returnCode
@@ -528,10 +523,8 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString &relativeName, const QSt
         qCCritical(ARK) << "Writing header failed with error code " << header_response;
         qCCritical(ARK) << "Error while writing..." << archive_error_string(m_archiveWriter.data()) << "(error no =" << archive_errno(m_archiveWriter.data()) << ')';
 
-        emit error(xi18nc("@info Error in a message box",
-                          "Ark could not compress <filename>%1</filename>:<nl/>%2",
-                          absoluteFilename,
-                          QString::fromUtf8(archive_error_string(m_archiveWriter.data()))));
+        emit error(i18nc("@info Error in a message box",
+                         "Could not compressy entry."));
 
         archive_entry_free(entry);
 

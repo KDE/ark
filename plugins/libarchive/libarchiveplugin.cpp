@@ -375,8 +375,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
             case ARCHIVE_FATAL:
                 qCCritical(ARK) << "archive_write_header() has returned" << returnCode
                                 << "with errno" << archive_errno(writer.data());
-                emit error(xi18nc("@info", "Extraction failed at:<nl/><filename>%1</filename>",
-                                  entryName));
+                emit error(i18nc("@info", "Fatal error, extraction aborted."));
                 return false;
             default:
                 qCDebug(ARK) << "archive_write_header() returned" << returnCode
@@ -427,9 +426,8 @@ bool LibarchivePlugin::initializeReader()
     }
 
     if (archive_read_open_filename(m_archiveReader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename>.<nl/>"
-            "Check whether you have sufficient permissions.",
-                          filename()));
+        qCWarning(ARK) << "Could not open the archive:" << archive_error_string(m_archiveReader.data());
+        emit error(i18nc("@info", "Archive corrupted or insufficient permissions."));
         return false;
     }
 
