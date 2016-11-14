@@ -122,6 +122,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     m_commentBox->setLayout(vbox);
 
     m_messageWidget = new KMessageWidget(parentWidget);
+    m_messageWidget->setWordWrap(true);
     m_messageWidget->hide();
 
     m_commentMsgWidget = new KMessageWidget();
