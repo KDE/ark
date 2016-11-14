@@ -1403,11 +1403,7 @@ void Part::slotCopyFiles()
 void Part::slotRenameFile(const QString &name)
 {
     if (name == QLatin1String(".") || name == QLatin1String("..") || name.contains(QLatin1Char('/'))) {
-        QMessageBox messageBox(QMessageBox::Warning,
-                               i18n("Invalid filename"),
-                               i18n("Filename can't contain slashes and can't be equal to \".\" or \"..\""),
-                               QMessageBox::Ok);
-        messageBox.exec();
+        displayMsgWidget(KMessageWidget::Error, i18n("Filename can't contain slashes and can't be equal to \".\" or \"..\""));
         return;
     }
     const Archive::Entry *entry = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
@@ -1450,11 +1446,9 @@ void Part::slotPasteFiles()
 
         foreach (const Archive::Entry *entry, entriesWithoutChildren) {
             if (entry->isDir() && m_destination->fullPath().startsWith(entry->fullPath())) {
-                QMessageBox messageBox(QMessageBox::Warning,
-                                       i18n("Moving a folder into itself"),
-                                       i18n("Folders can't be moved into themselves."),
-                                       QMessageBox::Ok);
-                messageBox.exec();
+                KMessageBox::error(widget(),
+                                   i18n("Folders can't be moved into themselves."),
+                                   i18n("Moving a folder into itself"));
                 delete m_destination;
                 return;
             }
@@ -1482,11 +1476,7 @@ void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle:
     QStringList newPaths = ReadOnlyArchiveInterface::entryPathsFromDestination(filesPaths, destination, entriesWithoutChildren);
 
     if (ArchiveModel::hasDuplicatedEntries(newPaths)) {
-        QMessageBox messageBox(QMessageBox::Warning,
-                               i18n("Pasting entries with the same name"),
-                               i18n("Entries with the same names can't be pasted to the same destination."),
-                               QMessageBox::Ok);
-        messageBox.exec();
+        displayMsgWidget(KMessageWidget::Error, i18n("Entries with the same names can't be pasted to the same destination."));
         delete m_destination;
         return;
     }
