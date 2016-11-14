@@ -1402,7 +1402,7 @@ void Part::slotCopyFiles()
 
 void Part::slotRenameFile(const QString &name)
 {
-    if (name == QStringLiteral(".") || name == QStringLiteral("..") || name.contains(QLatin1Char('/'))) {
+    if (name == QLatin1String(".") || name == QLatin1String("..") || name.contains(QLatin1Char('/'))) {
         QMessageBox messageBox(QMessageBox::Warning,
                                i18n("Invalid filename"),
                                i18n("Filename can't contain slashes and can't be equal to \".\" or \"..\""),
