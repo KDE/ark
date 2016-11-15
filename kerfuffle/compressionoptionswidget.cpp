@@ -50,6 +50,7 @@ CompressionOptionsWidget::CompressionOptionsWidget(QWidget *parent,
 
     connect(multiVolumeCheckbox, &QCheckBox::stateChanged, this, &CompressionOptionsWidget::slotMultiVolumeChecked);
     connect(compMethodComboBox, &QComboBox::currentTextChanged, this, &CompressionOptionsWidget::slotCompMethodChanged);
+    connect(encMethodComboBox, &QComboBox::currentTextChanged, this, &CompressionOptionsWidget::slotEncryptionMethodChanged);
 
     if (m_opts.isVolumeSizeSet()) {
         multiVolumeCheckbox->setChecked(true);
@@ -281,6 +282,17 @@ void CompressionOptionsWidget::slotCompMethodChanged(const QString &value)
         }
 
     }
+}
+
+void CompressionOptionsWidget::slotEncryptionMethodChanged(const QString &value)
+{
+    if (value.isEmpty() || m_mimetype != QMimeDatabase().mimeTypeForName(QStringLiteral("application/zip"))) {
+        warningMsgWidget->hide();
+        return;
+    }
+
+    // AES encryption is not supported by unzip, warn the users if they are creating a zip.
+    warningMsgWidget->setVisible(value != QLatin1String("ZipCrypto"));
 }
 
 }

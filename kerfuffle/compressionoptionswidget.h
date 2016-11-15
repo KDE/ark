@@ -68,6 +68,7 @@ private:
 private slots:
     void slotMultiVolumeChecked(int state);
     void slotCompMethodChanged(const QString &value);
+    void slotEncryptionMethodChanged(const QString &value);
 };
 }
 
