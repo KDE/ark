@@ -307,8 +307,7 @@ role="extension">zip</literal>, <literal role="extension">7z</literal>,
 and check the <guilabel>Automatically add <replaceable>filename extension</replaceable></guilabel> option.</para>
 
 <para>To add files or folders to the new archive, choose <guimenuitem>Add
-File...</guimenuitem> or <guimenuitem>Add
-Folder...</guimenuitem>, respectively, from the <guimenu>Archive</guimenu> menu.</para>
+Files...</guimenuitem> from the <guimenu>Archive</guimenu> menu.</para>
 
 <para>An alternative way to add files to an archive is to drag one or more files
 from e.g. &dolphin; into the main &ark; window, and it will
@@ -336,7 +335,12 @@ requires newer archiving software.</para>
 <title>Password Protection</title>
 <para>If you create a <literal role="extension">zip</literal>, <literal
 role="extension">rar</literal>, <literal role="extension">7zip</literal> and
-<literal role="extension">jar</literal> archive you can protect it with a password.</para>
+<literal role="extension">jar</literal> archive you can protect it with a password.
+Currently, only the <literal role="extension">zip</literal> format supports multiple
+encryption methods. For other formats that support only one encryption
+method, the method is shown in the drop down box.</para>
+<para>Other encryption methods than the default <guilabel>ZipCrypto</guilabel> might
+not be supported by all file archivers.</para>
 
 <mediaobject>
 <imageobject>
