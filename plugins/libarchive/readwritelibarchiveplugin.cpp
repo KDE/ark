@@ -524,7 +524,7 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString &relativeName, const QSt
         qCCritical(ARK) << "Error while writing..." << archive_error_string(m_archiveWriter.data()) << "(error no =" << archive_errno(m_archiveWriter.data()) << ')';
 
         emit error(i18nc("@info Error in a message box",
-                         "Could not compressy entry."));
+                         "Could not compress entry."));
 
         archive_entry_free(entry);
 
