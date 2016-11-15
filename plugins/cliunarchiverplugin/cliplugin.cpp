@@ -138,7 +138,15 @@ bool CliPlugin::handleLine(const QString& line)
 {
     // Collect the json output line by line.
     if (m_operationMode == List) {
-        m_jsonOutput += line + QLatin1Char('\n');
+        // #372210: lsar can generate huge JSONs for big archives.
+        // We can at least catch a bad_alloc here in order to not crash.
+        try {
+            m_jsonOutput += line + QLatin1Char('\n');
+        } catch (const std::bad_alloc&) {
+            m_jsonOutput.clear();
+            emit error(i18n("Not enough memory for loading the archive."));
+            return false;
+        }
     }
 
     if (m_operationMode == List) {

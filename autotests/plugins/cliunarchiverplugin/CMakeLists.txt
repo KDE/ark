@@ -12,3 +12,6 @@ ecm_add_test(
     LINK_LIBRARIES testhelper kerfuffle Qt5::Test
     TEST_NAME cliunarchivertest
     NAME_PREFIX plugins-)
+
+# cliunarchiver plugin needs exceptions enabled
+kde_target_enable_exceptions(cliunarchivertest PRIVATE)

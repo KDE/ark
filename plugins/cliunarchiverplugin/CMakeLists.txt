@@ -22,6 +22,9 @@ configure_file(
 
 kerfuffle_add_plugin(kerfuffle_cliunarchiver ${kerfuffle_cliunarchiver_SRCS})
 
+# This plugin has a catch() block
+kde_target_enable_exceptions(kerfuffle_cliunarchiver PRIVATE)
+
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_CLIUNARCHIVER_MIMETYPES}"
 PARENT_SCOPE)
 set(INSTALLED_KERFUFFLE_PLUGINS "${INSTALLED_KERFUFFLE_PLUGINS}kerfuffle_cliunarchiver;" PARENT_SCOPE)
