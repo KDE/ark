@@ -188,6 +188,25 @@ bool CliPlugin::readListLine(const QString &line)
     return true;
 }
 
+bool CliPlugin::readExtractLine(const QString &line)
+{
+    const QRegularExpression rxUnsupCompMethod(QStringLiteral("unsupported compression method (\\d+)"));
+    const QRegularExpression rxUnsupEncMethod(QStringLiteral("need PK compat. v\\d\\.\\d \\(can do v\\d\\.\\d\\)"));
+
+    QRegularExpressionMatch unsupCompMethodMatch = rxUnsupCompMethod.match(line);
+    if (unsupCompMethodMatch.hasMatch()) {
+        emit error(i18n("Extraction failed due to unsupported compression method (%1).", unsupCompMethodMatch.captured(1)));
+        return false;
+    }
+
+    if (QRegularExpression(rxUnsupEncMethod).match(line).hasMatch()) {
+        emit error(i18n("Extraction failed due to unsupported encryption method."));
+        return false;
+    }
+
+    return true;
+}
+
 bool CliPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     qCDebug(ARK) << "Moving" << files.count() << "file(s) to destination:" << destination;

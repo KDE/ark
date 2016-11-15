@@ -67,7 +67,6 @@ class KERFUFFLE_EXPORT CliProperties: public QObject
     Q_PROPERTY(QStringList testPassedPatterns MEMBER m_testPassedPatterns)
     Q_PROPERTY(QStringList fileExistsPatterns MEMBER m_fileExistsPatterns)
     Q_PROPERTY(QStringList fileExistsFileName MEMBER m_fileExistsFileName)
-    Q_PROPERTY(QStringList extractionFailedPatterns MEMBER m_extractionFailedPatterns)
     Q_PROPERTY(QStringList corruptArchivePatterns MEMBER m_corruptArchivePatterns)
     Q_PROPERTY(QStringList diskFullPatterns MEMBER m_diskFullPatterns)
 
@@ -99,7 +98,6 @@ public:
     bool isTestPassedMsg(const QString &line);
     bool isfileExistsMsg(const QString &line);
     bool isFileExistsFileName(const QString &line);
-    bool isExtractionFailedMsg(const QString &line);
     bool isCorruptArchiveMsg(const QString &line);
     bool isDiskFullMsg(const QString &line);
 
@@ -139,7 +137,6 @@ private:
     QStringList m_testPassedPatterns;
     QStringList m_fileExistsPatterns;
     QStringList m_fileExistsFileName;
-    QStringList m_extractionFailedPatterns;
     QStringList m_corruptArchivePatterns;
     QStringList m_diskFullPatterns;
 

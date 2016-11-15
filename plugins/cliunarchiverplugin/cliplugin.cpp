@@ -91,14 +91,28 @@ void CliPlugin::setupCliProperties()
                                                       QStringLiteral("$Password")});
 
     m_cliProps->setProperty("passwordPromptPatterns", QStringList{QStringLiteral("This archive requires a password to unpack. Use the -p option to provide one.")});
-
-    m_cliProps->setProperty("extractionFailedPatterns", QStringList{QStringLiteral("Failed! \\((.+)\\)$"),
-                                                                QStringLiteral("Segmentation fault$")});
 }
 
 bool CliPlugin::readListLine(const QString &line)
 {
-    Q_UNUSED(line)
+    const QRegularExpression rx(QStringLiteral("Failed! \\((.+)\\)$"));
+
+    if (rx.match(line).hasMatch()) {
+        emit error(i18n("Listing the archive failed."));
+        return false;
+    }
+
+    return true;
+}
+
+bool CliPlugin::readExtractLine(const QString &line)
+{
+    const QRegularExpression rx(QStringLiteral("Failed! \\((.+)\\)$"));
+
+    if (rx.match(line).hasMatch()) {
+        emit error(i18n("Extraction failed."));
+        return false;
+    }
 
     return true;
 }
@@ -125,15 +139,6 @@ bool CliPlugin::handleLine(const QString& line)
     // Collect the json output line by line.
     if (m_operationMode == List) {
         m_jsonOutput += line + QLatin1Char('\n');
-    }
-
-    // TODO: is this check really needed?
-    if (m_operationMode == Copy) {
-        if (m_cliProps->isExtractionFailedMsg(line)) {
-            qCWarning(ARK) << "Error in extraction:" << line;
-            emit error(i18n("Extraction failed because of an unexpected error."));
-            return false;
-        }
     }
 
     if (m_operationMode == List) {

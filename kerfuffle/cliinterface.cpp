@@ -767,7 +767,6 @@ void CliInterface::readStdout(bool handleAll)
     bool foundErrorMessage =
         (wrongPasswordMessage ||
          m_cliProps->isDiskFullMsg(QLatin1String(lines.last())) ||
-         m_cliProps->isExtractionFailedMsg(QLatin1String(lines.last())) ||
          m_cliProps->isfileExistsMsg(QLatin1String(lines.last()))) ||
          m_cliProps->isPasswordPrompt(QLatin1String(lines.last()));
 
@@ -869,15 +868,11 @@ bool CliInterface::handleLine(const QString& line)
             return false;
         }
 
-        if (m_cliProps->isExtractionFailedMsg(line)) {
-            qCWarning(ARK) << "Error in extraction:" << line;
-            emit error(i18n("Extraction failed because of an unexpected error."));
-            return false;
-        }
-
         if (handleFileExistsMessage(line)) {
             return true;
         }
+
+        return readExtractLine(line);
     }
 
     if (m_operationMode == List) {
@@ -904,12 +899,6 @@ bool CliInterface::handleLine(const QString& line)
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
             emit error(i18n("Incorrect password."));
-            return false;
-        }
-
-        if (m_cliProps->isExtractionFailedMsg(line)) {
-            qCWarning(ARK) << "Error in extraction!!";
-            emit error(i18n("Extraction failed because of an unexpected error."));
             return false;
         }
 

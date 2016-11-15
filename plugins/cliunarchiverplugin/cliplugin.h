@@ -38,6 +38,7 @@ public:
     virtual bool extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) Q_DECL_OVERRIDE;
     virtual void resetParsing() Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
+    virtual bool readExtractLine(const QString &line) Q_DECL_OVERRIDE;
 
     /**
      * Fill the lsar's json output all in once (useful for unit testing).

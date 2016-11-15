@@ -338,16 +338,6 @@ bool CliProperties::isFileExistsFileName(const QString &line)
     return false;
 }
 
-bool CliProperties::isExtractionFailedMsg(const QString &line)
-{
-    foreach(const QString &rx, m_extractionFailedPatterns) {
-        if (QRegularExpression(rx).match(line).hasMatch()) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool CliProperties::isCorruptArchiveMsg(const QString &line)
 {
     foreach(const QString &rx, m_corruptArchivePatterns) {

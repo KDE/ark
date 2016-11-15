@@ -30,6 +30,7 @@
 #include <QDir>
 #include <QRegularExpression>
 
+#include <KLocalizedString>
 #include <KPluginFactory>
 
 using namespace Kerfuffle;
@@ -108,8 +109,6 @@ void CliPlugin::setupCliProperties()
                                                        QStringLiteral("A"),   //Overwrite all
                                                        QStringLiteral("S"),   //Autoskip
                                                        QStringLiteral("Q")}); //Cancel
-    m_cliProps->setProperty("extractionFailedPatterns", QStringList{QStringLiteral("ERROR: E_FAIL"),
-                                                                QStringLiteral("Open ERROR: Can not open the file as \\[7z\\] archive")});
     m_cliProps->setProperty("corruptArchivePatterns", QStringList{QStringLiteral("Unexpected end of archive"),
                                                               QStringLiteral("Headers Error")});
     m_cliProps->setProperty("diskFullPatterns", QStringList{QStringLiteral("No space left on device")});
@@ -122,6 +121,12 @@ bool CliPlugin::readListLine(const QString& line)
     static const QLatin1String archiveInfoDelimiter2("----"); // 7z 9.04
     static const QLatin1String entryInfoDelimiter("----------");
     const QRegularExpression rxComment(QStringLiteral("Comment = .+$"));
+
+    const QRegularExpression rxListFailed(QStringLiteral("Open ERROR: Can not open the file as \\[7z\\] archive"));
+    if (rxListFailed.match(line).hasMatch()) {
+        emit error(i18n("Listing the archive failed."));
+        return false;
+    }
 
     if (m_parseState == ParseStateTitle) {
 
@@ -263,6 +268,18 @@ bool CliPlugin::readListLine(const QString& line)
             }
             m_currentArchiveEntry = Q_NULLPTR;
         }
+    }
+
+    return true;
+}
+
+bool CliPlugin::readExtractLine(const QString &line)
+{
+    QRegularExpression rx(QStringLiteral("ERROR: E_FAIL"));
+
+    if (rx.match(line).hasMatch()) {
+        emit error(i18n("Extraction failed."));
+        return false;
     }
 
     return true;

@@ -120,8 +120,6 @@ void CliPlugin::setupCliProperties()
                                                        QStringLiteral("A"),   //Overwrite all
                                                        QStringLiteral("E"),   //Autoskip
                                                        QStringLiteral("Q")}); //Cancel
-    m_cliProps->setProperty("extractionFailedPatterns", QStringList{QStringLiteral("CRC failed"),
-                                                                QStringLiteral("Cannot find volume")});
     m_cliProps->setProperty("corruptArchivePatterns", QStringList{QStringLiteral("Unexpected end of archive"),
                                                               QStringLiteral("the file header is corrupt")});
     m_cliProps->setProperty("diskFullPatterns", QStringList{QStringLiteral("No space left on device")});
@@ -175,6 +173,12 @@ bool CliPlugin::readListLine(const QString &line)
 
 bool CliPlugin::handleUnrar5Line(const QString &line)
 {
+    const QRegularExpression rxVolume(QStringLiteral("Cannot find volume "));
+    if (rxVolume.match(line).hasMatch()) {
+        emit error(i18n("Failed to find all archive volumes."));
+        return false;
+    }
+
     // Parses the comment field.
     if (m_parseState == ParseStateComment) {
 
@@ -309,6 +313,12 @@ void CliPlugin::handleUnrar5Entry()
 
 bool CliPlugin::handleUnrar4Line(const QString &line)
 {
+    const QRegularExpression rxVolume(QStringLiteral("Cannot find volume "));
+    if (rxVolume.match(line).hasMatch()) {
+        emit error(i18n("Failed to find all archive volumes."));
+        return false;
+    }
+
     // Parses the comment field.
     if (m_parseState == ParseStateComment) {
 
@@ -541,6 +551,23 @@ void CliPlugin::handleUnrar4Entry()
 
     m_unrar4Details.clear();
     emit entry(e);
+}
+
+bool CliPlugin::readExtractLine(const QString &line)
+{
+    const QRegularExpression rxCRC(QStringLiteral("CRC failed"));
+    if (rxCRC.match(line).hasMatch()) {
+        emit error(i18n("One or more wrong checksums"));
+        return false;
+    }
+
+    const QRegularExpression rxVolume(QStringLiteral("Cannot find volume "));
+    if (rxVolume.match(line).hasMatch()) {
+        emit error(i18n("Failed to find all archive volumes."));
+        return false;
+    }
+
+    return true;
 }
 
 void CliPlugin::ignoreLines(int lines, ParseState nextState)

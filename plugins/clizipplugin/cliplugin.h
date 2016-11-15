@@ -39,6 +39,7 @@ public:
     virtual void resetParsing() Q_DECL_OVERRIDE;
     virtual QString escapeFileName(const QString &fileName) const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
+    virtual bool readExtractLine(const QString &line) Q_DECL_OVERRIDE;
 
     virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
     virtual int moveRequiredSignals() const Q_DECL_OVERRIDE;
