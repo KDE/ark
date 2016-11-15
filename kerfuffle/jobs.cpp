@@ -438,6 +438,11 @@ void CreateJob::doWork()
 
     if (addJob) {
         connect(addJob, &KJob::result, this, &CreateJob::emitResult);
+        // Forward description signal from AddJob, we need to change the first argument ('this' needs to be a CreateJob).
+        connect(addJob, &KJob::description, this, [=](KJob *, const QString &title, const QPair<QString,QString> &field1, const QPair<QString,QString> &) {
+            emit description(this, title, field1);
+        });
+
         addJob->start();
     } else {
         emitResult();
