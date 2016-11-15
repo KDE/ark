@@ -123,7 +123,8 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     const bool useTmpExtractDir = options.isDragAndDropEnabled() || options.alwaysUseTempDir();
 
     if (useTmpExtractDir) {
-        m_extractTempDir.reset(new QTemporaryDir(QApplication::applicationName() + QLatin1Char('-')));
+        // Create an hidden temp folder in the current directory.
+        m_extractTempDir.reset(new QTemporaryDir(QStringLiteral(".%1-").arg(QCoreApplication::applicationName())));
 
         qCDebug(ARK) << "Using temporary extraction dir:" << m_extractTempDir->path();
         if (!m_extractTempDir->isValid()) {
