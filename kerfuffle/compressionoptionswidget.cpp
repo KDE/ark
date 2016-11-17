@@ -29,6 +29,7 @@
 #include "ark_debug.h"
 #include "archiveformat.h"
 #include "pluginmanager.h"
+#include "settings.h"
 
 #include <KColorScheme>
 #include <KPluginMetaData>
@@ -292,7 +293,7 @@ void CompressionOptionsWidget::slotEncryptionMethodChanged(const QString &value)
     }
 
     // AES encryption is not supported by unzip, warn the users if they are creating a zip.
-    warningMsgWidget->setVisible(value != QLatin1String("ZipCrypto"));
+    warningMsgWidget->setVisible(value != QLatin1String("ZipCrypto") && ArkSettings::showEncryptionWarning());
 }
 
 }

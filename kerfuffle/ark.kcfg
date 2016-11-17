@@ -4,6 +4,12 @@
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
 	<kcfgfile name="arkrc"/>
+	<group name="General">
+		<entry name="showEncryptionWarning" type="Bool">
+			<label>Whether to show a warning when creating zip archives with AES encryption.</label>
+			<default>true</default>
+		</entry>
+	</group>
 	<group name="Extraction">
 		<entry name="openDestinationFolderAfterExtraction" type="Bool">
 			<label>Open destination folder after extraction.</label>
