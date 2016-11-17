@@ -33,7 +33,6 @@
 
 #include <KColorScheme>
 #include <KPluginMetaData>
-#include <kwidgetsaddons_version.h>
 
 #include <QMimeDatabase>
 
@@ -60,10 +59,7 @@ CompressionOptionsWidget::CompressionOptionsWidget(QWidget *parent,
         volumeSizeSpinbox->setValue(static_cast<double>(m_opts.volumeSize()) / 1024);
     }
 
-    // KWidgetsAddons 5.29 fixes KMessageWidget word-wrapping.
-    if (KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 29, 0)) {
-        warningMsgWidget->setWordWrap(true);
-    }
+    warningMsgWidget->setWordWrap(true);
 }
 
 CompressionOptions CompressionOptionsWidget::commpressionOptions() const
