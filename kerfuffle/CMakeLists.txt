@@ -5,6 +5,7 @@ set(kerfuffle_SRCS
     archive_kerfuffle.cpp
     archiveinterface.cpp
     extractionsettingspage.cpp
+    generalsettingspage.cpp
     previewsettingspage.cpp
     settingspage.cpp
     jobs.cpp
@@ -30,6 +31,7 @@ ki18n_wrap_ui(kerfuffle_SRCS
     createdialog.ui
     extractiondialog.ui
     extractionsettings.ui
+    generalsettings.ui
     previewsettings.ui
     propertiesdialog.ui
     compressionoptionswidget.ui
