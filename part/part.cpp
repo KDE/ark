@@ -56,6 +56,7 @@
 #include <KStandardGuiItem>
 #include <KToggleAction>
 #include <KLocalizedString>
+#include <kwidgetsaddons_version.h>
 #include <KXMLGUIFactory>
 
 #include <QAction>
@@ -123,7 +124,10 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     m_commentBox->setLayout(vbox);
 
     m_messageWidget = new KMessageWidget(parentWidget);
-    m_messageWidget->setWordWrap(true);
+    // KWidgetsAddons 5.29 fixes KMessageWidget word-wrapping.
+    if (KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 29, 0)) {
+        m_messageWidget->setWordWrap(true);
+    }
     m_messageWidget->hide();
 
     m_commentMsgWidget = new KMessageWidget();
