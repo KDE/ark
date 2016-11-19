@@ -277,7 +277,8 @@ bool CliPlugin::setMovingAddedFiles()
 
     // We have to exclude file name from destination path in order to pass it to addFiles method.
     const QString destinationPath = m_passedDestination->fullPath();
-    if (!destinationPath.endsWith(QLatin1Char('/')) || destinationPath.count(QLatin1Char('/')) > 1) {
+    const int slashCount = destinationPath.count(QLatin1Char('/'));
+    if (slashCount > 1 || (slashCount == 1 && !destinationPath.endsWith(QLatin1Char('/')))) {
         int destinationLength = destinationPath.count();
         bool iteratedChar = false;
         do {
@@ -287,8 +288,8 @@ bool CliPlugin::setMovingAddedFiles()
             }
         } while (destinationLength > 0 && !(iteratedChar && destinationPath.at(destinationLength) == QLatin1Char('/')));
         m_passedDestination->setProperty("fullPath", destinationPath.left(destinationLength + 1));
-   } else {
-        // ...unless the destination path is already a single folder, e.g. "dir/".
+    } else {
+        // ...unless the destination path is already a single folder, e.g. "dir/", or a file, e.g. "foo.txt".
         // In this case we're going to add to the root, so we just need to set a null destination.
         m_passedDestination = Q_NULLPTR;
     }

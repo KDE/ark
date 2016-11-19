@@ -93,6 +93,9 @@ public:
 public slots:
     void extractSelectedFilesTo(const QString& localPath);
 
+protected:
+    void guiActivateEvent(KParts::GUIActivateEvent *event) Q_DECL_OVERRIDE;
+
 private slots:
     void slotLoadingStarted();
     void slotLoadingFinished(KJob *job);

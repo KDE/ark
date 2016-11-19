@@ -281,6 +281,12 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     job->start();
 }
 
+void Part::guiActivateEvent(KParts::GUIActivateEvent *event)
+{
+    // #357660: prevent parent's implementation from changing the window title.
+    Q_UNUSED(event)
+}
+
 void Part::setupView()
 {
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
