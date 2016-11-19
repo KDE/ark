@@ -191,6 +191,13 @@ void MoveTest::testMoving_data()
                   QStringLiteral("dir/b.txt")
               },
               13);
+
+    setupRows(QStringLiteral("rename a file in the root (bug #368530)"),
+              QStringLiteral("test"),
+              QVector<Archive::Entry*> { new Archive::Entry(this, QStringLiteral("a.txt")) },
+              new Archive::Entry(this, QStringLiteral("new-name.txt")),
+              QStringList { QStringLiteral("new-name.txt") },
+              13);
 }
 
 void MoveTest::testMoving()
