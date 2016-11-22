@@ -311,8 +311,16 @@ QString CliPlugin::convertCompressionMethod(const QString &method)
         return QStringLiteral("Store");
     } else if (method.startsWith(QLatin1String("def"))) {
         return QStringLiteral("Deflate");
+    } else if (method == QLatin1String("d64N")) {
+        return QStringLiteral("Deflate64");
     } else if (method == QLatin1String("bzp2")) {
         return QStringLiteral("BZip2");
+    } else if (method == QLatin1String("lzma")) {
+        return QStringLiteral("LZMA");
+    } else if (method == QLatin1String("ppmd")) {
+        return QStringLiteral("PPMd");
+    } else if (method == QLatin1String("u095")) {
+        return QStringLiteral("XZ");
     } else if (method == QLatin1String("u099")) {
         emit encryptionMethodFound(QStringLiteral("AES"));
         return i18nc("referred to compression method", "unknown");
