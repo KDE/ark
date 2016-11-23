@@ -38,7 +38,6 @@
 #include <QListWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QPushButton>
 #include <QDialogButtonBox>
 
 class QUrl;
@@ -57,8 +56,6 @@ private:
     QLabel m_messageText;
     QListWidget m_entriesList;
     QDialogButtonBox m_buttonBox;
-    QPushButton m_okButton;
-    QPushButton m_cancelButton;
 };
 
 #endif
