@@ -802,7 +802,7 @@ bool Part::confirmAndDelete(const QString &targetFile)
                                                              "The archive <filename>%1</filename> already exists. Do you wish to overwrite it?",
                                                              targetInfo.fileName()),
                                                       i18nc("@title:window", "File Exists"),
-                                                      KGuiItem(i18nc("@action:button", "Overwrite")),
+                                                      KStandardGuiItem::overwrite(),
                                                       KStandardGuiItem::cancel());
 
     if (buttonCode != KMessageBox::Yes || !targetInfo.isWritable()) {
