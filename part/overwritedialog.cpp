@@ -31,9 +31,7 @@ using namespace Kerfuffle;
 
 OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Entry*> &entries, const QHash<QString, QIcon> &icons, bool error)
         : QDialog(parent)
-        , m_buttonBox(Qt::Horizontal)
-        , m_okButton(i18n("OK"))
-        , m_cancelButton(i18n("Cancel"))
+        , m_buttonBox(QDialogButtonBox::Cancel, Qt::Horizontal)
 {
     m_vBoxLayout.addLayout(&m_messageLayout);
     m_vBoxLayout.addWidget(&m_entriesList);
@@ -46,12 +44,9 @@ OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Ent
     if (error) {
         m_messageText.setText(i18n("Files with the following paths already exist. Remove them if you really want to overwrite."));
     } else {
-        m_okButton.setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok")));
         m_messageText.setText(i18n("Files with the following paths already exist. Do you want to continue overwriting them?"));
-        m_buttonBox.addButton(&m_okButton, QDialogButtonBox::AcceptRole);
+        m_buttonBox.addButton(QDialogButtonBox::Ok);
     }
-    m_cancelButton.setIcon(QIcon::fromTheme(QStringLiteral("dialog-cancel")));
-    m_buttonBox.addButton(&m_cancelButton, QDialogButtonBox::RejectRole);
 
     connect(&m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(&m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);

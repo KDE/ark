@@ -133,8 +133,7 @@ void ExtractionDialog::slotAccepted()
                                                                      xi18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder),
                                                                      i18n("Folder exists"),
                                                                      KGuiItem(i18n("Extract here")),
-                                                                     KGuiItem(i18n("Retry")),
-                                                                     KGuiItem(i18n("Cancel")));
+                                                                     KGuiItem(i18n("Retry")));
 
                     if (overwrite == KMessageBox::No) {
                         // The user clicked Retry.
