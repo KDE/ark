@@ -356,6 +356,8 @@ BatchExtractJob::BatchExtractJob(LoadJob *loadJob, const QString &destination, b
 void BatchExtractJob::doWork()
 {
     connect(m_loadJob, &KJob::result, this, &BatchExtractJob::slotLoadingFinished);
+    // progress() will be actually emitted by the ExtractJob, but the archiveInterface() is the same.
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &BatchExtractJob::onProgress);
 
     // Forward LoadJob's signals.
     connect(m_loadJob, &Kerfuffle::Job::newEntry, this, &BatchExtractJob::newEntry);
