@@ -12,7 +12,7 @@
         "Name[es]": "Complemento de archivo 7zip", 
         "Name[et]": "7zip arhiivi plugin", 
         "Name[fi]": "7zip-pakkaustuki", 
-        "Name[fr]": "Module externe d'archive « 7zip »", 
+        "Name[fr]": "Module externe d'archive « 7zip »", 
         "Name[gl]": "Complemento de arquivo de 7zip", 
         "Name[he]": "תוסף ארכיוני 7zip", 
         "Name[it]": "Estensione per archivi 7zip", 
@@ -61,9 +61,9 @@
             "PPMd": "PPMd"
         }, 
         "EncryptionMethodDefault": "AES256", 
-        "EncryptionMethods": {
-            "AES256": "AES256"
-        }, 
+        "EncryptionMethods": [
+            "AES256"
+        ],
         "HeaderEncryption": true, 
         "SupportsMultiVolume": true, 
         "SupportsTesting": true
@@ -83,12 +83,12 @@
         }, 
         "Encryption": true, 
         "EncryptionMethodDefault": "AES256", 
-        "EncryptionMethods": {
-            "AES128": "AES128", 
-            "AES192": "AES192", 
-            "AES256": "AES256", 
-            "ZipCrypto": "ZipCrypto"
-        }, 
+        "EncryptionMethods": [
+            "AES256",
+            "AES192",
+            "AES128",
+            "ZipCrypto"
+        ],
         "SupportsMultiVolume": true, 
         "SupportsTesting": true
     }

@@ -47,7 +47,7 @@ public:
                            bool suppportsMultiVolume,
                            const QVariantMap& compressionMethods,
                            const QString& defaultCompressionMethod,
-                           const QVariantMap &encryptionMethods,
+                           const QStringList &encryptionMethods,
                            const QString &defaultEncryptionMethod);
 
     /**
@@ -73,7 +73,7 @@ public:
     bool supportsMultiVolume() const;
     QVariantMap compressionMethods() const;
     QString defaultCompressionMethod() const;
-    QVariantMap encryptionMethods() const;
+    QStringList encryptionMethods() const;
     QString defaultEncryptionMethod() const;
 
 private:
@@ -87,7 +87,7 @@ private:
     bool m_supportsMultiVolume = false;
     QVariantMap m_compressionMethods;
     QString m_defaultCompressionMethod;
-    QVariantMap m_encryptionMethods;
+    QStringList m_encryptionMethods;
     QString m_defaultEncryptionMethod;
 };
 

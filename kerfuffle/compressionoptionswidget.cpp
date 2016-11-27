@@ -122,7 +122,7 @@ void CompressionOptionsWidget::updateWidgets()
         collapsibleEncryption->setToolTip(QString());
 
         encMethodComboBox->clear();
-        encMethodComboBox->insertItems(0, archiveFormat.encryptionMethods().keys());
+        encMethodComboBox->insertItems(0, archiveFormat.encryptionMethods());
 
         if (!m_opts.encryptionMethod().isEmpty() &&
             encMethodComboBox->findText(m_opts.encryptionMethod()) > -1) {

@@ -45,7 +45,7 @@ ArchiveFormat::ArchiveFormat(const QMimeType& mimeType,
                              bool supportsMultiVolume,
                              const QVariantMap& compressionMethods,
                              const QString& defaultCompressionMethod,
-                             const QVariantMap &encryptionMethods,
+                             const QStringList &encryptionMethods,
                              const QString &defaultEncryptionMethod) :
     m_mimeType(mimeType),
     m_encryptionType(encryptionType),
@@ -83,7 +83,13 @@ ArchiveFormat ArchiveFormat::fromMetadata(const QMimeType& mimeType, const KPlug
         QVariantMap compressionMethods = formatProps[QStringLiteral("CompressionMethods")].toObject().toVariantMap();
         QString defaultCompMethod = formatProps[QStringLiteral("CompressionMethodDefault")].toString();
 
-        QVariantMap encryptionMethods = formatProps[QStringLiteral("EncryptionMethods")].toObject().toVariantMap();
+        // We use a QStringList instead of QVariantMap for encryption methods, to
+        // allow arbitrary ordering of the items.
+        QStringList encryptionMethods;
+        QJsonArray array = formatProps[QStringLiteral("EncryptionMethods")].toArray();
+        foreach (const QJsonValue &value, array) {
+            encryptionMethods.append(value.toString());
+        }
         QString defaultEncMethod = formatProps[QStringLiteral("EncryptionMethodDefault")].toString();
 
         Archive::EncryptionType encType = Archive::Unencrypted;
@@ -160,7 +166,7 @@ QString ArchiveFormat::defaultCompressionMethod() const
     return m_defaultCompressionMethod;
 }
 
-QVariantMap ArchiveFormat::encryptionMethods() const
+QStringList ArchiveFormat::encryptionMethods() const
 {
     return m_encryptionMethods;
 }
