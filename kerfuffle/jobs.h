@@ -167,6 +167,8 @@ public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
 
 private slots:
+    void slotLoadingProgress(double progress);
+    void slotExtractProgress(double progress);
     void slotLoadingFinished(KJob *job);
 
 private:
@@ -176,6 +178,7 @@ private:
     QString m_destination;
     bool m_autoSubfolder;
     bool m_preservePaths;
+    unsigned long m_lastPercentage = 0;
 };
 
 /**

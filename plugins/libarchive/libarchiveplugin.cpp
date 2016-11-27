@@ -145,6 +145,11 @@ bool LibarchivePlugin::testArchive()
     return false;
 }
 
+bool LibarchivePlugin::hasBatchExtractionProgress() const
+{
+    return true;
+}
+
 bool LibarchivePlugin::doKill()
 {
     return true;

@@ -264,6 +264,11 @@ QMimeType ReadOnlyArchiveInterface::mimetype() const
     return m_mimetype;
 }
 
+bool ReadOnlyArchiveInterface::hasBatchExtractionProgress() const
+{
+    return false;
+}
+
 bool ReadWriteArchiveInterface::isReadOnly() const
 {
     // We set corrupt archives to read-only to avoid add/delete actions, that

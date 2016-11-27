@@ -356,13 +356,28 @@ BatchExtractJob::BatchExtractJob(LoadJob *loadJob, const QString &destination, b
 void BatchExtractJob::doWork()
 {
     connect(m_loadJob, &KJob::result, this, &BatchExtractJob::slotLoadingFinished);
-    // progress() will be actually emitted by the ExtractJob, but the archiveInterface() is the same.
-    connect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &BatchExtractJob::onProgress);
+    if (archiveInterface()->hasBatchExtractionProgress()) {
+        // progress() will be actually emitted by the LoadJob, but the archiveInterface() is the same.
+        connect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &BatchExtractJob::slotLoadingProgress);
+    }
 
     // Forward LoadJob's signals.
     connect(m_loadJob, &Kerfuffle::Job::newEntry, this, &BatchExtractJob::newEntry);
     connect(m_loadJob, &Kerfuffle::Job::userQuery, this, &BatchExtractJob::userQuery);
     m_loadJob->start();
+}
+
+void BatchExtractJob::slotLoadingProgress(double progress)
+{
+    // Progress from LoadJob counts only for 50% of the BatchExtractJob's duration.
+    m_lastPercentage = static_cast<unsigned long>(50.0*progress);
+    setPercent(m_lastPercentage);
+}
+
+void BatchExtractJob::slotExtractProgress(double progress)
+{
+    // The 2nd 50% of the BatchExtractJob's duration comes from the ExtractJob.
+    setPercent(m_lastPercentage + static_cast<unsigned long>(50.0*progress));
 }
 
 void BatchExtractJob::slotLoadingFinished(KJob *job)
@@ -384,6 +399,11 @@ void BatchExtractJob::slotLoadingFinished(KJob *job)
     if (extractJob) {
         connect(extractJob, &KJob::result, this, &BatchExtractJob::emitResult);
         connect(extractJob, &Kerfuffle::Job::userQuery, this, &BatchExtractJob::userQuery);
+        if (archiveInterface()->hasBatchExtractionProgress()) {
+            // The LoadJob is done, change slot and start setting the percentage from m_lastPercentage on.
+            disconnect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &BatchExtractJob::slotLoadingProgress);
+            connect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &BatchExtractJob::slotExtractProgress);
+        }
         extractJob->start();
     } else {
         emitResult();

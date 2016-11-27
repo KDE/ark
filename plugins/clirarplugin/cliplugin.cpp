@@ -570,6 +570,11 @@ bool CliPlugin::readExtractLine(const QString &line)
     return true;
 }
 
+bool CliPlugin::hasBatchExtractionProgress() const
+{
+    return true;
+}
+
 void CliPlugin::ignoreLines(int lines, ParseState nextState)
 {
     m_remainingIgnoreLines = lines;
