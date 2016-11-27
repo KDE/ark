@@ -136,6 +136,9 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
+        <property name="sizeAdjustPolicy">
+         <enum>QComboBox::AdjustToContents</enum>
+        </property>
        </widget>
       </item>
       <item row="2" column="0" colspan="2">
@@ -245,10 +248,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KCollapsibleGroupBox</class>
-   <extends>QWidget</extends>
-   <header>kcollapsiblegroupbox.h</header>
-   <container>1</container>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
   </customwidget>
   <customwidget>
    <class>KNewPasswordWidget</class>
@@ -257,9 +259,10 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>KMessageWidget</class>
-   <extends>QFrame</extends>
-   <header>kmessagewidget.h</header>
+   <class>KCollapsibleGroupBox</class>
+   <extends>QWidget</extends>
+   <header>kcollapsiblegroupbox.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
