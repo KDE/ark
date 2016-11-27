@@ -80,6 +80,15 @@ void BatchExtract::addExtraction(const QUrl& url)
             this, &BatchExtract::slotUserQuery);
 }
 
+bool BatchExtract::doKill()
+{
+    if (subjobs().isEmpty()) {
+        return false;
+    }
+
+    return subjobs().first()->kill();
+}
+
 void BatchExtract::slotUserQuery(Kerfuffle::Query *query)
 {
     query->execute();

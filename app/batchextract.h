@@ -74,6 +74,8 @@ public:
      */
     void addExtraction(const QUrl& url);
 
+    bool doKill() Q_DECL_OVERRIDE;
+
     /**
      * A wrapper that calls slotStartJob() when the event loop has started.
      */

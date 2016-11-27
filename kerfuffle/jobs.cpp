@@ -367,6 +367,15 @@ void BatchExtractJob::doWork()
     m_loadJob->start();
 }
 
+bool BatchExtractJob::doKill()
+{
+    if (m_step == Loading) {
+        return m_loadJob->kill();
+    }
+
+    return m_extractJob->kill();
+}
+
 void BatchExtractJob::slotLoadingProgress(double progress)
 {
     // Progress from LoadJob counts only for 50% of the BatchExtractJob's duration.
@@ -395,16 +404,17 @@ void BatchExtractJob::slotLoadingFinished(KJob *job)
     Kerfuffle::ExtractionOptions options;
     options.setPreservePaths(m_preservePaths);
 
-    auto extractJob = archive()->extractFiles({}, m_destination, options);
-    if (extractJob) {
-        connect(extractJob, &KJob::result, this, &BatchExtractJob::emitResult);
-        connect(extractJob, &Kerfuffle::Job::userQuery, this, &BatchExtractJob::userQuery);
+    m_extractJob = archive()->extractFiles({}, m_destination, options);
+    if (m_extractJob) {
+        connect(m_extractJob, &KJob::result, this, &BatchExtractJob::emitResult);
+        connect(m_extractJob, &Kerfuffle::Job::userQuery, this, &BatchExtractJob::userQuery);
         if (archiveInterface()->hasBatchExtractionProgress()) {
             // The LoadJob is done, change slot and start setting the percentage from m_lastPercentage on.
             disconnect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &BatchExtractJob::slotLoadingProgress);
             connect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &BatchExtractJob::slotExtractProgress);
         }
-        extractJob->start();
+        m_step = Extracting;
+        m_extractJob->start();
     } else {
         emitResult();
     }
