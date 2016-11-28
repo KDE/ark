@@ -40,6 +40,16 @@ class KERFUFFLE_EXPORT PluginManager : public QObject
     Q_OBJECT
 
 public:
+
+    /**
+     * How the list of supported mimetypes can be sorted.
+     */
+    enum MimeSortingMode
+    {
+        Unsorted,
+        SortByComment
+    };
+
     explicit PluginManager(QObject *parent = Q_NULLPTR);
 
     /**
@@ -91,14 +101,14 @@ public:
     Plugin *preferredWritePluginFor(const QMimeType &mimeType) const;
 
     /**
-     * @return The list of all mimetypes that Ark can open, sorted according to their comment.
+     * @return The list of all mimetypes that Ark can open, sorted according to @p mode.
      */
-    QStringList supportedMimeTypes() const;
+    QStringList supportedMimeTypes(MimeSortingMode mode = Unsorted) const;
 
     /**
-     * @return The list of all read-write mimetypes supported by Ark, sorted according to their comment.
+     * @return The list of all read-write mimetypes supported by Ark, sorted according to @p mode.
      */
-    QStringList supportedWriteMimeTypes() const;
+    QStringList supportedWriteMimeTypes(MimeSortingMode mode = Unsorted) const;
 
     /**
      * @return The subset of @p plugins that support either @p mimetype or a parent of @p mimetype.

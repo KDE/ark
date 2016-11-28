@@ -199,7 +199,7 @@ void MainWindow::openArchive()
     Kerfuffle::PluginManager pluginManager;
     auto dlg = new QFileDialog(this, i18nc("to open an archive", "Open Archive"));
 
-    dlg->setMimeTypeFilters(pluginManager.supportedMimeTypes());
+    dlg->setMimeTypeFilters(pluginManager.supportedMimeTypes(Kerfuffle::PluginManager::SortByComment));
     dlg->setFileMode(QFileDialog::ExistingFile);
     dlg->setAcceptMode(QFileDialog::AcceptOpen);
 
