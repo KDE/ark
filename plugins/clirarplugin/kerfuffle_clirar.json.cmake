@@ -12,7 +12,7 @@
         "Name[es]": "Complemento de archivo RAR", 
         "Name[et]": "RAR-arhiivi plugin", 
         "Name[fi]": "RAR-pakkaustuki", 
-        "Name[fr]": "Module externe d'archive « RAR »", 
+        "Name[fr]": "Module externe d'archive « RAR »", 
         "Name[gl]": "Complemento de arquivo RAR", 
         "Name[he]": "תוסף ארכיוני RAR", 
         "Name[it]": "Estensione per archivi RAR", 
@@ -59,9 +59,9 @@
         }, 
         "EncryptionMethodDefault": "AES128", 
         "EncryptionMethods": [
-            "AES128",
+            "AES128", 
             "AES256"
-        ],
+        ], 
         "HeaderEncryption": true, 
         "SupportsMultiVolume": true, 
         "SupportsTesting": true, 
@@ -78,9 +78,9 @@
         }, 
         "EncryptionMethodDefault": "AES128", 
         "EncryptionMethods": [
-            "AES128",
+            "AES128", 
             "AES256"
-        ],
+        ], 
         "HeaderEncryption": true, 
         "SupportsMultiVolume": true, 
         "SupportsTesting": true, 
