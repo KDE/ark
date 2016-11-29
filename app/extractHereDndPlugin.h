@@ -36,7 +36,7 @@ public:
     ExtractHereDndPlugin(QObject* parent, const QVariantList&);
 
     virtual QList<QAction *> setup(const KFileItemListProperties& popupMenuInfo,
-                                   const QUrl& destination);
+                                   const QUrl& destination) Q_DECL_OVERRIDE;
 
 private:
     QUrl m_dest;
