@@ -80,39 +80,119 @@
    </item>
    <item>
     <widget class="QWidget" name="m_metaDataWidget" native="true">
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="KSqueezedTextLabel" name="m_typeLabel">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="m_typeLabel">
         <property name="text">
-         <string notr="true">KSqueezedTextLabel</string>
+         <string>Type:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="KSqueezedTextLabel" name="m_ownerLabel">
-        <property name="text">
-         <string notr="true">KSqueezedTextLabel</string>
+      <item row="0" column="1">
+       <widget class="KSqueezedTextLabel" name="m_typeValueLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="KSqueezedTextLabel" name="m_groupLabel">
+      <item row="1" column="0">
+       <widget class="QLabel" name="m_ownerLabel">
         <property name="text">
-         <string notr="true">KSqueezedTextLabel</string>
+         <string>Owner:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="KSqueezedTextLabel" name="m_targetLabel">
-        <property name="text">
-         <string notr="true">KSqueezedTextLabel</string>
+      <item row="1" column="1">
+       <widget class="KSqueezedTextLabel" name="m_ownerValueLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="KSqueezedTextLabel" name="m_passwordLabel">
+      <item row="2" column="0">
+       <widget class="QLabel" name="m_groupLabel">
         <property name="text">
-         <string notr="true">KSqueezedTextLabel</string>
+         <string>Group:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="KSqueezedTextLabel" name="m_groupValueLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="m_targetLabel">
+        <property name="text">
+         <string>Target:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="KSqueezedTextLabel" name="m_targetValueLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="m_passwordLabel">
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Password-protected:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="KSqueezedTextLabel" name="m_passwordValueLabel">
+        <property name="font">
+         <font>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>yes</string>
         </property>
        </widget>
       </item>

@@ -175,33 +175,40 @@ void InfoPanel::showMetaDataFor(const QModelIndex &index)
         mimeType = db.mimeTypeForFile(entry->fullPath(), QMimeDatabase::MatchExtension);
     }
 
-    m_typeLabel->setText(i18n("<b>Type:</b> %1",  mimeType.comment()));
+    m_typeValueLabel->setText(mimeType.comment());
 
     if (!entry->property("owner").toString().isEmpty()) {
         m_ownerLabel->show();
-        m_ownerLabel->setText(i18n("<b>Owner:</b> %1", entry->property("owner").toString()));
+        m_ownerValueLabel->show();
+        m_ownerValueLabel->setText(entry->property("owner").toString());
     } else {
         m_ownerLabel->hide();
+        m_ownerValueLabel->hide();
     }
 
     if (!entry->property("group").toString().isEmpty()) {
         m_groupLabel->show();
-        m_groupLabel->setText(i18n("<b>Group:</b> %1", entry->property("group").toString()));
+        m_groupValueLabel->show();
+        m_groupValueLabel->setText(entry->property("group").toString());
     } else {
         m_groupLabel->hide();
+        m_groupValueLabel->hide();
     }
 
     if (!entry->property("link").toString().isEmpty()) {
         m_targetLabel->show();
-        m_targetLabel->setText(i18n("<b>Target:</b> %1", entry->property("link").toString()));
+        m_targetValueLabel->show();
+        m_targetValueLabel->setText(entry->property("link").toString());
     } else {
         m_targetLabel->hide();
+        m_targetValueLabel->hide();
     }
 
     if (entry->property("isPasswordProtected").toBool()) {
         m_passwordLabel->show();
-        m_passwordLabel->setText(i18n("<b>Password protected:</b> Yes"));
+        m_passwordValueLabel->show();
     } else {
         m_passwordLabel->hide();
+        m_passwordValueLabel->hide();
     }
 }
