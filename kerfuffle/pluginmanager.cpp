@@ -117,8 +117,13 @@ Plugin *PluginManager::preferredWritePluginFor(const QMimeType &mimeType) const
 QStringList PluginManager::supportedMimeTypes(MimeSortingMode mode) const
 {
     QSet<QString> supported;
+    QMimeDatabase db;
     foreach (Plugin *plugin, availablePlugins()) {
-        supported += plugin->metaData().mimeTypes().toSet();
+        foreach (const auto& mimeType, plugin->metaData().mimeTypes()) {
+            if (db.mimeTypeForName(mimeType).isValid()) {
+                supported.insert(mimeType);
+            }
+        }
     }
 
     // Remove entry for lrzipped tar if lrzip executable not found in path.
@@ -141,8 +146,13 @@ QStringList PluginManager::supportedMimeTypes(MimeSortingMode mode) const
 QStringList PluginManager::supportedWriteMimeTypes(MimeSortingMode mode) const
 {
     QSet<QString> supported;
+    QMimeDatabase db;
     foreach (Plugin *plugin, availableWritePlugins()) {
-        supported += plugin->metaData().mimeTypes().toSet();
+        foreach (const auto& mimeType, plugin->metaData().mimeTypes()) {
+            if (db.mimeTypeForName(mimeType).isValid()) {
+                supported.insert(mimeType);
+            }
+        }
     }
 
     // Remove entry for lrzipped tar if lrzip executable not found in path.
@@ -224,9 +234,7 @@ QStringList PluginManager::sortByComment(const QSet<QString> &mimeTypes)
     // Initialize the QMap to sort by comment.
     foreach (const QString &mimeType, mimeTypes) {
         QMimeType mime(QMimeDatabase().mimeTypeForName(mimeType));
-        if (mime.isValid()) {
-            map[mime.comment().toLower()] = mime.name();
-        }
+        map[mime.comment().toLower()] = mime.name();
     }
 
     // Convert to sorted QStringList.
