@@ -263,9 +263,9 @@ QString CliProperties::substituteEncryptionMethodSwitch(const QString &method) c
         return QString();
     }
 
-    QString cliMethod = format.encryptionMethods().value(method).toString();
+    Q_ASSERT(format.encryptionMethods().contains(method));
 
-    encMethodSwitch.replace(QLatin1String("$EncryptionMethod"), cliMethod);
+    encMethodSwitch.replace(QLatin1String("$EncryptionMethod"), method);
 
     return encMethodSwitch;
 }

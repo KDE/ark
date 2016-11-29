@@ -58,10 +58,10 @@
             "RAR5": "5"
         }, 
         "EncryptionMethodDefault": "AES128", 
-        "EncryptionMethods": {
-            "AES128": "AES128", 
-            "AES256": "AES256"
-        }, 
+        "EncryptionMethods": [
+            "AES128", 
+            "AES256"
+        ], 
         "HeaderEncryption": true, 
         "SupportsMultiVolume": true, 
         "SupportsTesting": true, 
@@ -77,10 +77,10 @@
             "RAR5": "5"
         }, 
         "EncryptionMethodDefault": "AES128", 
-        "EncryptionMethods": {
-            "AES128": "AES128", 
-            "AES256": "AES256"
-        }, 
+        "EncryptionMethods": [
+            "AES128", 
+            "AES256"
+        ], 
         "HeaderEncryption": true, 
         "SupportsMultiVolume": true, 
         "SupportsTesting": true, 

@@ -85,9 +85,16 @@ QVector<Plugin*> PluginManager::enabledPlugins() const
     return enabledPlugins;
 }
 
-QVector<Plugin*> PluginManager::preferredPluginsFor(const QMimeType &mimeType) const
+QVector<Plugin*> PluginManager::preferredPluginsFor(const QMimeType &mimeType)
 {
-    return preferredPluginsFor(mimeType, false);
+    const auto mimeName = mimeType.name();
+    if (m_preferredPluginsCache.contains(mimeName)) {
+        return m_preferredPluginsCache.value(mimeName);
+    }
+
+    const auto plugins = preferredPluginsFor(mimeType, false);
+    m_preferredPluginsCache.insert(mimeName, plugins);
+    return plugins;
 }
 
 QVector<Plugin*> PluginManager::preferredWritePluginsFor(const QMimeType &mimeType) const
@@ -95,7 +102,7 @@ QVector<Plugin*> PluginManager::preferredWritePluginsFor(const QMimeType &mimeTy
     return preferredPluginsFor(mimeType, true);
 }
 
-Plugin *PluginManager::preferredPluginFor(const QMimeType &mimeType) const
+Plugin *PluginManager::preferredPluginFor(const QMimeType &mimeType)
 {
     const QVector<Plugin*> preferredPlugins = preferredPluginsFor(mimeType);
     return preferredPlugins.isEmpty() ? new Plugin() : preferredPlugins.first();
@@ -107,7 +114,7 @@ Plugin *PluginManager::preferredWritePluginFor(const QMimeType &mimeType) const
     return preferredWritePlugins.isEmpty() ? new Plugin() : preferredWritePlugins.first();
 }
 
-QStringList PluginManager::supportedMimeTypes() const
+QStringList PluginManager::supportedMimeTypes(MimeSortingMode mode) const
 {
     QSet<QString> supported;
     foreach (Plugin *plugin, availablePlugins()) {
@@ -124,10 +131,14 @@ QStringList PluginManager::supportedMimeTypes() const
         supported.remove(QStringLiteral("application/x-lz4-compressed-tar"));
     }
 
-    return sortByComment(supported);
+    if (mode == SortByComment) {
+        return sortByComment(supported);
+    }
+
+    return supported.toList();
 }
 
-QStringList PluginManager::supportedWriteMimeTypes() const
+QStringList PluginManager::supportedWriteMimeTypes(MimeSortingMode mode) const
 {
     QSet<QString> supported;
     foreach (Plugin *plugin, availableWritePlugins()) {
@@ -144,7 +155,11 @@ QStringList PluginManager::supportedWriteMimeTypes() const
         supported.remove(QStringLiteral("application/x-lz4-compressed-tar"));
     }
 
-    return sortByComment(supported);
+    if (mode == SortByComment) {
+        return sortByComment(supported);
+    }
+
+    return supported.toList();
 }
 
 QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const QMimeType &mimeType) const

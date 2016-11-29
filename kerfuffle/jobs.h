@@ -166,16 +166,30 @@ signals:
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
 
+protected:
+    virtual bool doKill() Q_DECL_OVERRIDE;
+
 private slots:
+    void slotLoadingProgress(double progress);
+    void slotExtractProgress(double progress);
     void slotLoadingFinished(KJob *job);
 
 private:
+
+    /**
+     * Tracks whether the job is loading or extracting the archive.
+     */
+    enum Step {Loading, Extracting};
+
     void setupDestination();
 
+    Step m_step = Loading;
+    ExtractJob *m_extractJob = Q_NULLPTR;
     LoadJob *m_loadJob;
     QString m_destination;
     bool m_autoSubfolder;
     bool m_preservePaths;
+    unsigned long m_lastPercentage = 0;
 };
 
 /**

@@ -55,6 +55,7 @@ public:
     virtual bool deleteFiles(const QVector<Archive::Entry*> &files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString &comment) Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
+    virtual bool hasBatchExtractionProgress() const Q_DECL_OVERRIDE;
 
 protected:
     struct ArchiveReadCustomDeleter

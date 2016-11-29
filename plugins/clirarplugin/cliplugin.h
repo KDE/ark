@@ -38,6 +38,7 @@ public:
     virtual void resetParsing() Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
     virtual bool readExtractLine(const QString &line) Q_DECL_OVERRIDE;
+    virtual bool hasBatchExtractionProgress() const Q_DECL_OVERRIDE;
 
 private:
 

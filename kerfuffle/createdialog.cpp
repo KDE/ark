@@ -66,7 +66,7 @@ CreateDialog::CreateDialog(QWidget *parent,
     setWindowTitle(caption);
     setModal(true);
 
-    m_supportedMimeTypes = m_pluginManger.supportedWriteMimeTypes();
+    m_supportedMimeTypes = m_pluginManger.supportedWriteMimeTypes(PluginManager::SortByComment);
 
     m_vlayout = new QVBoxLayout();
     setLayout(m_vlayout);

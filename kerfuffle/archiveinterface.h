@@ -159,6 +159,11 @@ public:
     int numberOfEntries() const;
     QMimeType mimetype() const;
 
+    /**
+     * @return Whether the interface supports progress reporting for BatchExtractJobs.
+     */
+    virtual bool hasBatchExtractionProgress() const;
+
 signals:
     void cancelled();
     void error(const QString &message, const QString &details = QString());

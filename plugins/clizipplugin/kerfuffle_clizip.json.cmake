@@ -67,9 +67,9 @@
         }, 
         "Encryption": true, 
         "EncryptionMethodDefault": "ZipCrypto", 
-        "EncryptionMethods": {
-            "ZipCrypto": "ZipCrypto"
-        }, 
+        "EncryptionMethods": [
+            "ZipCrypto"
+        ], 
         "SupportsTesting": true
     }
 }
