@@ -85,9 +85,16 @@ QVector<Plugin*> PluginManager::enabledPlugins() const
     return enabledPlugins;
 }
 
-QVector<Plugin*> PluginManager::preferredPluginsFor(const QMimeType &mimeType) const
+QVector<Plugin*> PluginManager::preferredPluginsFor(const QMimeType &mimeType)
 {
-    return preferredPluginsFor(mimeType, false);
+    const auto mimeName = mimeType.name();
+    if (m_preferredPluginsCache.contains(mimeName)) {
+        return m_preferredPluginsCache.value(mimeName);
+    }
+
+    const auto plugins = preferredPluginsFor(mimeType, false);
+    m_preferredPluginsCache.insert(mimeName, plugins);
+    return plugins;
 }
 
 QVector<Plugin*> PluginManager::preferredWritePluginsFor(const QMimeType &mimeType) const
@@ -95,7 +102,7 @@ QVector<Plugin*> PluginManager::preferredWritePluginsFor(const QMimeType &mimeTy
     return preferredPluginsFor(mimeType, true);
 }
 
-Plugin *PluginManager::preferredPluginFor(const QMimeType &mimeType) const
+Plugin *PluginManager::preferredPluginFor(const QMimeType &mimeType)
 {
     const QVector<Plugin*> preferredPlugins = preferredPluginsFor(mimeType);
     return preferredPlugins.isEmpty() ? new Plugin() : preferredPlugins.first();

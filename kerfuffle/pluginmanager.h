@@ -76,10 +76,10 @@ public:
 
     /**
      * @return The list of preferred plugins for the given @p mimeType, among all the available ones.
-     * The list is sorted according to the plugins priority.
+     * The list is sorted according to the plugins priority. The list is saved in a cache for efficiency.
      * If no plugin is available, returns an empty list.
      */
-    QVector<Plugin*> preferredPluginsFor(const QMimeType &mimeType) const;
+    QVector<Plugin*> preferredPluginsFor(const QMimeType &mimeType);
 
     /**
      * @return The list of preferred read-write plugins for the given @p mimeType, among all the available ones.
@@ -92,7 +92,7 @@ public:
      * @return The preferred plugin for the given @p mimeType, among all the available ones.
      * If no plugin is available, returns an invalid plugin.
      */
-    Plugin *preferredPluginFor(const QMimeType &mimeType) const;
+    Plugin *preferredPluginFor(const QMimeType &mimeType);
 
     /**
      * @return The preferred read-write plugin for the given @p mimeType, among all the available ones.
@@ -131,6 +131,7 @@ private:
     static QStringList sortByComment(const QSet<QString> &mimeTypes);
 
     QVector<Plugin*> m_plugins;
+    QHash<QString, QVector<Plugin*>> m_preferredPluginsCache;
 };
 
 }
