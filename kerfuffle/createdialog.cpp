@@ -107,7 +107,6 @@ CreateDialog::CreateDialog(QWidget *parent,
 void CreateDialog::slotFileNameEdited(const QString &fileName)
 {
     const QMimeType mimeFromFileName = QMimeDatabase().mimeTypeForFile(fileName, QMimeDatabase::MatchExtension);
-    qCDebug(ARK) << fileName << "==>" << mimeFromFileName;
 
     if (m_supportedMimeTypes.contains(mimeFromFileName.name())) {
         setMimeType(mimeFromFileName.name());

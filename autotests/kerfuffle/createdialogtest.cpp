@@ -104,7 +104,6 @@ void CreateDialogTest::testBasicWidgets()
     const QMimeType mime = QMimeDatabase().mimeTypeForName(mimeType);
 
     // Test if combobox is updated when user enters a filename with suffix.
-    qDebug() << mimeType << "==>" << mime << "==>" << QStringLiteral("basename.%1").arg(mime.preferredSuffix()) << "==> comment:" << mime.comment();
     fileNameLineEdit->setText(QStringLiteral("basename.%1").arg(mime.preferredSuffix()));
     QCOMPARE(archiveTypeComboBox->currentText(), mime.comment());
 
