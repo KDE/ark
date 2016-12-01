@@ -29,11 +29,11 @@
 #define EXTRACTIONSETTINGSPAGE_H
 
 #include "settingspage.h"
-#include "ui_extractionsettings.h"
+#include "ui_extractionsettingspage.h"
 
 namespace Kerfuffle
 {
-class KERFUFFLE_EXPORT ExtractionSettingsPage : public SettingsPage, public Ui::ExtractionSettings
+class KERFUFFLE_EXPORT ExtractionSettingsPage : public SettingsPage, public Ui::ExtractionSettingsPage
 {
     Q_OBJECT
 

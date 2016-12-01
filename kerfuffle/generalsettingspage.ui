@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GeneralSettings</class>
- <widget class="QWidget" name="GeneralSettings">
+ <class>GeneralSettingsPage</class>
+ <widget class="QWidget" name="GeneralSettingsPage">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -40,7 +40,7 @@
       <item>
        <widget class="QRadioButton" name="radioButton_2">
         <property name="text">
-         <string>Ope&amp;n the file with associated application</string>
+         <string>Open the fi&amp;le with associated application</string>
         </property>
        </widget>
       </item>

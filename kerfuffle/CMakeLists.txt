@@ -30,9 +30,9 @@ kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc GENERATE_MOC)
 ki18n_wrap_ui(kerfuffle_SRCS
     createdialog.ui
     extractiondialog.ui
-    extractionsettings.ui
-    generalsettings.ui
-    previewsettings.ui
+    extractionsettingspage.ui
+    generalsettingspage.ui
+    previewsettingspage.ui
     propertiesdialog.ui
     compressionoptionswidget.ui
 )

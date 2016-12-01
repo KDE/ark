@@ -29,11 +29,11 @@
 #define PREVIEWSETTINGSPAGE_H
 
 #include "settingspage.h"
-#include "ui_previewsettings.h"
+#include "ui_previewsettingspage.h"
 
 namespace Kerfuffle
 {
-class KERFUFFLE_EXPORT PreviewSettingsPage : public SettingsPage, public Ui::PreviewSettings
+class KERFUFFLE_EXPORT PreviewSettingsPage : public SettingsPage, public Ui::PreviewSettingsPage
 {
     Q_OBJECT
 

@@ -29,11 +29,11 @@
 #define GENERALSETTINGSPAGE_H
 
 #include "settingspage.h"
-#include "ui_generalsettings.h"
+#include "ui_generalsettingspage.h"
 
 namespace Kerfuffle
 {
-class KERFUFFLE_EXPORT GeneralSettingsPage : public SettingsPage, public Ui::GeneralSettings
+class KERFUFFLE_EXPORT GeneralSettingsPage : public SettingsPage, public Ui::GeneralSettingsPage
 {
     Q_OBJECT
 
