@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv (at@at) stud.ntnu.no>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,34 +23,29 @@
 #include "archiveview.h"
 #include "ark_debug.h"
 
-#include <QDebug>
-
+#include <QHeaderView>
 #include <QMimeData>
 #include <QApplication>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QMouseEvent>
+#include <QLineEdit>
 
 ArchiveView::ArchiveView(QWidget *parent)
     : QTreeView(parent)
 {
-}
-
-void ArchiveView::setModel(QAbstractItemModel *model)
-{
-    QTreeView::setModel(model);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setAlternatingRowColors(true);
     setAnimated(true);
     setAllColumnsShowFocus(true);
     setSortingEnabled(true);
-
-    //drag and drop
     setDragEnabled(true);
-    setAcceptDrops(true);
     setDropIndicatorShown(true);
-    setDragDropMode(QAbstractItemView::DragDrop);
+    // #368807: drops must be initially disabled, otherwise they will override the MainWindow's ones.
+    // They will be enabled in Part::slotLoadingFinished().
+    setDropsEnabled(false);
+    header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
 void ArchiveView::startDrag(Qt::DropActions supportedActions)
@@ -63,6 +59,11 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
     QTreeView::startDrag(supportedActions);
 }
 
+void ArchiveView::setDropsEnabled(bool enabled)
+{
+    setAcceptDrops(enabled);
+    setDragDropMode(enabled ? QAbstractItemView::DragDrop : QAbstractItemView::NoDragDrop);
+}
 
 void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 {
@@ -102,4 +103,62 @@ void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
     if (event->mimeData()->hasFormat(QStringLiteral("text/uri-list"))) {
         event->acceptProposedAction();
     }
+}
+
+bool ArchiveView::eventFilter(QObject *object, QEvent *event)
+{
+    if (object == m_entryEditor && event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Escape) {
+            closeEntryEditor();
+            return true;
+        }
+    }
+    return false;
+}
+
+void ArchiveView::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (m_editorIndex.isValid()) {
+        closeEntryEditor();
+    } else {
+        QTreeView::mouseReleaseEvent(event);
+    }
+}
+
+void ArchiveView::keyPressEvent(QKeyEvent *event)
+{
+    if (m_editorIndex.isValid()) {
+        switch (event->key()) {
+        case Qt::Key_Return:
+        case Qt::Key_Enter: {
+            QLineEdit* editor = static_cast<QLineEdit*>(indexWidget(m_editorIndex));
+            emit entryChanged(editor->text());
+            closeEntryEditor();
+            break;
+        }
+        default:
+            QTreeView::keyPressEvent(event);
+        }
+    } else {
+        QTreeView::keyPressEvent(event);
+    }
+}
+
+void ArchiveView::openEntryEditor(const QModelIndex &index)
+{
+    m_editorIndex = index;
+    openPersistentEditor(index);
+    m_entryEditor = static_cast<QLineEdit*>(indexWidget(m_editorIndex));
+    m_entryEditor->installEventFilter(this);
+    m_entryEditor->setText(index.data().toString());
+    m_entryEditor->setFocus(Qt::OtherFocusReason);
+    m_entryEditor->selectAll();
+}
+
+void ArchiveView::closeEntryEditor()
+{
+    m_entryEditor->removeEventFilter(this);
+    closePersistentEditor(m_editorIndex);
+    m_editorIndex = QModelIndex();
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +19,9 @@
 
 #include "cliunarchivertest.h"
 #include "jobs.h"
+#include "testhelper.h"
+
+#include <KPluginLoader>
 
 #include <QDirIterator>
 #include <QFile>
@@ -26,16 +29,12 @@
 #include <QTest>
 #include <QTextStream>
 
-#include <KPluginLoader>
-
 QTEST_GUILESS_MAIN(CliUnarchiverTest)
 
 using namespace Kerfuffle;
 
 void CliUnarchiverTest::initTestCase()
 {
-    qRegisterMetaType<ArchiveEntry>();
-
     m_plugin = new Plugin(this);
     foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
         if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_cliunarchiver")) {
@@ -84,7 +83,11 @@ void CliUnarchiverTest::testArchive()
     }
 
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, m_plugin, this);
+    auto loadJob = Archive::load(archivePath, m_plugin, this);
+    QVERIFY(loadJob);
+
+    TestHelper::startAndWaitForResult(loadJob);
+    auto archive = loadJob->archive();
     QVERIFY(archive);
 
     if (!archive->isValid()) {
@@ -98,7 +101,7 @@ void CliUnarchiverTest::testArchive()
     QCOMPARE(archive->isReadOnly(), isReadOnly);
 
     QFETCH(bool, isSingleFolder);
-    QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
+    QCOMPARE(archive->isSingleFolder(), isSingleFolder);
 
     QFETCH(Archive::EncryptionType, expectedEncryptionType);
     QCOMPARE(archive->encryptionType(), expectedEncryptionType);
@@ -123,22 +126,24 @@ void CliUnarchiverTest::testList_data()
 
     QTest::newRow("archive with one top-level folder")
             << QFINDTESTDATA("data/one_toplevel_folder.json") << 9
-            << 6 << QStringLiteral("A/B/C/") << true << false << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-12-21 16:57:20 +0100");
+            << 6 << QStringLiteral("A/B/C/") << true << false << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-12-21T16:57:20+01:00");
     QTest::newRow("archive with multiple top-level entries")
             << QFINDTESTDATA("data/multiple_toplevel_entries.json") << 12
-            << 4 << QStringLiteral("data/A/B/test1.txt") << false << false << (qulonglong) 7 << (qulonglong) 7 << QStringLiteral("2015-12-21 16:56:28 +0100");
+            << 4 << QStringLiteral("data/A/B/test1.txt") << false << false << (qulonglong) 7 << (qulonglong) 7 << QStringLiteral("2015-12-21T16:56:28+01:00");
     QTest::newRow("archive with encrypted entries")
             << QFINDTESTDATA("data/encrypted_entries.json") << 9
-            << 5 << QStringLiteral("A/test1.txt") << false << true << (qulonglong) 7 << (qulonglong) 32 << QStringLiteral("2015-12-21 16:56:28 +0100");
+            << 5 << QStringLiteral("A/test1.txt") << false << true << (qulonglong) 7 << (qulonglong) 32 << QStringLiteral("2015-12-21T16:56:28+01:00");
     QTest::newRow("huge archive")
             << QFINDTESTDATA("data/huge_archive.json") << 250
-            << 8 << QStringLiteral("PsycOPacK/Base Dictionnaries/att800") << false << false << (qulonglong) 593687 << (qulonglong) 225219 << QStringLiteral("2011-08-14 03:10:10 +0200");
+            << 8 << QStringLiteral("PsycOPacK/Base Dictionnaries/att800") << false << false << (qulonglong) 593687 << (qulonglong) 225219 << QStringLiteral("2011-08-14T03:10:10+02:00");
 }
 
 void CliUnarchiverTest::testList()
 {
-    CliPlugin *unarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar")});
-    QSignalSpy signalSpy(unarPlugin, SIGNAL(entry(ArchiveEntry)));
+    qRegisterMetaType<Archive::Entry*>("Archive::Entry*");
+    CliPlugin *plugin = new CliPlugin(this, {QStringLiteral("dummy.rar"),
+                                             QVariant::fromValue(m_plugin->metaData())});
+    QSignalSpy signalSpy(plugin, &CliPlugin::entry);
 
     QFETCH(QString, jsonFilePath);
     QFETCH(int, expectedEntriesCount);
@@ -147,33 +152,33 @@ void CliUnarchiverTest::testList()
     QVERIFY(jsonFile.open(QIODevice::ReadOnly));
 
     QTextStream stream(&jsonFile);
-    unarPlugin->setJsonOutput(stream.readAll());
+    plugin->setJsonOutput(stream.readAll());
 
     QCOMPARE(signalSpy.count(), expectedEntriesCount);
 
     QFETCH(int, someEntryIndex);
     QVERIFY(someEntryIndex < signalSpy.count());
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(signalSpy.at(someEntryIndex).at(0));
+    Archive::Entry *entry = signalSpy.at(someEntryIndex).at(0).value<Archive::Entry*>();
 
     QFETCH(QString, expectedName);
-    QCOMPARE(entry[FileName].toString(), expectedName);
+    QCOMPARE(entry->fullPath(), expectedName);
 
     QFETCH(bool, isDirectory);
-    QCOMPARE(entry[IsDirectory].toBool(), isDirectory);
+    QCOMPARE(entry->isDir(), isDirectory);
 
     QFETCH(bool, isPasswordProtected);
-    QCOMPARE(entry[IsPasswordProtected].toBool(), isPasswordProtected);
+    QCOMPARE(entry->property("isPasswordProtected").toBool(), isPasswordProtected);
 
     QFETCH(qulonglong, expectedSize);
-    QCOMPARE(entry[Size].toULongLong(), expectedSize);
+    QCOMPARE(entry->property("size").toULongLong(), expectedSize);
 
     QFETCH(qulonglong, expectedCompressedSize);
-    QCOMPARE(entry[CompressedSize].toULongLong(), expectedCompressedSize);
+    QCOMPARE(entry->property("compressedSize").toULongLong(), expectedCompressedSize);
 
     QFETCH(QString, expectedTimestamp);
-    QCOMPARE(entry[Timestamp].toString(), expectedTimestamp);
+    QCOMPARE(entry->property("timestamp").toString(), expectedTimestamp);
 
-    unarPlugin->deleteLater();
+    plugin->deleteLater();
 }
 
 void CliUnarchiverTest::testListArgs_data()
@@ -195,24 +200,25 @@ void CliUnarchiverTest::testListArgs_data()
             << QStringLiteral("1234")
             << QStringList {
                    QStringLiteral("-json"),
-                   QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("-password"),
-                   QStringLiteral("1234")
+                   QStringLiteral("1234"),
+                   QStringLiteral("/tmp/foo.rar")
                };
 }
 
 void CliUnarchiverTest::testListArgs()
 {
+    if (!m_plugin->isValid()) {
+        QSKIP("cliunarchiver plugin not available. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    const QStringList listArgs = { QStringLiteral("-json"),
-                                   QStringLiteral("$Archive"),
-                                   QStringLiteral("$PasswordSwitch") };
-
     QFETCH(QString, password);
-    const auto replacedArgs = plugin->substituteListVariables(listArgs, password);
+    const auto replacedArgs = plugin->cliProperties()->listArgs(archiveName, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
@@ -223,64 +229,64 @@ void CliUnarchiverTest::testListArgs()
 void CliUnarchiverTest::testExtraction_data()
 {
     QTest::addColumn<QString>("archivePath");
-    QTest::addColumn<QVariantList>("entriesToExtract");
+    QTest::addColumn<QVector<Archive::Entry*>>("entriesToExtract");
     QTest::addColumn<ExtractionOptions>("extractionOptions");
     QTest::addColumn<int>("expectedExtractedEntriesCount");
 
-    ExtractionOptions options;
-    options[QStringLiteral("AlwaysUseTmpDir")] = true;
+    ExtractionOptions defaultOptions;
+    defaultOptions.setAlwaysUseTempDir(true);
 
-    ExtractionOptions optionsPreservePaths = options;
-    optionsPreservePaths[QStringLiteral("PreservePaths")] = true;
+    ExtractionOptions optionsNoPaths = defaultOptions;
+    optionsNoPaths.setPreservePaths(false);
 
-    ExtractionOptions dragAndDropOptions = optionsPreservePaths;
-    dragAndDropOptions[QStringLiteral("DragAndDrop")] = true;
+    ExtractionOptions dragAndDropOptions = defaultOptions;
+    dragAndDropOptions.setDragAndDropEnabled(true);
 
     QTest::newRow("extract the whole multiple_toplevel_entries.rar")
             << QFINDTESTDATA("data/multiple_toplevel_entries.rar")
-            << QVariantList()
-            << optionsPreservePaths
+            << QVector<Archive::Entry*>()
+            << defaultOptions
             << 12;
 
     QTest::newRow("extract selected entries from a rar, without paths")
             << QFINDTESTDATA("data/one_toplevel_folder.rar")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+                   new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
-            << options
+            << optionsNoPaths
             << 2;
 
     QTest::newRow("extract selected entries from a rar, preserve paths")
             << QFINDTESTDATA("data/one_toplevel_folder.rar")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+                   new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
                }
-            << optionsPreservePaths
+            << defaultOptions
             << 4;
 
     QTest::newRow("extract selected entries from a rar, drag-and-drop")
             << QFINDTESTDATA("data/one_toplevel_folder.rar")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/"), QStringLiteral("A/B/"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/test2.txt"), QStringLiteral("A/"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/")))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("A/B/C/"), QStringLiteral("A/B/")),
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A/")),
+                   new Archive::Entry(this, QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/")),
+                   new Archive::Entry(this, QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/"))
                }
             << dragAndDropOptions
             << 4;
 
     QTest::newRow("rar with empty folders")
             << QFINDTESTDATA("data/empty_folders.rar")
-            << QVariantList()
-            << optionsPreservePaths
+            << QVector<Archive::Entry*>()
+            << defaultOptions
             << 5;
 
     QTest::newRow("rar with hidden folder and files")
             << QFINDTESTDATA("data/hidden_files.rar")
-            << QVariantList()
-            << optionsPreservePaths
+            << QVector<Archive::Entry*>()
+            << defaultOptions
             << 4;
 }
 
@@ -293,7 +299,11 @@ void CliUnarchiverTest::testExtraction()
     }
 
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, m_plugin, this);
+    auto loadJob = Archive::load(archivePath, m_plugin, this);
+    QVERIFY(loadJob);
+
+    TestHelper::startAndWaitForResult(loadJob);
+    auto archive = loadJob->archive();
     QVERIFY(archive);
 
     if (!archive->isValid()) {
@@ -305,9 +315,9 @@ void CliUnarchiverTest::testExtraction()
         QSKIP("Could not create a temporary directory for extraction. Skipping test.", SkipSingle);
     }
 
-    QFETCH(QVariantList, entriesToExtract);
+    QFETCH(QVector<Archive::Entry*>, entriesToExtract);
     QFETCH(ExtractionOptions, extractionOptions);
-    auto extractionJob = archive->copyFiles(entriesToExtract, destDir.path(), extractionOptions);
+    auto extractionJob = archive->extractFiles(entriesToExtract, destDir.path(), extractionOptions);
 
     QEventLoop eventLoop(this);
     connect(extractionJob, &KJob::result, &eventLoop, &QEventLoop::quit);
@@ -331,31 +341,31 @@ void CliUnarchiverTest::testExtraction()
 void CliUnarchiverTest::testExtractArgs_data()
 {
     QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QVariantList>("files");
+    QTest::addColumn<QVector<Archive::Entry*>>("files");
     QTest::addColumn<QString>("password");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("encrypted, multiple files")
             << QStringLiteral("/tmp/foo.rar")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << QStringLiteral("1234")
             << QStringList {
                    QStringLiteral("-D"),
+                   QStringLiteral("-password"),
+                   QStringLiteral("1234"),
                    QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("aDir/b.txt"),
-                   QStringLiteral("c.txt"),
-                   QStringLiteral("-password"),
-                   QStringLiteral("1234")
+                   QStringLiteral("c.txt")
                };
 
     QTest::newRow("unencrypted, multiple files")
             << QStringLiteral("/tmp/foo.rar")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << QString()
             << QStringList {
@@ -368,20 +378,24 @@ void CliUnarchiverTest::testExtractArgs_data()
 
 void CliUnarchiverTest::testExtractArgs()
 {
+    if (!m_plugin->isValid()) {
+        QSKIP("cliunarchiver plugin not available. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    const QStringList extractArgs = { QStringLiteral("-D"),
-                                      QStringLiteral("$Archive"),
-                                      QStringLiteral("$Files"),
-                                      QStringLiteral("$PasswordSwitch") };
+    QFETCH(QVector<Archive::Entry*>, files);
+    QStringList filesList;
+    foreach (const Archive::Entry *e, files) {
+        filesList << e->fullPath(NoTrailingSlash);
+    }
 
-    QFETCH(QVariantList, files);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, false, password);
-    QVERIFY(replacedArgs.size() >= extractArgs.size());
+    const auto replacedArgs = plugin->cliProperties()->extractArgs(archiveName, filesList, false, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);

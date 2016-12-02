@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,7 +22,9 @@
 #ifndef CLIPLUGIN_H
 #define CLIPLUGIN_H
 
-#include "kerfuffle/cliinterface.h"
+#include "cliinterface.h"
+
+using namespace Kerfuffle;
 
 class KERFUFFLE_EXPORT CliPlugin : public Kerfuffle::CliInterface
 {
@@ -33,10 +36,21 @@ public:
 
     virtual void resetParsing() Q_DECL_OVERRIDE;
     virtual QString escapeFileName(const QString &fileName) const Q_DECL_OVERRIDE;
-    virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
+    virtual bool readExtractLine(const QString &line) Q_DECL_OVERRIDE;
+
+    virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual int moveRequiredSignals() const Q_DECL_OVERRIDE;
+
+private slots:
+    void continueMoving(bool result);
 
 private:
+    void setupCliProperties();
+    bool setMovingAddedFiles();
+    void finishMoving(bool result);
+    QString convertCompressionMethod(const QString &method);
+
     enum ParseState {
         ParseStateHeader = 0,
         ParseStateComment,

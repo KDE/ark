@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -78,8 +78,8 @@ void CreateDialogTest::testBasicWidgets_data()
         qDebug() << "7z format not available in CreateDialog, skipping test.";
     }
 
-    if (writeMimeTypes.contains(QStringLiteral("application/x-rar"))) {
-        QTest::newRow("rar") << QStringLiteral("application/x-rar");
+    if (writeMimeTypes.contains(QStringLiteral("application/vnd.rar"))) {
+        QTest::newRow("rar") << QStringLiteral("application/vnd.rar");
     } else {
         qDebug() << "rar format not available in CreateDialog, skipping test.";
     }
@@ -133,8 +133,8 @@ void CreateDialogTest::testEncryption_data()
         qDebug() << "7z format not available in CreateDialog, skipping test.";
     }
 
-    if (m_pluginManager.supportedWriteMimeTypes().contains(QStringLiteral("application/x-rar"))) {
-        QTest::newRow("rar") << QStringLiteral("application/x-rar") << true << true;
+    if (m_pluginManager.supportedWriteMimeTypes().contains(QStringLiteral("application/vnd.rar"))) {
+        QTest::newRow("rar") << QStringLiteral("application/vnd.rar") << true << true;
     } else {
         qDebug() << "rar format not available in CreateDialog, skipping test.";
     }

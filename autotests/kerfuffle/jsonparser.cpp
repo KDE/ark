@@ -24,41 +24,11 @@
  */
 
 #include "jsonparser.h"
-#include "kerfuffle/archiveinterface.h"
+#include "archiveinterface.h"
 
 #include <QDebug>
 #include <QJsonDocument>
 #include <QLatin1String>
-
-typedef QMap<QString, Kerfuffle::EntryMetaDataType> ArchiveProperties;
-
-static ArchiveProperties archiveProperties()
-{
-    static ArchiveProperties properties;
-
-    if (!properties.isEmpty()) {
-        return properties;
-    }
-
-    properties[QStringLiteral("FileName")]            = Kerfuffle::FileName;
-    properties[QStringLiteral("InternalID")]          = Kerfuffle::InternalID;
-    properties[QStringLiteral("Permissions")]         = Kerfuffle::Permissions;
-    properties[QStringLiteral("Owner")]               = Kerfuffle::Owner;
-    properties[QStringLiteral("Group")]               = Kerfuffle::Group;
-    properties[QStringLiteral("Size")]                = Kerfuffle::Size;
-    properties[QStringLiteral("CompressedSize")]      = Kerfuffle::CompressedSize;
-    properties[QStringLiteral("Link")]                = Kerfuffle::Link;
-    properties[QStringLiteral("Ratio")]               = Kerfuffle::Ratio;
-    properties[QStringLiteral("CRC")]                 = Kerfuffle::CRC;
-    properties[QStringLiteral("Method")]              = Kerfuffle::Method;
-    properties[QStringLiteral("Version")]             = Kerfuffle::Version;
-    properties[QStringLiteral("Timestamp")]           = Kerfuffle::Timestamp;
-    properties[QStringLiteral("IsDirectory")]         = Kerfuffle::IsDirectory;
-    properties[QStringLiteral("Comment")]             = Kerfuffle::Comment;
-    properties[QStringLiteral("IsPasswordProtected")] = Kerfuffle::IsPasswordProtected;
-
-    return properties;
-}
 
 JSONParser::JSONParser()
 {
@@ -83,30 +53,29 @@ JSONParser::JSONArchive JSONParser::parse(QIODevice *json)
 
 JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
 {
-    static const ArchiveProperties properties = archiveProperties();
-
     JSONParser::JSONArchive archive;
 
     foreach (const QVariant &entry, json.toList()) {
         const QVariantMap entryMap = entry.toMap();
 
-        if (!entryMap.contains(QStringLiteral("FileName"))) {
+        if (!entryMap.contains(QStringLiteral("fullPath"))) {
             continue;
         }
 
-        Kerfuffle::ArchiveEntry archiveEntry;
+        Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry();
 
         QVariantMap::const_iterator entryIterator = entryMap.constBegin();
         for (; entryIterator != entryMap.constEnd(); ++entryIterator) {
-            if (properties.contains(entryIterator.key())) {
-                archiveEntry[properties[entryIterator.key()]] = entryIterator.value();
+            const QByteArray key = entryIterator.key().toUtf8();
+            if (e->property(key).isValid()) {
+                e->setProperty(key, entryIterator.value());
             } else {
                 qDebug() << entryIterator.key() << "is not a valid entry key";
             }
         }
 
-        const QString fileName = entryMap[QStringLiteral("FileName")].toString();
-        archive[fileName] = archiveEntry;
+        const QString fullPath = entryMap[QStringLiteral("fullPath")].toString();
+        archive[fullPath] = e;
     }
 
     return archive;

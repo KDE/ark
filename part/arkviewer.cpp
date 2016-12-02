@@ -30,10 +30,11 @@
 #include <KSharedConfig>
 #include <KWindowConfig>
 
-#include <QProgressDialog>
 #include <QDebug>
 #include <QFile>
 #include <QMimeDatabase>
+#include <QProgressDialog>
+#include <QPushButton>
 
 ArkViewer::ArkViewer()
         : QDialog()
@@ -43,6 +44,9 @@ ArkViewer::ArkViewer()
     setAttribute(Qt::WA_DeleteOnClose);
 
     setupUi(this);
+
+    // Bug 369390: This prevents the Enter key from closing the dialog.
+    m_buttonBox->button(QDialogButtonBox::Close)->setAutoDefault(false);
 
     connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     connect(this, &ArkViewer::finished, this, &ArkViewer::dialogClosed);
@@ -204,6 +208,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     layout()->replaceWidget(m_partPlaceholder, m_part.data()->widget());
 
     m_part.data()->openUrl(QUrl::fromLocalFile(fileName));
+    m_part.data()->widget()->setFocus();
 
     return true;
 }

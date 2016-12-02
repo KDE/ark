@@ -43,8 +43,10 @@ class KERFUFFLE_EXPORT CompressionOptionsWidget : public QWidget, public Ui::Com
 
 public:
     explicit CompressionOptionsWidget(QWidget *parent = Q_NULLPTR,
-                                      const CompressionOptions &opts = QHash<QString, QVariant>());
+                                      const CompressionOptions &opts = {});
     int compressionLevel() const;
+    QString compressionMethod() const;
+    QString encryptionMethod() const;
     ulong volumeSize() const;
     QString password() const;
     CompressionOptions commpressionOptions() const;
@@ -65,6 +67,8 @@ private:
 
 private slots:
     void slotMultiVolumeChecked(int state);
+    void slotCompMethodChanged(const QString &value);
+    void slotEncryptionMethodChanged(const QString &value);
 };
 }
 

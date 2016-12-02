@@ -1,9 +1,9 @@
 [
     {
-        "FileName": "aDir/",
-        "IsDirectory": true
+        "fullPath": "aDir/",
+        "isDirectory": true
     },
     {
-        "FileName": "aDir/b.txt"
+        "fullPath": "aDir/b.txt"
     }
 ]

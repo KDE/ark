@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -26,8 +26,7 @@
 #ifndef CLIZIPTEST_H
 #define CLIZIPTEST_H
 
-#include "cliplugin.h"
-#include <QObject>
+#include "pluginmanager.h"
 
 using namespace Kerfuffle;
 
@@ -36,13 +35,17 @@ class CliZipTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
-
+    void initTestCase();
     void testListArgs_data();
     void testListArgs();
     void testAddArgs_data();
     void testAddArgs();
     void testExtractArgs_data();
     void testExtractArgs();
+
+private:
+    PluginManager m_pluginManger;
+    Plugin *m_plugin;
 };
 
 #endif

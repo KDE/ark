@@ -26,7 +26,7 @@
 #ifndef JSONPARSER_H
 #define JSONPARSER_H
 
-#include "kerfuffle/archive_kerfuffle.h"
+#include "archiveentry.h"
 
 #include <QIODevice>
 #include <QMap>
@@ -45,8 +45,8 @@
  * Example file:
  * @code
  * [
- *     { "FileName": "foo", "IsPasswordProtected": true },
- *     { "FileName": "aDir/", "IsDirectory": true }
+ *     { "fullPath": "foo", "IsPasswordProtected": true },
+ *     { "fullPath": "aDir/", "IsDirectory": true }
  * ]
  * @endcode
  *
@@ -55,7 +55,7 @@
 class JSONParser
 {
 public:
-    typedef QMap<QString, Kerfuffle::ArchiveEntry> JSONArchive;
+    typedef QMap<QString, Kerfuffle::Archive::Entry*> JSONArchive;
 
     ~JSONParser();
 
@@ -68,7 +68,7 @@ private:
      * Parses each entry in the QVariant obtained from parsing a JSON file and
      * creates a @c JSONArchive from them.
      *
-     * If an entry does not have a "FileName" key, it is ignored. Keys which do
+     * If an entry does not have a "fullPath" key, it is ignored. Keys which do
      * not correspond to a value in the EntryMetaDataType enum are ignored.
      *
      * @return A new @c JSONArchive corresponding to the parsed JSON file. If a

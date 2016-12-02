@@ -3,6 +3,8 @@
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009-2010 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (C) 2015-2016 Ragnar Thomsen <rthomsen6@gmail.com>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +25,7 @@
 #ifndef CLIPLUGIN_H
 #define CLIPLUGIN_H
 
-#include "kerfuffle/cliinterface.h"
+#include "cliinterface.h"
 
 class CliPlugin : public Kerfuffle::CliInterface
 {
@@ -34,9 +36,9 @@ public:
     virtual ~CliPlugin();
 
     virtual void resetParsing() Q_DECL_OVERRIDE;
-    virtual QString escapeFileName(const QString &fileName) const Q_DECL_OVERRIDE;
-    virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
+    virtual bool readExtractLine(const QString &line) Q_DECL_OVERRIDE;
+    virtual bool hasBatchExtractionProgress() const Q_DECL_OVERRIDE;
 
 private:
 
@@ -49,18 +51,22 @@ private:
         ParseStateLinkTarget
     } m_parseState;
 
-    void handleUnrar5Line(const QString &line);
+    void setupCliProperties();
+
+    bool handleUnrar5Line(const QString &line);
     void handleUnrar5Entry();
-    void handleUnrar4Line(const QString &line);
+    bool handleUnrar4Line(const QString &line);
     void handleUnrar4Entry();
     void ignoreLines(int lines, ParseState nextState);
 
     QStringList m_unrar4Details;
     QHash<QString, QString> m_unrar5Details;
 
+    QString m_unrarVersion;
     bool m_isUnrar5;
     bool m_isPasswordProtected;
     bool m_isSolid;
+    bool m_isRAR5;
 
     int m_remainingIgnoreLines;
     int m_linesComment;

@@ -27,7 +27,6 @@
 #ifndef CLIRARTEST_H
 #define CLIRARTEST_H
 
-#include "cliplugin.h"
 #include "pluginmanager.h"
 
 using namespace Kerfuffle;
@@ -53,7 +52,5 @@ private:
     PluginManager m_pluginManger;
     Plugin *m_plugin;
 };
-
-Q_DECLARE_METATYPE(ArchiveEntry)
 
 #endif

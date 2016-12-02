@@ -22,8 +22,9 @@
 #ifndef EXTRACTHEREDNDPLUGIN_H
 #define EXTRACTHEREDNDPLUGIN_H
 
-#include <qurl.h>
 #include <KIO/DndPopupMenuPlugin>
+
+#include <QUrl>
 
 class ExtractHereDndPlugin : public KIO::DndPopupMenuPlugin
 {
@@ -36,7 +37,7 @@ public:
     ExtractHereDndPlugin(QObject* parent, const QVariantList&);
 
     virtual QList<QAction *> setup(const KFileItemListProperties& popupMenuInfo,
-                                   const QUrl& destination);
+                                   const QUrl& destination) Q_DECL_OVERRIDE;
 
 private:
     QUrl m_dest;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -44,7 +44,11 @@ public:
                            int defaultCompLevel,
                            bool supportsWriteComment,
                            bool supportsTesting,
-                           bool suppportsMultiVolume);
+                           bool suppportsMultiVolume,
+                           const QVariantMap& compressionMethods,
+                           const QString& defaultCompressionMethod,
+                           const QStringList &encryptionMethods,
+                           const QString &defaultEncryptionMethod);
 
     /**
      * @return The archive format of the given @p mimeType, according to the given @p metadata.
@@ -67,16 +71,24 @@ public:
     bool supportsWriteComment() const;
     bool supportsTesting() const;
     bool supportsMultiVolume() const;
+    QVariantMap compressionMethods() const;
+    QString defaultCompressionMethod() const;
+    QStringList encryptionMethods() const;
+    QString defaultEncryptionMethod() const;
 
 private:
     QMimeType m_mimeType;
-    Kerfuffle::Archive::EncryptionType m_encryptionType;
-    int m_minCompressionLevel;
-    int m_maxCompressionLevel;
-    int m_defaultCompressionLevel;
-    bool m_supportsWriteComment;
-    bool m_supportsTesting;
-    bool m_supportsMultiVolume;
+    Kerfuffle::Archive::EncryptionType m_encryptionType = Kerfuffle::Archive::Unencrypted;
+    int m_minCompressionLevel = -1;
+    int m_maxCompressionLevel = 0;
+    int m_defaultCompressionLevel = 0;
+    bool m_supportsWriteComment = false;
+    bool m_supportsTesting = false;
+    bool m_supportsMultiVolume = false;
+    QVariantMap m_compressionMethods;
+    QString m_defaultCompressionMethod;
+    QStringList m_encryptionMethods;
+    QString m_defaultEncryptionMethod;
 };
 
 }

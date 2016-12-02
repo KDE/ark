@@ -28,7 +28,7 @@
 #include "createdialog.h"
 #include "settingspage.h"
 #include "pluginmanager.h"
-#include "part/interface.h"
+#include "interface.h"
 
 #include <KParts/ReadWritePart>
 #include <KPluginFactory>
@@ -155,9 +155,11 @@ bool MainWindow::loadPart()
 
     statusBar()->hide();
 
-    connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()));
     connect(m_part, SIGNAL(ready()), this, SLOT(updateActions()));
     connect(m_part, SIGNAL(quit()), this, SLOT(quit()));
+    // #365200: this will disable m_recentFilesAction, while openUrl() will enable it.
+    // So updateActions() needs to be called after openUrl() returns.
+    connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()), Qt::QueuedConnection);
 
     return true;
 }
@@ -197,13 +199,13 @@ void MainWindow::openArchive()
     Kerfuffle::PluginManager pluginManager;
     auto dlg = new QFileDialog(this, i18nc("to open an archive", "Open Archive"));
 
-    dlg->setMimeTypeFilters(pluginManager.supportedMimeTypes());
+    dlg->setMimeTypeFilters(pluginManager.supportedMimeTypes(Kerfuffle::PluginManager::SortByComment));
     dlg->setFileMode(QFileDialog::ExistingFile);
     dlg->setAcceptMode(QFileDialog::AcceptOpen);
 
     connect(dlg, &QDialog::finished, this, [this, dlg](int result) {
         if (result == QDialog::Accepted) {
-            openUrl(dlg->selectedUrls().first());
+            openUrl(dlg->selectedUrls().at(0));
         }
         dlg->deleteLater();
     });
@@ -304,6 +306,13 @@ void MainWindow::newArchive()
             qCDebug(ARK) << "Setting volume size:" << QString::number(dialog.data()->volumeSize());
             m_openArgs.metaData()[QStringLiteral("volumeSize")] = QString::number(dialog.data()->volumeSize());
         }
+        if (!dialog.data()->compressionMethod().isEmpty()) {
+            m_openArgs.metaData()[QStringLiteral("compressionMethod")] = dialog.data()->compressionMethod();
+        }
+        if (!dialog.data()->encryptionMethod().isEmpty()) {
+            m_openArgs.metaData()[QStringLiteral("encryptionMethod")] = dialog.data()->encryptionMethod();
+        }
+
         m_openArgs.metaData()[QStringLiteral("encryptionPassword")] = password;
 
         if (dialog.data()->isHeaderEncryptionEnabled()) {

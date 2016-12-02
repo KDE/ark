@@ -24,6 +24,10 @@
  */
 
 #include "cli7ztest.h"
+#include "cliplugin.h"
+#include "archive_kerfuffle.h"
+#include "jobs.h"
+#include "testhelper.h"
 
 #include <QFile>
 #include <QSignalSpy>
@@ -38,8 +42,6 @@ using namespace Kerfuffle;
 
 void Cli7zTest::initTestCase()
 {
-    qRegisterMetaType<ArchiveEntry>();
-
     m_plugin = new Plugin(this);
     foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
         if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_cli7z")) {
@@ -73,7 +75,11 @@ void Cli7zTest::testArchive()
     }
 
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, m_plugin, this);
+    auto loadJob = Archive::load(archivePath, m_plugin, this);
+    QVERIFY(loadJob);
+
+    TestHelper::startAndWaitForResult(loadJob);
+    auto archive = loadJob->archive();
     QVERIFY(archive);
 
     if (!archive->isValid()) {
@@ -87,7 +93,7 @@ void Cli7zTest::testArchive()
     QCOMPARE(archive->isReadOnly(), isReadOnly);
 
     QFETCH(bool, isSingleFolder);
-    QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
+    QCOMPARE(archive->isSingleFolder(), isSingleFolder);
 
     QFETCH(Archive::EncryptionType, expectedEncryptionType);
     QCOMPARE(archive->encryptionType(), expectedEncryptionType);
@@ -103,6 +109,8 @@ void Cli7zTest::testList_data()
     QTest::addColumn<bool>("isMultiVolume");
     // Is zero for non-multi-volume archives:
     QTest::addColumn<int>("numberOfVolumes");
+    QTest::addColumn<QStringList>("compressionMethods");
+    QTest::addColumn<QString>("encryptionMethod");
     // Index of some entry to be tested.
     QTest::addColumn<int>("someEntryIndex");
     // Entry metadata.
@@ -115,52 +123,62 @@ void Cli7zTest::testList_data()
     // p7zip version 16.02 tests
 
     QTest::newRow("normal-file-1602")
-            << QFINDTESTDATA("data/archive-with-symlink-1602.txt") << 10 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-1602.txt") << 10 << false << 0 << QStringList{QStringLiteral("LZMA2")} << QString()
             << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T20:41:48");
 
     QTest::newRow("encrypted-1602")
-            << QFINDTESTDATA("data/archive-encrypted-1602.txt") << 4 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-1602.txt") << 4 << false << 0 << QStringList{QStringLiteral("LZMA2")} << QStringLiteral("7zAES")
             << 1 << QStringLiteral("file2.txt") << false << true << (qulonglong) 14 << QStringLiteral("2016-03-02T22:37:55");
 
     QTest::newRow("multi-volume-1602")
-            << QFINDTESTDATA("data/archive-multivol-1602.txt") << 2 << true << 5
+            << QFINDTESTDATA("data/archive-multivol-1602.txt") << 2 << true << 5 << QStringList{QStringLiteral("LZMA2")} << QString()
             << 1 << QStringLiteral("largefile2") << false << false << (qulonglong) 2097152 << QStringLiteral("2016-07-17T11:26:19");
+
+    QTest::newRow("zip-with-AES256-encryption")
+            << QFINDTESTDATA("data/archive-zip-AES256-1602.txt") << 4 << false << 0
+            << QStringList{QStringLiteral("Store"), QStringLiteral("Store"), QStringLiteral("Deflate"), QStringLiteral("Deflate")}
+            << QStringLiteral("AES256")
+            << 3 << QStringLiteral("testarchive/file2.txt") << false << true << (qulonglong) 33 << QStringLiteral("2016-11-06T21:17:02");
 
     // p7zip version 15.14 tests
 
     QTest::newRow("normal-file-1514")
-            << QFINDTESTDATA("data/archive-with-symlink-1514.txt") << 10 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-1514.txt") << 10 << false << 0 << QStringList{QStringLiteral("LZMA2")} << QString()
             << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     QTest::newRow("encrypted-1514")
-            << QFINDTESTDATA("data/archive-encrypted-1514.txt") << 9 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-1514.txt") << 9 << false << 0 << QStringList{QStringLiteral("LZMA2")} << QStringLiteral("7zAES")
             << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     // p7zip version 15.09 tests
 
     QTest::newRow("normal-file-1509")
-            << QFINDTESTDATA("data/archive-with-symlink-1509.txt") << 10 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-1509.txt") << 10 << false << 0 << QStringList{QStringLiteral("LZMA2")} << QString()
             << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     QTest::newRow("encrypted-1509")
-            << QFINDTESTDATA("data/archive-encrypted-1509.txt") << 9 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-1509.txt") << 9 << false << 0 << QStringList{QStringLiteral("LZMA2")} << QStringLiteral("7zAES")
             << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     // p7zip version 9.38.1 tests
 
     QTest::newRow("normal-file-9381")
-            << QFINDTESTDATA("data/archive-with-symlink-9381.txt") << 10 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-9381.txt") << 10 << false << 0 << QStringList{QStringLiteral("LZMA2")} << QString()
             << 4 << QStringLiteral("testarchive/dir2/file2.txt") << false << false << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 
     QTest::newRow("encrypted-9381")
-            << QFINDTESTDATA("data/archive-encrypted-9381.txt") << 9 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-9381.txt") << 9 << false << 0 << QStringList{QStringLiteral("LZMA2")} << QStringLiteral("7zAES")
             << 3 << QStringLiteral("testarchive/dir1/file1.txt") << false << true << (qulonglong) 32 << QStringLiteral("2015-05-17T19:41:48");
 }
 
 void Cli7zTest::testList()
 {
-    CliPlugin *plugin = new CliPlugin(this, {QStringLiteral("dummy.7z")});
-    QSignalSpy signalSpy(plugin, SIGNAL(entry(ArchiveEntry)));
+    qRegisterMetaType<Archive::Entry*>("Archive::Entry*");
+    CliPlugin *plugin = new CliPlugin(this, {QStringLiteral("dummy.7z"),
+                                             QVariant::fromValue(m_plugin->metaData())});
+    QSignalSpy signalSpyEntry(plugin, &CliPlugin::entry);
+    QSignalSpy signalSpyCompMethod(plugin, &CliPlugin::compressionMethodFound);
+    QSignalSpy signalSpyEncMethod(plugin, &CliPlugin::encryptionMethodFound);
 
     QFETCH(QString, outputTextFile);
     QFETCH(int, expectedEntriesCount);
@@ -174,7 +192,7 @@ void Cli7zTest::testList()
         QVERIFY(plugin->readListLine(line));
     }
 
-    QCOMPARE(signalSpy.count(), expectedEntriesCount);
+    QCOMPARE(signalSpyEntry.count(), expectedEntriesCount);
 
     QFETCH(bool, isMultiVolume);
     QCOMPARE(plugin->isMultiVolume(), isMultiVolume);
@@ -182,24 +200,40 @@ void Cli7zTest::testList()
     QFETCH(int, numberOfVolumes);
     QCOMPARE(plugin->numberOfVolumes(), numberOfVolumes);
 
+    QFETCH(QStringList, compressionMethods);
+    QCOMPARE(signalSpyCompMethod.count(), compressionMethods.count());
+    QStringList combinedCompMethods;
+    for (int i = 0; i < signalSpyCompMethod.count(); i++) {
+        combinedCompMethods.append(signalSpyCompMethod.at(i).at(0).toString());
+    }
+    QCOMPARE(combinedCompMethods, compressionMethods);
+
+    QFETCH(QString, encryptionMethod);
+    if (encryptionMethod.isEmpty()) {
+        QCOMPARE(signalSpyEncMethod.count(), 0);
+    } else {
+        QVERIFY(signalSpyEncMethod.count() > 0);
+        QCOMPARE(signalSpyEncMethod.at(0).at(0).toString(), encryptionMethod);
+    }
+
     QFETCH(int, someEntryIndex);
-    QVERIFY(someEntryIndex < signalSpy.count());
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(signalSpy.at(someEntryIndex).at(0));
+    QVERIFY(someEntryIndex < signalSpyEntry.count());
+    Archive::Entry *entry = signalSpyEntry.at(someEntryIndex).at(0).value<Archive::Entry*>();
 
     QFETCH(QString, expectedName);
-    QCOMPARE(entry[FileName].toString(), expectedName);
+    QCOMPARE(entry->fullPath(), expectedName);
 
     QFETCH(bool, isDirectory);
-    QCOMPARE(entry[IsDirectory].toBool(), isDirectory);
+    QCOMPARE(entry->isDir(), isDirectory);
 
     QFETCH(bool, isPasswordProtected);
-    QCOMPARE(entry[IsPasswordProtected].toBool(), isPasswordProtected);
+    QCOMPARE(entry->property("isPasswordProtected").toBool(), isPasswordProtected);
 
     QFETCH(qulonglong, expectedSize);
-    QCOMPARE(entry[Size].toULongLong(), expectedSize);
+    QCOMPARE(entry->property("size").toULongLong(), expectedSize);
 
     QFETCH(QString, expectedTimestamp);
-    QCOMPARE(entry[Timestamp].toString(), expectedTimestamp);
+    QCOMPARE(entry->property("timestamp").toString(), expectedTimestamp);
 
     plugin->deleteLater();
 }
@@ -232,17 +266,18 @@ void Cli7zTest::testListArgs_data()
 
 void Cli7zTest::testListArgs()
 {
+    if (!m_plugin->isValid()) {
+        QSKIP("cli7z plugin not available. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    const QStringList listArgs = { QStringLiteral("l"),
-                                   QStringLiteral("-slt"),
-                                   QStringLiteral("$PasswordSwitch"),
-                                   QStringLiteral("$Archive") };
-
     QFETCH(QString, password);
-    const auto replacedArgs = plugin->substituteListVariables(listArgs, password);
+
+    const auto replacedArgs = plugin->cliProperties()->listArgs(archiveName, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
@@ -256,69 +291,88 @@ void Cli7zTest::testAddArgs_data()
     QTest::addColumn<QString>("password");
     QTest::addColumn<bool>("encryptHeader");
     QTest::addColumn<int>("compressionLevel");
+    QTest::addColumn<QString>("compressionMethod");
     QTest::addColumn<ulong>("volumeSize");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("unencrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QString() << false << 5 << 0UL
+            << QString() << false << 5 << QStringLiteral("LZMA2") << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.7z"),
-                   QStringLiteral("-mx=5")
+                   QStringLiteral("-l"),
+                   QStringLiteral("-mx=5"),
+                   QStringLiteral("-m0=LZMA2"),
+                   QStringLiteral("/tmp/foo.7z")
                };
 
     QTest::newRow("encrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QStringLiteral("1234") << false << 5 << 0UL
+            << QStringLiteral("1234") << false << 5 << QStringLiteral("LZMA2") << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("-l"),
                    QStringLiteral("-p1234"),
-                   QStringLiteral("-mx=5")
+                   QStringLiteral("-mx=5"),
+                   QStringLiteral("-m0=LZMA2"),
+                   QStringLiteral("/tmp/foo.7z")
                };
 
     QTest::newRow("header-encrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QStringLiteral("1234") << true << 5 << 0UL
+            << QStringLiteral("1234") << true << 5 << QStringLiteral("LZMA2") << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("-l"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("-mhe=on"),
-                   QStringLiteral("-mx=5")
+                   QStringLiteral("-mx=5"),
+                   QStringLiteral("-m0=LZMA2"),
+                   QStringLiteral("/tmp/foo.7z")
                };
 
     QTest::newRow("multi-volume")
             << QStringLiteral("/tmp/foo.7z")
-            << QString() << false << 5 << 2500UL
+            << QString() << false << 5 << QStringLiteral("LZMA2") << 2500UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.7z"),
+                   QStringLiteral("-l"),
                    QStringLiteral("-mx=5"),
-                   QStringLiteral("-v2500k")
+                   QStringLiteral("-m0=LZMA2"),
+                   QStringLiteral("-v2500k"),
+                   QStringLiteral("/tmp/foo.7z")
+               };
+
+    QTest::newRow("comp-method-bzip2")
+            << QStringLiteral("/tmp/foo.7z")
+            << QString() << false << 5 << QStringLiteral("BZip2") << 0UL
+            << QStringList {
+                   QStringLiteral("a"),
+                   QStringLiteral("-l"),
+                   QStringLiteral("-mx=5"),
+                   QStringLiteral("-m0=BZip2"),
+                   QStringLiteral("/tmp/foo.7z")
                };
 }
 
 void Cli7zTest::testAddArgs()
 {
-    QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
-    QVERIFY(plugin);
+    if (!m_plugin->isValid()) {
+        QSKIP("cli7z plugin not available. Skipping test.", SkipSingle);
+    }
 
-    const QStringList addArgs = { QStringLiteral("a"),
-                                  QStringLiteral("$Archive"),
-                                  QStringLiteral("$PasswordSwitch"),
-                                  QStringLiteral("$CompressionLevelSwitch"),
-                                  QStringLiteral("$MultiVolumeSwitch"),
-                                  QStringLiteral("$Files") };
+    QFETCH(QString, archiveName);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
+    QVERIFY(plugin);
 
     QFETCH(QString, password);
     QFETCH(bool, encryptHeader);
     QFETCH(int, compressionLevel);
     QFETCH(ulong, volumeSize);
+    QFETCH(QString, compressionMethod);
 
-    QStringList replacedArgs = plugin->substituteAddVariables(addArgs, {}, password, encryptHeader, compressionLevel, volumeSize);
+    const auto replacedArgs = plugin->cliProperties()->addArgs(archiveName, {}, password, encryptHeader, compressionLevel, compressionMethod, QString(), volumeSize);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
@@ -329,90 +383,95 @@ void Cli7zTest::testAddArgs()
 void Cli7zTest::testExtractArgs_data()
 {
     QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QVariantList>("files");
+    QTest::addColumn<QVector<Archive::Entry*>>("files");
     QTest::addColumn<bool>("preservePaths");
     QTest::addColumn<QString>("password");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("preserve paths, encrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QStringLiteral("1234")
             << QStringList {
                    QStringLiteral("x"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.7z"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("preserve paths, unencrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QString()
             << QStringList {
                    QStringLiteral("x"),
                    QStringLiteral("/tmp/foo.7z"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, encrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QStringLiteral("1234")
             << QStringList {
                    QStringLiteral("e"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.7z"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, unencrypted")
             << QStringLiteral("/tmp/foo.7z")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QString()
             << QStringList {
                    QStringLiteral("e"),
                    QStringLiteral("/tmp/foo.7z"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 }
 
 void Cli7zTest::testExtractArgs()
 {
+    if (!m_plugin->isValid()) {
+        QSKIP("cli7z plugin not available. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    const QStringList extractArgs = { QStringLiteral("$PreservePathSwitch"),
-                                      QStringLiteral("$PasswordSwitch"),
-                                      QStringLiteral("$Archive"),
-                                      QStringLiteral("$Files") };
+    QFETCH(QVector<Archive::Entry*>, files);
+    QStringList filesList;
+    foreach (const Archive::Entry *e, files) {
+        filesList << e->fullPath(NoTrailingSlash);
+    }
 
-    QFETCH(QVariantList, files);
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = plugin->substituteCopyVariables(extractArgs, files, preservePaths, password);
-    QVERIFY(replacedArgs.size() >= extractArgs.size());
+    const auto replacedArgs = plugin->cliProperties()->extractArgs(archiveName, filesList, preservePaths, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
 
     plugin->deleteLater();
 }
+

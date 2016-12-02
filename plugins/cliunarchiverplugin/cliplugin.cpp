@@ -2,7 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2011 Luke Shumaker <lukeshu@sbcglobal.net>
- * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,7 +22,6 @@
 
 #include "cliplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle_export.h"
 #include "queries.h"
 
 #include <QJsonArray>
@@ -40,6 +39,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
         : CliInterface(parent, args)
 {
     qCDebug(ARK) << "Loaded cli_unarchiver plugin";
+    setupCliProperties();
 }
 
 CliPlugin::~CliPlugin()
@@ -49,14 +49,12 @@ CliPlugin::~CliPlugin()
 bool CliPlugin::list()
 {
     resetParsing();
-    cacheParameterList();
     m_operationMode = List;
 
-    const auto args = substituteListVariables(m_param.value(ListArgs).toStringList(), password());
-    return runProcess(m_param.value(ListProgram).toStringList(), args);
+    return runProcess(m_cliProps->property("listProgram").toString(), m_cliProps->listArgs(filename(), password()));
 }
 
-bool CliPlugin::copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool CliPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     ExtractionOptions newOptions = options;
 
@@ -68,9 +66,9 @@ bool CliPlugin::copyFiles(const QList<QVariant> &files, const QString &destinati
     // and then we move the files to the intended destination.
 
     qCDebug(ARK) << "Enabling extraction to temporary directory.";
-    newOptions[QStringLiteral("AlwaysUseTmpDir")] = true;
+    newOptions.setAlwaysUseTempDir(true);
 
-    return CliInterface::copyFiles(files, destinationDirectory, newOptions);
+    return CliInterface::extractFiles(files, destinationDirectory, newOptions);
 }
 
 void CliPlugin::resetParsing()
@@ -79,41 +77,43 @@ void CliPlugin::resetParsing()
     m_numberOfVolumes = 0;
 }
 
-ParameterList CliPlugin::parameterList() const
+void CliPlugin::setupCliProperties()
 {
-    static ParameterList p;
-    if (p.isEmpty()) {
+    m_cliProps->setProperty("captureProgress", false);
 
-        ///////////////[ COMMON ]/////////////
+    m_cliProps->setProperty("extractProgram", QStringLiteral("unar"));
+    m_cliProps->setProperty("extractSwitch", QStringList{QStringLiteral("-D")});
+    m_cliProps->setProperty("extractSwitchNoPreserve", QStringList{QStringLiteral("-D")});
 
-        p[CaptureProgress] = false;
-        // Displayed when running lsar -json with header-encrypted archives.
-        p[PasswordPromptPattern] = QStringLiteral("This archive requires a password to unpack. Use the -p option to provide one.");
+    m_cliProps->setProperty("listProgram", QStringLiteral("lsar"));
+    m_cliProps->setProperty("listSwitch", QStringList{QStringLiteral("-json")});
 
-        ///////////////[ LIST ]/////////////
+    m_cliProps->setProperty("passwordSwitch", QStringList{QStringLiteral("-password"),
+                                                      QStringLiteral("$Password")});
 
-        p[ListProgram] = QStringLiteral("lsar");
-        p[ListArgs] = QStringList() << QStringLiteral("-json") << QStringLiteral("$Archive") << QStringLiteral("$PasswordSwitch");
-
-        ///////////////[ EXTRACT ]/////////////
-
-        p[ExtractProgram] = QStringLiteral("unar");
-        p[ExtractArgs] = QStringList() << QStringLiteral("-D") << QStringLiteral("$Archive") << QStringLiteral("$Files") << QStringLiteral("$PasswordSwitch");
-        p[NoTrailingSlashes]  = true;
-        p[PasswordSwitch] = QStringList() << QStringLiteral("-password") << QStringLiteral("$Password");
-
-        ///////////////[ ERRORS ]/////////////
-
-        p[ExtractionFailedPatterns] = QStringList()
-            << QStringLiteral("Failed! \\((.+)\\)$")
-            << QStringLiteral("Segmentation fault$");
-    }
-    return p;
+    m_cliProps->setProperty("passwordPromptPatterns", QStringList{QStringLiteral("This archive requires a password to unpack. Use the -p option to provide one.")});
 }
 
 bool CliPlugin::readListLine(const QString &line)
 {
-    Q_UNUSED(line)
+    const QRegularExpression rx(QStringLiteral("Failed! \\((.+)\\)$"));
+
+    if (rx.match(line).hasMatch()) {
+        emit error(i18n("Listing the archive failed."));
+        return false;
+    }
+
+    return true;
+}
+
+bool CliPlugin::readExtractLine(const QString &line)
+{
+    const QRegularExpression rx(QStringLiteral("Failed! \\((.+)\\)$"));
+
+    if (rx.match(line).hasMatch()) {
+        emit error(i18n("Extraction failed."));
+        return false;
+    }
 
     return true;
 }
@@ -135,32 +135,24 @@ void CliPlugin::readStdout(bool handleAll)
     readJsonOutput();
 }
 
-void CliPlugin::cacheParameterList()
-{
-    m_param = parameterList();
-    Q_ASSERT(m_param.contains(ExtractProgram));
-    Q_ASSERT(m_param.contains(ListProgram));
-}
-
 bool CliPlugin::handleLine(const QString& line)
 {
     // Collect the json output line by line.
     if (m_operationMode == List) {
-        m_jsonOutput += line + QLatin1Char('\n');
-    }
-
-    // TODO: is this check really needed?
-    if (m_operationMode == Copy) {
-        if (checkForErrorMessage(line, ExtractionFailedPatterns)) {
-            qCWarning(ARK) << "Error in extraction:" << line;
-            emit error(i18n("Extraction failed because of an unexpected error."));
+        // #372210: lsar can generate huge JSONs for big archives.
+        // We can at least catch a bad_alloc here in order to not crash.
+        try {
+            m_jsonOutput += line + QLatin1Char('\n');
+        } catch (const std::bad_alloc&) {
+            m_jsonOutput.clear();
+            emit error(i18n("Not enough memory for loading the archive."));
             return false;
         }
     }
 
     if (m_operationMode == List) {
         // This can only be an header-encrypted archive.
-        if (checkForPasswordPromptMessage(line)) {
+        if (m_cliProps->isPasswordPrompt(line)) {
             qCDebug(ARK) << "Detected header-encrypted RAR archive";
 
             Kerfuffle::PasswordNeededQuery query(filename());
@@ -242,32 +234,37 @@ void CliPlugin::readJsonOutput()
         setMultiVolume(true);
     }
 
+    QString formatName = json.value(QStringLiteral("lsarFormatName")).toString();
+    if (formatName == QLatin1String("RAR")) {
+        emit compressionMethodFound(QStringLiteral("RAR4"));
+    } else if (formatName == QLatin1String("RAR 5")) {
+        emit compressionMethodFound(QStringLiteral("RAR5"));
+    }
     const QJsonArray entries = json.value(QStringLiteral("lsarContents")).toArray();
 
     foreach (const QJsonValue& value, entries) {
-        const QJsonObject currentEntry = value.toObject();
+        const QJsonObject currentEntryJson = value.toObject();
 
-        m_currentEntry.clear();
+        Archive::Entry *currentEntry = new Archive::Entry(this);
 
-        QString filename = currentEntry.value(QStringLiteral("XADFileName")).toString();
+        QString filename = currentEntryJson.value(QStringLiteral("XADFileName")).toString();
 
-        m_currentEntry[IsDirectory] = !currentEntry.value(QStringLiteral("XADIsDirectory")).isUndefined();
-        if (m_currentEntry[IsDirectory].toBool()) {
+        currentEntry->setProperty("isDirectory", !currentEntryJson.value(QStringLiteral("XADIsDirectory")).isUndefined());
+        if (currentEntry->isDir()) {
             filename += QLatin1Char('/');
         }
 
-        m_currentEntry[FileName] = filename;
-        m_currentEntry[InternalID] = filename;
+        currentEntry->setProperty("fullPath", filename);
 
         // FIXME: archives created from OSX (i.e. with the __MACOSX folder) list each entry twice, the 2nd time with size 0
-        m_currentEntry[Size] = currentEntry.value(QStringLiteral("XADFileSize"));
-        m_currentEntry[CompressedSize] = currentEntry.value(QStringLiteral("XADCompressedSize"));
-        m_currentEntry[Timestamp] = currentEntry.value(QStringLiteral("XADLastModificationDate")).toVariant();
-        m_currentEntry[Size] = currentEntry.value(QStringLiteral("XADFileSize"));
-        m_currentEntry[IsPasswordProtected] = (currentEntry.value(QStringLiteral("XADIsEncrypted")).toInt() == 1);
+        currentEntry->setProperty("size", currentEntryJson.value(QStringLiteral("XADFileSize")));
+        currentEntry->setProperty("compressedSize", currentEntryJson.value(QStringLiteral("XADCompressedSize")));
+        currentEntry->setProperty("timestamp", currentEntryJson.value(QStringLiteral("XADLastModificationDate")).toVariant());
+        currentEntry->setProperty("size", currentEntryJson.value(QStringLiteral("XADFileSize")));
+        currentEntry->setProperty("isPasswordProtected", (currentEntryJson.value(QStringLiteral("XADIsEncrypted")).toInt() == 1));
         // TODO: missing fields
 
-        emit entry(m_currentEntry);
+        emit entry(currentEntry);
     }
 }
 

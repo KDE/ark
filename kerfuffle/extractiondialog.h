@@ -63,6 +63,8 @@ public:
     QString subfolder() const;
 
 public Q_SLOTS:
+    void setBusyGui();
+    void setReadyGui();
     void setSubfolder(const QString& subfolder);
     void setCurrentUrl(const QUrl &url);
     void restoreWindowSize();

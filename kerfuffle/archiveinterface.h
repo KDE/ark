@@ -2,6 +2,7 @@
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (c) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -30,6 +31,7 @@
 
 #include "archive_kerfuffle.h"
 #include "kerfuffle_export.h"
+#include "archiveentry.h"
 
 #include <QObject>
 #include <QStringList>
@@ -44,7 +46,7 @@ class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
 {
     Q_OBJECT
 public:
-    explicit ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args);
+    explicit ReadOnlyArchiveInterface(QObject *parent, const QVariantList &args);
     virtual ~ReadOnlyArchiveInterface();
 
     /**
@@ -98,8 +100,53 @@ public:
      * @note If returning false, make sure to emit the error() signal beforewards to notify
      * the user of the error condition.
      */
-    virtual bool copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
+    virtual bool extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
     bool waitForFinishedSignal();
+
+    /**
+     * Returns count of required finish signals for a job to be finished.
+     *
+     * These two methods are used by move and copy jobs, which in some plugins implementations have to call
+     * several processes sequentually. For instance, moving entries in zip archive is only possible if
+     * extracting the entries, deleting them, recreating destination folder structure and adding them back again.
+     */
+    virtual int moveRequiredSignals() const;
+    virtual int copyRequiredSignals() const;
+
+    /**
+     * Returns the list of filenames retrieved from the list of entries.
+     */
+    static QStringList entryFullPaths(const QVector<Archive::Entry*> &entries, PathFormat format = WithTrailingSlash);
+
+    /**
+     * Returns the list of the entries, excluding their children.
+     *
+     * This method relies on entries paths so doesn't require parents to be set.
+     */
+    static QVector<Archive::Entry*> entriesWithoutChildren(const QVector<Archive::Entry*> &entries);
+
+    /**
+     * Returns the string list of entry paths, which will be a result of adding/moving/copying entries.
+     *
+     * @param entries The entries which will be added/moved/copied.
+     * @param destination Destination path within the archive to which entries have to be added. For renaming an entry
+     * the path has to contain a new filename too.
+     * @param entriesWithoutChildren Entries count, excluding their children. For AddJob or CopyJob 0 MUST be passed.
+     *
+     * @return For entries
+     *  some/dir/
+     *  some/dir/entry
+     *  some/dir/some/entry
+     *  some/another/entry
+     * and destination
+     *  some/destination
+     * will return
+     *  some/destination/dir/
+     *  some/destination/dir/entry
+     *  some/destination/dir/some/enty
+     *  some/destination/entry
+     */
+    static QStringList entryPathsFromDestination(QStringList entries, const Archive::Entry *destination, int entriesWithoutChildren);
 
     virtual bool doKill();
     virtual bool doSuspend();
@@ -108,17 +155,29 @@ public:
     bool isHeaderEncryptionEnabled() const;
     virtual QString multiVolumeName() const;
     void setMultiVolume(bool value);
+    int numberOfEntries() const;
+    QMimeType mimetype() const;
+
+    /**
+     * @return Whether the interface supports progress reporting for BatchExtractJobs.
+     */
+    virtual bool hasBatchExtractionProgress() const;
 
 signals:
     void cancelled();
     void error(const QString &message, const QString &details = QString());
-    void entry(const ArchiveEntry &archiveEntry);
-    void entryRemoved(const QString &path);
+    void entry(Archive::Entry *archiveEntry);
     void progress(double progress);
     void info(const QString &info);
     void finished(bool result);
-    void userQuery(Query *query);
     void testSuccess();
+    void compressionMethodFound(const QString &method);
+    void encryptionMethodFound(const QString &method);
+
+    /**
+     * Emitted when @p query needs to be executed on the GUI thread.
+     */
+    void userQuery(Query *query);
 
 protected:
 
@@ -132,30 +191,46 @@ protected:
     bool isCorrupt() const;
     QString m_comment;
     int m_numberOfVolumes;
+    int m_numberOfEntries;
+    KPluginMetaData m_metaData;
 
 private:
     QString m_filename;
+    QMimeType m_mimetype;
     QString m_password;
     bool m_waitForFinishedSignal;
     bool m_isHeaderEncryptionEnabled;
     bool m_isCorrupt;
     bool m_isMultiVolume;
+
+private slots:
+    void onEntry(Archive::Entry *archiveEntry);
 };
 
 class KERFUFFLE_EXPORT ReadWriteArchiveInterface: public ReadOnlyArchiveInterface
 {
     Q_OBJECT
 public:
-    explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList & args);
+    enum OperationMode  {
+        List, Extract, Add, Move, Copy, Delete, Comment, Test
+    };
+
+    explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList &args);
     virtual ~ReadWriteArchiveInterface();
 
     bool isReadOnly() const Q_DECL_OVERRIDE;
 
-    //see archive.h for a list of what the compressionoptions might
-    //contain
-    virtual bool addFiles(const QStringList & files, const CompressionOptions& options) = 0;
-    virtual bool deleteFiles(const QList<QVariant> & files) = 0;
+    virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd = 0) = 0;
+    virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
+    virtual bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
+    virtual bool deleteFiles(const QVector<Archive::Entry*> &files) = 0;
     virtual bool addComment(const QString &comment) = 0;
+
+signals:
+    void entryRemoved(const QString &path);
+
+private slots:
+    void onEntryRemoved(const QString &path);
 };
 
 } // namespace Kerfuffle

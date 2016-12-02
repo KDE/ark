@@ -26,7 +26,7 @@
 #ifndef SINGLEFILEPLUGIN_H
 #define SINGLEFILEPLUGIN_H
 
-#include "kerfuffle/archiveinterface.h"
+#include "archiveinterface.h"
 
 class LibSingleFileInterface : public Kerfuffle::ReadOnlyArchiveInterface
 {
@@ -38,7 +38,7 @@ public:
 
     virtual bool list() Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) Q_DECL_OVERRIDE;
 
 protected:
     const QString uncompressedFileName() const;

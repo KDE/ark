@@ -30,6 +30,7 @@
 #define ADDTOARCHIVE_H
 
 #include "kerfuffle_export.h"
+#include "archive_kerfuffle.h"
 
 #include <KJob>
 
@@ -60,7 +61,7 @@ public:
     bool showAddDialog();
     void setPreservePaths(bool value);
     void setChangeToFirstPath(bool value);
-    QString detectBaseName(const QStringList &paths) const;
+    QString detectBaseName(const QVector<Archive::Entry*> &entries) const;
 
 public slots:
     bool addInput(const QUrl &url);
@@ -82,7 +83,7 @@ private:
     QString m_firstPath;
     QString m_mimeType;
     QString m_password;
-    QStringList m_inputs;
+    QVector<Archive::Entry*> m_entries;
     bool m_changeToFirstPath;
     bool m_enableHeaderEncryption;
 };

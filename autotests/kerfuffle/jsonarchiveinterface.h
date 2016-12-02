@@ -27,8 +27,7 @@
 #define JSONARCHIVEINTERFACE_H
 
 #include "jsonparser.h"
-#include "kerfuffle/archiveinterface.h"
-#include "kerfuffle/archive_kerfuffle.h"
+#include "archiveinterface.h"
 
 /**
  * A dummy archive interface used by our test cases.
@@ -55,9 +54,11 @@ public:
     virtual bool list() Q_DECL_OVERRIDE;
     virtual bool open() Q_DECL_OVERRIDE;
 
-    virtual bool addFiles(const QStringList& files, const Kerfuffle::CompressionOptions& options) Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QList<QVariant>& files, const QString& destinationDirectory, const Kerfuffle::ExtractionOptions& options) Q_DECL_OVERRIDE;
-    virtual bool deleteFiles(const QList<QVariant>& files) Q_DECL_OVERRIDE;
+    virtual bool addFiles(const QVector<Kerfuffle::Archive::Entry*>& files, const Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options, uint numberOfEntriesToAdd = 0) Q_DECL_OVERRIDE;
+    virtual bool moveFiles(const QVector<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool copyFiles(const QVector<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool extractFiles(const QVector<Kerfuffle::Archive::Entry*>& files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool deleteFiles(const QVector<Kerfuffle::Archive::Entry*>& files) Q_DECL_OVERRIDE;
     virtual bool addComment(const QString& comment) Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
 

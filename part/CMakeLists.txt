@@ -1,5 +1,3 @@
-include_directories(${CMAKE_SOURCE_DIR}/app)
-
 set(arkpart_PART_SRCS
 	part.cpp
 	infopanel.cpp
@@ -7,6 +5,7 @@ set(arkpart_PART_SRCS
 	archivemodel.cpp
 	archiveview.cpp
 	jobtracker.cpp
+	overwritedialog.cpp
     )
 
 ecm_qt_declare_logging_category(arkpart_PART_SRCS
@@ -30,7 +29,7 @@ configure_file(
             ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop
 )
 
-kcoreaddons_desktop_to_json(arkpart ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop SERVICES_TYPES kpart.desktop browserview.desktop)
+kcoreaddons_desktop_to_json(arkpart ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop SERVICE_TYPES kpart.desktop browserview.desktop)
 
 install(TARGETS arkpart DESTINATION ${KDE_INSTALL_PLUGINDIR})
 

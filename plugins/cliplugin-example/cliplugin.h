@@ -38,7 +38,7 @@ public:
 
 private:
     bool m_isFirstLine, m_incontent, m_isPasswordProtected;
-    QString m_entryFilename, m_internalId;
+    QString m_entryFilename;
 
 };
 

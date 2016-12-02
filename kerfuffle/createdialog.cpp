@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009,2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
- * Copyright (C) 2015 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (C) 2015 Elvis Angelaccio <elvis.angelaccio@kde.org>
  * Copyright (C) 2016 Ragnar Thomsen <rthomsen6@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,6 @@
 #include "archiveformat.h"
 #include "ark_debug.h"
 #include "ui_createdialog.h"
-#include "kerfuffle/archive_kerfuffle.h"
 #include "mimetypes.h"
 
 #include <KMessageBox>
@@ -47,6 +46,8 @@ namespace Kerfuffle
 {
 class CreateDialogUI: public QWidget, public Ui::CreateDialog
 {
+    Q_OBJECT
+
 public:
     CreateDialogUI(QWidget *parent = 0)
             : QWidget(parent) {
@@ -64,7 +65,7 @@ CreateDialog::CreateDialog(QWidget *parent,
     setWindowTitle(caption);
     setModal(true);
 
-    m_supportedMimeTypes = m_pluginManger.supportedWriteMimeTypes();
+    m_supportedMimeTypes = m_pluginManger.supportedWriteMimeTypes(PluginManager::SortByComment);
 
     m_vlayout = new QVBoxLayout();
     setLayout(m_vlayout);
@@ -151,6 +152,16 @@ int CreateDialog::compressionLevel() const
     return m_ui->optionsWidget->compressionLevel();
 }
 
+QString CreateDialog::compressionMethod() const
+{
+    return m_ui->optionsWidget->compressionMethod();
+}
+
+QString CreateDialog::encryptionMethod() const
+{
+    return m_ui->optionsWidget->encryptionMethod();
+}
+
 ulong CreateDialog::volumeSize() const
 {
     return m_ui->optionsWidget->volumeSize();
@@ -235,3 +246,5 @@ bool CreateDialog::setMimeType(const QString &mimeTypeName)
 }
 
 }
+
+#include "createdialog.moc"

@@ -1,7 +1,7 @@
 /*
  * ark -- archiver for the KDE project
  *
- * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -40,6 +40,16 @@ class KERFUFFLE_EXPORT PluginManager : public QObject
     Q_OBJECT
 
 public:
+
+    /**
+     * How the list of supported mimetypes can be sorted.
+     */
+    enum MimeSortingMode
+    {
+        Unsorted,
+        SortByComment
+    };
+
     explicit PluginManager(QObject *parent = Q_NULLPTR);
 
     /**
@@ -66,10 +76,10 @@ public:
 
     /**
      * @return The list of preferred plugins for the given @p mimeType, among all the available ones.
-     * The list is sorted according to the plugins priority.
+     * The list is sorted according to the plugins priority. The list is saved in a cache for efficiency.
      * If no plugin is available, returns an empty list.
      */
-    QVector<Plugin*> preferredPluginsFor(const QMimeType &mimeType) const;
+    QVector<Plugin*> preferredPluginsFor(const QMimeType &mimeType);
 
     /**
      * @return The list of preferred read-write plugins for the given @p mimeType, among all the available ones.
@@ -82,7 +92,7 @@ public:
      * @return The preferred plugin for the given @p mimeType, among all the available ones.
      * If no plugin is available, returns an invalid plugin.
      */
-    Plugin *preferredPluginFor(const QMimeType &mimeType) const;
+    Plugin *preferredPluginFor(const QMimeType &mimeType);
 
     /**
      * @return The preferred read-write plugin for the given @p mimeType, among all the available ones.
@@ -91,14 +101,14 @@ public:
     Plugin *preferredWritePluginFor(const QMimeType &mimeType) const;
 
     /**
-     * @return The list of all mimetypes that Ark can open, sorted according to their comment.
+     * @return The list of all mimetypes that Ark can open, sorted according to @p mode.
      */
-    QStringList supportedMimeTypes() const;
+    QStringList supportedMimeTypes(MimeSortingMode mode = Unsorted) const;
 
     /**
-     * @return The list of all read-write mimetypes supported by Ark, sorted according to their comment.
+     * @return The list of all read-write mimetypes supported by Ark, sorted according to @p mode.
      */
-    QStringList supportedWriteMimeTypes() const;
+    QStringList supportedWriteMimeTypes(MimeSortingMode mode = Unsorted) const;
 
     /**
      * @return The subset of @p plugins that support either @p mimetype or a parent of @p mimetype.
@@ -121,6 +131,7 @@ private:
     static QStringList sortByComment(const QSet<QString> &mimeTypes);
 
     QVector<Plugin*> m_plugins;
+    QHash<QString, QVector<Plugin*>> m_preferredPluginsCache;
 };
 
 }

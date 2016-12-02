@@ -42,12 +42,19 @@ class AddDialogTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void testBasicWidgets_data();
     void testBasicWidgets();
 
 private:
     PluginManager m_pluginManager;
 };
+
+void AddDialogTest::initTestCase()
+{
+    // Avoid a runtime dependency on KLauncher.
+    qputenv("KDE_FORK_SLAVES", "yes");
+}
 
 void AddDialogTest::testBasicWidgets_data()
 {
@@ -79,8 +86,8 @@ void AddDialogTest::testBasicWidgets_data()
         qDebug() << "7z format not available, skipping test.";
     }
 
-    if (writeMimeTypes.contains(QStringLiteral("application/x-rar"))) {
-        QTest::newRow("rar") << QStringLiteral("application/x-rar") << true << 2 << 5;
+    if (writeMimeTypes.contains(QStringLiteral("application/vnd.rar"))) {
+        QTest::newRow("rar") << QStringLiteral("application/vnd.rar") << true << 2 << 5;
     } else {
         qDebug() << "rar format not available, skipping test.";
     }
@@ -137,12 +144,12 @@ void AddDialogTest::testBasicWidgets()
 
     if (supportsCompLevel) {
         // Test that the value set by slider is exported from AddDialog.
-        QCOMPARE(dialog->compressionOptions()[QStringLiteral("CompressionLevel")].toInt(), changeToCompLevel);
+        QCOMPARE(dialog->compressionOptions().compressionLevel(), changeToCompLevel);
     }
 
     // Test that passing a compression level in ctor works.
     CompressionOptions opts;
-    opts[QStringLiteral("CompressionLevel")] = initialCompLevel;
+    opts.setCompressionLevel(initialCompLevel);
 
     dialog = new AddDialog(Q_NULLPTR, QString(), QUrl(), mime, opts);
     dialog->slotOpenOptions();

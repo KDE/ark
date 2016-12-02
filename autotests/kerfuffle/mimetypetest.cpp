@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (c) 2015 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,7 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "kerfuffle/archive_kerfuffle.h"
+#include "archive_kerfuffle.h"
 #include "mimetypes.h"
 
 #include <QMimeDatabase>

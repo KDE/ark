@@ -44,7 +44,6 @@ namespace Kerfuffle
 {
 Query::Query()
 {
-    m_responseMutex.lock();
 }
 
 QVariant Query::response() const
@@ -54,11 +53,11 @@ QVariant Query::response() const
 
 void Query::waitForResponse()
 {
+    QMutexLocker locker(&m_responseMutex);
     //if there is no response set yet, wait
     if (!m_data.contains(QStringLiteral("response"))) {
         m_responseCondition.wait(&m_responseMutex);
     }
-    m_responseMutex.unlock();
 }
 
 void Query::setResponse(const QVariant &response)
@@ -228,6 +227,7 @@ bool LoadCorruptQuery::responseYes() {
 }
 
 ContinueExtractionQuery::ContinueExtractionQuery(const QString& error, const QString& archiveEntry)
+    : m_chkDontAskAgain(i18n("Don't ask again."))
 {
     m_data[QStringLiteral("error")] = error;
     m_data[QStringLiteral("archiveEntry")] = archiveEntry;
@@ -246,8 +246,7 @@ void ContinueExtractionQuery::execute()
                           "Do you want to continue extraction?<nl/>", m_data.value(QStringLiteral("archiveEntry")).toString(),
                           m_data.value(QStringLiteral("error")).toString()),
                     QMessageBox::Yes|QMessageBox::Cancel);
-    m_chkDontAskAgain = new QCheckBox(i18n("Don't ask again."));
-    box.setCheckBox(m_chkDontAskAgain);
+    box.setCheckBox(&m_chkDontAskAgain);
     setResponse(box.exec());
     QApplication::restoreOverrideCursor();
 }
@@ -257,7 +256,7 @@ bool ContinueExtractionQuery::responseCancelled() {
 }
 
 bool ContinueExtractionQuery::dontAskAgain() {
-    return m_chkDontAskAgain->isChecked();
+    return m_chkDontAskAgain.isChecked();
 }
 
 }

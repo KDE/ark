@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -27,7 +28,7 @@
 #ifndef LIBARCHIVEPLUGIN_H
 #define LIBARCHIVEPLUGIN_H
 
-#include "kerfuffle/archiveinterface.h"
+#include "archiveinterface.h"
 
 #include <archive.h>
 
@@ -40,23 +41,22 @@ class LibarchivePlugin : public ReadWriteArchiveInterface
     Q_OBJECT
 
 public:
-    explicit LibarchivePlugin(QObject *parent, const QVariantList& args);
+    explicit LibarchivePlugin(QObject *parent, const QVariantList &args);
     virtual ~LibarchivePlugin();
 
     virtual bool list() Q_DECL_OVERRIDE;
     virtual bool doKill() Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QVariantList& files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) Q_DECL_OVERRIDE;
 
-    virtual bool addFiles(const QStringList& files, const CompressionOptions& options) Q_DECL_OVERRIDE;
-    virtual bool deleteFiles(const QList<QVariant>& files) Q_DECL_OVERRIDE;
-    virtual bool addComment(const QString& comment) Q_DECL_OVERRIDE;
+    virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd = 0) Q_DECL_OVERRIDE;
+    virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
+    virtual bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
+    virtual bool deleteFiles(const QVector<Archive::Entry*> &files) Q_DECL_OVERRIDE;
+    virtual bool addComment(const QString &comment) Q_DECL_OVERRIDE;
     virtual bool testArchive() Q_DECL_OVERRIDE;
+    virtual bool hasBatchExtractionProgress() const Q_DECL_OVERRIDE;
 
 protected:
-    void emitEntryFromArchiveEntry(struct archive_entry *entry);
-    void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
-    void copyData(const QString& filename, struct archive *source, struct archive *dest, bool partialprogress = true);
-
     struct ArchiveReadCustomDeleter
     {
         static inline void cleanup(struct archive *a)
@@ -80,16 +80,23 @@ protected:
     typedef QScopedPointer<struct archive, ArchiveReadCustomDeleter> ArchiveRead;
     typedef QScopedPointer<struct archive, ArchiveWriteCustomDeleter> ArchiveWrite;
 
+    bool initializeReader();
+    void emitEntryFromArchiveEntry(struct archive_entry *entry);
+    void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
+    void copyData(const QString& filename, struct archive *source, struct archive *dest, bool partialprogress = true);
+
+    ArchiveRead m_archiveReader;
     ArchiveRead m_archiveReadDisk;
-    bool m_abortOperation;
 
 private:
     int extractionFlags() const;
+    QString convertCompressionName(const QString &method);
 
     int m_cachedArchiveEntryCount;
     qlonglong m_currentExtractedFilesSize;
     bool m_emitNoEntries;
     qlonglong m_extractedFilesSize;
+    QVector<Archive::Entry*> m_emittedEntries;
 };
 
 #endif // LIBARCHIVEPLUGIN_H

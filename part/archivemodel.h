@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,22 +23,19 @@
 #ifndef ARCHIVEMODEL_H
 #define ARCHIVEMODEL_H
 
+#include "archiveentry.h"
+
+#include <KMessageWidget>
+
 #include <QAbstractItemModel>
 #include <QScopedPointer>
 
-#include <KMessageWidget>
-#include <kjobtrackerinterface.h>
-#include "kerfuffle/archive_kerfuffle.h"
-
-using Kerfuffle::ArchiveEntry;
+using Kerfuffle::Archive;
 
 namespace Kerfuffle
 {
     class Query;
 }
-
-class ArchiveNode;
-class ArchiveDirNode;
 
 class ArchiveModel: public QAbstractItemModel
 {
@@ -61,24 +59,28 @@ public:
     //drag and drop related
     Qt::DropActions supportedDropActions() const Q_DECL_OVERRIDE;
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
-    QMimeData * mimeData(const QModelIndexList & indexes) const Q_DECL_OVERRIDE;
+    QMimeData *mimeData(const QModelIndexList & indexes) const Q_DECL_OVERRIDE;
     bool dropMimeData(const QMimeData * data, Qt::DropAction action, int row, int column, const QModelIndex & parent) Q_DECL_OVERRIDE;
 
-    KJob* setArchive(Kerfuffle::Archive *archive);
+    void reset();
+    void createEmptyArchive(const QString &path, const QString &mimeType, QObject *parent);
+    KJob* loadArchive(const QString &path, const QString &mimeType, QObject *parent);
     Kerfuffle::Archive *archive() const;
 
-    Kerfuffle::ArchiveEntry entryForIndex(const QModelIndex &index);
+    Archive::Entry *entryForIndex(const QModelIndex &index);
     int childCount(const QModelIndex &index, int &dirs, int &files) const;
 
-    Kerfuffle::ExtractJob* extractFile(const QVariant& fileName, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
-    Kerfuffle::ExtractJob* extractFiles(const QList<QVariant>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
+    Kerfuffle::ExtractJob* extractFile(Archive::Entry *file, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
+    Kerfuffle::ExtractJob* extractFiles(const QVector<Archive::Entry*>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
 
-    Kerfuffle::PreviewJob* preview(const QString& file) const;
-    Kerfuffle::OpenJob* open(const QString& file) const;
-    Kerfuffle::OpenWithJob* openWith(const QString& file) const;
+    Kerfuffle::PreviewJob* preview(Archive::Entry *file) const;
+    Kerfuffle::OpenJob* open(Archive::Entry *file) const;
+    Kerfuffle::OpenWithJob* openWith(Archive::Entry *file) const;
 
-    Kerfuffle::AddJob* addFiles(const QStringList & paths, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
-    Kerfuffle::DeleteJob* deleteFiles(const QList<QVariant> & files);
+    Kerfuffle::AddJob* addFiles(QVector<Archive::Entry*> &entries, const Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::MoveJob* moveFiles(QVector<Archive::Entry*> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::CopyJob* copyFiles(QVector<Archive::Entry*> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions& options = Kerfuffle::CompressionOptions());
+    Kerfuffle::DeleteJob* deleteFiles(QVector<Archive::Entry*> entries);
 
     /**
      * @param password The password to encrypt the archive with.
@@ -91,17 +93,42 @@ public:
     qulonglong numberOfFolders() const;
     qulonglong uncompressedSize() const;
 
+    /**
+     * Constructs a list of conflicting entries.
+     *
+     * @param conflictingEntries Reference to the empty mutable entries list, which will be constructed.
+     * If the method returns false, this list will contain only entries which produce a critical conflict.
+     * @param entries New entries paths list.
+     * @param allowMerging Boolean variable indicating whether merging is permitted.
+     * If true, existing entries won't generate an error.
+     *
+     * @return Boolean variable indicating whether conflicts are not critical (true for not critical,
+     * false for critical). For example, if there are both "some/file" (not a directory) and "some/file/" (a directory)
+     * entries for both new and existing paths, the method will return false. Also, if merging is not allowed,
+     * this method will return false for entries with the same path and types.
+     */
+    bool conflictingEntries(QList<const Archive::Entry*> &conflictingEntries, const QStringList &entries, bool allowMerging) const;
+
+    static bool hasDuplicatedEntries(const QStringList &entries);
+
+    static QMap<QString, Archive::Entry*> entryMap(const QVector<Archive::Entry*> &entries);
+
+    const QHash<QString, QIcon> entryIcons() const;
+
+    QMap<QString, Kerfuffle::Archive::Entry*> filesToMove;
+    QMap<QString, Kerfuffle::Archive::Entry*> filesToCopy;
+
 signals:
     void loadingStarted();
     void loadingFinished(KJob *);
     void extractionFinished(bool success);
     void error(const QString& error, const QString& details);
-    void droppedFiles(const QStringList& files, const QString& path = QString());
+    void droppedFiles(const QStringList& files, const Archive::Entry*, const QString&);
     void messageWidget(KMessageWidget::MessageType type, const QString& msg);
 
 private slots:
-    void slotNewEntryFromSetArchive(const ArchiveEntry& entry);
-    void slotNewEntry(const ArchiveEntry& entry);
+    void slotNewEntry(Archive::Entry *entry);
+    void slotListEntry(Archive::Entry *entry);
     void slotLoadingFinished(KJob *job);
     void slotEntryRemoved(const QString & path);
     void slotUserQuery(Kerfuffle::Query *query);
@@ -119,24 +146,28 @@ private:
      */
     QString cleanFileName(const QString& fileName);
 
-    ArchiveDirNode* parentFor(const Kerfuffle::ArchiveEntry& entry);
-    QModelIndex indexForNode(ArchiveNode *node);
+    void initRootEntry();
+
+    enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
+    Archive::Entry *parentFor(const Kerfuffle::Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
+    QModelIndex indexForEntry(Archive::Entry *entry);
     static bool compareAscending(const QModelIndex& a, const QModelIndex& b);
     static bool compareDescending(const QModelIndex& a, const QModelIndex& b);
     /**
      * Insert the node @p node into the model, ensuring all views are notified
      * of the change.
      */
-    enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
-    void insertNode(ArchiveNode *node, InsertBehaviour behaviour = NotifyViews);
-    void newEntry(const Kerfuffle::ArchiveEntry& entry, InsertBehaviour behaviour);
 
-    void traverseAndCountDirNode(ArchiveDirNode *dir);
+    void insertEntry(Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
+    void newEntry(Kerfuffle::Archive::Entry *receivedEntry, InsertBehaviour behaviour);
 
-    QList<Kerfuffle::ArchiveEntry> m_newArchiveEntries; // holds entries from opening a new archive until it's totally open
+    void traverseAndCountDirNode(Archive::Entry *dir);
+
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
-    ArchiveDirNode *m_rootNode;
+    QScopedPointer<Archive::Entry> m_rootEntry;
+    QHash<QString, QIcon> m_entryIcons;
+    QMap<int, QByteArray> m_propertiesMap;
 
     QString m_dbusPathName;
 

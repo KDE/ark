@@ -1,15 +1,40 @@
 {
     "KPlugin": {
-        "Icon": "ark",
+        "Icon": "ark", 
         "MimeTypes": [
-            "application/octet-stream",
+            "application/octet-stream", 
             "inode/directory"
-        ],
-        "Name": "'Compress' service menu",
+        ], 
+        "Name": "'Compress' service menu", 
+        "Name[ca@valencia]": "Menú de servei «Comprimeix»", 
+        "Name[ca]": "Menú de servei «Comprimeix»", 
+        "Name[cs]": "Servisní nabídka 'Zkomprimovat'", 
+        "Name[de]": "„Komprimieren“ im Servicemenü", 
+        "Name[es]": "Menú de servicio para «Comprimir»", 
+        "Name[et]": "Tihendamise teenusemenüü", 
+        "Name[fi]": "Pakkaa-palveluvalikko", 
+        "Name[fr]": "Menu de service « compresser »", 
+        "Name[he]": "תפריט שירות \"דחיסה\"", 
+        "Name[it]": "Menu di servizio «Comprimi»", 
+        "Name[nl]": "Servicemenu 'Comprimeren'", 
+        "Name[nn]": "«Komprimer»-tenestemeny", 
+        "Name[pl]": "Menu usługi 'Spakuj'", 
+        "Name[pt]": "Menu do serviço 'Comprimir'", 
+        "Name[sk]": "Servisná ponuka 'Zbaliť'", 
+        "Name[sl]": "Meni storitve stiskanja", 
+        "Name[sr@ijekavian]": "Сервисни мени компресовања", 
+        "Name[sr@ijekavianlatin]": "Servisni meni kompresovanja", 
+        "Name[sr@latin]": "Servisni meni kompresovanja", 
+        "Name[sr]": "Сервисни мени компресовања", 
+        "Name[sv]": "'Tjänstmeny 'Komprimera'", 
+        "Name[uk]": "Службове меню «Стиснути»", 
+        "Name[x-test]": "xx'Compress' service menuxx", 
+        "Name[zh_CN]": "“压缩”服务菜单", 
+        "Name[zh_TW]": "「壓縮」服務選單", 
         "ServiceTypes": [
             "KFileItemAction/Plugin"
         ]
-    },
-    "MimeType": "application/octet-stream;inode/directory;",
+    }, 
+    "MimeType": "application/octet-stream;inode/directory;", 
     "X-KDE-Require": "Write"
 }

@@ -2,6 +2,7 @@
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (c) 2009-2012 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -27,8 +28,7 @@
 
 #include "archiveinterface.h"
 #include "ark_debug.h"
-
-#include <kfileitem.h>
+#include "mimetypes.h"
 
 #include <QDebug>
 #include <QDir>
@@ -39,17 +39,29 @@ namespace Kerfuffle
 ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args)
         : QObject(parent)
         , m_numberOfVolumes(0)
+        , m_numberOfEntries(0)
         , m_waitForFinishedSignal(false)
         , m_isHeaderEncryptionEnabled(false)
         , m_isCorrupt(false)
         , m_isMultiVolume(false)
 {
+    Q_ASSERT(args.size() >= 2);
+
     qCDebug(ARK) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();
+    m_mimetype = determineMimeType(m_filename);
+    connect(this, &ReadOnlyArchiveInterface::entry, this, &ReadOnlyArchiveInterface::onEntry);
+    m_metaData = args.at(1).value<KPluginMetaData>();
 }
 
 ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
 {
+}
+
+void ReadOnlyArchiveInterface::onEntry(Archive::Entry *archiveEntry)
+{
+    Q_UNUSED(archiveEntry)
+    m_numberOfEntries++;
 }
 
 QString ReadOnlyArchiveInterface::filename() const
@@ -135,10 +147,12 @@ QString ReadOnlyArchiveInterface::multiVolumeName() const
     return filename();
 }
 
-ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList & args)
+ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList &args)
         : ReadOnlyArchiveInterface(parent, args)
 {
     qCDebug(ARK) << "Created read-write interface for" << args.first().toString();
+
+    connect(this, &ReadWriteArchiveInterface::entryRemoved, this, &ReadWriteArchiveInterface::onEntryRemoved);
 }
 
 ReadWriteArchiveInterface::~ReadWriteArchiveInterface()
@@ -150,14 +164,107 @@ bool ReadOnlyArchiveInterface::waitForFinishedSignal()
     return m_waitForFinishedSignal;
 }
 
+int ReadOnlyArchiveInterface::moveRequiredSignals() const {
+    return 1;
+}
+
+int ReadOnlyArchiveInterface::copyRequiredSignals() const
+{
+    return 1;
+}
+
 void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
 {
     m_waitForFinishedSignal = value;
 }
 
+QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entry*> &entries, PathFormat format)
+{
+    QStringList filesList;
+    foreach (const Archive::Entry *file, entries) {
+        filesList << file->fullPath(format);
+    }
+    return filesList;
+}
+
+QVector<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const QVector<Archive::Entry*> &entries)
+{
+    // QMap is easy way to get entries sorted by their fullPath.
+    QMap<QString, Archive::Entry*> sortedEntries;
+    foreach (Archive::Entry *entry, entries) {
+        sortedEntries.insert(entry->fullPath(), entry);
+    }
+
+    QVector<Archive::Entry*> filteredEntries;
+    QString lastFolder;
+    foreach (Archive::Entry *entry, sortedEntries) {
+        if (lastFolder.count() > 0 && entry->fullPath().startsWith(lastFolder)) {
+            continue;
+        }
+
+        lastFolder = (entry->fullPath().right(1) == QLatin1String("/")) ? entry->fullPath() : QString();
+        filteredEntries << entry;
+    }
+
+    return filteredEntries;
+}
+
+QStringList ReadOnlyArchiveInterface::entryPathsFromDestination(QStringList entries, const Archive::Entry *destination, int entriesWithoutChildren)
+{
+    QStringList paths = QStringList();
+    entries.sort();
+    QString lastFolder;
+    const QString destinationPath = (destination == Q_NULLPTR) ? QString() : destination->fullPath();
+
+    QString newPath;
+    int nameLength = 0;
+    foreach (const QString &entryPath, entries) {
+        if (lastFolder.count() > 0 && entryPath.startsWith(lastFolder)) {
+            // Replace last moved or copied folder path with destination path.
+            int charsCount = entryPath.count() - lastFolder.count();
+            if (entriesWithoutChildren != 1) {
+                charsCount += nameLength;
+            }
+            newPath = destinationPath + entryPath.right(charsCount);
+        } else {
+            const QString name = entryPath.split(QLatin1Char('/'), QString::SkipEmptyParts).last();
+            if (entriesWithoutChildren != 1) {
+                newPath = destinationPath + name;
+                if (entryPath.right(1) == QLatin1String("/")) {
+                    newPath += QLatin1Char('/');
+                }
+            } else {
+                // If the mode is set to Move and there is only one passed file in the list,
+                // we have to use destination as newPath.
+                newPath = destinationPath;
+            }
+            if (entryPath.right(1) == QLatin1String("/")) {
+                nameLength = name.count() + 1; // plus slash
+                lastFolder = entryPath;
+            } else {
+                nameLength = 0;
+                lastFolder = QString();
+            }
+        }
+        paths << newPath;
+    }
+
+    return paths;
+}
+
 bool ReadOnlyArchiveInterface::isHeaderEncryptionEnabled() const
 {
     return m_isHeaderEncryptionEnabled;
+}
+
+QMimeType ReadOnlyArchiveInterface::mimetype() const
+{
+    return m_mimetype;
+}
+
+bool ReadOnlyArchiveInterface::hasBatchExtractionProgress() const
+{
+    return false;
 }
 
 bool ReadWriteArchiveInterface::isReadOnly() const
@@ -174,6 +281,17 @@ bool ReadWriteArchiveInterface::isReadOnly() const
     } else {
         return !fileInfo.dir().exists(); // TODO: Should also check if we can create a file in that directory
     }
+}
+
+int ReadOnlyArchiveInterface::numberOfEntries() const
+{
+    return m_numberOfEntries;
+}
+
+void ReadWriteArchiveInterface::onEntryRemoved(const QString &path)
+{
+    Q_UNUSED(path)
+    m_numberOfEntries--;
 }
 
 } // namespace Kerfuffle

@@ -3,6 +3,8 @@
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2010-2011,2014 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (C) 2015-2016 Ragnar Thomsen <rthomsen6@gmail.com>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,14 +24,14 @@
 
 #include "cliplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle/kerfuffle_export.h"
+#include "archiveentry.h"
 
 #include <QDateTime>
-#include <QRegularExpression>
 
+#include <KLocalizedString>
 #include <KPluginFactory>
 
-using namespace Kerfuffle;
+    using namespace Kerfuffle;
 
 K_PLUGIN_FACTORY_WITH_JSON(CliPluginFactory, "kerfuffle_clirar.json", registerPlugin<CliPlugin>();)
 
@@ -39,6 +41,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         , m_isUnrar5(false)
         , m_isPasswordProtected(false)
         , m_isSolid(false)
+        , m_isRAR5(false)
         , m_remainingIgnoreLines(1) //The first line of UNRAR output is empty.
         , m_linesComment(0)
 {
@@ -46,6 +49,8 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
 
     // Empty lines are needed for parsing output of unrar.
     setListEmptyLines(true);
+
+    setupCliProperties();
 }
 
 CliPlugin::~CliPlugin()
@@ -56,88 +61,73 @@ void CliPlugin::resetParsing()
 {
     m_parseState = ParseStateTitle;
     m_remainingIgnoreLines = 1;
+    m_unrarVersion.clear();
     m_comment.clear();
     m_numberOfVolumes = 0;
 }
 
-// #272281: the proprietary unrar program does not like trailing '/'s
-//          in directories passed to it when extracting only part of
-//          the files in an archive.
-QString CliPlugin::escapeFileName(const QString &fileName) const
+void CliPlugin::setupCliProperties()
 {
-    if (fileName.endsWith(QLatin1Char('/'))) {
-        return fileName.left(fileName.length() - 1);
-    }
+    qCDebug(ARK) << "Setting up parameters...";
 
-    return fileName;
-}
+    m_cliProps->setProperty("captureProgress", true);
 
-ParameterList CliPlugin::parameterList() const
-{
-    static ParameterList p;
+    m_cliProps->setProperty("addProgram", QStringLiteral("rar"));
+    m_cliProps->setProperty("addSwitch", QStringList({QStringLiteral("a")}));
 
-    if (p.isEmpty()) {
-        p[CaptureProgress] = true;
-        p[ListProgram] = p[ExtractProgram] = p[TestProgram] = QStringList() << QStringLiteral( "unrar" );
-        p[DeleteProgram] = p[AddProgram] = QStringList() << QStringLiteral( "rar" );
+    m_cliProps->setProperty("deleteProgram", QStringLiteral("rar"));
+    m_cliProps->setProperty("deleteSwitch", QStringLiteral("d"));
 
-        p[ListArgs] = QStringList() << QStringLiteral("vt")
-                                    << QStringLiteral("-v")
-                                    << QStringLiteral("$PasswordSwitch")
-                                    << QStringLiteral("$Archive");
-        p[ExtractArgs] = QStringList() << QStringLiteral( "-kb" )
-                                       << QStringLiteral( "-p-" )
-                                       << QStringLiteral( "$PreservePathSwitch" )
-                                       << QStringLiteral( "$PasswordSwitch" )
-                                       << QStringLiteral( "$Archive" )
-                                       << QStringLiteral( "$Files" );
-        p[PreservePathSwitch] = QStringList() << QStringLiteral( "x" )
-                                              << QStringLiteral( "e" );
-        p[PasswordSwitch] = QStringList() << QStringLiteral( "-p$Password" );
-        p[PasswordHeaderSwitch] = QStringList() << QStringLiteral("-hp$Password");
-        p[CompressionLevelSwitch] = QStringLiteral("-m$CompressionLevel");
-        p[MultiVolumeSwitch] = QStringLiteral("-v$VolumeSizek");
-        p[DeleteArgs] = QStringList() << QStringLiteral( "d" )
-                                      << QStringLiteral( "$PasswordSwitch" )
-                                      << QStringLiteral( "$Archive" )
-                                      << QStringLiteral( "$Files" );
-        p[FileExistsExpression] = QStringList()
-                                << QStringLiteral("^\\[Y\\]es, \\[N\\]o, \\[A\\]ll, n\\[E\\]ver, \\[R\\]ename, \\[Q\\]uit $");
-        p[FileExistsFileName] = QStringList() << QStringLiteral("^(.+) already exists. Overwrite it")  // unrar 3 & 4
-                                              << QStringLiteral("^Would you like to replace the existing file (.+)$"); // unrar 5
-        p[FileExistsInput] = QStringList() << QStringLiteral( "Y" )  //overwrite
-                                           << QStringLiteral( "N" )  //skip
-                                           << QStringLiteral( "A" )  //overwrite all
-                                           << QStringLiteral( "E" )  //autoskip
-                                           << QStringLiteral( "Q" ); //cancel
-        p[AddArgs] = QStringList() << QStringLiteral( "a" )
-                                   << QStringLiteral( "$Archive" )
-                                   << QStringLiteral("$PasswordSwitch")
-                                   << QStringLiteral("$CompressionLevelSwitch")
-                                   << QStringLiteral("$MultiVolumeSwitch")
-                                   << QStringLiteral( "$Files" );
-        p[PasswordPromptPattern] = QLatin1String("Enter password \\(will not be echoed\\) for");
-        p[WrongPasswordPatterns] = QStringList() << QStringLiteral("password incorrect") << QStringLiteral("wrong password");
-        p[ExtractionFailedPatterns] = QStringList() << QStringLiteral( "CRC failed" )
-                                                    << QStringLiteral( "Cannot find volume" );
-        p[CorruptArchivePatterns] = QStringList() << QStringLiteral("Unexpected end of archive")
-                                                  << QStringLiteral("the file header is corrupt");
-        p[DiskFullPatterns] = QStringList() << QStringLiteral("No space left on device");
-        p[CommentArgs] = QStringList() << QStringLiteral("c")
-                                       << QStringLiteral("$CommentSwitch")
-                                       << QStringLiteral("$Archive");
-        p[CommentSwitch] = QStringLiteral("-z$CommentFile");
-        p[TestArgs] = QStringList() << QStringLiteral("t")
-                                    << QStringLiteral("$Archive")
-                                    << QStringLiteral("$PasswordSwitch");
-        p[TestPassedPattern] = QStringLiteral("^All OK$");
-        // rar will sometimes create multi-volume archives where first volume is
-        // called name.part1.rar and other times name.part01.rar.
-        p[MultiVolumeSuffix] = QStringList() << QStringLiteral("part01.$Suffix")
-                                             << QStringLiteral("part1.$Suffix");
-    }
+    m_cliProps->setProperty("extractProgram", QStringLiteral("unrar"));
+    m_cliProps->setProperty("extractSwitch", QStringList{QStringLiteral("x"),
+                                                     QStringLiteral("-kb"),
+                                                     QStringLiteral("-p-")});
+    m_cliProps->setProperty("extractSwitchNoPreserve", QStringList{QStringLiteral("e"),
+                                                               QStringLiteral("-kb"),
+                                                               QStringLiteral("-p-")});
 
-    return p;
+    m_cliProps->setProperty("listProgram", QStringLiteral("unrar"));
+    m_cliProps->setProperty("listSwitch", QStringList{QStringLiteral("vt"),
+                                                  QStringLiteral("-v")});
+
+    m_cliProps->setProperty("moveProgram", QStringLiteral("rar"));
+    m_cliProps->setProperty("moveSwitch", QStringLiteral("rn"));
+
+    m_cliProps->setProperty("testProgram", QStringLiteral("unrar"));
+    m_cliProps->setProperty("testSwitch", QStringLiteral("t"));
+
+    m_cliProps->setProperty("commentSwitch", QStringList{QStringLiteral("c"),
+                                                     QStringLiteral("-z$CommentFile")});
+
+    m_cliProps->setProperty("passwordSwitch", QStringList{QStringLiteral("-p$Password")});
+    m_cliProps->setProperty("passwordSwitchHeaderEnc", QStringList{QStringLiteral("-hp$Password")});
+
+    m_cliProps->setProperty("compressionLevelSwitch", QStringLiteral("-m$CompressionLevel"));
+    m_cliProps->setProperty("compressionMethodSwitch", QHash<QString,QVariant>{{QStringLiteral("application/vnd.rar"), QStringLiteral("-ma$CompressionMethod")},
+                                                                           {QStringLiteral("application/x-rar"), QStringLiteral("-ma$CompressionMethod")}});
+    m_cliProps->setProperty("multiVolumeSwitch", QStringLiteral("-v$VolumeSizek"));
+
+
+    m_cliProps->setProperty("passwordPromptPatterns", QStringList{QStringLiteral("Enter password \\(will not be echoed\\) for")});
+    m_cliProps->setProperty("wrongPasswordPatterns", QStringList{QStringLiteral("password incorrect"),
+                                                             QStringLiteral("wrong password")});
+    m_cliProps->setProperty("testPassedPatterns", QStringList{QStringLiteral("^All OK$")});
+    m_cliProps->setProperty("fileExistsPatterns", QStringList{QStringLiteral("^\\[Y\\]es, \\[N\\]o, \\[A\\]ll, n\\[E\\]ver, \\[R\\]ename, \\[Q\\]uit $")});
+    m_cliProps->setProperty("fileExistsFileName", QStringList{QStringLiteral("^(.+) already exists. Overwrite it"),  // unrar 3 & 4
+                                                          QStringLiteral("^Would you like to replace the existing file (.+)$")}); // unrar 5
+    m_cliProps->setProperty("fileExistsInput", QStringList{QStringLiteral("Y"),   //Overwrite
+                                                       QStringLiteral("N"),   //Skip
+                                                       QStringLiteral("A"),   //Overwrite all
+                                                       QStringLiteral("E"),   //Autoskip
+                                                       QStringLiteral("Q")}); //Cancel
+    m_cliProps->setProperty("corruptArchivePatterns", QStringList{QStringLiteral("Unexpected end of archive"),
+                                                              QStringLiteral("the file header is corrupt")});
+    m_cliProps->setProperty("diskFullPatterns", QStringList{QStringLiteral("No space left on device")});
+
+    // rar will sometimes create multi-volume archives where first volume is
+    // called name.part1.rar and other times name.part01.rar.
+    m_cliProps->setProperty("multiVolumeSuffix", QStringList{QStringLiteral("part01.$Suffix"),
+                                                         QStringLiteral("part1.$Suffix")});
 }
 
 bool CliPlugin::readListLine(const QString &line)
@@ -156,9 +146,9 @@ bool CliPlugin::readListLine(const QString &line)
 
         if (matchVersion.hasMatch()) {
             m_parseState = ParseStateComment;
-            QString unrarVersion = matchVersion.captured(1);
-            qCDebug(ARK) << "UNRAR version" << unrarVersion << "detected";
-            if (unrarVersion.toFloat() >= 5) {
+            m_unrarVersion = matchVersion.captured(1);
+            qCDebug(ARK) << "UNRAR version" << m_unrarVersion << "detected";
+            if (m_unrarVersion.toFloat() >= 5) {
                 m_isUnrar5 = true;
                 qCDebug(ARK) << "Using UNRAR 5 parser";
             } else {
@@ -174,15 +164,20 @@ bool CliPlugin::readListLine(const QString &line)
     // Or see what version of unrar we are dealing with and call specific
     // handler functions.
     } else if (m_isUnrar5) {
-        handleUnrar5Line(line);
+        return handleUnrar5Line(line);
     } else {
-        handleUnrar4Line(line);
+        return handleUnrar4Line(line);
     }
-
     return true;
 }
 
-void CliPlugin::handleUnrar5Line(const QString &line) {
+bool CliPlugin::handleUnrar5Line(const QString &line)
+{
+    const QRegularExpression rxVolume(QStringLiteral("Cannot find volume "));
+    if (rxVolume.match(line).hasMatch()) {
+        emit error(i18n("Failed to find all archive volumes."));
+        return false;
+    }
 
     // Parses the comment field.
     if (m_parseState == ParseStateComment) {
@@ -203,7 +198,7 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
             m_comment.append(line + QLatin1Char('\n'));
         }
 
-        return;
+        return true;
     }
 
     // Parses the header, which is whatever is between the comment field
@@ -224,8 +219,14 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
                 m_isSolid = true;
                 qCDebug(ARK) << "Solid archive detected";
             }
+            if (line.contains(QLatin1String("RAR 4"))) {
+                emit compressionMethodFound(QStringLiteral("RAR4"));
+            } else if (line.contains(QLatin1String("RAR 5"))) {
+                emit compressionMethodFound(QStringLiteral("RAR5"));
+                m_isRAR5 = true;
+            }
         }
-        return;
+        return true;
     }
 
     // Parses the entry details for each entry.
@@ -235,7 +236,7 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
         // each volume.
         if (line.startsWith(QLatin1String("Archive: "))) {
             m_parseState = ParseStateHeader;
-            return;
+            return true;
 
         // Empty line indicates end of entry.
         } else if (line.trimmed().isEmpty() && !m_unrar5Details.isEmpty()) {
@@ -246,7 +247,7 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
             // All detail lines should contain a colon.
             if (!line.contains(QLatin1Char(':'))) {
                 qCWarning(ARK) << "Unrecognized line:" << line;
-                return;
+                return true;
             }
 
             // The details are on separate lines, so we store them in the QHash
@@ -255,24 +256,25 @@ void CliPlugin::handleUnrar5Line(const QString &line) {
                                    line.section(QLatin1Char(':'), 1).trimmed());
         }
 
-        return;
+        return true;
     }
+    return true;
 }
 
-void CliPlugin::handleUnrar5Entry() {
-
-    ArchiveEntry e;
+void CliPlugin::handleUnrar5Entry()
+{
+    Archive::Entry *e = new Archive::Entry(this);
 
     QString compressionRatio = m_unrar5Details.value(QStringLiteral("ratio"));
     compressionRatio.chop(1); // Remove the '%'
-    e[Ratio] = compressionRatio;
+    e->setProperty("ratio", compressionRatio);
 
     QString time = m_unrar5Details.value(QStringLiteral("mtime"));
     QDateTime ts = QDateTime::fromString(time, QStringLiteral("yyyy-MM-dd HH:mm:ss,zzz"));
-    e[Timestamp] = ts;
+    e->setProperty("timestamp", ts);
 
     bool isDirectory = (m_unrar5Details.value(QStringLiteral("type")) == QLatin1String("Directory"));
-    e[IsDirectory] = isDirectory;
+    e->setProperty("isDirectory", isDirectory);
 
     if (isDirectory && !m_unrar5Details.value(QStringLiteral("name")).endsWith(QLatin1Char('/'))) {
         m_unrar5Details[QStringLiteral("name")] += QLatin1Char('/');
@@ -281,33 +283,41 @@ void CliPlugin::handleUnrar5Entry() {
     QString compression = m_unrar5Details.value(QStringLiteral("compression"));
     int optionPos = compression.indexOf(QLatin1Char('-'));
     if (optionPos != -1) {
-        e[Method] = compression.mid(optionPos);
-        e[Version] = compression.left(optionPos).trimmed();
+        e->setProperty("method", compression.mid(optionPos));
+        e->setProperty("version", compression.left(optionPos).trimmed());
     } else {
         // No method specified.
-        e[Method].clear();
-        e[Version] = compression;
+        e->setProperty("method", QStringLiteral(""));
+        e->setProperty("version", compression);
     }
 
     m_isPasswordProtected = m_unrar5Details.value(QStringLiteral("flags")).contains(QStringLiteral("encrypted"));
-    e[IsPasswordProtected] = m_isPasswordProtected;
+    e->setProperty("isPasswordProtected", m_isPasswordProtected);
+    if (m_isPasswordProtected) {
+        m_isRAR5 ? emit encryptionMethodFound(QStringLiteral("AES256")) : emit encryptionMethodFound(QStringLiteral("AES128"));
+    }
 
-    e[FileName] = m_unrar5Details.value(QStringLiteral("name"));
-    e[InternalID] = m_unrar5Details.value(QStringLiteral("name"));
-    e[Size] = m_unrar5Details.value(QStringLiteral("size"));
-    e[CompressedSize] = m_unrar5Details.value(QStringLiteral("packed size"));
-    e[Permissions] = m_unrar5Details.value(QStringLiteral("attributes"));
-    e[CRC] = m_unrar5Details.value(QStringLiteral("crc32"));
+    e->setProperty("fullPath", m_unrar5Details.value(QStringLiteral("name")));
+    e->setProperty("size", m_unrar5Details.value(QStringLiteral("size")));
+    e->setProperty("compressedSize", m_unrar5Details.value(QStringLiteral("packed size")));
+    e->setProperty("permissions", m_unrar5Details.value(QStringLiteral("attributes")));
+    e->setProperty("CRC", m_unrar5Details.value(QStringLiteral("crc32")));
 
-    if (e[Permissions].toString().startsWith(QLatin1Char('l'))) {
-        e[Link] = m_unrar5Details.value(QStringLiteral("target"));
+    if (e->property("permissions").toString().startsWith(QLatin1Char('l'))) {
+        e->setProperty("link", m_unrar5Details.value(QStringLiteral("target")));
     }
 
     m_unrar5Details.clear();
     emit entry(e);
 }
 
-void CliPlugin::handleUnrar4Line(const QString &line) {
+bool CliPlugin::handleUnrar4Line(const QString &line)
+{
+    const QRegularExpression rxVolume(QStringLiteral("Cannot find volume "));
+    if (rxVolume.match(line).hasMatch()) {
+        emit error(i18n("Failed to find all archive volumes."));
+        return false;
+    }
 
     // Parses the comment field.
     if (m_parseState == ParseStateComment) {
@@ -315,6 +325,24 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         // RegExp matching end of comment field.
         // FIXME: Comment itself could also contain the Archive path string here.
         QRegularExpression rxCommentEnd(QStringLiteral("^(Solid archive|Archive|Volume) .+$"));
+
+        // unrar 4 outputs the following string when opening v5 RAR archives.
+        if (line == QLatin1String("Unsupported archive format. Please update RAR to a newer version.")) {
+            emit error(i18n("Your unrar executable is version %1, which is too old to handle this archive. Please update to a more recent version.",
+                            m_unrarVersion));
+            return false;
+        }
+
+        // unrar 3 reports a non-RAR archive when opening v5 RAR archives.
+        if (line.endsWith(QLatin1String(" is not RAR archive"))) {
+            emit error(i18n("Unrar reported a non-RAR archive. The installed unrar version (%1) is old. Try updating your unrar.",
+                            m_unrarVersion));
+            return false;
+        }
+
+        // If we reach this point, then we can be sure that it's not a RAR5
+        // archive, so assume RAR4.
+        emit compressionMethodFound(QStringLiteral("RAR4"));
 
         if (rxCommentEnd.match(line).hasMatch()) {
 
@@ -341,7 +369,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
             m_comment.append(line + QLatin1Char('\n'));
         }
 
-        return;
+        return true;
     }
 
     // Parses the header, which is whatever is between the comment field
@@ -354,7 +382,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         } else if (line.startsWith(QLatin1String("Volume "))) {
             m_numberOfVolumes++;
         }
-        return;
+        return true;
     }
 
     // Parses the entry name, which is on the first line of each entry.
@@ -362,7 +390,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
 
         // Ignore empty lines.
         if (line.trimmed().isEmpty()) {
-            return;
+            return true;
         }
 
         // Three types of subHeaders can be displayed for unrar 3 and 4.
@@ -379,25 +407,26 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
             } else if (matchSubHeader.captured(1) == QLatin1String("RR")) {
                 ignoreLines(3, ParseStateEntryFileName);
             }
-            return;
+            return true;
         }
 
         // The entries list ends with a horizontal line, followed by a
         // single summary line or, for multi-volume archives, another header.
         if (line.startsWith(QStringLiteral("-----------------"))) {
             m_parseState = ParseStateHeader;
-            return;
+            return true;
 
         // Encrypted files are marked with an asterisk.
         } else if (line.startsWith(QLatin1Char('*'))) {
             m_isPasswordProtected = true;
             m_unrar4Details.append(QString(line.trimmed()).remove(0, 1)); //Remove the asterisk
+            emit encryptionMethodFound(QStringLiteral("AES128"));
 
         // Entry names always start at the second position, so a line not
         // starting with a space is not an entry name.
         } else if (!line.startsWith(QLatin1Char(' '))) {
             qCWarning(ARK) << "Unrecognized line:" << line;
-            return;
+            return true;
 
         // If we reach this, then we can assume the line is an entry name, so
         // save it, and move on to the rest of the entry details.
@@ -407,7 +436,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
 
         m_parseState = ParseStateEntryDetails;
 
-        return;
+        return true;
     }
 
     // Parses the remainder of the entry details for each entry.
@@ -421,7 +450,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         // entry name, so go back to header.
         if (line.startsWith(QStringLiteral("-----------------"))) {
             m_parseState = ParseStateHeader;
-            return;
+            return true;
         }
 
         // In unrar 3 and 4 the details are on a single line, so we
@@ -435,7 +464,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         // not an archive entry.
         if (m_unrar4Details.size() != 10) {
             m_parseState = ParseStateHeader;
-            return;
+            return true;
         }
 
         // When unrar 3 and 4 list a symlink, they output an extra line
@@ -443,7 +472,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         // the line we ignore, so we first need to ignore one line.
         if (m_unrar4Details.at(6).startsWith(QLatin1Char('l'))) {
             ignoreLines(1, ParseStateLinkTarget);
-            return;
+            return true;
         } else {
             handleUnrar4Entry();
         }
@@ -453,7 +482,7 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         // line.
         ignoreLines(1, ParseStateEntryFileName);
 
-        return;
+        return true;
     }
 
     // Parses a symlink target.
@@ -463,13 +492,14 @@ void CliPlugin::handleUnrar4Line(const QString &line) {
         handleUnrar4Entry();
 
         m_parseState = ParseStateEntryFileName;
-        return;
+        return true;
     }
+    return true;
 }
 
-void CliPlugin::handleUnrar4Entry() {
-
-    ArchiveEntry e;
+void CliPlugin::handleUnrar4Entry()
+{
+    Archive::Entry *e = new Archive::Entry(this);
 
     QDateTime ts = QDateTime::fromString(QString(m_unrar4Details.at(4) + QLatin1Char(' ') + m_unrar4Details.at(5)),
                                          QStringLiteral("dd-MM-yy hh:mm"));
@@ -478,11 +508,11 @@ void CliPlugin::handleUnrar4Entry() {
     if (ts.date().year() < 1950) {
         ts = ts.addYears(100);
     }
-    e[Timestamp] = ts;
+    e->setProperty("timestamp", ts);
 
     bool isDirectory = ((m_unrar4Details.at(6).at(0) == QLatin1Char('d')) ||
                         (m_unrar4Details.at(6).at(1) == QLatin1Char('D')));
-    e[IsDirectory] = isDirectory;
+    e->setProperty("isDirectory", isDirectory);
 
     if (isDirectory && !m_unrar4Details.at(0).endsWith(QLatin1Char('/'))) {
         m_unrar4Details[0] += QLatin1Char('/');
@@ -501,30 +531,52 @@ void CliPlugin::handleUnrar4Entry() {
     } else {
         compressionRatio.chop(1); // Remove the '%'
     }
-    e[Ratio] = compressionRatio;
+    e->setProperty("ratio", compressionRatio);
 
     // TODO:
     // - Permissions differ depending on the system the entry was added
     //   to the archive.
-    e[FileName] = m_unrar4Details.at(0);
-    e[InternalID] = m_unrar4Details.at(0);
-    e[Size] = m_unrar4Details.at(1);
-    e[CompressedSize] = m_unrar4Details.at(2);
-    e[Permissions] = m_unrar4Details.at(6);
-    e[CRC] = m_unrar4Details.at(7);
-    e[Method] = m_unrar4Details.at(8);
-    e[Version] = m_unrar4Details.at(9);
-    e[IsPasswordProtected] = m_isPasswordProtected;
+    e->setProperty("fullPath", m_unrar4Details.at(0));
+    e->setProperty("size", m_unrar4Details.at(1));
+    e->setProperty("compressedSize", m_unrar4Details.at(2));
+    e->setProperty("permissions", m_unrar4Details.at(6));
+    e->setProperty("CRC", m_unrar4Details.at(7));
+    e->setProperty("method", m_unrar4Details.at(8));
+    e->setProperty("version", m_unrar4Details.at(9));
+    e->setProperty("isPasswordProtected", m_isPasswordProtected);
 
-    if (e[Permissions].toString().startsWith(QLatin1Char('l'))) {
-        e[Link] = m_unrar4Details.at(10);
+    if (e->property("permissions").toString().startsWith(QLatin1Char('l'))) {
+        e->setProperty("link", m_unrar4Details.at(10));
     }
 
     m_unrar4Details.clear();
     emit entry(e);
 }
 
-void CliPlugin::ignoreLines(int lines, ParseState nextState) {
+bool CliPlugin::readExtractLine(const QString &line)
+{
+    const QRegularExpression rxCRC(QStringLiteral("CRC failed"));
+    if (rxCRC.match(line).hasMatch()) {
+        emit error(i18n("One or more wrong checksums"));
+        return false;
+    }
+
+    const QRegularExpression rxVolume(QStringLiteral("Cannot find volume "));
+    if (rxVolume.match(line).hasMatch()) {
+        emit error(i18n("Failed to find all archive volumes."));
+        return false;
+    }
+
+    return true;
+}
+
+bool CliPlugin::hasBatchExtractionProgress() const
+{
+    return true;
+}
+
+void CliPlugin::ignoreLines(int lines, ParseState nextState)
+{
     m_remainingIgnoreLines = lines;
     m_parseState = nextState;
 }

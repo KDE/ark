@@ -46,6 +46,8 @@ namespace Kerfuffle
 
 class ExtractionDialogUI: public QFrame, public Ui::ExtractionDialog
 {
+    Q_OBJECT
+
 public:
     ExtractionDialogUI(QWidget *parent = 0)
             : QFrame(parent) {
@@ -131,8 +133,7 @@ void ExtractionDialog::slotAccepted()
                                                                      xi18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder),
                                                                      i18n("Folder exists"),
                                                                      KGuiItem(i18n("Extract here")),
-                                                                     KGuiItem(i18n("Retry")),
-                                                                     KGuiItem(i18n("Cancel")));
+                                                                     KGuiItem(i18n("Retry")));
 
                     if (overwrite == KMessageBox::No) {
                         // The user clicked Retry.
@@ -199,6 +200,21 @@ void ExtractionDialog::setSubfolder(const QString& subfolder)
 QString ExtractionDialog::subfolder() const
 {
     return m_ui->subfolder->text();
+}
+
+void ExtractionDialog::setBusyGui()
+{
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    fileWidget->setEnabled(false);
+    m_ui->setEnabled(false);
+    // TODO: tell the user why the dialog is busy (e.g. "archive is being loaded").
+}
+
+void ExtractionDialog::setReadyGui()
+{
+    QApplication::restoreOverrideCursor();
+    fileWidget->setEnabled(true);
+    m_ui->setEnabled(true);
 }
 
 ExtractionDialog::~ExtractionDialog()
@@ -309,4 +325,7 @@ void ExtractionDialog::restoreWindowSize()
   KConfigGroup group(KSharedConfig::openConfig(), "ExtractDialog");
   KWindowConfig::restoreWindowSize(windowHandle(), group);
 }
+
 }
+
+#include "extractiondialog.moc"

@@ -1,7 +1,7 @@
 /*
  * ark -- archiver for the KDE project
  *
- * Copyright (C) 2015 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (C) 2015 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -29,11 +29,11 @@
 #define PREVIEWSETTINGSPAGE_H
 
 #include "settingspage.h"
-#include "ui_previewsettings.h"
+#include "ui_previewsettingspage.h"
 
 namespace Kerfuffle
 {
-class KERFUFFLE_EXPORT PreviewSettingsPage : public SettingsPage, public Ui::PreviewSettings
+class KERFUFFLE_EXPORT PreviewSettingsPage : public SettingsPage, public Ui::PreviewSettingsPage
 {
     Q_OBJECT
 

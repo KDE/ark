@@ -22,9 +22,9 @@
 #ifndef JOBTRACKER_H
 #define JOBTRACKER_H
 
-#include <QFrame>
-#include <kabstractwidgetjobtracker.h>
 #include "ui_jobtracker.h"
+
+#include <KAbstractWidgetJobTracker>
 
 class KJob;
 

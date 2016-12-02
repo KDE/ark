@@ -25,13 +25,17 @@
  */
 
 #include "clirartest.h"
+#include "cliplugin.h"
+#include "archive_kerfuffle.h"
+#include "jobs.h"
+#include "testhelper.h"
+
+#include <KPluginLoader>
 
 #include <QFile>
 #include <QSignalSpy>
 #include <QTest>
 #include <QTextStream>
-
-#include <KPluginLoader>
 
 QTEST_GUILESS_MAIN(CliRarTest)
 
@@ -39,8 +43,6 @@ using namespace Kerfuffle;
 
 void CliRarTest::initTestCase()
 {
-    qRegisterMetaType<ArchiveEntry>();
-
     m_plugin = new Plugin(this);
     foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
         if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_clirar")) {
@@ -74,7 +76,11 @@ void CliRarTest::testArchive()
     }
 
     QFETCH(QString, archivePath);
-    Archive *archive = Archive::create(archivePath, m_plugin, this);
+    auto loadJob = Archive::load(archivePath, m_plugin, this);
+    QVERIFY(loadJob);
+
+    TestHelper::startAndWaitForResult(loadJob);
+    auto archive = loadJob->archive();
     QVERIFY(archive);
 
     if (!archive->isValid()) {
@@ -88,7 +94,7 @@ void CliRarTest::testArchive()
     QCOMPARE(archive->isReadOnly(), isReadOnly);
 
     QFETCH(bool, isSingleFolder);
-    QCOMPARE(archive->isSingleFolderArchive(), isSingleFolder);
+    QCOMPARE(archive->isSingleFolder(), isSingleFolder);
 
     QFETCH(Archive::EncryptionType, expectedEncryptionType);
     QCOMPARE(archive->encryptionType(), expectedEncryptionType);
@@ -100,10 +106,12 @@ void CliRarTest::testArchive()
 void CliRarTest::testList_data()
 {
     QTest::addColumn<QString>("outputTextFile");
+    QTest::addColumn<QString>("errorMessage");
     QTest::addColumn<int>("expectedEntriesCount");
     QTest::addColumn<bool>("isMultiVolume");
     // Is zero for non-multi-volume archives:
     QTest::addColumn<int>("numberOfVolumes");
+    QTest::addColumn<QStringList>("compressionMethods");
     // Index of some entry to be tested.
     QTest::addColumn<int>("someEntryIndex");
     // Entry metadata.
@@ -118,56 +126,72 @@ void CliRarTest::testList_data()
     // Unrar 5 tests
 
     QTest::newRow("normal-file-unrar5")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << QString() << 8 << false << 0 << QStringList{QStringLiteral("RAR4")}
             << 2 << QStringLiteral("rartest/file2.txt") << false << false << QString() << (qulonglong) 14 << (qulonglong) 23 << QStringLiteral("2016-03-21T08:57:36");
 
     QTest::newRow("symlink-unrar5")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-unrar5.txt") << QString() << 8 << false << 0 << QStringList{QStringLiteral("RAR4")}
             << 3 << QStringLiteral("rartest/linktofile1.txt") << false << false << QStringLiteral("file1.txt") << (qulonglong) 9 << (qulonglong) 9 << QStringLiteral("2016-03-21T08:58:16");
 
     QTest::newRow("encrypted-unrar5")
-            << QFINDTESTDATA("data/archive-encrypted-unrar5.txt") << 7 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-unrar5.txt") << QString() << 7 << false << 0 << QStringList{QStringLiteral("RAR4")}
             << 2 << QStringLiteral("rartest/file2.txt") << false << true << QString() << (qulonglong) 14 << (qulonglong) 32 << QStringLiteral("2016-03-21T17:03:36");
 
     QTest::newRow("recovery-record-unrar5")
-            << QFINDTESTDATA("data/archive-recovery-record-unrar5.txt") << 3 << false << 0
+            << QFINDTESTDATA("data/archive-recovery-record-unrar5.txt") << QString() << 3 << false << 0 << QStringList{QStringLiteral("RAR4")}
             << 0 << QStringLiteral("file1.txt") << false << false << QString() << (qulonglong) 32 << (qulonglong) 33 << QStringLiteral("2015-07-26T19:04:38");
 
     QTest::newRow("corrupt-archive-unrar5")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar5.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar5.txt") << QString() << 8 << false << 0 << QStringList{QStringLiteral("RAR4")}
             << 6 << QStringLiteral("dir1/") << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-05-14T01:45:24");
 
     //Note: The number of entries will be the total number of all entries in all volumes, i.e. if a file spans 3 volumes it will count as 3 entries.
     QTest::newRow("multivolume-archive-unrar5")
-            << QFINDTESTDATA("data/archive-multivol-unrar5.txt") << 6 << true << 5
+            << QFINDTESTDATA("data/archive-multivol-unrar5.txt") << QString() << 6 << true << 5 << QStringList{QStringLiteral("RAR4")}
             << 5 << QStringLiteral("largefile2") << false << false << QString() << (qulonglong) 2097152 << (qulonglong) 11231 << QStringLiteral("2016-07-17T11:26:19");
+
+    QTest::newRow("RAR5-open-with-unrar5")
+            << QFINDTESTDATA("data/archive-RARv5-unrar5.txt") << QString() << 9 << false << 0 << QStringList{QStringLiteral("RAR5")}
+            << 4 << QStringLiteral("testarchive/dir1/file1.txt") << false << false << QString() << (qulonglong) 32 << (qulonglong) 32 << QStringLiteral("2015-05-17T20:41:48");
 
     // Unrar 4 tests
 
     QTest::newRow("normal-file-unrar4")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << QString() << 8 << false << 0 << QStringList{QStringLiteral("RAR4")}
             << 2 << QStringLiteral("rartest/file2.txt") << false << false << QString() << (qulonglong) 14 << (qulonglong) 23 << QStringLiteral("2016-03-21T08:57:00");
 
     QTest::newRow("symlink-unrar4")
-            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-with-symlink-unrar4.txt") << QString() << 8 << false << 0 << QStringList{QStringLiteral("RAR4")}
             << 3 << QStringLiteral("rartest/linktofile1.txt") << false << false << QStringLiteral("file1.txt") << (qulonglong) 9 << (qulonglong) 9 << QStringLiteral("2016-03-21T08:58:00");
 
     QTest::newRow("encrypted-unrar4")
-            << QFINDTESTDATA("data/archive-encrypted-unrar4.txt") << 7 << false << 0
+            << QFINDTESTDATA("data/archive-encrypted-unrar4.txt") << QString() << 7 << false << 0 << QStringList{QStringLiteral("RAR4")}
             << 2 << QStringLiteral("rartest/file2.txt") << false << true << QString() << (qulonglong) 14 << (qulonglong) 32 << QStringLiteral("2016-03-21T17:03:00");
 
     QTest::newRow("recovery-record-unrar4")
-            << QFINDTESTDATA("data/archive-recovery-record-unrar4.txt") << 3 << false << 0
+            << QFINDTESTDATA("data/archive-recovery-record-unrar4.txt") << QString() << 3 << false << 0 << QStringList{QStringLiteral("RAR4")}
             << 0 << QStringLiteral("file1.txt") << false << false << QString() << (qulonglong) 32 << (qulonglong) 33 << QStringLiteral("2015-07-26T19:04:00");
 
     QTest::newRow("corrupt-archive-unrar4")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar4.txt") << 8 << false << 0
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar4.txt") << QString() << 8 << false << 0 << QStringList{QStringLiteral("RAR4")}
             << 6 << QStringLiteral("dir1/") << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QStringLiteral("2015-05-14T01:45:00");
+
+    QTest::newRow("RAR5-open-with-unrar4")
+            << QFINDTESTDATA("data/archive-RARv5-unrar4.txt")
+            << QStringLiteral("Your unrar executable is version 4.20, which is too old to handle this archive. Please update to a more recent version.")
+            << 0 << false << 0 << QStringList() << 0 << QString() << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QString();
 
     //Note: The number of entries will be the total number of all entries in all volumes, i.e. if a file spans 3 volumes it will count as 3 entries.
     QTest::newRow("multivolume-archive-unrar4")
-            << QFINDTESTDATA("data/archive-multivol-unrar4.txt") << 6 << true << 5
+            << QFINDTESTDATA("data/archive-multivol-unrar4.txt") << QString() << 6 << true << 5 << QStringList{QStringLiteral("RAR4")}
             << 5 << QStringLiteral("largefile2") << false << false << QString() << (qulonglong) 2097152 << (qulonglong) 11231 << QStringLiteral("2016-07-17T11:26:00");
+
+    // Unrar 3 tests
+
+    QTest::newRow("RAR5-open-with-unrar3")
+            << QFINDTESTDATA("data/archive-RARv5-unrar3.txt")
+            << QStringLiteral("Unrar reported a non-RAR archive. The installed unrar version (3.71) is old. Try updating your unrar.")
+            << 0 << false << 0 << QStringList() << 0 << QString() << true << false << QString() << (qulonglong) 0 << (qulonglong) 0 << QString();
 
     /*
      * Check that the plugin will not crash when reading corrupted archives, which
@@ -177,14 +201,18 @@ void CliRarTest::testList_data()
      * See bug 262857 and commit 2042997013432cdc6974f5b26d39893a21e21011.
      */
     QTest::newRow("corrupt-archive-unrar3")
-            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar3.txt") << 1 << true << 1
+            << QFINDTESTDATA("data/archive-corrupt-file-header-unrar3.txt") << QString() << 1 << true << 1 << QStringList{QStringLiteral("RAR4")}
             << 0 << QStringLiteral("some-file.ext") << false << false << QString() << (qulonglong) 732522496 << (qulonglong) 14851208 << QStringLiteral("2010-10-29T20:47:00");
 }
 
 void CliRarTest::testList()
 {
-    CliPlugin *rarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar")});
-    QSignalSpy signalSpy(rarPlugin, SIGNAL(entry(ArchiveEntry)));
+    qRegisterMetaType<Archive::Entry*>("Archive::Entry*");
+    CliPlugin *rarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar"),
+                                                QVariant::fromValue(m_plugin->metaData())});
+    QSignalSpy signalSpyEntry(rarPlugin, &CliPlugin::entry);
+    QSignalSpy signalSpyCompMethod(rarPlugin, &CliPlugin::compressionMethodFound);
+    QSignalSpy signalSpyError(rarPlugin, &CliPlugin::error);
 
     QFETCH(QString, outputTextFile);
     QFETCH(int, expectedEntriesCount);
@@ -195,10 +223,19 @@ void CliRarTest::testList()
     QTextStream outputStream(&outputText);
     while (!outputStream.atEnd()) {
         const QString line(outputStream.readLine());
-        QVERIFY(rarPlugin->readListLine(line));
+        if (!rarPlugin->readListLine(line)) {
+            break;
+        }
     }
 
-    QCOMPARE(signalSpy.count(), expectedEntriesCount);
+    QFETCH(QString, errorMessage);
+    if (!errorMessage.isEmpty()) {
+        QCOMPARE(signalSpyError.count(), 1);
+        QCOMPARE(signalSpyError.at(0).at(0).toString(), errorMessage);
+        return;
+    }
+
+    QCOMPARE(signalSpyEntry.count(), expectedEntriesCount);
 
     QFETCH(bool, isMultiVolume);
     QCOMPARE(rarPlugin->isMultiVolume(), isMultiVolume);
@@ -206,30 +243,36 @@ void CliRarTest::testList()
     QFETCH(int, numberOfVolumes);
     QCOMPARE(rarPlugin->numberOfVolumes(), numberOfVolumes);
 
+    QVERIFY(signalSpyCompMethod.count() > 0);
+    QFETCH(QStringList, compressionMethods);
+    if (!compressionMethods.isEmpty()) {
+        QCOMPARE(signalSpyCompMethod.at(0).at(0).toStringList(), compressionMethods);
+    }
+
     QFETCH(int, someEntryIndex);
-    QVERIFY(someEntryIndex < signalSpy.count());
-    ArchiveEntry entry = qvariant_cast<ArchiveEntry>(signalSpy.at(someEntryIndex).at(0));
+    QVERIFY(someEntryIndex < signalSpyEntry.count());
+    Archive::Entry *entry = signalSpyEntry.at(someEntryIndex).at(0).value<Archive::Entry*>();
 
     QFETCH(QString, expectedName);
-    QCOMPARE(entry[FileName].toString(), expectedName);
+    QCOMPARE(entry->fullPath(), expectedName);
 
     QFETCH(bool, isDirectory);
-    QCOMPARE(entry[IsDirectory].toBool(), isDirectory);
+    QCOMPARE(entry->isDir(), isDirectory);
 
     QFETCH(bool, isPasswordProtected);
-    QCOMPARE(entry[IsPasswordProtected].toBool(), isPasswordProtected);
+    QCOMPARE(entry->property("isPasswordProtected").toBool(), isPasswordProtected);
 
     QFETCH(QString, symlinkTarget);
-    QCOMPARE(entry[Link].toString(), symlinkTarget);
+    QCOMPARE(entry->property("link").toString(), symlinkTarget);
 
     QFETCH(qulonglong, expectedSize);
-    QCOMPARE(entry[Size].toULongLong(), expectedSize);
+    QCOMPARE(entry->property("size").toULongLong(), expectedSize);
 
     QFETCH(qulonglong, expectedCompressedSize);
-    QCOMPARE(entry[CompressedSize].toULongLong(), expectedCompressedSize);
+    QCOMPARE(entry->property("compressedSize").toULongLong(), expectedCompressedSize);
 
     QFETCH(QString, expectedTimestamp);
-    QCOMPARE(entry[Timestamp].toString(), expectedTimestamp);
+    QCOMPARE(entry->property("timestamp").toString(), expectedTimestamp);
 
     rarPlugin->deleteLater();
 }
@@ -262,17 +305,17 @@ void CliRarTest::testListArgs_data()
 
 void CliRarTest::testListArgs()
 {
+    if (!m_plugin->isValid()) {
+        QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName)});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    const QStringList listArgs = { QStringLiteral("vt"),
-                                   QStringLiteral("-v"),
-                                   QStringLiteral("$PasswordSwitch"),
-                                   QStringLiteral("$Archive") };
-
     QFETCH(QString, password);
-    const auto replacedArgs = plugin->substituteListVariables(listArgs, password);
+    const auto replacedArgs = plugin->cliProperties()->listArgs(archiveName, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
@@ -286,172 +329,184 @@ void CliRarTest::testAddArgs_data()
     QTest::addColumn<QString>("password");
     QTest::addColumn<bool>("encryptHeader");
     QTest::addColumn<int>("compressionLevel");
+    QTest::addColumn<QString>("compressionMethod");
     QTest::addColumn<ulong>("volumeSize");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("unencrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QString() << false << 3 << 0UL
+            << QString() << false << 3 << QStringLiteral("RAR4") << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("-m3")
+                   QStringLiteral("-m3"),
+                   QStringLiteral("-ma4"),
+                   QStringLiteral("/tmp/foo.rar")
                };
 
     QTest::newRow("encrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QStringLiteral("1234") << false << 3 << 0UL
+            << QStringLiteral("1234") << false << 3 << QString() << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("-p1234"),
-                   QStringLiteral("-m3")
+                   QStringLiteral("-m3"),
+                   QStringLiteral("/tmp/foo.rar")
                };
 
     QTest::newRow("header-encrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QStringLiteral("1234") << true << 3 << 0UL
+            << QStringLiteral("1234") << true << 3 << QString() << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("-hp1234"),
-                   QStringLiteral("-m3")
+                   QStringLiteral("-m3"),
+                   QStringLiteral("/tmp/foo.rar")
                };
 
     QTest::newRow("multi-volume")
             << QStringLiteral("/tmp/foo.rar")
-            << QString() << false << 3 << 2500UL
+            << QString() << false << 3 << QString() << 2500UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("/tmp/foo.rar"),
                    QStringLiteral("-m3"),
-                   QStringLiteral("-v2500k")
+                   QStringLiteral("-v2500k"),
+                   QStringLiteral("/tmp/foo.rar")
+               };
+    QTest::newRow("comp-method-RAR5")
+            << QStringLiteral("/tmp/foo.rar")
+            << QString() << false << 3 << QStringLiteral("RAR5") << 0UL
+            << QStringList {
+                   QStringLiteral("a"),
+                   QStringLiteral("-m3"),
+                   QStringLiteral("-ma5"),
+                   QStringLiteral("/tmp/foo.rar")
                };
 }
 
 void CliRarTest::testAddArgs()
 {
-    QFETCH(QString, archiveName);
-    CliPlugin *rarPlugin = new CliPlugin(this, {QVariant(archiveName)});
-    QVERIFY(rarPlugin);
+    if (!m_plugin->isValid()) {
+        QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
+    }
 
-    const QStringList addArgs = { QStringLiteral("a"),
-                                  QStringLiteral("$Archive"),
-                                  QStringLiteral("$PasswordSwitch"),
-                                  QStringLiteral("$CompressionLevelSwitch"),
-                                  QStringLiteral("$MultiVolumeSwitch"),
-                                  QStringLiteral("$Files") };
+    QFETCH(QString, archiveName);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
+    QVERIFY(plugin);
 
     QFETCH(QString, password);
     QFETCH(bool, encryptHeader);
     QFETCH(int, compressionLevel);
+    QFETCH(QString, compressionMethod);
     QFETCH(ulong, volumeSize);
 
-    QStringList replacedArgs = rarPlugin->substituteAddVariables(addArgs, {}, password, encryptHeader, compressionLevel, volumeSize);
+    const auto replacedArgs = plugin->cliProperties()->addArgs(archiveName, {}, password, encryptHeader, compressionLevel, compressionMethod, QString(), volumeSize);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
 
-    rarPlugin->deleteLater();
+    plugin->deleteLater();
 }
 
 void CliRarTest::testExtractArgs_data()
 {
     QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QVariantList>("files");
+    QTest::addColumn<QVector<Archive::Entry*>>("files");
     QTest::addColumn<bool>("preservePaths");
     QTest::addColumn<QString>("password");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("preserve paths, encrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QStringLiteral("1234")
             << QStringList {
+                   QStringLiteral("x"),
                    QStringLiteral("-kb"),
                    QStringLiteral("-p-"),
-                   QStringLiteral("x"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("preserve paths, unencrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << true << QString()
             << QStringList {
+                   QStringLiteral("x"),
                    QStringLiteral("-kb"),
                    QStringLiteral("-p-"),
-                   QStringLiteral("x"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, encrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QStringLiteral("1234")
             << QStringList {
+                   QStringLiteral("e"),
                    QStringLiteral("-kb"),
                    QStringLiteral("-p-"),
-                   QStringLiteral("e"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 
     QTest::newRow("without paths, unencrypted")
             << QStringLiteral("/tmp/foo.rar")
-            << QVariantList {
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("aDir/b.txt"), QStringLiteral("aDir"))),
-                   QVariant::fromValue(fileRootNodePair(QStringLiteral("c.txt"), QString()))
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
                }
             << false << QString()
             << QStringList {
+                   QStringLiteral("e"),
                    QStringLiteral("-kb"),
                    QStringLiteral("-p-"),
-                   QStringLiteral("e"),
                    QStringLiteral("/tmp/foo.rar"),
-                   QStringLiteral("aDir/b.txt"),
+                   QStringLiteral("aDir/textfile2.txt"),
                    QStringLiteral("c.txt"),
                };
 }
 
 void CliRarTest::testExtractArgs()
 {
+    if (!m_plugin->isValid()) {
+        QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
+    }
+
     QFETCH(QString, archiveName);
-    CliPlugin *rarPlugin = new CliPlugin(this, {QVariant(archiveName)});
-    QVERIFY(rarPlugin);
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
+                                             QVariant::fromValue(m_plugin->metaData())});
+    QVERIFY(plugin);
 
-    const QStringList extractArgs = { QStringLiteral("-kb"),
-                                      QStringLiteral("-p-"),
-                                      QStringLiteral("$PreservePathSwitch"),
-                                      QStringLiteral("$PasswordSwitch"),
-                                      QStringLiteral("$Archive"),
-                                      QStringLiteral("$Files") };
+    QFETCH(QVector<Archive::Entry*>, files);
+    QStringList filesList;
+    foreach (const Archive::Entry *e, files) {
+        filesList << e->fullPath(NoTrailingSlash);
+    }
 
-    QFETCH(QVariantList, files);
     QFETCH(bool, preservePaths);
     QFETCH(QString, password);
 
-    QStringList replacedArgs = rarPlugin->substituteCopyVariables(extractArgs, files, preservePaths, password);
-    QVERIFY(replacedArgs.size() >= extractArgs.size());
+    const auto replacedArgs = plugin->cliProperties()->extractArgs(archiveName, filesList, preservePaths, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
 
-    rarPlugin->deleteLater();
+    plugin->deleteLater();
 }

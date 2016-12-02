@@ -2,6 +2,7 @@
  * Copyright (c) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (c) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (c) 2010 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -27,23 +28,18 @@
 
 #include "libarchiveplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle/kerfuffle_export.h"
-#include "kerfuffle/queries.h"
-
-#include <archive_entry.h>
+#include "queries.h"
 
 #include <KLocalizedString>
 
-#include <QDateTime>
 #include <QDirIterator>
-#include <QFile>
-#include <QList>
-#include <QSaveFile>
+#include <QThread>
 
-LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList & args)
+#include <archive_entry.h>
+
+LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList &args)
     : ReadWriteArchiveInterface(parent, args)
     , m_archiveReadDisk(archive_read_disk_new())
-    , m_abortOperation(false)
     , m_cachedArchiveEntryCount(0)
     , m_emitNoEntries(false)
     , m_extractedFilesSize(0)
@@ -54,44 +50,39 @@ LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList & args)
 
 LibarchivePlugin::~LibarchivePlugin()
 {
+    foreach (const auto e, m_emittedEntries) {
+        // Entries might be passed to pending slots, so we just schedule their deletion.
+        e->deleteLater();
+    }
 }
 
 bool LibarchivePlugin::list()
 {
     qCDebug(ARK) << "Listing archive contents";
 
-    ArchiveRead arch_reader(archive_read_new());
-
-    if (!(arch_reader.data())) {
+    if (!initializeReader()) {
         return false;
     }
 
-    if (archive_read_support_filter_all(arch_reader.data()) != ARCHIVE_OK) {
-        return false;
+    qDebug(ARK) << "Detected compression filter:" << archive_filter_name(m_archiveReader.data(), 0);
+    QString compMethod = convertCompressionName(QString::fromUtf8(archive_filter_name(m_archiveReader.data(), 0)));
+    if (!compMethod.isEmpty()) {
+        emit compressionMethodFound(compMethod);
     }
-
-    if (archive_read_support_format_all(arch_reader.data()) != ARCHIVE_OK) {
-        return false;
-    }
-
-    if (archive_read_open_filename(arch_reader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        emit error(i18nc("@info", "Could not open the archive."));
-        return false;
-    }
-
-    qDebug(ARK) << "Detected compression filter:" << archive_filter_name(arch_reader.data(), 0);
 
     m_cachedArchiveEntryCount = 0;
     m_extractedFilesSize = 0;
+    m_numberOfEntries = 0;
+    qulonglong compressedArchiveSize = QFileInfo(filename()).size();
 
     struct archive_entry *aentry;
     int result = ARCHIVE_RETRY;
 
     bool firstEntry = true;
-    while (!m_abortOperation && (result = archive_read_next_header(arch_reader.data(), &aentry)) == ARCHIVE_OK) {
+    while (!QThread::currentThread()->isInterruptionRequested() && (result = archive_read_next_header(m_archiveReader.data(), &aentry)) == ARCHIVE_OK) {
 
         if (firstEntry) {
-            qDebug(ARK) << "Detected format for first entry:" << archive_format_name(arch_reader.data());
+            qDebug(ARK) << "Detected format for first entry:" << archive_format_name(m_archiveReader.data());
             firstEntry = false;
         }
 
@@ -101,35 +92,52 @@ bool LibarchivePlugin::list()
 
         m_extractedFilesSize += (qlonglong)archive_entry_size(aentry);
 
+        emit progress(float(archive_filter_bytes(m_archiveReader.data(), -1))/float(compressedArchiveSize));
+
         m_cachedArchiveEntryCount++;
-        archive_read_data_skip(arch_reader.data());
+        archive_read_data_skip(m_archiveReader.data());
     }
-    m_abortOperation = false;
 
     if (result != ARCHIVE_EOF) {
-        const QString errorString = QLatin1String(archive_error_string(arch_reader.data()));
-        // FIXME: what about the other archive_error_string() calls? Do they also happen to return empty strings?
-        emit error(errorString.isEmpty() ? i18nc("@info", "Could not read until the end of the archive") : errorString);
+        qCWarning(ARK) << "Could not read until the end of the archive:" << QLatin1String(archive_error_string(m_archiveReader.data()));
         return false;
     }
 
-    return archive_read_close(arch_reader.data()) == ARCHIVE_OK;
+    return archive_read_close(m_archiveReader.data()) == ARCHIVE_OK;
 }
 
-bool LibarchivePlugin::addFiles(const QStringList &files, const CompressionOptions &options)
+bool LibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd)
 {
     Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(options)
+    Q_UNUSED(numberOfEntriesToAdd)
+    return false;
+}
+
+bool LibarchivePlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
     Q_UNUSED(options)
     return false;
 }
 
-bool LibarchivePlugin::deleteFiles(const QList<QVariant> &files)
+bool LibarchivePlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(options)
+    return false;
+}
+
+bool LibarchivePlugin::deleteFiles(const QVector<Archive::Entry*> &files)
 {
     Q_UNUSED(files)
     return false;
 }
 
-bool LibarchivePlugin::addComment(const QString& comment)
+bool LibarchivePlugin::addComment(const QString &comment)
 {
     Q_UNUSED(comment)
     return false;
@@ -140,45 +148,32 @@ bool LibarchivePlugin::testArchive()
     return false;
 }
 
-bool LibarchivePlugin::doKill()
+bool LibarchivePlugin::hasBatchExtractionProgress() const
 {
-    m_abortOperation = true;
     return true;
 }
 
-bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& destinationDirectory, const ExtractionOptions& options)
+bool LibarchivePlugin::doKill()
+{
+    return true;
+}
+
+bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     qCDebug(ARK) << "Changing current directory to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);
 
     const bool extractAll = files.isEmpty();
-    const bool preservePaths = options.value(QStringLiteral( "PreservePaths" )).toBool();
-    bool removeRootNode = options.value(QStringLiteral("RemoveRootNode"), QVariant()).toBool();
+    const bool preservePaths = options.preservePaths();
+    const bool removeRootNode = options.isDragAndDropEnabled();
 
     // To avoid traversing the entire archive when extracting a limited set of
     // entries, we maintain a list of remaining entries and stop when it's
     // empty.
-    QVariantList remainingFiles = files;
+    QStringList fullPaths = entryFullPaths(files);
+    QStringList remainingFiles = entryFullPaths(files);
 
-    ArchiveRead arch(archive_read_new());
-
-    if (!(arch.data())) {
-        return false;
-    }
-
-    if (archive_read_support_filter_all(arch.data()) != ARCHIVE_OK) {
-        return false;
-    }
-
-    if (archive_read_support_format_all(arch.data()) != ARCHIVE_OK) {
-        return false;
-    }
-
-    if (archive_read_open_filename(arch.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
-        // This error might be shown outside of a running Ark part (e.g. from a batch job).
-        emit error(xi18nc("@info", "Could not open the archive <filename>%1</filename>.<nl/>"
-                                   "Check whether you have sufficient permissions.",
-                          filename()));
+    if (!initializeReader()) {
         return false;
     }
 
@@ -221,7 +216,7 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
     QString fileBeingRenamed;
 
     // Iterate through all entries in archive.
-    while (!m_abortOperation && (archive_read_next_header(arch.data(), &entry) == ARCHIVE_OK)) {
+    while (!QThread::currentThread()->isInterruptionRequested() && (archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK)) {
 
         if (!extractAll && remainingFiles.isEmpty()) {
             break;
@@ -238,12 +233,24 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
 
         // Skip directories if not preserving paths.
         if (!preservePaths && entryIsDir) {
-            archive_read_data_skip(arch.data());
+            archive_read_data_skip(m_archiveReader.data());
             continue;
         }
 
         // entryName is the name inside the archive, full path
         QString entryName = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(entry)));
+
+        // Some archive types e.g. AppImage prepend all entries with "./" so remove this part.
+        if (entryName.startsWith(QLatin1String("./"))) {
+            entryName.remove(0, 2);
+        }
+
+        // Static libraries (*.a) contain the two entries "/" and "//".
+        // We just skip these to allow extracting this archive type.
+        if (entryName == QLatin1String("/") || entryName == QLatin1String("//")) {
+            archive_read_data_skip(m_archiveReader.data());
+            continue;
+        }
 
         // For now we just can't handle absolute filenames in a tar archive.
         // TODO: find out what to do here!!
@@ -255,12 +262,12 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
 
         // Should the entry be extracted?
         if (extractAll ||
-            remainingFiles.contains(QVariant::fromValue(fileRootNodePair(entryName))) ||
+            remainingFiles.contains(entryName) ||
             entryName == fileBeingRenamed) {
 
             // Find the index of entry.
             if (entryName != fileBeingRenamed) {
-                index = files.indexOf(QVariant::fromValue(fileRootNodePair(entryName)));
+                index = fullPaths.indexOf(entryName);
             }
             if (!extractAll && index == -1) {
                 // If entry is not found in files, skip entry.
@@ -285,20 +292,20 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
                 entryFI = QFileInfo(fileWithoutPath);
 
             // OR, if the file has a rootNode attached, remove it from file path.
-            } else if (!extractAll && removeRootNode && entryName != fileBeingRenamed &&
-                       !files.at(index).value<fileRootNodePair>().rootNode.isEmpty()) {
+            } else if (!extractAll && removeRootNode && entryName != fileBeingRenamed) {
+                const QString &rootNode = files.at(index)->rootNode;
+                if (!rootNode.isEmpty()) {
+                    const QString truncatedFilename(entryName.remove(entryName.indexOf(rootNode), rootNode.size()));
 
-                //qCDebug(ARK) << "Removing" << files.at(index).value<fileRootNodePair>().rootNode << "from" << entryName;
-
-                const QString truncatedFilename(entryName.remove(0, files.at(index).value<fileRootNodePair>().rootNode.size()));
-                archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
-                entryFI = QFileInfo(truncatedFilename);
+                    archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
+                    entryFI = QFileInfo(truncatedFilename);
+                }
             }
 
             // Check if the file about to be written already exists.
             if (!entryIsDir && entryFI.exists()) {
                 if (skipAll) {
-                    archive_read_data_skip(arch.data());
+                    archive_read_data_skip(m_archiveReader.data());
                     archive_entry_clear(entry);
                     continue;
                 } else if (!overwriteAll && !skipAll) {
@@ -307,15 +314,15 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
                     query.waitForResponse();
 
                     if (query.responseCancelled()) {
-                        archive_read_data_skip(arch.data());
+                        archive_read_data_skip(m_archiveReader.data());
                         archive_entry_clear(entry);
                         break;
                     } else if (query.responseSkip()) {
-                        archive_read_data_skip(arch.data());
+                        archive_read_data_skip(m_archiveReader.data());
                         archive_entry_clear(entry);
                         continue;
                     } else if (query.responseAutoSkip()) {
-                        archive_read_data_skip(arch.data());
+                        archive_read_data_skip(m_archiveReader.data());
                         archive_entry_clear(entry);
                         skipAll = true;
                         continue;
@@ -337,7 +344,7 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
                 } else {
                     qCWarning(ARK) << "Warning, existing, but non-writable dir. skipping";
                     archive_entry_clear(entry);
-                    archive_read_data_skip(arch.data());
+                    archive_read_data_skip(m_archiveReader.data());
                     continue;
                 }
             }
@@ -348,7 +355,7 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
             case ARCHIVE_OK:
                 // If the whole archive is extracted and the total filesize is
                 // available, we use partial progress.
-                copyData(entryName, arch.data(), writer.data(), (extractAll && m_extractedFilesSize));
+                copyData(entryName, m_archiveReader.data(), writer.data(), (extractAll && m_extractedFilesSize));
                 break;
 
             case ARCHIVE_FAILED:
@@ -376,8 +383,7 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
             case ARCHIVE_FATAL:
                 qCCritical(ARK) << "archive_write_header() has returned" << returnCode
                                 << "with errno" << archive_errno(writer.data());
-                emit error(xi18nc("@info", "Extraction failed at:<nl/><filename>%1</filename>",
-                                  entryName));
+                emit error(i18nc("@info", "Fatal error, extraction aborted."));
                 return false;
             default:
                 qCDebug(ARK) << "archive_write_header() returned" << returnCode
@@ -392,58 +398,82 @@ bool LibarchivePlugin::copyFiles(const QVariantList& files, const QString& desti
                 ++entryNr;
                 emit progress(float(entryNr) / totalCount);
             }
-            archive_entry_clear(entry);
             no_entries++;
 
-            remainingFiles.removeOne(QVariant::fromValue(fileRootNodePair(entryName)));
+            remainingFiles.removeOne(entryName);
 
         } else {
 
             // Archive entry not among selected files, skip it.
-            archive_read_data_skip(arch.data());
+            archive_read_data_skip(m_archiveReader.data());
 
         }
 
     } // While entries left to read in archive.
 
-    m_abortOperation = false;
-
     qCDebug(ARK) << "Extracted" << no_entries << "entries";
 
-    return archive_read_close(arch.data()) == ARCHIVE_OK;
+    return archive_read_close(m_archiveReader.data()) == ARCHIVE_OK;
+}
+
+bool LibarchivePlugin::initializeReader()
+{
+    m_archiveReader.reset(archive_read_new());
+
+    if (!(m_archiveReader.data())) {
+        emit error(i18n("The archive reader could not be initialized."));
+        return false;
+    }
+
+    if (archive_read_support_filter_all(m_archiveReader.data()) != ARCHIVE_OK) {
+        return false;
+    }
+
+    if (archive_read_support_format_all(m_archiveReader.data()) != ARCHIVE_OK) {
+        return false;
+    }
+
+    if (archive_read_open_filename(m_archiveReader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
+        qCWarning(ARK) << "Could not open the archive:" << archive_error_string(m_archiveReader.data());
+        emit error(i18nc("@info", "Archive corrupted or insufficient permissions."));
+        return false;
+    }
+
+    return true;
 }
 
 void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 {
-    ArchiveEntry e;
+    auto e = new Archive::Entry();
 
-#ifdef _MSC_VER
-    e[FileName] = QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry)));
+#ifdef Q_OS_WIN
+    e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry))));
 #else
-    e[FileName] = QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry)));
+    e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry))));
 #endif
-    e[InternalID] = e[FileName];
 
     const QString owner = QString::fromLatin1(archive_entry_uname(aentry));
     if (!owner.isEmpty()) {
-        e[Owner] = owner;
+        e->setProperty("owner", owner);
     }
 
     const QString group = QString::fromLatin1(archive_entry_gname(aentry));
     if (!group.isEmpty()) {
-        e[Group] = group;
+        e->setProperty("group", group);
     }
 
-    e[Size] = (qlonglong)archive_entry_size(aentry);
-    e[IsDirectory] = S_ISDIR(archive_entry_mode(aentry));
+    e->compressedSizeIsSet = false;
+    e->setProperty("size", (qlonglong)archive_entry_size(aentry));
+    e->setProperty("isDirectory", S_ISDIR(archive_entry_mode(aentry)));
 
     if (archive_entry_symlink(aentry)) {
-        e[Link] = QLatin1String( archive_entry_symlink(aentry) );
+        e->setProperty("link", QLatin1String( archive_entry_symlink(aentry) ));
     }
 
-    e[Timestamp] = QDateTime::fromTime_t(archive_entry_mtime(aentry));
+    e->setProperty("timestamp", QDateTime::fromTime_t(archive_entry_mtime(aentry)));
 
     emit entry(e);
+    m_emittedEntries << e;
 }
 
 int LibarchivePlugin::extractionFlags() const
@@ -516,6 +546,30 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *source,
 
         readBytes = archive_read_data(source, buff, sizeof(buff));
     }
+}
+
+QString LibarchivePlugin::convertCompressionName(const QString &method)
+{
+    if (method == QLatin1String("gzip")) {
+        return QStringLiteral("GZip");
+    } else if (method == QLatin1String("bzip2")) {
+        return QStringLiteral("BZip2");
+    } else if (method == QLatin1String("xz")) {
+        return QStringLiteral("XZ");
+    } else if (method == QLatin1String("compress (.Z)")) {
+        return QStringLiteral("Compress");
+    } else if (method == QLatin1String("lrzip")) {
+        return QStringLiteral("LRZip");
+    } else if (method == QLatin1String("lzip")) {
+        return QStringLiteral("LZip");
+    } else if (method == QLatin1String("lz4")) {
+        return QStringLiteral("LZ4");
+    } else if (method == QLatin1String("lzop")) {
+        return QStringLiteral("lzop");
+    } else if (method == QLatin1String("lzma")) {
+        return QStringLiteral("LZMA");
+    }
+    return QString();
 }
 
 #include "libarchiveplugin.moc"

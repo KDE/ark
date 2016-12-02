@@ -1,7 +1,7 @@
 /*
  * ark -- archiver for the KDE project
  *
- * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,8 +25,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ark_debug.h"
 #include "plugin.h"
+#include "ark_debug.h"
 
 #include <QJsonArray>
 #include <QStandardPaths>
@@ -106,7 +106,6 @@ bool Plugin::findExecutables(const QStringList &executables)
         }
 
         if (QStandardPaths::findExecutable(executable).isEmpty()) {
-            qCDebug(ARK) << "Could not find executable" << executable;
             return false;
         }
     }

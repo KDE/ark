@@ -9,6 +9,9 @@ ecm_add_test(
     cliunarchivertest.cpp
     ${CMAKE_SOURCE_DIR}/plugins/cliunarchiverplugin/cliplugin.cpp
     ${CMAKE_BINARY_DIR}/plugins/cliunarchiverplugin/ark_debug.cpp
-    LINK_LIBRARIES kerfuffle Qt5::Test
+    LINK_LIBRARIES testhelper kerfuffle Qt5::Test
     TEST_NAME cliunarchivertest
     NAME_PREFIX plugins-)
+
+# cliunarchiver plugin needs exceptions enabled
+kde_target_enable_exceptions(cliunarchivertest PRIVATE)

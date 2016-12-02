@@ -5,6 +5,7 @@ set(kerfuffle_SRCS
     archive_kerfuffle.cpp
     archiveinterface.cpp
     extractionsettingspage.cpp
+    generalsettingspage.cpp
     previewsettingspage.cpp
     settingspage.cpp
     jobs.cpp
@@ -16,18 +17,22 @@ set(kerfuffle_SRCS
     queries.cpp
     addtoarchive.cpp
     cliinterface.cpp
+    cliproperties.cpp
     mimetypes.cpp
     plugin.cpp
     pluginmanager.cpp
+    archiveentry.cpp
+    options.cpp
 )
 
-kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc)
+kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc GENERATE_MOC)
 
 ki18n_wrap_ui(kerfuffle_SRCS
     createdialog.ui
     extractiondialog.ui
-    extractionsettings.ui
-    previewsettings.ui
+    extractionsettingspage.ui
+    generalsettingspage.ui
+    previewsettingspage.ui
     propertiesdialog.ui
     compressionoptionswidget.ui
 )

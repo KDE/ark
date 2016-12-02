@@ -1,0 +1,5 @@
+
+UNRAR 4.20 freeware      Copyright (c) 1993-2012 Alexander Roshal
+
+Unsupported archive format. Please update RAR to a newer version.
+testv5.rar is not RAR archive

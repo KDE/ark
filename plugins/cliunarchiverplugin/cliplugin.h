@@ -2,7 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2011 Luke Shumaker <lukeshu@sbcglobal.net>
- * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 #ifndef CLIPLUGIN_H
 #define CLIPLUGIN_H
 
-#include "kerfuffle/cliinterface.h"
+#include "cliinterface.h"
 
 class CliPlugin : public Kerfuffle::CliInterface
 {
@@ -34,10 +34,10 @@ public:
     virtual ~CliPlugin();
 
     virtual bool list() Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QList<QVariant> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) Q_DECL_OVERRIDE;
+    virtual bool extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) Q_DECL_OVERRIDE;
     virtual void resetParsing() Q_DECL_OVERRIDE;
-    virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
+    virtual bool readExtractLine(const QString &line) Q_DECL_OVERRIDE;
 
     /**
      * Fill the lsar's json output all in once (useful for unit testing).
@@ -49,17 +49,15 @@ protected slots:
 
 protected:
 
-    void cacheParameterList() Q_DECL_OVERRIDE;
     bool handleLine(const QString& line) Q_DECL_OVERRIDE;
 
 private slots:
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus) Q_DECL_OVERRIDE;
 
 private:
-
+    void setupCliProperties();
     void readJsonOutput();
 
-    Kerfuffle::ArchiveEntry m_currentEntry;
     QString m_jsonOutput;
 };
 

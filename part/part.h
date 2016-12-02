@@ -4,6 +4,7 @@
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,6 +25,7 @@
 #define PART_H
 
 #include "interface.h"
+#include "archiveentry.h"
 
 #include <KParts/Part>
 #include <KParts/ReadWritePart>
@@ -33,6 +35,7 @@
 #include <QModelIndex>
 
 class ArchiveModel;
+class ArchiveView;
 class InfoPanel;
 
 class KAboutData;
@@ -67,8 +70,6 @@ public:
     Part(QWidget *parentWidget, QObject *parent, const QVariantList &);
     ~Part();
 
-    static KAboutData *createAboutData();
-
     bool openFile() Q_DECL_OVERRIDE;
     bool saveFile() Q_DECL_OVERRIDE;
 
@@ -92,6 +93,9 @@ public:
 public slots:
     void extractSelectedFilesTo(const QString& localPath);
 
+protected:
+    void guiActivateEvent(KParts::GUIActivateEvent *event) Q_DECL_OVERRIDE;
+
 private slots:
     void slotLoadingStarted();
     void slotLoadingFinished(KJob *job);
@@ -103,21 +107,47 @@ private slots:
     void slotShowExtractionDialog();
     void slotExtractionDone(KJob*);
     void slotQuickExtractFiles(QAction*);
+
+    /**
+     * Creates and starts AddJob.
+     *
+     * @param files Files to add.
+     * @param destination Destination path within the archive to which entries have to be added. Is used on addto action
+     * or drag'n'drop event, for adding a watched file it has empty.
+     * @param relPath Relative path of watched entry inside the archive. Is used only for adding temporarily extracted
+     * watched file.
+     */
+    void slotAddFiles(const QStringList &files, const Kerfuffle::Archive::Entry *destination, const QString &relPath);
+
+    /**
+     * Creates and starts MoveJob or CopyJob.
+     *
+     * @param files Files to paste.
+     * @param destination Destination path within the archive to which entries have to be added. For renaming an entry
+     * the path has to contain a new filename too.
+     * @param entriesWithoutChildren Entries count, excluding their children. For CopyJob 0 MUST be passed.
+     */
+    void slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle::Archive::Entry *destination, int entriesWithoutChildren);
+
     void slotAddFiles();
-    void slotAddFiles(const QStringList& files, const QString& path = QString());
+    void slotEditFileName();
+    void slotCutFiles();
+    void slotCopyFiles();
+    void slotRenameFile(const QString &name);
+    void slotPasteFiles();
     void slotAddFilesDone(KJob*);
+    void slotPasteFilesDone(KJob*);
     void slotTestingDone(KJob*);
     void slotDeleteFiles();
     void slotDeleteFilesDone(KJob*);
     void slotShowProperties();
     void slotShowContextMenu();
-    void slotActivated(QModelIndex);
+    void slotActivated(const QModelIndex &index);
     void slotToggleInfoPanel(bool);
     void slotSaveAs();
     void updateActions();
     void updateQuickExtractMenu(QAction *extractAction);
     void selectionChanged();
-    void adjustColumns();
     void setBusyGui();
     void setReadyGui();
     void setFileNameFromArchive();
@@ -134,25 +164,31 @@ signals:
     void quit();
 
 private:
+    void createArchive();
+    void loadArchive();
     void resetGui();
     void setupView();
     void setupActions();
     bool isSingleFolderArchive() const;
     QString detectSubfolder() const;
-    QList<QVariant> filesForIndexes(const QModelIndexList& list) const;
-    QList<QVariant> filesAndRootNodesForIndexes(const QModelIndexList& list) const;
+    QVector<Kerfuffle::Archive::Entry*> filesForIndexes(const QModelIndexList& list) const;
+    QVector<Kerfuffle::Archive::Entry*> filesAndRootNodesForIndexes(const QModelIndexList& list) const;
     QModelIndexList addChildren(const QModelIndexList &list) const;
     void registerJob(KJob *job);
 
     ArchiveModel         *m_model;
-    QTreeView            *m_view;
+    ArchiveView          *m_view;
     QAction *m_previewAction;
     QAction *m_openFileAction;
     QAction *m_openFileWithAction;
     QAction *m_extractArchiveAction;
     QAction *m_extractAction;
     QAction *m_addFilesAction;
+    QAction *m_renameFileAction;
     QAction *m_deleteFilesAction;
+    QAction *m_cutFilesAction;
+    QAction *m_copyFilesAction;
+    QAction *m_pasteFilesAction;
     QAction *m_saveAsAction;
     QAction *m_propertiesAction;
     QAction *m_editCommentAction;
@@ -162,8 +198,12 @@ private:
     QSplitter            *m_splitter;
     QList<QTemporaryDir*>      m_tmpExtractDirList;
     bool                  m_busy;
+
     OpenFileMode m_openFileMode;
     QUrl m_lastUsedAddPath;
+    QVector<Kerfuffle::Archive::Entry*> m_jobTempEntries;
+    Kerfuffle::Archive::Entry *m_destination;
+    QModelIndexList m_cutIndexes;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;
@@ -175,6 +215,7 @@ private:
     QPlainTextEdit *m_commentView;
     KMessageWidget *m_commentMsgWidget;
     KMessageWidget *m_messageWidget;
+    Kerfuffle::CompressionOptions m_compressionOptions;
 };
 
 } // namespace Ark

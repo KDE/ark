@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (c) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -23,11 +23,11 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "kerfuffle/addtoarchive.h"
-#include "kerfuffle/archive_kerfuffle.h"
-#include "kerfuffle/pluginmanager.h"
+#include "addtoarchive.h"
+#include "jobs.h"
+#include "pluginmanager.h"
+#include "testhelper.h"
 
-#include <QEventLoop>
 #include <QMimeDatabase>
 #include <QStandardPaths>
 #include <QTest>
@@ -54,143 +54,154 @@ void AddToArchiveTest::init()
 void AddToArchiveTest::testCompressHere_data()
 {
     QTest::addColumn<QString>("expectedSuffix");
+    QTest::addColumn<Archive::EncryptionType>("expectedEncryptionType");
     QTest::addColumn<QStringList>("inputFiles");
     QTest::addColumn<QString>("expectedArchiveName");
-    QTest::addColumn<qulonglong>("expectedNumberOfFiles");
-    QTest::addColumn<qulonglong>("expectedNumberOfFolders");
+    QTest::addColumn<qulonglong>("expectedNumberOfEntries");
 
     QTest::newRow("compress here (as TAR) - dir with files")
         << QStringLiteral("tar.gz")
+        << Archive::Unencrypted
         << QStringList {QFINDTESTDATA("data/testdir")}
         << QStringLiteral("testdir.tar.gz")
-        << 2ULL
-        << 1ULL;
+        << 3ULL;
 
     QTest::newRow("compress here (as TAR) - dir with subdirs")
         << QStringLiteral("tar.gz")
+        << Archive::Unencrypted
         << QStringList {QFINDTESTDATA("data/testdirwithsubdirs")}
         << QStringLiteral("testdirwithsubdirs.tar.gz")
-        << 4ULL
-        << 4ULL;
+        << 8ULL;
 
     QTest::newRow("compress here (as TAR) - dir with empty subdir")
         << QStringLiteral("tar.gz")
+        << Archive::Unencrypted
         << QStringList {QFINDTESTDATA("data/testdirwithemptysubdir")}
         << QStringLiteral("testdirwithemptysubdir.tar.gz")
-        << 2ULL
-        << 2ULL;
+        << 4ULL;
 
     QTest::newRow("compress here (as TAR) - single file")
         << QStringLiteral("tar.gz")
+        << Archive::Unencrypted
         << QStringList {QFINDTESTDATA("data/testfile.txt")}
         << QStringLiteral("testfile.tar.gz")
-        << 1ULL
-        << 0ULL;
+        << 1ULL;
 
     QTest::newRow("compress here (as TAR) - file + folder")
         << QStringLiteral("tar.gz")
+        << Archive::Unencrypted
         << QStringList {
                QFINDTESTDATA("data/testdir"),
                QFINDTESTDATA("data/testfile.txt")
            }
         << QStringLiteral("data.tar.gz")
-        << 3ULL
-        << 1ULL;
+        << 4ULL;
 
     QTest::newRow("compress here (as TAR) - bug #362690")
         << QStringLiteral("tar.gz")
+        << Archive::Unencrypted
         << QStringList {QFINDTESTDATA("data/test-3.4.0")}
         << QStringLiteral("test-3.4.0.tar.gz")
-        << 1ULL
-        << 1ULL;
+        << 2ULL;
 
     if (!PluginManager().preferredWritePluginsFor(QMimeDatabase().mimeTypeForName(QStringLiteral("application/zip"))).isEmpty()) {
         QTest::newRow("compress here (as ZIP) - dir with files")
             << QStringLiteral("zip")
+            << Archive::Unencrypted
             << QStringList {QFINDTESTDATA("data/testdir")}
             << QStringLiteral("testdir.zip")
-            << 2ULL
-            << 1ULL;
+            << 3ULL;
 
         QTest::newRow("compress here (as ZIP) - dir with subdirs")
             << QStringLiteral("zip")
+            << Archive::Unencrypted
             << QStringList {QFINDTESTDATA("data/testdirwithsubdirs")}
             << QStringLiteral("testdirwithsubdirs.zip")
-            << 4ULL
-            << 4ULL;
+            << 8ULL;
 
         QTest::newRow("compress here (as ZIP) - dir with empty subdir")
             << QStringLiteral("zip")
+            << Archive::Unencrypted
             << QStringList {QFINDTESTDATA("data/testdirwithemptysubdir")}
             << QStringLiteral("testdirwithemptysubdir.zip")
-            << 2ULL
-            << 2ULL;
+            << 4ULL;
 
         QTest::newRow("compress here (as ZIP) - single file")
             << QStringLiteral("zip")
+            << Archive::Unencrypted
             << QStringList {QFINDTESTDATA("data/testfile.txt")}
             << QStringLiteral("testfile.zip")
-            << 1ULL
-            << 0ULL;
+            << 1ULL;
 
         QTest::newRow("compress here (as ZIP) - file + folder")
             << QStringLiteral("zip")
+            << Archive::Unencrypted
             << QStringList {
                    QFINDTESTDATA("data/testdir"),
                    QFINDTESTDATA("data/testfile.txt")
                }
             << QStringLiteral("data.zip")
-            << 3ULL
-            << 1ULL;
+            << 4ULL;
 
         QTest::newRow("compress here (as TAR) - dir with special name (see #365798)")
             << QStringLiteral("tar.gz")
+            << Archive::Unencrypted
             << QStringList {QFINDTESTDATA("data/test%dir")}
             << QStringLiteral("test%dir.tar.gz")
-            << 2ULL
-            << 1ULL;
+            << 3ULL;
+
     } else {
         qDebug() << "7z/zip executable not found in path. Skipping compress-here-(ZIP) tests.";
     }
 
-    if (!PluginManager().preferredWritePluginsFor(QMimeDatabase().mimeTypeForName(QStringLiteral("application/x-rar"))).isEmpty()) {
+    if (!PluginManager().preferredWritePluginsFor(QMimeDatabase().mimeTypeForName(QStringLiteral("application/vnd.rar"))).isEmpty()) {
         QTest::newRow("compress here (as RAR) - dir with files")
             << QStringLiteral("rar")
+            << Archive::Unencrypted
             << QStringList {QFINDTESTDATA("data/testdir")}
             << QStringLiteral("testdir.rar")
-            << 2ULL
-            << 1ULL;
+            << 3ULL;
 
         QTest::newRow("compress here (as RAR) - dir with subdirs")
             << QStringLiteral("rar")
+            << Archive::Unencrypted
             << QStringList {QFINDTESTDATA("data/testdirwithsubdirs")}
             << QStringLiteral("testdirwithsubdirs.rar")
-            << 4ULL
-            << 4ULL;
+            << 8ULL;
 
         QTest::newRow("compress here (as RAR) - dir with empty subdir")
             << QStringLiteral("rar")
+            << Archive::Unencrypted
             << QStringList {QFINDTESTDATA("data/testdirwithemptysubdir")}
             << QStringLiteral("testdirwithemptysubdir.rar")
-            << 2ULL
-            << 2ULL;
+            << 4ULL;
 
         QTest::newRow("compress here (as RAR) - single file")
             << QStringLiteral("rar")
+            << Archive::Unencrypted
             << QStringList {QFINDTESTDATA("data/testfile.txt")}
             << QStringLiteral("testfile.rar")
-            << 1ULL
-            << 0ULL;
+            << 1ULL;
 
         QTest::newRow("compress here (as RAR) - file + folder")
             << QStringLiteral("rar")
+            << Archive::Unencrypted
             << QStringList {
                    QFINDTESTDATA("data/testdir"),
                    QFINDTESTDATA("data/testfile.txt")
                }
             << QStringLiteral("data.rar")
-            << 3ULL
-            << 1ULL;
+            << 4ULL;
+
+        QTest::newRow("compress to encrypted RAR - file + folder")
+            << QStringLiteral("rar")
+            << Archive::Encrypted
+            << QStringList {
+                   QFINDTESTDATA("data/testdir"),
+                   QFINDTESTDATA("data/testfile.txt")
+               }
+            << QStringLiteral("data.rar")
+            << 4ULL;
     } else {
         qDebug() << "rar executable not found in path. Skipping compress-here-(RAR) tests.";
     }
@@ -204,32 +215,41 @@ void AddToArchiveTest::testCompressHere()
     QFETCH(QString, expectedSuffix);
     addToArchiveJob->setAutoFilenameSuffix(expectedSuffix);
 
+    QFETCH(Archive::EncryptionType, expectedEncryptionType);
+    if (expectedEncryptionType == Archive::Encrypted) {
+        addToArchiveJob->setPassword(QLatin1String("1234"));
+    }
+
     QFETCH(QStringList, inputFiles);
     foreach (const QString &file, inputFiles) {
         addToArchiveJob->addInput(QUrl::fromUserInput(file));
     }
 
-    // Run the job in the following event loop.
-    QEventLoop eventLoop(this);
-    connect(addToArchiveJob, &KJob::result, &eventLoop, &QEventLoop::quit);
-    addToArchiveJob->start();
-    eventLoop.exec(); // krazy:exclude=crashy
+    // Run the job.
+    TestHelper::startAndWaitForResult(addToArchiveJob);
 
     // Check the properties of the generated test archive, then remove it.
     QFETCH(QString, expectedArchiveName);
-    Archive *archive = Archive::create(QFINDTESTDATA(QStringLiteral("data/%1").arg(expectedArchiveName)));
+    auto loadJob = Archive::load(QFINDTESTDATA(QStringLiteral("data/%1").arg(expectedArchiveName)));
+    QVERIFY(loadJob);
+    loadJob->setAutoDelete(false);
+
+    TestHelper::startAndWaitForResult(loadJob);
+    auto archive = loadJob->archive();
 
     QVERIFY(archive);
     QVERIFY(archive->isValid());
     QCOMPARE(archive->completeBaseName() + QLatin1Char('.') + expectedSuffix, expectedArchiveName);
 
-    QFETCH(qulonglong, expectedNumberOfFiles);
-    QCOMPARE(archive->numberOfFiles(), expectedNumberOfFiles);
+    QCOMPARE(archive->encryptionType(), expectedEncryptionType);
 
-    QFETCH(qulonglong, expectedNumberOfFolders);
-    QCOMPARE(archive->numberOfFolders(), expectedNumberOfFolders);
+    QFETCH(qulonglong, expectedNumberOfEntries);
+    QCOMPARE(archive->numberOfEntries(), expectedNumberOfEntries);
 
     QVERIFY(QFile(archive->fileName()).remove());
+
+    loadJob->deleteLater();
+    archive->deleteLater();
 }
 
 QTEST_MAIN(AddToArchiveTest)

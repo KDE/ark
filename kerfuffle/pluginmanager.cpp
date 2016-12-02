@@ -1,7 +1,7 @@
 /*
  * ark -- archiver for the KDE project
  *
- * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kdemail.net>
+ * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -85,9 +85,16 @@ QVector<Plugin*> PluginManager::enabledPlugins() const
     return enabledPlugins;
 }
 
-QVector<Plugin*> PluginManager::preferredPluginsFor(const QMimeType &mimeType) const
+QVector<Plugin*> PluginManager::preferredPluginsFor(const QMimeType &mimeType)
 {
-    return preferredPluginsFor(mimeType, false);
+    const auto mimeName = mimeType.name();
+    if (m_preferredPluginsCache.contains(mimeName)) {
+        return m_preferredPluginsCache.value(mimeName);
+    }
+
+    const auto plugins = preferredPluginsFor(mimeType, false);
+    m_preferredPluginsCache.insert(mimeName, plugins);
+    return plugins;
 }
 
 QVector<Plugin*> PluginManager::preferredWritePluginsFor(const QMimeType &mimeType) const
@@ -95,7 +102,7 @@ QVector<Plugin*> PluginManager::preferredWritePluginsFor(const QMimeType &mimeTy
     return preferredPluginsFor(mimeType, true);
 }
 
-Plugin *PluginManager::preferredPluginFor(const QMimeType &mimeType) const
+Plugin *PluginManager::preferredPluginFor(const QMimeType &mimeType)
 {
     const QVector<Plugin*> preferredPlugins = preferredPluginsFor(mimeType);
     return preferredPlugins.isEmpty() ? new Plugin() : preferredPlugins.first();
@@ -107,11 +114,16 @@ Plugin *PluginManager::preferredWritePluginFor(const QMimeType &mimeType) const
     return preferredWritePlugins.isEmpty() ? new Plugin() : preferredWritePlugins.first();
 }
 
-QStringList PluginManager::supportedMimeTypes() const
+QStringList PluginManager::supportedMimeTypes(MimeSortingMode mode) const
 {
     QSet<QString> supported;
+    QMimeDatabase db;
     foreach (Plugin *plugin, availablePlugins()) {
-        supported += plugin->metaData().mimeTypes().toSet();
+        foreach (const auto& mimeType, plugin->metaData().mimeTypes()) {
+            if (db.mimeTypeForName(mimeType).isValid()) {
+                supported.insert(mimeType);
+            }
+        }
     }
 
     // Remove entry for lrzipped tar if lrzip executable not found in path.
@@ -124,14 +136,23 @@ QStringList PluginManager::supportedMimeTypes() const
         supported.remove(QStringLiteral("application/x-lz4-compressed-tar"));
     }
 
-    return sortByComment(supported);
+    if (mode == SortByComment) {
+        return sortByComment(supported);
+    }
+
+    return supported.toList();
 }
 
-QStringList PluginManager::supportedWriteMimeTypes() const
+QStringList PluginManager::supportedWriteMimeTypes(MimeSortingMode mode) const
 {
     QSet<QString> supported;
+    QMimeDatabase db;
     foreach (Plugin *plugin, availableWritePlugins()) {
-        supported += plugin->metaData().mimeTypes().toSet();
+        foreach (const auto& mimeType, plugin->metaData().mimeTypes()) {
+            if (db.mimeTypeForName(mimeType).isValid()) {
+                supported.insert(mimeType);
+            }
+        }
     }
 
     // Remove entry for lrzipped tar if lrzip executable not found in path.
@@ -144,7 +165,11 @@ QStringList PluginManager::supportedWriteMimeTypes() const
         supported.remove(QStringLiteral("application/x-lz4-compressed-tar"));
     }
 
-    return sortByComment(supported);
+    if (mode == SortByComment) {
+        return sortByComment(supported);
+    }
+
+    return supported.toList();
 }
 
 QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const QMimeType &mimeType) const
@@ -170,13 +195,23 @@ QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const 
 void PluginManager::loadPlugins()
 {
     const QVector<KPluginMetaData> plugins = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"));
+    // This class might be used from executables other than ark (e.g. the tests),
+    // so we need to specify the name of the config file.
     // TODO: once we have a GUI in the settings dialog,
     // use this group to write whether a plugin gets disabled.
-    const KConfigGroup conf(KSharedConfig::openConfig(), "EnabledPlugins");
+    const KConfigGroup conf(KSharedConfig::openConfig(QStringLiteral("arkrc")), "EnabledPlugins");
 
+    QSet<QString> addedPlugins;
     foreach (const KPluginMetaData &metaData, plugins) {
+        const auto pluginId = metaData.pluginId();
+        // Filter out duplicate plugins.
+        if (addedPlugins.contains(pluginId)) {
+            continue;
+        }
+
         Plugin *plugin = new Plugin(this, metaData);
-        plugin->setEnabled(conf.readEntry(metaData.pluginId(), true));
+        plugin->setEnabled(conf.readEntry(pluginId, true));
+        addedPlugins << pluginId;
         m_plugins << plugin;
     }
 }

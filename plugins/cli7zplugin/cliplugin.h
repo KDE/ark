@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2009 Harald Hvaal <haraldhv@stud.ntnu.no>
  * Copyright (C) 2009-2010 Raphael Kubo da Costa <rakuco@FreeBSD.org>
+ * Copyright (c) 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,7 +25,7 @@
 #ifndef CLIPLUGIN_H
 #define CLIPLUGIN_H
 
-#include "kerfuffle/cliinterface.h"
+#include "cliinterface.h"
 
 class CliPlugin : public Kerfuffle::CliInterface
 {
@@ -35,13 +36,8 @@ public:
     virtual ~CliPlugin();
 
     virtual void resetParsing() Q_DECL_OVERRIDE;
-    virtual Kerfuffle::ParameterList parameterList() const Q_DECL_OVERRIDE;
     virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
-
-    /**
-     * @return The password header-switch with the given @p password.
-     */
-    virtual QStringList passwordHeaderSwitch(const QString& password) const Q_DECL_OVERRIDE;
+    virtual bool readExtractLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
     enum ArchiveType {
@@ -62,8 +58,12 @@ private:
         ParseStateEntryInformation
     } m_parseState;
 
+    void setupCliProperties();
+    void handleMethods(const QStringList &methods);
+
     int m_linesComment;
-    Kerfuffle::ArchiveEntry m_currentArchiveEntry;
+    Kerfuffle::Archive::Entry *m_currentArchiveEntry;
+    bool m_isFirstInformationEntry;
 };
 
 #endif // CLIPLUGIN_H
