@@ -23,8 +23,7 @@
 
 #include "cliplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle/cliinterface.h"
-#include "kerfuffle/kerfuffle_export.h"
+#include "cliinterface.h"
 
 #include <QDateTime>
 #include <QDir>

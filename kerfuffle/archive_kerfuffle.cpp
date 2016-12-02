@@ -27,7 +27,7 @@
  */
 
 #include "archive_kerfuffle.h"
-#include "archiveentry.h"
+#include "ark_debug.h"
 #include "archiveinterface.h"
 #include "jobs.h"
 #include "mimetypes.h"

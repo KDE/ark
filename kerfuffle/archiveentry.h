@@ -27,7 +27,6 @@
 #define ARCHIVEENTRY_H
 
 #include "archive_kerfuffle.h"
-#include "app/ark_debug.h"
 
 #include <QDateTime>
 

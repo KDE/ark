@@ -28,9 +28,9 @@
 
 #include "batchextract.h"
 #include "ark_debug.h"
-#include "kerfuffle/extractiondialog.h"
-#include "kerfuffle/jobs.h"
-#include "kerfuffle/queries.h"
+#include "extractiondialog.h"
+#include "jobs.h"
+#include "queries.h"
 
 #include <KIO/JobTracker>
 #include <KLocalizedString>

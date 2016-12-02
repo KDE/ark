@@ -23,7 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "kerfuffle/archive_kerfuffle.h"
+#include "archive_kerfuffle.h"
 #include "mimetypes.h"
 
 #include <QMimeDatabase>

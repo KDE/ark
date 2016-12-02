@@ -25,7 +25,7 @@
 #define PART_H
 
 #include "interface.h"
-#include "kerfuffle/archiveentry.h"
+#include "archiveentry.h"
 
 #include <KParts/Part>
 #include <KParts/ReadWritePart>

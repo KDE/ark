@@ -82,11 +82,6 @@ endif (WITH_TEST_COVERAGE)
 
 set(SUPPORTED_ARK_MIMETYPES "")
 
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_BINARY_DIR}
-)
-
 add_definitions(-DTRANSLATION_DOMAIN="ark")
 
 add_subdirectory(plugins)

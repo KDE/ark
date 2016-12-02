@@ -26,10 +26,7 @@
 #ifndef CLI7ZTEST_H
 #define CLI7ZTEST_H
 
-#include "cliplugin.h"
 #include "pluginmanager.h"
-#include "autotests/testhelper/testhelper.h"
-#include "kerfuffle/jobs.h"
 
 using namespace Kerfuffle;
 

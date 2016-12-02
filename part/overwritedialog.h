@@ -28,7 +28,7 @@
 #ifndef OVERWRITEDIALOG_H
 #define OVERWRITEDIALOG_H
 
-#include "kerfuffle/archiveentry.h"
+#include "archiveentry.h"
 
 #include <KFileWidget>
 #include <KLocalizedString>

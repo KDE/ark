@@ -34,12 +34,12 @@
 #include "infopanel.h"
 #include "jobtracker.h"
 #include "generalsettingspage.h"
-#include "kerfuffle/extractiondialog.h"
-#include "kerfuffle/extractionsettingspage.h"
-#include "kerfuffle/jobs.h"
-#include "kerfuffle/settings.h"
-#include "kerfuffle/previewsettingspage.h"
-#include "kerfuffle/propertiesdialog.h"
+#include "extractiondialog.h"
+#include "extractionsettingspage.h"
+#include "jobs.h"
+#include "settings.h"
+#include "previewsettingspage.h"
+#include "propertiesdialog.h"
 #include "pluginmanager.h"
 
 #include <KAboutData>

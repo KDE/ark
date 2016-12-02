@@ -20,7 +20,7 @@
  */
 
 #include "infopanel.h"
-#include "kerfuffle/archiveentry.h"
+#include "archiveentry.h"
 
 #include <KLocalizedString>
 #include <kio/global.h>

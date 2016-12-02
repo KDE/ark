@@ -25,6 +25,10 @@
  */
 
 #include "clirartest.h"
+#include "cliplugin.h"
+#include "archive_kerfuffle.h"
+#include "jobs.h"
+#include "testhelper.h"
 
 #include <KPluginLoader>
 

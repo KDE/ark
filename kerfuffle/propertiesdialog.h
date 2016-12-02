@@ -28,7 +28,7 @@
 #ifndef PROPERTIESDIALOG_H
 #define PROPERTIESDIALOG_H
 
-#include "kerfuffle/archive_kerfuffle.h"
+#include "kerfuffle_export.h"
 
 #include <QCryptographicHash>
 #include <QDialog>
@@ -37,6 +37,9 @@ class QLabel;
 
 namespace Kerfuffle
 {
+
+class Archive;
+
 class KERFUFFLE_EXPORT PropertiesDialog : public QDialog
 {
     Q_OBJECT

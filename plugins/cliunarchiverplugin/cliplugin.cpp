@@ -21,6 +21,7 @@
  */
 
 #include "cliplugin.h"
+#include "ark_debug.h"
 #include "queries.h"
 
 #include <QJsonArray>

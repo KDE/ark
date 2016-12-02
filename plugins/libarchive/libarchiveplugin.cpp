@@ -27,12 +27,15 @@
  */
 
 #include "libarchiveplugin.h"
-#include "kerfuffle/queries.h"
+#include "ark_debug.h"
+#include "queries.h"
 
 #include <KLocalizedString>
 
 #include <QDirIterator>
 #include <QThread>
+
+#include <archive_entry.h>
 
 LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList &args)
     : ReadWriteArchiveInterface(parent, args)

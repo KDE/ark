@@ -26,7 +26,7 @@
 #ifndef JSONPARSER_H
 #define JSONPARSER_H
 
-#include "kerfuffle/archive_kerfuffle.h"
+#include "archiveentry.h"
 
 #include <QIODevice>
 #include <QMap>

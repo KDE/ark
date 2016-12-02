@@ -26,6 +26,7 @@
  */
 
 #include "propertiesdialog.h"
+#include "archive_kerfuffle.h"
 #include "ark_debug.h"
 #include "ui_propertiesdialog.h"
 

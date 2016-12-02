@@ -26,8 +26,7 @@
 #ifndef SINGLEFILEPLUGIN_H
 #define SINGLEFILEPLUGIN_H
 
-#include "kerfuffle/archiveinterface.h"
-#include "kerfuffle/archiveentry.h"
+#include "archiveinterface.h"
 
 class LibSingleFileInterface : public Kerfuffle::ReadOnlyArchiveInterface
 {

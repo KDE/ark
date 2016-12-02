@@ -23,6 +23,7 @@
  */
 
 #include "archivemodel.h"
+#include "ark_debug.h"
 #include "jobs.h"
 
 #include <KLocalizedString>

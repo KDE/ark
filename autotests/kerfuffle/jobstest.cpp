@@ -25,8 +25,7 @@
  */
 
 #include "jsonarchiveinterface.h"
-#include "kerfuffle/jobs.h"
-#include "kerfuffle/archiveentry.h"
+#include "jobs.h"
 
 #include <KPluginMetaData>
 

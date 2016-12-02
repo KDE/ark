@@ -22,7 +22,7 @@
 #include "extractHereDndPlugin.h"
 #include "ark_debug.h"
 #include "batchextract.h"
-#include "kerfuffle/archive_kerfuffle.h"
+#include "archive_kerfuffle.h"
 #include "pluginmanager.h"
 
 #include <QAction>

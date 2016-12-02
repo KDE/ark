@@ -26,9 +26,6 @@
 #ifndef CLIZIPTEST_H
 #define CLIZIPTEST_H
 
-#include "cliplugin.h"
-#include "autotests/testhelper/testhelper.h"
-#include "kerfuffle/jobs.h"
 #include "pluginmanager.h"
 
 using namespace Kerfuffle;

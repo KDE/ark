@@ -25,7 +25,7 @@
 #include "ark_debug.h"
 #include "mainwindow.h"
 #include "batchextract.h"
-#include "kerfuffle/addtoarchive.h"
+#include "addtoarchive.h"
 #include "kdelibs4configmigrator.h"
 
 #include <QApplication>

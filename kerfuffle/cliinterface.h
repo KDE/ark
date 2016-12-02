@@ -33,7 +33,6 @@
 #include "archiveentry.h"
 #include "cliproperties.h"
 #include "kerfuffle_export.h"
-#include "part/archivemodel.h"
 
 #include <QProcess>
 #include <QRegularExpression>

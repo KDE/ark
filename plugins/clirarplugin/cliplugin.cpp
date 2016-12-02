@@ -24,7 +24,7 @@
 
 #include "cliplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle/archiveentry.h"
+#include "archiveentry.h"
 
 #include <QDateTime>
 

@@ -25,8 +25,7 @@
 
 #include "singlefileplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle/archiveentry.h"
-#include "kerfuffle/queries.h"
+#include "queries.h"
 
 #include <QFile>
 #include <QFileInfo>

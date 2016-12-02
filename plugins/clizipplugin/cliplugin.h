@@ -22,9 +22,7 @@
 #ifndef CLIPLUGIN_H
 #define CLIPLUGIN_H
 
-#include "kerfuffle/cliinterface.h"
-
-#include <QTemporaryDir>
+#include "cliinterface.h"
 
 using namespace Kerfuffle;
 

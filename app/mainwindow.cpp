@@ -28,7 +28,7 @@
 #include "createdialog.h"
 #include "settingspage.h"
 #include "pluginmanager.h"
-#include "part/interface.h"
+#include "interface.h"
 
 #include <KParts/ReadWritePart>
 #include <KPluginFactory>

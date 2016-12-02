@@ -25,8 +25,7 @@
 #ifndef CLIPLUGIN_H
 #define CLIPLUGIN_H
 
-#include "kerfuffle/cliinterface.h"
-#include "kerfuffle/archiveentry.h"
+#include "cliinterface.h"
 
 class CliPlugin : public Kerfuffle::CliInterface
 {

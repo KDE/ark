@@ -1,5 +1,3 @@
-include_directories(${CMAKE_SOURCE_DIR}/app)
-
 set(arkpart_PART_SRCS
 	part.cpp
 	infopanel.cpp

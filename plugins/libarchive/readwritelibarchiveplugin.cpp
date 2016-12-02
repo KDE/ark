@@ -27,6 +27,7 @@
  */
 
 #include "readwritelibarchiveplugin.h"
+#include "ark_debug.h"
 
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -34,6 +35,8 @@
 #include <QDirIterator>
 #include <QSaveFile>
 #include <QThread>
+
+#include <archive_entry.h>
 
 K_PLUGIN_FACTORY_WITH_JSON(ReadWriteLibarchivePluginFactory, "kerfuffle_libarchive.json", registerPlugin<ReadWriteLibarchivePlugin>();)
 

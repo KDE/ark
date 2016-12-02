@@ -22,9 +22,7 @@
 
 #include "cliplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle/archiveentry.h"
-#include "kerfuffle/cliinterface.h"
-#include "kerfuffle/kerfuffle_export.h"
+#include "cliinterface.h"
 
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -32,6 +30,7 @@
 #include <QDateTime>
 #include <QDir>
 #include <QRegularExpression>
+#include <QTemporaryDir>
 
 using namespace Kerfuffle;
 

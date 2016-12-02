@@ -28,8 +28,7 @@
 #ifndef LIBARCHIVEPLUGIN_H
 #define LIBARCHIVEPLUGIN_H
 
-#include "kerfuffle/archiveinterface.h"
-#include "kerfuffle/archiveentry.h"
+#include "archiveinterface.h"
 
 #include <archive.h>
 

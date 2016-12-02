@@ -24,8 +24,7 @@
  */
 
 #include "jsonparser.h"
-#include "kerfuffle/archiveinterface.h"
-#include "kerfuffle/archiveentry.h"
+#include "archiveinterface.h"
 
 #include <QDebug>
 #include <QJsonDocument>

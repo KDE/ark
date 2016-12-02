@@ -27,10 +27,7 @@
 #ifndef CLIRARTEST_H
 #define CLIRARTEST_H
 
-#include "cliplugin.h"
 #include "pluginmanager.h"
-#include "autotests/testhelper/testhelper.h"
-#include "kerfuffle/jobs.h"
 
 using namespace Kerfuffle;
 

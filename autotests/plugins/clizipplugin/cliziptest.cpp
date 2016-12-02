@@ -24,6 +24,8 @@
  */
 
 #include "cliziptest.h"
+#include "cliplugin.h"
+
 #include <QTest>
 
 QTEST_GUILESS_MAIN(CliZipTest)

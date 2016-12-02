@@ -30,9 +30,8 @@
 #define ARCHIVEINTERFACE_H
 
 #include "archive_kerfuffle.h"
-#include "archive_entry.h"
 #include "kerfuffle_export.h"
-#include "kerfuffle/archiveentry.h"
+#include "archiveentry.h"
 
 #include <QObject>
 #include <QStringList>
