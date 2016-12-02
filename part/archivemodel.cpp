@@ -26,8 +26,8 @@
 #include "ark_debug.h"
 #include "jobs.h"
 
+#include <KIO/Global>
 #include <KLocalizedString>
-#include <kio/global.h>
 
 #include <QDBusConnection>
 #include <QMimeData>

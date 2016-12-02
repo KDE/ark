@@ -26,7 +26,7 @@
 #include "jsonarchiveinterface.h"
 #include "archiveentry.h"
 
-#include <qfile.h>
+#include <QFile>
 
 JSONArchiveInterface::JSONArchiveInterface(QObject *parent, const QVariantList& args)
     : Kerfuffle::ReadWriteArchiveInterface(parent, args)

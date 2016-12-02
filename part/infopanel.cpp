@@ -22,8 +22,8 @@
 #include "infopanel.h"
 #include "archiveentry.h"
 
+#include <KIO/Global>
 #include <KLocalizedString>
-#include <kio/global.h>
 
 #include <QFileInfo>
 #include <QMimeDatabase>

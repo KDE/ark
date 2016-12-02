@@ -36,7 +36,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRun>
-#include <kwidgetjobtracker.h>
+#include <KWidgetJobTracker>
 
 #include <QDir>
 #include <QFileInfo>

@@ -26,11 +26,10 @@
 #include "pluginmanager.h"
 
 #include <QAction>
-#include <QDebug>
 
+#include <KFileItemListProperties>
 #include <KPluginFactory>
 #include <KPluginLoader>
-#include <kfileitemlistproperties.h>
 #include <KLocalizedString>
 
 K_PLUGIN_FACTORY_WITH_JSON(ExtractHereDndPluginFactory, "ark_dndextract.json",

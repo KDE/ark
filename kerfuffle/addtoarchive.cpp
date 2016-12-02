@@ -34,10 +34,10 @@
 #include "jobs.h"
 
 #include <KConfig>
-#include <kjobtrackerinterface.h>
-#include <kmessagebox.h>
+#include <KJobTrackerInterface>
+#include <KIO/JobTracker>
 #include <KLocalizedString>
-#include <kio/job.h>
+#include <KMessageBox>
 
 #include <QFileInfo>
 #include <QDir>

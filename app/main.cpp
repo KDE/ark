@@ -26,7 +26,6 @@
 #include "mainwindow.h"
 #include "batchextract.h"
 #include "addtoarchive.h"
-#include "kdelibs4configmigrator.h"
 
 #include <QApplication>
 #include <QCommandLineParser>
@@ -35,8 +34,9 @@
 
 #include <KAboutData>
 #include <KCrash>
+#include <KDBusService>
+#include <Kdelibs4ConfigMigrator>
 #include <KLocalizedString>
-#include <kdbusservice.h>
 
 using Kerfuffle::AddToArchive;
 

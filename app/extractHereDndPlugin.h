@@ -22,8 +22,9 @@
 #ifndef EXTRACTHEREDNDPLUGIN_H
 #define EXTRACTHEREDNDPLUGIN_H
 
-#include <qurl.h>
 #include <KIO/DndPopupMenuPlugin>
+
+#include <QUrl>
 
 class ExtractHereDndPlugin : public KIO::DndPopupMenuPlugin
 {
