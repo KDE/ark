@@ -25,8 +25,7 @@
 
 #include "libzipplugin.h"
 #include "ark_debug.h"
-#include "kerfuffle/kerfuffle_export.h"
-#include "kerfuffle/queries.h"
+#include "queries.h"
 
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -90,9 +89,9 @@ bool LibzipPlugin::list()
     return true;
 }
 
-bool LibzipPlugin::addFiles(const QStringList &files, const CompressionOptions &options)
+bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd)
 {
-    qulonglong totalCount = options.value(QStringLiteral("NumberOfEntries")).toULongLong();
+    qulonglong totalCount = numberOfEntriesToAdd;
 
     zip_t *archive;
     int errcode;
@@ -108,20 +107,20 @@ bool LibzipPlugin::addFiles(const QStringList &files, const CompressionOptions &
     }
 
     qulonglong i = 0;
-    foreach (const QVariant &v, files) {
+    foreach (const Archive::Entry* e, files) {
 
         if (m_abortOperation) {
             break;
         }
 
         // If entry is a directory, traverse and add all its files and subfolders.
-        if (QFileInfo(v.toString()).isDir()) {
+        if (QFileInfo(e->fullPath()).isDir()) {
 
-            if (!writeEntry(archive, v.toString(), true)) {
+            if (!writeEntry(archive, e->fullPath(), true)) {
                 return false;
             }
 
-            QDirIterator it(v.toString(),
+            QDirIterator it(e->fullPath(),
                             QDir::AllEntries | QDir::Readable |
                             QDir::Hidden | QDir::NoDotAndDotDot,
                             QDirIterator::Subdirectories);
@@ -147,7 +146,7 @@ bool LibzipPlugin::addFiles(const QStringList &files, const CompressionOptions &
 
         } else {
 
-            if (!writeEntry(archive, v.toString())) {
+            if (!writeEntry(archive, e->fullPath())) {
                 return false;
             }
 
@@ -195,42 +194,74 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
         return false;
     }
 
-    ArchiveEntry e;
+    auto e = new Archive::Entry();
 
     if (sb.valid & ZIP_STAT_NAME) {
-        e[FileName] = e[InternalID] = QString::fromUtf8(sb.name);
+        e->setFullPath(QString::fromUtf8(sb.name));
     }
 
-    e[FileName].toString().endsWith(QDir::separator()) ? e[IsDirectory] = true : e[IsDirectory] = false;
+    //e->isDir().toString().endsWith(QDir::separator()) ? e[IsDirectory] = true : e[IsDirectory] = false;
+
+    if (e->fullPath(PathFormat::WithTrailingSlash).endsWith(QDir::separator())) {
+        e->setProperty("isDirectory", true);
+    }
 
     if (sb.valid & ZIP_STAT_MTIME) {
-        e[Timestamp] = QDateTime::fromTime_t(sb.mtime);
+        e->setProperty("timestamp", QDateTime::fromTime_t(sb.mtime));
     }
     if (sb.valid & ZIP_STAT_SIZE) {
-        e[Size] = (qlonglong)sb.size;
+        e->setProperty("size", (qulonglong)sb.size);
     }
     if (sb.valid & ZIP_STAT_COMP_SIZE) {
-        e[CompressedSize] = (qlonglong)sb.comp_size;
+        e->setProperty("compressedSize", (qlonglong)sb.comp_size);
     }
     if (sb.valid & ZIP_STAT_CRC) {
-        e[IsDirectory].toBool() ? e[CRC] = QString() : e[CRC] = QString::number((qulonglong)sb.crc, 16).toUpper();
+        if (!e->isDir()) {
+            e->setProperty("CRC", QString::number((qulonglong)sb.crc, 16).toUpper());
+        }
     }
     if (sb.valid & ZIP_STAT_COMP_METHOD) {
+        qCDebug(ARK) << "compmethod:" << sb.comp_method;
         switch(sb.comp_method) {
             case ZIP_CM_STORE:
-                e[Method] = QStringLiteral("Store");
+                e->setProperty("method", QStringLiteral("Store"));
+                emit compressionMethodFound(QStringLiteral("Store"));
                 break;
             case ZIP_CM_DEFLATE:
-                e[Method] = QStringLiteral("Deflate");
+                e->setProperty("method", QStringLiteral("Deflate"));
+                emit compressionMethodFound(QStringLiteral("Deflate"));
                 break;
             case ZIP_CM_DEFLATE64:
-                e[Method] = QStringLiteral("Deflate64");
+                e->setProperty("method", QStringLiteral("Deflate64"));
+                emit compressionMethodFound(QStringLiteral("Deflate64"));
+                break;
+            case ZIP_CM_BZIP2:
+                e->setProperty("method", QStringLiteral("BZip2"));
+                emit compressionMethodFound(QStringLiteral("BZip2"));
+                break;
+            case ZIP_CM_LZMA:
+                e->setProperty("method", QStringLiteral("LZMA"));
+                emit compressionMethodFound(QStringLiteral("LZMA"));
                 break;
         }
     }
     if (sb.valid & ZIP_STAT_ENCRYPTION_METHOD) {
         if (sb.encryption_method != ZIP_EM_NONE) {
-            e[IsPasswordProtected] = true;
+            e->setProperty("isPasswordProtected", true);
+            switch(sb.encryption_method) {
+                case ZIP_EM_TRAD_PKWARE:
+                    emit encryptionMethodFound(QStringLiteral("ZipCrypto"));
+                    break;
+                case ZIP_EM_AES_128:
+                    emit encryptionMethodFound(QStringLiteral("AES128"));
+                    break;
+                case ZIP_EM_AES_192:
+                    emit encryptionMethodFound(QStringLiteral("AES192"));
+                    break;
+                case ZIP_EM_AES_256:
+                    emit encryptionMethodFound(QStringLiteral("AES256"));
+                    break;
+            }
         }
     }
 
@@ -239,7 +270,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     return true;
 }
 
-bool LibzipPlugin::deleteFiles(const QList<QVariant> &files)
+bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
 {
     zip_t *archive;
     int errcode;
@@ -255,24 +286,24 @@ bool LibzipPlugin::deleteFiles(const QList<QVariant> &files)
     }
 
     qulonglong i = 0;
-    foreach (const QVariant &v, files) {
+    foreach (const Archive::Entry* e, files) {
 
         if (m_abortOperation) {
             break;
         }
 
-        qlonglong index = zip_name_locate(archive, v.toString().toUtf8(), ZIP_FL_ENC_GUESS);
+        qlonglong index = zip_name_locate(archive, e->fullPath().toUtf8(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
-            qCCritical(ARK) << "Could not find entry to delete:" << v.toString();
-            emit error(xi18n("Failed to delete entry: %1", v.toString()));
+            qCCritical(ARK) << "Could not find entry to delete:" << e->fullPath();
+            emit error(xi18n("Failed to delete entry: %1", e->fullPath()));
             return false;
         }
         if (zip_delete(archive, index) == -1) {
-            qCCritical(ARK) << "Could not delete entry" << v.toString() << ":" << zip_strerror(archive);
+            qCCritical(ARK) << "Could not delete entry" << e->fullPath() << ":" << zip_strerror(archive);
             emit error(xi18n("Failed to delete entry: %1", QString::fromUtf8(zip_strerror(archive))));
             return false;
         }
-        emit entryRemoved(v.toString());
+        emit entryRemoved(e->fullPath());
         emit progress(float(++i) / files.size());
     }
     qCDebug(ARK) << "Deleted" << i << "entries";
@@ -334,12 +365,11 @@ bool LibzipPlugin::doKill()
     return true;
 }
 
-bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinationDirectory, const ExtractionOptions& options)
+bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QString& destinationDirectory, const ExtractionOptions& options)
 {
     qCDebug(ARK) << "Extracting files to:" << destinationDirectory;
 
     const bool extractAll = files.isEmpty();
-    const bool removeRootNode = options.value(QStringLiteral("RemoveRootNode"), QVariant()).toBool();
 
     zip_t *archive;
     int errcode;
@@ -377,7 +407,7 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
                               QDir::fromNativeSeparators(QString::fromUtf8(zip_get_name(archive, i, ZIP_FL_ENC_GUESS))),
                               QString(),
                               destinationDirectory,
-                              options.value(QStringLiteral("PreservePaths")).toBool())) {
+                              options.preservePaths())) {
                 qCDebug(ARK) << "Extraction failed";
                 return false;
             }
@@ -386,15 +416,15 @@ bool LibzipPlugin::copyFiles(const QVariantList& files, const QString& destinati
     } else {
         // We extract only the entries in files.
         qulonglong i = 0;
-        foreach (const QVariant &v, files) {
+        foreach (const Archive::Entry* e, files) {
             if (m_abortOperation) {
                 break;
             }
             if (!extractEntry(archive,
-                              v.value<fileRootNodePair>().file,
-                              removeRootNode ? v.value<fileRootNodePair>().rootNode : QString(),
+                              e->fullPath(),
+                              e->rootNode,
                               destinationDirectory,
-                              options.value(QStringLiteral("PreservePaths")).toBool())) {
+                              options.preservePaths())) {
                 qCDebug(ARK) << "Extraction failed";
                 return false;
             }
@@ -541,6 +571,22 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         sum += len;
     }
     return true;
+}
+
+bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(options)
+    return false;
+}
+
+bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+{
+    Q_UNUSED(files)
+    Q_UNUSED(destination)
+    Q_UNUSED(options)
+    return false;
 }
 
 #include "libzipplugin.moc"
