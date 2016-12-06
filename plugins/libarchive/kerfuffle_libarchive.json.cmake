@@ -11,6 +11,7 @@
         "Description[fr]": "Module externe pour Kerfuffle", 
         "Description[gl]": "Complemento de libarchive para Kerfuffle", 
         "Description[it]": "Estensione LibArchive per Kerfuffle", 
+        "Description[ko]": "Kerfuffle을 위한 LibArchive 플러그인", 
         "Description[nl]": "LibArchive plug-in voor Kerfuffle", 
         "Description[nn]": "LibArchive-tillegg til Kerfuffle", 
         "Description[pl]": "Wtyczka LibArchive dla Kerfuffle", 

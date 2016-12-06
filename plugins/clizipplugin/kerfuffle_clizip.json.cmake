@@ -16,6 +16,7 @@
         "Name[gl]": "Complemento de arquivo ZIP", 
         "Name[he]": "תוסף ארכיוני ZIP", 
         "Name[it]": "Estensione per archivi ZIP", 
+        "Name[ko]": "ZIP 압축 플러그인", 
         "Name[nb]": "Programtillegg for ZIP-arkiv", 
         "Name[nl]": "ZIP-archiefplug-in", 
         "Name[nn]": "ZIP-arkivtillegg", 
