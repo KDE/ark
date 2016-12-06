@@ -16,6 +16,7 @@
         "Name[gl]": "Complemento de desarquivar", 
         "Name[he]": "תוסף חילוץ אכיונים", 
         "Name[it]": "Estensione The Unarchiver", 
+        "Name[ko]": "The Unarchiver 플러그인", 
         "Name[nl]": "De plug-in voor uit archief halen", 
         "Name[nn]": "Unarchiver-tillegget", 
         "Name[pl]": "Wtyczka wypakowywacza", 

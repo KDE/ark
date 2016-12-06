@@ -16,6 +16,7 @@
         "Name[gl]": "Complemento de arquivo de 7zip", 
         "Name[he]": "תוסף ארכיוני 7zip", 
         "Name[it]": "Estensione per archivi 7zip", 
+        "Name[ko]": "7zip 압축 플러그인", 
         "Name[nb]": "Programtillegg for 7zip-arkiv", 
         "Name[nl]": "7zip-archiefplug-in", 
         "Name[nn]": "7zip-arkivtillegg", 
