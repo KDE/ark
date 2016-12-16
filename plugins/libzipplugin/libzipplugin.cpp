@@ -221,7 +221,6 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
         }
     }
     if (sb.valid & ZIP_STAT_COMP_METHOD) {
-        qCDebug(ARK) << "compmethod:" << sb.comp_method;
         switch(sb.comp_method) {
             case ZIP_CM_STORE:
                 e->setProperty("method", QStringLiteral("Store"));
@@ -575,10 +574,48 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
 
 bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
-    Q_UNUSED(files)
-    Q_UNUSED(destination)
     Q_UNUSED(options)
-    return false;
+
+    zip_t *archive;
+    int errcode;
+    zip_error_t err;
+
+    // Open archive.
+    archive = zip_open(QFile::encodeName(filename()), 0, &errcode);
+    zip_error_init_with_code(&err, errcode);
+    if (archive == NULL) {
+        qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
+        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
+        return false;
+    }
+
+    const QStringList filePaths = entryFullPaths(files);
+    const QStringList destPaths = entryPathsFromDestination(filePaths, destination, entriesWithoutChildren(files).count());
+
+    int i;
+    for (i = 0; i < filePaths.size(); ++i) {
+
+        const qlonglong index = zip_name_locate(archive, filePaths.at(i).toUtf8(), ZIP_FL_ENC_GUESS);
+        if (index == -1) {
+            qCCritical(ARK) << "Could not find entry to move:" << filePaths.at(i);
+            emit error(xi18n("Failed to move entry: %1", filePaths.at(i)));
+            return false;
+        }
+
+        if (zip_file_rename(archive, index, destPaths.at(i).toUtf8(), ZIP_FL_ENC_GUESS) == -1) {
+            qCCritical(ARK) << "Could not move entry:" << filePaths.at(i);
+            emit error(xi18n("Failed to move entry: %1", filePaths.at(i)));
+            return false;
+        }
+
+        emit entryRemoved(filePaths.at(i));
+        emitEntryForIndex(archive, index);
+        emit progress(i/filePaths.count());
+    }
+    zip_close(archive);
+    qCDebug(ARK) << "Moved" << i << "entries";
+
+    return true;
 }
 
 bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
