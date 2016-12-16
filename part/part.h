@@ -41,9 +41,11 @@ class InfoPanel;
 class KAboutData;
 class KAbstractWidgetJobTracker;
 class KJob;
+class KRecursiveFilterProxyModel;
 class KToggleAction;
 
 class QAction;
+class QLineEdit;
 class QSplitter;
 class QTreeView;
 class QTemporaryDir;
@@ -52,6 +54,7 @@ class QSignalMapper;
 class QFileSystemWatcher;
 class QGroupBox;
 class QPlainTextEdit;
+class QPushButton;
 
 namespace Ark
 {
@@ -76,6 +79,7 @@ public:
     bool isBusy() const Q_DECL_OVERRIDE;
     KConfigSkeleton *config() const Q_DECL_OVERRIDE;
     QList<Kerfuffle::SettingsPage*> settingsPages(QWidget *parent) const Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *target, QEvent *event) Q_DECL_OVERRIDE;
 
     /**
      * Validate the localFilePath() associated to this part.
@@ -156,7 +160,9 @@ private slots:
     void slotAddComment();
     void slotCommentChanged();
     void slotTestArchive();
+    void slotShowFind();
     void displayMsgWidget(KMessageWidget::MessageType type, const QString& msg);
+    void searchEdited(const QString &text);
 
 signals:
     void busy();
@@ -175,6 +181,7 @@ private:
     QVector<Kerfuffle::Archive::Entry*> filesAndRootNodesForIndexes(const QModelIndexList& list) const;
     QModelIndexList addChildren(const QModelIndexList &list) const;
     void registerJob(KJob *job);
+    QModelIndexList getSelectedIndexes();
 
     ArchiveModel         *m_model;
     ArchiveView          *m_view;
@@ -193,6 +200,7 @@ private:
     QAction *m_propertiesAction;
     QAction *m_editCommentAction;
     QAction *m_testArchiveAction;
+    QAction *m_searchAction;
     KToggleAction *m_showInfoPanelAction;
     InfoPanel            *m_infoPanel;
     QSplitter            *m_splitter;
@@ -216,6 +224,10 @@ private:
     KMessageWidget *m_commentMsgWidget;
     KMessageWidget *m_messageWidget;
     Kerfuffle::CompressionOptions m_compressionOptions;
+    KRecursiveFilterProxyModel *m_filterModel;
+    QWidget *m_searchWidget;
+    QLineEdit *m_searchLineEdit;
+    QPushButton *m_searchCloseButton;
 };
 
 } // namespace Ark

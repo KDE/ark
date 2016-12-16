@@ -51,6 +51,7 @@
 #include <KIO/StatJob>
 #include <KMessageBox>
 #include <KPluginFactory>
+#include <KRecursiveFilterProxyModel>
 #include <KRun>
 #include <KSelectAction>
 #include <KStandardGuiItem>
@@ -75,6 +76,7 @@
 #include <QFileSystemWatcher>
 #include <QGroupBox>
 #include <QPlainTextEdit>
+#include <QPushButton>
 
 using namespace Kerfuffle;
 
@@ -108,6 +110,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     QWidget *mainWidget = new QWidget;
     m_vlayout = new QVBoxLayout;
     m_model = new ArchiveModel(pathName, this);
+    m_filterModel = new KRecursiveFilterProxyModel(this);
     m_splitter = new QSplitter(Qt::Horizontal, parentWidget);
     m_view = new ArchiveView;
     m_infoPanel = new InfoPanel(m_model);
@@ -142,6 +145,28 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
 
     setWidget(mainWidget);
     mainWidget->setLayout(m_vlayout);
+
+    // Setup search widget.
+    m_searchWidget = new QWidget(parentWidget);
+    m_searchWidget->setVisible(false);
+    m_searchWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum);
+    QHBoxLayout *searchLayout = new QHBoxLayout;
+    searchLayout->setContentsMargins(2, 2, 2, 2);
+    m_vlayout->addWidget(m_searchWidget);
+    m_searchWidget->setLayout(searchLayout);
+    m_searchCloseButton = new QPushButton(QIcon::fromTheme(QStringLiteral("dialog-close")), QString(), m_searchWidget);
+    m_searchCloseButton->setFlat(true);
+    m_searchLineEdit = new QLineEdit(m_searchWidget);
+    m_searchLineEdit->setClearButtonEnabled(true);
+    m_searchLineEdit->setPlaceholderText(i18n("Type to search..."));
+    mainWidget->installEventFilter(this);
+    searchLayout->addWidget(m_searchCloseButton);
+    searchLayout->addWidget(m_searchLineEdit);
+    connect(m_searchCloseButton, &QPushButton::clicked, this, [=]() {
+        m_searchWidget->hide();
+        m_searchLineEdit->clear();
+    });
+    connect(m_searchLineEdit, &QLineEdit::textChanged, this, &Part::searchEdited);
 
     // Configure the QVBoxLayout and add widgets
     m_vlayout->setContentsMargins(0,0,0,0);
@@ -274,7 +299,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     options.setDragAndDropEnabled(true);
 
     // Create and start the ExtractJob.
-    ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), destination, options);
+    ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(getSelectedIndexes())), destination, options);
     registerJob(job);
     connect(job, &KJob::result,
             this, &Part::slotExtractionDone);
@@ -291,7 +316,10 @@ void Part::setupView()
 {
     m_view->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    m_view->setModel(m_model);
+    m_filterModel->setSourceModel(m_model);
+    m_view->setModel(m_filterModel);
+    m_filterModel->setFilterKeyColumn(0);
+    m_filterModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &Part::updateActions);
@@ -428,6 +456,13 @@ void Part::setupActions()
     m_testArchiveAction->setToolTip(i18nc("@info:tooltip", "Click to test the archive for integrity"));
     connect(m_testArchiveAction, &QAction::triggered, this, &Part::slotTestArchive);
 
+    m_searchAction = actionCollection()->addAction(QStringLiteral("find_in_archive"));
+    m_searchAction->setIcon(QIcon::fromTheme(QStringLiteral("search")));
+    m_searchAction->setText(i18nc("@action:inmenu", "&Find Files"));
+    actionCollection()->setDefaultShortcut(m_searchAction, Qt::CTRL + Qt::Key_F);
+    m_searchAction->setToolTip(i18nc("@info:tooltip", "Click to search in archive"));
+    connect(m_searchAction, &QAction::triggered, this, &Part::slotShowFind);
+
     connect(m_signalMapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
             this, &Part::slotOpenEntry);
 
@@ -439,7 +474,7 @@ void Part::setupActions()
 void Part::updateActions()
 {
     bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly();
-    const Archive::Entry *entry = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
+    const Archive::Entry *entry = m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()));
     int selectedEntriesCount = m_view->selectionModel()->selectedRows().count();
 
     // We disable adding files if the archive is encrypted but the password is
@@ -507,6 +542,9 @@ void Part::updateActions()
                                    isWritable &&
                                    (selectedEntriesCount == 0 || (selectedEntriesCount == 1 && isDir)) &&
                                    (m_model->filesToMove.count() > 0 || m_model->filesToCopy.count() > 0));
+
+    m_searchAction->setEnabled(!isBusy() &&
+                               m_model->rowCount() > 0);
 
     m_commentView->setEnabled(!isBusy());
     m_commentMsgWidget->setEnabled(!isBusy());
@@ -694,7 +732,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
         qCDebug(ARK) << "Extracting to:" << finalDestinationDirectory;
 
-        ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows())), finalDestinationDirectory, ExtractionOptions());
+        ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(getSelectedIndexes())), finalDestinationDirectory, ExtractionOptions());
         registerJob(job);
 
         connect(job, &KJob::result,
@@ -706,7 +744,16 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
 
 void Part::selectionChanged()
 {
-    m_infoPanel->setIndexes(m_view->selectionModel()->selectedRows());
+    m_infoPanel->setIndexes(getSelectedIndexes());
+}
+
+QModelIndexList Part::getSelectedIndexes()
+{
+    QModelIndexList list;
+    foreach (const QModelIndex &i, m_view->selectionModel()->selectedRows()) {
+        list.append(m_filterModel->mapToSource(i));
+    }
+    return list;
 }
 
 bool Part::openFile()
@@ -922,7 +969,7 @@ void Part::slotOpenEntry(int mode)
 {
     qCDebug(ARK) << "Opening with mode" << mode;
 
-    QModelIndex index = m_view->selectionModel()->currentIndex();
+    QModelIndex index = m_filterModel->mapToSource(m_view->selectionModel()->currentIndex());
     Archive::Entry *entry = m_model->entryForIndex(index);
 
     // Don't open directories.
@@ -1114,7 +1161,7 @@ void Part::slotShowExtractionDialog()
         // If the user has chosen to extract only selected entries, fetch these
         // from the QTreeView.
         if (!dialog.data()->extractAllFiles()) {
-            files = filesAndRootNodesForIndexes(addChildren(m_view->selectionModel()->selectedRows()));
+            files = filesAndRootNodesForIndexes(addChildren(getSelectedIndexes()));
         }
 
         qCDebug(ARK) << "Selected " << files;
@@ -1336,7 +1383,7 @@ void Part::slotAddFiles()
     QString dialogTitle = i18nc("@title:window", "Add Files");
     const Archive::Entry *destination = Q_NULLPTR;
     if (m_view->selectionModel()->selectedRows().count() == 1) {
-        destination = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
+        destination = m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()));
         if (destination->isDir()) {
             dialogTitle = i18nc("@title:window", "Add Files to %1", destination->fullPath());;
         } else {
@@ -1382,7 +1429,7 @@ void Part::slotEditFileName()
 
 void Part::slotCutFiles()
 {
-    QModelIndexList selectedRows = addChildren(m_view->selectionModel()->selectedRows());
+    QModelIndexList selectedRows = addChildren(getSelectedIndexes());
     m_model->filesToMove = ArchiveModel::entryMap(filesForIndexes(selectedRows));
     qCDebug(ARK) << "Entries marked to cut:" << m_model->filesToMove.values();
     m_model->filesToCopy.clear();
@@ -1398,7 +1445,7 @@ void Part::slotCutFiles()
 
 void Part::slotCopyFiles()
 {
-    m_model->filesToCopy = ArchiveModel::entryMap(filesForIndexes(addChildren(m_view->selectionModel()->selectedRows())));
+    m_model->filesToCopy = ArchiveModel::entryMap(filesForIndexes(addChildren(getSelectedIndexes())));
     qCDebug(ARK) << "Entries marked to copy:" << m_model->filesToCopy.values();
     foreach (const QModelIndex &row, m_cutIndexes) {
         m_view->dataChanged(row, row);
@@ -1414,8 +1461,8 @@ void Part::slotRenameFile(const QString &name)
         displayMsgWidget(KMessageWidget::Error, i18n("Filename can't contain slashes and can't be equal to \".\" or \"..\""));
         return;
     }
-    const Archive::Entry *entry = m_model->entryForIndex(m_view->selectionModel()->currentIndex());
-    QVector<Archive::Entry*> entriesToMove = filesForIndexes(addChildren(m_view->selectionModel()->selectedRows()));
+    const Archive::Entry *entry = m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()));
+    QVector<Archive::Entry*> entriesToMove = filesForIndexes(addChildren(getSelectedIndexes()));
 
     m_destination = new Archive::Entry();
     const QString &entryPath = entry->fullPath(NoTrailingSlash);
@@ -1432,7 +1479,7 @@ void Part::slotRenameFile(const QString &name)
 void Part::slotPasteFiles()
 {
     m_destination = (m_view->selectionModel()->selectedRows().count() > 0)
-                    ? m_model->entryForIndex(m_view->selectionModel()->currentIndex())
+                    ? m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()))
                     : Q_NULLPTR;
     if (m_destination == Q_NULLPTR) {
         m_destination = new Archive::Entry(Q_NULLPTR, QString());
@@ -1590,7 +1637,7 @@ void Part::slotDeleteFiles()
         return;
     }
 
-    DeleteJob *job = m_model->deleteFiles(filesForIndexes(addChildren(m_view->selectionModel()->selectedRows())));
+    DeleteJob *job = m_model->deleteFiles(filesForIndexes(addChildren(getSelectedIndexes())));
     connect(job, &KJob::result,
             this, &Part::slotDeleteFilesDone);
     registerJob(job);
@@ -1671,6 +1718,47 @@ void Part::slotShowContextMenu()
 
     QMenu *popup = static_cast<QMenu *>(factory()->container(QStringLiteral("context_menu"), this));
     popup->popup(QCursor::pos());
+}
+
+bool Part::eventFilter(QObject *target, QEvent *event)
+{
+    Q_UNUSED(target)
+
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *e = static_cast<QKeyEvent *>(event);
+        if (e->key() == Qt::Key_Escape) {
+            m_searchWidget->hide();
+            m_searchLineEdit->clear();
+            return true;
+        }
+    }
+    return false;
+}
+
+void Part::slotShowFind()
+{
+    if (m_searchWidget->isVisible()) {
+        m_searchLineEdit->selectAll();
+    } else {
+        m_searchWidget->show();
+    }
+    m_searchLineEdit->setFocus();
+}
+
+void Part::searchEdited(const QString &text)
+{
+    m_view->collapseAll();
+
+    m_filterModel->setFilterFixedString(text);
+
+    if(text.isEmpty()) {
+        m_view->collapseAll();
+        if (m_view->model()->rowCount() == 1) {
+            m_view->expandToDepth(0);
+        }
+    } else {
+        m_view->expandAll();
+    }
 }
 
 void Part::displayMsgWidget(KMessageWidget::MessageType type, const QString& msg)
