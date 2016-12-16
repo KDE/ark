@@ -91,6 +91,8 @@ bool LibzipPlugin::list()
 
 bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd)
 {
+    Q_UNUSED(options)
+
     qulonglong totalCount = numberOfEntriesToAdd;
 
     zip_t *archive;
@@ -116,7 +118,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
         // If entry is a directory, traverse and add all its files and subfolders.
         if (QFileInfo(e->fullPath()).isDir()) {
 
-            if (!writeEntry(archive, e->fullPath(), true)) {
+            if (!writeEntry(archive, e->fullPath(), destination, true)) {
                 return false;
             }
 
@@ -130,13 +132,13 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
 
                 if (QFileInfo(path).isDir()) {
 
-                    if (!writeEntry(archive, path, true)) {
+                    if (!writeEntry(archive, path, destination, true)) {
                         return false;
                     }
 
                 } else {
 
-                    if (!writeEntry(archive, path)) {
+                    if (!writeEntry(archive, path, destination)) {
                         return false;
                     }
 
@@ -145,11 +147,9 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
             }
 
         } else {
-
-            if (!writeEntry(archive, e->fullPath())) {
+            if (!writeEntry(archive, e->fullPath(), destination)) {
                 return false;
             }
-
         }
 
         emit progress(float(++i) / totalCount);
@@ -161,11 +161,18 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
     return true;
 }
 
-bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, bool isDir)
+bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive::Entry* destination, bool isDir)
 {
+    QByteArray destFile;
+    if (destination) {
+        destFile = QString(destination->fullPath() + file).toUtf8();
+    } else {
+        destFile = file.toUtf8();
+    }
+
     qlonglong index;
     if (isDir) {
-        index = zip_dir_add(archive, file.toUtf8(), ZIP_FL_ENC_GUESS);
+        index = zip_dir_add(archive, destFile, ZIP_FL_ENC_GUESS);
         if (index == -1) {
             // If directory already exists in archive, we get an error.
             qCWarning(ARK) << "Failed to add dir " << file << ":" << zip_strerror(archive);
@@ -174,7 +181,7 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, bool isDir)
     } else {
         zip_source_t *src = zip_source_file(archive, QFile::encodeName(file).constData(), 0, -1);
 
-        index = zip_file_add(archive, file.toUtf8(), src, ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
+        index = zip_file_add(archive, destFile, src, ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
         if (index == -1) {
             qCCritical(ARK) << "Could not add entry" << file << ":" << zip_strerror(archive);
             emit error(xi18n("Failed to add entry: %1", QString::fromUtf8(zip_strerror(archive))));
