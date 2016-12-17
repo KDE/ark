@@ -26,6 +26,7 @@
 #include "ark_debug.h"
 #include "archive_kerfuffle.h"
 #include "createdialog.h"
+#include "settingsdialog.h"
 #include "settingspage.h"
 #include "pluginmanager.h"
 #include "interface.h"
@@ -257,10 +258,12 @@ void MainWindow::showSettings()
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
 
-    KConfigDialog *dialog = new KConfigDialog(this, QStringLiteral("settings"), iface->config());
+    auto dialog = new Kerfuffle::SettingsDialog(this, QStringLiteral("settings"), iface->config());
 
     foreach (Kerfuffle::SettingsPage *page, iface->settingsPages(this)) {
         dialog->addPage(page, page->name(), page->iconName());
+        connect(dialog, &KConfigDialog::settingsChanged, page, &Kerfuffle::SettingsPage::slotSettingsChanged);
+        connect(dialog, &Kerfuffle::SettingsDialog::defaultsButtonClicked, page, &Kerfuffle::SettingsPage::slotDefaultsButtonClicked);
     }
     // Hide the icons list if only one page has been added.
     dialog->setFaceType(KPageDialog::Auto);

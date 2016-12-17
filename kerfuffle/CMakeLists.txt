@@ -7,6 +7,7 @@ set(kerfuffle_SRCS
     extractionsettingspage.cpp
     generalsettingspage.cpp
     previewsettingspage.cpp
+    settingsdialog.cpp
     settingspage.cpp
     jobs.cpp
     adddialog.cpp

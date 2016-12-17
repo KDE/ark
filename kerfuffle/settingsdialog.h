@@ -1,7 +1,7 @@
 /*
  * ark -- archiver for the KDE project
  *
- * Copyright (C) 2015 Elvis Angelaccio <elvis.angelaccio@kde.org>
+ * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,33 +25,34 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "settingspage.h"
+#ifndef SETTINGSDIALOG_H
+#define SETTINGSDIALOG_H
+
+#include "kerfuffle_export.h"
+
+#include <KConfigDialog>
 
 namespace Kerfuffle
 {
-SettingsPage::SettingsPage(QWidget *parent, const QString &name, const QString &iconName)
-    : QWidget(parent),
-      m_name(name),
-      m_iconName(iconName)
-{}
 
-QString SettingsPage::name() const
+/**
+ * A custom KConfigDialog that emits a signal when the Default button has been clicked.
+ */
+class KERFUFFLE_EXPORT SettingsDialog : public KConfigDialog
 {
-    return m_name;
-}
+    Q_OBJECT
 
-QString SettingsPage::iconName() const
-{
-    return m_iconName;
-}
+public:
+    explicit SettingsDialog(QWidget *parent, const QString &name, KCoreConfigSkeleton *config);
 
-void SettingsPage::slotSettingsChanged()
-{
-}
+signals:
+    void defaultsButtonClicked();
 
-void SettingsPage::slotDefaultsButtonClicked()
-{
-}
+protected slots:
+    void updateWidgetsDefault() Q_DECL_OVERRIDE;
+
+};
 
 }
 
+#endif
