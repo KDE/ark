@@ -59,6 +59,7 @@ private:
     bool m_abortOperation;
     bool m_overwriteAll;
     bool m_skipAll;
+    bool m_listAfterAdd = false;
 };
 
 #endif // LIBZIPPLUGIN_H

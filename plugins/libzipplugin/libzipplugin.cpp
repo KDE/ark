@@ -60,7 +60,7 @@ bool LibzipPlugin::list()
     // Open archive.
     archive = zip_open(QFile::encodeName(filename()), ZIP_RDONLY, &errcode);
     zip_error_init_with_code(&err, errcode);
-    if (archive == NULL) {
+    if (!archive) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
         emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
@@ -70,29 +70,33 @@ bool LibzipPlugin::list()
     m_comment = QString::fromUtf8(zip_get_archive_comment(archive, 0, ZIP_FL_ENC_GUESS));
 
     // Get number of archive entries.
-    qlonglong nofEntries = zip_get_num_entries(archive, 0);
+    int nofEntries = zip_get_num_entries(archive, 0);
     qCDebug(ARK) << "Found entries:" << nofEntries;
 
     // Loop through all archive entries.
-    for (qlonglong i = 0; i < nofEntries; i++) {
+    for (int i = 0; i < nofEntries; i++) {
 
         if (m_abortOperation) {
             break;
         }
 
         emitEntryForIndex(archive, i);
-        emit progress(float(i + 1) / nofEntries);
+        if (m_listAfterAdd) {
+            // Start at 50%.
+            emit progress(0.5 + (0.5 * float(i + 1) / nofEntries));
+        } else {
+            emit progress(float(i + 1) / nofEntries);
+        }
     }
     m_abortOperation = false;
 
     zip_close(archive);
+    m_listAfterAdd = false;
     return true;
 }
 
 bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd)
 {
-    qulonglong totalCount = numberOfEntriesToAdd;
-
     zip_t *archive;
     int errcode;
     zip_error_t err;
@@ -100,13 +104,13 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
     // Open archive.
     archive = zip_open(QFile::encodeName(filename()), ZIP_CREATE, &errcode);
     zip_error_init_with_code(&err, errcode);
-    if (archive == NULL) {
+    if (!archive) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
         emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
-    qulonglong i = 0;
+    uint i = 0;
     foreach (const Archive::Entry* e, files) {
 
         if (m_abortOperation) {
@@ -141,7 +145,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
                     }
 
                 }
-                emit progress(float(++i) / totalCount);
+                emit progress(0.5 * float(++i) / numberOfEntriesToAdd);
             }
 
         } else {
@@ -150,17 +154,24 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
             }
         }
 
-        emit progress(float(++i) / totalCount);
+        emit progress(0.5 * float(++i) / numberOfEntriesToAdd);
     }
     qCDebug(ARK) << "Added" << i << "entries";
     m_abortOperation = false;
-
     zip_close(archive);
+
+    // We list the entire archive after adding files, to ensure entry
+    // properties are up-to-date.
+    m_listAfterAdd = true;
+    list();
+
     return true;
 }
 
 bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive::Entry* destination, const CompressionOptions& options, bool isDir)
 {
+    Q_ASSERT(archive);
+
     QByteArray destFile;
     if (destination) {
         destFile = QString(destination->fullPath() + file).toUtf8();
@@ -168,7 +179,7 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
         destFile = file.toUtf8();
     }
 
-    int index;
+    qlonglong index;
     if (isDir) {
         index = zip_dir_add(archive, destFile, ZIP_FL_ENC_GUESS);
         if (index == -1) {
@@ -178,6 +189,7 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
         }
     } else {
         zip_source_t *src = zip_source_file(archive, QFile::encodeName(file).constData(), 0, -1);
+        Q_ASSERT(src);
 
         index = zip_file_add(archive, destFile, src, ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
         if (index == -1) {
@@ -197,13 +209,14 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
             zip_file_set_encryption(archive, index, ZIP_EM_AES_256, password().toUtf8());
         }
     }
-    emitEntryForIndex(archive, index);
 
     return true;
 }
 
 bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
 {
+    Q_ASSERT(archive);
+
     zip_stat_t sb;
     if (zip_stat_index(archive, index, ZIP_FL_ENC_GUESS, &sb)) {
         qCCritical(ARK) << "Failed to read stat for index" << index;
@@ -215,8 +228,6 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     if (sb.valid & ZIP_STAT_NAME) {
         e->setFullPath(QString::fromUtf8(sb.name));
     }
-
-    //e->isDir().toString().endsWith(QDir::separator()) ? e[IsDirectory] = true : e[IsDirectory] = false;
 
     if (e->fullPath(PathFormat::WithTrailingSlash).endsWith(QDir::separator())) {
         e->setProperty("isDirectory", true);
