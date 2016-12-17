@@ -52,7 +52,7 @@ public:
     virtual bool testArchive() Q_DECL_OVERRIDE;
 
 private:
-    bool extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths);
+    bool extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths, bool removeRootNode);
     bool writeEntry(zip_t *archive, const QString &entry, const Archive::Entry* destination, const CompressionOptions& options, bool isDir = false);
     bool emitEntryForIndex(zip_t *archive, qlonglong index);
 

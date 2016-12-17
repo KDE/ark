@@ -53,6 +53,8 @@ bool LibzipPlugin::list()
 {
     qCDebug(ARK) << "Listing archive contents for:" << QFile::encodeName(filename());
 
+    m_numberOfEntries = 0;
+
     zip_t *archive;
     int errcode;
     zip_error_t err;
@@ -412,6 +414,7 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     qCDebug(ARK) << "Extracting files to:" << destinationDirectory;
 
     const bool extractAll = files.isEmpty();
+    const bool removeRootNode = options.isDragAndDropEnabled();
 
     zip_t *archive;
     int errcode;
@@ -449,7 +452,8 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
                               QDir::fromNativeSeparators(QString::fromUtf8(zip_get_name(archive, i, ZIP_FL_ENC_GUESS))),
                               QString(),
                               destinationDirectory,
-                              options.preservePaths())) {
+                              options.preservePaths(),
+                              removeRootNode)) {
                 qCDebug(ARK) << "Extraction failed";
                 return false;
             }
@@ -466,7 +470,8 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
                               e->fullPath(),
                               e->rootNode,
                               destinationDirectory,
-                              options.preservePaths())) {
+                              options.preservePaths(),
+                              removeRootNode)) {
                 qCDebug(ARK) << "Extraction failed";
                 return false;
             }
@@ -479,7 +484,7 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     return true;
 }
 
-bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths)
+bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths, bool removeRootNode)
 {
     const bool isDirectory = entry.endsWith(QDir::separator());
 
@@ -492,7 +497,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     // Remove rootnode if supplied and set destination path.
     QString destination;
     if (preservePaths) {
-        if (rootNode.isEmpty()) {
+        if (!removeRootNode || rootNode.isEmpty()) {
             destination = destDirCorrected + entry;
         } else {
             QString truncatedEntry = entry;
@@ -633,7 +638,8 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
         return false;
     }
 
-    const QStringList filePaths = entryFullPaths(files);
+    QStringList filePaths = entryFullPaths(files);
+    filePaths.sort();
     const QStringList destPaths = entryPathsFromDestination(filePaths, destination, entriesWithoutChildren(files).count());
 
     int i;
