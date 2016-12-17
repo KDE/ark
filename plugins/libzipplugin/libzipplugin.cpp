@@ -183,6 +183,7 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
 
         index = zip_file_add(archive, destFile, src, ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
         if (index == -1) {
+            zip_source_free(src);
             qCCritical(ARK) << "Could not add entry" << file << ":" << zip_strerror(archive);
             emit error(xi18n("Failed to add entry: %1", QString::fromUtf8(zip_strerror(archive))));
             return false;
@@ -248,6 +249,10 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
             case ZIP_CM_LZMA:
                 e->setProperty("method", QStringLiteral("LZMA"));
                 emit compressionMethodFound(QStringLiteral("LZMA"));
+                break;
+            case ZIP_CM_XZ:
+                e->setProperty("method", QStringLiteral("XZ"));
+                emit compressionMethodFound(QStringLiteral("XZ"));
                 break;
         }
     }
@@ -602,7 +607,7 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
     int i;
     for (i = 0; i < filePaths.size(); ++i) {
 
-        const qlonglong index = zip_name_locate(archive, filePaths.at(i).toUtf8(), ZIP_FL_ENC_GUESS);
+        const int index = zip_name_locate(archive, filePaths.at(i).toUtf8(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
             qCCritical(ARK) << "Could not find entry to move:" << filePaths.at(i);
             emit error(xi18n("Failed to move entry: %1", filePaths.at(i)));
@@ -627,10 +632,65 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
 
 bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
-    Q_UNUSED(files)
-    Q_UNUSED(destination)
     Q_UNUSED(options)
-    return false;
+
+    zip_t *archive;
+    int errcode;
+    zip_error_t err;
+
+    // Open archive.
+    archive = zip_open(QFile::encodeName(filename()), 0, &errcode);
+    zip_error_init_with_code(&err, errcode);
+    if (archive == NULL) {
+        qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
+        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
+        return false;
+    }
+
+    const QStringList filePaths = entryFullPaths(files);
+    const QStringList destPaths = entryPathsFromDestination(filePaths, destination, 0);
+
+    int i;
+    for (i = 0; i < filePaths.size(); ++i) {
+
+        QString dest = destPaths.at(i);
+
+        if (dest.endsWith(QDir::separator())) {
+            if (zip_dir_add(archive, dest.toUtf8(), ZIP_FL_ENC_GUESS) == -1) {
+                // If directory already exists in archive, we get an error.
+                qCWarning(ARK) << "Failed to add dir " << dest << ":" << zip_strerror(archive);
+                continue;
+            }
+        }
+
+        const int srcIndex = zip_name_locate(archive, filePaths.at(i).toUtf8(), ZIP_FL_ENC_GUESS);
+        if (srcIndex == -1) {
+            qCCritical(ARK) << "Could not find entry to copy:" << filePaths.at(i);
+            emit error(xi18n("Failed to copy entry: %1", filePaths.at(i)));
+            return false;
+        }
+
+        zip_source_t *src = zip_source_zip(archive, archive, srcIndex, 0, 0, -1);
+        if (!src) {
+            qCCritical(ARK) << "Failed to create source for:" << filePaths.at(i);
+            return false;
+        }
+
+        const int destIndex = zip_file_add(archive, dest.toUtf8(), src, ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
+        if (destIndex == -1) {
+            zip_source_free(src);
+            qCCritical(ARK) << "Could not add entry" << dest << ":" << zip_strerror(archive);
+            emit error(xi18n("Failed to add entry: %1", QString::fromUtf8(zip_strerror(archive))));
+            return false;
+        }
+
+        emitEntryForIndex(archive, destIndex);
+        emit progress(i/filePaths.count());
+    }
+    zip_close(archive);
+    qCDebug(ARK) << "Copied" << i << "entries";
+
+    return true;
 }
 
 #include "libzipplugin.moc"
