@@ -158,9 +158,13 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
     }
     qCDebug(ARK) << "Added" << i << "entries";
     m_abortOperation = false;
-    zip_close(archive);
+    if (zip_close(archive)) {
+        qCCritical(ARK) << "Failed to write archive";
+        emit error(xi18n("Failed to write archive."));
+        return false;
+    }
 
-    // We list the entire archive after adding files, to ensure entry
+    // We list the entire archive after adding files to ensure entry
     // properties are up-to-date.
     m_listAfterAdd = true;
     list();
@@ -339,7 +343,11 @@ bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
     qCDebug(ARK) << "Deleted" << i << "entries";
     m_abortOperation = false;
 
-    zip_close(archive);
+    if (zip_close(archive)) {
+        qCCritical(ARK) << "Failed to write archive";
+        emit error(xi18n("Failed to write archive."));
+        return false;
+    }
     return true;
 }
 
@@ -364,7 +372,11 @@ bool LibzipPlugin::addComment(const QString& comment)
         return false;
     }
 
-    zip_close(archive);
+    if (zip_close(archive)) {
+        qCCritical(ARK) << "Failed to write archive";
+        emit error(xi18n("Failed to write archive."));
+        return false;
+    }
     return true;
 }
 
@@ -560,7 +572,8 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
             }
             firstTry = false;
         } else {
-            qCCritical(ARK) << "Failed to open file:" << zip_strerror(archive) << zip_error_code_zip(zip_get_error(archive));
+            qCCritical(ARK) << "Failed to open file:" << zip_strerror(archive);
+            emit error(xi18n("Failed to open '%1':<nl/>%2", entry, QString::fromUtf8(zip_strerror(archive))));
             return false;
         }
     }
@@ -643,7 +656,11 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
         emitEntryForIndex(archive, index);
         emit progress(i/filePaths.count());
     }
-    zip_close(archive);
+    if (zip_close(archive)) {
+        qCCritical(ARK) << "Failed to write archive";
+        emit error(xi18n("Failed to write archive."));
+        return false;
+    }
     qCDebug(ARK) << "Moved" << i << "entries";
 
     return true;
@@ -706,7 +723,11 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
         emitEntryForIndex(archive, destIndex);
         emit progress(i/filePaths.count());
     }
-    zip_close(archive);
+    if (zip_close(archive)) {
+        qCCritical(ARK) << "Failed to write archive";
+        emit error(xi18n("Failed to write archive."));
+        return false;
+    }
     qCDebug(ARK) << "Copied" << i << "entries";
 
     return true;
