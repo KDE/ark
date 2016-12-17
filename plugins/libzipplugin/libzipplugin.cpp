@@ -91,8 +91,6 @@ bool LibzipPlugin::list()
 
 bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd)
 {
-    Q_UNUSED(options)
-
     qulonglong totalCount = numberOfEntriesToAdd;
 
     zip_t *archive;
@@ -118,7 +116,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
         // If entry is a directory, traverse and add all its files and subfolders.
         if (QFileInfo(e->fullPath()).isDir()) {
 
-            if (!writeEntry(archive, e->fullPath(), destination, true)) {
+            if (!writeEntry(archive, e->fullPath(), destination, options, true)) {
                 return false;
             }
 
@@ -132,13 +130,13 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
 
                 if (QFileInfo(path).isDir()) {
 
-                    if (!writeEntry(archive, path, destination, true)) {
+                    if (!writeEntry(archive, path, destination, options, true)) {
                         return false;
                     }
 
                 } else {
 
-                    if (!writeEntry(archive, path, destination)) {
+                    if (!writeEntry(archive, path, destination, options)) {
                         return false;
                     }
 
@@ -147,7 +145,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
             }
 
         } else {
-            if (!writeEntry(archive, e->fullPath(), destination)) {
+            if (!writeEntry(archive, e->fullPath(), destination, options)) {
                 return false;
             }
         }
@@ -161,7 +159,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
     return true;
 }
 
-bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive::Entry* destination, bool isDir)
+bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive::Entry* destination, const CompressionOptions& options, bool isDir)
 {
     QByteArray destFile;
     if (destination) {
@@ -170,7 +168,7 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
         destFile = file.toUtf8();
     }
 
-    qlonglong index;
+    int index;
     if (isDir) {
         index = zip_dir_add(archive, destFile, ZIP_FL_ENC_GUESS);
         if (index == -1) {
@@ -187,6 +185,16 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
             qCCritical(ARK) << "Could not add entry" << file << ":" << zip_strerror(archive);
             emit error(xi18n("Failed to add entry: %1", QString::fromUtf8(zip_strerror(archive))));
             return false;
+        }
+    }
+    if (!password().isEmpty()) {
+        Q_ASSERT(!options.encryptionMethod().isEmpty());
+        if (options.encryptionMethod() == QLatin1String("AES128")) {
+            zip_file_set_encryption(archive, index, ZIP_EM_AES_128, password().toUtf8());
+        } else if (options.encryptionMethod() == QLatin1String("AES192")) {
+            zip_file_set_encryption(archive, index, ZIP_EM_AES_192, password().toUtf8());
+        } else if (options.encryptionMethod() == QLatin1String("AES256")) {
+            zip_file_set_encryption(archive, index, ZIP_EM_AES_256, password().toUtf8());
         }
     }
     emitEntryForIndex(archive, index);

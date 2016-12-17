@@ -16,6 +16,13 @@
     "X-KDE-Priority": 200,
     "application/zip": {
         "SupportsWriteComment": true,
-        "SupportsTesting": true
+        "SupportsTesting": true,
+        "Encryption": true,
+        "EncryptionMethodDefault": "AES256",
+        "EncryptionMethods": [
+            "AES256",
+            "AES192",
+            "AES128"
+        ]
     }
 }
