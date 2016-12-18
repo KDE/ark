@@ -55,6 +55,7 @@ private:
     bool extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths, bool removeRootNode);
     bool writeEntry(zip_t *archive, const QString &entry, const Archive::Entry* destination, const CompressionOptions& options, bool isDir = false);
     bool emitEntryForIndex(zip_t *archive, qlonglong index);
+    void progressEmitted(double pct);
 
     bool m_abortOperation;
     bool m_overwriteAll;

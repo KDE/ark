@@ -38,6 +38,20 @@
 
 K_PLUGIN_FACTORY_WITH_JSON(LibZipPluginFactory, "kerfuffle_libzip.json", registerPlugin<LibzipPlugin>();)
 
+// This is needed for hooking a C callback to a C++ non-static member
+// function.
+template <typename T>
+struct Callback;
+template <typename Ret, typename... Params>
+struct Callback<Ret(Params...)> {
+    template <typename... Args>
+    static Ret callback(Args... args) { return func(args...); }
+    static std::function<Ret(Params...)> func;
+};
+// Initialize the static member.
+template <typename Ret, typename... Params>
+std::function<Ret(Params...)> Callback<Ret(Params...)>::func;
+
 LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList & args)
     : ReadWriteArchiveInterface(parent, args)
     , m_abortOperation(false)
@@ -99,6 +113,8 @@ bool LibzipPlugin::list()
 
 bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd)
 {
+    Q_UNUSED(numberOfEntriesToAdd)
+
     zip_t *archive;
     int errcode;
     zip_error_t err;
@@ -135,31 +151,32 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
                 QString path = it.next();
 
                 if (QFileInfo(path).isDir()) {
-
                     if (!writeEntry(archive, path, destination, options, true)) {
                         return false;
                     }
-
                 } else {
-
                     if (!writeEntry(archive, path, destination, options)) {
                         return false;
                     }
-
                 }
-                emit progress(0.5 * float(++i) / numberOfEntriesToAdd);
+                i++;
             }
-
         } else {
             if (!writeEntry(archive, e->fullPath(), destination, options)) {
                 return false;
             }
         }
-
-        emit progress(0.5 * float(++i) / numberOfEntriesToAdd);
+        i++;
     }
     qCDebug(ARK) << "Added" << i << "entries";
     m_abortOperation = false;
+
+    // Register the callback function to get progress feedback.
+    Callback<void(double)>::func = std::bind(&LibzipPlugin::progressEmitted, this, std::placeholders::_1);
+    void (*c_func)(double) = static_cast<decltype(c_func)>(Callback<void(double)>::callback);
+    zip_register_progress_callback(archive, c_func);
+
+    qCDebug(ARK) << "Writing entries to disk...";
     if (zip_close(archive)) {
         qCCritical(ARK) << "Failed to write archive";
         emit error(xi18n("Failed to write archive."));
@@ -172,6 +189,12 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
     list();
 
     return true;
+}
+
+void LibzipPlugin::progressEmitted(double pct)
+{
+    // Go from 0 to 50%. The second half is the subsequent listing.
+    emit progress(0.5 * pct);
 }
 
 bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive::Entry* destination, const CompressionOptions& options, bool isDir)
