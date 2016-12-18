@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "libxz plugin for Kerfuffle", 
+        "Description[ast]": "Complementu de libxz pa Kerfuffle", 
         "Description[ca@valencia]": "Connector del libxz pel Kerfuffle", 
         "Description[ca]": "Connector del libxz pel Kerfuffle", 
         "Description[cs]": "modul libxz pro Kerfuffle", 

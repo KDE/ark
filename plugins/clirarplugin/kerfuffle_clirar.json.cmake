@@ -5,6 +5,7 @@
             "@SUPPORTED_MIMETYPES@"
         ], 
         "Name": "RAR archive plugin", 
+        "Name[ast]": "Complementu d'archivos RAR", 
         "Name[ca@valencia]": "Connector per arxius RAR", 
         "Name[ca]": "Connector per arxius RAR", 
         "Name[cs]": "Modul pro archiv RAR", 

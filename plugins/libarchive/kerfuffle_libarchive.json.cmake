@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "LibArchive Plugin for Kerfuffle", 
+        "Description[ast]": "Complementu de LibArchive pa Kerfuffle", 
         "Description[ca@valencia]": "Connector del LibArchive pel Kerfuffle", 
         "Description[ca]": "Connector del LibArchive pel Kerfuffle", 
         "Description[cs]": "LibArchive modul pro Kerfuffle", 

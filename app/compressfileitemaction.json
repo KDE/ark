@@ -6,6 +6,7 @@
             "inode/directory"
         ], 
         "Name": "'Compress' service menu", 
+        "Name[ast]": "Serviciu «Comprimir» del menú", 
         "Name[ca@valencia]": "Menú de servei «Comprimeix»", 
         "Name[ca]": "Menú de servei «Comprimeix»", 
         "Name[cs]": "Servisní nabídka 'Zkomprimovat'", 
