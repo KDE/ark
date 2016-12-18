@@ -420,6 +420,7 @@ bool LibzipPlugin::testArchive()
         qCCritical(ARK) << "Failed to open archive:" << zip_error_strerror(&err);
         return false;
     }
+    zip_close(archive);
 
     emit testSuccess();
     return true;
