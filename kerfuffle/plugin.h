@@ -86,6 +86,12 @@ public:
     KPluginMetaData metaData() const;
 
     /**
+     * @return Whether the executables required for a functional plugin are installed.
+     * This is true if all the read-only executables are found in the path.
+     */
+    bool hasRequiredExecutables() const;
+
+    /**
      * @return Whether the plugin is ready to be used.
      * This implies isEnabled(), while an enabled plugin may not be valid.
      * A read-write plugin downgraded to read-only is still valid.

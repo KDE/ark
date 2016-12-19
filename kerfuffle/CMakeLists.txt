@@ -22,6 +22,7 @@ set(kerfuffle_SRCS
     mimetypes.cpp
     plugin.cpp
     pluginmanager.cpp
+    pluginsettingspage.cpp
     archiveentry.cpp
     options.cpp
 )
@@ -33,6 +34,7 @@ ki18n_wrap_ui(kerfuffle_SRCS
     extractiondialog.ui
     extractionsettingspage.ui
     generalsettingspage.ui
+    pluginsettingspage.ui
     previewsettingspage.ui
     propertiesdialog.ui
     compressionoptionswidget.ui
