@@ -3,6 +3,7 @@ set(arkpart_PART_SRCS
 	infopanel.cpp
 	arkviewer.cpp
 	archivemodel.cpp
+        archivesortfiltermodel.cpp
 	archiveview.cpp
 	jobtracker.cpp
 	overwritedialog.cpp

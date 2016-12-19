@@ -168,16 +168,6 @@ Archive::Entry *Archive::Entry::findByPath(const QStringList &pieces, int index)
     return Q_NULLPTR;
 }
 
-void Archive::Entry::returnDirEntries(QVector<Entry*> *store)
-{
-    foreach(Entry *entry, m_entries) {
-        if (entry->isDir()) {
-            store->prepend(entry);
-            entry->returnDirEntries(store);
-        }
-    }
-}
-
 bool Archive::Entry::operator==(const Archive::Entry &right) const
 {
     return m_fullPath == right.m_fullPath;

@@ -28,6 +28,7 @@
 #include "overwritedialog.h"
 #include "archiveformat.h"
 #include "archivemodel.h"
+#include "archivesortfiltermodel.h"
 #include "archiveview.h"
 #include "arkviewer.h"
 #include "dnddbusinterfaceadaptor.h"
@@ -52,7 +53,6 @@
 #include <KIO/StatJob>
 #include <KMessageBox>
 #include <KPluginFactory>
-#include <KRecursiveFilterProxyModel>
 #include <KRun>
 #include <KSelectAction>
 #include <KStandardGuiItem>
@@ -111,7 +111,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     QWidget *mainWidget = new QWidget;
     m_vlayout = new QVBoxLayout;
     m_model = new ArchiveModel(pathName, this);
-    m_filterModel = new KRecursiveFilterProxyModel(this);
+    m_filterModel = new ArchiveSortFilterModel(this);
     m_splitter = new QSplitter(Qt::Horizontal, parentWidget);
     m_view = new ArchiveView;
     m_infoPanel = new InfoPanel(m_model);
