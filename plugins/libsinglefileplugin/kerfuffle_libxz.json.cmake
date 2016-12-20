@@ -1,6 +1,6 @@
 {
     "KPlugin": {
-        "Description": "libxz plugin for Kerfuffle", 
+        "Description": "Open and extract single files compressed with the lzma algorithm",
         "Description[ca@valencia]": "Connector del libxz pel Kerfuffle", 
         "Description[ca]": "Connector del libxz pel Kerfuffle", 
         "Description[cs]": "modul libxz pro Kerfuffle", 
@@ -33,7 +33,7 @@
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ], 
-        "Name": "kerfuffle_libxz", 
+        "Name": "LZMA plugin",
         "Name[sv]": "Kerfuffle Libxz", 
         "Name[x-test]": "xxkerfuffle_libxzxx", 
         "ServiceTypes": [

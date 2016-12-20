@@ -35,13 +35,13 @@
 #include <QModelIndex>
 
 class ArchiveModel;
+class ArchiveSortFilterModel;
 class ArchiveView;
 class InfoPanel;
 
 class KAboutData;
 class KAbstractWidgetJobTracker;
 class KJob;
-class KRecursiveFilterProxyModel;
 class KToggleAction;
 
 class QAction;
@@ -224,7 +224,7 @@ private:
     KMessageWidget *m_commentMsgWidget;
     KMessageWidget *m_messageWidget;
     Kerfuffle::CompressionOptions m_compressionOptions;
-    KRecursiveFilterProxyModel *m_filterModel;
+    ArchiveSortFilterModel *m_filterModel;
     QWidget *m_searchWidget;
     QLineEdit *m_searchLineEdit;
     QPushButton *m_searchCloseButton;

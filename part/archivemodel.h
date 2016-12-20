@@ -37,6 +37,26 @@ namespace Kerfuffle
     class Query;
 }
 
+/**
+ * Meta data related to one entry in a compressed archive.
+ *
+ * This is used for indexing entry properties as numbers
+ * and for determining data displaying order in part's view.
+ */
+enum EntryMetaDataType {
+    FullPath,            /**< The entry's file name */
+    Size,                /**< The entry's original size */
+    CompressedSize,      /**< The compressed size for the entry */
+    Permissions,         /**< The entry's permissions */
+    Owner,               /**< The user the entry belongs to */
+    Group,               /**< The user group the entry belongs to */
+    Ratio,               /**< The compression ratio for the entry */
+    CRC,                 /**< The entry's CRC */
+    Method,              /**< The compression method used on the entry */
+    Version,             /**< The archiver version needed to extract the entry */
+    Timestamp            /**< The timestamp for the current entry */
+};
+
 class ArchiveModel: public QAbstractItemModel
 {
     Q_OBJECT
@@ -54,8 +74,6 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
-    virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) Q_DECL_OVERRIDE;
-
     //drag and drop related
     Qt::DropActions supportedDropActions() const Q_DECL_OVERRIDE;
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
@@ -66,6 +84,9 @@ public:
     void createEmptyArchive(const QString &path, const QString &mimeType, QObject *parent);
     KJob* loadArchive(const QString &path, const QString &mimeType, QObject *parent);
     Kerfuffle::Archive *archive() const;
+
+    QList<int> shownColumns() const;
+    QMap<int, QByteArray> propertiesMap() const;
 
     Archive::Entry *entryForIndex(const QModelIndex &index);
     int childCount(const QModelIndex &index, int &dirs, int &files) const;

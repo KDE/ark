@@ -1,10 +1,11 @@
 {
     "KPlugin": {
+        "Description": "Full support for the zip and 7z archive formats",
         "Id": "kerfuffle_cli7z", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ], 
-        "Name": "7zip archive plugin", 
+        "Name": "P7zip plugin",
         "Name[ca@valencia]": "Connector per arxius 7zip", 
         "Name[ca]": "Connector per arxius 7zip", 
         "Name[cs]": "Modul pro archiv 7zip", 

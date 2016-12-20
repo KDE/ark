@@ -1,10 +1,11 @@
 {
     "KPlugin": {
-        "Id": "kerfuffle_clirar", 
+        "Description": "Full support for the RAR archive format",
+        "Id": "kerfuffle_clirar",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ], 
-        "Name": "RAR archive plugin", 
+        "Name": "RAR plugin",
         "Name[ca@valencia]": "Connector per arxius RAR", 
         "Name[ca]": "Connector per arxius RAR", 
         "Name[cs]": "Modul pro archiv RAR", 

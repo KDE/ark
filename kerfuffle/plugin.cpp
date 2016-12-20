@@ -93,9 +93,14 @@ KPluginMetaData Plugin::metaData() const
     return m_metaData;
 }
 
+bool Plugin::hasRequiredExecutables() const
+{
+    return findExecutables(readOnlyExecutables());
+}
+
 bool Plugin::isValid() const
 {
-    return isEnabled() && m_metaData.isValid() && findExecutables(readOnlyExecutables());
+    return isEnabled() && m_metaData.isValid() && hasRequiredExecutables();
 }
 
 bool Plugin::findExecutables(const QStringList &executables)

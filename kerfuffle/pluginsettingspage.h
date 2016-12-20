@@ -1,7 +1,7 @@
 /*
  * ark -- archiver for the KDE project
  *
- * Copyright (C) 2015 Elvis Angelaccio <elvis.angelaccio@kde.org>
+ * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,33 +25,35 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef PLUGINSETTINGSPAGE_H
+#define PLUGINSETTINGSPAGE_H
+
 #include "settingspage.h"
+#include "pluginmanager.h"
+#include "ui_pluginsettingspage.h"
+
+class QTreeWidgetItem;
 
 namespace Kerfuffle
 {
-SettingsPage::SettingsPage(QWidget *parent, const QString &name, const QString &iconName)
-    : QWidget(parent),
-      m_name(name),
-      m_iconName(iconName)
-{}
-
-QString SettingsPage::name() const
+class KERFUFFLE_EXPORT PluginSettingsPage : public SettingsPage, public Ui::PluginSettingsPage
 {
-    return m_name;
+    Q_OBJECT
+
+public:
+    explicit PluginSettingsPage(QWidget *parent = Q_NULLPTR, const QString &name = QString(), const QString &iconName = QString());
+
+public slots:
+    void slotSettingsChanged() Q_DECL_OVERRIDE;
+    void slotDefaultsButtonClicked() Q_DECL_OVERRIDE;
+
+private slots:
+    void slotItemChanged(QTreeWidgetItem *item);
+
+private:
+    QStringList m_toBeDisabled;  // List of plugins that will be disabled upon clicking the Apply button.
+    PluginManager m_pluginManager;
+};
 }
 
-QString SettingsPage::iconName() const
-{
-    return m_iconName;
-}
-
-void SettingsPage::slotSettingsChanged()
-{
-}
-
-void SettingsPage::slotDefaultsButtonClicked()
-{
-}
-
-}
-
+#endif

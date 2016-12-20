@@ -4,7 +4,6 @@ X-KDE-ServiceTypes=KIO/DndPopupMenu/Plugin
 X-KDE-Library=extracthere
 Name=Ark Extract Here
 Name[ar]=أرك استخرج هنا
-Name[ast]=Estrayer equí d'Ark
 Name[bg]=Извличане тук
 Name[bs]=Raspakuj Arkom ovde
 Name[ca]=Extracció de l'Ark aquí

@@ -41,26 +41,6 @@ using namespace Kerfuffle;
 static Archive::Entry *s_previousMatch = Q_NULLPTR;
 Q_GLOBAL_STATIC(QStringList, s_previousPieces)
 
-/**
- * Meta data related to one entry in a compressed archive.
- *
- * This is used for indexing entry properties as numbers
- * and for determining data displaying order in part's view.
- */
-enum EntryMetaDataType {
-    FullPath,            /**< The entry's file name */
-    Size,                /**< The entry's original size */
-    CompressedSize,      /**< The compressed size for the entry */
-    Permissions,         /**< The entry's permissions */
-    Owner,               /**< The user the entry belongs to */
-    Group,               /**< The user group the entry belongs to */
-    Ratio,               /**< The compression ratio for the entry */
-    CRC,                 /**< The entry's CRC */
-    Method,              /**< The compression method used on the entry */
-    Version,             /**< The archiver version needed to extract the entry */
-    Timestamp            /**< The timestamp for the current entry */
-};
-
 ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
     , m_dbusPathName(dbusPathName)
@@ -297,80 +277,6 @@ int ArchiveModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return m_showColumns.size();
-}
-
-void ArchiveModel::sort(int column, Qt::SortOrder order)
-{
-    if (m_showColumns.size() <= column) {
-        return;
-    }
-
-    emit layoutAboutToBeChanged();
-
-    QVector<Archive::Entry*> dirEntries;
-    m_rootEntry->returnDirEntries(&dirEntries);
-    dirEntries.append(m_rootEntry.data());
-
-    foreach(Archive::Entry *dir, dirEntries) {
-        QVector < QPair<Archive::Entry*,int> > sorting(dir->entries().count());
-        for (int i = 0; i < dir->entries().count(); ++i) {
-            Archive::Entry *item = dir->entries().at(i);
-            sorting[i].first = item;
-            sorting[i].second = i;
-        }
-
-        std::stable_sort(sorting.begin(), sorting.end(), [=](const QPair<Archive::Entry*, int> &left, const QPair<Archive::Entry*, int> &right) {
-            const auto leftEntry = left.first;
-            const auto rightEntry = right.first;
-            bool isLessThan = false;  // Whether the left entry is less than the right entry.
-
-            // #234373: sort folders before files.
-            if ((leftEntry->isDir()) && (!rightEntry->isDir())) {
-                isLessThan = true;
-            } else if ((!leftEntry->isDir()) && (rightEntry->isDir())) {
-                isLessThan = false;
-            } else {
-                const QVariant leftEntryMetaData = leftEntry->property(m_propertiesMap[column]);
-                const QVariant rightEntryMetaData = rightEntry->property(m_propertiesMap[column]);
-
-                switch (column) {
-                case FullPath:
-                    isLessThan = leftEntry->name() < rightEntry->name();
-                    break;
-                case Size:
-                case CompressedSize:
-                    isLessThan = leftEntryMetaData.toInt() < rightEntryMetaData.toInt();
-                    break;
-                default:
-                    isLessThan = leftEntryMetaData.toString() < rightEntryMetaData.toString();
-                    break;
-                }
-            }
-
-            if (order == Qt::AscendingOrder) {
-                return isLessThan;
-            }
-            // Descending order.
-            return !isLessThan;
-        });
-
-        QModelIndexList fromIndexes;
-        QModelIndexList toIndexes;
-        for (int r = 0; r < sorting.count(); ++r) {
-            Archive::Entry *item = sorting.at(r).first;
-            toIndexes.append(createIndex(r, 0, item));
-            fromIndexes.append(createIndex(sorting.at(r).second, 0, sorting.at(r).first));
-            dir->setEntryAt(r, sorting.at(r).first);
-        }
-
-        changePersistentIndexList(fromIndexes, toIndexes);
-
-        emit dataChanged(
-            index(0, 0, indexForEntry(dir)),
-            index(dir->entries().size() - 1, 0, indexForEntry(dir)));
-    }
-
-    emit layoutChanged();
 }
 
 Qt::DropActions ArchiveModel::supportedDropActions() const
@@ -1004,4 +910,14 @@ qulonglong ArchiveModel::numberOfFolders() const
 qulonglong ArchiveModel::uncompressedSize() const
 {
     return m_uncompressedSize;
+}
+
+QList<int> ArchiveModel::shownColumns() const
+{
+    return m_showColumns;
+}
+
+QMap<int, QByteArray> ArchiveModel::propertiesMap() const
+{
+    return m_propertiesMap;
 }

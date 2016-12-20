@@ -1,6 +1,6 @@
 {
     "KPlugin": {
-        "Description": "libgz plugin for Kerfuffle", 
+        "Description": "Open and extract single files compressed with the gzip algorithm",
         "Description[ca@valencia]": "Connector del libgz pel Kerfuffle", 
         "Description[ca]": "Connector del libgz pel Kerfuffle", 
         "Description[cs]": "modul libgz pro Kerfuffle", 
@@ -33,7 +33,7 @@
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ], 
-        "Name": "kerfuffle_libgz", 
+        "Name": "Gzip plugin",
         "Name[sv]": "Kerfuffle Libgz", 
         "Name[x-test]": "xxkerfuffle_libgzxx", 
         "ServiceTypes": [

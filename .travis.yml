@@ -11,6 +11,7 @@ arch:
     - extra-cmake-modules
     - kdoctools
     - python
+    - kitemmodels
     - kparts
     - kpty
     - libarchive

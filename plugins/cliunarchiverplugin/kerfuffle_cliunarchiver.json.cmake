@@ -1,10 +1,12 @@
 {
     "KPlugin": {
+        "Description": "Open and extract RAR archives",
         "Id": "kerfuffle_cliunarchiver", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ], 
         "Name": "The Unarchiver plugin", 
+        "Name[ast]": "El complementu d'unarchiver", 
         "Name[ca@valencia]": "Connector de l'Unarchiver", 
         "Name[ca]": "Connector de l'Unarchiver", 
         "Name[cs]": "Modul pro Unarchiver", 

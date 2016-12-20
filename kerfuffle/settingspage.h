@@ -44,6 +44,10 @@ public:
     QString name() const;
     QString iconName() const;
 
+public slots:
+    virtual void slotSettingsChanged();
+    virtual void slotDefaultsButtonClicked();
+
 private:
     QString m_name;
     QString m_iconName;

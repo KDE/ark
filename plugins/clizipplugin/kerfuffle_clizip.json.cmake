@@ -1,10 +1,11 @@
 {
     "KPlugin": {
+        "Description": "Legacy support for the zip archive format",
         "Id": "kerfuffle_clizip", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ], 
-        "Name": "ZIP archive plugin", 
+        "Name": "Info-zip plugin",
         "Name[ca@valencia]": "Connector per arxius ZIP", 
         "Name[ca]": "Connector per arxius ZIP", 
         "Name[cs]": "Modul pro archiv ZIP", 
