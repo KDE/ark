@@ -1,12 +1,11 @@
 {
     "KPlugin": {
-        "Description": "LibZip Plugin for Kerfuffle",
+        "Description": "Full support for the zip archive format",
         "Id": "kerfuffle_libzip",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ],
-        "Name": "kerfuffle_libzip",
-        "Name[x-test]": "xxkerfuffle_libzipxx",
+        "Name": "Libzip plugin",
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ],
