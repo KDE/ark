@@ -58,8 +58,10 @@ PluginSettingsPage::PluginSettingsPage(QWidget *parent, const QString &name, con
         }
     }
 
+    for (int i : {0, 1}) {
+        kcfg_disabledPlugins->resizeColumnToContents(i);
+    }
     kcfg_disabledPlugins->sortItems(0, Qt::AscendingOrder);
-    kcfg_disabledPlugins->resizeColumnToContents(0);
     connect(kcfg_disabledPlugins, &QTreeWidget::itemChanged, this, &PluginSettingsPage::slotItemChanged);
 
     // Set the custom property that KConfigDialogManager will use to update the settings.
