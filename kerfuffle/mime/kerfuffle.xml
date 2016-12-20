@@ -2,7 +2,6 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
    <mime-type type="application/x-lzip-compressed-tar">
       <comment>Tar archive (lzip-compressed)</comment>
-      <comment xml:lang="ast">Archivu TAR (compríu con lzip)</comment>
       <comment xml:lang="ca">Arxiu tar (comprimit amb LZIP)</comment>
       <comment xml:lang="ca@valencia">Arxiu tar (comprimit amb LZIP)</comment>
       <comment xml:lang="cs">Archiv Tar (komprimovaný lzip)</comment>
@@ -63,7 +62,6 @@
    </mime-type>
    <mime-type type="application/x-lz4-compressed-tar">
       <comment>Tar archive (LZ4-compressed)</comment>
-      <comment xml:lang="ast">Archivu TAR (compríu con LZ4)</comment>
       <comment xml:lang="ca">Arxiu tar (comprimit amb LZ4)</comment>
       <comment xml:lang="ca@valencia">Arxiu tar (comprimit amb LZ4)</comment>
       <comment xml:lang="cs">Archiv Tar (komprimovaný LZ4)</comment>
