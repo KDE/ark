@@ -58,6 +58,7 @@ PluginSettingsPage::PluginSettingsPage(QWidget *parent, const QString &name, con
         }
     }
 
+    kcfg_disabledPlugins->sortItems(0, Qt::AscendingOrder);
     kcfg_disabledPlugins->resizeColumnToContents(0);
     connect(kcfg_disabledPlugins, &QTreeWidget::itemChanged, this, &PluginSettingsPage::slotItemChanged);
 
