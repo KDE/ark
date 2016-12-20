@@ -5,7 +5,6 @@
             "@SUPPORTED_MIMETYPES@"
         ], 
         "Name": "7zip archive plugin", 
-        "Name[ast]": "Complementu d'archivos 7zip", 
         "Name[ca@valencia]": "Connector per arxius 7zip", 
         "Name[ca]": "Connector per arxius 7zip", 
         "Name[cs]": "Modul pro archiv 7zip", 

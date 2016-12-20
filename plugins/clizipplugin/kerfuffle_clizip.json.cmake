@@ -5,7 +5,6 @@
             "@SUPPORTED_MIMETYPES@"
         ], 
         "Name": "ZIP archive plugin", 
-        "Name[ast]": "Complementu d'archivos ZIP", 
         "Name[ca@valencia]": "Connector per arxius ZIP", 
         "Name[ca]": "Connector per arxius ZIP", 
         "Name[cs]": "Modul pro archiv ZIP", 
