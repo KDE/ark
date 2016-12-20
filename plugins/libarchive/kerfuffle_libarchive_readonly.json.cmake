@@ -1,10 +1,11 @@
 {
     "KPlugin": {
+        "Description": "Open and extract DEB, RPM, ISO, AppImage, XAR and CAB files",
         "Id": "kerfuffle_libarchive_readonly", 
         "MimeTypes": [
             "@SUPPORTED_READONLY_MIMETYPES@"
         ], 
-        "Name": "kerfuffle_libarchive_readonly", 
+        "Name": "Libarchive plugin (read-only formats)",
         "Name[sv]": "Kerfuffle LibArchive skrivskyddat", 
         "Name[x-test]": "xxkerfuffle_libarchive_readonlyxx", 
         "ServiceTypes": [

@@ -1,6 +1,6 @@
 {
     "KPlugin": {
-        "Description": "libbz2 plugin for Kerfuffle", 
+        "Description": "Open and extract single files compressed with the bzip2 algorithm",
         "Description[ca@valencia]": "Connector del libbz2 pel Kerfuffle", 
         "Description[ca]": "Connector del libbz2 pel Kerfuffle", 
         "Description[cs]": "modul libbz2 pro Kerfuffle", 
@@ -33,7 +33,7 @@
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ], 
-        "Name": "kerfuffle_libbz2", 
+        "Name": "Bzip2 plugin",
         "Name[sv]": "Kerfuffle Libbz2", 
         "Name[x-test]": "xxkerfuffle_libbz2xx", 
         "ServiceTypes": [

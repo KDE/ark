@@ -1,6 +1,6 @@
 {
     "KPlugin": {
-        "Description": "LibArchive Plugin for Kerfuffle", 
+        "Description": "Full support for compressed TAR archives",
         "Description[ca@valencia]": "Connector del LibArchive pel Kerfuffle", 
         "Description[ca]": "Connector del LibArchive pel Kerfuffle", 
         "Description[cs]": "LibArchive modul pro Kerfuffle", 
@@ -33,7 +33,7 @@
         "MimeTypes": [
             "@SUPPORTED_READWRITE_MIMETYPES@"
         ], 
-        "Name": "kerfuffle_libarchive", 
+        "Name": "Libarchive plugin",
         "Name[sv]": "Kerfuffle LibArchive", 
         "Name[x-test]": "xxkerfuffle_libarchivexx", 
         "ServiceTypes": [
