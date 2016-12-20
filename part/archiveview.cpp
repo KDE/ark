@@ -59,6 +59,13 @@ void ArchiveView::startDrag(Qt::DropActions supportedActions)
     QTreeView::startDrag(supportedActions);
 }
 
+void ArchiveView::expandIfSingleFolder()
+{
+    if (model()->rowCount() == 1) {
+        expandToDepth(0);
+    }
+}
+
 void ArchiveView::setDropsEnabled(bool enabled)
 {
     setAcceptDrops(enabled);

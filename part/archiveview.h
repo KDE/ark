@@ -39,6 +39,12 @@ public:
     virtual void startDrag(Qt::DropActions supportedActions) Q_DECL_OVERRIDE;
 
     /**
+     * Expand the first level in the view if there is only one root folder.
+     * Typical use case: an archive with source code.
+     */
+    void expandIfSingleFolder();
+
+    /**
      * Set whether the view should accept drop events.
      */
     void setDropsEnabled(bool enabled);

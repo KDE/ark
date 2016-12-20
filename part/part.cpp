@@ -889,12 +889,7 @@ void Part::slotLoadingFinished(KJob *job)
     }
 
     m_view->sortByColumn(0, Qt::AscendingOrder);
-
-    // #303708: expand the first level only when there is just one root folder.
-    // Typical use case: an archive with source files.
-    if (m_view->model()->rowCount() == 1) {
-        m_view->expandToDepth(0);
-    }
+    m_view->expandIfSingleFolder();
 
     // After loading all files, resize the columns to fit all fields
     m_view->header()->resizeSections(QHeaderView::ResizeToContents);
@@ -1755,9 +1750,7 @@ void Part::searchEdited(const QString &text)
 
     if(text.isEmpty()) {
         m_view->collapseAll();
-        if (m_view->model()->rowCount() == 1) {
-            m_view->expandToDepth(0);
-        }
+        m_view->expandIfSingleFolder();
     } else {
         m_view->expandAll();
     }
