@@ -39,7 +39,7 @@ bool ArchiveSortFilterModel::lessThan(const QModelIndex &leftIndex,
 {
     ArchiveModel *srcModel = qobject_cast<ArchiveModel*>(sourceModel());
     const int col = srcModel->shownColumns().at(leftIndex.column());
-    const QByteArray property = srcModel->propertiesMap()[col];
+    const QByteArray property = srcModel->propertiesMap().value(col);
 
     const Archive::Entry *left = srcModel->entryForIndex(leftIndex);
     const Archive::Entry *right = srcModel->entryForIndex(rightIndex);
