@@ -1,6 +1,6 @@
 {
     "KPlugin": {
-        "Description": "Open and extract RAR archives",
+        "Description": "Open and extract RAR archives", 
         "Id": "kerfuffle_cliunarchiver", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
