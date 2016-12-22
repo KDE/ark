@@ -73,7 +73,7 @@ bool LibarchivePlugin::list()
     m_cachedArchiveEntryCount = 0;
     m_extractedFilesSize = 0;
     m_numberOfEntries = 0;
-    qulonglong compressedArchiveSize = QFileInfo(filename()).size();
+    auto compressedArchiveSize = QFileInfo(filename()).size();
 
     struct archive_entry *aentry;
     int result = ARCHIVE_RETRY;
@@ -470,7 +470,8 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
         e->setProperty("link", QLatin1String( archive_entry_symlink(aentry) ));
     }
 
-    e->setProperty("timestamp", QDateTime::fromTime_t(archive_entry_mtime(aentry)));
+    auto time = static_cast<uint>(archive_entry_mtime(aentry));
+    e->setProperty("timestamp", QDateTime::fromTime_t(time));
 
     emit entry(e);
     m_emittedEntries << e;
@@ -498,16 +499,15 @@ int LibarchivePlugin::extractionFlags() const
 void LibarchivePlugin::copyData(const QString& filename, struct archive *dest, bool partialprogress)
 {
     char buff[10240];
-    ssize_t readBytes;
     QFile file(filename);
 
     if (!file.open(QIODevice::ReadOnly)) {
         return;
     }
 
-    readBytes = file.read(buff, sizeof(buff));
+    auto readBytes = file.read(buff, sizeof(buff));
     while (readBytes > 0) {
-        archive_write_data(dest, buff, readBytes);
+        archive_write_data(dest, buff, static_cast<size_t>(readBytes));
         if (archive_errno(dest) != ARCHIVE_OK) {
             qCCritical(ARK) << "Error while writing" << filename << ":" << archive_error_string(dest)
                             << "(error no =" << archive_errno(dest) << ')';
@@ -528,11 +528,10 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *dest, b
 void LibarchivePlugin::copyData(const QString& filename, struct archive *source, struct archive *dest, bool partialprogress)
 {
     char buff[10240];
-    ssize_t readBytes;
 
-    readBytes = archive_read_data(source, buff, sizeof(buff));
+    auto readBytes = archive_read_data(source, buff, sizeof(buff));
     while (readBytes > 0) {
-        archive_write_data(dest, buff, readBytes);
+        archive_write_data(dest, buff, static_cast<size_t>(readBytes));
         if (archive_errno(dest) != ARCHIVE_OK) {
             qCCritical(ARK) << "Error while extracting" << filename << ":" << archive_error_string(dest)
                             << "(error no =" << archive_errno(dest) << ')';
