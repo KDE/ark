@@ -92,6 +92,12 @@ public:
     Entry *find(const QString &name) const;
     Entry *findByPath(const QStringList & pieces, int index = 0) const;
 
+    /**
+     * Fills @p dirs and @p files with the number of directories and files
+     * in the entry (both will be 0 if the entry is not a directory).
+     */
+    void countChildren(uint &dirs, uint &files) const;
+
     bool operator==(const Archive::Entry &right) const;
 
 public:
