@@ -576,7 +576,7 @@ void Part::slotShowComment()
 {
     if (!m_commentBox->isVisible()) {
         m_commentBox->show();
-        m_commentSplitter->setSizes(QList<int>() << m_view->height() * 0.6 << 1);
+        m_commentSplitter->setSizes(QList<int>() << static_cast<int>(m_view->height() * 0.6) << 1);
     }
     m_commentView->setFocus();
 }
