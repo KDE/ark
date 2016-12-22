@@ -64,7 +64,7 @@ private:
      *
      * @return bool indicating whether the operation was successful.
      */
-    bool processOldEntries(int &entriesCounter, OperationMode mode, uint totalCount);
+    bool processOldEntries(uint &entriesCounter, OperationMode mode, uint totalCount);
 
     /**
      * Writes entry being read into memory.

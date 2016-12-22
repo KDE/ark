@@ -44,7 +44,7 @@ class KERFUFFLE_EXPORT Plugin : public QObject
     /**
      * The priority of the plugin. The higher the better.
      */
-    Q_PROPERTY(unsigned int priority READ priority CONSTANT)
+    Q_PROPERTY(int priority READ priority CONSTANT)
 
     /**
      * Whether the plugin has been enabled in the settings.
@@ -77,7 +77,7 @@ public:
     explicit Plugin(QObject *parent = Q_NULLPTR, const KPluginMetaData& metaData = KPluginMetaData());
 
 
-    unsigned int priority() const;
+    int priority() const;
     bool isEnabled() const;
     void setEnabled(bool enabled);
     bool isReadWrite() const;
