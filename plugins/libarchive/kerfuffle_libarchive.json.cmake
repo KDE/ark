@@ -1,11 +1,23 @@
 {
     "KPlugin": {
         "Description": "Full support for compressed TAR archives", 
+        "Description[ca]": "Implementació completa dels arxius TAR comprimits", 
+        "Description[nl]": "Volledige ondersteuning voor gecomprimeerde TAR-archieven", 
+        "Description[pt]": "Suporte total para pacotes comprimidos do TAR", 
+        "Description[sv]": "Fullt stöd för komprimerade TAR-arkiv", 
+        "Description[uk]": "Повноцінна підтримка стиснених архівів TAR", 
+        "Description[x-test]": "xxFull support for compressed TAR archivesxx", 
         "Id": "kerfuffle_libarchive", 
         "MimeTypes": [
             "@SUPPORTED_READWRITE_MIMETYPES@"
         ], 
         "Name": "Libarchive plugin", 
+        "Name[ca]": "Connector del Libarchive", 
+        "Name[nl]": "LibArchive-plug-in", 
+        "Name[pt]": "'Plugin' da Libarchive", 
+        "Name[sv]": "Libarchive-insticksprogram", 
+        "Name[uk]": "Додаток libarchive", 
+        "Name[x-test]": "xxLibarchive pluginxx", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

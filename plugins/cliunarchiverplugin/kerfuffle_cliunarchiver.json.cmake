@@ -1,6 +1,12 @@
 {
     "KPlugin": {
         "Description": "Open and extract RAR archives", 
+        "Description[ca]": "Obre i extreu arxius RAR", 
+        "Description[nl]": "Open en pak uit RAR-archieven", 
+        "Description[pt]": "Abrir e extrair os pacotes RAR", 
+        "Description[sv]": "Öppna och extrahera RAR-arkiv", 
+        "Description[uk]": "Здатен відкривати і видобувати архіви RAR", 
+        "Description[x-test]": "xxOpen and extract RAR archivesxx", 
         "Id": "kerfuffle_cliunarchiver", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -30,7 +36,7 @@
         "Name[sr@ijekavianlatin]": "Priključak Unarchivera", 
         "Name[sr@latin]": "Priključak Unarchivera", 
         "Name[sr]": "Прикључак Унархивера", 
-        "Name[sv]": "Insticksprogram för Unarchiver", 
+        "Name[sv]": "Unarchiver-insticksprogram", 
         "Name[uk]": "Додаток Unarchiver", 
         "Name[x-test]": "xxThe Unarchiver pluginxx", 
         "Name[zh_CN]": "Unarchiver 插件", 

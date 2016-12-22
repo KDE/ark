@@ -1,11 +1,23 @@
 {
     "KPlugin": {
         "Description": "Full support for the zip and 7z archive formats", 
+        "Description[ca]": "Implementació completa dels formats d'arxiu «zip» i «7z»", 
+        "Description[nl]": "Volledige ondersteuning voor de zip- en 7z-archiefformaten", 
+        "Description[pt]": "Suporte total para os formatos de pacotes ZIP e 7z", 
+        "Description[sv]": "Fullt stöd för zip- och 7z-arkivformaten", 
+        "Description[uk]": "Повноцінна підтримка архівів у форматах zip і 7z", 
+        "Description[x-test]": "xxFull support for the zip and 7z archive formatsxx", 
         "Id": "kerfuffle_cli7z", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ], 
         "Name": "P7zip plugin", 
+        "Name[ca]": "Connector del P7zip", 
+        "Name[nl]": "P7zip-plug-in", 
+        "Name[pt]": "'Plugin' do P7zip", 
+        "Name[sv]": "P7zip-insticksprogram", 
+        "Name[uk]": "Додаток P7zip", 
+        "Name[x-test]": "xxP7zip pluginxx", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 
