@@ -354,7 +354,7 @@ qulonglong Archive::unpackedSize() const
 
 qulonglong Archive::packedSize() const
 {
-    return isValid() ? QFileInfo(fileName()).size() : 0;
+    return isValid() ? static_cast<qulonglong>(QFileInfo(fileName()).size()) : 0;
 }
 
 QString Archive::subfolderName() const

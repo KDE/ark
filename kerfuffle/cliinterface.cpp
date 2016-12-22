@@ -93,7 +93,7 @@ bool CliInterface::list()
     m_numberOfEntries = 0;
 
     // To compute progress.
-    m_archiveSizeOnDisk = QFileInfo(filename()).size();
+    m_archiveSizeOnDisk = static_cast<qulonglong>(QFileInfo(filename()).size());
     connect(this, &ReadOnlyArchiveInterface::entry, this, &CliInterface::onEntry);
 
     return runProcess(m_cliProps->property("listProgram").toString(), m_cliProps->listArgs(filename(), password()));
@@ -1083,7 +1083,7 @@ CliProperties *CliInterface::cliProperties() const
 void CliInterface::onEntry(Archive::Entry *archiveEntry)
 {
     if (archiveEntry->compressedSizeIsSet) {
-        m_listedSize += archiveEntry->property("compressedSize").toUInt();
+        m_listedSize += archiveEntry->property("compressedSize").toULongLong();
         if (m_listedSize <= m_archiveSizeOnDisk) {
             emit progress(float(m_listedSize)/float(m_archiveSizeOnDisk));
         } else {
