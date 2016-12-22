@@ -90,12 +90,12 @@ void CompressionOptions::setCompressionLevel(int level)
     m_compressionLevel = level;
 }
 
-int CompressionOptions::volumeSize() const
+ulong CompressionOptions::volumeSize() const
 {
     return m_volumeSize;
 }
 
-void CompressionOptions::setVolumeSize(int size)
+void CompressionOptions::setVolumeSize(ulong size)
 {
     m_volumeSize = size;
 }

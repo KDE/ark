@@ -1368,7 +1368,7 @@ void Part::slotAddFiles()
         m_compressionOptions.setEncryptionMethod(arguments().metaData()[QStringLiteral("encryptionMethod")]);
     }
     if (!m_compressionOptions.isVolumeSizeSet() && arguments().metaData().contains(QStringLiteral("volumeSize"))) {
-        m_compressionOptions.setVolumeSize(arguments().metaData()[QStringLiteral("volumeSize")].toInt());
+        m_compressionOptions.setVolumeSize(arguments().metaData()[QStringLiteral("volumeSize")].toULong());
     }
 
     const auto compressionMethods = m_model->archive()->property("compressionMethods").toStringList();
