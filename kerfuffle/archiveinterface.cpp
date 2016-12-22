@@ -283,7 +283,7 @@ bool ReadWriteArchiveInterface::isReadOnly() const
     }
 }
 
-int ReadOnlyArchiveInterface::numberOfEntries() const
+uint ReadOnlyArchiveInterface::numberOfEntries() const
 {
     return m_numberOfEntries;
 }

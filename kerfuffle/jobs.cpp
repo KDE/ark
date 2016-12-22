@@ -626,7 +626,7 @@ void AddJob::doWork()
     }
 
     // Count total number of entries to be added.
-    qulonglong totalCount = 0;
+    uint totalCount = 0;
     QElapsedTimer timer;
     timer.start();
     foreach (const Archive::Entry* entry, m_entries) {
