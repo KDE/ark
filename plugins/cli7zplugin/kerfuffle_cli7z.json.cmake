@@ -2,6 +2,7 @@
     "KPlugin": {
         "Description": "Full support for the zip and 7z archive formats", 
         "Description[ca]": "Implementació completa dels formats d'arxiu «zip» i «7z»", 
+        "Description[it]": "Supporto completo per i formati di archivi zip e 7z", 
         "Description[nl]": "Volledige ondersteuning voor de zip- en 7z-archiefformaten", 
         "Description[pt]": "Suporte total para os formatos de pacotes ZIP e 7z", 
         "Description[sv]": "Fullt stöd för zip- och 7z-arkivformaten", 
@@ -13,6 +14,7 @@
         ], 
         "Name": "P7zip plugin", 
         "Name[ca]": "Connector del P7zip", 
+        "Name[it]": "Estensione P7zip", 
         "Name[nl]": "P7zip-plug-in", 
         "Name[pt]": "'Plugin' do P7zip", 
         "Name[sv]": "P7zip-insticksprogram", 

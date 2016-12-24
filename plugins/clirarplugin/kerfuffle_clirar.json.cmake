@@ -2,6 +2,7 @@
     "KPlugin": {
         "Description": "Full support for the RAR archive format", 
         "Description[ca]": "Implementació completa del format d'arxiu RAR", 
+        "Description[it]": "Supporto completo per il formato di archvi RAR", 
         "Description[nl]": "Volledige ondersteuning voor het RAR-archiefformaat", 
         "Description[pt]": "Suporte total para o formato de pacotes RAR", 
         "Description[sv]": "Fullt stöd för arkivformatet RAR", 
@@ -13,6 +14,7 @@
         ], 
         "Name": "RAR plugin", 
         "Name[ca]": "Connector del RAR", 
+        "Name[it]": "Estensione RAR", 
         "Name[nl]": "RAR-plug-in", 
         "Name[pt]": "'Plugin' do RAR", 
         "Name[sv]": "RAR-insticksprogram", 

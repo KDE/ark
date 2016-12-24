@@ -2,6 +2,7 @@
     "KPlugin": {
         "Description": "Open and extract RAR archives", 
         "Description[ca]": "Obre i extreu arxius RAR", 
+        "Description[it]": "Apri ed estrai archivi RAR", 
         "Description[nl]": "Open en pak uit RAR-archieven", 
         "Description[pt]": "Abrir e extrair os pacotes RAR", 
         "Description[sv]": "Öppna och extrahera RAR-arkiv", 
