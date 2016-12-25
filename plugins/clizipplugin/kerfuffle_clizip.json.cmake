@@ -2,6 +2,7 @@
     "KPlugin": {
         "Description": "Legacy support for the zip archive format", 
         "Description[ca]": "Implementació pel format d'arxiu «zip» antic", 
+        "Description[es]": "Uso heredado para el formato de archivo comprimido zip", 
         "Description[it]": "Supporto originale per il formato di archivi zip", 
         "Description[nl]": "Verouderde ondersteuning voor het zip-archiefformaat", 
         "Description[pt]": "Suporte antigo para o formato de pacotes ZIP", 
@@ -14,6 +15,7 @@
         ], 
         "Name": "Info-zip plugin", 
         "Name[ca]": "Connector de l'Info-zip", 
+        "Name[es]": "Complemento Info-zip", 
         "Name[it]": "Estensione Info-zip", 
         "Name[nl]": "Info-zip-plug-in", 
         "Name[pt]": "'Plugin' do Info-zip", 
