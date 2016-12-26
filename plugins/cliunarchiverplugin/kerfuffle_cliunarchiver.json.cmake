@@ -5,6 +5,7 @@
         "Description[es]": "Abrir y extraer archivos RAR", 
         "Description[it]": "Apri ed estrai archivi RAR", 
         "Description[nl]": "Open en pak uit RAR-archieven", 
+        "Description[pl]": "Otwieraj i wypakowuj archiwa RAR", 
         "Description[pt]": "Abrir e extrair os pacotes RAR", 
         "Description[sv]": "Öppna och extrahera RAR-arkiv", 
         "Description[uk]": "Здатен відкривати і видобувати архіви RAR", 
