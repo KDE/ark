@@ -76,6 +76,7 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(QMimeType mimeType READ mimeType CONSTANT)
     Q_PROPERTY(bool isEmpty READ isEmpty)
     Q_PROPERTY(bool isReadOnly READ isReadOnly CONSTANT)
+    Q_PROPERTY(bool isSingleFile READ isSingleFile)
     Q_PROPERTY(bool isSingleFolder MEMBER m_isSingleFolder READ isSingleFolder)
     Q_PROPERTY(bool isMultiVolume READ isMultiVolume WRITE setMultiVolume)
     Q_PROPERTY(bool numberOfVolumes READ numberOfVolumes)
@@ -106,6 +107,7 @@ public:
     QMimeType mimeType();
     bool isEmpty() const;
     bool isReadOnly() const;
+    bool isSingleFile() const;
     bool isSingleFolder() const;
     bool isMultiVolume() const;
     void setMultiVolume(bool value);

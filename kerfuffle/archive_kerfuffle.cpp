@@ -287,6 +287,12 @@ bool Archive::isReadOnly() const
                         (isMultiVolume() && (numberOfEntries() > 0))) : false;
 }
 
+bool Archive::isSingleFile() const
+{
+    // If the only entry is a folder, isSingleFolder() is true.
+    return numberOfEntries() == 1 && !isSingleFolder();
+}
+
 bool Archive::isSingleFolder() const
 {
     if (!isValid()) {
