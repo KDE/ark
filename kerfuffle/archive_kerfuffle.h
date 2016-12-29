@@ -236,8 +236,6 @@ private:
     qulonglong m_extractedFilesSize;
     ArchiveError m_error;
     EncryptionType m_encryptionType;
-    qulonglong m_numberOfFiles;
-    qulonglong m_numberOfFolders;
     QMimeType m_mimeType;
     QStringList m_compressionMethods;
     QStringList m_encryptionMethods;
