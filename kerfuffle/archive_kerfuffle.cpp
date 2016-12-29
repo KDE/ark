@@ -537,4 +537,9 @@ ReadOnlyArchiveInterface *Archive::interface()
     return m_iface;
 }
 
+bool Archive::hasMultipleTopLevelEntries() const
+{
+    return !isSingleFile() && !isSingleFolder();
+}
+
 } // namespace Kerfuffle

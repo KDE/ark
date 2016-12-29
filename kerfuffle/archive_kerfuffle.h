@@ -123,6 +123,11 @@ public:
     ReadOnlyArchiveInterface *interface();
 
     /**
+     * @return Whether the archive has more than one top-level entry.
+     */
+    bool hasMultipleTopLevelEntries() const;
+
+    /**
      * @return Batch extraction job for @p filename to @p destination.
      * @param autoSubfolder Whether the job will extract into a subfolder.
      * @param preservePaths Whether the job will preserve paths.

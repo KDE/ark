@@ -234,6 +234,10 @@ void LoadTest::testProperties()
     QFETCH(bool, isSingleFolder);
     QCOMPARE(archive->isSingleFolder(), isSingleFolder);
 
+    if (isSingleFile || isSingleFolder) {
+        QVERIFY(!archive->hasMultipleTopLevelEntries());
+    }
+
     QFETCH(bool, isMultiVolume);
     QCOMPARE(archive->isMultiVolume(), isMultiVolume);
 
