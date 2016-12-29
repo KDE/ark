@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Open and extract DEB, RPM, ISO, AppImage, XAR and CAB files", 
+        "Description[ca@valencia]": "Obri i extreu fitxers DEB, RPM, ISO, AppImage, XAR i CAB", 
         "Description[ca]": "Obre i extreu fitxers DEB, RPM, ISO, AppImage, XAR i CAB", 
         "Description[es]": "Abrir y extraer archivos DEB, RPM, ISO, AppImage, XAR y CAB", 
         "Description[it]": "Apri ed estrai file DEB, RPM, ISO, AppImage, XAR e CAB", 
@@ -20,6 +21,7 @@
             "@SUPPORTED_READONLY_MIMETYPES@"
         ], 
         "Name": "Libarchive plugin (read-only formats)", 
+        "Name[ca@valencia]": "Connector del Libarchive (formats de només lectura)", 
         "Name[ca]": "Connector del Libarchive (formats de només lectura)", 
         "Name[es]": "Complemento Libarchive (formatos de solo lectura)", 
         "Name[it]": "Estensione Libarchive (formati in sola lettura)", 
