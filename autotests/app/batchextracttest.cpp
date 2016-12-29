@@ -43,13 +43,34 @@ void BatchExtractTest::testBatchExtraction_data()
 {
     QTest::addColumn<QString>("archivePath");
     QTest::addColumn<bool>("autoSubfolder");
+    // Expected numbers of entries (files + folders) in the temporary extraction folder.
+    // This is the number of entries in the archive (+ 1, if the autosubfolder is expected).
     QTest::addColumn<int>("expectedExtractedEntriesCount");
 
-    QString archivePath = QFINDTESTDATA("data/simple%archive.tar.gz");
     QTest::newRow("extract the whole simple%archive.tar.gz (bug #365798)")
-            << archivePath
+            << QFINDTESTDATA("data/simple%archive.tar.gz")
             << true
+            << 5;
+
+    QTest::newRow("single-folder, no autosubfolder")
+            << QFINDTESTDATA("../kerfuffle/data/one_toplevel_folder.zip")
+            << false
+            << 9;
+
+    QTest::newRow("single-folder, autosubfolder")
+            << QFINDTESTDATA("../kerfuffle/data/one_toplevel_folder.zip")
+            << true
+            << 9;
+
+    QTest::newRow("non single-folder, no autosubfolder")
+            << QFINDTESTDATA("../kerfuffle/data/simplearchive.tar.gz")
+            << false
             << 4;
+
+    QTest::newRow("non single-folder, autosubfolder")
+            << QFINDTESTDATA("../kerfuffle/data/simplearchive.tar.gz")
+            << true
+            << 5;
 }
 
 void BatchExtractTest::testBatchExtraction()
@@ -83,12 +104,7 @@ void BatchExtractTest::testBatchExtraction()
         dirIt.next();
     }
 
-    if (autoSubfolder) {
-        // Also take into account the automatically created subfolder.
-        QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount + 1);
-    } else {
-        QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount);
-    }
+    QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount);
 }
 
 #include "batchextracttest.moc"
