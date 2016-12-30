@@ -271,7 +271,7 @@ bool BatchExtract::showExtractDialog()
             }
 
             auto archive = qobject_cast<Kerfuffle::LoadJob*>(job)->archive();
-            dialog->setSingleFolderArchive(archive->isSingleFolder());
+            dialog->setExtractToSubfolder(archive->hasMultipleTopLevelEntries());
             dialog->setSubfolder(archive->subfolderName());
         });
 

@@ -91,8 +91,6 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
     m_ui->allFilesButton->setChecked(true);
     m_ui->extractAllLabel->show();
 
-    setSingleFolderArchive(false);
-
     m_ui->autoSubfolders->hide();
 
     loadSettings();
@@ -179,9 +177,9 @@ void ExtractionDialog::loadSettings()
     setPreservePaths(ArkSettings::preservePaths());
 }
 
-void ExtractionDialog::setSingleFolderArchive(bool value)
+void ExtractionDialog::setExtractToSubfolder(bool extractToSubfolder)
 {
-    m_ui->singleFolderGroup->setChecked(!value && ArkSettings::extractToSubfolder());
+    m_ui->singleFolderGroup->setChecked(extractToSubfolder && ArkSettings::extractToSubfolder());
 }
 
 void ExtractionDialog::batchModeOption()
