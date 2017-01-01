@@ -77,6 +77,7 @@ private slots:
     void slotStartJob();
 
 private:
+    CompressionOptions m_options;
     QString m_filename;
     QString m_strippedPath;
     QString m_autoFilenameSuffix;
