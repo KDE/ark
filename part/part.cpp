@@ -712,7 +712,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
                                              QString(),
                                              QUrl::AssumeLocalFile),
                          db.mimeTypeForFile(fullName).name(),
-                         widget());
+                         widget(), false, false);
             break;
         case OpenFileWith:
             QList<QUrl> list;
