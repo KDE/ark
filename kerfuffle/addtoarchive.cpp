@@ -106,6 +106,10 @@ bool AddToArchive::showAddDialog()
         setMimeType(dialog.data()->currentMimeType().name());
         setPassword(dialog.data()->password());
         setHeaderEncryptionEnabled(dialog.data()->isHeaderEncryptionEnabled());
+        m_options.setCompressionLevel(dialog.data()->compressionLevel());
+        m_options.setCompressionMethod(dialog.data()->compressionMethod());
+        m_options.setEncryptionMethod(dialog.data()->encryptionMethod());
+        m_options.setVolumeSize(dialog.data()->volumeSize());
     }
 
     delete dialog.data();
@@ -171,8 +175,6 @@ void AddToArchive::slotStartJob()
         m_filename = finalName;
     }
 
-    Kerfuffle::CompressionOptions options;
-
     if (m_changeToFirstPath) {
         if (m_firstPath.isEmpty()) {
             qCWarning(ARK) << "Weird, this should not happen. no firstpath defined. aborting";
@@ -187,10 +189,10 @@ void AddToArchive::slotStartJob()
         }
 
         qCDebug(ARK) << "Setting GlobalWorkDir to " << stripDir.path();
-        options.setGlobalWorkDir(stripDir.path());
+        m_options.setGlobalWorkDir(stripDir.path());
     }
 
-    auto createJob = Archive::create(m_filename, m_mimeType, m_entries, options, this);
+    auto createJob = Archive::create(m_filename, m_mimeType, m_entries, m_options, this);
 
     if (!m_password.isEmpty()) {
         createJob->enableEncryption(m_password, m_enableHeaderEncryption);
