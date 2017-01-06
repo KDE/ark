@@ -945,7 +945,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
         } else {
             KRun::runUrl(QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile),
                          QMimeDatabase().mimeTypeForFile(fullName).name(),
-                         widget());
+                         widget(), false, false);
         }
     } else if (job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
