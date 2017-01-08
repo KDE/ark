@@ -138,6 +138,11 @@ void AddToArchive::start()
     QTimer::singleShot(0, this, &AddToArchive::slotStartJob);
 }
 
+bool AddToArchive::doKill()
+{
+    return m_createJob && m_createJob->kill();
+}
+
 void AddToArchive::slotStartJob()
 {
     if (m_entries.isEmpty()) {
@@ -192,15 +197,15 @@ void AddToArchive::slotStartJob()
         m_options.setGlobalWorkDir(stripDir.path());
     }
 
-    auto createJob = Archive::create(m_filename, m_mimeType, m_entries, m_options, this);
+    m_createJob = Archive::create(m_filename, m_mimeType, m_entries, m_options, this);
 
     if (!m_password.isEmpty()) {
-        createJob->enableEncryption(m_password, m_enableHeaderEncryption);
+        m_createJob->enableEncryption(m_password, m_enableHeaderEncryption);
     }
 
-    KIO::getJobTracker()->registerJob(createJob);
-    connect(createJob, &KJob::result, this, &AddToArchive::slotFinished);
-    createJob->start();
+    KIO::getJobTracker()->registerJob(m_createJob);
+    connect(m_createJob, &KJob::result, this, &AddToArchive::slotFinished);
+    m_createJob->start();
 }
 
 void AddToArchive::slotFinished(KJob *job)

@@ -503,7 +503,7 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *dest, b
     }
 
     readBytes = file.read(buff, sizeof(buff));
-    while (readBytes > 0) {
+    while (!QThread::currentThread()->isInterruptionRequested() && readBytes > 0) {
         archive_write_data(dest, buff, readBytes);
         if (archive_errno(dest) != ARCHIVE_OK) {
             qCCritical(ARK) << "Error while writing" << filename << ":" << archive_error_string(dest)
