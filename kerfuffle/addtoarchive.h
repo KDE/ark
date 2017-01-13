@@ -72,12 +72,16 @@ public slots:
     void setHeaderEncryptionEnabled(bool enabled);
     void start() Q_DECL_OVERRIDE;
 
+protected:
+    bool doKill() Q_DECL_OVERRIDE;
+
 private slots:
     void slotFinished(KJob*);
     void slotStartJob();
 
 private:
     CompressionOptions m_options;
+    CreateJob *m_createJob;
     QString m_filename;
     QString m_strippedPath;
     QString m_autoFilenameSuffix;

@@ -42,6 +42,7 @@ using Kerfuffle::AddToArchive;
 
 int main(int argc, char **argv)
 {
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts); // Required for the webengine part.
     QApplication application(argc, argv);
 
     /**
