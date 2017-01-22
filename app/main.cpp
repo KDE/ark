@@ -121,6 +121,10 @@ int main(int argc, char **argv)
                         i18n("bkisofs code"),
                         QString(),
                         QStringLiteral("http://littlesvr.ca/misc/contactandrew.php"));
+    aboutData.addCredit(i18n("Vladyslav Batyrenko"),
+                        i18n("Advanced editing functionalities"),
+                        QString(),
+                        QStringLiteral("http://mvlabat.github.io/ark-gsoc-2016/"));
 
     application.setWindowIcon(QIcon::fromTheme(QStringLiteral("ark")));
 
