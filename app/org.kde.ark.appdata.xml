@@ -265,7 +265,7 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <image width="1250" height="754">http://kde.org/images/screenshots/ark.png</image>
+      <image width="1250" height="754">https://cdn.kde.org/screenshots/ark/ark.png</image>
     </screenshot>
   </screenshots>
   <url type="homepage">http://kde.org/applications/utilities/ark/</url>
