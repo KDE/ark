@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
+    <width>551</width>
     <height>433</height>
    </rect>
   </property>
@@ -232,7 +232,7 @@
            <double>1000.000000000000000</double>
           </property>
           <property name="singleStep">
-           <double>0.500000000000000</double>
+           <double>0.100000000000000</double>
           </property>
           <property name="value">
            <double>1.000000000000000</double>
