@@ -22,6 +22,7 @@
   <name xml:lang="gl">Ark</name>
   <name xml:lang="he">Ark</name>
   <name xml:lang="hu">Ark</name>
+  <name xml:lang="ia">Ark</name>
   <name xml:lang="it">Ark</name>
   <name xml:lang="ko">Ark</name>
   <name xml:lang="lt">Ark</name>
@@ -65,6 +66,7 @@
   <summary xml:lang="gl">Ferramenta para arquivar</summary>
   <summary xml:lang="he">כלי לניהול ארכיונים</summary>
   <summary xml:lang="hu">Fájltömörítő</summary>
+  <summary xml:lang="ia">Instrumento per archivar</summary>
   <summary xml:lang="it">Strumento di archiviazione</summary>
   <summary xml:lang="ko">압축 도구</summary>
   <summary xml:lang="lt">Archyvavimo įrankis</summary>
@@ -154,6 +156,7 @@
     <p xml:lang="gl">Funcionalidades:</p>
     <p xml:lang="he">תכונות:</p>
     <p xml:lang="hu">Szolgáltatások:</p>
+    <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="lt">Galimybės:</p>
