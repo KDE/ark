@@ -168,6 +168,22 @@ Archive::Entry *Archive::Entry::findByPath(const QStringList &pieces, int index)
     return Q_NULLPTR;
 }
 
+void Archive::Entry::countChildren(uint &dirs, uint &files) const
+{
+    dirs = files = 0;
+    if (!isDir()) {
+        return;
+    }
+
+    foreach (auto entry, entries()) {
+        if (entry->isDir()) {
+            dirs++;
+        } else {
+            files++;
+        }
+    }
+}
+
 bool Archive::Entry::operator==(const Archive::Entry &right) const
 {
     return m_fullPath == right.m_fullPath;

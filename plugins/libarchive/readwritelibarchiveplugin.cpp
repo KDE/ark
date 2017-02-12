@@ -69,7 +69,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
 
     // First write the new files.
     qCDebug(ARK) << "Writing new entries";
-    int no_entries = 0;
+    uint no_entries = 0;
     // Recreate destination directory structure.
     const QString destinationPath = (destination == Q_NULLPTR)
                                     ? QString()
@@ -152,7 +152,7 @@ bool ReadWriteLibarchivePlugin::moveFiles(const QVector<Archive::Entry*> &files,
     }
 
     // Copy old elements from previous archive to new archive.
-    int no_entries = 0;
+    uint no_entries = 0;
     m_filesPaths = entryFullPaths(files);
     m_entriesWithoutChildren = entriesWithoutChildren(files).count();
     m_destination = destination;
@@ -182,7 +182,7 @@ bool ReadWriteLibarchivePlugin::copyFiles(const QVector<Archive::Entry*> &files,
     }
 
     // Copy old elements from previous archive to new archive.
-    int no_entries = 0;
+    uint no_entries = 0;
     m_filesPaths = entryFullPaths(files);
     m_destination = destination;
     const bool isSuccessful = processOldEntries(no_entries, Copy, m_numberOfEntries);
@@ -209,7 +209,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVector<Archive::Entry*> &file
     }
 
     // Copy old elements from previous archive to new archive.
-    int no_entries = 0;
+    uint no_entries = 0;
     m_filesPaths = entryFullPaths(files);
     const bool isSuccessful = processOldEntries(no_entries, Delete, m_numberOfEntries);
     if (isSuccessful) {
@@ -291,11 +291,9 @@ bool ReadWriteLibarchivePlugin::initializeWriterFilters()
         ret = archive_write_add_filter_lrzip(m_archiveWriter.data());
         requiresExecutable = true;
         break;
-#ifdef HAVE_LIBARCHIVE_3_2_0
     case ARCHIVE_FILTER_LZ4:
         ret = archive_write_add_filter_lz4(m_archiveWriter.data());
         break;
-#endif
     case ARCHIVE_FILTER_NONE:
         ret = archive_write_add_filter_none(m_archiveWriter.data());
         break;
@@ -345,11 +343,9 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
         qCDebug(ARK) << "Detected lrzip compression for new file";
         ret = archive_write_add_filter_lrzip(m_archiveWriter.data());
         requiresExecutable = true;
-#ifdef HAVE_LIBARCHIVE_3_2_0
         } else if (filename().right(3).toUpper() == QLatin1String("LZ4")) {
             qCDebug(ARK) << "Detected lz4 compression for new file";
             ret = archive_write_add_filter_lz4(m_archiveWriter.data());
-#endif
     } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
         qCDebug(ARK) << "Detected no compression for new file (pure tar)";
         ret = archive_write_add_filter_none(m_archiveWriter.data());
@@ -389,13 +385,13 @@ void ReadWriteLibarchivePlugin::finish(const bool isSuccessful)
     m_tempFile.commit();
 }
 
-bool ReadWriteLibarchivePlugin::processOldEntries(int &entriesCounter, OperationMode mode, uint totalCount)
+bool ReadWriteLibarchivePlugin::processOldEntries(uint &entriesCounter, OperationMode mode, uint totalCount)
 {
     struct archive_entry *entry;
 
     const uint newEntries = entriesCounter;
     entriesCounter = 0;
-    int iteratedEntries = 0;
+    uint iteratedEntries = 0;
 
     // Create a map that contains old path as key and new path as value.
     QMap<QString, QString> pathMap;

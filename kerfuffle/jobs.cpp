@@ -466,19 +466,24 @@ void CreateJob::setMultiVolume(bool isMultiVolume)
 
 void CreateJob::doWork()
 {
-    auto addJob = archive()->addFiles(m_entries, new Archive::Entry(this), m_options);
+    m_addJob = archive()->addFiles(m_entries, new Archive::Entry(this), m_options);
 
-    if (addJob) {
-        connect(addJob, &KJob::result, this, &CreateJob::emitResult);
+    if (m_addJob) {
+        connect(m_addJob, &KJob::result, this, &CreateJob::emitResult);
         // Forward description signal from AddJob, we need to change the first argument ('this' needs to be a CreateJob).
-        connect(addJob, &KJob::description, this, [=](KJob *, const QString &title, const QPair<QString,QString> &field1, const QPair<QString,QString> &) {
+        connect(m_addJob, &KJob::description, this, [=](KJob *, const QString &title, const QPair<QString,QString> &field1, const QPair<QString,QString> &) {
             emit description(this, title, field1);
         });
 
-        addJob->start();
+        m_addJob->start();
     } else {
         emitResult();
     }
+}
+
+bool CreateJob::doKill()
+{
+    return m_addJob && m_addJob->kill();
 }
 
 ExtractJob::ExtractJob(const QVector<Archive::Entry*> &entries, const QString &destinationDir, const ExtractionOptions &options, ReadOnlyArchiveInterface *interface)
@@ -626,7 +631,7 @@ void AddJob::doWork()
     }
 
     // Count total number of entries to be added.
-    qulonglong totalCount = 0;
+    uint totalCount = 0;
     QElapsedTimer timer;
     timer.start();
     foreach (const Archive::Entry* entry, m_entries) {

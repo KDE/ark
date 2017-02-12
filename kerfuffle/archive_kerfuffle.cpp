@@ -287,6 +287,12 @@ bool Archive::isReadOnly() const
                         (isMultiVolume() && (numberOfEntries() > 0))) : false;
 }
 
+bool Archive::isSingleFile() const
+{
+    // If the only entry is a folder, isSingleFolder() is true.
+    return numberOfEntries() == 1 && !isSingleFolder();
+}
+
 bool Archive::isSingleFolder() const
 {
     if (!isValid()) {
@@ -354,7 +360,7 @@ qulonglong Archive::unpackedSize() const
 
 qulonglong Archive::packedSize() const
 {
-    return isValid() ? QFileInfo(fileName()).size() : 0;
+    return isValid() ? static_cast<qulonglong>(QFileInfo(fileName()).size()) : 0;
 }
 
 QString Archive::subfolderName() const
@@ -529,6 +535,11 @@ QString Archive::multiVolumeName() const
 ReadOnlyArchiveInterface *Archive::interface()
 {
     return m_iface;
+}
+
+bool Archive::hasMultipleTopLevelEntries() const
+{
+    return !isSingleFile() && !isSingleFolder();
 }
 
 } // namespace Kerfuffle

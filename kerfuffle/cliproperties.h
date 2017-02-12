@@ -85,7 +85,7 @@ public:
                         int compressionLevel,
                         const QString &compressionMethod,
                         const QString &encryptionMethod,
-                        uint volumeSize);
+                        ulong volumeSize);
     QStringList commentArgs(const QString &archive, const QString &commentfile);
     QStringList deleteArgs(const QString &archive, const QVector<Archive::Entry*> &files, const QString &password);
     QStringList extractArgs(const QString &archive, const QStringList &files, bool preservePaths, const QString &password);
@@ -107,7 +107,7 @@ private:
     QString substituteCompressionLevelSwitch(int level) const;
     QString substituteCompressionMethodSwitch(const QString &method) const;
     QString substituteEncryptionMethodSwitch(const QString &method) const;
-    QString substituteMultiVolumeSwitch(uint volumeSize) const;
+    QString substituteMultiVolumeSwitch(ulong volumeSize) const;
 
     QString m_addProgram;
     QString m_deleteProgram;

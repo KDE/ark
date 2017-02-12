@@ -216,7 +216,11 @@ public:
 public slots:
     virtual void doWork() Q_DECL_OVERRIDE;
 
+protected:
+    virtual bool doKill() Q_DECL_OVERRIDE;
+
 private:
+    AddJob *m_addJob = Q_NULLPTR;
     QVector<Archive::Entry*> m_entries;
     CompressionOptions m_options;
 };

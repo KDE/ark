@@ -94,7 +94,6 @@ private:
     KConfigGroup m_config;
     QStringList m_supportedMimeTypes;
     PluginManager m_pluginManger;
-    CompressionOptions m_compOptions;
 
 private slots:
     void slotFileNameEdited(const QString &text);

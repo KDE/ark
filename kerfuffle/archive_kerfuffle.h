@@ -76,6 +76,7 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(QMimeType mimeType READ mimeType CONSTANT)
     Q_PROPERTY(bool isEmpty READ isEmpty)
     Q_PROPERTY(bool isReadOnly READ isReadOnly CONSTANT)
+    Q_PROPERTY(bool isSingleFile READ isSingleFile)
     Q_PROPERTY(bool isSingleFolder MEMBER m_isSingleFolder READ isSingleFolder)
     Q_PROPERTY(bool isMultiVolume READ isMultiVolume WRITE setMultiVolume)
     Q_PROPERTY(bool numberOfVolumes READ numberOfVolumes)
@@ -106,6 +107,7 @@ public:
     QMimeType mimeType();
     bool isEmpty() const;
     bool isReadOnly() const;
+    bool isSingleFile() const;
     bool isSingleFolder() const;
     bool isMultiVolume() const;
     void setMultiVolume(bool value);
@@ -119,6 +121,11 @@ public:
     QString subfolderName() const;
     QString multiVolumeName() const;
     ReadOnlyArchiveInterface *interface();
+
+    /**
+     * @return Whether the archive has more than one top-level entry.
+     */
+    bool hasMultipleTopLevelEntries() const;
 
     /**
      * @return Batch extraction job for @p filename to @p destination.
@@ -236,8 +243,6 @@ private:
     qulonglong m_extractedFilesSize;
     ArchiveError m_error;
     EncryptionType m_encryptionType;
-    qulonglong m_numberOfFiles;
-    qulonglong m_numberOfFolders;
     QMimeType m_mimeType;
     QStringList m_compressionMethods;
     QStringList m_encryptionMethods;

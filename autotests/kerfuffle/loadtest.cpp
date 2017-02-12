@@ -50,6 +50,7 @@ void LoadTest::testProperties_data()
     QTest::addColumn<QString>("expectedBaseName");
     QTest::addColumn<bool>("isReadOnly");
     QTest::addColumn<bool>("canFallbackOnReadOnly");
+    QTest::addColumn<bool>("isSingleFile");
     QTest::addColumn<bool>("isSingleFolder");
     QTest::addColumn<bool>("isMultiVolume");
     QTest::addColumn<int>("numberOfVolumes");
@@ -60,81 +61,81 @@ void LoadTest::testProperties_data()
     QTest::newRow("non-existent tar archive")
             << QStringLiteral("/tmp/foo.tar.gz")
             << QStringLiteral("foo")
-            << false << false << true << false << 0 << Archive::Unencrypted
+            << false << false << false << true << false << 0 << Archive::Unencrypted
             << QStringLiteral("foo");
 
     // Test non-archive file
     QTest::newRow("not an archive")
             << QStringLiteral("/tmp/foo.pdf")
             << QString()
-            << false << false << false << false << 0 << Archive::Unencrypted
+            << false << false << false << false << false << 0 << Archive::Unencrypted
             << QString();
 
     // Test dummy source code tarball.
     QTest::newRow("dummy source code tarball")
             << QFINDTESTDATA("data/code-x.y.z.tar.gz")
             << QStringLiteral("code-x.y.z")
-            << false << false << true << false << 0 << Archive::Unencrypted
+            << false << false << false << true << false << 0 << Archive::Unencrypted
             << QStringLiteral("awesome_project");
 
     QTest::newRow("simple compressed tar archive")
             << QFINDTESTDATA("data/simplearchive.tar.gz")
             << QStringLiteral("simplearchive")
-            << false << false << false << false << 0 << Archive::Unencrypted
+            << false << false << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("simplearchive");
 
     QTest::newRow("encrypted zip, single entry")
             << QFINDTESTDATA("data/archivetest_encrypted.zip")
             << QStringLiteral("archivetest_encrypted")
-            << false << true << false << false << 0 << Archive::Encrypted
+            << false << true << true << false << false << 0 << Archive::Encrypted
             << QStringLiteral("archivetest_encrypted");
 
     QTest::newRow("simple zip, one unencrypted entry")
             << QFINDTESTDATA("data/archivetest_unencrypted.zip")
             << QStringLiteral("archivetest_unencrypted")
-            << false << true << false << false << 0 << Archive::Unencrypted
+            << false << true << true << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("archivetest_unencrypted");
 
     QTest::newRow("rpm archive, no single folder")
             << QFINDTESTDATA("data/wget.rpm")
             << QStringLiteral("wget")
-            << true << false << false << false << 0 << Archive::Unencrypted
+            << true << false << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("wget");
 
     QTest::newRow("bzip2-compressed tarball")
             << QFINDTESTDATA("data/simplearchive.tar.bz2")
             << QStringLiteral("simplearchive")
-            << false << false << false << false << 0 << Archive::Unencrypted
+            << false << false << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("simplearchive");
 
     QTest::newRow("xz-compressed tarball")
             << QFINDTESTDATA("data/simplearchive.tar.xz")
             << QStringLiteral("simplearchive")
-            << false << false << false << false << 0 << Archive::Unencrypted
+            << false << false << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("simplearchive");
 
     QTest::newRow("lzma-compressed tarball")
             << QFINDTESTDATA("data/simplearchive.tar.lzma")
             << QStringLiteral("simplearchive")
-            << false << false << false << false << 0 << Archive::Unencrypted
+            << false << false << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("simplearchive");
 
     QTest::newRow("compress (.Z) tarball")
             << QFINDTESTDATA("data/simplearchive.tar.Z")
             << QStringLiteral("simplearchive")
-            << false << false << false << false << 0 << Archive::Unencrypted
+            << false << false << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("simplearchive");
 
     QTest::newRow("lzipped tarball")
             << QFINDTESTDATA("data/simplearchive.tar.lz")
             << QStringLiteral("simplearchive")
-            << false << false << false << false << 0 << Archive::Unencrypted
+            << false << false << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("simplearchive");
 
     QTest::newRow("lzop-compressed tarball")
             << QFINDTESTDATA("data/simplearchive.tar.lzo")
             << QStringLiteral("simplearchive")
-            << false << false << false << false << 0 << Archive::Unencrypted
+            << false << false << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("simplearchive");
 
     // Only run test for lrzipped tar if lrzip executable is found in path.
@@ -142,7 +143,7 @@ void LoadTest::testProperties_data()
         QTest::newRow("lrzipped tarball")
                 << QFINDTESTDATA("data/simplearchive.tar.lrz")
                 << QStringLiteral("simplearchive")
-                << false << false << false << false << 0 << Archive::Unencrypted
+                << false << false << false << false << false << 0 << Archive::Unencrypted
                 << QStringLiteral("simplearchive");
     } else {
         qDebug() << "lrzip executable not found in path. Skipping lrzip test.";
@@ -153,7 +154,7 @@ void LoadTest::testProperties_data()
         QTest::newRow("lz4-compressed tarball")
                 << QFINDTESTDATA("data/simplearchive.tar.lz4")
                 << QStringLiteral("simplearchive")
-                << false << false << false << false << 0 << Archive::Unencrypted
+                << false << false << false << false << false << 0 << Archive::Unencrypted
                 << QStringLiteral("simplearchive");
     } else {
         qDebug() << "lz4 executable not found in path. Skipping lz4 test.";
@@ -162,32 +163,38 @@ void LoadTest::testProperties_data()
     QTest::newRow("xar archive")
             << QFINDTESTDATA("data/simplearchive.xar")
             << QStringLiteral("simplearchive")
-            << true << false << false << false << 0 << Archive::Unencrypted
+            << true << false << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("simplearchive");
 
     QTest::newRow("mimetype child of application/zip")
             << QFINDTESTDATA("data/test.odt")
             << QStringLiteral("test")
-            << false << true << false << false << 0 << Archive::Unencrypted
+            << false << true << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("test");
 
     QTest::newRow("AppImage")
             << QFINDTESTDATA("data/hello-1.0-x86_64.AppImage")
             << QStringLiteral("hello-1.0-x86_64")
-            << true << false << false << false << 0 << Archive::Unencrypted
+            << true << false << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("hello-1.0-x86_64");
 
     QTest::newRow("7z multivolume")
             << QFINDTESTDATA("data/archive-multivolume.7z.001")
             << QStringLiteral("archive-multivolume")
-            << true << false << false << true << 3 << Archive::Unencrypted
+            << true << false << false << false << true << 3 << Archive::Unencrypted
             << QStringLiteral("archive-multivolume");
 
     QTest::newRow("rar multivolume")
             << QFINDTESTDATA("data/archive-multivolume.part1.rar")
             << QStringLiteral("archive-multivolume")
-            << true << false << false << true << 3 << Archive::Unencrypted
+            << true << false << false << false << true << 3 << Archive::Unencrypted
             << QStringLiteral("archive-multivolume");
+
+    QTest::newRow("zip with only an empty folder")
+            << QFINDTESTDATA("data/single-empty-folder.zip")
+            << QStringLiteral("single-empty-folder")
+            << false << true << false << true << false << 0 << Archive::Unencrypted
+            << QStringLiteral("empty");
 }
 
 void LoadTest::testProperties()
@@ -221,8 +228,15 @@ void LoadTest::testProperties()
         QCOMPARE(archive->isReadOnly(), isReadOnly);
     }
 
+    QFETCH(bool, isSingleFile);
+    QCOMPARE(archive->isSingleFile(), isSingleFile);
+
     QFETCH(bool, isSingleFolder);
     QCOMPARE(archive->isSingleFolder(), isSingleFolder);
+
+    if (isSingleFile || isSingleFolder) {
+        QVERIFY(!archive->hasMultipleTopLevelEntries());
+    }
 
     QFETCH(bool, isMultiVolume);
     QCOMPARE(archive->isMultiVolume(), isMultiVolume);

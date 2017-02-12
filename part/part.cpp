@@ -576,7 +576,7 @@ void Part::slotShowComment()
 {
     if (!m_commentBox->isVisible()) {
         m_commentBox->show();
-        m_commentSplitter->setSizes(QList<int>() << m_view->height() * 0.6 << 1);
+        m_commentSplitter->setSizes(QList<int>() << static_cast<int>(m_view->height() * 0.6) << 1);
     }
     m_commentView->setFocus();
 }
@@ -1032,7 +1032,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
         } else {
             KRun::runUrl(QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile),
                          QMimeDatabase().mimeTypeForFile(fullName).name(),
-                         widget());
+                         widget(), false, false);
         }
     } else if (job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
@@ -1368,7 +1368,7 @@ void Part::slotAddFiles()
         m_compressionOptions.setEncryptionMethod(arguments().metaData()[QStringLiteral("encryptionMethod")]);
     }
     if (!m_compressionOptions.isVolumeSizeSet() && arguments().metaData().contains(QStringLiteral("volumeSize"))) {
-        m_compressionOptions.setVolumeSize(arguments().metaData()[QStringLiteral("volumeSize")].toInt());
+        m_compressionOptions.setVolumeSize(arguments().metaData()[QStringLiteral("volumeSize")].toULong());
     }
 
     const auto compressionMethods = m_model->archive()->property("compressionMethods").toStringList();

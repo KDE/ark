@@ -155,7 +155,7 @@ public:
     bool isHeaderEncryptionEnabled() const;
     virtual QString multiVolumeName() const;
     void setMultiVolume(bool value);
-    int numberOfEntries() const;
+    uint numberOfEntries() const;
     QMimeType mimetype() const;
 
     /**
@@ -191,7 +191,7 @@ protected:
     bool isCorrupt() const;
     QString m_comment;
     int m_numberOfVolumes;
-    int m_numberOfEntries;
+    uint m_numberOfEntries;
     KPluginMetaData m_metaData;
 
 private:

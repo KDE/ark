@@ -189,8 +189,9 @@ void BatchExtract::slotResult(KJob *job)
 void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 {
     Q_UNUSED(job)
-    int jobPart = 100 / m_initialJobCount;
-    setPercent(jobPart *(m_initialJobCount - subjobs().size()) + percent / m_initialJobCount);
+    auto jobPart = static_cast<ulong>(100 / m_initialJobCount);
+    auto remainingJobs = static_cast<ulong>(m_initialJobCount - subjobs().size());
+    setPercent(jobPart * remainingJobs + percent / static_cast<ulong>(m_initialJobCount));
 }
 
 void BatchExtract::addInput(const QUrl& url)

@@ -40,7 +40,7 @@ CliProperties::CliProperties(QObject *parent, const KPluginMetaData &metaData, c
 {
 }
 
-QStringList CliProperties::addArgs(const QString &archive, const QStringList &files, const QString &password, bool headerEncryption, int compressionLevel, const QString &compressionMethod, const QString &encryptionMethod, uint volumeSize)
+QStringList CliProperties::addArgs(const QString &archive, const QStringList &files, const QString &password, bool headerEncryption, int compressionLevel, const QString &compressionMethod, const QString &encryptionMethod, ulong volumeSize)
 {
     if (!encryptionMethod.isEmpty()) {
         Q_ASSERT(!password.isEmpty());
@@ -270,7 +270,7 @@ QString CliProperties::substituteEncryptionMethodSwitch(const QString &method) c
     return encMethodSwitch;
 }
 
-QString CliProperties::substituteMultiVolumeSwitch(uint volumeSize) const
+QString CliProperties::substituteMultiVolumeSwitch(ulong volumeSize) const
 {
     // The maximum value we allow in the QDoubleSpinBox is 1000MB. Converted to
     // KB this is 1024000.

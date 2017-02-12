@@ -214,8 +214,8 @@ private:
     QScopedPointer<QTemporaryDir> m_extractTempDir;
     QScopedPointer<QTemporaryFile> m_commentTempFile;
     QVector<Archive::Entry*> m_extractedFiles;
-    uint m_archiveSizeOnDisk = 0;
-    uint m_listedSize = 0;
+    qulonglong m_archiveSizeOnDisk = 0;
+    qulonglong m_listedSize = 0;
 
 protected slots:
     virtual void processFinished(int exitCode, QProcess::ExitStatus exitStatus);

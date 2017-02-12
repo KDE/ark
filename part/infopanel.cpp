@@ -95,6 +95,9 @@ void InfoPanel::setIndex(const QModelIndex& index)
         updateWithDefaults();
     } else {
         const Archive::Entry *entry = m_model->entryForIndex(index);
+        if (!entry) {
+            return;
+        }
 
         QMimeDatabase db;
         QMimeType mimeType;
@@ -106,10 +109,10 @@ void InfoPanel::setIndex(const QModelIndex& index)
 
         iconLabel->setPixmap(getDesktopIconForName(mimeType.iconName()));
         if (entry->isDir()) {
-            int dirs;
-            int files;
-            const int children = m_model->childCount(index, dirs, files);
-            additionalInfo->setText(KIO::itemsSummaryString(children, files, dirs, 0, false));
+            uint dirs;
+            uint files;
+            entry->countChildren(dirs, files);
+            additionalInfo->setText(KIO::itemsSummaryString(dirs + files, files, dirs, 0, false));
         } else if (!entry->property("link").toString().isEmpty()) {
             additionalInfo->setText(i18n("Symbolic Link"));
         } else {
