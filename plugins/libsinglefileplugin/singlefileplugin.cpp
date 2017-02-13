@@ -104,8 +104,10 @@ bool LibSingleFileInterface::list()
 {
     qCDebug(ARK) << "Listing archive contents";
 
-    Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(this);
+    Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry();
+    connect(this, &QObject::destroyed, e, &QObject::deleteLater);
     e->setProperty("fullPath", uncompressedFileName());
+    e->setProperty("compressedSize", QFileInfo(filename()).size());
     emit entry(e);
 
     return true;
