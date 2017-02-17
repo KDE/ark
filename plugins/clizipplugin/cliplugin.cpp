@@ -96,8 +96,8 @@ void CliPlugin::setupCliProperties()
 
     m_cliProps->setProperty("listProgram", QStringLiteral("zipinfo"));
     m_cliProps->setProperty("listSwitch", QStringList{QStringLiteral("-l"),
-                                                  QStringLiteral("-T"),
-                                                  QStringLiteral("-z")});
+                                                      QStringLiteral("-T"),
+                                                      QStringLiteral("-z")});
 
     m_cliProps->setProperty("testProgram", QStringLiteral("unzip"));
     m_cliProps->setProperty("testSwitch", QStringLiteral("-t"));
@@ -106,7 +106,7 @@ void CliPlugin::setupCliProperties()
 
     m_cliProps->setProperty("compressionLevelSwitch", QStringLiteral("-$CompressionLevel"));
     m_cliProps->setProperty("compressionMethodSwitch", QHash<QString,QVariant>{{QStringLiteral("application/zip"), QStringLiteral("-Z$CompressionMethod")},
-                                                                           {QStringLiteral("application/x-java-archive"), QStringLiteral("-Z$CompressionMethod")}});
+                                                                               {QStringLiteral("application/x-java-archive"), QStringLiteral("-Z$CompressionMethod")}});
     m_cliProps->setProperty("multiVolumeSwitch", QStringLiteral("-v$VolumeSizek"));
 
     m_cliProps->setProperty("passwordPromptPatterns", QStringList{QStringLiteral(" password: ")});
@@ -115,13 +115,14 @@ void CliPlugin::setupCliProperties()
     m_cliProps->setProperty("fileExistsPatterns", QStringList{QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $")});
     m_cliProps->setProperty("fileExistsFileName", QStringList{QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $")});
     m_cliProps->setProperty("fileExistsInput", QStringList{QStringLiteral("y"),   //Overwrite
-                                                       QStringLiteral("n"),   //Skip
-                                                       QStringLiteral("A"),   //Overwrite all
-                                                       QStringLiteral("N")}); //Autoskip
+                                                           QStringLiteral("n"),   //Skip
+                                                           QStringLiteral("A"),   //Overwrite all
+                                                           QStringLiteral("N")}); //Autoskip
     m_cliProps->setProperty("extractionFailedPatterns", QStringList{QStringLiteral("unsupported compression method")});
-    m_cliProps->setProperty("corruptArchivePatterns", QStringList{QStringLiteral("End-of-central-directory signature not found")});
+    m_cliProps->setProperty("corruptArchivePatterns", QStringList{QStringLiteral("End-of-central-directory signature not found"),
+                                                                  QStringLiteral("didn't find end-of-central-dir signature at end of central dir")});
     m_cliProps->setProperty("diskFullPatterns", QStringList{QStringLiteral("write error \\(disk full\\?\\)"),
-                                                        QStringLiteral("No space left on device")});
+                                                            QStringLiteral("No space left on device")});
 }
 
 bool CliPlugin::readListLine(const QString &line)
