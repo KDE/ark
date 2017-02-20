@@ -696,7 +696,7 @@ void Part::updateQuickExtractMenu(QAction *extractAction)
     }
 
     while (menu->actions().size() > 3) {
-        menu->removeAction(menu->actions().last());
+        menu->removeAction(menu->actions().constLast());
     }
 
     const KConfigGroup conf(KSharedConfig::openConfig(), "ExtractDialog");
