@@ -468,14 +468,18 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     if (m_showColumns.isEmpty()) {
         QList<int> toInsert;
 
-        auto i = m_propertiesMap.begin();
-        while (i != m_propertiesMap.end()) {
+        const auto size = receivedEntry->property("size").toULongLong();
+        const auto compressedSize = receivedEntry->property("compressedSize").toULongLong();
+        for (auto i = m_propertiesMap.begin(); i != m_propertiesMap.end(); i++) {
+            // Singlefile plugin doesn't report the uncompressed size.
+            if (i.key() == Size && size == 0 && compressedSize > 0) {
+                continue;
+            }
             if (!receivedEntry->property(i.value()).toString().isEmpty()) {
                 if (i.key() != CompressedSize || receivedEntry->compressedSizeIsSet) {
                     toInsert << i.key();
                 }
             }
-            ++i;
         }
         if (behaviour == NotifyViews) {
             beginInsertColumns(QModelIndex(), 0, toInsert.size() - 1);

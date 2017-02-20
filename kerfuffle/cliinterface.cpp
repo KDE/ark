@@ -269,7 +269,7 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
 
     QString programPath = QStandardPaths::findExecutable(programName);
     if (programPath.isEmpty()) {
-        emit error(xi18nc("@info", "Failed to locate program <filename>%2</filename> on disk.", programName));
+        emit error(xi18nc("@info", "Failed to locate program <filename>%1</filename> on disk.", programName));
         emit finished(false);
         return false;
     }

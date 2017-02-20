@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark_part" version="16">
+<kpartgui name="ark_part" version="17" translationDomain="ark">
 <MenuBar>
 	<Menu name="archive">
 		<text>&amp;Archive</text>
