@@ -1032,7 +1032,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
         } else {
             KRun::runUrl(QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile),
                          QMimeDatabase().mimeTypeForFile(fullName).name(),
-                         widget(), false, false);
+                         widget(), KRun::RunFlags());
         }
     } else if (job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
@@ -1262,7 +1262,7 @@ void Part::slotExtractionDone(KJob* job)
             QUrl destinationDirectory = QUrl::fromLocalFile(extractJob->destinationDirectory()).adjusted(QUrl::NormalizePathSegments);
             qCDebug(ARK) << "Shall open URL" << destinationDirectory;
 
-            KRun::runUrl(destinationDirectory, QStringLiteral("inode/directory"), widget());
+            KRun::runUrl(destinationDirectory, QStringLiteral("inode/directory"), widget(), KRun::RunExecutables, QString(), QByteArray());
         }
 
         if (ArkSettings::closeAfterExtraction()) {

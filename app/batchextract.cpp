@@ -170,7 +170,7 @@ void BatchExtract::slotResult(KJob *job)
         if (openDestinationAfterExtraction()) {
             QUrl destination(destinationFolder());
             destination.setPath(QDir::cleanPath(destination.path()));
-            KRun::runUrl(destination, QStringLiteral("inode/directory"), 0);
+            KRun::runUrl(destination, QStringLiteral("inode/directory"), Q_NULLPTR, KRun::RunExecutables, QString(), QByteArray());
         }
 
         qCDebug(ARK) << "Finished, emitting the result";
