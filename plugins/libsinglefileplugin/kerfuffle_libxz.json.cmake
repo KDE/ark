@@ -24,6 +24,7 @@
         "Name": "LZMA plugin", 
         "Name[ca@valencia]": "Connector del LZMA", 
         "Name[ca]": "Connector del LZMA", 
+        "Name[cs]": "Modul pro LZMA", 
         "Name[es]": "Complemento LZMA", 
         "Name[it]": "Estensione LZMA", 
         "Name[nl]": "LZMA-plug-in", 

@@ -3,6 +3,7 @@
         "Description": "Open and extract RAR archives", 
         "Description[ca@valencia]": "Obri i extreu arxius RAR", 
         "Description[ca]": "Obre i extreu arxius RAR", 
+        "Description[cs]": "Otevřít a rozbalit archivy RAR", 
         "Description[es]": "Abrir y extraer archivos RAR", 
         "Description[it]": "Apri ed estrai archivi RAR", 
         "Description[nl]": "Open en pak uit RAR-archieven", 

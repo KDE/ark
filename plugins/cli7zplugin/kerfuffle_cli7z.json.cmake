@@ -24,6 +24,7 @@
         "Name": "P7zip plugin", 
         "Name[ca@valencia]": "Connector del P7zip", 
         "Name[ca]": "Connector del P7zip", 
+        "Name[cs]": "Modul pro p7zip", 
         "Name[es]": "Complemento P7zip", 
         "Name[it]": "Estensione P7zip", 
         "Name[nl]": "P7zip-plug-in", 

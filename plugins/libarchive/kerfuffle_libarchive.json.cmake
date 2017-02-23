@@ -24,6 +24,7 @@
         "Name": "Libarchive plugin", 
         "Name[ca@valencia]": "Connector del Libarchive", 
         "Name[ca]": "Connector del Libarchive", 
+        "Name[cs]": "Modul libarchive", 
         "Name[es]": "Complemento Libarchive", 
         "Name[it]": "Estensione Libarchive", 
         "Name[nl]": "LibArchive-plug-in", 

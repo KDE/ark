@@ -24,6 +24,7 @@
         "Name": "Bzip2 plugin", 
         "Name[ca@valencia]": "Connector del Bzip2", 
         "Name[ca]": "Connector del Bzip2", 
+        "Name[cs]": "Modul pro bzip2", 
         "Name[es]": "Complemento Bzip2", 
         "Name[it]": "Estensione Bzip2", 
         "Name[nl]": "Bzip2-plug-in", 
