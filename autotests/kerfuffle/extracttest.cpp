@@ -25,6 +25,7 @@
  */
 
 #include "archive_kerfuffle.h"
+#include "pluginmanager.h"
 #include "jobs.h"
 #include "testhelper.h"
 
@@ -269,22 +270,25 @@ void ExtractTest::testExtraction_data()
             << optionsPreservePaths
             << 7;
 
-    archivePath = QFINDTESTDATA("data/simplearchive.tar.lzo");
-    QTest::newRow("extract selected entries from a lzop-compressed tarball without path")
-            << archivePath
-            << QVector<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
-                   new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
-               }
-            << optionsNoPaths
-            << 2;
+    // Only run tests if tar.lzo format is available
+    if (PluginManager().supportedMimeTypes().contains(QStringLiteral("application/x-tzo"))) {
+        archivePath = QFINDTESTDATA("data/simplearchive.tar.lzo");
+        QTest::newRow("extract selected entries from a lzop-compressed tarball without path")
+                << archivePath
+                << QVector<Archive::Entry*> {
+                       new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
+                       new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
+                   }
+                << optionsNoPaths
+                << 2;
 
-    archivePath = QFINDTESTDATA("data/simplearchive.tar.lzo");
-    QTest::newRow("extract all entries from a lzop-compressed tarball with path")
-            << archivePath
-            << QVector<Archive::Entry*>()
-            << optionsPreservePaths
-            << 7;
+        archivePath = QFINDTESTDATA("data/simplearchive.tar.lzo");
+        QTest::newRow("extract all entries from a lzop-compressed tarball with path")
+                << archivePath
+                << QVector<Archive::Entry*>()
+                << optionsPreservePaths
+                << 7;
+    }
 
     // Only run test for lrzipped tar if lrzip executable is found in path.
     if (!QStandardPaths::findExecutable(QStringLiteral("lrzip")).isEmpty()) {

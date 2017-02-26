@@ -33,7 +33,10 @@
 #include <KPluginLoader>
 #include <KSharedConfig>
 
+#include <QFileInfo>
 #include <QMimeDatabase>
+#include <QProcess>
+#include <QRegularExpression>
 #include <QSet>
 
 #include <algorithm>
@@ -138,6 +141,11 @@ QStringList PluginManager::supportedMimeTypes(MimeSortingMode mode) const
         supported.remove(QStringLiteral("application/x-lz4-compressed-tar"));
     }
 
+    // Remove entry for lzo-compressed tar if libarchive not linked against lzo and lzop executable not found in path.
+    if (!libarchiveHasLzo() && QStandardPaths::findExecutable(QStringLiteral("lzop")).isEmpty()) {
+        supported.remove(QStringLiteral("application/x-tzo"));
+    }
+
     if (mode == SortByComment) {
         return sortByComment(supported);
     }
@@ -165,6 +173,11 @@ QStringList PluginManager::supportedWriteMimeTypes(MimeSortingMode mode) const
     // Remove entry for lz4-compressed tar if lz4 executable not found in path.
     if (QStandardPaths::findExecutable(QStringLiteral("lz4")).isEmpty()) {
         supported.remove(QStringLiteral("application/x-lz4-compressed-tar"));
+    }
+
+    // Remove entry for lzo-compressed tar if libarchive not linked against lzo and lzop executable not found in path.
+    if (!libarchiveHasLzo() && QStandardPaths::findExecutable(QStringLiteral("lzop")).isEmpty()) {
+        supported.remove(QStringLiteral("application/x-tzo"));
     }
 
     if (mode == SortByComment) {
@@ -240,6 +253,37 @@ QStringList PluginManager::sortByComment(const QSet<QString> &mimeTypes)
     }
 
     return sortedMimeTypes;
+}
+
+bool PluginManager::libarchiveHasLzo()
+{
+    // Step 1: look for the libarchive plugin, which is built against libarchive.
+    const QString pluginPath = []() {
+        foreach (const QString &path, QCoreApplication::libraryPaths()) {
+            const QString pluginPath = QStringLiteral("%1/kerfuffle/kerfuffle_libarchive.so").arg(path);
+            if (QFileInfo::exists(pluginPath)) {
+                return pluginPath;
+            }
+        }
+
+        return QString();
+    }();
+
+    // Step 2: ldd the libarchive plugin to figure out the absolute libarchive path.
+    QProcess ldd;
+    ldd.start(QStringLiteral("ldd"), {pluginPath});
+    ldd.waitForFinished();
+    const QString output = QString::fromUtf8(ldd.readAllStandardOutput());
+    QRegularExpression regex(QStringLiteral("/.*/libarchive.so"));
+    if (!regex.match(output).hasMatch()) {
+        return false;
+    }
+
+    // Step 3: check whether libarchive links against liblzo.
+    const QString libarchivePath = regex.match(output).captured(0);
+    ldd.start(QStringLiteral("ldd"), {libarchivePath});
+    ldd.waitForFinished();
+    return ldd.readAllStandardOutput().contains(QByteArrayLiteral("lzo"));
 }
 
 }
