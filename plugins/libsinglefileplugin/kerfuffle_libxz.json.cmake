@@ -7,6 +7,7 @@
         "Description[de]": "libxz-Modul für Kerfuffle", 
         "Description[es]": "Complemento libxz para Kerfuffle", 
         "Description[et]": "Kerfuffle'i libxz plugin", 
+        "Description[eu]": "Kerfuffle-rentzako libxz plugina", 
         "Description[fi]": "libxz-pakkaustuki", 
         "Description[fr]": "Module externe « libxz » pour Kerfuffle", 
         "Description[gl]": "Complemento de libxz para Kerfuffle", 

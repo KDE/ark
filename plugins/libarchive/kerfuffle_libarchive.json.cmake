@@ -7,6 +7,7 @@
         "Description[de]": "LibArchive-Modul für Kerfuffle", 
         "Description[es]": "Complemento LibArchive para Kerfuffle", 
         "Description[et]": "Kerfuffle'i LibArchive plugin", 
+        "Description[eu]": "Kerfuffle-rentzako LibArchive Plugina", 
         "Description[fi]": "LibArchive-pakkaustuki", 
         "Description[fr]": "Module externe pour Kerfuffle", 
         "Description[gl]": "Complemento de libarchive para Kerfuffle", 

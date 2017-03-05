@@ -11,6 +11,7 @@
         "Name[de]": "Unarchiver-Modul", 
         "Name[es]": "El complemento de Unarchiver", 
         "Name[et]": "Unarchiveri plugin", 
+        "Name[eu]": "Unarchiver plugina", 
         "Name[fi]": "Unarchiver-tuki", 
         "Name[fr]": "Module externe d'extraction d'archive", 
         "Name[gl]": "Complemento de desarquivar", 

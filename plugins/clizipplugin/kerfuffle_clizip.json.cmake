@@ -11,6 +11,7 @@
         "Name[de]": "ZIP-Archiv-Modul", 
         "Name[es]": "Complemento de archivo ZIP", 
         "Name[et]": "ZIP-arhiivi plugin", 
+        "Name[eu]": "ZIP artxiboen plugina", 
         "Name[fi]": "ZIP-pakkaustuki", 
         "Name[fr]": "Module externe d'archive « zip »", 
         "Name[gl]": "Complemento de arquivo ZIP", 

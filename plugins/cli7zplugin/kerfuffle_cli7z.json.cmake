@@ -11,6 +11,7 @@
         "Name[de]": "7zip-Archiv-Modul", 
         "Name[es]": "Complemento de archivo 7zip", 
         "Name[et]": "7zip arhiivi plugin", 
+        "Name[eu]": "7zip artxiboen plugina", 
         "Name[fi]": "7zip-pakkaustuki", 
         "Name[fr]": "Module externe d'archive « 7zip »", 
         "Name[gl]": "Complemento de arquivo de 7zip", 

@@ -11,6 +11,7 @@
         "Name[de]": "RAR-Archiv-Modul", 
         "Name[es]": "Complemento de archivo RAR", 
         "Name[et]": "RAR-arhiivi plugin", 
+        "Name[eu]": "RAR artxiboen plugina", 
         "Name[fi]": "RAR-pakkaustuki", 
         "Name[fr]": "Module externe d'archive « RAR »", 
         "Name[gl]": "Complemento de arquivo RAR", 
