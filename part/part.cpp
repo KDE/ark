@@ -721,7 +721,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
         const QString detectedSubfolder = detectSubfolder();
         qCDebug(ARK) << "Detected subfolder" << detectedSubfolder;
 
-        if (!isSingleFolderArchive()) {
+        if (m_model->archive()->hasMultipleTopLevelEntries()) {
             if (!userDestination.endsWith(QDir::separator())) {
                 userDestination.append(QDir::separator());
             }
