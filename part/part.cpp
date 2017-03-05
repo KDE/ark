@@ -1103,11 +1103,6 @@ void Part::slotError(const QString& errorMessage, const QString& details)
     }
 }
 
-bool Part::isSingleFolderArchive() const
-{
-    return m_model->archive()->isSingleFolder();
-}
-
 QString Part::detectSubfolder() const
 {
     if (!m_model) {
