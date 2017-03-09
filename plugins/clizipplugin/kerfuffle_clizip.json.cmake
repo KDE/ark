@@ -3,6 +3,7 @@
         "Description": "Legacy support for the zip archive format", 
         "Description[ca@valencia]": "Implementació pel format d'arxiu «zip» antic", 
         "Description[ca]": "Implementació pel format d'arxiu «zip» antic", 
+        "Description[cs]": "Historická podpora archivačního formátu zip", 
         "Description[el]": "Κληροδοτούμενη υποστήριξη για την αρχειοθήκη μορφής zip", 
         "Description[es]": "Uso heredado para el formato de archivo comprimido zip", 
         "Description[eu]": "zip artxibo formatuarentzako heredatutako euskarria", 

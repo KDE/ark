@@ -3,6 +3,7 @@
         "Description": "Full support for compressed TAR archives", 
         "Description[ca@valencia]": "Implementació completa dels arxius TAR comprimits", 
         "Description[ca]": "Implementació completa dels arxius TAR comprimits", 
+        "Description[cs]": "Plná podpora komprimovaných archivů TAR", 
         "Description[el]": "Πλήρης υποστήριξη για την αρχειοθήκη μορφής TAR", 
         "Description[es]": "Uso total de los archivos comprimidos TAR", 
         "Description[eu]": "Konprimatutako TAR artxiboentzako euskarri osoa", 

@@ -3,6 +3,7 @@
         "Description": "Full support for the zip and 7z archive formats", 
         "Description[ca@valencia]": "Implementació completa dels formats d'arxiu «zip» i «7z»", 
         "Description[ca]": "Implementació completa dels formats d'arxiu «zip» i «7z»", 
+        "Description[cs]": "Plná podpora archivačních formátů zip a 7z", 
         "Description[el]": "Πλήρης υποστήριξη για την αρχειοθήκη μορφής zip και 7z", 
         "Description[es]": "Uso total de los formatos de archivos comprimidos zip y 7z", 
         "Description[eu]": "zip eta 7z artxibo fitxategientzako euskarri osoa", 

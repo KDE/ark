@@ -3,6 +3,7 @@
         "Description": "Open and extract single files compressed with the gzip algorithm", 
         "Description[ca@valencia]": "Obri i extreu fitxers individuals comprimits amb l'algorisme «gzip»", 
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «gzip»", 
+        "Description[cs]": "Otevřít a rozbalit jednotlivé soubory komprimované algoritmem gzip", 
         "Description[el]": "Άνοιγμα και εξαγωγή απλών αρχείων συμπιεσμένα με τον αλγόριθμο gzip", 
         "Description[es]": "Abrir y extraer archivos individuales comprimidos con el algoritmo gzip", 
         "Description[eu]": "Ireki eta erauzi gzip algoritmoarekin konprimatutako fitxategiak banaka", 
