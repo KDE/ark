@@ -284,6 +284,18 @@ bool CliPlugin::readExtractLine(const QString &line)
     return true;
 }
 
+bool CliPlugin::readDeleteLine(const QString &line)
+{
+    QRegularExpression rx(QStringLiteral("Error: .+ is not supported archive"));
+
+    if (rx.match(line).hasMatch()) {
+        emit error(i18n("Delete operation failed. Try upgrading p7zip or disabling the p7zip plugin in the configuration dialog."));
+        return false;
+    }
+
+    return true;
+}
+
 void CliPlugin::handleMethods(const QStringList &methods)
 {
     foreach (const QString &method, methods) {

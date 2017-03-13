@@ -917,6 +917,10 @@ bool CliInterface::handleLine(const QString& line)
         return readListLine(line);
     }
 
+    if (m_operationMode == Delete) {
+        return readDeleteLine(line);
+    }
+
     if (m_operationMode == Test) {
 
         if (m_cliProps->isPasswordPrompt(line)) {
@@ -933,6 +937,12 @@ bool CliInterface::handleLine(const QString& line)
         }
     }
 
+    return true;
+}
+
+bool CliInterface::readDeleteLine(const QString &line)
+{
+    Q_UNUSED(line);
     return true;
 }
 
