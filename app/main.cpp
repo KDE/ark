@@ -180,7 +180,7 @@ int main(int argc, char **argv)
     aboutData.processCommandLine(&parser);
 
     // This is needed to prevent Dolphin from freezing when opening an archive.
-    KDBusService dbusService(KDBusService::Multiple);
+    KDBusService dbusService(KDBusService::Multiple | KDBusService::NoExitOnFailure);
 
     // Session restoring.
     if (application.isSessionRestored()) {
