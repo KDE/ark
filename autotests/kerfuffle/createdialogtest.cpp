@@ -61,7 +61,6 @@ void CreateDialogTest::testBasicWidgets_data()
     QTest::newRow("tarZ") << QStringLiteral("application/x-tarz");
     QTest::newRow("tarxz") << QStringLiteral("application/x-xz-compressed-tar");
     QTest::newRow("tarlzma") << QStringLiteral("application/x-lzma-compressed-tar");
-    QTest::newRow("tarlzop") << QStringLiteral("application/x-tzo");
     QTest::newRow("tarlzip") << QStringLiteral("application/x-lzip-compressed-tar");
 
     const auto writeMimeTypes = m_pluginManager.supportedWriteMimeTypes();
@@ -88,6 +87,12 @@ void CreateDialogTest::testBasicWidgets_data()
         QTest::newRow("tarlrzip") << QStringLiteral("application/x-lrzip-compressed-tar");
     } else {
         qDebug() << "tar.lrzip format not available in CreateDialog, skipping test.";
+    }
+
+    if (writeMimeTypes.contains(QStringLiteral("application/x-tzo"))) {
+        QTest::newRow("tarlzop") << QStringLiteral("application/x-tzo");
+    } else {
+        qDebug() << "tar.lzo format not available in CreateDialog, skipping test.";
     }
 }
 

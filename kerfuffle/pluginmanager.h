@@ -130,6 +130,11 @@ private:
      */
     static QStringList sortByComment(const QSet<QString> &mimeTypes);
 
+    /**
+     * Workaround for libarchive >= 3.3 not linking against liblzo.
+     */
+    static bool libarchiveHasLzo();
+
     QVector<Plugin*> m_plugins;
     QHash<QString, QVector<Plugin*>> m_preferredPluginsCache;
 };

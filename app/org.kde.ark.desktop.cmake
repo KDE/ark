@@ -167,6 +167,7 @@ Comment[el]=Εργασία με αρχειοθήκες
 Comment[en_GB]=Work with file archives
 Comment[es]=Trabajar con archivos comprimidos
 Comment[et]=Arhiivifailide käitlemine
+Comment[eu]=Fitxategien artxiboekin lan egiteko
 Comment[fi]=Käsittele tiedostoarkistoja
 Comment[fr]=Travailler avec des archives
 Comment[gl]=Traballa con arquivos de ficheiros

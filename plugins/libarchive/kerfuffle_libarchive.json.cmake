@@ -3,7 +3,10 @@
         "Description": "Full support for compressed TAR archives", 
         "Description[ca@valencia]": "Implementació completa dels arxius TAR comprimits", 
         "Description[ca]": "Implementació completa dels arxius TAR comprimits", 
+        "Description[cs]": "Plná podpora komprimovaných archivů TAR", 
+        "Description[el]": "Πλήρης υποστήριξη για την αρχειοθήκη μορφής TAR", 
         "Description[es]": "Uso total de los archivos comprimidos TAR", 
+        "Description[eu]": "Konprimatutako TAR artxiboentzako euskarri osoa", 
         "Description[it]": "Supporto completo per archivi compressi TAR", 
         "Description[nl]": "Volledige ondersteuning voor gecomprimeerde TAR-archieven", 
         "Description[pl]": "Pełna obsługa dla formatów archiwów TAR", 
@@ -17,6 +20,7 @@
         "Description[sv]": "Fullt stöd för komprimerade TAR-arkiv", 
         "Description[uk]": "Повноцінна підтримка стиснених архівів TAR", 
         "Description[x-test]": "xxFull support for compressed TAR archivesxx", 
+        "Description[zh_TW]": "對壓縮過的 TAR 壓縮檔的完整支援", 
         "Id": "kerfuffle_libarchive", 
         "MimeTypes": [
             "@SUPPORTED_READWRITE_MIMETYPES@"
@@ -24,7 +28,10 @@
         "Name": "Libarchive plugin", 
         "Name[ca@valencia]": "Connector del Libarchive", 
         "Name[ca]": "Connector del Libarchive", 
+        "Name[cs]": "Modul libarchive", 
+        "Name[el]": "Πρόσθετο Libarchive", 
         "Name[es]": "Complemento Libarchive", 
+        "Name[eu]": "Libarchive plugina", 
         "Name[it]": "Estensione Libarchive", 
         "Name[nl]": "LibArchive-plug-in", 
         "Name[pl]": "Wtyczka libarchive", 
@@ -38,6 +45,7 @@
         "Name[sv]": "Libarchive-insticksprogram", 
         "Name[uk]": "Додаток libarchive", 
         "Name[x-test]": "xxLibarchive pluginxx", 
+        "Name[zh_TW]": "Libarchive 外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

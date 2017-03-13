@@ -26,6 +26,7 @@
 
 #include "archive_kerfuffle.h"
 #include "jobs.h"
+#include "pluginmanager.h"
 #include "testhelper.h"
 
 #include <QStandardPaths>
@@ -132,11 +133,15 @@ void LoadTest::testProperties_data()
             << false << false << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("simplearchive");
 
-    QTest::newRow("lzop-compressed tarball")
-            << QFINDTESTDATA("data/simplearchive.tar.lzo")
-            << QStringLiteral("simplearchive")
-            << false << false << false << false << false << 0 << Archive::Unencrypted
-            << QStringLiteral("simplearchive");
+    if (PluginManager().supportedMimeTypes().contains(QStringLiteral("application/x-tzo"))) {
+        QTest::newRow("lzop-compressed tarball")
+                << QFINDTESTDATA("data/simplearchive.tar.lzo")
+                << QStringLiteral("simplearchive")
+                << false << false << false << false << false << 0 << Archive::Unencrypted
+                << QStringLiteral("simplearchive");
+    } else {
+        qDebug() << "tar.lzo format not available. Skipping lzo test.";
+    }
 
     // Only run test for lrzipped tar if lrzip executable is found in path.
     if (!QStandardPaths::findExecutable(QStringLiteral("lrzip")).isEmpty()) {

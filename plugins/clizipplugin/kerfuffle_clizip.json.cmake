@@ -3,7 +3,10 @@
         "Description": "Legacy support for the zip archive format", 
         "Description[ca@valencia]": "Implementació pel format d'arxiu «zip» antic", 
         "Description[ca]": "Implementació pel format d'arxiu «zip» antic", 
+        "Description[cs]": "Historická podpora archivačního formátu zip", 
+        "Description[el]": "Κληροδοτούμενη υποστήριξη για την αρχειοθήκη μορφής zip", 
         "Description[es]": "Uso heredado para el formato de archivo comprimido zip", 
+        "Description[eu]": "zip artxibo formatuarentzako heredatutako euskarria", 
         "Description[it]": "Supporto originale per il formato di archivi zip", 
         "Description[nl]": "Verouderde ondersteuning voor het zip-archiefformaat", 
         "Description[pl]": "Obsługa przestarzałego formatu archiwów zip", 
@@ -17,6 +20,7 @@
         "Description[sv]": "Stöd för föråldrat zip-arkivformat", 
         "Description[uk]": "Підтримка архівів у застарілій версії формату zip", 
         "Description[x-test]": "xxLegacy support for the zip archive formatxx", 
+        "Description[zh_TW]": "對 zip 壓縮格式的舊版支援", 
         "Id": "kerfuffle_clizip", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -24,7 +28,10 @@
         "Name": "Info-zip plugin", 
         "Name[ca@valencia]": "Connector de l'Info-zip", 
         "Name[ca]": "Connector de l'Info-zip", 
+        "Name[cs]": "Modul info-zip", 
+        "Name[el]": "Πρόσθετο Info-zip", 
         "Name[es]": "Complemento Info-zip", 
+        "Name[eu]": "Info-zip plugina", 
         "Name[it]": "Estensione Info-zip", 
         "Name[nl]": "Info-zip-plug-in", 
         "Name[pl]": "Wtyczka info-zip", 
@@ -38,6 +45,7 @@
         "Name[sv]": "Info-zip-insticksprogram", 
         "Name[uk]": "Додаток info-zip", 
         "Name[x-test]": "xxInfo-zip pluginxx", 
+        "Name[zh_TW]": "Info-zip 外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

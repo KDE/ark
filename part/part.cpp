@@ -696,7 +696,7 @@ void Part::updateQuickExtractMenu(QAction *extractAction)
     }
 
     while (menu->actions().size() > 3) {
-        menu->removeAction(menu->actions().last());
+        menu->removeAction(menu->actions().constLast());
     }
 
     const KConfigGroup conf(KSharedConfig::openConfig(), "ExtractDialog");
@@ -721,7 +721,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
         const QString detectedSubfolder = detectSubfolder();
         qCDebug(ARK) << "Detected subfolder" << detectedSubfolder;
 
-        if (!isSingleFolderArchive()) {
+        if (m_model->archive()->hasMultipleTopLevelEntries()) {
             if (!userDestination.endsWith(QDir::separator())) {
                 userDestination.append(QDir::separator());
             }
@@ -1032,7 +1032,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
         } else {
             KRun::runUrl(QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile),
                          QMimeDatabase().mimeTypeForFile(fullName).name(),
-                         widget(), false, false);
+                         widget(), KRun::RunFlags());
         }
     } else if (job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
@@ -1103,11 +1103,6 @@ void Part::slotError(const QString& errorMessage, const QString& details)
     }
 }
 
-bool Part::isSingleFolderArchive() const
-{
-    return m_model->archive()->isSingleFolder();
-}
-
 QString Part::detectSubfolder() const
 {
     if (!m_model) {
@@ -1140,7 +1135,7 @@ void Part::slotShowExtractionDialog()
         dialog.data()->setShowSelectedFiles(true);
     }
 
-    dialog.data()->setSingleFolderArchive(isSingleFolderArchive());
+    dialog.data()->setExtractToSubfolder(m_model->archive()->hasMultipleTopLevelEntries());
     dialog.data()->setSubfolder(detectSubfolder());
 
     dialog.data()->setCurrentUrl(QUrl::fromLocalFile(QFileInfo(m_model->archive()->fileName()).absolutePath()));
@@ -1262,7 +1257,7 @@ void Part::slotExtractionDone(KJob* job)
             QUrl destinationDirectory = QUrl::fromLocalFile(extractJob->destinationDirectory()).adjusted(QUrl::NormalizePathSegments);
             qCDebug(ARK) << "Shall open URL" << destinationDirectory;
 
-            KRun::runUrl(destinationDirectory, QStringLiteral("inode/directory"), widget());
+            KRun::runUrl(destinationDirectory, QStringLiteral("inode/directory"), widget(), KRun::RunExecutables, QString(), QByteArray());
         }
 
         if (ArkSettings::closeAfterExtraction()) {

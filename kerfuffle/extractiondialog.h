@@ -46,7 +46,7 @@ public:
     virtual ~ExtractionDialog();
 
     void setShowSelectedFiles(bool);
-    void setSingleFolderArchive(bool);
+    void setExtractToSubfolder(bool);
     void setPreservePaths(bool);
     void batchModeOption();
     void setOpenDestinationFolderAfterExtraction(bool);

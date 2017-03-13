@@ -647,7 +647,7 @@ void AddJob::doWork()
 
     qCDebug(ARK) << "AddJob: going to add" << totalCount << "entries, counted in" << timer.elapsed() << "ms";
 
-    QString desc = i18np("Adding a file", "Adding %1 files", totalCount);
+    const QString desc = i18np("Compressing a file", "Compressing %1 files", totalCount);
     emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
 
     ReadWriteArchiveInterface *m_writeInterface =

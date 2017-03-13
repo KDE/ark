@@ -1,8 +1,8 @@
 project(ark)
 
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
-set(QT_MIN_VERSION 5.5.0)
-set(KF5_MIN_VERSION 5.16.0)
+set(QT_MIN_VERSION 5.6.0)
+set(KF5_MIN_VERSION 5.31.0)
 
 # KDE Application Version, managed by release script
 set (KDE_APPLICATIONS_VERSION_MAJOR "17")

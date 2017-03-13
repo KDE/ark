@@ -3,7 +3,10 @@
         "Description": "Open and extract single files compressed with the lzma algorithm", 
         "Description[ca@valencia]": "Obri i extreu fitxers individuals comprimits amb l'algorisme «lzma»", 
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «lzma»", 
+        "Description[cs]": "Otevřít a rozbalit jednotlivé soubory komprimované algoritmem lzma", 
+        "Description[el]": "Άνοιγμα και εξαγωγή απλών αρχείων συμπιεσμένα με τον αλγόριθμο Izma", 
         "Description[es]": "Abrir y extraer archivos individuales comprimidos con el algoritmo lzma", 
+        "Description[eu]": "Ireki eta erauzi lzma algoritmoarekin konprimatutako fitxategiak banaka", 
         "Description[it]": "Apri ed estrai singoli file compressi con l'algoritmo lzma", 
         "Description[nl]": "Open en pak uit losse bestanden gecomprimeerd met het lzma-algoritme", 
         "Description[pl]": "Otwieraj i wypakowuj pojedyncze pliki spakowane algorytmem lzma", 
@@ -17,6 +20,7 @@
         "Description[sv]": "Öppna och packa upp enstaka filer komprimerade med lzma-algoritmen", 
         "Description[uk]": "Здатен відкривати і видобувати дані із окремих файлів, стиснених за допомогою алгоритму lzma", 
         "Description[x-test]": "xxOpen and extract single files compressed with the lzma algorithmxx", 
+        "Description[zh_TW]": "開啟並解壓縮以 lzma 演算法壓縮的單一檔案", 
         "Id": "kerfuffle_libxz", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -24,7 +28,10 @@
         "Name": "LZMA plugin", 
         "Name[ca@valencia]": "Connector del LZMA", 
         "Name[ca]": "Connector del LZMA", 
+        "Name[cs]": "Modul pro LZMA", 
+        "Name[el]": "Πρόσθετο LZMA", 
         "Name[es]": "Complemento LZMA", 
+        "Name[eu]": "LZMA plugina", 
         "Name[it]": "Estensione LZMA", 
         "Name[nl]": "LZMA-plug-in", 
         "Name[pl]": "Wtyczka LZMA", 
@@ -38,6 +45,7 @@
         "Name[sv]": "LZMA-insticksprogram", 
         "Name[uk]": "Додаток LZMA", 
         "Name[x-test]": "xxLZMA pluginxx", 
+        "Name[zh_TW]": "LZMA 外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

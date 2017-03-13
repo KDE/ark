@@ -3,7 +3,10 @@
         "Description": "Full support for the RAR archive format", 
         "Description[ca@valencia]": "Implementació completa del format d'arxiu RAR", 
         "Description[ca]": "Implementació completa del format d'arxiu RAR", 
+        "Description[cs]": "Plná podpora archivačního formátu RAR", 
+        "Description[el]": "Πλήρης υποστήριξη για την αρχειοθήκη μορφής RAR", 
         "Description[es]": "Uso total del formato de archivo comprimido RAR", 
+        "Description[eu]": "RAR artxibo formatuarentzako euskarri osoa", 
         "Description[it]": "Supporto completo per il formato di archvi RAR", 
         "Description[nl]": "Volledige ondersteuning voor het RAR-archiefformaat", 
         "Description[pl]": "Pełna obsługa dla formatów archiwów RAR", 
@@ -17,6 +20,7 @@
         "Description[sv]": "Fullt stöd för arkivformatet RAR", 
         "Description[uk]": "Повноцінна підтримка архівів у форматі RAR", 
         "Description[x-test]": "xxFull support for the RAR archive formatxx", 
+        "Description[zh_TW]": "對 RAR 壓縮檔格式的完整支援", 
         "Id": "kerfuffle_clirar", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -24,7 +28,10 @@
         "Name": "RAR plugin", 
         "Name[ca@valencia]": "Connector del RAR", 
         "Name[ca]": "Connector del RAR", 
+        "Name[cs]": "Modul pro RAR", 
+        "Name[el]": "Πρόσθετο RAR ", 
         "Name[es]": "Complemento RAR", 
+        "Name[eu]": "RAR plugina", 
         "Name[it]": "Estensione RAR", 
         "Name[nl]": "RAR-plug-in", 
         "Name[pl]": "Wtyczka RAR", 
@@ -38,6 +45,7 @@
         "Name[sv]": "RAR-insticksprogram", 
         "Name[uk]": "Додаток RAR", 
         "Name[x-test]": "xxRAR pluginxx", 
+        "Name[zh_TW]": "RAR 外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

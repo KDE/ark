@@ -3,7 +3,10 @@
         "Description": "Full support for the zip and 7z archive formats", 
         "Description[ca@valencia]": "Implementació completa dels formats d'arxiu «zip» i «7z»", 
         "Description[ca]": "Implementació completa dels formats d'arxiu «zip» i «7z»", 
+        "Description[cs]": "Plná podpora archivačních formátů zip a 7z", 
+        "Description[el]": "Πλήρης υποστήριξη για την αρχειοθήκη μορφής zip και 7z", 
         "Description[es]": "Uso total de los formatos de archivos comprimidos zip y 7z", 
+        "Description[eu]": "zip eta 7z artxibo fitxategientzako euskarri osoa", 
         "Description[it]": "Supporto completo per i formati di archivi zip e 7z", 
         "Description[nl]": "Volledige ondersteuning voor de zip- en 7z-archiefformaten", 
         "Description[pl]": "Pełna obsługa dla formatów archiwów zip oraz 7z", 
@@ -17,6 +20,7 @@
         "Description[sv]": "Fullt stöd för zip- och 7z-arkivformaten", 
         "Description[uk]": "Повноцінна підтримка архівів у форматах zip і 7z", 
         "Description[x-test]": "xxFull support for the zip and 7z archive formatsxx", 
+        "Description[zh_TW]": "對 zip 與 7z 壓縮檔格式的完整支援", 
         "Id": "kerfuffle_cli7z", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -24,7 +28,10 @@
         "Name": "P7zip plugin", 
         "Name[ca@valencia]": "Connector del P7zip", 
         "Name[ca]": "Connector del P7zip", 
+        "Name[cs]": "Modul pro p7zip", 
+        "Name[el]": "Πρόσθετο P7zip", 
         "Name[es]": "Complemento P7zip", 
+        "Name[eu]": "P7zip plugina", 
         "Name[it]": "Estensione P7zip", 
         "Name[nl]": "P7zip-plug-in", 
         "Name[pl]": "Wtyczka p7zip", 
@@ -38,6 +45,7 @@
         "Name[sv]": "P7zip-insticksprogram", 
         "Name[uk]": "Додаток P7zip", 
         "Name[x-test]": "xxP7zip pluginxx", 
+        "Name[zh_TW]": "P7zip 外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

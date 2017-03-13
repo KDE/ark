@@ -175,7 +175,6 @@ private:
     void resetGui();
     void setupView();
     void setupActions();
-    bool isSingleFolderArchive() const;
     QString detectSubfolder() const;
     QVector<Kerfuffle::Archive::Entry*> filesForIndexes(const QModelIndexList& list) const;
     QVector<Kerfuffle::Archive::Entry*> filesAndRootNodesForIndexes(const QModelIndexList& list) const;

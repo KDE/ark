@@ -71,6 +71,16 @@ void BatchExtractTest::testBatchExtraction_data()
             << QFINDTESTDATA("../kerfuffle/data/simplearchive.tar.gz")
             << true
             << 5;
+
+    QTest::newRow("single-file, no autosubfolder")
+            << QFINDTESTDATA("data/test.txt.gz")
+            << false
+            << 1;
+
+    QTest::newRow("single-file, autosubfolder")
+            << QFINDTESTDATA("data/test.txt.gz")
+            << true
+            << 2;
 }
 
 void BatchExtractTest::testBatchExtraction()
