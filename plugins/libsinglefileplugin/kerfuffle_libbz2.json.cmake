@@ -20,6 +20,7 @@
         "Description[sv]": "Öppna och packa upp enstaka filer komprimerade med bzip2-algoritmen", 
         "Description[uk]": "Здатен відкривати і видобувати дані із окремих файлів, стиснених за допомогою алгоритму bzip2", 
         "Description[x-test]": "xxOpen and extract single files compressed with the bzip2 algorithmxx", 
+        "Description[zh_TW]": "開啟並解壓縮以 bzip2 演算法壓縮的單一檔案", 
         "Id": "kerfuffle_libbz2", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -44,6 +45,7 @@
         "Name[sv]": "Bzip2-insticksprogram", 
         "Name[uk]": "Додаток bzip2", 
         "Name[x-test]": "xxBzip2 pluginxx", 
+        "Name[zh_TW]": "Bzip2 外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

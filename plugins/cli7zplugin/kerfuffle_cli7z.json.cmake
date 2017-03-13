@@ -20,6 +20,7 @@
         "Description[sv]": "Fullt stöd för zip- och 7z-arkivformaten", 
         "Description[uk]": "Повноцінна підтримка архівів у форматах zip і 7z", 
         "Description[x-test]": "xxFull support for the zip and 7z archive formatsxx", 
+        "Description[zh_TW]": "對 zip 與 7z 壓縮檔格式的完整支援", 
         "Id": "kerfuffle_cli7z", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -44,6 +45,7 @@
         "Name[sv]": "P7zip-insticksprogram", 
         "Name[uk]": "Додаток P7zip", 
         "Name[x-test]": "xxP7zip pluginxx", 
+        "Name[zh_TW]": "P7zip 外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

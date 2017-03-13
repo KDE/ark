@@ -20,6 +20,7 @@
         "Description[sv]": "Öppna och extrahera RAR-arkiv", 
         "Description[uk]": "Здатен відкривати і видобувати архіви RAR", 
         "Description[x-test]": "xxOpen and extract RAR archivesxx", 
+        "Description[zh_TW]": "開啟並解壓縮 RAR 壓縮檔", 
         "Id": "kerfuffle_cliunarchiver", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"

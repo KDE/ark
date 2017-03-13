@@ -20,6 +20,7 @@
         "Description[sv]": "Fullt stöd för komprimerade TAR-arkiv", 
         "Description[uk]": "Повноцінна підтримка стиснених архівів TAR", 
         "Description[x-test]": "xxFull support for compressed TAR archivesxx", 
+        "Description[zh_TW]": "對壓縮過的 TAR 壓縮檔的完整支援", 
         "Id": "kerfuffle_libarchive", 
         "MimeTypes": [
             "@SUPPORTED_READWRITE_MIMETYPES@"
@@ -44,6 +45,7 @@
         "Name[sv]": "Libarchive-insticksprogram", 
         "Name[uk]": "Додаток libarchive", 
         "Name[x-test]": "xxLibarchive pluginxx", 
+        "Name[zh_TW]": "Libarchive 外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

@@ -20,6 +20,7 @@
         "Description[sv]": "Öppna och packa upp enstaka filer komprimerade med gzip-algoritmen", 
         "Description[uk]": "Здатен відкривати і видобувати дані із окремих файлів, стиснених за допомогою алгоритму gzip", 
         "Description[x-test]": "xxOpen and extract single files compressed with the gzip algorithmxx", 
+        "Description[zh_TW]": "開啟並解壓縮以 gzip 演算法壓縮的單一檔案", 
         "Id": "kerfuffle_libgz", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -44,6 +45,7 @@
         "Name[sv]": "Gzip-insticksprogram", 
         "Name[uk]": "Додаток gzip", 
         "Name[x-test]": "xxGzip pluginxx", 
+        "Name[zh_TW]": "Gzip 外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 

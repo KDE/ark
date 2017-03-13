@@ -20,6 +20,7 @@
         "Description[sv]": "Öppna och packa upp enstaka filer komprimerade med lzma-algoritmen", 
         "Description[uk]": "Здатен відкривати і видобувати дані із окремих файлів, стиснених за допомогою алгоритму lzma", 
         "Description[x-test]": "xxOpen and extract single files compressed with the lzma algorithmxx", 
+        "Description[zh_TW]": "開啟並解壓縮以 lzma 演算法壓縮的單一檔案", 
         "Id": "kerfuffle_libxz", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -44,6 +45,7 @@
         "Name[sv]": "LZMA-insticksprogram", 
         "Name[uk]": "Додаток LZMA", 
         "Name[x-test]": "xxLZMA pluginxx", 
+        "Name[zh_TW]": "LZMA 外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 
