@@ -14,6 +14,7 @@ The following is a list of these optional executables. Some of them are marked a
 * rar: to create and edit rar archives
 * lsar, unar: to open and extract rar archives [RECOMMENDED, free]
 * lrzip: to open and extract lrzip archives
+* lzop: to open and extract tar.lzo archives if libarchive >= 3.3 has been compiled without liblzo2 support.
 
 OPTIONAL BUILD-TIME DEPENDENCIES
 
