@@ -6,6 +6,7 @@
       <comment xml:lang="ca@valencia">Arxiu tar (comprimit amb LZIP)</comment>
       <comment xml:lang="cs">Archiv Tar (komprimovaný lzip)</comment>
       <comment xml:lang="de">Tar-Archiv (lzip-komprimiert)</comment>
+      <comment xml:lang="el">Αρχειοθήκη Tar (lzrip-συμπίεση)</comment>
       <comment xml:lang="en_GB">Tar archive (lzip-compressed)</comment>
       <comment xml:lang="es">Archivo comprimido Tar (comprimido con lzip)</comment>
       <comment xml:lang="et">Tar-arhiiv (lzip-tihendusega)</comment>
@@ -34,6 +35,7 @@
       <comment xml:lang="ca@valencia">Arxiu XAR</comment>
       <comment xml:lang="cs">Archiv XAR</comment>
       <comment xml:lang="de">XAR-Archiv</comment>
+      <comment xml:lang="el">Αρχειοθήκη XAR</comment>
       <comment xml:lang="en_GB">XAR archive</comment>
       <comment xml:lang="es">Archivo comprimido XAR</comment>
       <comment xml:lang="et">XAR-arhiiv</comment>
@@ -66,6 +68,7 @@
       <comment xml:lang="ca@valencia">Arxiu tar (comprimit amb LZ4)</comment>
       <comment xml:lang="cs">Archiv Tar (komprimovaný LZ4)</comment>
       <comment xml:lang="de">Tar-Archiv (LZ4-komprimiert)</comment>
+      <comment xml:lang="el">Αρχειοθήκη Tar (LZ4-συμπίεση)</comment>
       <comment xml:lang="en_GB">Tar archive (LZ4-compressed)</comment>
       <comment xml:lang="es">Archivo comprimido Tar (comprimido con LZ4)</comment>
       <comment xml:lang="et">Tar-arhiiv (LZ4 tihendusega)</comment>
@@ -93,6 +96,7 @@
       <comment xml:lang="ca@valencia">Paquet d'aplicació «AppImage»</comment>
       <comment xml:lang="cs">Balíček aplikací AppImage</comment>
       <comment xml:lang="de">AppImage-Anwendungspaket</comment>
+      <comment xml:lang="el">AppImage δέσμη εφαρμογής</comment>
       <comment xml:lang="en_GB">AppImage application bundle</comment>
       <comment xml:lang="es">Paquete de aplicación AppImage</comment>
       <comment xml:lang="et">AppImage rakendusekimp</comment>
