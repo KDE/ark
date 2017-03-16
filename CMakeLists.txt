@@ -13,7 +13,7 @@ set (KDE_APPLICATIONS_VERSION "${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATI
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/CTestCustom.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake)
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
@@ -67,6 +67,12 @@ set_package_properties(LibArchive PROPERTIES
                        URL "http://www.libarchive.org/"
                        DESCRIPTION "A library for dealing with a wide variety of archive file formats"
                        PURPOSE "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
+
+find_package(LibZip 1.2.0)
+set_package_properties(LibZip PROPERTIES
+                       URL "https://nih.at/libzip/"
+                       DESCRIPTION "A library for handling zip archives"
+                       PURPOSE "Optional for zip archives.")
 
 find_package(SharedMimeInfo QUIET)
 set_package_properties(SharedMimeInfo PROPERTIES

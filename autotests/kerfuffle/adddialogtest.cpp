@@ -119,16 +119,16 @@ void AddDialogTest::testBasicWidgets()
     auto collapsibleCompression = dialog->optionsDialog->findChild<KCollapsibleGroupBox*>(QStringLiteral("collapsibleCompression"));
     QVERIFY(collapsibleCompression);
 
-    if (supportsCompLevel) {
+    const KPluginMetaData metadata = PluginManager().preferredPluginFor(mime)->metaData();
+    const ArchiveFormat archiveFormat = ArchiveFormat::fromMetadata(mime, metadata);
+    QVERIFY(archiveFormat.isValid());
+
+    if (archiveFormat.defaultCompressionLevel() > 0 && supportsCompLevel) {
         // Test that collapsiblegroupbox is enabled for mimetypes that support compression levels.
         QVERIFY(collapsibleCompression->isEnabled());
 
         auto compLevelSlider = dialog->optionsDialog->findChild<QSlider*>(QStringLiteral("compLevelSlider"));
         QVERIFY(compLevelSlider);
-
-        const KPluginMetaData metadata = PluginManager().preferredPluginFor(mime)->metaData();
-        const ArchiveFormat archiveFormat = ArchiveFormat::fromMetadata(mime, metadata);
-        QVERIFY(archiveFormat.isValid());
 
         // Test that min/max of slider are correct.
         QCOMPARE(compLevelSlider->minimum(), archiveFormat.minCompressionLevel());
@@ -147,7 +147,7 @@ void AddDialogTest::testBasicWidgets()
     dialog->optionsDialog->accept();
     dialog->accept();
 
-    if (supportsCompLevel) {
+    if (archiveFormat.defaultCompressionLevel() > 0 && supportsCompLevel) {
         // Test that the value set by slider is exported from AddDialog.
         QCOMPARE(dialog->compressionOptions().compressionLevel(), changeToCompLevel);
     }
@@ -159,7 +159,7 @@ void AddDialogTest::testBasicWidgets()
     dialog = new AddDialog(Q_NULLPTR, QString(), QUrl(), mime, opts);
     dialog->slotOpenOptions();
 
-    if (supportsCompLevel) {
+    if (archiveFormat.defaultCompressionLevel() > 0 && supportsCompLevel) {
 
         auto compLevelSlider = dialog->optionsDialog->findChild<QSlider*>(QStringLiteral("compLevelSlider"));
         QVERIFY(compLevelSlider);
