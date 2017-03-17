@@ -7,7 +7,7 @@
         "Name": "RAR archive plugin", 
         "Name[ca@valencia]": "Connector per arxius RAR", 
         "Name[ca]": "Connector per arxius RAR", 
-        "Name[cs]": "Modul pro archiv RAR", 
+        "Name[cs]": "Modul pro RAR", 
         "Name[de]": "RAR-Archiv-Modul", 
         "Name[es]": "Complemento de archivo RAR", 
         "Name[et]": "RAR-arhiivi plugin", 

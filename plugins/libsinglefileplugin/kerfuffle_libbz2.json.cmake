@@ -3,7 +3,7 @@
         "Description": "libbz2 plugin for Kerfuffle", 
         "Description[ca@valencia]": "Connector del libbz2 pel Kerfuffle", 
         "Description[ca]": "Connector del libbz2 pel Kerfuffle", 
-        "Description[cs]": "modul libbz2 pro Kerfuffle", 
+        "Description[cs]": "Modul libbz2 pro Kerfuffle", 
         "Description[de]": "libgz2-Modul für Kerfuffle", 
         "Description[es]": "Complemento libbz2 para Kerfuffle", 
         "Description[et]": "Kerfuffle'i libbz2 plugin", 

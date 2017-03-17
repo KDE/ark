@@ -3,7 +3,7 @@
         "Description": "libxz plugin for Kerfuffle", 
         "Description[ca@valencia]": "Connector del libxz pel Kerfuffle", 
         "Description[ca]": "Connector del libxz pel Kerfuffle", 
-        "Description[cs]": "modul libxz pro Kerfuffle", 
+        "Description[cs]": "Modul libxz pro Kerfuffle", 
         "Description[de]": "libxz-Modul für Kerfuffle", 
         "Description[es]": "Complemento libxz para Kerfuffle", 
         "Description[et]": "Kerfuffle'i libxz plugin", 

@@ -3,7 +3,7 @@
         "Description": "LibArchive Plugin for Kerfuffle", 
         "Description[ca@valencia]": "Connector del LibArchive pel Kerfuffle", 
         "Description[ca]": "Connector del LibArchive pel Kerfuffle", 
-        "Description[cs]": "LibArchive modul pro Kerfuffle", 
+        "Description[cs]": "Modul LibArchive pro Kerfuffle", 
         "Description[de]": "LibArchive-Modul für Kerfuffle", 
         "Description[es]": "Complemento LibArchive para Kerfuffle", 
         "Description[et]": "Kerfuffle'i LibArchive plugin", 

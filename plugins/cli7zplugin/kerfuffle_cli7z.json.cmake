@@ -7,7 +7,7 @@
         "Name": "7zip archive plugin", 
         "Name[ca@valencia]": "Connector per arxius 7zip", 
         "Name[ca]": "Connector per arxius 7zip", 
-        "Name[cs]": "Modul pro archiv 7zip", 
+        "Name[cs]": "Modul pro 7zip", 
         "Name[de]": "7zip-Archiv-Modul", 
         "Name[es]": "Complemento de archivo 7zip", 
         "Name[et]": "7zip arhiivi plugin", 
