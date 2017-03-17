@@ -18,6 +18,7 @@ The following is a list of these optional executables. Some of them are marked a
 
 OPTIONAL BUILD-TIME DEPENDENCIES
 
+* libzip (>= 1.2.0): for .zip files [RECOMMENDED]
 * zlib: for .gz files
 * bzip2: for .bz2 files
 * liblzma/xz: for .xz files
