@@ -3,7 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008-2009 Harald Hvaal <haraldhv@stud.ntnu.no>
- * Copyright (C) 2015-2016 Ragnar Thomsen <rthomsen6@gmail.com>
+ * Copyright (C) 2015-2017 Ragnar Thomsen <rthomsen6@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -67,7 +67,7 @@ int main(int argc, char **argv)
                          QStringLiteral(ARK_VERSION_STRING),
                          i18n("KDE Archiving tool"),
                          KAboutLicense::GPL,
-                         i18n("(c) 1997-2016, The Ark Developers"),
+                         i18n("(c) 1997-2017, The Ark Developers"),
                          QString(),
                          QStringLiteral("http://utils.kde.org/projects/ark")
     );
@@ -111,6 +111,10 @@ int main(int argc, char **argv)
                         QString(),
                         QStringLiteral("palm9744@kettering.edu"));
 
+    aboutData.addCredit(i18n("Vladyslav Batyrenko"),
+                        i18n("Advanced editing functionalities"),
+                        QString(),
+                        QStringLiteral("http://mvlabat.github.io/ark-gsoc-2016/"));
     aboutData.addCredit(i18n("Bryce Corkins"),
                         i18n("Icons"),
                         QStringLiteral("dbryce@attglobal.net"));
@@ -121,10 +125,6 @@ int main(int argc, char **argv)
                         i18n("bkisofs code"),
                         QString(),
                         QStringLiteral("http://littlesvr.ca/misc/contactandrew.php"));
-    aboutData.addCredit(i18n("Vladyslav Batyrenko"),
-                        i18n("Advanced editing functionalities"),
-                        QString(),
-                        QStringLiteral("http://mvlabat.github.io/ark-gsoc-2016/"));
 
     application.setWindowIcon(QIcon::fromTheme(QStringLiteral("ark")));
 
