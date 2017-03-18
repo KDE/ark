@@ -6,49 +6,31 @@
 #
 #   LibZip_FOUND             - true if libzip was found
 #   LibZip_INCLUDE_DIRS      - include search path
-#   LibZip_INCLUDE_CONF_DIRS - include search path for zipconf.h
 #   LibZip_LIBRARIES         - libraries to link
 #   LibZip_VERSION           - libzip 3-component version number
 
-find_path(LibZip_INCLUDE_DIRS
-  NAMES zip.h
-  PATHS ${GNUDIR}/include
-)
+find_package(PkgConfig)
+pkg_check_modules(PC_LIBZIP QUIET libzip)
+
+set(LibZip_VERSION ${PC_LIBZIP_VERSION})
+
+find_path(LibZip_INCLUDE_DIR zip.h
+  HINTS ${PC_LIBZIP_INCLUDEDIR})
 
 # Contains the version of libzip:
-find_path(LibZip_INCLUDE_CONF_DIRS
-  NAMES zipconf.h
-  PATHS /usr/lib/libzip/include /usr/local/lib/libzip/include
-)
+find_path(LibZip_INCLUDE_CONF_DIR zipconf.h
+  HINTS ${PC_LIBZIP_INCLUDE_DIRS})
 
 find_library(LibZip_LIBRARIES
   NAMES zip libzip
-  PATHS ${GNUDIR}/lib
-)
+  HINTS ${PC_LIBZIP_LIBDIR})
 
-# Extract the version number from the header.
-if(LibZip_INCLUDE_CONF AND EXISTS "${LibZip_INCLUDE_CONF}/zipconf.h")
-  file(STRINGS "${LibZip_INCLUDE_CONF}/zipconf.h" libzip_version_str
-       REGEX "^#[\t ]*define[\t ]+LIBZIP_VERSION_(MAJOR|MINOR|MICRO)[\t ]+[0-9]+$")
-  unset(LIBZIP_VERSION_STRING)
-  foreach(VPART MAJOR MINOR MICRO)
-    foreach(VLINE ${libzip_version_str})
-      if(VLINE MATCHES "^#[\t ]*define[\t ]+LIBZIP_VERSION_${VPART}[\t ]+([0-9]+)$")
-        set(LIBZIP_VERSION_PART "${CMAKE_MATCH_1}")
-        if(LIBZIP_VERSION_STRING)
-          string(APPEND LIBZIP_VERSION_STRING ".${LIBZIP_VERSION_PART}")
-        else()
-          set(LIBZIP_VERSION_STRING "${LIBZIP_VERSION_PART}")
-        endif()
-        unset(LIBZIP_VERSION_PART)
-      endif()
-    endforeach()
-  endforeach()
-endif()
+set(LibZip_INCLUDE_DIRS ${LibZip_INCLUDE_DIR} ${LibZip_INCLUDE_CONF_DIR})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(LibZip
                                   FOUND_VAR LibZip_FOUND
-                                  REQUIRED_VARS LibZip_LIBRARIES LibZip_INCLUDE_DIRS
-                                  VERSION_VAR LIBZIP_VERSION_STRING
-)
+                                  REQUIRED_VARS LibZip_LIBRARIES LibZip_INCLUDE_DIR LibZip_INCLUDE_CONF_DIR
+                                  VERSION_VAR LibZip_VERSION)
+
+mark_as_advanced(LibZip_INCLUDE_DIR LibZip_INCLUDE_CONF_DIR)

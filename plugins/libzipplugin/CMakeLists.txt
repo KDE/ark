@@ -1,4 +1,4 @@
-include_directories(${LibZip_INCLUDE_DIRS} ${LibZip_INCLUDE_CONF_DIRS})
+include_directories(${LibZip_INCLUDE_DIRS})
 
 set(SUPPORTED_LIBZIP_MIMETYPES "application/zip;")
 
