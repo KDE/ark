@@ -546,7 +546,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
 
     // Handle existing destination files.
     QString renamedEntry = entry;
-    while (!m_overwriteAll && QFileInfo(destination).exists()) {
+    while (!m_overwriteAll && QFileInfo::exists(destination)) {
         if (m_skipAll) {
             return true;
         } else {
