@@ -28,7 +28,7 @@ class ArchiveSortFilterModel: public KRecursiveFilterProxyModel
     Q_OBJECT
 
 public:
-    explicit ArchiveSortFilterModel(QObject *parent = 0);
+    explicit ArchiveSortFilterModel(QObject *parent = nullptr);
     ~ArchiveSortFilterModel();
 
     bool lessThan(const QModelIndex &leftIndex, const QModelIndex &rightIndex) const Q_DECL_OVERRIDE;

@@ -38,7 +38,7 @@ class KERFUFFLE_EXPORT GeneralSettingsPage : public SettingsPage, public Ui::Gen
     Q_OBJECT
 
 public:
-    explicit GeneralSettingsPage(QWidget *parent = 0, const QString &name = QString(), const QString &iconName = QString());
+    explicit GeneralSettingsPage(QWidget *parent = nullptr, const QString &name = QString(), const QString &iconName = QString());
 };
 }
 

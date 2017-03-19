@@ -61,7 +61,7 @@ class ArchiveModel: public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    explicit ArchiveModel(const QString &dbusPathName, QObject *parent = 0);
+    explicit ArchiveModel(const QString &dbusPathName, QObject *parent = nullptr);
     ~ArchiveModel();
 
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;

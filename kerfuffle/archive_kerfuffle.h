@@ -222,11 +222,11 @@ private slots:
     void onEncryptionMethodFound(const QString &method);
 
 private:
-    Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = 0);
-    Archive(ArchiveError errorCode, QObject *parent = 0);
+    Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent = nullptr);
+    Archive(ArchiveError errorCode, QObject *parent = nullptr);
 
-    static Archive *create(const QString &fileName, QObject *parent = 0);
-    static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = 0);
+    static Archive *create(const QString &fileName, QObject *parent = nullptr);
+    static Archive *create(const QString &fileName, const QString &fixedMimeType, QObject *parent = nullptr);
 
     /**
      * Create an archive instance from a given @p plugin.

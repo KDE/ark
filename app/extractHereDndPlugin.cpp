@@ -72,7 +72,7 @@ QList<QAction *> ExtractHereDndPlugin::setup(const KFileItemListProperties& popu
     qCDebug(ARK) << "Plugin executed";
 
     QAction *action = new QAction(QIcon::fromTheme(QStringLiteral("archive-extract")),
-                                  extractHereMessage, NULL);
+                                  extractHereMessage, nullptr);
     connect(action, &QAction::triggered, this, &ExtractHereDndPlugin::slotTriggered);
 
     actionList.append(action);

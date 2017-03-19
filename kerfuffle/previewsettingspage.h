@@ -38,7 +38,7 @@ class KERFUFFLE_EXPORT PreviewSettingsPage : public SettingsPage, public Ui::Pre
     Q_OBJECT
 
 public:
-    explicit PreviewSettingsPage(QWidget *parent = 0, const QString &name = QString(), const QString &iconName = QString());
+    explicit PreviewSettingsPage(QWidget *parent = nullptr, const QString &name = QString(), const QString &iconName = QString());
 
 private slots:
     void slotToggled(bool enabled);

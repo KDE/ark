@@ -89,7 +89,7 @@ bool LibzipPlugin::list()
     }
 
     // Fetch archive comment.
-    m_comment = QString::fromUtf8(zip_get_archive_comment(archive, 0, ZIP_FL_ENC_GUESS));
+    m_comment = QString::fromUtf8(zip_get_archive_comment(archive, nullptr, ZIP_FL_ENC_GUESS));
 
     // Get number of archive entries.
     int nofEntries = zip_get_num_entries(archive, 0);

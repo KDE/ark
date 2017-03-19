@@ -146,7 +146,7 @@ bool AddToArchive::doKill()
 void AddToArchive::slotStartJob()
 {
     if (m_entries.isEmpty()) {
-        KMessageBox::error(NULL, i18n("No input files were given."));
+        KMessageBox::error(nullptr, i18n("No input files were given."));
         emitResult();
         return;
     }

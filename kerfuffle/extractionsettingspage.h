@@ -38,7 +38,7 @@ class KERFUFFLE_EXPORT ExtractionSettingsPage : public SettingsPage, public Ui::
     Q_OBJECT
 
 public:
-    explicit ExtractionSettingsPage(QWidget *parent = 0, const QString &name = QString(), const QString &iconName = QString());
+    explicit ExtractionSettingsPage(QWidget *parent = nullptr, const QString &name = QString(), const QString &iconName = QString());
 };
 }
 

@@ -49,7 +49,7 @@ class CreateDialogUI: public QWidget, public Ui::CreateDialog
     Q_OBJECT
 
 public:
-    CreateDialogUI(QWidget *parent = 0)
+    CreateDialogUI(QWidget *parent = nullptr)
             : QWidget(parent) {
         setupUi(this);
     }

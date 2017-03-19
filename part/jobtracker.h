@@ -33,7 +33,7 @@ class JobTrackerWidget: public QFrame, public Ui::JobTrackerWidget
     Q_OBJECT
 
 public:
-    explicit JobTrackerWidget(QWidget *parent = 0);
+    explicit JobTrackerWidget(QWidget *parent = nullptr);
 };
 
 class JobTracker: public KAbstractWidgetJobTracker
@@ -41,7 +41,7 @@ class JobTracker: public KAbstractWidgetJobTracker
     Q_OBJECT
 
 public:
-    explicit JobTracker(QWidget *parent = 0);
+    explicit JobTracker(QWidget *parent = nullptr);
     ~JobTracker();
 
     QWidget *widget(KJob *) Q_DECL_OVERRIDE;

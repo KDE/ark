@@ -56,7 +56,7 @@ public:
     /**
      * Creates a new BatchExtract object.
      */
-    explicit BatchExtract(QObject* parent = 0);
+    explicit BatchExtract(QObject* parent = nullptr);
 
     /**
      * Destroys a BatchExtract object.

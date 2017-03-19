@@ -39,7 +39,7 @@ class KERFUFFLE_EXPORT SettingsPage : public QWidget
     Q_OBJECT
 
 public:
-    explicit SettingsPage(QWidget *parent = 0, const QString &name = QString(), const QString &iconName = QString());
+    explicit SettingsPage(QWidget *parent = nullptr, const QString &name = QString(), const QString &iconName = QString());
 
     QString name() const;
     QString iconName() const;

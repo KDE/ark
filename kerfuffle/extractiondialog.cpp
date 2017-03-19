@@ -49,7 +49,7 @@ class ExtractionDialogUI: public QFrame, public Ui::ExtractionDialog
     Q_OBJECT
 
 public:
-    ExtractionDialogUI(QWidget *parent = 0)
+    ExtractionDialogUI(QWidget *parent = nullptr)
             : QFrame(parent) {
         setupUi(this);
     }
@@ -218,7 +218,7 @@ void ExtractionDialog::setReadyGui()
 ExtractionDialog::~ExtractionDialog()
 {
     delete m_ui;
-    m_ui = 0;
+    m_ui = nullptr;
 }
 
 void ExtractionDialog::setShowSelectedFiles(bool value)

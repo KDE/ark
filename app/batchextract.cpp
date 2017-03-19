@@ -139,7 +139,7 @@ void BatchExtract::slotStartJob()
 void BatchExtract::showFailedFiles()
 {
     if (!m_failedFiles.isEmpty()) {
-        KMessageBox::informationList(0, i18n("The following files could not be extracted:"), m_failedFiles);
+        KMessageBox::informationList(nullptr, i18n("The following files could not be extracted:"), m_failedFiles);
     }
 }
 

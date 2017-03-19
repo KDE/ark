@@ -391,7 +391,7 @@ DeleteJob* Archive::deleteFiles(QVector<Archive::Entry*> &entries)
     qCDebug(ARK) << "Going to delete" << entries.size() << "entries";
 
     if (m_iface->isReadOnly()) {
-        return 0;
+        return nullptr;
     }
     DeleteJob *newJob = new DeleteJob(entries, static_cast<ReadWriteArchiveInterface*>(m_iface));
 

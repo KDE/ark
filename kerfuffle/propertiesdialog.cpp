@@ -46,7 +46,7 @@ class PropertiesDialogUI: public QWidget, public Ui::PropertiesDialog
     Q_OBJECT
 
 public:
-    PropertiesDialogUI(QWidget *parent = 0)
+    PropertiesDialogUI(QWidget *parent = nullptr)
             : QWidget(parent) {
         setupUi(this);
     }

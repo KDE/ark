@@ -49,7 +49,7 @@ class Job::Private : public QThread
     Q_OBJECT
 
 public:
-    Private(Job *job, QObject *parent = 0)
+    Private(Job *job, QObject *parent = nullptr)
         : QThread(parent)
         , q(job)
     {

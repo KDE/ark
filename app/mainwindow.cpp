@@ -74,7 +74,7 @@ MainWindow::~MainWindow()
 
     guiFactory()->removeClient(m_part);
     delete m_part;
-    m_part = 0;
+    m_part = nullptr;
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent * event)
@@ -101,7 +101,7 @@ void MainWindow::dropEvent(QDropEvent * event)
         return;
     }
 
-    if ((event->source() == NULL) &&
+    if ((event->source() == nullptr) &&
         (isValidArchiveDrag(event->mimeData()))) {
         event->acceptProposedAction();
     }
@@ -120,7 +120,7 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
         return;
     }
 
-    if ((event->source() == NULL) &&
+    if ((event->source() == nullptr) &&
         (isValidArchiveDrag(event->mimeData()))) {
         event->acceptProposedAction();
     }
