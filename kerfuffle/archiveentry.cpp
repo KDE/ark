@@ -149,13 +149,13 @@ Archive::Entry *Archive::Entry::find(const QString &name) const
             return entry;
         }
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 Archive::Entry *Archive::Entry::findByPath(const QStringList &pieces, int index) const
 {
     if (index == pieces.count()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     Entry *next = find(pieces.at(index));
@@ -165,7 +165,7 @@ Archive::Entry *Archive::Entry::findByPath(const QStringList &pieces, int index)
     if (next && next->isDir()) {
         return next->findByPath(pieces, index + 1);
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 void Archive::Entry::countChildren(uint &dirs, uint &files) const

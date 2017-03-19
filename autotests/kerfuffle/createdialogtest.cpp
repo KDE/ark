@@ -98,7 +98,7 @@ void CreateDialogTest::testBasicWidgets_data()
 
 void CreateDialogTest::testBasicWidgets()
 {
-    CreateDialog *dialog = new CreateDialog(Q_NULLPTR, QString(), QUrl());
+    CreateDialog *dialog = new CreateDialog(nullptr, QString(), QUrl());
 
     auto fileNameLineEdit = dialog->findChild<QLineEdit*>(QStringLiteral("filenameLineEdit"));
     auto archiveTypeComboBox = dialog->findChild<QComboBox*>(QStringLiteral("mimeComboBox"));
@@ -147,7 +147,7 @@ void CreateDialogTest::testEncryption_data()
 
 void CreateDialogTest::testEncryption()
 {
-    CreateDialog *dialog = new CreateDialog(Q_NULLPTR, QString(), QUrl());
+    CreateDialog *dialog = new CreateDialog(nullptr, QString(), QUrl());
 
     QFETCH(QString, filter);
     QFETCH(bool, isEncryptionAvailable);
@@ -198,7 +198,7 @@ void CreateDialogTest::testHeaderEncryptionTooltip()
         QSKIP("zip format not available in CreateDialog, skipping test.", SkipSingle);
     }
 
-    CreateDialog *dialog = new CreateDialog(Q_NULLPTR, QString(), QUrl());
+    CreateDialog *dialog = new CreateDialog(nullptr, QString(), QUrl());
 
     auto collapsibleEncryption = dialog->findChild<KCollapsibleGroupBox*>(QStringLiteral("collapsibleEncryption"));
     auto encryptHeaderCheckBox = dialog->findChild<QCheckBox*>(QStringLiteral("encryptHeaderCheckBox"));

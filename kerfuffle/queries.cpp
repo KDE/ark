@@ -91,7 +91,7 @@ void OverwriteQuery::execute()
     QUrl destUrl = QUrl::fromLocalFile(QDir::cleanPath(m_data.value(QStringLiteral("filename")).toString()));
 
     QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
-        Q_NULLPTR,
+        nullptr,
         i18nc("@title:window", "File Already Exists"),
         sourceUrl,
         destUrl,
@@ -213,7 +213,7 @@ void LoadCorruptQuery::execute()
     qCDebug(ARK) << "Executing LoadCorrupt prompt";
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
-    setResponse(KMessageBox::warningYesNo(Q_NULLPTR,
+    setResponse(KMessageBox::warningYesNo(nullptr,
                                           xi18nc("@info", "The archive you're trying to open is corrupt.<nl/>"
                                                  "Some files may be missing or damaged."),
                                           i18nc("@title:window", "Corrupt archive"),

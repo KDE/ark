@@ -76,11 +76,11 @@ Job::Job(Archive *archive, ReadOnlyArchiveInterface *interface)
 }
 
 Job::Job(Archive *archive)
-    : Job(archive, Q_NULLPTR)
+    : Job(archive, nullptr)
 {}
 
 Job::Job(ReadOnlyArchiveInterface *interface)
-    : Job(Q_NULLPTR, interface)
+    : Job(nullptr, interface)
 {}
 
 Job::~Job()
@@ -249,11 +249,11 @@ LoadJob::LoadJob(Archive *archive, ReadOnlyArchiveInterface *interface)
 }
 
 LoadJob::LoadJob(Archive *archive)
-    : LoadJob(archive, Q_NULLPTR)
+    : LoadJob(archive, nullptr)
 {}
 
 LoadJob::LoadJob(ReadOnlyArchiveInterface *interface)
-    : LoadJob(Q_NULLPTR, interface)
+    : LoadJob(nullptr, interface)
 {}
 
 void LoadJob::doWork()

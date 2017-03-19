@@ -50,7 +50,7 @@ public:
         SortByComment
     };
 
-    explicit PluginManager(QObject *parent = Q_NULLPTR);
+    explicit PluginManager(QObject *parent = nullptr);
 
     /**
      * @return The list of all installed plugins.

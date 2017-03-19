@@ -41,7 +41,7 @@ class KERFUFFLE_EXPORT PluginSettingsPage : public SettingsPage, public Ui::Plug
     Q_OBJECT
 
 public:
-    explicit PluginSettingsPage(QWidget *parent = Q_NULLPTR, const QString &name = QString(), const QString &iconName = QString());
+    explicit PluginSettingsPage(QWidget *parent = nullptr, const QString &name = QString(), const QString &iconName = QString());
 
 public slots:
     void slotSettingsChanged() Q_DECL_OVERRIDE;

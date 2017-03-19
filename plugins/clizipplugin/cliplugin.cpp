@@ -273,7 +273,7 @@ bool CliPlugin::setMovingAddedFiles()
     if (!QFile::rename(oldPath, newPath)) {
         return false;
     }
-    m_tempAddedFiles << new Archive::Entry(Q_NULLPTR, m_passedDestination->name());
+    m_tempAddedFiles << new Archive::Entry(nullptr, m_passedDestination->name());
 
     // We have to exclude file name from destination path in order to pass it to addFiles method.
     const QString destinationPath = m_passedDestination->fullPath();
@@ -291,7 +291,7 @@ bool CliPlugin::setMovingAddedFiles()
     } else {
         // ...unless the destination path is already a single folder, e.g. "dir/", or a file, e.g. "foo.txt".
         // In this case we're going to add to the root, so we just need to set a null destination.
-        m_passedDestination = Q_NULLPTR;
+        m_passedDestination = nullptr;
     }
 
     return true;

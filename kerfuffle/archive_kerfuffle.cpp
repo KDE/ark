@@ -61,7 +61,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
         return new Archive(NoPlugin, parent);
     }
 
-    Archive *archive = Q_NULLPTR;
+    Archive *archive = nullptr;
     foreach (Plugin *plugin, offers) {
         archive = create(fileName, plugin, parent);
         // Use the first valid plugin, according to the priority sorting.
@@ -88,7 +88,7 @@ Archive *Archive::create(const QString &fileName, Plugin *plugin, QObject *paren
 
     const QVariantList args = {QVariant(QFileInfo(fileName).absoluteFilePath()),
                                QVariant().fromValue(plugin->metaData())};
-    ReadOnlyArchiveInterface *iface = factory->create<ReadOnlyArchiveInterface>(Q_NULLPTR, args);
+    ReadOnlyArchiveInterface *iface = factory->create<ReadOnlyArchiveInterface>(nullptr, args);
     if (!iface) {
         qCWarning(ARK) << "Could not create plugin instance" << plugin->metaData().pluginId();
         return new Archive(FailedPlugin, parent);
@@ -150,7 +150,7 @@ LoadJob *Archive::load(const QString &fileName, Plugin *plugin, QObject *parent)
 
 Archive::Archive(ArchiveError errorCode, QObject *parent)
         : QObject(parent)
-        , m_iface(Q_NULLPTR)
+        , m_iface(nullptr)
         , m_error(errorCode)
 {
     qCDebug(ARK) << "Created archive instance with error";
@@ -242,7 +242,7 @@ QString Archive::comment() const
 CommentJob* Archive::addComment(const QString &comment)
 {
     if (!isValid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     qCDebug(ARK) << "Going to add comment:" << comment;
@@ -254,7 +254,7 @@ CommentJob* Archive::addComment(const QString &comment)
 TestJob* Archive::testArchive()
 {
     if (!isValid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     qCDebug(ARK) << "Going to test archive";
@@ -385,7 +385,7 @@ ArchiveError Archive::error() const
 DeleteJob* Archive::deleteFiles(QVector<Archive::Entry*> &entries)
 {
     if (!isValid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     qCDebug(ARK) << "Going to delete" << entries.size() << "entries";
@@ -401,7 +401,7 @@ DeleteJob* Archive::deleteFiles(QVector<Archive::Entry*> &entries)
 AddJob* Archive::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
 {
     if (!isValid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     CompressionOptions newOptions = options;
@@ -420,7 +420,7 @@ AddJob* Archive::addFiles(const QVector<Archive::Entry*> &files, const Archive::
 MoveJob* Archive::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options)
 {
     if (!isValid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     CompressionOptions newOptions = options;
@@ -438,7 +438,7 @@ MoveJob* Archive::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entr
 CopyJob* Archive::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     if (!isValid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     CompressionOptions newOptions = options;
@@ -456,7 +456,7 @@ CopyJob* Archive::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entr
 ExtractJob* Archive::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options)
 {
     if (!isValid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     ExtractionOptions newOptions = options;
@@ -471,7 +471,7 @@ ExtractJob* Archive::extractFiles(const QVector<Archive::Entry*> &files, const Q
 PreviewJob *Archive::preview(Archive::Entry *entry)
 {
     if (!isValid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     PreviewJob *job = new PreviewJob(entry, (encryptionType() != Unencrypted), m_iface);
@@ -481,7 +481,7 @@ PreviewJob *Archive::preview(Archive::Entry *entry)
 OpenJob *Archive::open(Archive::Entry *entry)
 {
     if (!isValid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     OpenJob *job = new OpenJob(entry, (encryptionType() != Unencrypted), m_iface);
@@ -491,7 +491,7 @@ OpenJob *Archive::open(Archive::Entry *entry)
 OpenWithJob *Archive::openWith(Archive::Entry *entry)
 {
     if (!isValid()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     OpenWithJob *job = new OpenWithJob(entry, (encryptionType() != Unencrypted), m_iface);

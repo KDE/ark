@@ -42,7 +42,7 @@ class KERFUFFLE_EXPORT CompressionOptionsWidget : public QWidget, public Ui::Com
     Q_OBJECT
 
 public:
-    explicit CompressionOptionsWidget(QWidget *parent = Q_NULLPTR,
+    explicit CompressionOptionsWidget(QWidget *parent = nullptr,
                                       const CompressionOptions &opts = {});
     int compressionLevel() const;
     QString compressionMethod() const;

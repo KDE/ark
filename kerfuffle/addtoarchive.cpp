@@ -93,7 +93,7 @@ bool AddToArchive::showAddDialog()
     qCDebug(ARK) << "Opening add dialog";
 
     QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
-        Q_NULLPTR, // parent
+        nullptr, // parent
         i18n("Compress to Archive"), // caption
         QUrl::fromLocalFile(m_firstPath)); // startDir
 
@@ -153,7 +153,7 @@ void AddToArchive::slotStartJob()
 
     if (m_filename.isEmpty()) {
         if (m_autoFilenameSuffix.isEmpty()) {
-            KMessageBox::error(Q_NULLPTR, xi18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
+            KMessageBox::error(nullptr, xi18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
             emitResult();
             return;
         }
@@ -213,7 +213,7 @@ void AddToArchive::slotFinished(KJob *job)
     qCDebug(ARK) << "AddToArchive job finished";
 
     if (job->error() && !job->errorString().isEmpty()) {
-        KMessageBox::error(Q_NULLPTR, job->errorString());
+        KMessageBox::error(nullptr, job->errorString());
     }
 
     emitResult();

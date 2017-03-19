@@ -105,7 +105,7 @@ void ArkViewer::view(const QString& fileName)
         const QList<QUrl> fileUrlList = {QUrl::fromLocalFile(fileName)};
         // The last argument (tempFiles) set to true means that the temporary
         // file will be removed when the viewer application exits.
-        KRun::runService(*viewer, fileUrlList, Q_NULLPTR, true);
+        KRun::runService(*viewer, fileUrlList, nullptr, true);
         return;
     }
 
@@ -122,7 +122,7 @@ void ArkViewer::view(const QString& fileName)
             // File has a defined MIME type, and not the default
             // application/octet-stream.  So it could be viewable as
             // plain text, ask the user.
-            response = KMessageBox::warningContinueCancel(Q_NULLPTR,
+            response = KMessageBox::warningContinueCancel(nullptr,
                 xi18n("The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do you want to try to view it as plain text?", mimeType.name()),
                 i18nc("@title:window", "Cannot Preview File"),
                 KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QStringLiteral("text-plain"))),
@@ -134,7 +134,7 @@ void ArkViewer::view(const QString& fileName)
             // There is still a possibility that it could be viewable as plain
             // text, so ask the user.  Not the same as the message/question
             // above, because the wording and default are different.
-            response = KMessageBox::warningContinueCancel(Q_NULLPTR,
+            response = KMessageBox::warningContinueCancel(nullptr,
                 xi18n("The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do you want to try to view it as plain text?"),
                 i18nc("@title:window", "Cannot Preview File"),
                 KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QStringLiteral("text-plain"))),
@@ -162,7 +162,7 @@ void ArkViewer::view(const QString& fileName)
             return;
         }
         else {
-            KMessageBox::sorry(Q_NULLPTR, i18n("The internal viewer cannot preview this file."));
+            KMessageBox::sorry(nullptr, i18n("The internal viewer cannot preview this file."));
             delete internalViewer;
         }
     }

@@ -214,7 +214,7 @@ QStringList ReadOnlyArchiveInterface::entryPathsFromDestination(QStringList entr
     QStringList paths = QStringList();
     entries.sort();
     QString lastFolder;
-    const QString destinationPath = (destination == Q_NULLPTR) ? QString() : destination->fullPath();
+    const QString destinationPath = (destination == nullptr) ? QString() : destination->fullPath();
 
     QString newPath;
     int nameLength = 0;

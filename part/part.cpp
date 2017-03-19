@@ -90,9 +90,9 @@ static quint32 s_instanceCounter = 1;
 
 Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
         : KParts::ReadWritePart(parent),
-          m_splitter(Q_NULLPTR),
+          m_splitter(nullptr),
           m_busy(false),
-          m_jobTracker(Q_NULLPTR)
+          m_jobTracker(nullptr)
 {
     Q_UNUSED(args)
     KAboutData aboutData(QStringLiteral("ark"),
@@ -500,9 +500,9 @@ void Part::updateActions()
     // Figure out if entry size is larger than preview size limit.
     const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
     const bool limit = ArkSettings::limitPreviewFileSize();
-    bool isPreviewable = (!limit || (limit && entry != Q_NULLPTR && entry->property("size").toLongLong() < maxPreviewSize));
+    bool isPreviewable = (!limit || (limit && entry != nullptr && entry->property("size").toLongLong() < maxPreviewSize));
 
-    const bool isDir = (entry == Q_NULLPTR) ? false : entry->isDir();
+    const bool isDir = (entry == nullptr) ? false : entry->isDir();
     m_previewAction->setEnabled(!isBusy() &&
                                 isPreviewable &&
                                 !isDir &&
@@ -984,7 +984,7 @@ void Part::slotOpenEntry(int mode)
     if (!entry->fullPath().isEmpty()) {
 
         m_openFileMode = static_cast<OpenFileMode>(mode);
-        KJob *job = Q_NULLPTR;
+        KJob *job = nullptr;
 
         if (m_openFileMode == Preview) {
             job = m_model->preview(entry);
@@ -1087,7 +1087,7 @@ void Part::slotWatchedFileModified(const QString& file)
         QStringList list = QStringList() << file;
 
         qCDebug(ARK) << "Updating file" << file << "with path" << relPath;
-        slotAddFiles(list, Q_NULLPTR, relPath);
+        slotAddFiles(list, nullptr, relPath);
     }
     // This is needed because some apps, such as Kate, delete and recreate
     // files when saving.
@@ -1274,7 +1274,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
 
     QStringList withChildPaths;
     foreach (const QString& file, filesToAdd) {
-        m_jobTempEntries.push_back(new Archive::Entry(Q_NULLPTR, file));
+        m_jobTempEntries.push_back(new Archive::Entry(nullptr, file));
         if (QFileInfo(file).isDir()) {
             withChildPaths << file + QLatin1Char('/');
             QDirIterator it(file, QDir::AllEntries | QDir::Readable | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
@@ -1320,7 +1320,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
         globalWorkDir.remove(relPath);
         qCDebug(ARK) << "Adding" << filesToAdd << "to" << relPath;
     } else {
-        qCDebug(ARK) << "Adding " << filesToAdd << ((destination == Q_NULLPTR) ? QString() : QStringLiteral("to ") + destination->fullPath());
+        qCDebug(ARK) << "Adding " << filesToAdd << ((destination == nullptr) ? QString() : QStringLiteral("to ") + destination->fullPath());
     }
 
     // Remove trailing slash (needed when adding dirs).
@@ -1373,13 +1373,13 @@ void Part::slotAddFiles()
     }
 
     QString dialogTitle = i18nc("@title:window", "Add Files");
-    const Archive::Entry *destination = Q_NULLPTR;
+    const Archive::Entry *destination = nullptr;
     if (m_view->selectionModel()->selectedRows().count() == 1) {
         destination = m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()));
         if (destination->isDir()) {
             dialogTitle = i18nc("@title:window", "Add Files to %1", destination->fullPath());;
         } else {
-            destination = Q_NULLPTR;
+            destination = nullptr;
         }
     }
 
@@ -1472,11 +1472,11 @@ void Part::slotPasteFiles()
 {
     m_destination = (m_view->selectionModel()->selectedRows().count() > 0)
                     ? m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()))
-                    : Q_NULLPTR;
-    if (m_destination == Q_NULLPTR) {
-        m_destination = new Archive::Entry(Q_NULLPTR, QString());
+                    : nullptr;
+    if (m_destination == nullptr) {
+        m_destination = new Archive::Entry(nullptr, QString());
     } else {
-        m_destination = new Archive::Entry(Q_NULLPTR, m_destination->fullPath());
+        m_destination = new Archive::Entry(nullptr, m_destination->fullPath());
     }
 
     if (m_model->filesToMove.count() > 0) {

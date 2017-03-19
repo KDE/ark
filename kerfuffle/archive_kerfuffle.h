@@ -133,37 +133,37 @@ public:
      * @param preservePaths Whether the job will preserve paths.
      * @param parent The parent for the archive.
      */
-    static BatchExtractJob *batchExtract(const QString &fileName, const QString &destination, bool autoSubfolder, bool preservePaths, QObject *parent = Q_NULLPTR);
+    static BatchExtractJob *batchExtract(const QString &fileName, const QString &destination, bool autoSubfolder, bool preservePaths, QObject *parent = nullptr);
 
     /**
      * @return Job to create an archive for the given @p entries.
      * @param fileName The name of the new archive.
      * @param mimeType The mimetype of the new archive.
      */
-    static CreateJob* create(const QString &fileName, const QString &mimeType, const QVector<Archive::Entry*> &entries, const CompressionOptions& options, QObject *parent = Q_NULLPTR);
+    static CreateJob* create(const QString &fileName, const QString &mimeType, const QVector<Archive::Entry*> &entries, const CompressionOptions& options, QObject *parent = nullptr);
 
     /**
      * @return An empty archive with name @p fileName, mimetype @p mimeType and @p parent as parent.
      */
-    static Archive *createEmpty(const QString &fileName, const QString &mimeType, QObject *parent = Q_NULLPTR);
+    static Archive *createEmpty(const QString &fileName, const QString &mimeType, QObject *parent = nullptr);
 
     /**
      * @return Job to load the archive @p fileName.
      * @param parent The parent of the archive that will be loaded.
      */
-    static LoadJob* load(const QString &fileName, QObject *parent = Q_NULLPTR);
+    static LoadJob* load(const QString &fileName, QObject *parent = nullptr);
 
     /**
      * @return Job to load the archive @p fileName with mimetype @p mimeType.
      * @param parent The parent of the archive that will be loaded.
      */
-    static LoadJob* load(const QString &fileName, const QString &mimeType, QObject *parent = Q_NULLPTR);
+    static LoadJob* load(const QString &fileName, const QString &mimeType, QObject *parent = nullptr);
 
     /**
      * @return Job to load the archive @p fileName by using @p plugin.
      * @param parent The parent of the archive that will be loaded.
      */
-    static LoadJob* load(const QString &fileName, Plugin *plugin, QObject *parent = Q_NULLPTR);
+    static LoadJob* load(const QString &fileName, Plugin *plugin, QObject *parent = nullptr);
 
     ~Archive();
 
@@ -233,7 +233,7 @@ private:
      * @param fileName The name of the archive.
      * @return A valid archive if the plugin could be loaded, an invalid one otherwise (with the FailedPlugin error set).
      */
-    static Archive *create(const QString &fileName, Plugin *plugin, QObject *parent = Q_NULLPTR);
+    static Archive *create(const QString &fileName, Plugin *plugin, QObject *parent = nullptr);
     ReadOnlyArchiveInterface *m_iface;
     bool m_isReadOnly;
     bool m_isSingleFolder;

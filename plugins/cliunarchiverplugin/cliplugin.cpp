@@ -183,7 +183,7 @@ void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
         readStdout(true);
 
         delete m_process;
-        m_process = Q_NULLPTR;
+        m_process = nullptr;
     }
 
     // #193908 - #222392

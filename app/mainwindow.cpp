@@ -128,7 +128,7 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 
 bool MainWindow::loadPart()
 {
-    KPluginFactory *factory = Q_NULLPTR;
+    KPluginFactory *factory = nullptr;
 
     const auto plugins = KPluginLoader::findPlugins(QString(), [](const KPluginMetaData& metaData) {
         return metaData.pluginId() == QStringLiteral("arkpart") &&
@@ -140,7 +140,7 @@ bool MainWindow::loadPart()
         factory = KPluginLoader(plugins.first().fileName()).factory();
     }
 
-    m_part = factory ? static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this)) : Q_NULLPTR;
+    m_part = factory ? static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this)) : nullptr;
 
     if (!m_part) {
         KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
@@ -171,7 +171,7 @@ void MainWindow::setupActions()
     m_openAction = actionCollection()->addAction(KStandardAction::Open, QStringLiteral("ark_file_open"), this, SLOT(openArchive()));
     actionCollection()->addAction(KStandardAction::Quit, QStringLiteral("ark_quit"), this, SLOT(quit()));
 
-    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(QUrl)), Q_NULLPTR);
+    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(QUrl)), nullptr);
     actionCollection()->addAction(QStringLiteral("ark_file_open_recent"), m_recentFilesAction);
 
     m_recentFilesAction->setToolBarMode(KRecentFilesAction::MenuMode);
@@ -288,7 +288,7 @@ void MainWindow::newArchive()
     Q_UNUSED(iface);
 
     QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
-        Q_NULLPTR, // parent
+        nullptr, // parent
         i18n("Create New Archive"), // caption
         QUrl()); // startDir
 

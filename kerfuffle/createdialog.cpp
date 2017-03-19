@@ -205,7 +205,7 @@ void CreateDialog::accept()
         QDialog::accept();
         break;
     case KNewPasswordWidget::PasswordNotVerified:
-        KMessageBox::error(Q_NULLPTR, i18n("The chosen password does not match the given verification password."));
+        KMessageBox::error(nullptr, i18n("The chosen password does not match the given verification password."));
         break;
     default:
         break;

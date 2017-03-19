@@ -71,7 +71,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
     qCDebug(ARK) << "Writing new entries";
     uint no_entries = 0;
     // Recreate destination directory structure.
-    const QString destinationPath = (destination == Q_NULLPTR)
+    const QString destinationPath = (destination == nullptr)
                                     ? QString()
                                     : destination->fullPath();
 

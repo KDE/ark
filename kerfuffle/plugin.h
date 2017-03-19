@@ -74,7 +74,7 @@ class KERFUFFLE_EXPORT Plugin : public QObject
     Q_PROPERTY(KPluginMetaData metaData READ metaData MEMBER m_metaData CONSTANT)
 
 public:
-    explicit Plugin(QObject *parent = Q_NULLPTR, const KPluginMetaData& metaData = KPluginMetaData());
+    explicit Plugin(QObject *parent = nullptr, const KPluginMetaData& metaData = KPluginMetaData());
 
 
     int priority() const;

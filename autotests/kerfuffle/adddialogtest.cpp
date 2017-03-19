@@ -112,7 +112,7 @@ void AddDialogTest::testBasicWidgets()
     QFETCH(int, initialCompLevel);
     QFETCH(int, changeToCompLevel);
 
-    AddDialog *dialog = new AddDialog(Q_NULLPTR, QString(), QUrl(), mime);
+    AddDialog *dialog = new AddDialog(nullptr, QString(), QUrl(), mime);
 
     dialog->slotOpenOptions();
 
@@ -156,7 +156,7 @@ void AddDialogTest::testBasicWidgets()
     CompressionOptions opts;
     opts.setCompressionLevel(initialCompLevel);
 
-    dialog = new AddDialog(Q_NULLPTR, QString(), QUrl(), mime, opts);
+    dialog = new AddDialog(nullptr, QString(), QUrl(), mime, opts);
     dialog->slotOpenOptions();
 
     if (archiveFormat.defaultCompressionLevel() > 0 && supportsCompLevel) {

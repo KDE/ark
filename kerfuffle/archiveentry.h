@@ -71,7 +71,7 @@ class Archive::Entry : public QObject
 
 public:
 
-    explicit Entry(QObject *parent = Q_NULLPTR, const QString &fullPath = {}, const QString &rootNode = {});
+    explicit Entry(QObject *parent = nullptr, const QString &fullPath = {}, const QString &rootNode = {});
     ~Entry();
 
     void copyMetaData(const Archive::Entry *sourceEntry);

@@ -153,7 +153,7 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
     QVector<Archive::Entry*> filesToPass = QVector<Archive::Entry*>();
     // If destination path is specified, we have recreate its structure inside the temp directory
     // and then place symlinks of targeted files there.
-    const QString destinationPath = (destination == Q_NULLPTR)
+    const QString destinationPath = (destination == nullptr)
                                     ? QString()
                                     : destination->fullPath();
 
@@ -166,11 +166,11 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
         QDir qDir;
         qDir.mkpath(absoluteDestinationPath);
 
-        QObject *preservedParent = Q_NULLPTR;
+        QObject *preservedParent = nullptr;
         foreach (Archive::Entry *file, files) {
             // The entries may have parent. We have to save and apply it to our new entry in order to prevent memory
             // leaks.
-            if (preservedParent == Q_NULLPTR) {
+            if (preservedParent == nullptr) {
                 preservedParent = file->parent();
             }
 
@@ -315,7 +315,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         readStdout(true);
 
         delete m_process;
-        m_process = Q_NULLPTR;
+        m_process = nullptr;
     }
 
     // #193908 - #222392
@@ -365,7 +365,7 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
         readStdout(true);
 
         delete m_process;
-        m_process = Q_NULLPTR;
+        m_process = nullptr;
     }
 
     // Don't emit finished() if the job was killed quietly.
@@ -665,7 +665,7 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
                 lastFolder = QString();
             }
         }
-        Archive::Entry *newEntry = new Archive::Entry(Q_NULLPTR);
+        Archive::Entry *newEntry = new Archive::Entry(nullptr);
         newEntry->copyMetaData(entry);
         newEntry->setFullPath(newPath);
         m_newMovedFiles << newEntry;
@@ -816,7 +816,7 @@ bool CliInterface::setAddedFiles()
         if (!QFile::rename(oldPath, newPath)) {
             return false;
         }
-        m_tempAddedFiles << new Archive::Entry(Q_NULLPTR, file->name());
+        m_tempAddedFiles << new Archive::Entry(nullptr, file->name());
     }
     return true;
 }

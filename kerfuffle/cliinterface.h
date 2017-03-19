@@ -138,20 +138,20 @@ protected:
 
     void cleanUp();
 
-    CliProperties *m_cliProps = Q_NULLPTR;
+    CliProperties *m_cliProps = nullptr;
     QString m_oldWorkingDir;
     QScopedPointer<QTemporaryDir> m_tempWorkingDir;
     QScopedPointer<QTemporaryDir> m_tempAddDir;
     OperationMode m_subOperation = List;
     QVector<Archive::Entry*> m_passedFiles;
     QVector<Archive::Entry*> m_tempAddedFiles;
-    Archive::Entry *m_passedDestination = Q_NULLPTR;
+    Archive::Entry *m_passedDestination = nullptr;
     CompressionOptions m_passedOptions;
 
 #ifdef Q_OS_WIN
-    KProcess *m_process = Q_NULLPTR;
+    KProcess *m_process = nullptr;
 #else
-    KPtyProcess *m_process = Q_NULLPTR;
+    KPtyProcess *m_process = nullptr;
 #endif
 
     bool m_abortingOperation = false;

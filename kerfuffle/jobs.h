@@ -184,7 +184,7 @@ private:
     void setupDestination();
 
     Step m_step = Loading;
-    ExtractJob *m_extractJob = Q_NULLPTR;
+    ExtractJob *m_extractJob = nullptr;
     LoadJob *m_loadJob;
     QString m_destination;
     bool m_autoSubfolder;
@@ -220,7 +220,7 @@ protected:
     virtual bool doKill() Q_DECL_OVERRIDE;
 
 private:
-    AddJob *m_addJob = Q_NULLPTR;
+    AddJob *m_addJob = nullptr;
     QVector<Archive::Entry*> m_entries;
     CompressionOptions m_options;
 };

@@ -156,7 +156,7 @@ void BatchExtract::slotResult(KJob *job)
         removeSubjob(job);
 
         if (job->error() != KJob::KilledJobError) {
-            KMessageBox::error(Q_NULLPTR, job->errorString().isEmpty() ?
+            KMessageBox::error(nullptr, job->errorString().isEmpty() ?
                                      i18n("There was an error during extraction.") : job->errorString());
         }
 
@@ -170,7 +170,7 @@ void BatchExtract::slotResult(KJob *job)
         if (openDestinationAfterExtraction()) {
             QUrl destination(destinationFolder());
             destination.setPath(QDir::cleanPath(destination.path()));
-            KRun::runUrl(destination, QStringLiteral("inode/directory"), Q_NULLPTR, KRun::RunExecutables, QString(), QByteArray());
+            KRun::runUrl(destination, QStringLiteral("inode/directory"), nullptr, KRun::RunExecutables, QString(), QByteArray());
         }
 
         qCDebug(ARK) << "Finished, emitting the result";
@@ -259,7 +259,7 @@ bool BatchExtract::showExtractDialog()
     // Only one archive, we need a LoadJob to get the single-folder and subfolder properties.
     // TODO: find a better way (e.g. let the dialog handle everything), otherwise we list
     // the archive twice (once here and once in the following BatchExtractJob).
-    Kerfuffle::LoadJob *loadJob = Q_NULLPTR;
+    Kerfuffle::LoadJob *loadJob = nullptr;
     if (m_inputs.size() == 1) {
         loadJob = Kerfuffle::Archive::load(m_inputs.at(0).toLocalFile(), this);
         // We need to access the job after result has been emitted, if the user rejects the dialog.

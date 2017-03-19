@@ -265,7 +265,7 @@ bool CliPlugin::readListLine(const QString& line)
             else {
                 delete m_currentArchiveEntry;
             }
-            m_currentArchiveEntry = Q_NULLPTR;
+            m_currentArchiveEntry = nullptr;
         }
     }
 

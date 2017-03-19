@@ -38,7 +38,7 @@
 using namespace Kerfuffle;
 
 // Used to speed up the loading of large archives.
-static Archive::Entry *s_previousMatch = Q_NULLPTR;
+static Archive::Entry *s_previousMatch = nullptr;
 Q_GLOBAL_STATIC(QStringList, s_previousPieces)
 
 ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
@@ -206,8 +206,8 @@ QModelIndex ArchiveModel::index(int row, int column, const QModelIndex &parent) 
 
         Q_ASSERT(parentEntry->isDir());
 
-        const Archive::Entry *item = parentEntry->entries().value(row, Q_NULLPTR);
-        if (item != Q_NULLPTR) {
+        const Archive::Entry *item = parentEntry->entries().value(row, nullptr);
+        if (item != nullptr) {
             return createIndex(row, column, const_cast<Archive::Entry*>(item));
         }
     }
@@ -234,7 +234,7 @@ Archive::Entry *ArchiveModel::entryForIndex(const QModelIndex &index)
         Q_ASSERT(item);
         return item;
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 int ArchiveModel::rowCount(const QModelIndex &parent) const
@@ -311,7 +311,7 @@ bool ArchiveModel::dropMimeData(const QMimeData *data, Qt::DropAction action, in
         paths << url.toLocalFile();
     }
 
-    const Archive::Entry *entry = Q_NULLPTR;
+    const Archive::Entry *entry = nullptr;
     QModelIndex droppedOnto = index(row, column, parent);
     if (droppedOnto.isValid()) {
         entry = entryForIndex(droppedOnto);
@@ -352,7 +352,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehav
 {
     QStringList pieces = entry->fullPath().split(QLatin1Char('/'), QString::SkipEmptyParts);
     if (pieces.isEmpty()) {
-        return Q_NULLPTR;
+        return nullptr;
     }
     pieces.removeLast();
 
@@ -579,8 +579,8 @@ Kerfuffle::Archive* ArchiveModel::archive() const
 
 void ArchiveModel::reset()
 {
-    m_archive.reset(Q_NULLPTR);
-    s_previousMatch = Q_NULLPTR;
+    m_archive.reset(nullptr);
+    s_previousMatch = nullptr;
     s_previousPieces->clear();
     initRootEntry();
 
@@ -651,7 +651,7 @@ OpenWithJob *ArchiveModel::openWith(Archive::Entry *file) const
 AddJob* ArchiveModel::addFiles(QVector<Archive::Entry*> &entries, const Archive::Entry *destination, const CompressionOptions& options)
 {
     if (!m_archive) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     if (!m_archive->isReadOnly()) {
@@ -662,13 +662,13 @@ AddJob* ArchiveModel::addFiles(QVector<Archive::Entry*> &entries, const Archive:
 
         return job;
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 Kerfuffle::MoveJob *ArchiveModel::moveFiles(QVector<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options)
 {
     if (!m_archive) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     if (!m_archive->isReadOnly()) {
@@ -681,12 +681,12 @@ Kerfuffle::MoveJob *ArchiveModel::moveFiles(QVector<Archive::Entry*> &entries, A
 
         return job;
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 Kerfuffle::CopyJob *ArchiveModel::copyFiles(QVector<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions &options)
 {
     if (!m_archive) {
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     if (!m_archive->isReadOnly()) {
@@ -697,7 +697,7 @@ Kerfuffle::CopyJob *ArchiveModel::copyFiles(QVector<Archive::Entry*> &entries, A
 
         return job;
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 DeleteJob* ArchiveModel::deleteFiles(QVector<Archive::Entry*> entries)
@@ -712,7 +712,7 @@ DeleteJob* ArchiveModel::deleteFiles(QVector<Archive::Entry*> entries)
         connect(job, &DeleteJob::userQuery, this, &ArchiveModel::slotUserQuery);
         return job;
     }
-    return Q_NULLPTR;
+    return nullptr;
 }
 
 void ArchiveModel::encryptArchive(const QString &password, bool encryptHeader)
@@ -756,7 +756,7 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
         bool isDir = entry.right(1) == QLatin1String("/");
         const Archive::Entry *archiveEntry = lastDirEntry->find(entry.split(QLatin1Char('/'), QString::SkipEmptyParts).last());
 
-        if (archiveEntry != Q_NULLPTR) {
+        if (archiveEntry != nullptr) {
             if (archiveEntry->isDir() != isDir || !allowMerging) {
                 if (isDir) {
                     skippedDirPath = lastDirEntry->fullPath();

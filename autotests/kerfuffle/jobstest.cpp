@@ -75,7 +75,7 @@ private:
 QTEST_GUILESS_MAIN(JobsTest)
 
 JobsTest::JobsTest()
-    : QObject(Q_NULLPTR)
+    : QObject(nullptr)
     , m_eventLoop(this)
 {
 }
@@ -96,7 +96,7 @@ JSONArchiveInterface *JobsTest::createArchiveInterface(const QString& filePath)
                                                                   QVariant().fromValue(KPluginMetaData())});
     if (!iface->open()) {
         qDebug() << "Could not open" << filePath;
-        return Q_NULLPTR;
+        return nullptr;
     }
 
     return iface;
