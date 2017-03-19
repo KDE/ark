@@ -44,8 +44,8 @@ public:
     explicit PluginSettingsPage(QWidget *parent = nullptr, const QString &name = QString(), const QString &iconName = QString());
 
 public slots:
-    void slotSettingsChanged() Q_DECL_OVERRIDE;
-    void slotDefaultsButtonClicked() Q_DECL_OVERRIDE;
+    void slotSettingsChanged() override;
+    void slotDefaultsButtonClicked() override;
 
 private slots:
     void slotItemChanged(QTreeWidgetItem *item);

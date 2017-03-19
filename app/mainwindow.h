@@ -40,16 +40,16 @@ public:
     ~MainWindow();
     bool loadPart();
 
-    void dragEnterEvent(class QDragEnterEvent * event) Q_DECL_OVERRIDE;
-    void dropEvent(class QDropEvent * event) Q_DECL_OVERRIDE;
-    void dragMoveEvent(class QDragMoveEvent * event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(class QDragEnterEvent * event) override;
+    void dropEvent(class QDropEvent * event) override;
+    void dragMoveEvent(class QDragMoveEvent * event) override;
 
 public slots:
     void openUrl(const QUrl &url);
     void setShowExtractDialog(bool);
 
 protected:
-    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void updateActions();

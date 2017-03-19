@@ -43,7 +43,7 @@ Q_OBJECT
 public:
     CompressFileItemAction(QObject* parent, const QVariantList& args);
 
-    virtual QList<QAction*> actions(const KFileItemListProperties& fileItemInfos, QWidget* parentWidget) Q_DECL_OVERRIDE;
+    virtual QList<QAction*> actions(const KFileItemListProperties& fileItemInfos, QWidget* parentWidget) override;
 
 private:
     QAction *createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, const QString& exec);

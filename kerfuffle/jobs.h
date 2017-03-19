@@ -54,15 +54,15 @@ public:
      * @warning This method should not be called before start().
      */
     Archive *archive() const;
-    QString errorString() const Q_DECL_OVERRIDE;
-    void start() Q_DECL_OVERRIDE;
+    QString errorString() const override;
+    void start() override;
 
 protected:
     Job(Archive *archive, ReadOnlyArchiveInterface *interface);
     Job(Archive *archive);
     Job(ReadOnlyArchiveInterface *interface);
     virtual ~Job();
-    virtual bool doKill() Q_DECL_OVERRIDE;
+    virtual bool doKill() override;
 
     ReadOnlyArchiveInterface *archiveInterface();
     QVector<Archive::Entry*> m_archiveEntries;
@@ -127,10 +127,10 @@ public:
     QString subfolderName() const;
 
 public slots:
-    virtual void doWork() Q_DECL_OVERRIDE;
+    virtual void doWork() override;
 
 protected slots:
-    virtual void onFinished(bool result) Q_DECL_OVERRIDE;
+    virtual void onFinished(bool result) override;
 
 private:
     explicit LoadJob(Archive *archive, ReadOnlyArchiveInterface *interface);
@@ -164,10 +164,10 @@ signals:
     void userQuery(Query *query);
 
 public slots:
-    virtual void doWork() Q_DECL_OVERRIDE;
+    virtual void doWork() override;
 
 protected:
-    virtual bool doKill() Q_DECL_OVERRIDE;
+    virtual bool doKill() override;
 
 private slots:
     void slotLoadingProgress(double progress);
@@ -214,10 +214,10 @@ public:
     void setMultiVolume(bool isMultiVolume);
 
 public slots:
-    virtual void doWork() Q_DECL_OVERRIDE;
+    virtual void doWork() override;
 
 protected:
-    virtual bool doKill() Q_DECL_OVERRIDE;
+    virtual bool doKill() override;
 
 private:
     AddJob *m_addJob = nullptr;
@@ -236,7 +236,7 @@ public:
     ExtractionOptions extractionOptions() const;
 
 public slots:
-    virtual void doWork() Q_DECL_OVERRIDE;
+    virtual void doWork() override;
 
 private:
 
@@ -272,7 +272,7 @@ public:
     QTemporaryDir *tempDir() const;
 
 public slots:
-    virtual void doWork() Q_DECL_OVERRIDE;
+    virtual void doWork() override;
 
 private:
     QString extractionDir() const;
@@ -322,10 +322,10 @@ public:
     AddJob(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
 public slots:
-    virtual void doWork() Q_DECL_OVERRIDE;
+    virtual void doWork() override;
 
 protected slots:
-    virtual void onFinished(bool result) Q_DECL_OVERRIDE;
+    virtual void onFinished(bool result) override;
 
 private:
     QString m_oldWorkingDir;
@@ -346,10 +346,10 @@ public:
     MoveJob(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
 public slots:
-    virtual void doWork() Q_DECL_OVERRIDE;
+    virtual void doWork() override;
 
 protected slots:
-    virtual void onFinished(bool result) Q_DECL_OVERRIDE;
+    virtual void onFinished(bool result) override;
 
 private:
     int m_finishedSignalsCount;
@@ -370,10 +370,10 @@ public:
     CopyJob(const QVector<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
 public slots:
-    virtual void doWork() Q_DECL_OVERRIDE;
+    virtual void doWork() override;
 
 protected slots:
-    virtual void onFinished(bool result) Q_DECL_OVERRIDE;
+    virtual void onFinished(bool result) override;
 
 private:
     int m_finishedSignalsCount;
@@ -390,7 +390,7 @@ public:
     DeleteJob(const QVector<Archive::Entry*> &files, ReadWriteArchiveInterface *interface);
 
 public slots:
-    virtual void doWork() Q_DECL_OVERRIDE;
+    virtual void doWork() override;
 
 private:
     QVector<Archive::Entry*> m_entries;
@@ -404,7 +404,7 @@ public:
     CommentJob(const QString& comment, ReadWriteArchiveInterface *interface);
 
 public slots:
-    virtual void doWork() Q_DECL_OVERRIDE;
+    virtual void doWork() override;
 
 private:
     QString m_comment;
@@ -419,7 +419,7 @@ public:
     bool testSucceeded();
 
 public slots:
-    virtual void doWork() Q_DECL_OVERRIDE;
+    virtual void doWork() override;
 
 private slots:
     virtual void onTestSuccess();

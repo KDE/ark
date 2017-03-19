@@ -40,16 +40,16 @@ public:
     explicit LibzipPlugin(QObject *parent, const QVariantList& args);
     virtual ~LibzipPlugin();
 
-    virtual bool list() Q_DECL_OVERRIDE;
-    virtual bool doKill() Q_DECL_OVERRIDE;
-    virtual bool extractFiles(const QVector<Archive::Entry*> &files, const QString& destinationDirectory, const ExtractionOptions& options) Q_DECL_OVERRIDE;
+    virtual bool list() override;
+    virtual bool doKill() override;
+    virtual bool extractFiles(const QVector<Archive::Entry*> &files, const QString& destinationDirectory, const ExtractionOptions& options) override;
 
-    virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd = 0) Q_DECL_OVERRIDE;
-    virtual bool deleteFiles(const QVector<Archive::Entry*> &files) Q_DECL_OVERRIDE;
-    virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) Q_DECL_OVERRIDE;
-    virtual bool addComment(const QString& comment) Q_DECL_OVERRIDE;
-    virtual bool testArchive() Q_DECL_OVERRIDE;
+    virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd = 0) override;
+    virtual bool deleteFiles(const QVector<Archive::Entry*> &files) override;
+    virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) override;
+    virtual bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) override;
+    virtual bool addComment(const QString& comment) override;
+    virtual bool testArchive() override;
 
 private:
     bool extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths, bool removeRootNode);

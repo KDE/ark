@@ -73,13 +73,13 @@ public:
     Part(QWidget *parentWidget, QObject *parent, const QVariantList &);
     ~Part();
 
-    bool openFile() Q_DECL_OVERRIDE;
-    bool saveFile() Q_DECL_OVERRIDE;
+    bool openFile() override;
+    bool saveFile() override;
 
-    bool isBusy() const Q_DECL_OVERRIDE;
-    KConfigSkeleton *config() const Q_DECL_OVERRIDE;
-    QList<Kerfuffle::SettingsPage*> settingsPages(QWidget *parent) const Q_DECL_OVERRIDE;
-    bool eventFilter(QObject *target, QEvent *event) Q_DECL_OVERRIDE;
+    bool isBusy() const override;
+    KConfigSkeleton *config() const override;
+    QList<Kerfuffle::SettingsPage*> settingsPages(QWidget *parent) const override;
+    bool eventFilter(QObject *target, QEvent *event) override;
 
     /**
      * Validate the localFilePath() associated to this part.
@@ -98,7 +98,7 @@ public slots:
     void extractSelectedFilesTo(const QString& localPath);
 
 protected:
-    void guiActivateEvent(KParts::GUIActivateEvent *event) Q_DECL_OVERRIDE;
+    void guiActivateEvent(KParts::GUIActivateEvent *event) override;
 
 private slots:
     void slotLoadingStarted();

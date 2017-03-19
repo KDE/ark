@@ -34,13 +34,13 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
     virtual ~CliPlugin();
 
-    virtual void resetParsing() Q_DECL_OVERRIDE;
-    virtual QString escapeFileName(const QString &fileName) const Q_DECL_OVERRIDE;
-    virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
-    virtual bool readExtractLine(const QString &line) Q_DECL_OVERRIDE;
+    virtual void resetParsing() override;
+    virtual QString escapeFileName(const QString &fileName) const override;
+    virtual bool readListLine(const QString &line) override;
+    virtual bool readExtractLine(const QString &line) override;
 
-    virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
-    virtual int moveRequiredSignals() const Q_DECL_OVERRIDE;
+    virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) override;
+    virtual int moveRequiredSignals() const override;
 
 private slots:
     void continueMoving(bool result);

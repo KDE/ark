@@ -33,11 +33,11 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
     virtual ~CliPlugin();
 
-    virtual bool list() Q_DECL_OVERRIDE;
-    virtual bool extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) Q_DECL_OVERRIDE;
-    virtual void resetParsing() Q_DECL_OVERRIDE;
-    virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
-    virtual bool readExtractLine(const QString &line) Q_DECL_OVERRIDE;
+    virtual bool list() override;
+    virtual bool extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
+    virtual void resetParsing() override;
+    virtual bool readListLine(const QString &line) override;
+    virtual bool readExtractLine(const QString &line) override;
 
     /**
      * Fill the lsar's json output all in once (useful for unit testing).
@@ -45,14 +45,14 @@ public:
     void setJsonOutput(const QString &jsonOutput);
 
 protected slots:
-    void readStdout(bool handleAll = false) Q_DECL_OVERRIDE;
+    void readStdout(bool handleAll = false) override;
 
 protected:
 
-    bool handleLine(const QString& line) Q_DECL_OVERRIDE;
+    bool handleLine(const QString& line) override;
 
 private slots:
-    void processFinished(int exitCode, QProcess::ExitStatus exitStatus) Q_DECL_OVERRIDE;
+    void processFinished(int exitCode, QProcess::ExitStatus exitStatus) override;
 
 private:
     void setupCliProperties();

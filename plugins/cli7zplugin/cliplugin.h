@@ -35,10 +35,10 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList & args);
     virtual ~CliPlugin();
 
-    virtual void resetParsing() Q_DECL_OVERRIDE;
-    virtual bool readListLine(const QString &line) Q_DECL_OVERRIDE;
-    virtual bool readExtractLine(const QString &line) Q_DECL_OVERRIDE;
-    virtual bool readDeleteLine(const QString &line) Q_DECL_OVERRIDE;
+    virtual void resetParsing() override;
+    virtual bool readListLine(const QString &line) override;
+    virtual bool readExtractLine(const QString &line) override;
+    virtual bool readDeleteLine(const QString &line) override;
 
 private:
     enum ArchiveType {

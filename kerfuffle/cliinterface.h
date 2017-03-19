@@ -57,24 +57,24 @@ public:
     explicit CliInterface(QObject *parent, const QVariantList & args);
     virtual ~CliInterface();
 
-    virtual int copyRequiredSignals() const Q_DECL_OVERRIDE;
+    virtual int copyRequiredSignals() const override;
 
-    virtual bool list() Q_DECL_OVERRIDE;
-    virtual bool extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) Q_DECL_OVERRIDE;
-    virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd = 0) Q_DECL_OVERRIDE;
-    virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
-    virtual bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) Q_DECL_OVERRIDE;
-    virtual bool deleteFiles(const QVector<Archive::Entry*> &files) Q_DECL_OVERRIDE;
-    virtual bool addComment(const QString &comment) Q_DECL_OVERRIDE;
-    virtual bool testArchive() Q_DECL_OVERRIDE;
+    virtual bool list() override;
+    virtual bool extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) override;
+    virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd = 0) override;
+    virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) override;
+    virtual bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) override;
+    virtual bool deleteFiles(const QVector<Archive::Entry*> &files) override;
+    virtual bool addComment(const QString &comment) override;
+    virtual bool testArchive() override;
 
     virtual void resetParsing() = 0;
     virtual bool readListLine(const QString &line) = 0;
     virtual bool readExtractLine(const QString &line) = 0;
     virtual bool readDeleteLine(const QString &line);
-    bool doKill() Q_DECL_OVERRIDE;
-    bool doSuspend() Q_DECL_OVERRIDE;
-    bool doResume() Q_DECL_OVERRIDE;
+    bool doKill() override;
+    bool doSuspend() override;
+    bool doResume() override;
 
     /**
      * Sets if the listing should include empty lines.
@@ -99,7 +99,7 @@ public:
      */
     QStringList extractFilesList(const QVector<Archive::Entry*> &files) const;
 
-    QString multiVolumeName() const Q_DECL_OVERRIDE;
+    QString multiVolumeName() const override;
 
     CliProperties *cliProperties() const;
 

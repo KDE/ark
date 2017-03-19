@@ -49,7 +49,7 @@ signals:
     void defaultsButtonClicked();
 
 protected slots:
-    void updateWidgetsDefault() Q_DECL_OVERRIDE;
+    void updateWidgetsDefault() override;
 
 };
 

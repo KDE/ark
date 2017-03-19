@@ -218,7 +218,7 @@ public:
     explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList &args);
     virtual ~ReadWriteArchiveInterface();
 
-    bool isReadOnly() const Q_DECL_OVERRIDE;
+    bool isReadOnly() const override;
 
     virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd = 0) = 0;
     virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;

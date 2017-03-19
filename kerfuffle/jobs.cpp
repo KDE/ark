@@ -55,7 +55,7 @@ public:
     {
     }
 
-    virtual void run() Q_DECL_OVERRIDE;
+    virtual void run() override;
 
 private:
     Job *q;

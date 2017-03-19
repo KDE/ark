@@ -74,12 +74,12 @@ public:
      */
     void addExtraction(const QUrl& url);
 
-    bool doKill() Q_DECL_OVERRIDE;
+    bool doKill() override;
 
     /**
      * A wrapper that calls slotStartJob() when the event loop has started.
      */
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
 
     /**
      * Whether to automatically create a folder inside the destination
@@ -198,7 +198,7 @@ private slots:
      * successfully, and advances to the next extraction job if
      * there are more.
      */
-    void slotResult(KJob *job) Q_DECL_OVERRIDE;
+    void slotResult(KJob *job) override;
 
     /**
      * Shows a query dialog, which may happen when a file already exists.

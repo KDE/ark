@@ -70,10 +70,10 @@ public slots:
     void setMimeType(const QString & mimeType);
     void setPassword(const QString &password);
     void setHeaderEncryptionEnabled(bool enabled);
-    void start() Q_DECL_OVERRIDE;
+    void start() override;
 
 protected:
-    bool doKill() Q_DECL_OVERRIDE;
+    bool doKill() override;
 
 private slots:
     void slotFinished(KJob*);

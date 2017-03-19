@@ -82,7 +82,7 @@ class KERFUFFLE_EXPORT OverwriteQuery : public Query
 {
 public:
     explicit OverwriteQuery(const QString& filename);
-    void execute() Q_DECL_OVERRIDE;
+    void execute() override;
     bool responseCancelled();
     bool responseOverwriteAll();
     bool responseOverwrite();
@@ -108,7 +108,7 @@ class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
 {
 public:
     explicit PasswordNeededQuery(const QString& archiveFilename, bool incorrectTryAgain = false);
-    void execute() Q_DECL_OVERRIDE;
+    void execute() override;
 
     bool responseCancelled();
     QString password();
@@ -122,7 +122,7 @@ class KERFUFFLE_EXPORT LoadCorruptQuery : public Query
 {
 public:
     explicit LoadCorruptQuery(const QString& archiveFilename);
-    void execute() Q_DECL_OVERRIDE;
+    void execute() override;
 
     bool responseYes();
 };
@@ -131,7 +131,7 @@ class KERFUFFLE_EXPORT ContinueExtractionQuery : public Query
 {
 public:
     explicit ContinueExtractionQuery(const QString& error, const QString& archiveEntry);
-    void execute() Q_DECL_OVERRIDE;
+    void execute() override;
 
     bool responseCancelled();
     bool dontAskAgain();

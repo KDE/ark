@@ -31,7 +31,7 @@ public:
     explicit ArchiveSortFilterModel(QObject *parent = nullptr);
     ~ArchiveSortFilterModel();
 
-    bool lessThan(const QModelIndex &leftIndex, const QModelIndex &rightIndex) const Q_DECL_OVERRIDE;
+    bool lessThan(const QModelIndex &leftIndex, const QModelIndex &rightIndex) const override;
 };
 
 #endif // ARCHIVESORTFILTERMODEL_H
