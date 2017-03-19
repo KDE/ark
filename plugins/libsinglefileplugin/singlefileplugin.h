@@ -34,11 +34,11 @@ class LibSingleFileInterface : public Kerfuffle::ReadOnlyArchiveInterface
 
 public:
     LibSingleFileInterface(QObject *parent, const QVariantList & args);
-    virtual ~LibSingleFileInterface();
+    ~LibSingleFileInterface() override;
 
-    virtual bool list() override;
-    virtual bool testArchive() override;
-    virtual bool extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
+    bool list() override;
+    bool testArchive() override;
+    bool extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
 
 protected:
     const QString uncompressedFileName() const;

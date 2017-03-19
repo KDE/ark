@@ -37,7 +37,7 @@ class ArkViewer : public QDialog, public Ui::ArkViewer
     Q_OBJECT
 
 public:
-    virtual ~ArkViewer();
+    ~ArkViewer() override;
 
     static void view(const QString& fileName);
 

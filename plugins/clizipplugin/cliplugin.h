@@ -32,15 +32,15 @@ class KERFUFFLE_EXPORT CliPlugin : public Kerfuffle::CliInterface
 
 public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
-    virtual ~CliPlugin();
+    ~CliPlugin() override;
 
-    virtual void resetParsing() override;
-    virtual QString escapeFileName(const QString &fileName) const override;
-    virtual bool readListLine(const QString &line) override;
-    virtual bool readExtractLine(const QString &line) override;
+    void resetParsing() override;
+    QString escapeFileName(const QString &fileName) const override;
+    bool readListLine(const QString &line) override;
+    bool readExtractLine(const QString &line) override;
 
-    virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) override;
-    virtual int moveRequiredSignals() const override;
+    bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) override;
+    int moveRequiredSignals() const override;
 
 private slots:
     void continueMoving(bool result);

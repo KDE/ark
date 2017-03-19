@@ -84,7 +84,7 @@ public:
     bool isHeaderEncryptionEnabled() const;
 
 public slots:
-    virtual void accept() override;
+    void accept() override;
 
 private:
     void loadConfiguration();

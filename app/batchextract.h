@@ -61,7 +61,7 @@ public:
     /**
      * Destroys a BatchExtract object.
      */
-    virtual ~BatchExtract();
+    ~BatchExtract() override;
 
     /**
      * Creates a BatchExtractJob for the given @p url and puts it on the queue.

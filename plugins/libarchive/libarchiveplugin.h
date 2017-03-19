@@ -42,19 +42,19 @@ class LibarchivePlugin : public ReadWriteArchiveInterface
 
 public:
     explicit LibarchivePlugin(QObject *parent, const QVariantList &args);
-    virtual ~LibarchivePlugin();
+    ~LibarchivePlugin() override;
 
-    virtual bool list() override;
-    virtual bool doKill() override;
-    virtual bool extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) override;
+    bool list() override;
+    bool doKill() override;
+    bool extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) override;
 
-    virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd = 0) override;
-    virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) override;
-    virtual bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) override;
-    virtual bool deleteFiles(const QVector<Archive::Entry*> &files) override;
-    virtual bool addComment(const QString &comment) override;
-    virtual bool testArchive() override;
-    virtual bool hasBatchExtractionProgress() const override;
+    bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd = 0) override;
+    bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) override;
+    bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) override;
+    bool deleteFiles(const QVector<Archive::Entry*> &files) override;
+    bool addComment(const QString &comment) override;
+    bool testArchive() override;
+    bool hasBatchExtractionProgress() const override;
 
 protected:
     struct ArchiveReadCustomDeleter

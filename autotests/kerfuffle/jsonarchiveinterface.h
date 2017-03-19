@@ -49,18 +49,18 @@ class JSONArchiveInterface : public Kerfuffle::ReadWriteArchiveInterface
 
 public:
     explicit JSONArchiveInterface(QObject *parent, const QVariantList& args);
-    virtual ~JSONArchiveInterface();
+    ~JSONArchiveInterface() override;
 
-    virtual bool list() override;
-    virtual bool open() override;
+    bool list() override;
+    bool open() override;
 
-    virtual bool addFiles(const QVector<Kerfuffle::Archive::Entry*>& files, const Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options, uint numberOfEntriesToAdd = 0) override;
-    virtual bool moveFiles(const QVector<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) override;
-    virtual bool copyFiles(const QVector<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) override;
-    virtual bool extractFiles(const QVector<Kerfuffle::Archive::Entry*>& files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions& options) override;
-    virtual bool deleteFiles(const QVector<Kerfuffle::Archive::Entry*>& files) override;
-    virtual bool addComment(const QString& comment) override;
-    virtual bool testArchive() override;
+    bool addFiles(const QVector<Kerfuffle::Archive::Entry*>& files, const Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options, uint numberOfEntriesToAdd = 0) override;
+    bool moveFiles(const QVector<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) override;
+    bool copyFiles(const QVector<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) override;
+    bool extractFiles(const QVector<Kerfuffle::Archive::Entry*>& files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions& options) override;
+    bool deleteFiles(const QVector<Kerfuffle::Archive::Entry*>& files) override;
+    bool addComment(const QString& comment) override;
+    bool testArchive() override;
 
 private:
     JSONParser::JSONArchive m_archive;

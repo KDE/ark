@@ -47,7 +47,7 @@ class OverwriteDialog : public QDialog
     Q_OBJECT
 public:
     explicit OverwriteDialog(QWidget *parent, const QList<const Kerfuffle::Archive::Entry*> &entries, const QHash<QString, QIcon> &icons, bool error = false);
-    virtual ~OverwriteDialog();
+    ~OverwriteDialog() override;
 
 private:
     QVBoxLayout m_vBoxLayout;

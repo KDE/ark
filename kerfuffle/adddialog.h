@@ -50,7 +50,7 @@ public:
                        const QUrl &startDir,
                        const QMimeType &mimeType,
                        const CompressionOptions &opts = {});
-    virtual ~AddDialog();
+    ~AddDialog() override;
     QStringList selectedFiles() const;
     CompressionOptions compressionOptions() const;
     QDialog *optionsDialog;

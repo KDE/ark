@@ -34,7 +34,7 @@ class KERFUFFLE_EXPORT LibGzipInterface : public LibSingleFileInterface
 
 public:
     LibGzipInterface(QObject *parent, const QVariantList & args);
-    virtual ~LibGzipInterface();
+    ~LibGzipInterface() override;
 };
 
 #endif // GZPLUGIN_H

@@ -33,10 +33,10 @@ class ArchiveView : public QTreeView
 
 public:
     explicit ArchiveView(QWidget *parent = nullptr);
-    virtual void dragEnterEvent(class QDragEnterEvent * event) override;
-    virtual void dropEvent(class QDropEvent * event) override;
-    virtual void dragMoveEvent(class QDragMoveEvent * event) override;
-    virtual void startDrag(Qt::DropActions supportedActions) override;
+    void dragEnterEvent(class QDragEnterEvent * event) override;
+    void dropEvent(class QDropEvent * event) override;
+    void dragMoveEvent(class QDragMoveEvent * event) override;
+    void startDrag(Qt::DropActions supportedActions) override;
 
     /**
      * Expand the first level in the view if there is only one root folder.
@@ -52,9 +52,9 @@ public:
     void openEntryEditor(const QModelIndex &index);
 
 protected:
-    virtual bool eventFilter(QObject *object, QEvent *event) override;
-    virtual void mouseReleaseEvent(QMouseEvent *event) override;
-    virtual void keyPressEvent(QKeyEvent *event) override;
+    bool eventFilter(QObject *object, QEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 signals:
     void entryChanged(const QString &name);

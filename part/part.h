@@ -71,7 +71,7 @@ public:
     };
 
     Part(QWidget *parentWidget, QObject *parent, const QVariantList &);
-    ~Part();
+    ~Part() override;
 
     bool openFile() override;
     bool saveFile() override;

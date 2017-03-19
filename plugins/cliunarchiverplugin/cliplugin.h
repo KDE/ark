@@ -31,13 +31,13 @@ class CliPlugin : public Kerfuffle::CliInterface
 
 public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
-    virtual ~CliPlugin();
+    ~CliPlugin() override;
 
-    virtual bool list() override;
-    virtual bool extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
-    virtual void resetParsing() override;
-    virtual bool readListLine(const QString &line) override;
-    virtual bool readExtractLine(const QString &line) override;
+    bool list() override;
+    bool extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
+    void resetParsing() override;
+    bool readListLine(const QString &line) override;
+    bool readExtractLine(const QString &line) override;
 
     /**
      * Fill the lsar's json output all in once (useful for unit testing).

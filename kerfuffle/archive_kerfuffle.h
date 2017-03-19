@@ -165,7 +165,7 @@ public:
      */
     static LoadJob* load(const QString &fileName, Plugin *plugin, QObject *parent = nullptr);
 
-    ~Archive();
+    ~Archive() override;
 
     ArchiveError error() const;
     bool isValid() const;

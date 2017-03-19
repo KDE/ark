@@ -32,7 +32,7 @@ class InfoPanel: public QFrame, Ui::InformationPanel
     Q_OBJECT
 public:
     explicit InfoPanel(ArchiveModel *model, QWidget *parent = nullptr);
-    virtual ~InfoPanel();
+    ~InfoPanel() override;
 
     void setIndex(const QModelIndex &);
     void setIndexes(const QModelIndexList &list);

@@ -34,7 +34,7 @@ class KERFUFFLE_EXPORT LibXzInterface : public LibSingleFileInterface
 
 public:
     LibXzInterface(QObject *parent, const QVariantList & args);
-    virtual ~LibXzInterface();
+    ~LibXzInterface() override;
 };
 
 #endif // XZPLUGIN_H

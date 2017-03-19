@@ -34,7 +34,7 @@ class KERFUFFLE_EXPORT LibBzip2Interface : public LibSingleFileInterface
 
 public:
     LibBzip2Interface(QObject *parent, const QVariantList & args);
-    virtual ~LibBzip2Interface();
+    ~LibBzip2Interface() override;
 };
 
 #endif // BZ2PLUGIN_H

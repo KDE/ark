@@ -42,7 +42,7 @@ class ReadWriteLibarchivePlugin : public LibarchivePlugin
 
 public:
     explicit ReadWriteLibarchivePlugin(QObject *parent, const QVariantList &args);
-    ~ReadWriteLibarchivePlugin();
+    ~ReadWriteLibarchivePlugin() override;
 
     bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd = 0) override;
     bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) override;

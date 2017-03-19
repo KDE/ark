@@ -42,7 +42,7 @@ class JobTracker: public KAbstractWidgetJobTracker
 
 public:
     explicit JobTracker(QWidget *parent = nullptr);
-    ~JobTracker();
+    ~JobTracker() override;
 
     QWidget *widget(KJob *) override;
 

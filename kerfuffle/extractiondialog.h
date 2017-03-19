@@ -43,7 +43,7 @@ class KERFUFFLE_EXPORT ExtractionDialog : public QDialog
     Q_OBJECT
 public:
     explicit ExtractionDialog(QWidget *parent = nullptr);
-    virtual ~ExtractionDialog();
+    ~ExtractionDialog() override;
 
     void setShowSelectedFiles(bool);
     void setExtractToSubfolder(bool);

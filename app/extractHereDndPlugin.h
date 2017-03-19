@@ -36,7 +36,7 @@ private slots:
 public:
     ExtractHereDndPlugin(QObject* parent, const QVariantList&);
 
-    virtual QList<QAction *> setup(const KFileItemListProperties& popupMenuInfo,
+    QList<QAction *> setup(const KFileItemListProperties& popupMenuInfo,
                                    const QUrl& destination) override;
 
 private:

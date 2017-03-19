@@ -47,7 +47,7 @@ class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
     Q_OBJECT
 public:
     explicit ReadOnlyArchiveInterface(QObject *parent, const QVariantList &args);
-    virtual ~ReadOnlyArchiveInterface();
+    ~ReadOnlyArchiveInterface() override;
 
     /**
      * Returns the filename of the archive currently being handled.
@@ -216,7 +216,7 @@ public:
     };
 
     explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList &args);
-    virtual ~ReadWriteArchiveInterface();
+    ~ReadWriteArchiveInterface() override;
 
     bool isReadOnly() const override;
 

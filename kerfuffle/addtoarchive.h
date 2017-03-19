@@ -56,7 +56,7 @@ class KERFUFFLE_EXPORT AddToArchive : public KJob
 
 public:
     explicit AddToArchive(QObject *parent = nullptr);
-    ~AddToArchive();
+    ~AddToArchive() override;
 
     bool showAddDialog();
     void setPreservePaths(bool value);

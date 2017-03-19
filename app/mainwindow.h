@@ -37,7 +37,7 @@ class MainWindow: public KParts::MainWindow
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    ~MainWindow() override;
     bool loadPart();
 
     void dragEnterEvent(class QDragEnterEvent * event) override;

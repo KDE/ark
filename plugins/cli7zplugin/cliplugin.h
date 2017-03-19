@@ -33,12 +33,12 @@ class CliPlugin : public Kerfuffle::CliInterface
 
 public:
     explicit CliPlugin(QObject *parent, const QVariantList & args);
-    virtual ~CliPlugin();
+    ~CliPlugin() override;
 
-    virtual void resetParsing() override;
-    virtual bool readListLine(const QString &line) override;
-    virtual bool readExtractLine(const QString &line) override;
-    virtual bool readDeleteLine(const QString &line) override;
+    void resetParsing() override;
+    bool readListLine(const QString &line) override;
+    bool readExtractLine(const QString &line) override;
+    bool readDeleteLine(const QString &line) override;
 
 private:
     enum ArchiveType {
