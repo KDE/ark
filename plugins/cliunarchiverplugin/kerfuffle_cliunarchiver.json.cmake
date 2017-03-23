@@ -30,6 +30,7 @@
         "Name[ca@valencia]": "Connector de l'Unarchiver", 
         "Name[ca]": "Connector de l'Unarchiver", 
         "Name[cs]": "Modul pro Unarchiver", 
+        "Name[da]": "Plugin til Unarchiver", 
         "Name[de]": "Unarchiver-Modul", 
         "Name[el]": "Πρόσθετο Unarchiver", 
         "Name[es]": "El complemento de Unarchiver", 
