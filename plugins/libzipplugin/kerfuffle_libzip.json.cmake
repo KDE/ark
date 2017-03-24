@@ -9,6 +9,7 @@
         "Description[sv]": "Fullt stöd för arkivformatet zip", 
         "Description[uk]": "Повноцінна підтримка архівів у форматі zip", 
         "Description[x-test]": "xxFull support for the zip archive formatxx", 
+        "Description[zh_TW]": "對 zip 壓縮檔格式的完整支援", 
         "Id": "kerfuffle_libzip", 
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -22,6 +23,7 @@
         "Name[sv]": "Libzip-insticksprogram", 
         "Name[uk]": "Додаток libzip", 
         "Name[x-test]": "xxLibzip pluginxx", 
+        "Name[zh_TW]": "Libzip 外掛程式", 
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ], 
