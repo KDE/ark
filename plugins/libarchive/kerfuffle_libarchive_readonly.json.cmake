@@ -29,6 +29,7 @@
         "Name[ca@valencia]": "Connector del Libarchive (formats de només lectura)", 
         "Name[ca]": "Connector del Libarchive (formats de només lectura)", 
         "Name[cs]": "Modul libarchive (formáty pouze pro čtení)", 
+        "Name[de]": "LibArchive-Modul (Nur lesbare Formate)", 
         "Name[el]": "Πρόσθετο Libarchive (ανάγνωση μόνο)", 
         "Name[es]": "Complemento Libarchive (formatos de solo lectura)", 
         "Name[eu]": "Libarchive plugina (irakurri-soilik formatuak)", 

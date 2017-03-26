@@ -29,6 +29,7 @@
         "Name[ca@valencia]": "Connector del Gzip", 
         "Name[ca]": "Connector del Gzip", 
         "Name[cs]": "Modul pro gzip", 
+        "Name[de]": "Gzip-Modul", 
         "Name[el]": "Πρόσθετο Gzip", 
         "Name[es]": "Complemento Gzip", 
         "Name[eu]": "Gzip plugina", 

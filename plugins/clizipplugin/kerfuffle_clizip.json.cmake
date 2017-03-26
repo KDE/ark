@@ -29,6 +29,7 @@
         "Name[ca@valencia]": "Connector de l'Info-zip", 
         "Name[ca]": "Connector de l'Info-zip", 
         "Name[cs]": "Modul info-zip", 
+        "Name[de]": "Info-zip-Modul", 
         "Name[el]": "Πρόσθετο Info-zip", 
         "Name[es]": "Complemento Info-zip", 
         "Name[eu]": "Info-zip plugina", 
