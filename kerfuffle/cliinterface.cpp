@@ -110,7 +110,7 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
 
 
 
-    if (!m_cliProps->property("passwordSwitch").toString().isEmpty() && options.encryptedArchiveHint() && password().isEmpty()) {
+    if (!m_cliProps->property("passwordSwitch").toStringList().isEmpty() && options.encryptedArchiveHint() && password().isEmpty()) {
         qCDebug(ARK) << "Password hint enabled, querying user";
         if (!passwordQuery()) {
             return false;
