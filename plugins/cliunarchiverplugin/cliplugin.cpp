@@ -261,7 +261,12 @@ void CliPlugin::readJsonOutput()
         currentEntry->setProperty("compressedSize", currentEntryJson.value(QStringLiteral("XADCompressedSize")));
         currentEntry->setProperty("timestamp", currentEntryJson.value(QStringLiteral("XADLastModificationDate")).toVariant());
         currentEntry->setProperty("size", currentEntryJson.value(QStringLiteral("XADFileSize")));
-        currentEntry->setProperty("isPasswordProtected", (currentEntryJson.value(QStringLiteral("XADIsEncrypted")).toInt() == 1));
+        const bool isPasswordProtected = (currentEntryJson.value(QStringLiteral("XADIsEncrypted")).toInt() == 1);
+        currentEntry->setProperty("isPasswordProtected", isPasswordProtected);
+        if (isPasswordProtected) {
+            formatName == QLatin1String("RAR 5") ? emit encryptionMethodFound(QStringLiteral("AES256")) :
+                                                   emit encryptionMethodFound(QStringLiteral("AES128"));
+        }
         // TODO: missing fields
 
         emit entry(currentEntry);
