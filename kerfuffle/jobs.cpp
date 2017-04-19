@@ -574,7 +574,8 @@ QTemporaryDir *TempExtractJob::tempDir() const
 
 void TempExtractJob::doWork()
 {
-    emit description(this, i18n("Extracting one file"));
+    // pass 1 to i18np on purpose so this translation may properly be reused.
+    emit description(this, i18np("Extracting one file", "Extracting %1 files", 1));
 
     connectToArchiveInterfaceSignals();
 
