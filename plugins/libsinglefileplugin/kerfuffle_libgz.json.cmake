@@ -21,6 +21,7 @@
         "Description[tr]": "Gzip algoritması ile sıkıştırılmış tek dosyaları açma ve çıkarma",
         "Description[uk]": "Здатен відкривати і видобувати дані із окремих файлів, стиснених за допомогою алгоритму gzip",
         "Description[x-test]": "xxOpen and extract single files compressed with the gzip algorithmxx",
+        "Description[zh_CN]": "打开和解压 gzip 算法压缩的单个文件",
         "Description[zh_TW]": "開啟並解壓縮以 gzip 演算法壓縮的單一檔案",
         "Id": "kerfuffle_libgz",
         "MimeTypes": [
@@ -48,6 +49,7 @@
         "Name[tr]": "Gzip eklentisi",
         "Name[uk]": "Додаток gzip",
         "Name[x-test]": "xxGzip pluginxx",
+        "Name[zh_CN]": "Gzip 插件",
         "Name[zh_TW]": "Gzip 外掛程式",
         "ServiceTypes": [
             "Kerfuffle/Plugin"
