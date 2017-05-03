@@ -21,6 +21,7 @@
         "Description[sv]": "Fullt stöd för arkivformatet RAR",
         "Description[uk]": "Повноцінна підтримка архівів у форматі RAR",
         "Description[x-test]": "xxFull support for the RAR archive formatxx",
+        "Description[zh_CN]": "完全支持 RAR 归档格式",
         "Description[zh_TW]": "對 RAR 壓縮檔格式的完整支援",
         "Id": "kerfuffle_clirar",
         "MimeTypes": [
@@ -47,6 +48,7 @@
         "Name[sv]": "RAR-insticksprogram",
         "Name[uk]": "Додаток RAR",
         "Name[x-test]": "xxRAR pluginxx",
+        "Name[zh_CN]": "RAR 插件",
         "Name[zh_TW]": "RAR 外掛程式",
         "ServiceTypes": [
             "Kerfuffle/Plugin"
