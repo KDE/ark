@@ -102,6 +102,7 @@ if(BUILD_TESTING)
 endif()
 
 ki18n_install(po)
+kdoctools_install(po)
 
 install( FILES ark.categories DESTINATION ${KDE_INSTALL_CONFDIR} )
 
