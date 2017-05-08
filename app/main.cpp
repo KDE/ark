@@ -126,6 +126,7 @@ int main(int argc, char **argv)
                         QString(),
                         QStringLiteral("http://littlesvr.ca/misc/contactandrew.php"));
 
+    KAboutData::setApplicationData(aboutData);
     application.setWindowIcon(QIcon::fromTheme(QStringLiteral("ark")));
 
     QCommandLineParser parser;
@@ -170,8 +171,6 @@ int main(int argc, char **argv)
                                         i18n("Archive contents will be read, and if detected to not be a single folder archive, a subfolder with the name of the archive will be created.")));
 
     aboutData.setupCommandLine(&parser);
-
-    KAboutData::setApplicationData(aboutData);
 
     // Do the command line parsing.
     parser.process(application);
