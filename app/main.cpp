@@ -130,7 +130,6 @@ int main(int argc, char **argv)
     application.setWindowIcon(QIcon::fromTheme(QStringLiteral("ark")));
 
     QCommandLineParser parser;
-    parser.setApplicationDescription(aboutData.shortDescription());
     parser.addHelpOption();
     parser.addVersionOption();
 
