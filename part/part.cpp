@@ -964,13 +964,17 @@ void Part::setFileNameFromArchive()
 
 void Part::slotOpenEntry(int mode)
 {
-    qCDebug(ARK) << "Opening with mode" << mode;
-
     QModelIndex index = m_filterModel->mapToSource(m_view->selectionModel()->currentIndex());
     Archive::Entry *entry = m_model->entryForIndex(index);
 
     // Don't open directories.
     if (entry->isDir()) {
+        return;
+    }
+
+    // Don't open files bigger than the size limit.
+    const int maxPreviewSize = ArkSettings::previewFileSizeLimit() * 1024 * 1024;
+    if (ArkSettings::limitPreviewFileSize() && entry->property("size").toLongLong() >= maxPreviewSize) {
         return;
     }
 
@@ -982,7 +986,7 @@ void Part::slotOpenEntry(int mode)
 
     // Extract the entry.
     if (!entry->fullPath().isEmpty()) {
-
+        qCDebug(ARK) << "Opening with mode" << mode;
         m_openFileMode = static_cast<OpenFileMode>(mode);
         KJob *job = nullptr;
 
