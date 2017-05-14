@@ -4,6 +4,7 @@
         "Description[ca@valencia]": "Obri i extreu fitxers DEB, RPM, ISO, AppImage, XAR i CAB",
         "Description[ca]": "Obre i extreu fitxers DEB, RPM, ISO, AppImage, XAR i CAB",
         "Description[cs]": "Otevřít a rozbalit soubory DEB, RPM, ISO, AppImage, XAR a CAB",
+        "Description[de]": "Öffnen und Entpacken von DEB-, RPM-, ISO-, AppImage-, XAR- und CAB-Dateien",
         "Description[el]": "Άνοιγμα και εξαγωγή αρχείων DEB, RPM, ISO, AppImage, XAR και CAB",
         "Description[es]": "Abrir y extraer archivos DEB, RPM, ISO, AppImage, XAR y CAB",
         "Description[eu]": "Ireki eta erauzi DEB, RPM, ISO, AppImage, XAR eta CAB fitxategiak",

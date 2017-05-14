@@ -4,6 +4,7 @@
         "Description[ca@valencia]": "Obri i extreu arxius RAR",
         "Description[ca]": "Obre i extreu arxius RAR",
         "Description[cs]": "Otevřít a rozbalit archivy RAR",
+        "Description[de]": "Öffnen und Entpacken von RAR-Archiven",
         "Description[el]": "Άνοιγμα και εξαγωγή αρχειοθηκών RAR",
         "Description[es]": "Abrir y extraer archivos RAR",
         "Description[eu]": "Ireki eta erauzi RAR artxiboak",
