@@ -4,6 +4,7 @@
         "Description[ca@valencia]": "Obri i extreu fitxers individuals comprimits amb l'algorisme «bzip2»",
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «bzip2»",
         "Description[cs]": "Otevřít a rozbalit jednotlivé soubory komprimované algoritmem bzip2",
+        "Description[de]": "Öffnen und Entpacken von einzelnen mit dem Bzip2-Algorithmus komprimierten Dateien",
         "Description[el]": "Άνοιγμα και εξαγωγή απλών αρχείων συμπιεσμένα με τον αλγόριθμο bzip2",
         "Description[es]": "Abrir y extraer archivos individuales comprimidos con el algoritmo bzip2",
         "Description[eu]": "Ireki eta erauzi bzip2 algoritmoarekin konprimatutako fitxategiak banaka",

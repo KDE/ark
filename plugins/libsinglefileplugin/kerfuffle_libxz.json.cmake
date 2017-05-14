@@ -4,6 +4,7 @@
         "Description[ca@valencia]": "Obri i extreu fitxers individuals comprimits amb l'algorisme «lzma»",
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «lzma»",
         "Description[cs]": "Otevřít a rozbalit jednotlivé soubory komprimované algoritmem lzma",
+        "Description[de]": "Öffnen und Entpacken von einzelnen mit dem LZMA-Algorithmus komprimierten Dateien",
         "Description[el]": "Άνοιγμα και εξαγωγή απλών αρχείων συμπιεσμένα με τον αλγόριθμο Izma",
         "Description[es]": "Abrir y extraer archivos individuales comprimidos con el algoritmo lzma",
         "Description[eu]": "Ireki eta erauzi lzma algoritmoarekin konprimatutako fitxategiak banaka",
