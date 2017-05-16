@@ -4,6 +4,7 @@
         "Description[ca@valencia]": "Implementació pel format d'arxiu «zip» antic",
         "Description[ca]": "Implementació pel format d'arxiu «zip» antic",
         "Description[cs]": "Historická podpora archivačního formátu zip",
+        "Description[de]": "Unterstützung für veraltete Zip-Archivformate",
         "Description[el]": "Κληροδοτούμενη υποστήριξη για την αρχειοθήκη μορφής zip",
         "Description[es]": "Uso heredado para el formato de archivo comprimido zip",
         "Description[eu]": "zip artxibo formatuarentzako heredatutako euskarria",
