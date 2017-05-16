@@ -407,7 +407,7 @@ void Part::setupActions()
     m_renameFileAction->setText(i18n("&Rename"));
     actionCollection()->setDefaultShortcut(m_renameFileAction, Qt::Key_F2);
     m_renameFileAction->setToolTip(i18nc("@info:tooltip", "Click to rename the selected file"));
-    connect(m_renameFileAction, &QAction::triggered, this, &Part::slotEditFileName);
+    connect(m_renameFileAction, &QAction::triggered, m_view, &ArchiveView::renameSelectedEntry);
 
     m_deleteFilesAction = actionCollection()->addAction(QStringLiteral("delete"));
     m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
@@ -1412,15 +1412,6 @@ void Part::slotAddFiles()
         slotAddFiles(dlg->selectedFiles(), destination, QString());
     }
     delete dlg;
-}
-
-void Part::slotEditFileName()
-{
-    QModelIndex currentIndex = m_view->selectionModel()->currentIndex();
-    currentIndex = (currentIndex.parent().isValid())
-                   ? currentIndex.parent().child(currentIndex.row(), 0)
-                   : m_filterModel->index(currentIndex.row(), 0);
-    m_view->openEntryEditor(currentIndex);
 }
 
 void Part::slotCutFiles()

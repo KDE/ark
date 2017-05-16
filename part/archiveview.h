@@ -49,7 +49,8 @@ public:
      */
     void setDropsEnabled(bool enabled);
 
-    void openEntryEditor(const QModelIndex &index);
+public slots:
+    void renameSelectedEntry();
 
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
@@ -60,6 +61,7 @@ signals:
     void entryChanged(const QString &name);
 
 private:
+    void openEntryEditor(const QModelIndex &index);
     void closeEntryEditor();
     QModelIndex m_editorIndex;
     QLineEdit *m_entryEditor = nullptr;

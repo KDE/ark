@@ -152,6 +152,15 @@ void ArchiveView::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void ArchiveView::renameSelectedEntry()
+{
+    QModelIndex currentIndex = selectionModel()->currentIndex();
+    currentIndex = (currentIndex.parent().isValid())
+                   ? currentIndex.parent().child(currentIndex.row(), 0)
+                   : model()->index(currentIndex.row(), 0);
+    openEntryEditor(currentIndex);
+}
+
 void ArchiveView::openEntryEditor(const QModelIndex &index)
 {
     m_editorIndex = index;

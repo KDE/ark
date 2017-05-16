@@ -134,7 +134,6 @@ private slots:
     void slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle::Archive::Entry *destination, int entriesWithoutChildren);
 
     void slotAddFiles();
-    void slotEditFileName();
     void slotCutFiles();
     void slotCopyFiles();
     void slotRenameFile(const QString &name);
