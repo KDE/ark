@@ -64,6 +64,8 @@ MainWindow::MainWindow(QWidget *)
 {
     setupActions();
     setAcceptDrops(true);
+    // Ark doesn't provide a fullscreen mode; remove the corresponding window button
+    setWindowFlags(windowFlags() & ~Qt::WindowFullscreenButtonHint);
 }
 
 MainWindow::~MainWindow()

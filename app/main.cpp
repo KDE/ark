@@ -31,6 +31,7 @@
 #include <QCommandLineParser>
 #include <QByteArray>
 #include <QFileInfo>
+#include <QFileOpenEvent>
 
 #include <KAboutData>
 #include <KCrash>
@@ -39,6 +40,31 @@
 #include <KLocalizedString>
 
 using Kerfuffle::AddToArchive;
+
+class OpenFileEventHandler : public QObject
+{
+    Q_OBJECT
+public:
+    OpenFileEventHandler(QApplication *parent, MainWindow *w)
+        : QObject(parent)
+        , m_window(w)
+    {
+        parent->installEventFilter(this);
+    }
+
+    bool eventFilter(QObject *obj, QEvent *event) override
+    {
+        if (event->type() == QEvent::FileOpen) {
+            QFileOpenEvent *openEvent = static_cast<QFileOpenEvent*>(event);
+            qCDebug(ARK) << "File open event:" << openEvent->url() << "for window" << m_window;
+            m_window->openUrl(openEvent->url());
+            return true;
+        }
+        return QObject::eventFilter(obj, event);
+    }
+private:
+    MainWindow *m_window;
+};
 
 int main(int argc, char **argv)
 {
@@ -127,7 +153,7 @@ int main(int argc, char **argv)
                         QStringLiteral("http://littlesvr.ca/misc/contactandrew.php"));
 
     KAboutData::setApplicationData(aboutData);
-    application.setWindowIcon(QIcon::fromTheme(QStringLiteral("ark")));
+    application.setWindowIcon(QIcon::fromTheme(QStringLiteral("ark"), application.windowIcon()));
 
     QCommandLineParser parser;
     parser.addHelpOption();
@@ -293,6 +319,7 @@ int main(int argc, char **argv)
                 }
                 window->openUrl(QUrl::fromUserInput(urls.at(0), QString(), QUrl::AssumeLocalFile));
             }
+            new OpenFileEventHandler(&application, window);
             window->show();
         }
     }
@@ -300,3 +327,5 @@ int main(int argc, char **argv)
     qCDebug(ARK) << "Entering application loop";
     return application.exec();
 }
+
+#include "main.moc"
