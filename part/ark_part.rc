@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="ark_part" version="17" translationDomain="ark">
+<kpartgui name="ark_part" version="18" translationDomain="ark">
 <MenuBar>
 	<Menu name="archive">
 		<text>&amp;Archive</text>
@@ -40,19 +40,21 @@
 	<Action name="add"/>
 	<Action name="delete"/>
 </ToolBar>
-<Menu name="context_menu">
-	<Action name="preview"/>
-	<Action name="openfile"/>
-	<Action name="openfilewith"/>
-	<Separator/>
-	<Action name="rename"/>
-	<Action name="delete"/>
-	<Action name="extract"/>
-	<Separator/>
-	<Action name="cut"/>
-	<Action name="copy"/>
-	<Action name="paste"/>
-	<Separator/>
-	<Action name="add"/>
-</Menu>
+<MainWindow>
+	<Menu name="context_menu">
+		<Action name="preview"/>
+		<Action name="openfile"/>
+		<Action name="openfilewith"/>
+		<Separator/>
+		<Action name="rename"/>
+		<Action name="delete"/>
+		<Action name="extract"/>
+		<Separator/>
+		<Action name="cut"/>
+		<Action name="copy"/>
+		<Action name="paste"/>
+		<Separator/>
+		<Action name="add"/>
+	</Menu>
+</MainWindow>
 </kpartgui>
