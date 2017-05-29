@@ -7,19 +7,19 @@
 		<Action name="ark_file_open"/>
 		<Action name="ark_file_open_recent"/>
 		<Separator/>
-		<DefineGroup name="file_save" append="save_merge"/>
+		<DefineGroup name="file_save"/>
 		<Separator/>
-		<DefineGroup name="archive_extract" append="save_merge"/>
+		<DefineGroup name="archive_extract"/>
 		<Separator/>
-		<DefineGroup name="archive_edit" append="save_merge"/>
+		<DefineGroup name="archive_edit"/>
 		<Separator/>
-		<DefineGroup name="archive_props" append="save_merge"/>
+		<DefineGroup name="archive_props"/>
 		<Separator/>
 		<Action name="ark_quit"/>
 	</Menu>
 	<Merge/>
 	<Menu name="settings">
-		<DefineGroup name="settings_show" append="show_merge"/>
+		<DefineGroup name="settings_show"/>
 	</Menu>
 </MenuBar>
 </gui>
