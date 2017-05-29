@@ -48,6 +48,14 @@ ecm_qt_declare_logging_category(kerfuffle_SRCS
 add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 generate_export_header(kerfuffle BASE_NAME kerfuffle)
 
+if (APPLE)
+   target_compile_definitions(kerfuffle PRIVATE -DDEPENDENCY_TOOL="otool")
+   target_compile_definitions(kerfuffle PRIVATE -DDEPENDENCY_TOOL_ARGS="-L")
+else()
+   target_compile_definitions(kerfuffle PRIVATE -DDEPENDENCY_TOOL="ldd")
+   target_compile_definitions(kerfuffle PRIVATE -DDEPENDENCY_TOOL_ARGS="")
+endif()
+
 target_link_libraries(kerfuffle
 PUBLIC
     KF5::IconThemes

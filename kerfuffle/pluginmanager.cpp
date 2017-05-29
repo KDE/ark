@@ -269,21 +269,25 @@ bool PluginManager::libarchiveHasLzo()
         return QString();
     }();
 
-    // Step 2: ldd the libarchive plugin to figure out the absolute libarchive path.
-    QProcess ldd;
-    ldd.start(QStringLiteral("ldd"), {pluginPath});
-    ldd.waitForFinished();
-    const QString output = QString::fromUtf8(ldd.readAllStandardOutput());
-    QRegularExpression regex(QStringLiteral("/.*/libarchive.so"));
+    // Step 2: process the libarchive plugin dependencies to figure out the absolute libarchive path.
+    QProcess dependencyTool;
+    const QStringList args = {QStringLiteral(DEPENDENCY_TOOL_ARGS)};
+    dependencyTool.setProgram(QStringLiteral(DEPENDENCY_TOOL));
+    dependencyTool.setArguments(args + QStringList(pluginPath));
+    dependencyTool.start();
+    dependencyTool.waitForFinished();
+    const QString output = QString::fromUtf8(dependencyTool.readAllStandardOutput());
+    QRegularExpression regex(QStringLiteral("/.*/libarchive.so|/.*/libarchive.*.dylib"));
     if (!regex.match(output).hasMatch()) {
         return false;
     }
 
     // Step 3: check whether libarchive links against liblzo.
-    const QString libarchivePath = regex.match(output).captured(0);
-    ldd.start(QStringLiteral("ldd"), {libarchivePath});
-    ldd.waitForFinished();
-    return ldd.readAllStandardOutput().contains(QByteArrayLiteral("lzo"));
+    const QStringList libarchivePath(regex.match(output).captured(0));
+    dependencyTool.setArguments(args + libarchivePath);
+    dependencyTool.start();
+    dependencyTool.waitForFinished();
+    return dependencyTool.readAllStandardOutput().contains(QByteArrayLiteral("lzo"));
 }
 
 }
