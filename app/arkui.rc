@@ -1,5 +1,5 @@
-<!DOCTYPE kpartgui>
-<kpartgui name="ark" version="17">
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
+<gui name="ark" version="17">
 <MenuBar>
 	<Menu name="archive">
 		<text>&amp;Archive</text>
@@ -22,4 +22,4 @@
 		<DefineGroup name="settings_show" append="show_merge"/>
 	</Menu>
 </MenuBar>
-</kpartgui>
+</gui>

@@ -1,5 +1,5 @@
-<!DOCTYPE kpartgui>
-<kpartgui name="ark_part" version="18" translationDomain="ark">
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
+<gui name="ark_part" version="18" translationDomain="ark">
 <MenuBar>
 	<Menu name="archive">
 		<text>&amp;Archive</text>
@@ -57,4 +57,4 @@
 		<Action name="add"/>
 	</Menu>
 </MainWindow>
-</kpartgui>
+</gui>
