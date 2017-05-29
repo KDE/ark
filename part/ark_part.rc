@@ -53,6 +53,6 @@
 	<Action name="copy"/>
 	<Action name="paste"/>
 	<Separator/>
-    <Action name="add"/>
+	<Action name="add"/>
 </Menu>
 </kpartgui>
