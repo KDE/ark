@@ -215,6 +215,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, &Part::setReadyGui);
     connect(this, static_cast<void (KParts::ReadOnlyPart::*)()>(&KParts::ReadOnlyPart::completed),
             this, &Part::setFileNameFromArchive);
+    connect(ArkSettings::self(), &KCoreConfigSkeleton::configChanged, this, &Part::updateActions);
 
     m_statusBarExtension = new KParts::StatusBarExtension(this);
 
