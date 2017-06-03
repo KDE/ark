@@ -52,6 +52,7 @@
 #include <KJobWidgets>
 #include <KIO/StatJob>
 #include <KMessageBox>
+#include <KParts/OpenUrlArguments>
 #include <KPluginFactory>
 #include <KRun>
 #include <KSelectAction>

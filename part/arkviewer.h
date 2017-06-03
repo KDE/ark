@@ -24,15 +24,14 @@
 
 #include "ui_arkviewer.h"
 
-#include <KParts/BrowserExtension>
+#include <KParts/MainWindow>
 #include <KParts/ReadOnlyPart>
 #include <KService>
 
-#include <QDialog>
-#include <QWeakPointer>
 #include <QMimeType>
+#include <QPointer>
 
-class ArkViewer : public QDialog, public Ui::ArkViewer
+class ArkViewer : public KParts::MainWindow, public Ui::ArkViewer
 {
     Q_OBJECT
 
@@ -40,9 +39,6 @@ public:
     ~ArkViewer() override;
 
     static void view(const QString& fileName);
-
-private slots:
-    void dialogClosed();
 
 private:
     explicit ArkViewer();

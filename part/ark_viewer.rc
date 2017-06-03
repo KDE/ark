@@ -1,0 +1,6 @@
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
+<gui name="ark_viewer" version="1">
+<MenuBar>
+    <Merge/>
+</MenuBar>
+</gui>

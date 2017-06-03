@@ -26,42 +26,34 @@
 #include <KMimeTypeTrader>
 #include <KIconLoader>
 #include <KMessageBox>
+#include <KParts/ReadOnlyPart>
+#include <KParts/OpenUrlArguments>
 #include <KRun>
-#include <KSharedConfig>
-#include <KWindowConfig>
+#include <KXMLGUIFactory>
 
-#include <QDebug>
 #include <QFile>
 #include <QMimeDatabase>
 #include <QProgressDialog>
 #include <QPushButton>
 
 ArkViewer::ArkViewer()
-        : QDialog()
+        : KParts::MainWindow()
 {
     qCDebug(ARK) << "ArkViewer opened";
 
-    setAttribute(Qt::WA_DeleteOnClose);
-
     setupUi(this);
 
-    // Bug 369390: This prevents the Enter key from closing the dialog.
+    // Bug 369390: This prevents the Enter key from closing the window.
     m_buttonBox->button(QDialogButtonBox::Close)->setAutoDefault(false);
 
-    connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-    connect(this, &ArkViewer::finished, this, &ArkViewer::dialogClosed);
+    connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QMainWindow::close);
+
+    setXMLFile(QStringLiteral("ark_viewer.rc"));
+    setupGUI(ToolBar);
 }
 
 ArkViewer::~ArkViewer()
 {
-}
-
-void ArkViewer::dialogClosed()
-{
-    // Save viewer dialog window size
-    KConfigGroup group(KSharedConfig::openConfig(), "Viewer");
-    KWindowConfig::saveWindowSize(windowHandle(), group, KConfigBase::Persistent);
-
     if (m_part) {
         QProgressDialog progressDialog(this);
         progressDialog.setWindowTitle(i18n("Closing preview"));
@@ -74,8 +66,6 @@ void ArkViewer::dialogClosed()
 
         // #261785: this preview dialog is not modal, so we need to delete
         //          the previewed file ourselves when the dialog is closed;
-        //          we used to remove it at the end of ArkViewer::view() when
-        //          QDialog::exec() was called instead of QDialog::show().
         const QString previewedFilePath(m_part.data()->url().toDisplayString(QUrl::PreferLocalFile));
 
         m_part.data()->closeUrl();
@@ -84,6 +74,9 @@ void ArkViewer::dialogClosed()
             QFile::remove(previewedFilePath);
         }
     }
+
+    guiFactory()->removeClient(m_part);
+    delete m_part;
 }
 
 void ArkViewer::view(const QString& fileName)
@@ -157,7 +150,7 @@ void ArkViewer::view(const QString& fileName)
         internalViewer->show();
         if (internalViewer->viewInInternalViewer(fileName, mimeType)) {
             // The internal viewer is showing the file, and will
-            // remove the temporary file in dialogClosed().  So there
+            // remove the temporary file in its destructor.  So there
             // is no more to do here.
             return;
         }
@@ -177,11 +170,6 @@ void ArkViewer::view(const QString& fileName)
 bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &mimeType)
 {
     setWindowFilePath(fileName);
-
-    // Load viewer dialog window size from config file
-    KConfigGroup group(KSharedConfig::openConfig(), "Viewer");
-    KWindowConfig::restoreWindowSize(windowHandle(), group);
-
 
     // Set icon and comment for the mimetype.
     m_iconLabel->setPixmap(QIcon::fromTheme(mimeType.iconName()).pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop)));
@@ -205,7 +193,10 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     }
 
     // Insert the KPart into its placeholder.
-    layout()->replaceWidget(m_partPlaceholder, m_part.data()->widget());
+    centralWidget()->layout()->replaceWidget(m_partPlaceholder, m_part.data()->widget());
+
+    createGUI(m_part.data());
+    setAutoSaveSettings(QStringLiteral("Viewer"), true);
 
     m_part.data()->openUrl(QUrl::fromLocalFile(fileName));
     m_part.data()->widget()->setFocus();
