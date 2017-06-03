@@ -894,8 +894,8 @@ void Part::slotLoadingFinished(KJob *job)
 
     // After loading all files, resize the columns to fit all fields
     m_view->header()->resizeSections(QHeaderView::ResizeToContents);
-    // Now we can start accepting drops in the archive view.
-    m_view->setDropsEnabled(true);
+    // Now we can start accepting drops in the archive view (if loading was successful).
+    m_view->setDropsEnabled(!job->error());
 
     updateActions();
 
