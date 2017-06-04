@@ -169,6 +169,10 @@ signals:
     void quit();
 
 private:
+    /**
+     * @return true if both the current archive and the part are read-write, false otherwise.
+     */
+    bool isArchiveWritable() const;
     void createArchive();
     void loadArchive();
     void resetGui();

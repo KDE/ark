@@ -473,7 +473,7 @@ void Part::setupActions()
 
 void Part::updateActions()
 {
-    bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly();
+    const bool isWritable = isArchiveWritable();
     const Archive::Entry *entry = m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()));
     int selectedEntriesCount = m_view->selectionModel()->selectedRows().count();
 
@@ -603,6 +603,11 @@ void Part::slotTestArchive()
     registerJob(job);
     connect(job, &KJob::result, this, &Part::slotTestingDone);
     job->start();
+}
+
+bool Part::isArchiveWritable() const
+{
+    return isReadWrite() && m_model->archive() && !m_model->archive()->isReadOnly();
 }
 
 void Part::createArchive()
@@ -892,8 +897,8 @@ void Part::slotLoadingFinished(KJob *job)
 
     // After loading all files, resize the columns to fit all fields
     m_view->header()->resizeSections(QHeaderView::ResizeToContents);
-    // Now we can start accepting drops in the archive view (if loading was successful).
-    m_view->setDropsEnabled(!job->error());
+    // Now we can start accepting drops in the archive view (if loading was successful and the archive can be modified).
+    m_view->setDropsEnabled(!job->error() && isArchiveWritable());
 
     updateActions();
 
@@ -1014,19 +1019,14 @@ void Part::slotOpenExtractedEntry(KJob *job)
         m_tmpExtractDirList << openJob->tempDir();
 
         const QString fullName = openJob->validatedFilePath();
-
-        bool isWritable = m_model->archive() && !m_model->archive()->isReadOnly();
-
-        // If archive is readonly set temporarily extracted file to readonly as
-        // well so user will be notified if trying to modify and save the file.
-        if (!isWritable) {
-            QFile::setPermissions(fullName, QFileDevice::ReadOwner | QFileDevice::ReadGroup | QFileDevice::ReadOther);
-        }
-
-        if (isWritable) {
+        if (isArchiveWritable()) {
             m_fileWatcher = new QFileSystemWatcher;
             connect(m_fileWatcher, &QFileSystemWatcher::fileChanged, this, &Part::slotWatchedFileModified);
             m_fileWatcher->addPath(fullName);
+        } else {
+            // If archive is readonly set temporarily extracted file to readonly as
+            // well so user will be notified if trying to modify and save the file.
+            QFile::setPermissions(fullName, QFileDevice::ReadOwner | QFileDevice::ReadGroup | QFileDevice::ReadOther);
         }
 
         if (qobject_cast<OpenWithJob*>(job)) {
