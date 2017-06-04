@@ -1,12 +1,13 @@
 set(arkpart_PART_SRCS
-	part.cpp
-	infopanel.cpp
-	arkviewer.cpp
-	archivemodel.cpp
-        archivesortfiltermodel.cpp
-	archiveview.cpp
-	jobtracker.cpp
-	overwritedialog.cpp
+    factory.cpp
+    part.cpp
+    infopanel.cpp
+    arkviewer.cpp
+    archivemodel.cpp
+    archivesortfiltermodel.cpp
+    archiveview.cpp
+    jobtracker.cpp
+    overwritedialog.cpp
     )
 
 ecm_qt_declare_logging_category(arkpart_PART_SRCS

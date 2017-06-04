@@ -81,8 +81,6 @@
 
 using namespace Kerfuffle;
 
-K_PLUGIN_FACTORY_WITH_JSON(Factory, "ark_part.json", registerPlugin<Ark::Part>();)
-
 namespace Ark
 {
 
