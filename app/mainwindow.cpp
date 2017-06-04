@@ -153,7 +153,8 @@ bool MainWindow::loadPart()
     m_part->setObjectName(QStringLiteral("ArkPart"));
     setCentralWidget(m_part->widget());
 
-    setupGUI(ToolBar | Keys | Save, QStringLiteral("arkui.rc"));
+    setXMLFile(QStringLiteral("arkui.rc"));
+    setupGUI(ToolBar | Keys | Save);
     createGUI(m_part);
 
     statusBar()->hide();
