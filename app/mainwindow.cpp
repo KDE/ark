@@ -255,6 +255,10 @@ void MainWindow::quit()
 
 void MainWindow::showSettings()
 {
+    if (KConfigDialog::showDialog(QStringLiteral("settings"))) {
+        return;
+    }
+
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
 
