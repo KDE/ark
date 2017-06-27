@@ -27,6 +27,7 @@
 #include "ark_debug.h"
 #include "queries.h"
 
+#include <KIO/Global>
 #include <KLocalizedString>
 #include <KPluginFactory>
 
@@ -639,6 +640,33 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
 
         sum += len;
     }
+
+    const auto index = zip_name_locate(archive, entry.toUtf8(), ZIP_FL_ENC_GUESS);
+    if (index == -1) {
+        qCCritical(ARK) << "Could not locate entry:" << entry;
+        emit error(xi18n("Failed to locate entry: %1", entry));
+        return false;
+    }
+
+    zip_uint8_t opsys;
+    zip_uint32_t attributes;
+    if (zip_file_get_external_attributes(archive, index, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
+        qCCritical(ARK) << "Could not read external attributes for entry:" << entry;
+        emit error(xi18n("Failed to read metadata for entry: %1", entry));
+        return false;
+    }
+
+    // Inspired by fuse-zip source code: fuse-zip/lib/fileNode.cpp
+    switch (opsys) {
+    case ZIP_OPSYS_UNIX:
+        // Unix permissions are stored in the leftmost 16 bits of the external file attribute.
+        file.setPermissions(KIO::convertPermissions(attributes >> 16));
+        break;
+    default:    // TODO: non-UNIX.
+        break;
+    }
+
+
     return true;
 }
 

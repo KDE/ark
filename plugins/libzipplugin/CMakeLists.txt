@@ -21,7 +21,7 @@ configure_file(
 
 kerfuffle_add_plugin(kerfuffle_libzip ${kerfuffle_libzip_SRCS})
 
-target_link_libraries(kerfuffle_libzip ${LibZip_LIBRARIES})
+target_link_libraries(kerfuffle_libzip KF5::KIOCore ${LibZip_LIBRARIES})
 
 set(INSTALLED_LIBZIP_PLUGINS "${INSTALLED_LIBZIP_PLUGINS}kerfuffle_libzip;")
 
