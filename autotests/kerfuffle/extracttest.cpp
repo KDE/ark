@@ -29,7 +29,10 @@
 #include "jobs.h"
 #include "testhelper.h"
 
+#include <KIO/Global>
+
 #include <QDirIterator>
+#include <QMimeDatabase>
 #include <QStandardPaths>
 #include <QTest>
 
@@ -42,6 +45,11 @@ class ExtractTest : public QObject
 private Q_SLOTS:
     void testExtraction_data();
     void testExtraction();
+    void testPreservePermissions_data();
+    void testPreservePermissions();
+
+private:
+    PluginManager m_pluginManager;
 };
 
 QTEST_GUILESS_MAIN(ExtractTest)
@@ -439,6 +447,83 @@ void ExtractTest::testExtraction()
     }
 
     QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount);
+
+    loadJob->deleteLater();
+    extractionJob->deleteLater();
+    archive->deleteLater();
+}
+
+void ExtractTest::testPreservePermissions_data()
+{
+    QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<Plugin*>("plugin");
+    QTest::addColumn<QString>("testFile");
+    QTest::addColumn<int>("expectedPermissions");
+
+    const auto formats = QStringList {
+        QStringLiteral("7z"),
+        QStringLiteral("rar"),
+        QStringLiteral("tar.gz"),
+        QStringLiteral("zip")
+    };
+
+    // Repeat the same test case for each format and for each plugin supporting the format.
+    foreach (const QString &format, formats) {
+        const QString filename = QFINDTESTDATA(QStringLiteral("data/test_permissions.%1").arg(format));
+        const auto mime = QMimeDatabase().mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
+        const auto plugins = m_pluginManager.preferredWritePluginsFor(mime);
+        foreach (const auto plugin, plugins) {
+            QTest::newRow(QStringLiteral("test preserve 0755 permissions (%1, %2)").arg(format, plugin->metaData().pluginId()).toUtf8())
+                << filename
+                << plugin
+                << QStringLiteral("0755.sh")
+                << 0755;
+
+            QTest::newRow(QStringLiteral("test preserve 0664 permissions (%1, %2)").arg(format, plugin->metaData().pluginId()).toUtf8())
+                << filename
+                << plugin
+                << QStringLiteral("0664.txt")
+                << 0664;
+        }
+    }
+}
+
+void ExtractTest::testPreservePermissions()
+{
+    QFETCH(QString, archiveName);
+    QFETCH(Plugin*, plugin);
+    QVERIFY(plugin);
+    auto loadJob = Archive::load(archiveName, plugin);
+    QVERIFY(loadJob);
+    loadJob->setAutoDelete(false);
+
+    TestHelper::startAndWaitForResult(loadJob);
+    auto archive = loadJob->archive();
+    QVERIFY(archive);
+
+    if (!archive->isValid()) {
+        QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
+    }
+
+    QTemporaryDir destDir;
+    if (!destDir.isValid()) {
+        QSKIP("Could not create a temporary directory for extraction. Skipping test.", SkipSingle);
+    }
+
+    auto extractionJob = archive->extractFiles({}, destDir.path());
+    QVERIFY(extractionJob);
+    extractionJob->setAutoDelete(false);
+    TestHelper::startAndWaitForResult(extractionJob);
+
+    // Check whether extraction preserved the original permissions.
+    QFETCH(QString, testFile);
+    QFile file(QStringLiteral("%1/%2").arg(destDir.path(), testFile));
+    QVERIFY(file.exists());
+    QFETCH(int, expectedPermissions);
+    const auto expectedQtPermissions = KIO::convertPermissions(expectedPermissions);
+    // On Linux we get also the XXXUser flags which are ignored by KIO::convertPermissions(),
+    // so we need to remove them before the comparison with the expected permissions.
+    QCOMPARE(file.permissions() & expectedQtPermissions, expectedQtPermissions);
 
     loadJob->deleteLater();
     extractionJob->deleteLater();
