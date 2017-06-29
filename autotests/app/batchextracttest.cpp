@@ -37,7 +37,7 @@ private Q_SLOTS:
     void testBatchExtraction();
 };
 
-QTEST_GUILESS_MAIN(BatchExtractTest)
+QTEST_MAIN(BatchExtractTest)
 
 void BatchExtractTest::testBatchExtraction_data()
 {
