@@ -460,15 +460,8 @@ void ExtractTest::testPreservePermissions_data()
     QTest::addColumn<QString>("testFile");
     QTest::addColumn<int>("expectedPermissions");
 
-    const auto formats = QStringList {
-        QStringLiteral("7z"),
-        QStringLiteral("rar"),
-        QStringLiteral("tar.gz"),
-        QStringLiteral("zip")
-    };
-
     // Repeat the same test case for each format and for each plugin supporting the format.
-    foreach (const QString &format, formats) {
+    foreach (const QString &format, TestHelper::testFormats()) {
         const QString filename = QFINDTESTDATA(QStringLiteral("data/test_permissions.%1").arg(format));
         const auto mime = QMimeDatabase().mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
         const auto plugins = m_pluginManager.preferredWritePluginsFor(mime);

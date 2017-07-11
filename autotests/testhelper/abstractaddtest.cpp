@@ -47,15 +47,8 @@ QStringList AbstractAddTest::getEntryPaths(Archive *archive)
 
 void AbstractAddTest::setupRows(const QString &testName, const QString &archiveName, const QVector<Archive::Entry *> &targetEntries, Archive::Entry *destination, const QStringList &expectedNewPaths, uint numberOfEntries) const
 {
-    const auto formats = QStringList {
-        QStringLiteral("7z"),
-        QStringLiteral("rar"),
-        QStringLiteral("tar.bz2"),
-        QStringLiteral("zip")
-    };
-
     // Repeat the same test case for each format and for each plugin supporting the format.
-    foreach (const QString &format, formats) {
+    foreach (const QString &format, TestHelper::testFormats()) {
         const QString filename = QStringLiteral("%1.%2").arg(archiveName, format);
         const auto mime = QMimeDatabase().mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
 

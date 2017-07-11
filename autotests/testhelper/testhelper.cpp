@@ -38,3 +38,13 @@ void TestHelper::startAndWaitForResult(KJob *job)
     eventLoop.exec(); // krazy:exclude=crashy
 }
 
+
+QStringList TestHelper::testFormats()
+{
+    return {
+        QStringLiteral("7z"),
+        QStringLiteral("rar"),
+        QStringLiteral("tar.bz2"),
+        QStringLiteral("zip")
+    };
+}
