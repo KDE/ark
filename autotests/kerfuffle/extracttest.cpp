@@ -471,12 +471,6 @@ void ExtractTest::testPreservePermissions_data()
                 << plugin
                 << QStringLiteral("0755.sh")
                 << 0755;
-
-            QTest::newRow(QStringLiteral("test preserve 0664 permissions (%1, %2)").arg(format, plugin->metaData().pluginId()).toUtf8())
-                << filename
-                << plugin
-                << QStringLiteral("0664.txt")
-                << 0664;
         }
     }
 }
