@@ -69,7 +69,7 @@ void ArchiveView::expandIfSingleFolder()
 void ArchiveView::setDropsEnabled(bool enabled)
 {
     setAcceptDrops(enabled);
-    setDragDropMode(enabled ? QAbstractItemView::DragDrop : QAbstractItemView::NoDragDrop);
+    setDragDropMode(enabled ? QAbstractItemView::DragDrop : QAbstractItemView::DragOnly);
 }
 
 void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
