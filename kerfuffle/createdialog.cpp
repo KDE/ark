@@ -232,7 +232,6 @@ QMimeType CreateDialog::currentMimeType() const
 
 bool CreateDialog::setMimeType(const QString &mimeTypeName)
 {
-    const QMimeType mimeType = QMimeDatabase().mimeTypeForName(mimeTypeName);
     int index = m_supportedMimeTypes.indexOf(mimeTypeName);
     if (index == -1) {
         return false;
