@@ -164,6 +164,7 @@ bool MainWindow::loadPart()
     // #365200: this will disable m_recentFilesAction, while openUrl() will enable it.
     // So updateActions() needs to be called after openUrl() returns.
     connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()), Qt::QueuedConnection);
+    connect(m_part, static_cast<void (KParts::ReadOnlyPart::*)()>(&KParts::ReadOnlyPart::completed), this, &MainWindow::addPartUrl);
 
     return true;
 }
@@ -219,15 +220,12 @@ void MainWindow::openArchive()
 
 void MainWindow::openUrl(const QUrl& url)
 {
-    if (!url.isEmpty()) {
-        m_part->setArguments(m_openArgs);
-
-        if (m_part->openUrl(url)) {
-            m_recentFilesAction->addUrl(url);
-        } else {
-            m_recentFilesAction->removeUrl(url);
-        }
+    if (url.isEmpty()) {
+        return;
     }
+
+    m_part->setArguments(m_openArgs);
+    m_part->openUrl(url);
 }
 
 void MainWindow::setShowExtractDialog(bool option)
@@ -284,6 +282,11 @@ void MainWindow::writeSettings()
     Interface *iface = qobject_cast<Interface*>(m_part);
     Q_ASSERT(iface);
     iface->config()->save();
+}
+
+void MainWindow::addPartUrl()
+{
+    m_recentFilesAction->addUrl(m_part->url());
 }
 
 void MainWindow::newArchive()

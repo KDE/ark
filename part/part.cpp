@@ -776,11 +776,12 @@ bool Part::openFile()
 
     if (creatingNewArchive) {
         createArchive();
-    } else {
-        loadArchive();
+        return true;
     }
 
-    return true;
+    loadArchive();
+    // Loading is async, we don't know yet whether we got a valid archive.
+    return false;
 }
 
 bool Part::saveFile()
@@ -891,6 +892,8 @@ void Part::slotLoadingFinished(KJob *job)
 
             emit setWindowCaption(QString());
         }
+    } else {
+        emit completed();
     }
 
     m_view->sortByColumn(0, Qt::AscendingOrder);

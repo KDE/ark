@@ -58,6 +58,7 @@ private slots:
     void quit();
     void showSettings();
     void writeSettings();
+    void addPartUrl();
 
 private:
     void setupActions();
