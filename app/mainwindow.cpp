@@ -88,7 +88,8 @@ void MainWindow::dragEnterEvent(QDragEnterEvent * event)
         return;
     }
 
-    if (!event->source() && isValidArchiveDrag(event->mimeData())) {
+    const bool partAcceptsDrops = !m_part->url().isEmpty() && m_part->isReadWrite();
+    if (!event->source() && isValidArchiveDrag(event->mimeData()) && !partAcceptsDrops) {
         event->acceptProposedAction();
     }
     return;

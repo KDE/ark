@@ -60,6 +60,7 @@
 #include <KToggleAction>
 #include <KLocalizedString>
 #include <KXMLGUIFactory>
+#include <kparts_version.h>
 
 #include <QAction>
 #include <QCursor>
@@ -891,6 +892,12 @@ void Part::slotLoadingFinished(KJob *job)
             m_infoPanel->updateWithDefaults();
 
             emit setWindowCaption(QString());
+#if KPARTS_VERSION >= QT_VERSION_CHECK(5, 37, 0)
+            // See https://phabricator.kde.org/D6856
+            closeUrl();
+#else
+            setUrl(QUrl());
+#endif
         }
     } else {
         emit completed();
