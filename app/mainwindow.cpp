@@ -165,7 +165,7 @@ bool MainWindow::loadPart()
     // #365200: this will disable m_recentFilesAction, while openUrl() will enable it.
     // So updateActions() needs to be called after openUrl() returns.
     connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()), Qt::QueuedConnection);
-    connect(m_part, static_cast<void (KParts::ReadOnlyPart::*)()>(&KParts::ReadOnlyPart::completed), this, &MainWindow::addPartUrl);
+    connect(m_part, QOverload<>::of(&KParts::ReadOnlyPart::completed), this, &MainWindow::addPartUrl);
 
     return true;
 }

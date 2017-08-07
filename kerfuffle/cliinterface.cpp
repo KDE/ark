@@ -293,9 +293,9 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
 
     if (m_operationMode == Extract) {
         // Extraction jobs need a dedicated post-processing function.
-        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::extractProcessFinished);
+        connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &CliInterface::extractProcessFinished);
     } else {
-        connect(m_process, static_cast<void (KPtyProcess::*)(int, QProcess::ExitStatus)>(&KPtyProcess::finished), this, &CliInterface::processFinished);
+        connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &CliInterface::processFinished);
     }
 
     m_stdOutData.clear();

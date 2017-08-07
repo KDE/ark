@@ -89,8 +89,8 @@ CreateDialog::CreateDialog(QWidget *parent,
     connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(m_ui->buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     connect(this, &QDialog::accepted, this, &CreateDialog::slotUpdateDefaultMimeType);
-    connect(m_ui->mimeComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &CreateDialog::slotUpdateWidgets);
-    connect(m_ui->mimeComboBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &CreateDialog::slotUpdateFilenameExtension);
+    connect(m_ui->mimeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CreateDialog::slotUpdateWidgets);
+    connect(m_ui->mimeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CreateDialog::slotUpdateFilenameExtension);
 
     m_vlayout->addWidget(m_ui);
 

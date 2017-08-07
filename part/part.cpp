@@ -203,7 +203,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     connect(m_model, &ArchiveModel::loadingFinished,
             this, &Part::slotLoadingFinished);
     connect(m_model, &ArchiveModel::droppedFiles,
-            this, static_cast<void (Part::*)(const QStringList&, const Archive::Entry*, const QString&)>(&Part::slotAddFiles));
+            this, QOverload<const QStringList&, const Archive::Entry*, const QString&>::of(&Part::slotAddFiles));
     connect(m_model, &ArchiveModel::error,
             this, &Part::slotError);
     connect(m_model, &ArchiveModel::messageWidget,
@@ -213,7 +213,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, &Part::setBusyGui);
     connect(this, &Part::ready,
             this, &Part::setReadyGui);
-    connect(this, static_cast<void (KParts::ReadOnlyPart::*)()>(&KParts::ReadOnlyPart::completed),
+    connect(this, QOverload<>::of(&KParts::ReadOnlyPart::completed),
             this, &Part::setFileNameFromArchive);
     connect(ArkSettings::self(), &KCoreConfigSkeleton::configChanged, this, &Part::updateActions);
 
@@ -364,14 +364,14 @@ void Part::setupActions()
     m_openFileAction->setText(i18nc("open a file with external program", "&Open"));
     m_openFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     m_openFileAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with the associated application"));
-    connect(m_openFileAction, &QAction::triggered, m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(m_openFileAction, &QAction::triggered, m_signalMapper, QOverload<>::of(&QSignalMapper::map));
     m_signalMapper->setMapping(m_openFileAction, OpenFile);
 
     m_openFileWithAction = actionCollection()->addAction(QStringLiteral("openfilewith"));
     m_openFileWithAction->setText(i18nc("open a file with external program", "Open &With..."));
     m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     m_openFileWithAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with an external program"));
-    connect(m_openFileWithAction, &QAction::triggered, m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(m_openFileWithAction, &QAction::triggered, m_signalMapper, QOverload<>::of(&QSignalMapper::map));
     m_signalMapper->setMapping(m_openFileWithAction, OpenFileWith);
 
     m_previewAction = actionCollection()->addAction(QStringLiteral("preview"));
@@ -379,7 +379,7 @@ void Part::setupActions()
     m_previewAction->setIcon(QIcon::fromTheme(QStringLiteral("document-preview-archive")));
     m_previewAction->setToolTip(i18nc("@info:tooltip", "Click to preview the selected file"));
     actionCollection()->setDefaultShortcut(m_previewAction, Qt::CTRL + Qt::Key_P);
-    connect(m_previewAction, &QAction::triggered, m_signalMapper, static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
+    connect(m_previewAction, &QAction::triggered, m_signalMapper, QOverload<>::of(&QSignalMapper::map));
     m_signalMapper->setMapping(m_previewAction, Preview);
 
     m_extractArchiveAction = actionCollection()->addAction(QStringLiteral("extract_all"));
@@ -401,7 +401,7 @@ void Part::setupActions()
     m_addFilesAction->setText(i18n("Add &Files..."));
     m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
     actionCollection()->setDefaultShortcut(m_addFilesAction, Qt::ALT + Qt::Key_A);
-    connect(m_addFilesAction, &QAction::triggered, this, static_cast<void (Part::*)()>(&Part::slotAddFiles));
+    connect(m_addFilesAction, &QAction::triggered, this, QOverload<>::of(&Part::slotAddFiles));
 
     m_renameFileAction = actionCollection()->addAction(QStringLiteral("rename"));
     m_renameFileAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-rename")));
@@ -436,7 +436,7 @@ void Part::setupActions()
     m_pasteFilesAction->setText(i18nc("@action:inmenu", "Pa&ste"));
     actionCollection()->setDefaultShortcut(m_pasteFilesAction, Qt::CTRL + Qt::Key_V);
     m_pasteFilesAction->setToolTip(i18nc("@info:tooltip", "Click to paste the files here"));
-    connect(m_pasteFilesAction, &QAction::triggered, this, static_cast<void (Part::*)()>(&Part::slotPasteFiles));
+    connect(m_pasteFilesAction, &QAction::triggered, this, QOverload<>::of(&Part::slotPasteFiles));
 
     m_propertiesAction = actionCollection()->addAction(QStringLiteral("properties"));
     m_propertiesAction->setIcon(QIcon::fromTheme(QStringLiteral("document-properties")));
@@ -465,7 +465,7 @@ void Part::setupActions()
     m_searchAction->setToolTip(i18nc("@info:tooltip", "Click to search in archive"));
     connect(m_searchAction, &QAction::triggered, this, &Part::slotShowFind);
 
-    connect(m_signalMapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
+    connect(m_signalMapper, QOverload<int>::of(&QSignalMapper::mapped),
             this, &Part::slotOpenEntry);
 
     updateActions();
