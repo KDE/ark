@@ -1,14 +1,14 @@
-project(ark)
-
-cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
-set(QT_MIN_VERSION 5.6.0)
-set(KF5_MIN_VERSION 5.31.0)
+cmake_minimum_required (VERSION 3.0)
 
 # KDE Application Version, managed by release script
 set (KDE_APPLICATIONS_VERSION_MAJOR "17")
 set (KDE_APPLICATIONS_VERSION_MINOR "11")
 set (KDE_APPLICATIONS_VERSION_MICRO "70")
 set (KDE_APPLICATIONS_VERSION "${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO}")
+project(ark VERSION ${KDE_APPLICATIONS_VERSION})
+
+set(QT_MIN_VERSION 5.6.0)
+set(KF5_MIN_VERSION 5.31.0)
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
@@ -19,18 +19,17 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(GenerateExportHeader)
 include(FeatureSummary)
 include(ECMQtDeclareLoggingCategory)
+include(ECMSetupVersion)
 
 add_definitions(-DQT_NO_CAST_FROM_ASCII
                 -DQT_NO_URL_CAST_FROM_STRING)
 
-include(ECMSetupVersion)
-ecm_setup_version(${KDE_APPLICATIONS_VERSION}
+ecm_setup_version(PROJECT
                   VARIABLE_PREFIX ARK
                   VERSION_HEADER "ark_version.h")
 
-ecm_setup_version(${ARK_VERSION}
-                  VARIABLE_PREFIX KERFUFFLE
-                  SOVERSION ${ARK_VERSION_MAJOR})
+ecm_setup_version(PROJECT
+                  VARIABLE_PREFIX KERFUFFLE)
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
     Concurrent
