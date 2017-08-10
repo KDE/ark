@@ -1,0 +1,43 @@
+{
+    "id": "org.kde.ark",
+    "branch": "master",
+    "rename-icon": "ark",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.9",
+    "sdk": "org.kde.Sdk",
+    "command": "ark",
+    "tags": ["nightly"],
+    "desktop-file-name-prefix": "(Nightly) ",
+    "finish-args": ["--share=ipc", "--socket=x11", "--socket=wayland", "--filesystem=host", "--env=QT_QPA_PLATFORM=flatpak" ],
+
+    "modules": [
+        {
+            "name": "libarchive",
+            "config-opts": ["--without-xml2"],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://libarchive.org/downloads/libarchive-3.2.1.tar.gz",
+                    "sha256": "72ee1a4e3fd534525f13a0ba1aa7b05b203d186e0c6072a8a4738649d0b3cfd2"
+                }
+            ]
+        },
+        {
+            "name": "libzip",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://www.nih.at/libzip/libzip-1.2.0.tar.xz",
+                    "sha256": "ffc0764395fba3d45dc5a6e32282788854618b9e9838337f8218b596007f1376"
+                }
+            ]
+        },
+        {
+            "name": "ark",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                { "type": "git", "url": "git://anongit.kde.org/ark.git" }
+            ]
+        }
+    ]
+}
