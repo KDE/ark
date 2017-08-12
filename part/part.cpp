@@ -881,26 +881,24 @@ void Part::slotLoadingStarted()
 void Part::slotLoadingFinished(KJob *job)
 {
     if (job->error()) {
-        if (!isCreatingNewArchive()) {
-            if (job->error() != KJob::KilledJobError) {
-                displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error:<nl/><message>%2</message>",
-                                                               localFilePath(),
-                                                               job->errorString()));
-            }
-
-            // The file failed to open, so reset the open archive, info panel and caption.
-            m_model->reset();
-            m_infoPanel->setPrettyFileName(QString());
-            m_infoPanel->updateWithDefaults();
-
-            emit setWindowCaption(QString());
-#if KPARTS_VERSION >= QT_VERSION_CHECK(5, 37, 0)
-            // See https://phabricator.kde.org/D6856
-            closeUrl();
-#else
-            setUrl(QUrl());
-#endif
+        if (job->error() != KJob::KilledJobError) {
+            displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error:<nl/><message>%2</message>",
+                                                           localFilePath(),
+                                                           job->errorString()));
         }
+
+        // The file failed to open, so reset the open archive, info panel and caption.
+        m_model->reset();
+        m_infoPanel->setPrettyFileName(QString());
+        m_infoPanel->updateWithDefaults();
+
+        emit setWindowCaption(QString());
+#if KPARTS_VERSION >= QT_VERSION_CHECK(5, 37, 0)
+        // See https://phabricator.kde.org/D6856
+        closeUrl();
+#else
+        setUrl(QUrl());
+#endif
     } else {
         emit completed();
     }
