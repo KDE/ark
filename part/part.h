@@ -173,6 +173,12 @@ private:
      * @return true if both the current archive and the part are read-write, false otherwise.
      */
     bool isArchiveWritable() const;
+
+    /**
+     * @return Whether the part has been told to create a new archive.
+     */
+    bool isCreatingNewArchive() const;
+
     void createArchive();
     void loadArchive();
     void resetGui();

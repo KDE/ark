@@ -612,6 +612,11 @@ bool Part::isArchiveWritable() const
     return isReadWrite() && m_model->archive() && !m_model->archive()->isReadOnly();
 }
 
+bool Part::isCreatingNewArchive() const
+{
+    return arguments().metaData()[QStringLiteral("createNewArchive")] == QLatin1String("true");
+}
+
 void Part::createArchive()
 {
     const QString fixedMimeType = arguments().metaData()[QStringLiteral("fixedMimeType")];
@@ -773,9 +778,7 @@ bool Part::openFile()
         return false;
     }
 
-    const bool creatingNewArchive = arguments().metaData()[QStringLiteral("createNewArchive")] == QLatin1String("true");
-
-    if (creatingNewArchive) {
+    if (isCreatingNewArchive()) {
         createArchive();
         return true;
     }
@@ -815,7 +818,6 @@ bool Part::isLocalFileValid()
 {
     const QString localFile = localFilePath();
     const QFileInfo localFileInfo(localFile);
-    const bool creatingNewArchive = arguments().metaData()[QStringLiteral("createNewArchive")] == QLatin1String("true");
 
     if (localFileInfo.isDir()) {
         displayMsgWidget(KMessageWidget::Error, xi18nc("@info",
@@ -824,7 +826,7 @@ bool Part::isLocalFileValid()
         return false;
     }
 
-    if (creatingNewArchive) {
+    if (isCreatingNewArchive()) {
         if (localFileInfo.exists()) {
             if (!confirmAndDelete(localFile)) {
                 displayMsgWidget(KMessageWidget::Error, xi18nc("@info",
@@ -879,7 +881,7 @@ void Part::slotLoadingStarted()
 void Part::slotLoadingFinished(KJob *job)
 {
     if (job->error()) {
-        if (arguments().metaData()[QStringLiteral("createNewArchive")] != QLatin1String("true")) {
+        if (!isCreatingNewArchive()) {
             if (job->error() != KJob::KilledJobError) {
                 displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error:<nl/><message>%2</message>",
                                                                localFilePath(),
