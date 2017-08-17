@@ -213,6 +213,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, &Part::setBusyGui);
     connect(this, &Part::ready,
             this, &Part::setReadyGui);
+    connect(this, &KParts::ReadOnlyPart::urlChanged,
+            this, &Part::setFileNameFromArchive);
     connect(this, QOverload<>::of(&KParts::ReadOnlyPart::completed),
             this, &Part::setFileNameFromArchive);
     connect(ArkSettings::self(), &KCoreConfigSkeleton::configChanged, this, &Part::updateActions);
