@@ -46,6 +46,7 @@
         "Name[nn]": "Gzip-tillegg",
         "Name[pl]": "Wtyczka gzip",
         "Name[pt]": "'Plugin' do Gzip",
+        "Name[ru]": "Модуль Gzip",
         "Name[sk]": "Plugin Gzip",
         "Name[sl]": "Vstavek Gzip",
         "Name[sr@ijekavian]": "Прикључак за гзип",

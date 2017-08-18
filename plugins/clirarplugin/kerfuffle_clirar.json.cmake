@@ -46,6 +46,7 @@
         "Name[nn]": "RAR-tillegg",
         "Name[pl]": "Wtyczka RAR",
         "Name[pt]": "'Plugin' do RAR",
+        "Name[ru]": "Модуль RAR",
         "Name[sk]": "Plugin RAR",
         "Name[sl]": "Vstavek RAR",
         "Name[sr@ijekavian]": "Прикључак за РАР",

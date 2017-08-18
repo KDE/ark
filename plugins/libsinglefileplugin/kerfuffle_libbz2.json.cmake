@@ -46,6 +46,7 @@
         "Name[nn]": "Bzip2-tillegg",
         "Name[pl]": "Wtyczka bzip2",
         "Name[pt]": "'Plugin' do Bzip2",
+        "Name[ru]": "Модуль Bzip2",
         "Name[sk]": "Plugin Bzip2",
         "Name[sl]": "Vstavek Bzip2",
         "Name[sr@ijekavian]": "Прикључак за бзип2",

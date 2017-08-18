@@ -44,6 +44,7 @@
         "Name[nn]": "Libzip-tillegg",
         "Name[pl]": "Wtyczka libzip",
         "Name[pt]": "'Plugin' da Libzip",
+        "Name[ru]": "Модуль Libzip",
         "Name[sk]": "Plugin Libzip",
         "Name[sl]": "Vstavek Libzip",
         "Name[sr@ijekavian]": "Прикључак за Либзип",
