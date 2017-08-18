@@ -101,6 +101,7 @@ protected:
     void guiActivateEvent(KParts::GUIActivateEvent *event) override;
 
 private slots:
+    void slotCompleted();
     void slotLoadingStarted();
     void slotLoadingFinished(KJob *job);
     void slotOpenExtractedEntry(KJob*);

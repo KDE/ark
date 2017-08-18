@@ -216,6 +216,8 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
             this, &Part::setFileNameFromArchive);
     connect(this, QOverload<>::of(&KParts::ReadOnlyPart::completed),
             this, &Part::setFileNameFromArchive);
+    connect(this, QOverload<>::of(&KParts::ReadOnlyPart::completed),
+            this, &Part::slotCompleted);
     connect(ArkSettings::self(), &KCoreConfigSkeleton::configChanged, this, &Part::updateActions);
 
     m_statusBarExtension = new KParts::StatusBarExtension(this);
@@ -632,9 +634,6 @@ void Part::createArchive()
         m_model->encryptArchive(password,
                                 arguments().metaData()[QStringLiteral("encryptHeader")] == QLatin1String("true"));
     }
-
-    updateActions();
-    m_view->setDropsEnabled(true);
 }
 
 void Part::loadArchive()
@@ -873,45 +872,19 @@ bool Part::confirmAndDelete(const QString &targetFile)
     return QFile(targetFile).remove();
 }
 
-void Part::slotLoadingStarted()
+void Part::slotCompleted()
 {
-    m_model->filesToMove.clear();
-    m_model->filesToCopy.clear();
-}
-
-void Part::slotLoadingFinished(KJob *job)
-{
-    if (job->error()) {
-        if (job->error() != KJob::KilledJobError) {
-            displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error:<nl/><message>%2</message>",
-                                                           localFilePath(),
-                                                           job->errorString()));
-        }
-
-        // The file failed to open, so reset the open archive, info panel and caption.
-        m_model->reset();
-        m_infoPanel->setPrettyFileName(QString());
-        m_infoPanel->updateWithDefaults();
-
-        emit setWindowCaption(QString());
-        closeUrl();
-    } else {
-        emit completed();
-    }
-
-    m_view->sortByColumn(0, Qt::AscendingOrder);
-    m_view->expandIfSingleFolder();
-
-    // After loading all files, resize the columns to fit all fields
-    m_view->header()->resizeSections(QHeaderView::ResizeToContents);
-    // Now we can start accepting drops in the archive view (if loading was successful and the archive can be modified).
-    m_view->setDropsEnabled(!job->error() && isArchiveWritable());
-
-    updateActions();
-
-    if (!m_model->archive()) {
+    if (isCreatingNewArchive()) {
+        m_view->setDropsEnabled(true);
+        updateActions();
         return;
     }
+
+    // Existing archive, setup the view for it.
+    m_view->sortByColumn(0, Qt::AscendingOrder);
+    m_view->expandIfSingleFolder();
+    m_view->header()->resizeSections(QHeaderView::ResizeToContents);
+    m_view->setDropsEnabled(isArchiveWritable());
 
     if (!m_model->archive()->comment().isEmpty()) {
         m_commentView->setPlainText(m_model->archive()->comment());
@@ -934,6 +907,35 @@ void Part::slotLoadingFinished(KJob *job)
 
     if (arguments().metaData()[QStringLiteral("showExtractDialog")] == QLatin1String("true")) {
         QTimer::singleShot(0, this, &Part::slotShowExtractionDialog);
+    }
+
+    updateActions();
+}
+
+void Part::slotLoadingStarted()
+{
+    m_model->filesToMove.clear();
+    m_model->filesToCopy.clear();
+}
+
+void Part::slotLoadingFinished(KJob *job)
+{
+    if (!job->error()) {
+        emit completed();
+        return;
+    }
+
+    // Loading failed or was canceled by the user (e.g. password dialog rejected).
+    emit canceled(job->errorString());
+    m_view->setDropsEnabled(false);
+    m_model->reset();
+    closeUrl();
+    setFileNameFromArchive();
+    updateActions();
+    if (job->error() != KJob::KilledJobError) {
+        displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error:<nl/><message>%2</message>",
+                                                       localFilePath(),
+                                                       job->errorString()));
     }
 }
 
