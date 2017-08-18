@@ -44,6 +44,7 @@
         "Name[nn]": "Info-ZIP-tillegg",
         "Name[pl]": "Wtyczka info-zip",
         "Name[pt]": "'Plugin' do Info-zip",
+        "Name[ru]": "Модуль Info-zip",
         "Name[sk]": "Plugin Info-zip",
         "Name[sl]": "Vstavek Info-zip",
         "Name[sr@ijekavian]": "Прикључак за Инфозип",

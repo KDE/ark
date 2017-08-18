@@ -44,6 +44,7 @@
         "Name[nn]": "Libarchive-tillegg",
         "Name[pl]": "Wtyczka libarchive",
         "Name[pt]": "'Plugin' da Libarchive",
+        "Name[ru]": "Модуль Libarchive",
         "Name[sk]": "Plugin Libarchive",
         "Name[sl]": "Vstavek Libarchive",
         "Name[sr@ijekavian]": "Прикључак за Либархив",

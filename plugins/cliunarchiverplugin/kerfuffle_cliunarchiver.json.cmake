@@ -52,6 +52,7 @@
         "Name[pl]": "Wtyczka wypakowywacza",
         "Name[pt]": "O 'plugin' do Unarchiver",
         "Name[pt_BR]": "Plugin Unarchiver",
+        "Name[ru]": "Модуль Unarchiver",
         "Name[sk]": "Plugin Unarchiver",
         "Name[sl]": "Vstavek Unarchiver",
         "Name[sr@ijekavian]": "Прикључак Унархивера",

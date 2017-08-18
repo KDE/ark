@@ -44,6 +44,7 @@
         "Name[nn]": "P7zip-tillegg",
         "Name[pl]": "Wtyczka p7zip",
         "Name[pt]": "'Plugin' do P7zip",
+        "Name[ru]": "Модуль P7zip",
         "Name[sk]": "Plugin P7zip",
         "Name[sl]": "Vstavek P7zip",
         "Name[sr@ijekavian]": "Прикључак за П7зип",

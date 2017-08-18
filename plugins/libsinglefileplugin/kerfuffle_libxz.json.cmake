@@ -44,6 +44,7 @@
         "Name[nn]": "LZMA-tillegg",
         "Name[pl]": "Wtyczka LZMA",
         "Name[pt]": "'Plugin' do LZMA",
+        "Name[ru]": "Модуль LZMA",
         "Name[sk]": "Plugin LZMA",
         "Name[sl]": "Vstavek LZMA",
         "Name[sr@ijekavian]": "Прикључак за ЛЗМА",
