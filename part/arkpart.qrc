@@ -1,0 +1,5 @@
+<RCC>
+<qresource prefix="/kxmlgui5/ark">
+<file>ark_part.rc</file>
+</qresource>
+</RCC>

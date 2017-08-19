@@ -9,6 +9,8 @@ set(ark_SRCS
     mainwindow.cpp
    )
 
+qt5_add_resources(ark_SRCS ark.qrc)
+
 ecm_qt_declare_logging_category(ark_SRCS
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
@@ -63,7 +65,6 @@ configure_file(
 install(TARGETS ark  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.ark.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-install(FILES arkui.rc    DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/ark)
 
 ############ ark_extract_here plugin ###############
 

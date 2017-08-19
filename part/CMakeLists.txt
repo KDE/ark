@@ -10,6 +10,8 @@ set(arkpart_PART_SRCS
     overwritedialog.cpp
     )
 
+qt5_add_resources(arkpart_PART_SRCS arkpart.qrc)
+
 ecm_qt_declare_logging_category(arkpart_PART_SRCS
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
@@ -38,5 +40,4 @@ install(TARGETS arkpart DESTINATION ${KDE_INSTALL_PLUGINDIR})
 ########### install files ###############
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
-install(FILES ark_part.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/ark)
 install(FILES ark_viewer.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/ark)
