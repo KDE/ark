@@ -176,7 +176,7 @@ void MainWindow::setupActions()
     m_openAction = actionCollection()->addAction(KStandardAction::Open, QStringLiteral("ark_file_open"), this, SLOT(openArchive()));
     actionCollection()->addAction(KStandardAction::Quit, QStringLiteral("ark_quit"), this, SLOT(quit()));
 
-    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openUrl(QUrl)), nullptr);
+    m_recentFilesAction = KStandardAction::openRecent(this, &MainWindow::openUrl, nullptr);
     actionCollection()->addAction(QStringLiteral("ark_file_open_recent"), m_recentFilesAction);
 
     m_recentFilesAction->setToolBarMode(KRecentFilesAction::MenuMode);
@@ -185,7 +185,7 @@ void MainWindow::setupActions()
     m_recentFilesAction->setToolTip(i18n("Open an archive"));
     m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group("Recent Files"));
 
-    KStandardAction::preferences(this, SLOT(showSettings()), actionCollection());
+    KStandardAction::preferences(this, &MainWindow::showSettings, actionCollection());
 }
 
 void MainWindow::updateActions()
