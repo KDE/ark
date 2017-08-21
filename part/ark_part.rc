@@ -1,5 +1,5 @@
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="ark_part" version="22" translationDomain="ark">
+<gui name="ark_part" version="23" translationDomain="ark">
 <MenuBar>
 	<Menu name="archive">
 		<text>&amp;Archive</text>
@@ -7,7 +7,7 @@
 		<Action name="add" group="archive_edit"/>
 		<Action name="edit_comment" group="archive_edit"/>
 		<Action name="extract_all" group="archive_extract"/>
-		<Action name="find_in_archive" group="archive_props"/>
+		<Action name="edit_find" group="archive_props"/>
 		<Action name="test_archive" group="archive_props"/>
 		<Action name="properties" group="archive_props"/>
 	</Menu>
@@ -35,7 +35,7 @@
 	<Action name="extract"/>
 	<Action name="preview"/>
 	<Action name="openfile"/>
-	<Action name="find_in_archive"/>
+	<Action name="edit_find"/>
 	<Separator/>
 	<Action name="add"/>
 	<Action name="deletefile"/>

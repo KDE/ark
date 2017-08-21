@@ -436,12 +436,7 @@ void Part::setupActions()
     m_testArchiveAction->setToolTip(i18nc("@info:tooltip", "Click to test the archive for integrity"));
     connect(m_testArchiveAction, &QAction::triggered, this, &Part::slotTestArchive);
 
-    m_searchAction = actionCollection()->addAction(QStringLiteral("find_in_archive"));
-    m_searchAction->setIcon(QIcon::fromTheme(QStringLiteral("search")));
-    m_searchAction->setText(i18nc("@action:inmenu", "&Find Files"));
-    actionCollection()->setDefaultShortcut(m_searchAction, Qt::CTRL + Qt::Key_F);
-    m_searchAction->setToolTip(i18nc("@info:tooltip", "Click to search in archive"));
-    connect(m_searchAction, &QAction::triggered, this, &Part::slotShowFind);
+    m_searchAction = KStandardAction::find(this, &Part::slotShowFind, actionCollection());
 
     connect(m_signalMapper, QOverload<int>::of(&QSignalMapper::mapped),
             this, &Part::slotOpenEntry);
