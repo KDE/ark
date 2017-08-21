@@ -1,5 +1,5 @@
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="ark_part" version="20" translationDomain="ark">
+<gui name="ark_part" version="21" translationDomain="ark">
 <MenuBar>
 	<Menu name="archive">
 		<text>&amp;Archive</text>
@@ -18,7 +18,7 @@
 		<Action name="openfilewith"/>
 		<Separator/>
 		<Action name="renamefile"/>
-		<Action name="delete"/>
+		<Action name="deletefile"/>
 		<Action name="extract"/>
 		<Separator/>
 		<Action name="cut"/>
@@ -38,7 +38,7 @@
 	<Action name="find_in_archive"/>
 	<Separator/>
 	<Action name="add"/>
-	<Action name="delete"/>
+	<Action name="deletefile"/>
 </ToolBar>
 <Menu name="context_menu">
 	<Action name="preview"/>
@@ -46,7 +46,7 @@
 	<Action name="openfilewith"/>
 	<Separator/>
 	<Action name="renamefile"/>
-	<Action name="delete"/>
+	<Action name="deletefile"/>
 	<Action name="extract"/>
 	<Separator/>
 	<Action name="cut"/>

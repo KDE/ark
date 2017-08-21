@@ -408,12 +408,9 @@ void Part::setupActions()
 
     m_renameFileAction = KStandardAction::renameFile(m_view, &ArchiveView::renameSelectedEntry, actionCollection());
 
-    m_deleteFilesAction = actionCollection()->addAction(QStringLiteral("delete"));
+    m_deleteFilesAction = KStandardAction::deleteFile(this, &Part::slotDeleteFiles, actionCollection());
     m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
-    m_deleteFilesAction->setText(i18n("De&lete"));
     actionCollection()->setDefaultShortcut(m_deleteFilesAction, Qt::Key_Delete);
-    m_deleteFilesAction->setToolTip(i18nc("@info:tooltip", "Click to delete the selected files"));
-    connect(m_deleteFilesAction, &QAction::triggered, this, &Part::slotDeleteFiles);
 
     m_cutFilesAction = actionCollection()->addAction(QStringLiteral("cut"));
     m_cutFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
