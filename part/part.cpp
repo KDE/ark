@@ -412,26 +412,9 @@ void Part::setupActions()
     m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
     actionCollection()->setDefaultShortcut(m_deleteFilesAction, Qt::Key_Delete);
 
-    m_cutFilesAction = actionCollection()->addAction(QStringLiteral("cut"));
-    m_cutFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
-    m_cutFilesAction->setText(i18nc("@action:inmenu", "C&ut"));
-    actionCollection()->setDefaultShortcut(m_cutFilesAction, Qt::CTRL + Qt::Key_X);
-    m_cutFilesAction->setToolTip(i18nc("@info:tooltip", "Click to cut the selected files"));
-    connect(m_cutFilesAction, &QAction::triggered, this, &Part::slotCutFiles);
-
-    m_copyFilesAction = actionCollection()->addAction(QStringLiteral("copy"));
-    m_copyFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
-    m_copyFilesAction->setText(i18nc("@action:inmenu", "C&opy"));
-    actionCollection()->setDefaultShortcut(m_copyFilesAction, Qt::CTRL + Qt::Key_C);
-    m_copyFilesAction->setToolTip(i18nc("@info:tooltip", "Click to copy the selected files"));
-    connect(m_copyFilesAction, &QAction::triggered, this, &Part::slotCopyFiles);
-
-    m_pasteFilesAction = actionCollection()->addAction(QStringLiteral("paste"));
-    m_pasteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-paste")));
-    m_pasteFilesAction->setText(i18nc("@action:inmenu", "Pa&ste"));
-    actionCollection()->setDefaultShortcut(m_pasteFilesAction, Qt::CTRL + Qt::Key_V);
-    m_pasteFilesAction->setToolTip(i18nc("@info:tooltip", "Click to paste the files here"));
-    connect(m_pasteFilesAction, &QAction::triggered, this, QOverload<>::of(&Part::slotPasteFiles));
+    m_cutFilesAction = KStandardAction::cut(this, &Part::slotCutFiles, actionCollection());
+    m_copyFilesAction = KStandardAction::copy(this, &Part::slotCopyFiles, actionCollection());
+    m_pasteFilesAction = KStandardAction::paste(this, QOverload<>::of(&Part::slotPasteFiles), actionCollection());
 
     m_propertiesAction = actionCollection()->addAction(QStringLiteral("properties"));
     m_propertiesAction->setIcon(QIcon::fromTheme(QStringLiteral("document-properties")));
