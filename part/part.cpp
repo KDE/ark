@@ -361,7 +361,8 @@ void Part::setupActions()
     connect(m_showInfoPanelAction, &QAction::triggered,
             this, &Part::slotToggleInfoPanel);
 
-    m_saveAsAction = actionCollection()->addAction(KStandardAction::SaveAs, QStringLiteral("ark_file_save_as"), this, SLOT(slotSaveAs()));
+    m_saveAsAction = KStandardAction::saveAs(this, &Part::slotSaveAs, nullptr);
+    actionCollection()->addAction(QStringLiteral("ark_file_save_as"), m_saveAsAction);
 
     m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
     m_openFileAction->setText(i18nc("open a file with external program", "&Open"));

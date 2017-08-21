@@ -172,10 +172,12 @@ bool MainWindow::loadPart()
 
 void MainWindow::setupActions()
 {
-    m_newAction = actionCollection()->addAction(KStandardAction::New, QStringLiteral("ark_file_new"), this, SLOT(newArchive()));
-    m_openAction = actionCollection()->addAction(KStandardAction::Open, QStringLiteral("ark_file_open"), this, SLOT(openArchive()));
-    actionCollection()->addAction(KStandardAction::Quit, QStringLiteral("ark_quit"), this, SLOT(quit()));
-
+    m_newAction = KStandardAction::openNew(this, &MainWindow::newArchive, nullptr);
+    actionCollection()->addAction(QStringLiteral("ark_file_new"), m_newAction);
+    m_openAction = KStandardAction::open(this, &MainWindow::openArchive, nullptr);
+    actionCollection()->addAction(QStringLiteral("ark_file_open"), m_openAction);
+    auto quitAction = KStandardAction::quit(this, &MainWindow::quit, nullptr);
+    actionCollection()->addAction(QStringLiteral("ark_quit"), quitAction);
     m_recentFilesAction = KStandardAction::openRecent(this, &MainWindow::openUrl, nullptr);
     actionCollection()->addAction(QStringLiteral("ark_file_open_recent"), m_recentFilesAction);
 
