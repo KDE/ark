@@ -406,12 +406,7 @@ void Part::setupActions()
     actionCollection()->setDefaultShortcut(m_addFilesAction, Qt::ALT + Qt::Key_A);
     connect(m_addFilesAction, &QAction::triggered, this, QOverload<>::of(&Part::slotAddFiles));
 
-    m_renameFileAction = actionCollection()->addAction(QStringLiteral("rename"));
-    m_renameFileAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-rename")));
-    m_renameFileAction->setText(i18n("&Rename"));
-    actionCollection()->setDefaultShortcut(m_renameFileAction, Qt::Key_F2);
-    m_renameFileAction->setToolTip(i18nc("@info:tooltip", "Click to rename the selected file"));
-    connect(m_renameFileAction, &QAction::triggered, m_view, &ArchiveView::renameSelectedEntry);
+    m_renameFileAction = KStandardAction::renameFile(m_view, &ArchiveView::renameSelectedEntry, actionCollection());
 
     m_deleteFilesAction = actionCollection()->addAction(QStringLiteral("delete"));
     m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
