@@ -272,9 +272,9 @@ QString CliProperties::substituteEncryptionMethodSwitch(const QString &method) c
 
 QString CliProperties::substituteMultiVolumeSwitch(ulong volumeSize) const
 {
-    // The maximum value we allow in the QDoubleSpinBox is 1000MB. Converted to
-    // KB this is 1024000.
-    if (volumeSize <= 0 || volumeSize > 1024000) {
+    // The maximum value we allow in the QDoubleSpinBox is 1,000,000MB. Converted to
+    // KB this is 1,024,000,000.
+    if (volumeSize <= 0 || volumeSize > 1024000000) {
         return QString();
     }
 
