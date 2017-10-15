@@ -23,10 +23,6 @@
 #include "jobtracker.h"
 #include "ark_debug.h"
 
-#include <KIO/JobTracker>
-
-#include <QDebug>
-
 JobTrackerWidget::JobTrackerWidget(QWidget *parent)
         : QFrame(parent)
 {
@@ -75,7 +71,6 @@ void JobTracker::registerJob(KJob *job)
 {
     m_jobs << job;
     KJobTrackerInterface::registerJob(job);
-    KIO::getJobTracker()->registerJob(job);
     m_ui->show();
     m_ui->informationLabel->hide();
     m_ui->progressBar->show();

@@ -261,6 +261,8 @@ void Part::registerJob(KJob* job)
         m_statusBarExtension->addStatusBarItem(m_jobTracker->widget(nullptr), 0, true);
         m_jobTracker->widget(job)->show();
     }
+
+    KIO::getJobTracker()->registerJob(job);
     m_jobTracker->registerJob(job);
 
     emit busy();
