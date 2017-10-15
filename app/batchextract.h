@@ -223,7 +223,6 @@ private:
     QStringList m_failedFiles;
     bool m_preservePaths;
     bool m_openDestinationAfterExtraction;
-    bool m_registered;
 };
 
 #endif // BATCHEXTRACT_H

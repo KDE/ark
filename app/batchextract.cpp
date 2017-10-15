@@ -47,8 +47,7 @@ BatchExtract::BatchExtract(QObject* parent)
     : KCompositeJob(parent),
       m_autoSubfolder(false),
       m_preservePaths(true),
-      m_openDestinationAfterExtraction(false),
-      m_registered(false)
+      m_openDestinationAfterExtraction(false)
 {
     setCapabilities(KJob::Killable);
 
@@ -57,9 +56,6 @@ BatchExtract::BatchExtract(QObject* parent)
 
 BatchExtract::~BatchExtract()
 {
-    if (m_registered) {
-        KIO::getJobTracker()->unregisterJob(this);
-    }
 }
 
 void BatchExtract::addExtraction(const QUrl& url)
@@ -121,7 +117,6 @@ void BatchExtract::slotStartJob()
     }
 
     KIO::getJobTracker()->registerJob(this);
-    m_registered = true;
 
     emit description(this,
                      i18n("Extracting Files"),
