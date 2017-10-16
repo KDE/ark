@@ -550,7 +550,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
 
     time_t parent_mtime;
     if (restoreParentMtime) {
-        parent_mtime = QFileInfo(parentDir).lastModified().toSecsSinceEpoch();
+        parent_mtime = QFileInfo(parentDir).lastModified().toMSecsSinceEpoch() / 1000;
     }
 
     // Create parent directories for files. For directories create them.
