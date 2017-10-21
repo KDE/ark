@@ -36,6 +36,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QFile>
+#include <qplatformdefs.h>
 #include <QThread>
 
 #include <utime.h>
@@ -235,6 +236,20 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
             return false;
         }
     }
+
+#ifndef Q_OS_WIN
+    // Set permissions.
+    QT_STATBUF result;
+    if (QT_STAT(QFile::encodeName(file), &result) != 0) {
+        qCWarning(ARK) << "Failed to read permissions for:" << file;
+    } else {
+        zip_uint32_t attributes = result.st_mode << 16;
+        if (zip_file_set_external_attributes(archive, index, ZIP_FL_UNCHANGED, ZIP_OPSYS_UNIX, attributes) != 0) {
+            qCWarning(ARK) << "Failed to set external attributes for:" << file;
+        }
+    }
+#endif
+
     if (!password().isEmpty()) {
         Q_ASSERT(!options.encryptionMethod().isEmpty());
         if (options.encryptionMethod() == QLatin1String("AES128")) {
@@ -329,6 +344,25 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
                     break;
             }
         }
+    }
+
+    // Read external attributes, which contains the file permissions.
+    zip_uint8_t opsys;
+    zip_uint32_t attributes;
+    if (zip_file_get_external_attributes(archive, index, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
+        qCCritical(ARK) << "Could not read external attributes for entry:" << QString::fromUtf8(sb.name);
+        emit error(xi18n("Failed to read metadata for entry: %1", QString::fromUtf8(sb.name)));
+        return false;
+    }
+
+    // Set permissions.
+    switch (opsys) {
+    case ZIP_OPSYS_UNIX:
+        // Unix permissions are stored in the leftmost 16 bits of the external file attribute.
+        e->setProperty("permissions", permissionsToString(attributes >> 16));
+        break;
+    default:    // TODO: non-UNIX.
+        break;
     }
 
     emit entry(e);
@@ -834,17 +868,87 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
             return false;
         }
 
-        emitEntryForIndex(archive, destIndex);
-        emit progress(i/filePaths.count());
+        // Get permissions from source entry.
+        zip_uint8_t opsys;
+        zip_uint32_t attributes;
+        if (zip_file_get_external_attributes(archive, srcIndex, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
+            qCCritical(ARK) << "Failed to read external attributes for source:" << filePaths.at(i);
+            emit error(xi18n("Failed to read metadata for entry: %1", filePaths.at(i)));
+            return false;
+        }
+
+        // Set permissions on dest entry.
+        if (zip_file_set_external_attributes(archive, destIndex, ZIP_FL_UNCHANGED, opsys, attributes) != 0) {
+            qCCritical(ARK) << "Failed to set external attributes for destination:" << dest;
+            emit error(xi18n("Failed to set metadata for entry: %1", dest));
+            return false;
+        }
     }
+
+    // Register the callback function to get progress feedback.
+    Callback<void(double)>::func = std::bind(&LibzipPlugin::progressEmitted, this, std::placeholders::_1);
+    void (*c_func)(double) = static_cast<decltype(c_func)>(Callback<void(double)>::callback);
+    zip_register_progress_callback(archive, c_func);
+
     if (zip_close(archive)) {
         qCCritical(ARK) << "Failed to write archive";
         emit error(xi18n("Failed to write archive."));
         return false;
     }
+
+    // List the archive to update the model.
+    m_listAfterAdd = true;
+    list();
+
     qCDebug(ARK) << "Copied" << i << "entries";
 
     return true;
+}
+
+QString LibzipPlugin::permissionsToString(const mode_t &perm)
+{
+    QString modeval;
+    if ((perm & S_IFMT) == S_IFDIR) {
+        modeval.append(QLatin1Char('d'));
+    } else if ((perm & S_IFMT) == S_IFLNK) {
+        modeval.append(QLatin1Char('l'));
+    } else {
+        modeval.append(QLatin1Char('-'));
+    }
+    modeval.append((perm & S_IRUSR) ? QLatin1Char('r') : QLatin1Char('-'));
+    modeval.append((perm & S_IWUSR) ? QLatin1Char('w') : QLatin1Char('-'));
+    if ((perm & S_ISUID) && (perm & S_IXUSR)) {
+        modeval.append(QLatin1Char('s'));
+    } else if ((perm & S_ISUID)) {
+        modeval.append(QLatin1Char('S'));
+    } else if ((perm & S_IXUSR)) {
+        modeval.append(QLatin1Char('x'));
+    } else {
+        modeval.append(QLatin1Char('-'));
+    }
+    modeval.append((perm & S_IRGRP) ? QLatin1Char('r') : QLatin1Char('-'));
+    modeval.append((perm & S_IWGRP) ? QLatin1Char('w') : QLatin1Char('-'));
+    if ((perm & S_ISGID) && (perm & S_IXGRP)) {
+        modeval.append(QLatin1Char('s'));
+    } else if ((perm & S_ISGID)) {
+        modeval.append(QLatin1Char('S'));
+    } else if ((perm & S_IXGRP)) {
+        modeval.append(QLatin1Char('x'));
+    } else {
+        modeval.append(QLatin1Char('-'));
+    }
+    modeval.append((perm & S_IROTH) ? QLatin1Char('r') : QLatin1Char('-'));
+    modeval.append((perm & S_IWOTH) ? QLatin1Char('w') : QLatin1Char('-'));
+    if ((perm & S_ISVTX) && (perm & S_IXOTH)) {
+        modeval.append(QLatin1Char('t'));
+    } else if ((perm & S_ISVTX)) {
+        modeval.append(QLatin1Char('T'));
+    } else if ((perm & S_IXOTH)) {
+        modeval.append(QLatin1Char('x'));
+    } else {
+        modeval.append(QLatin1Char('-'));
+    }
+    return modeval;
 }
 
 #include "libzipplugin.moc"

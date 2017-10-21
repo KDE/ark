@@ -56,6 +56,7 @@ private:
     bool writeEntry(zip_t *archive, const QString &entry, const Archive::Entry* destination, const CompressionOptions& options, bool isDir = false);
     bool emitEntryForIndex(zip_t *archive, qlonglong index);
     void progressEmitted(double pct);
+    QString permissionsToString(const mode_t &perm);
 
     QVector<Archive::Entry*> m_emittedEntries;
     bool m_overwriteAll;
