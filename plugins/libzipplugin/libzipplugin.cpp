@@ -702,21 +702,20 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         // Write archive entry to file. We use a read/write buffer of 1000 chars.
         qulonglong sum = 0;
         char buf[1000];
-        int len;
         while (sum != sb.size) {
-            len = zip_fread(zf, buf, 1000);
-            if (len < 0) {
+            const auto readBytes = zip_fread(zf, buf, 1000);
+            if (readBytes < 0) {
                 qCCritical(ARK) << "Failed to read data";
                 emit error(xi18n("Failed to read data for entry: %1", entry));
                 return false;
             }
-            if (out.writeRawData(buf, len) != len) {
+            if (out.writeRawData(buf, readBytes) != readBytes) {
                 qCCritical(ARK) << "Failed to write data";
                 emit error(xi18n("Failed to write data for entry: %1", entry));
                 return false;
             }
 
-            sum += len;
+            sum += readBytes;
         }
 
         const auto index = zip_name_locate(archive, entry.toUtf8(), ZIP_FL_ENC_GUESS);
