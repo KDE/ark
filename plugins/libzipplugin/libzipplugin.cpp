@@ -39,6 +39,7 @@
 #include <QThread>
 
 #include <utime.h>
+#include <zlib.h>
 
 K_PLUGIN_FACTORY_WITH_JSON(LibZipPluginFactory, "kerfuffle_libzip.json", registerPlugin<LibzipPlugin>();)
 
@@ -423,6 +424,33 @@ bool LibzipPlugin::testArchive()
         qCCritical(ARK) << "Failed to open archive:" << zip_error_strerror(&err);
         return false;
     }
+
+    // Check CRC-32 for each archive entry.
+    const int nofEntries = zip_get_num_entries(archive, 0);
+    for (int i = 0; i < nofEntries; i++) {
+
+        // Get statistic for entry. Used to get entry size.
+        zip_stat_t sb;
+        if (zip_stat_index(archive, i, 0, &sb) != 0) {
+            qCCritical(ARK) << "Failed to read stat for" << sb.name;
+            return false;
+        }
+
+        zip_file *zf = zip_fopen_index(archive, i, 0);
+        QScopedPointer<uchar> buf(new uchar[sb.size]);
+        const int len = zip_fread(zf, buf.data(), sb.size);
+        if (len == -1 || uint(len) != sb.size) {
+            qCCritical(ARK) << "Failed to read data for" << sb.name;
+            return false;
+        }
+        if (sb.crc != crc32(0, &buf.data()[0], len)) {
+            qCCritical(ARK) << "CRC check failed for" << sb.name;
+            return false;
+        }
+
+        emit progress(float(i) / nofEntries);
+    }
+
     zip_close(archive);
 
     emit testSuccess();

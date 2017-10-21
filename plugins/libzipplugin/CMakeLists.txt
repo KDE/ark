@@ -15,13 +15,19 @@ ecm_qt_declare_logging_category(kerfuffle_libzip_SRCS
 # double-quotes of the last mime must NOT be escaped.
 set(SUPPORTED_MIMETYPES "application/zip")
 
+find_package(ZLIB REQUIRED)
+set_package_properties(ZLIB PROPERTIES
+                       URL "http://www.zlib.net/"
+                       DESCRIPTION "The Zlib compression library"
+                       PURPOSE "Required for integrity check in libzip plugin")
+
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libzip.json.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libzip.json)
 
 kerfuffle_add_plugin(kerfuffle_libzip ${kerfuffle_libzip_SRCS})
 
-target_link_libraries(kerfuffle_libzip KF5::KIOCore ${LibZip_LIBRARIES})
+target_link_libraries(kerfuffle_libzip KF5::KIOCore ${LibZip_LIBRARIES} ${ZLIB_LIBRARIES})
 
 set(INSTALLED_LIBZIP_PLUGINS "${INSTALLED_LIBZIP_PLUGINS}kerfuffle_libzip;")
 
