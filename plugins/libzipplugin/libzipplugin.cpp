@@ -96,7 +96,7 @@ bool LibzipPlugin::list()
     m_comment = QString::fromUtf8(zip_get_archive_comment(archive, nullptr, ZIP_FL_ENC_GUESS));
 
     // Get number of archive entries.
-    int nofEntries = zip_get_num_entries(archive, 0);
+    const auto nofEntries = zip_get_num_entries(archive, 0);
     qCDebug(ARK) << "Found entries:" << nofEntries;
 
     // Loop through all archive entries.
@@ -156,7 +156,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
                             QDirIterator::Subdirectories);
 
             while (!QThread::currentThread()->isInterruptionRequested() && it.hasNext()) {
-                QString path = it.next();
+                const QString path = it.next();
 
                 if (QFileInfo(path).isDir()) {
                     if (!writeEntry(archive, path, destination, options, true)) {
@@ -358,7 +358,7 @@ bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
             break;
         }
 
-        qlonglong index = zip_name_locate(archive, e->fullPath().toUtf8(), ZIP_FL_ENC_GUESS);
+        const qlonglong index = zip_name_locate(archive, e->fullPath().toUtf8(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
             qCCritical(ARK) << "Could not find entry to delete:" << e->fullPath();
             emit error(xi18n("Failed to delete entry: %1", e->fullPath()));
@@ -489,8 +489,7 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     }
 
     // Get number of archive entries.
-    qlonglong nofEntries;
-    extractAll ? nofEntries = zip_get_num_entries(archive, 0) : nofEntries = files.size();
+    const qlonglong nofEntries = extractAll ? zip_get_num_entries(archive, 0) : files.size();
 
     // Extract entries.
     m_overwriteAll = false; // Whether to overwrite all files
@@ -574,7 +573,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         parentDir = QFileInfo(destination).path();
     }
     // For top-level items, dont restore parent dir mtime.
-    bool restoreParentMtime = (parentDir + QDir::separator() != destDirCorrected);
+    const bool restoreParentMtime = (parentDir + QDir::separator() != destDirCorrected);
 
     time_t parent_mtime;
     if (restoreParentMtime) {
