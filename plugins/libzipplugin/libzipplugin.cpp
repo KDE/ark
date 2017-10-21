@@ -38,6 +38,8 @@
 #include <QFile>
 #include <QThread>
 
+#include <utime.h>
+
 K_PLUGIN_FACTORY_WITH_JSON(LibZipPluginFactory, "kerfuffle_libzip.json", registerPlugin<LibzipPlugin>();)
 
 // This is needed for hooking a C callback to a C++ non-static member
@@ -534,6 +536,23 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         destination = destDirCorrected + QFileInfo(entry).fileName();
     }
 
+    // Store parent mtime.
+    QString parentDir;
+    if (isDirectory) {
+        QDir pDir = QFileInfo(destination).dir();
+        pDir.cdUp();
+        parentDir = pDir.path();
+    } else {
+        parentDir = QFileInfo(destination).path();
+    }
+    // For top-level items, dont restore parent dir mtime.
+    bool restoreParentMtime = (parentDir + QDir::separator() != destDirCorrected);
+
+    time_t parent_mtime;
+    if (restoreParentMtime) {
+        parent_mtime = QFileInfo(parentDir).lastModified().toMSecsSinceEpoch() / 1000;
+    }
+
     // Create parent directories for files. For directories create them.
     if (!QDir().mkpath(QFileInfo(destination).path())) {
         qCDebug(ARK) << "Failed to create directory:" << QFileInfo(destination).path();
@@ -541,131 +560,146 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         return false;
     }
 
-    if (isDirectory) {
-        return true;
-    }
-
-    // Handle existing destination files.
-    QString renamedEntry = entry;
-    while (!m_overwriteAll && QFileInfo::exists(destination)) {
-        if (m_skipAll) {
-            return true;
-        } else {
-            Kerfuffle::OverwriteQuery query(renamedEntry);
-            emit userQuery(&query);
-            query.waitForResponse();
-
-            if (query.responseCancelled()) {
-                return false;
-            } else if (query.responseSkip()) {
-                return true;
-            } else if (query.responseAutoSkip()) {
-                m_skipAll = true;
-                return true;
-            } else if (query.responseRename()) {
-                const QString newName(query.newFilename());
-                destination = QFileInfo(destination).path() + QDir::separator() + QFileInfo(newName).fileName();
-                renamedEntry = QFileInfo(entry).path() + QDir::separator() + QFileInfo(newName).fileName();
-            } else if (query.responseOverwriteAll()) {
-                m_overwriteAll = true;
-                break;
-            } else if (query.responseOverwrite()) {
-                break;
-            }
-        }
-    }
-
-    // Handle password-protected files.
-    zip_file *zf = nullptr;
-    bool firstTry = true;
-    while (!zf) {
-        zf = zip_fopen(archive, entry.toUtf8(), 0);
-        if (zf) {
-            break;
-        } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD ||
-                   zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_WRONGPASSWD) {
-            Kerfuffle::PasswordNeededQuery query(filename(), !firstTry);
-            emit userQuery(&query);
-            query.waitForResponse();
-
-            if (query.responseCancelled()) {
-                emit cancelled();
-                return false;
-            }
-            setPassword(query.password());
-
-            if (zip_set_default_password(archive, password().toUtf8())) {
-                qCDebug(ARK) << "Failed to set password for:" << entry;
-            }
-            firstTry = false;
-        } else {
-            qCCritical(ARK) << "Failed to open file:" << zip_strerror(archive);
-            emit error(xi18n("Failed to open '%1':<nl/>%2", entry, QString::fromUtf8(zip_strerror(archive))));
-            return false;
-        }
-    }
-
-    QFile file(destination);
-    if (!file.open(QIODevice::WriteOnly)) {
-        qCCritical(ARK) << "Failed to open file for writing";
-        emit error(xi18n("Failed to open file for writing: %1", destination));
-        return false;
-    }
-
-    QDataStream out(&file);
-
-    // Get statistic for entry. Used below to get entry size.
+    // Get statistic for entry. Used to get entry size and mtime.
     zip_stat_t sb;
     if (zip_stat(archive, entry.toUtf8(), 0, &sb) != 0) {
         qCCritical(ARK) << "Failed to read stat for entry" << entry;
         return false;
     }
 
-    // Write archive entry to file. We use a read/write buffer of 1000 chars.
-    qulonglong sum = 0;
-    char buf[1000];
-    int len;
-    while (sum != sb.size) {
-        len = zip_fread(zf, buf, 1000);
-        if (len < 0) {
-            qCCritical(ARK) << "Failed to read data";
-            emit error(xi18n("Failed to read data for entry: %1", entry));
+    if (!isDirectory) {
+
+        // Handle existing destination files.
+        QString renamedEntry = entry;
+        while (!m_overwriteAll && QFileInfo::exists(destination)) {
+            if (m_skipAll) {
+                return true;
+            } else {
+                Kerfuffle::OverwriteQuery query(renamedEntry);
+                emit userQuery(&query);
+                query.waitForResponse();
+
+                if (query.responseCancelled()) {
+                    return false;
+                } else if (query.responseSkip()) {
+                    return true;
+                } else if (query.responseAutoSkip()) {
+                    m_skipAll = true;
+                    return true;
+                } else if (query.responseRename()) {
+                    const QString newName(query.newFilename());
+                    destination = QFileInfo(destination).path() + QDir::separator() + QFileInfo(newName).fileName();
+                    renamedEntry = QFileInfo(entry).path() + QDir::separator() + QFileInfo(newName).fileName();
+                } else if (query.responseOverwriteAll()) {
+                    m_overwriteAll = true;
+                    break;
+                } else if (query.responseOverwrite()) {
+                    break;
+                }
+            }
+        }
+
+        // Handle password-protected files.
+        zip_file *zf = nullptr;
+        bool firstTry = true;
+        while (!zf) {
+            zf = zip_fopen(archive, entry.toUtf8(), 0);
+            if (zf) {
+                break;
+            } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD ||
+                       zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_WRONGPASSWD) {
+                Kerfuffle::PasswordNeededQuery query(filename(), !firstTry);
+                emit userQuery(&query);
+                query.waitForResponse();
+
+                if (query.responseCancelled()) {
+                    emit cancelled();
+                    return false;
+                }
+                setPassword(query.password());
+
+                if (zip_set_default_password(archive, password().toUtf8())) {
+                    qCDebug(ARK) << "Failed to set password for:" << entry;
+                }
+                firstTry = false;
+            } else {
+                qCCritical(ARK) << "Failed to open file:" << zip_strerror(archive);
+                emit error(xi18n("Failed to open '%1':<nl/>%2", entry, QString::fromUtf8(zip_strerror(archive))));
+                return false;
+            }
+        }
+
+        QFile file(destination);
+        if (!file.open(QIODevice::WriteOnly)) {
+            qCCritical(ARK) << "Failed to open file for writing";
+            emit error(xi18n("Failed to open file for writing: %1", destination));
             return false;
         }
-        if (out.writeRawData(buf, len) != len) {
-            qCCritical(ARK) << "Failed to write data";
-            emit error(xi18n("Failed to write data for entry: %1", entry));
+
+        QDataStream out(&file);
+
+        // Write archive entry to file. We use a read/write buffer of 1000 chars.
+        qulonglong sum = 0;
+        char buf[1000];
+        int len;
+        while (sum != sb.size) {
+            len = zip_fread(zf, buf, 1000);
+            if (len < 0) {
+                qCCritical(ARK) << "Failed to read data";
+                emit error(xi18n("Failed to read data for entry: %1", entry));
+                return false;
+            }
+            if (out.writeRawData(buf, len) != len) {
+                qCCritical(ARK) << "Failed to write data";
+                emit error(xi18n("Failed to write data for entry: %1", entry));
+                return false;
+            }
+
+            sum += len;
+        }
+
+        const auto index = zip_name_locate(archive, entry.toUtf8(), ZIP_FL_ENC_GUESS);
+        if (index == -1) {
+            qCCritical(ARK) << "Could not locate entry:" << entry;
+            emit error(xi18n("Failed to locate entry: %1", entry));
             return false;
         }
 
-        sum += len;
+        zip_uint8_t opsys;
+        zip_uint32_t attributes;
+        if (zip_file_get_external_attributes(archive, index, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
+            qCCritical(ARK) << "Could not read external attributes for entry:" << entry;
+            emit error(xi18n("Failed to read metadata for entry: %1", entry));
+            return false;
+        }
+
+        // Inspired by fuse-zip source code: fuse-zip/lib/fileNode.cpp
+        switch (opsys) {
+        case ZIP_OPSYS_UNIX:
+            // Unix permissions are stored in the leftmost 16 bits of the external file attribute.
+            file.setPermissions(KIO::convertPermissions(attributes >> 16));
+            break;
+        default:    // TODO: non-UNIX.
+            break;
+        }
+
+        file.close();
     }
 
-    const auto index = zip_name_locate(archive, entry.toUtf8(), ZIP_FL_ENC_GUESS);
-    if (index == -1) {
-        qCCritical(ARK) << "Could not locate entry:" << entry;
-        emit error(xi18n("Failed to locate entry: %1", entry));
-        return false;
+    // Set mtime for entry.
+    utimbuf times;
+    times.modtime = sb.mtime;
+    if (utime(destination.toUtf8(), &times) != 0) {
+        qCWarning(ARK) << "Failed to restore mtime:" << destination;
     }
 
-    zip_uint8_t opsys;
-    zip_uint32_t attributes;
-    if (zip_file_get_external_attributes(archive, index, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
-        qCCritical(ARK) << "Could not read external attributes for entry:" << entry;
-        emit error(xi18n("Failed to read metadata for entry: %1", entry));
-        return false;
+    if (restoreParentMtime) {
+        // Restore mtime for parent dir.
+        times.modtime = parent_mtime;
+        if (utime(parentDir.toUtf8(), &times) != 0) {
+            qCWarning(ARK) << "Failed to restore mtime for parent dir of:" << destination;
+        }
     }
-
-    // Inspired by fuse-zip source code: fuse-zip/lib/fileNode.cpp
-    switch (opsys) {
-    case ZIP_OPSYS_UNIX:
-        // Unix permissions are stored in the leftmost 16 bits of the external file attribute.
-        file.setPermissions(KIO::convertPermissions(attributes >> 16));
-        break;
-    default:    // TODO: non-UNIX.
-        break;
-    }
-
 
     return true;
 }

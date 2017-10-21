@@ -172,7 +172,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     setWindowFilePath(fileName);
 
     // Set icon and comment for the mimetype.
-    m_iconLabel->setPixmap(QIcon::fromTheme(mimeType.iconName()).pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop)));
+    m_iconLabel->setPixmap(QIcon::fromTheme(mimeType.iconName()).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small)));
     m_commentLabel->setText(mimeType.comment());
 
     // Create the ReadOnlyPart instance.
