@@ -192,6 +192,7 @@ bool CliPlugin::readExtractLine(const QString &line)
 {
     const QRegularExpression rxUnsupCompMethod(QStringLiteral("unsupported compression method (\\d+)"));
     const QRegularExpression rxUnsupEncMethod(QStringLiteral("need PK compat. v\\d\\.\\d \\(can do v\\d\\.\\d\\)"));
+    const QRegularExpression rxBadCRC(QStringLiteral("bad CRC"));
 
     QRegularExpressionMatch unsupCompMethodMatch = rxUnsupCompMethod.match(line);
     if (unsupCompMethodMatch.hasMatch()) {
@@ -199,8 +200,13 @@ bool CliPlugin::readExtractLine(const QString &line)
         return false;
     }
 
-    if (QRegularExpression(rxUnsupEncMethod).match(line).hasMatch()) {
+    if (rxUnsupEncMethod.match(line).hasMatch()) {
         emit error(i18n("Extraction failed due to unsupported encryption method."));
+        return false;
+    }
+
+    if (rxBadCRC.match(line).hasMatch()) {
+        emit error(i18n("Extraction failed due to one or more corrupt files. Any extracted files may be damaged."));
         return false;
     }
 

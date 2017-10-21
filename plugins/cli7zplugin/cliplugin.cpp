@@ -274,10 +274,16 @@ bool CliPlugin::readListLine(const QString& line)
 
 bool CliPlugin::readExtractLine(const QString &line)
 {
-    QRegularExpression rx(QStringLiteral("ERROR: E_FAIL"));
+    const QRegularExpression rxUnknownError(QStringLiteral("ERROR: E_FAIL"));
+    const QRegularExpression rxBadCRC(QStringLiteral("ERROR: CRC Failed"));
 
-    if (rx.match(line).hasMatch()) {
-        emit error(i18n("Extraction failed."));
+    if (rxUnknownError.match(line).hasMatch()) {
+        emit error(i18n("Extraction failed due to an unknown error."));
+        return false;
+    }
+
+    if (rxBadCRC.match(line).hasMatch()) {
+        emit error(i18n("Extraction failed due to one or more corrupt files. Any extracted files may be damaged."));
         return false;
     }
 
