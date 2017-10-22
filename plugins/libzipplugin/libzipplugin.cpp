@@ -606,7 +606,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     } else {
         parentDir = QFileInfo(destination).path();
     }
-    // For top-level items, dont restore parent dir mtime.
+    // For top-level items, don't restore parent dir mtime.
     const bool restoreParentMtime = (parentDir + QDir::separator() != destDirCorrected);
 
     time_t parent_mtime;
