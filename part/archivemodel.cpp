@@ -470,7 +470,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
 
         const auto size = receivedEntry->property("size").toULongLong();
         const auto compressedSize = receivedEntry->property("compressedSize").toULongLong();
-        for (auto i = m_propertiesMap.begin(); i != m_propertiesMap.end(); i++) {
+        for (auto i = m_propertiesMap.begin(); i != m_propertiesMap.end(); ++i) {
             // Singlefile plugin doesn't report the uncompressed size.
             if (i.key() == Size && size == 0 && compressedSize > 0) {
                 continue;
