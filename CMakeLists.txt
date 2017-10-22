@@ -65,7 +65,7 @@ set_package_properties(LibArchive PROPERTIES
                        DESCRIPTION "A library for dealing with a wide variety of archive file formats"
                        PURPOSE "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
 
-find_package(LibZip 1.2.0)
+find_package(LibZip 1.3.0)
 set_package_properties(LibZip PROPERTIES
                        URL "https://nih.at/libzip/"
                        DESCRIPTION "A library for handling zip archives"

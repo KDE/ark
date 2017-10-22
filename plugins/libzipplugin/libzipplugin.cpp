@@ -261,6 +261,24 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
         }
     }
 
+    // Set compression level and method.
+    zip_int32_t compMethod = ZIP_CM_DEFAULT;
+    if (!options.compressionMethod().isEmpty()) {
+        if (options.compressionMethod() == QLatin1String("Deflate")) {
+            compMethod = ZIP_CM_DEFLATE;
+        } else if (options.compressionMethod() == QLatin1String("BZip2")) {
+            compMethod = ZIP_CM_BZIP2;
+        } else if (options.compressionMethod() == QLatin1String("Store")) {
+            compMethod = ZIP_CM_STORE;
+        }
+    }
+    const int compLevel = options.isCompressionLevelSet() ? options.compressionLevel() : 6;
+    if (zip_set_file_compression(archive, index, compMethod, compLevel) != 0) {
+        qCCritical(ARK) << "Could not set compression options for" << file << ":" << zip_strerror(archive);
+        emit error(xi18n("Failed to set compression options for entry: %1", QString::fromUtf8(zip_strerror(archive))));
+        return false;
+    }
+
     return true;
 }
 

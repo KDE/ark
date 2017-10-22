@@ -67,6 +67,16 @@
     "X-KDE-Kerfuffle-ReadWrite": true,
     "X-KDE-Priority": 200,
     "application/zip": {
+        "CompressionLevelDefault": 6,
+        "CompressionLevelMax": 9,
+        "CompressionLevelMin": 1,
+        "CompressionMethodDefault": "Default",
+        "CompressionMethods": {
+            "BZip2": "BZip2",
+            "Default": "Default",
+            "Deflate": "Deflate",
+            "Store": "Store"
+        },
         "Encryption": true,
         "EncryptionMethodDefault": "AES256",
         "EncryptionMethods": [
