@@ -25,6 +25,7 @@
       <comment xml:lang="sr@ijekavianlatin">tar arhiva (LZIP-kompresovana)</comment>
       <comment xml:lang="sr@latin">tar arhiva (LZIP-kompresovana)</comment>
       <comment xml:lang="sv">Tar-arkiv (lzip-komprimerat)</comment>
+      <comment xml:lang="tr">Tar arşivi (lzip ile sıkıştırılmış)</comment>
       <comment xml:lang="uk">архів Tar (стиснутий lzip)</comment>
       <comment xml:lang="zh_CN">Tar 归档 (lzip-压缩)</comment>
       <comment xml:lang="zh_TW">Tar 封存檔（以 lzip 壓縮）</comment>
@@ -57,6 +58,7 @@
       <comment xml:lang="sr@ijekavianlatin">XAR arhiva</comment>
       <comment xml:lang="sr@latin">XAR arhiva</comment>
       <comment xml:lang="sv">XAR-arkiv</comment>
+      <comment xml:lang="tr">XAR arşivi</comment>
       <comment xml:lang="uk">архів XAR</comment>
       <comment xml:lang="zh_CN">XAR 归档</comment>
       <comment xml:lang="zh_TW">XAR 封存檔</comment>
@@ -91,6 +93,7 @@
       <comment xml:lang="sr@ijekavianlatin">tar arhiva (LZ4-kompresovana)</comment>
       <comment xml:lang="sr@latin">tar arhiva (LZ4-kompresovana)</comment>
       <comment xml:lang="sv">Tar-arkiv (LZ4-komprimerat)</comment>
+      <comment xml:lang="tr">Tar arşivi (LZ4 ile sıkıştırılmış)</comment>
       <comment xml:lang="uk">архів Tar (стиснутий LZ4)</comment>
       <comment xml:lang="zh_CN">Tar 归档 (LZ4-压缩)</comment>
       <comment xml:lang="zh_TW">Tar 封存檔（以 LZ4 壓縮）</comment>
@@ -121,6 +124,7 @@
       <comment xml:lang="sr@ijekavianlatin">AppImage paket programa</comment>
       <comment xml:lang="sr@latin">AppImage paket programa</comment>
       <comment xml:lang="sv">AppImage programpacke</comment>
+      <comment xml:lang="tr">AppImage uygulama paketi</comment>
       <comment xml:lang="uk">пакунок програми AppImage</comment>
       <comment xml:lang="zh_CN">AppImage 应用程序包</comment>
       <comment xml:lang="zh_TW">Appimage 應用程式套裝</comment>
