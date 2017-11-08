@@ -286,38 +286,38 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
 {
     Q_ASSERT(archive);
 
-    zip_stat_t sb;
-    if (zip_stat_index(archive, index, ZIP_FL_ENC_GUESS, &sb)) {
+    zip_stat_t statBuffer;
+    if (zip_stat_index(archive, index, ZIP_FL_ENC_GUESS, &statBuffer)) {
         qCCritical(ARK) << "Failed to read stat for index" << index;
         return false;
     }
 
     auto e = new Archive::Entry();
 
-    if (sb.valid & ZIP_STAT_NAME) {
-        e->setFullPath(QString::fromUtf8(sb.name));
+    if (statBuffer.valid & ZIP_STAT_NAME) {
+        e->setFullPath(QString::fromUtf8(statBuffer.name));
     }
 
     if (e->fullPath(PathFormat::WithTrailingSlash).endsWith(QDir::separator())) {
         e->setProperty("isDirectory", true);
     }
 
-    if (sb.valid & ZIP_STAT_MTIME) {
-        e->setProperty("timestamp", QDateTime::fromTime_t(sb.mtime));
+    if (statBuffer.valid & ZIP_STAT_MTIME) {
+        e->setProperty("timestamp", QDateTime::fromTime_t(statBuffer.mtime));
     }
-    if (sb.valid & ZIP_STAT_SIZE) {
-        e->setProperty("size", (qulonglong)sb.size);
+    if (statBuffer.valid & ZIP_STAT_SIZE) {
+        e->setProperty("size", (qulonglong)statBuffer.size);
     }
-    if (sb.valid & ZIP_STAT_COMP_SIZE) {
-        e->setProperty("compressedSize", (qlonglong)sb.comp_size);
+    if (statBuffer.valid & ZIP_STAT_COMP_SIZE) {
+        e->setProperty("compressedSize", (qlonglong)statBuffer.comp_size);
     }
-    if (sb.valid & ZIP_STAT_CRC) {
+    if (statBuffer.valid & ZIP_STAT_CRC) {
         if (!e->isDir()) {
-            e->setProperty("CRC", QString::number((qulonglong)sb.crc, 16).toUpper());
+            e->setProperty("CRC", QString::number((qulonglong)statBuffer.crc, 16).toUpper());
         }
     }
-    if (sb.valid & ZIP_STAT_COMP_METHOD) {
-        switch(sb.comp_method) {
+    if (statBuffer.valid & ZIP_STAT_COMP_METHOD) {
+        switch(statBuffer.comp_method) {
             case ZIP_CM_STORE:
                 e->setProperty("method", QStringLiteral("Store"));
                 emit compressionMethodFound(QStringLiteral("Store"));
@@ -344,10 +344,10 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
                 break;
         }
     }
-    if (sb.valid & ZIP_STAT_ENCRYPTION_METHOD) {
-        if (sb.encryption_method != ZIP_EM_NONE) {
+    if (statBuffer.valid & ZIP_STAT_ENCRYPTION_METHOD) {
+        if (statBuffer.encryption_method != ZIP_EM_NONE) {
             e->setProperty("isPasswordProtected", true);
-            switch(sb.encryption_method) {
+            switch(statBuffer.encryption_method) {
                 case ZIP_EM_TRAD_PKWARE:
                     emit encryptionMethodFound(QStringLiteral("ZipCrypto"));
                     break;
@@ -368,8 +368,8 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     zip_uint8_t opsys;
     zip_uint32_t attributes;
     if (zip_file_get_external_attributes(archive, index, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
-        qCCritical(ARK) << "Could not read external attributes for entry:" << QString::fromUtf8(sb.name);
-        emit error(xi18n("Failed to read metadata for entry: %1", QString::fromUtf8(sb.name)));
+        qCCritical(ARK) << "Could not read external attributes for entry:" << QString::fromUtf8(statBuffer.name);
+        emit error(xi18n("Failed to read metadata for entry: %1", QString::fromUtf8(statBuffer.name)));
         return false;
     }
 
@@ -482,21 +482,21 @@ bool LibzipPlugin::testArchive()
     for (int i = 0; i < nofEntries; i++) {
 
         // Get statistic for entry. Used to get entry size.
-        zip_stat_t sb;
-        if (zip_stat_index(archive, i, 0, &sb) != 0) {
-            qCCritical(ARK) << "Failed to read stat for" << sb.name;
+        zip_stat_t statBuffer;
+        if (zip_stat_index(archive, i, 0, &statBuffer) != 0) {
+            qCCritical(ARK) << "Failed to read stat for" << statBuffer.name;
             return false;
         }
 
-        zip_file *zf = zip_fopen_index(archive, i, 0);
-        QScopedPointer<uchar> buf(new uchar[sb.size]);
-        const int len = zip_fread(zf, buf.data(), sb.size);
-        if (len == -1 || uint(len) != sb.size) {
-            qCCritical(ARK) << "Failed to read data for" << sb.name;
+        zip_file *zipFile = zip_fopen_index(archive, i, 0);
+        QScopedPointer<uchar> buf(new uchar[statBuffer.size]);
+        const int len = zip_fread(zipFile, buf.data(), statBuffer.size);
+        if (len == -1 || uint(len) != statBuffer.size) {
+            qCCritical(ARK) << "Failed to read data for" << statBuffer.name;
             return false;
         }
-        if (sb.crc != crc32(0, &buf.data()[0], len)) {
-            qCCritical(ARK) << "CRC check failed for" << sb.name;
+        if (statBuffer.crc != crc32(0, &buf.data()[0], len)) {
+            qCCritical(ARK) << "CRC check failed for" << statBuffer.name;
             return false;
         }
 
@@ -640,8 +640,8 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     }
 
     // Get statistic for entry. Used to get entry size and mtime.
-    zip_stat_t sb;
-    if (zip_stat(archive, entry.toUtf8(), 0, &sb) != 0) {
+    zip_stat_t statBuffer;
+    if (zip_stat(archive, entry.toUtf8(), 0, &statBuffer) != 0) {
         qCCritical(ARK) << "Failed to read stat for entry" << entry;
         return false;
     }
@@ -679,11 +679,11 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         }
 
         // Handle password-protected files.
-        zip_file *zf = nullptr;
+        zip_file *zipFile = nullptr;
         bool firstTry = true;
-        while (!zf) {
-            zf = zip_fopen(archive, entry.toUtf8(), 0);
-            if (zf) {
+        while (!zipFile) {
+            zipFile = zip_fopen(archive, entry.toUtf8(), 0);
+            if (zipFile) {
                 break;
             } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD ||
                        zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_WRONGPASSWD) {
@@ -720,8 +720,8 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         // Write archive entry to file. We use a read/write buffer of 1000 chars.
         qulonglong sum = 0;
         char buf[1000];
-        while (sum != sb.size) {
-            const auto readBytes = zip_fread(zf, buf, 1000);
+        while (sum != statBuffer.size) {
+            const auto readBytes = zip_fread(zipFile, buf, 1000);
             if (readBytes < 0) {
                 qCCritical(ARK) << "Failed to read data";
                 emit error(xi18n("Failed to read data for entry: %1", entry));
@@ -766,7 +766,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
 
     // Set mtime for entry.
     utimbuf times;
-    times.modtime = sb.mtime;
+    times.modtime = statBuffer.mtime;
     if (utime(destination.toUtf8(), &times) != 0) {
         qCWarning(ARK) << "Failed to restore mtime:" << destination;
     }
