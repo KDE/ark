@@ -85,9 +85,6 @@ Job::Job(ReadOnlyArchiveInterface *interface)
 
 Job::~Job()
 {
-    qDeleteAll(m_archiveEntries);
-    m_archiveEntries.clear();
-
     if (d->isRunning()) {
         d->wait();
     }

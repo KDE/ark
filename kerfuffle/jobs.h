@@ -65,7 +65,6 @@ protected:
     bool doKill() override;
 
     ReadOnlyArchiveInterface *archiveInterface();
-    QVector<Archive::Entry*> m_archiveEntries;
 
     void connectToArchiveInterfaceSignals();
 
