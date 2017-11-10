@@ -102,7 +102,7 @@ void ArkViewer::view(const QString& fileName)
         return;
     }
 
-    qCDebug(ARK) << "Using internal viewer";
+    qCDebug(ARK) << "Attempting to use internal viewer";
     bool viewInInternalViewer = true;
     if (!viewer) {
         // No internal viewer available for the file.  Ask the user if it
@@ -180,6 +180,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
 
     // Drop the KHTMLPart, if necessary.
     const KService::Ptr service = KMimeTypeTrader::self()->preferredService(mimeType.name(), QStringLiteral("KParts/ReadOnlyPart"));
+    qCDebug(ARK) << "Preferred service for mimetype" << mimeType.name() << "is" << service->library();
     if (service.constData()->desktopEntryName() == QLatin1String("khtml")) {
         KService::List offers = KMimeTypeTrader::self()->query(mimeType.name(), QStringLiteral("KParts/ReadOnlyPart"));
         offers.removeFirst();
