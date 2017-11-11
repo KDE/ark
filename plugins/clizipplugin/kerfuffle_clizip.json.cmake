@@ -14,6 +14,7 @@
         "Description[nn]": "Støtte for for det eldre arkivformatet ZIP",
         "Description[pl]": "Obsługa przestarzałego formatu archiwów zip",
         "Description[pt]": "Suporte antigo para o formato de pacotes ZIP",
+        "Description[ru]": "Старый способ поддержки архивов ZIP",
         "Description[sk]": "Spätná podpora pre archívny formát zip",
         "Description[sl]": "Opuščena podpora za arhive vrste zip",
         "Description[sr@ijekavian]": "Подршка за застареле архиве формата ЗИП",

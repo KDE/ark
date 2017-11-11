@@ -14,6 +14,7 @@
         "Description[nn]": "Full støtte for arkivformatet ZIP",
         "Description[pl]": "Pełna obsługa dla formatów archiwów zip",
         "Description[pt]": "Suporte total para o formato de pacotes ZIP",
+        "Description[ru]": "Полная поддержка архивов ZIP",
         "Description[sk]": "Plná podpora pre archívny formát zip",
         "Description[sl]": "Polna podpora za arhive vrste zip",
         "Description[sr@ijekavian]": "Пуна подршка за архивски формат ЗИП",
