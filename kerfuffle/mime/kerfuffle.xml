@@ -18,6 +18,7 @@
       <comment xml:lang="nn">Tar-arkiv (lzip-komprimert)</comment>
       <comment xml:lang="pl">Archiwum Tar (kompresja lzip)</comment>
       <comment xml:lang="pt">Pacote TAR (comprimido com Lzip)</comment>
+      <comment xml:lang="ru">Архив TAR (сжатый lzip)</comment>
       <comment xml:lang="sk">Tar archív (lzip komprimovaný)</comment>
       <comment xml:lang="sl">Arhiv tar (stisnjen z lzip)</comment>
       <comment xml:lang="sr">тар архива (ЛЗИП‑компресована)</comment>
@@ -51,6 +52,7 @@
       <comment xml:lang="pl">Archiwum XAR</comment>
       <comment xml:lang="pt">Pacote XAR</comment>
       <comment xml:lang="pt_BR">Arquivo XAR</comment>
+      <comment xml:lang="ru">Архив XAR</comment>
       <comment xml:lang="sk">XAR archív</comment>
       <comment xml:lang="sl">Arhiv XAR</comment>
       <comment xml:lang="sr">КСАР архива</comment>
@@ -86,6 +88,7 @@
       <comment xml:lang="nn">Tar-arkiv (LZ4-komprimert)</comment>
       <comment xml:lang="pl">Archiwum Tar (kompresja LZ4)</comment>
       <comment xml:lang="pt">Pacote TAR (comprimido com LZ4)</comment>
+      <comment xml:lang="ru">Архив TAR (сжатый lz4)</comment>
       <comment xml:lang="sk">Tar archív (LZ4 komprimovaný)</comment>
       <comment xml:lang="sl">Arhiv tar (stisnjen z LZ4)</comment>
       <comment xml:lang="sr">тар архива (ЛЗ4‑компресована)</comment>
@@ -117,6 +120,7 @@
       <comment xml:lang="nn">AppImage-programpakke</comment>
       <comment xml:lang="pl">Pęk aplikacji AppImage</comment>
       <comment xml:lang="pt">Pacote de aplicação AppImage</comment>
+      <comment xml:lang="ru">Пакет приложения AppImage</comment>
       <comment xml:lang="sk">Balík aplikácie AppImage</comment>
       <comment xml:lang="sl">Zbirka programov AppImage</comment>
       <comment xml:lang="sr">ап‑имејџ пакет програма</comment>
