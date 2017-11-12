@@ -275,6 +275,7 @@ void MainWindow::showSettings()
     }
     // Hide the icons list if only one page has been added.
     dialog->setFaceType(KPageDialog::Auto);
+    dialog->setModal(true);
 
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::writeSettings);
     dialog->show();
