@@ -500,7 +500,7 @@ void ExtractJob::doWork()
     } else {
         desc = i18np("Extracting one file", "Extracting %1 files", m_entries.count());
     }
-    emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
+    emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()), qMakePair(i18nc("extraction folder", "Destination"), m_destinationDir));
 
     QFileInfo destDirInfo(m_destinationDir);
     if (destDirInfo.isDir() && (!destDirInfo.isWritable() || !destDirInfo.isExecutable())) {
