@@ -43,6 +43,7 @@ ArkViewer::ArkViewer()
 
     setupUi(this);
 
+    m_buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::Key_Escape);
     // Bug 369390: This prevents the Enter key from closing the window.
     m_buttonBox->button(QDialogButtonBox::Close)->setAutoDefault(false);
 
