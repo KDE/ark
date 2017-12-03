@@ -14,7 +14,7 @@
         "Description[it]": "Apri ed estrai singoli file compressi con l'algoritmo lzma",
         "Description[nl]": "Open en pak uit losse bestanden gecomprimeerd met het lzma-algoritme",
         "Description[nn]": "Opna og pakk ut einskildfiler komprimerte med lzma-algoritmen",
-        "Description[pl]": "Otwieraj i wypakowuj pojedyncze pliki spakowane algorytmem lzma",
+        "Description[pl]": "Otwiera i wypakowuje pojedyncze pliki spakowane algorytmem lzma",
         "Description[pt]": "Abrir e extrair ficheiros individuais comprimidos com o algoritmo LZMA",
         "Description[ru]": "Открытие и распаковка отдельных файлов, сжатых по алгоритму lzma",
         "Description[sk]": "Otvorenie a extrahovanie jednotlivých súborov komprimovaných algoritmom lzma",

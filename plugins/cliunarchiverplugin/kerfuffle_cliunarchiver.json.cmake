@@ -14,7 +14,7 @@
         "Description[it]": "Apri ed estrai archivi RAR",
         "Description[nl]": "Open en pak uit RAR-archieven",
         "Description[nn]": "Opna og pakk ut RAR-arkiv",
-        "Description[pl]": "Otwieraj i wypakowuj archiwa RAR",
+        "Description[pl]": "Otwiera i wypakowuje archiwa RAR",
         "Description[pt]": "Abrir e extrair os pacotes RAR",
         "Description[ru]": "Открытие и распаковка архивов RAR",
         "Description[sk]": "Otvorenie a extrahovanie archívov RAR",

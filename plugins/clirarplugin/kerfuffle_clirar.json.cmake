@@ -14,7 +14,7 @@
         "Description[it]": "Supporto completo per il formato di archivi RAR",
         "Description[nl]": "Volledige ondersteuning voor het RAR-archiefformaat",
         "Description[nn]": "Full støtte for arkivformatet RAR",
-        "Description[pl]": "Pełna obsługa dla formatów archiwów RAR",
+        "Description[pl]": "Pełna obsługa dla archiwów RAR",
         "Description[pt]": "Suporte total para o formato de pacotes RAR",
         "Description[ru]": "Полная поддержка архивов RAR",
         "Description[sk]": "Plná podpora pre archívny formát RAR",

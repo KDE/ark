@@ -14,7 +14,7 @@
         "Description[it]": "Apri ed estrai singoli file compressi con l'algoritmo bzip2",
         "Description[nl]": "Open en pak uit losse bestanden gecomprimeerd met het bzip2-algoritme",
         "Description[nn]": "Opna og pakk ut einskildfiler komprimerte med bzip2-algoritmen",
-        "Description[pl]": "Otwieraj i wypakowuj pojedyncze pliki spakowane algorytmem bzip2",
+        "Description[pl]": "Otwiera i wypakowuje pojedyncze pliki spakowane algorytmem bzip2",
         "Description[pt]": "Abrir e extrair ficheiros individuais comprimidos com o algoritmo Bzip2",
         "Description[ru]": "Открытие и распаковка отдельных файлов, сжатых по алгоритму bzip2",
         "Description[sk]": "Otvorenie a extrahovanie jednotlivých súborov komprimovaných algoritmom bzip2",
