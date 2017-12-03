@@ -14,7 +14,7 @@
         "Description[it]": "Supporto completo per archivi compressi TAR",
         "Description[nl]": "Volledige ondersteuning voor gecomprimeerde TAR-archieven",
         "Description[nn]": "Full støtte for komprimerte TAR-arkiv",
-        "Description[pl]": "Pełna obsługa dla formatów archiwów TAR",
+        "Description[pl]": "Pełna obsługa dla archiwów TAR",
         "Description[pt]": "Suporte total para pacotes comprimidos do TAR",
         "Description[ru]": "Полная поддержка сжатых архивов TAR",
         "Description[sk]": "Plná podpora komprimovaných archívov TAR",

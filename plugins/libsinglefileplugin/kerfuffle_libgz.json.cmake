@@ -14,7 +14,7 @@
         "Description[it]": "Apri ed estrai singoli file compressi con l'algoritmo gzip",
         "Description[nl]": "Open en pak uit losse bestanden gecomprimeerd met het gzip-algoritme",
         "Description[nn]": "Opna og pakk ut einskildfiler komprimerte med gzip-algoritmen",
-        "Description[pl]": "Otwieraj i wypakowuj pojedyncze pliki spakowane algorytmem gzip",
+        "Description[pl]": "Otwiera i wypakowuje pojedyncze pliki spakowane algorytmem gzip",
         "Description[pt]": "Abrir e extrair ficheiros individuais comprimidos com o algoritmo Gzip",
         "Description[ru]": "Открытие и распаковка отдельных файлов, сжатых по алгоритму gzip",
         "Description[sk]": "Otvorenie a extrahovanie jednotlivých súborov komprimovaných algoritmom gzip",
