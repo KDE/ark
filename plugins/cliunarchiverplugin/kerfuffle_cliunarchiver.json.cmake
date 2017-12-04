@@ -12,6 +12,7 @@
         "Description[fr]": "Ouvre et extrait les archives RAR",
         "Description[gl]": "Abrir e extraer arquivos RAR.",
         "Description[it]": "Apri ed estrai archivi RAR",
+        "Description[ko]": "RAR 압축 파일 열고 풀기",
         "Description[nl]": "Open en pak uit RAR-archieven",
         "Description[nn]": "Opna og pakk ut RAR-arkiv",
         "Description[pl]": "Otwiera i wypakowuje archiwa RAR",
