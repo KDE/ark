@@ -9,6 +9,7 @@
         "Description[el]": "Άνοιγμα και εξαγωγή αρχειοθηκών RAR",
         "Description[es]": "Abrir y extraer archivos RAR",
         "Description[eu]": "Ireki eta erauzi RAR artxiboak",
+        "Description[fi]": "Avaa ja pura RAR-arkistoja",
         "Description[fr]": "Ouvre et extrait les archives RAR",
         "Description[gl]": "Abrir e extraer arquivos RAR.",
         "Description[it]": "Apri ed estrai archivi RAR",
