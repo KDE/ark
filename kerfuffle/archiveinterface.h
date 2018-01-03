@@ -91,10 +91,8 @@ public:
     void setHeaderEncryptionEnabled(bool enabled);
 
     /**
-     * Extract files from archive.
-     * Globally recognized extraction options:
-     * @li PreservePaths - preserve file paths (extract flat if false)
-     * @li RootNode - node in the archive which will correspond to the @arg destinationDirectory
+     * Extracts the given @p files to the given @p destinationDirectory.
+     * If @p files is empty, the whole archive will be extracted.
      * When subclassing, you can block as long as you need (unless you called setWaitForFinishedSignal(true)).
      * @returns whether the listing succeeded.
      * @note If returning false, make sure to emit the error() signal beforewards to notify
