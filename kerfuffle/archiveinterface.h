@@ -220,6 +220,15 @@ public:
 
     bool isReadOnly() const override;
 
+    /**
+     * Adds the given @p files under the given @p destination.
+     * If @p destination is null, the files will be added under the root of the archive.
+     * @param options The compression options that must be respected.
+     * @param numberOfEntriesToAdd The total number of entries the will be added.
+     * @return Whether the operation succeeded.
+     * @note If returning false, make sure to emit the error() signal beforewards to notify
+     * the user of the error condition.
+     */
     virtual bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd = 0) = 0;
     virtual bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
     virtual bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) = 0;
