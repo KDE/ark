@@ -174,12 +174,6 @@ public:
     CommentJob* addComment(const QString &comment);
     TestJob* testArchive();
 
-    /**
-     * Compression options that should be handled by all interfaces:
-     *
-     * GlobalWorkDir - Change to this dir before adding the new files.
-     * The path names should then be added relative to this directory.
-     */
     AddJob* addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
 
     /**

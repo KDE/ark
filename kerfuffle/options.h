@@ -73,7 +73,17 @@ public:
     void setCompressionMethod(const QString &method);
     QString encryptionMethod() const;
     void setEncryptionMethod(const QString &method);
+
+    /**
+     * The working directory of an AddJob.
+     * All the path names of new files will be relative to this directory.
+     */
     QString globalWorkDir() const;
+
+    /**
+     * Sets the global working directory to @p workDir.
+     * All interfaces should set this before an AddJob or CreateJob.
+     */
     void setGlobalWorkDir(const QString &workDir);
 
 private:
