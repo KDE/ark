@@ -463,7 +463,7 @@ void CreateJob::setMultiVolume(bool isMultiVolume)
 
 void CreateJob::doWork()
 {
-    m_addJob = archive()->addFiles(m_entries, new Archive::Entry(this), m_options);
+    m_addJob = archive()->addFiles(m_entries, nullptr, m_options);
 
     if (m_addJob) {
         connect(m_addJob, &KJob::result, this, &CreateJob::emitResult);
