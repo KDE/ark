@@ -1112,7 +1112,7 @@ void Part::slotShowExtractionDialog()
         return;
     }
 
-    QPointer<Kerfuffle::ExtractionDialog> dialog(new Kerfuffle::ExtractionDialog);
+    QPointer<Kerfuffle::ExtractionDialog> dialog(new Kerfuffle::ExtractionDialog(widget()));
 
     dialog.data()->setModal(true);
 
