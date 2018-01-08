@@ -47,6 +47,7 @@
         "Name[fi]": "P7zip-liitännäinen",
         "Name[fr]": "Module externe « P7zip »",
         "Name[gl]": "Complemento de p7zip",
+        "Name[ia]": "Plugin de P7zip",
         "Name[it]": "Estensione P7zip",
         "Name[ko]": "P7zip 플러그인",
         "Name[nl]": "P7zip-plug-in",

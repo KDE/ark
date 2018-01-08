@@ -47,6 +47,7 @@
         "Name[fi]": "Gzip-liitännäinen",
         "Name[fr]": "Module externe d'archive « gzip »",
         "Name[gl]": "Complemento de gzip",
+        "Name[ia]": "Plugin de Gzip",
         "Name[it]": "Estensione Gzip",
         "Name[ko]": "Gzip 플러그인",
         "Name[nl]": "Gzip-plug-in",

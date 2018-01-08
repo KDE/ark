@@ -47,6 +47,7 @@
         "Name[fi]": "Libzip-liitännäinen",
         "Name[fr]": "Module externe « libzip »",
         "Name[gl]": "Complemento de libzip",
+        "Name[ia]": "Plugin de Libzip",
         "Name[it]": "Estensione Libzip",
         "Name[ko]": "Libzip 플러그인",
         "Name[nl]": "Libzip-plug-in",

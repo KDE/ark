@@ -47,6 +47,7 @@
         "Name[fi]": "LZMA-liitännäinen",
         "Name[fr]": "Module externe LZMA",
         "Name[gl]": "Complemento de LZMA",
+        "Name[ia]": "Plugin de LZMA",
         "Name[it]": "Estensione LZMA",
         "Name[ko]": "LZMA 플러그인",
         "Name[nl]": "LZMA-plug-in",

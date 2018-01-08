@@ -47,6 +47,7 @@
         "Name[fi]": "RAR-liitännäinen",
         "Name[fr]": "Module externe « RAR »",
         "Name[gl]": "Complemento de RAR",
+        "Name[ia]": "Plugin de RAR",
         "Name[it]": "Estensione RAR",
         "Name[ko]": "RAR 플러그인",
         "Name[nl]": "RAR-plug-in",
