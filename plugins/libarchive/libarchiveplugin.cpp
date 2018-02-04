@@ -506,7 +506,7 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *dest, b
     }
 
     auto readBytes = file.read(buff, sizeof(buff));
-    while (readBytes > 0) {
+    while (readBytes > 0 && !QThread::currentThread()->isInterruptionRequested()) {
         archive_write_data(dest, buff, static_cast<size_t>(readBytes));
         if (archive_errno(dest) != ARCHIVE_OK) {
             qCCritical(ARK) << "Error while writing" << filename << ":" << archive_error_string(dest)
@@ -530,7 +530,7 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *source,
     char buff[10240];
 
     auto readBytes = archive_read_data(source, buff, sizeof(buff));
-    while (readBytes > 0) {
+    while (readBytes > 0 && !QThread::currentThread()->isInterruptionRequested()) {
         archive_write_data(dest, buff, static_cast<size_t>(readBytes));
         if (archive_errno(dest) != ARCHIVE_OK) {
             qCCritical(ARK) << "Error while extracting" << filename << ":" << archive_error_string(dest)
