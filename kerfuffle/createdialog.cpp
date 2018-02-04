@@ -129,6 +129,9 @@ QUrl CreateDialog::selectedUrl() const
 {
     QString fileName = m_ui->filenameLineEdit->text();
     QString dir = m_ui->destFolderUrlRequester->url().toLocalFile();
+    if (dir.trimmed().endsWith(QLatin1Char('/'))) {
+        dir = dir.trimmed();
+    }
 
     if (m_ui->chkAddExtension->isChecked()) {
         QString detectedSuffix = QMimeDatabase().suffixForFileName(m_ui->filenameLineEdit->text().trimmed());
