@@ -167,6 +167,8 @@ bool MainWindow::loadPart()
     connect(m_part, SIGNAL(busy()), this, SLOT(updateActions()), Qt::QueuedConnection);
     connect(m_part, QOverload<>::of(&KParts::ReadOnlyPart::completed), this, &MainWindow::addPartUrl);
 
+    updateActions();
+
     return true;
 }
 
@@ -193,7 +195,8 @@ void MainWindow::setupActions()
 void MainWindow::updateActions()
 {
     Interface *iface = qobject_cast<Interface*>(m_part);
-    m_newAction->setEnabled(!iface->isBusy());
+    Kerfuffle::PluginManager pluginManager;
+    m_newAction->setEnabled(!iface->isBusy() && !pluginManager.availableWritePlugins().isEmpty());
     m_openAction->setEnabled(!iface->isBusy());
     m_recentFilesAction->setEnabled(!iface->isBusy());
 }
@@ -278,6 +281,7 @@ void MainWindow::showSettings()
     dialog->setModal(true);
 
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::writeSettings);
+    connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::updateActions);
     dialog->show();
 }
 

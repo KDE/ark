@@ -75,11 +75,7 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
 
     QAction *compressMenuAction = new QAction(i18nc("@action:inmenu Compress submenu in Dolphin context menu", "Compress"), parentWidget);
     compressMenuAction->setMenu(compressMenu);
-
-    // #189177: disable compress menu in read-only folders.
-    if (!fileItemInfos.supportsWriting()) {
-        compressMenuAction->setEnabled(false);
-    }
+    compressMenuAction->setEnabled(fileItemInfos.supportsWriting() && !m_pluginManager->availableWritePlugins().isEmpty());
 
     actions << compressMenuAction;
     return actions;
