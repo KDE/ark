@@ -1004,16 +1004,6 @@ bool CliInterface::doKill()
     return false;
 }
 
-bool CliInterface::doSuspend()
-{
-    return false;
-}
-
-bool CliInterface::doResume()
-{
-    return false;
-}
-
 QString CliInterface::escapeFileName(const QString& fileName) const
 {
     return fileName;

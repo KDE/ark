@@ -152,8 +152,6 @@ public:
     static QStringList entryPathsFromDestination(QStringList entries, const Archive::Entry *destination, int entriesWithoutChildren);
 
     virtual bool doKill();
-    virtual bool doSuspend();
-    virtual bool doResume();
 
     bool isHeaderEncryptionEnabled() const;
     virtual QString multiVolumeName() const;

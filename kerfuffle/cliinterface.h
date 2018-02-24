@@ -73,8 +73,6 @@ public:
     virtual bool readExtractLine(const QString &line) = 0;
     virtual bool readDeleteLine(const QString &line);
     bool doKill() override;
-    bool doSuspend() override;
-    bool doResume() override;
 
     /**
      * Sets if the listing should include empty lines.

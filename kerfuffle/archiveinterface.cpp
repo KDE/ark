@@ -105,18 +105,6 @@ bool ReadOnlyArchiveInterface::doKill()
     return false;
 }
 
-bool ReadOnlyArchiveInterface::doSuspend()
-{
-    //default implementation
-    return false;
-}
-
-bool ReadOnlyArchiveInterface::doResume()
-{
-    //default implementation
-    return false;
-}
-
 void ReadOnlyArchiveInterface::setCorrupt(bool isCorrupt)
 {
     m_isCorrupt = isCorrupt;
