@@ -99,6 +99,11 @@ public:
      * the user of the error condition.
      */
     virtual bool extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) = 0;
+
+    /**
+     * @return Whether the plugins do NOT run the functions in their own thread.
+     * @see setWaitForFinishedSignal()
+     */
     bool waitForFinishedSignal();
 
     /**
@@ -180,7 +185,7 @@ signals:
 protected:
 
     /**
-     * Setting this option to true will not run the functions in their own thread.
+     * Setting this option to true will NOT run the functions in their own thread.
      * Instead it will be necessary to call finished(bool) when the operation is actually finished.
      */
     void setWaitForFinishedSignal(bool value);
