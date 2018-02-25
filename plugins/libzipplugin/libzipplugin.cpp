@@ -489,13 +489,13 @@ bool LibzipPlugin::testArchive()
         }
 
         zip_file *zipFile = zip_fopen_index(archive, i, 0);
-        QScopedPointer<uchar> buf(new uchar[statBuffer.size]);
-        const int len = zip_fread(zipFile, buf.data(), statBuffer.size);
+        std::unique_ptr<uchar[]> buf(new uchar[statBuffer.size]);
+        const int len = zip_fread(zipFile, buf.get(), statBuffer.size);
         if (len == -1 || uint(len) != statBuffer.size) {
             qCCritical(ARK) << "Failed to read data for" << statBuffer.name;
             return false;
         }
-        if (statBuffer.crc != crc32(0, &buf.data()[0], len)) {
+        if (statBuffer.crc != crc32(0, &buf.get()[0], len)) {
             qCCritical(ARK) << "CRC check failed for" << statBuffer.name;
             return false;
         }
