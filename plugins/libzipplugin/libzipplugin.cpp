@@ -81,7 +81,7 @@ bool LibzipPlugin::list()
 
     m_numberOfEntries = 0;
 
-    int errcode;
+    int errcode = 0;
     zip_error_t err;
 
     // Open archive.
@@ -125,7 +125,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
 {
     Q_UNUSED(numberOfEntriesToAdd)
 
-    int errcode;
+    int errcode = 0;
     zip_error_t err;
 
     // Open archive.
@@ -391,7 +391,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
 
 bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
 {
-    int errcode;
+    int errcode = 0;
     zip_error_t err;
 
     // Open archive.
@@ -436,7 +436,7 @@ bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
 
 bool LibzipPlugin::addComment(const QString& comment)
 {
-    int errcode;
+    int errcode = 0;
     zip_error_t err;
 
     // Open archive.
@@ -466,7 +466,7 @@ bool LibzipPlugin::testArchive()
 {
     qCDebug(ARK) << "Testing archive";
 
-    int errcode;
+    int errcode = 0;
     zip_error_t err;
 
     // Open archive performing extra consistency checks.
@@ -522,7 +522,7 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     const bool extractAll = files.isEmpty();
     const bool removeRootNode = options.isDragAndDropEnabled();
 
-    int errcode;
+    int errcode = 0;
     zip_error_t err;
 
     // Open archive.
@@ -786,7 +786,7 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
 {
     Q_UNUSED(options)
 
-    int errcode;
+    int errcode = 0;
     zip_error_t err;
 
     // Open archive.
@@ -836,7 +836,7 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
 {
     Q_UNUSED(options)
 
-    int errcode;
+    int errcode = 0;
     zip_error_t err;
 
     // Open archive.
