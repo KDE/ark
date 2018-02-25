@@ -659,6 +659,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
                 query.waitForResponse();
 
                 if (query.responseCancelled()) {
+                    emit cancelled();
                     return false;
                 } else if (query.responseSkip()) {
                     return true;

@@ -407,6 +407,7 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
 
     if (m_extractionOptions.isDragAndDropEnabled()) {
         if (!moveDroppedFilesToDest(m_extractedFiles, m_extractDestDir)) {
+            // FIXME: if the user canceled the overwrite query, we should emit cancelled(), not error().
             emit error(i18ncp("@info",
                               "Could not move the extracted file to the destination directory.",
                               "Could not move the extracted files to the destination directory.",
@@ -979,6 +980,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
     } else if (query.responseAutoSkip()) {
         responseToProcess = choices.at(3);
     } else if (query.responseCancelled()) {
+        emit cancelled();
         if (choices.count() < 5) { // If the program has no way to cancel the extraction, we resort to killing it
             return doKill();
         }
