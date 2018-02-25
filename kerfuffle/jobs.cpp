@@ -207,7 +207,9 @@ void Job::onFinished(bool result)
         setError(KJob::UserDefinedError);
     }
 
-    emitResult();
+    if (!d->isInterruptionRequested()) {
+        emitResult();
+    }
 }
 
 void Job::onUserQuery(Query *query)
