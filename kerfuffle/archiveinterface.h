@@ -94,7 +94,7 @@ public:
      * Extracts the given @p files to the given @p destinationDirectory.
      * If @p files is empty, the whole archive will be extracted.
      * When subclassing, you can block as long as you need (unless you called setWaitForFinishedSignal(true)).
-     * @returns whether the listing succeeded.
+     * @returns whether the extraction succeeded.
      * @note If returning false, make sure to emit the error() signal beforewards to notify
      * the user of the error condition.
      */
