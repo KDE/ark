@@ -314,6 +314,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
                     query.waitForResponse();
 
                     if (query.responseCancelled()) {
+                        emit cancelled();
                         archive_read_data_skip(m_archiveReader.data());
                         archive_entry_clear(entry);
                         break;
