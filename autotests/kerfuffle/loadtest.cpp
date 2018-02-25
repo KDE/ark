@@ -62,8 +62,8 @@ void LoadTest::testProperties_data()
     QTest::newRow("non-existent tar archive")
             << QStringLiteral("/tmp/foo.tar.gz")
             << QStringLiteral("foo")
-            << false << false << false << true << false << 0 << Archive::Unencrypted
-            << QStringLiteral("foo");
+            << false << false << false << false << false << 0 << Archive::Unencrypted
+            << QString();
 
     // Test non-archive file
     QTest::newRow("not an archive")

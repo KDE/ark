@@ -279,7 +279,7 @@ void LoadJob::doWork()
 
 void LoadJob::onFinished(bool result)
 {
-    if (archive()) {
+    if (archive() && result) {
         archive()->setProperty("unpackedSize", extractedFilesSize());
         archive()->setProperty("isSingleFolder", isSingleFolderArchive());
         const auto name = subfolderName().isEmpty() ? archive()->completeBaseName() : subfolderName();
