@@ -481,6 +481,10 @@ bool LibzipPlugin::testArchive()
     const int nofEntries = zip_get_num_entries(archive, 0);
     for (int i = 0; i < nofEntries; i++) {
 
+        if (QThread::currentThread()->isInterruptionRequested()) {
+            return false;
+        }
+
         // Get statistic for entry. Used to get entry size.
         zip_stat_t statBuffer;
         if (zip_stat_index(archive, i, 0, &statBuffer) != 0) {
