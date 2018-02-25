@@ -28,6 +28,8 @@
 
 #include "archiveinterface.h"
 
+#include <QMutex>
+
 #include <zip.h>
 
 using namespace Kerfuffle;
@@ -57,11 +59,14 @@ private:
     bool emitEntryForIndex(zip_t *archive, qlonglong index);
     void progressEmitted(double pct);
     QString permissionsToString(const mode_t &perm);
+    void setOperationMode(OperationMode operationMode);
 
     QVector<Archive::Entry*> m_emittedEntries;
     bool m_overwriteAll;
     bool m_skipAll;
     bool m_listAfterAdd;
+    QMutex m_mutex;
+    OperationMode m_operationMode = List;
 };
 
 #endif // LIBZIPPLUGIN_H

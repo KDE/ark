@@ -78,7 +78,7 @@ LibzipPlugin::~LibzipPlugin()
 bool LibzipPlugin::list()
 {
     qCDebug(ARK) << "Listing archive contents for:" << QFile::encodeName(filename());
-
+    setOperationMode(List);
     m_numberOfEntries = 0;
 
     int errcode = 0;
@@ -124,7 +124,7 @@ bool LibzipPlugin::list()
 bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd)
 {
     Q_UNUSED(numberOfEntriesToAdd)
-
+    setOperationMode(Add);
     int errcode = 0;
     zip_error_t err;
 
@@ -391,6 +391,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
 
 bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
 {
+    setOperationMode(Delete);
     int errcode = 0;
     zip_error_t err;
 
@@ -436,6 +437,7 @@ bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
 
 bool LibzipPlugin::addComment(const QString& comment)
 {
+    setOperationMode(Comment);
     int errcode = 0;
     zip_error_t err;
 
@@ -465,7 +467,7 @@ bool LibzipPlugin::addComment(const QString& comment)
 bool LibzipPlugin::testArchive()
 {
     qCDebug(ARK) << "Testing archive";
-
+    setOperationMode(Test);
     int errcode = 0;
     zip_error_t err;
 
@@ -515,14 +517,24 @@ bool LibzipPlugin::testArchive()
 
 bool LibzipPlugin::doKill()
 {
-    qCDebug(ARK) << "Killing operation...";
+    QMutexLocker mutexLocker(&m_mutex);
+    switch (m_operationMode) {
+    case Add:
+    case Copy:
+    case Delete:
+    case Move:
+        return false;
+    default:
+        break;
+    }
+
     return true;
 }
 
 bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QString& destinationDirectory, const ExtractionOptions& options)
 {
     qCDebug(ARK) << "Extracting files to:" << destinationDirectory;
-
+    setOperationMode(Extract);
     const bool extractAll = files.isEmpty();
     const bool removeRootNode = options.isDragAndDropEnabled();
 
@@ -790,7 +802,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
 bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options)
-
+    setOperationMode(Move);
     int errcode = 0;
     zip_error_t err;
 
@@ -840,7 +852,7 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
 bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options)
-
+    setOperationMode(Copy);
     int errcode = 0;
     zip_error_t err;
 
@@ -971,6 +983,12 @@ QString LibzipPlugin::permissionsToString(const mode_t &perm)
         modeval.append(QLatin1Char('-'));
     }
     return modeval;
+}
+
+void LibzipPlugin::setOperationMode(ReadWriteArchiveInterface::OperationMode operationMode)
+{
+    QMutexLocker mutexLocker(&m_mutex);
+    m_operationMode = operationMode;
 }
 
 #include "libzipplugin.moc"

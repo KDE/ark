@@ -151,6 +151,10 @@ public:
      */
     static QStringList entryPathsFromDestination(QStringList entries, const Archive::Entry *destination, int entriesWithoutChildren);
 
+    /**
+     * @return true if the interface has killed the job or if it will stop it as soon as possible.
+     * Otherwise returns false if the interface is not able to kill the operation.
+     */
     virtual bool doKill();
 
     bool isHeaderEncryptionEnabled() const;
