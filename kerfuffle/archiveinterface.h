@@ -165,6 +165,12 @@ public:
     virtual bool hasBatchExtractionProgress() const;
 
 signals:
+
+    /**
+     * Emitted when the user cancels the operation. Examples:
+     * - the user cancels the password dialog
+     * - the user cancels the overwrite dialog
+     */
     void cancelled();
     void error(const QString &message, const QString &details = QString());
     void entry(Archive::Entry *archiveEntry);
