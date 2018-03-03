@@ -26,6 +26,7 @@
 #include <KLocalizedString>
 
 #include <QFileInfo>
+#include <QIcon>
 #include <QMimeDatabase>
 
 using namespace Kerfuffle;

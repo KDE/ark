@@ -35,6 +35,7 @@
 #include <QFileInfo>
 #include <QFontDatabase>
 #include <QFutureWatcher>
+#include <QIcon>
 
 #include <KIconLoader>
 #include <KIO/Global>
