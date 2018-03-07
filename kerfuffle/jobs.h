@@ -158,10 +158,6 @@ class KERFUFFLE_EXPORT BatchExtractJob : public Job
 public:
     explicit BatchExtractJob(LoadJob *loadJob, const QString &destination, bool autoSubfolder, bool preservePaths);
 
-signals:
-    void newEntry(Archive::Entry *entry);
-    void userQuery(Query *query);
-
 public slots:
     void doWork() override;
 
