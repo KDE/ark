@@ -572,4 +572,3 @@ QString LibarchivePlugin::convertCompressionName(const QString &method)
     return QString();
 }
 
-#include "libarchiveplugin.moc"
