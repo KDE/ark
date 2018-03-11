@@ -76,8 +76,3 @@ install(TARGETS kerfuffle ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_S
 
 install(FILES kerfufflePlugin.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
 install(FILES ark.kcfg                DESTINATION ${KDE_INSTALL_KCFGDIR})
-
-install(FILES mime/kerfuffle.xml DESTINATION ${KDE_INSTALL_MIMEDIR})
-if(SharedMimeInfo_FOUND)
-    update_xdg_mimetypes(${KDE_INSTALL_MIMEDIR})
-endif()
