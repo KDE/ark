@@ -41,6 +41,7 @@
 
 #include <utime.h>
 #include <zlib.h>
+#include <memory>
 
 K_PLUGIN_FACTORY_WITH_JSON(LibZipPluginFactory, "kerfuffle_libzip.json", registerPlugin<LibzipPlugin>();)
 
