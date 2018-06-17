@@ -407,6 +407,16 @@ void ExtractTest::testExtraction_data()
                }
             << dragAndDropOptions
             << 2;
+
+    archivePath = QFINDTESTDATA("data/bug_#394542.zip");
+    QTest::newRow("#394542: libzip doesn't extract selected folder")
+            << archivePath
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("2017 - 05/")),
+                   new Archive::Entry(this, QStringLiteral("2017 - 05/uffdå"))
+               }
+            << optionsPreservePaths
+            << 2;
 }
 
 void ExtractTest::testExtraction()
