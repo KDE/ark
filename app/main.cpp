@@ -156,8 +156,6 @@ int main(int argc, char **argv)
     application.setWindowIcon(QIcon::fromTheme(QStringLiteral("ark"), application.windowIcon()));
 
     QCommandLineParser parser;
-    parser.addHelpOption();
-    parser.addVersionOption();
 
     // Url to open.
     parser.addPositionalArgument(QStringLiteral("[urls]"), i18n("URLs to open."));
