@@ -659,6 +659,10 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     // Get statistic for entry. Used to get entry size and mtime.
     zip_stat_t statBuffer;
     if (zip_stat(archive, entry.toUtf8(), 0, &statBuffer) != 0) {
+        if (isDirectory && zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOENT) {
+            qCWarning(ARK) << "Skipping folder without entry:" << entry;
+            return true;
+        }
         qCCritical(ARK) << "Failed to read stat for entry" << entry;
         return false;
     }
