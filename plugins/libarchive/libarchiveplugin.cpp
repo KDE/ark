@@ -163,16 +163,6 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
     qCDebug(ARK) << "Changing current directory to " << destinationDirectory;
     QDir::setCurrent(destinationDirectory);
 
-    const bool extractAll = files.isEmpty();
-    const bool preservePaths = options.preservePaths();
-    const bool removeRootNode = options.isDragAndDropEnabled();
-
-    // To avoid traversing the entire archive when extracting a limited set of
-    // entries, we maintain a list of remaining entries and stop when it's
-    // empty.
-    QStringList fullPaths = entryFullPaths(files);
-    QStringList remainingFiles = entryFullPaths(files);
-
     if (!initializeReader()) {
         return false;
     }
@@ -184,9 +174,8 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
 
     archive_write_disk_set_options(writer.data(), extractionFlags());
 
-    int entryNr = 0;
     int totalCount = 0;
-
+    const bool extractAll = files.isEmpty();
     if (extractAll) {
         if (!m_cachedArchiveEntryCount) {
             emit progress(0);
@@ -206,14 +195,20 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
 
 
     // Initialize variables.
+    const bool preservePaths = options.preservePaths();
+    const bool removeRootNode = options.isDragAndDropEnabled();
     bool overwriteAll = false; // Whether to overwrite all files
     bool skipAll = false; // Whether to skip all files
     bool dontPromptErrors = false; // Whether to prompt for errors
     m_currentExtractedFilesSize = 0;
     int no_entries = 0;
-
+    int entryNr = 0;
     struct archive_entry *entry;
     QString fileBeingRenamed;
+    // To avoid traversing the entire archive when extracting a limited set of
+    // entries, we maintain a list of remaining entries and stop when it's empty.
+    const QStringList fullPaths = entryFullPaths(files);
+    QStringList remainingFiles = entryFullPaths(files);
 
     // Iterate through all entries in archive.
     while (!QThread::currentThread()->isInterruptionRequested() && (archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK)) {
