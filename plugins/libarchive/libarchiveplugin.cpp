@@ -174,7 +174,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
 
     archive_write_disk_set_options(writer.data(), extractionFlags());
 
-    int totalCount = 0;
+    int totalEntriesCount = 0;
     const bool extractAll = files.isEmpty();
     if (extractAll) {
         if (!m_cachedArchiveEntryCount) {
@@ -186,12 +186,12 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
             list();
             m_emitNoEntries = false;
         }
-        totalCount = m_cachedArchiveEntryCount;
+        totalEntriesCount = m_cachedArchiveEntryCount;
     } else {
-        totalCount = files.size();
+        totalEntriesCount = files.size();
     }
 
-    qCDebug(ARK) << "Going to extract" << totalCount << "entries";
+    qCDebug(ARK) << "Going to extract" << totalEntriesCount << "entries";
 
 
     // Initialize variables.
@@ -201,8 +201,8 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
     bool skipAll = false; // Whether to skip all files
     bool dontPromptErrors = false; // Whether to prompt for errors
     m_currentExtractedFilesSize = 0;
-    int no_entries = 0;
-    int entryNr = 0;
+    int extractedEntriesCount = 0;
+    int progressEntryCount = 0;
     struct archive_entry *entry;
     QString fileBeingRenamed;
     // To avoid traversing the entire archive when extracting a limited set of
@@ -391,10 +391,10 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
             // archive entries is available we use a simple progress based on
             // number of items extracted.
             if (!extractAll && m_cachedArchiveEntryCount) {
-                ++entryNr;
-                emit progress(float(entryNr) / totalCount);
+                ++progressEntryCount;
+                emit progress(float(progressEntryCount) / totalEntriesCount);
             }
-            no_entries++;
+            extractedEntriesCount++;
 
             remainingFiles.removeOne(entryName);
 
@@ -407,7 +407,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
 
     } // While entries left to read in archive.
 
-    qCDebug(ARK) << "Extracted" << no_entries << "entries";
+    qCDebug(ARK) << "Extracted" << extractedEntriesCount << "entries";
 
     return archive_read_close(m_archiveReader.data()) == ARCHIVE_OK;
 }
