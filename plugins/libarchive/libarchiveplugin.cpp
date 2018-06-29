@@ -193,7 +193,6 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
 
     qCDebug(ARK) << "Going to extract" << totalEntriesCount << "entries";
 
-
     // Initialize variables.
     const bool preservePaths = options.preservePaths();
     const bool removeRootNode = options.isDragAndDropEnabled();
@@ -223,9 +222,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
         // Retry with renamed entry, fire an overwrite query again
         // if the new entry also exists.
     retry:
-
         const bool entryIsDir = S_ISDIR(archive_entry_mode(entry));
-
         // Skip directories if not preserving paths.
         if (!preservePaths && entryIsDir) {
             archive_read_data_skip(m_archiveReader.data());
@@ -275,14 +272,12 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
             //qCDebug(ARK) << "setting path to " << archive_entry_pathname( entry );
 
             const QString fileWithoutPath(entryFI.fileName());
-
             // If we DON'T preserve paths, we cut the path and set the entryFI
             // fileinfo to the one without the path.
             if (!preservePaths) {
                 // Empty filenames (ie dirs) should have been skipped already,
                 // so asserting.
                 Q_ASSERT(!fileWithoutPath.isEmpty());
-
                 archive_entry_copy_pathname(entry, QFile::encodeName(fileWithoutPath).constData());
                 entryFI = QFileInfo(fileWithoutPath);
 
@@ -291,7 +286,6 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
                 const QString &rootNode = files.at(index)->rootNode;
                 if (!rootNode.isEmpty()) {
                     const QString truncatedFilename(entryName.remove(entryName.indexOf(rootNode), rootNode.size()));
-
                     archive_entry_copy_pathname(entry, QFile::encodeName(truncatedFilename).constData());
                     entryFI = QFileInfo(truncatedFilename);
                 }
@@ -361,7 +355,6 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
                 // If they user previously decided to ignore future errors,
                 // don't bother prompting again.
                 if (!dontPromptErrors) {
-
                     // Ask the user if he wants to continue extraction despite an error for this entry.
                     Kerfuffle::ContinueExtractionQuery query(QLatin1String(archive_error_string(writer.data())),
                                                              entryName);
@@ -394,18 +387,14 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
                 ++progressEntryCount;
                 emit progress(float(progressEntryCount) / totalEntriesCount);
             }
+
             extractedEntriesCount++;
-
             remainingFiles.removeOne(entryName);
-
         } else {
-
             // Archive entry not among selected files, skip it.
             archive_read_data_skip(m_archiveReader.data());
-
         }
-
-    } // While entries left to read in archive.
+    }
 
     qCDebug(ARK) << "Extracted" << extractedEntriesCount << "entries";
 
