@@ -400,8 +400,6 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
                 emit finished(false);
                 return;
             }
-
-            cleanUpExtracting();
         }
     }
 
@@ -416,10 +414,9 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
             emit finished(false);
             return;
         }
-
-        cleanUpExtracting();
     }
 
+    cleanUpExtracting();
     emit progress(1.0);
     emit finished(true);
 }
