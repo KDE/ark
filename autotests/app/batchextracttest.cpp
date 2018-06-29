@@ -33,11 +33,21 @@ class BatchExtractTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void testBatchExtraction_data();
     void testBatchExtraction();
+
+private:
+    QString m_expectedWorkingDir;
 };
 
 QTEST_MAIN(BatchExtractTest)
+
+void BatchExtractTest::initTestCase()
+{
+    // #395939: after each extraction, the cwd must be the one we started from.
+    m_expectedWorkingDir = QDir::currentPath();
+}
 
 void BatchExtractTest::testBatchExtraction_data()
 {
@@ -115,6 +125,7 @@ void BatchExtractTest::testBatchExtraction()
     }
 
     QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount);
+    QCOMPARE(QDir::currentPath(), m_expectedWorkingDir);
 }
 
 #include "batchextracttest.moc"

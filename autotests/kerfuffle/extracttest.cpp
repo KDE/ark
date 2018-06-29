@@ -43,6 +43,7 @@ class ExtractTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void testExtraction_data();
     void testExtraction();
     void testPreservePermissions_data();
@@ -50,9 +51,16 @@ private Q_SLOTS:
 
 private:
     PluginManager m_pluginManager;
+    QString m_expectedWorkingDir;
 };
 
 QTEST_GUILESS_MAIN(ExtractTest)
+
+void ExtractTest::initTestCase()
+{
+    // #395939: after each extraction, the cwd must be the one we started from.
+    m_expectedWorkingDir = QDir::currentPath();
+}
 
 void ExtractTest::testExtraction_data()
 {
@@ -417,6 +425,8 @@ void ExtractTest::testExtraction_data()
                }
             << optionsPreservePaths
             << 2;
+
+    m_expectedWorkingDir = QDir::currentPath();
 }
 
 void ExtractTest::testExtraction()
@@ -457,6 +467,7 @@ void ExtractTest::testExtraction()
     }
 
     QCOMPARE(extractedEntriesCount, expectedExtractedEntriesCount);
+    QCOMPARE(QDir::currentPath(), m_expectedWorkingDir);
 
     loadJob->deleteLater();
     extractionJob->deleteLater();
