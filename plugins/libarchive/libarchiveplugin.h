@@ -88,6 +88,9 @@ protected:
     ArchiveRead m_archiveReader;
     ArchiveRead m_archiveReadDisk;
 
+private slots:
+    void slotRestoreWorkingDir();
+
 private:
     int extractionFlags() const;
     QString convertCompressionName(const QString &method);
@@ -97,6 +100,7 @@ private:
     bool m_emitNoEntries;
     qlonglong m_extractedFilesSize;
     QVector<Archive::Entry*> m_emittedEntries;
+    QString m_oldWorkingDir;
 };
 
 #endif // LIBARCHIVEPLUGIN_H

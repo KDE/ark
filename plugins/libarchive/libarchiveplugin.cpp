@@ -46,6 +46,9 @@ LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList &args)
 {
     qCDebug(ARK) << "Initializing libarchive plugin";
     archive_read_disk_set_standard_lookup(m_archiveReadDisk.data());
+
+    connect(this, &ReadOnlyArchiveInterface::error, this, &LibarchivePlugin::slotRestoreWorkingDir);
+    connect(this, &ReadOnlyArchiveInterface::cancelled, this, &LibarchivePlugin::slotRestoreWorkingDir);
 }
 
 LibarchivePlugin::~LibarchivePlugin()
@@ -160,9 +163,6 @@ bool LibarchivePlugin::doKill()
 
 bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
-    qCDebug(ARK) << "Changing current directory to " << destinationDirectory;
-    QDir::setCurrent(destinationDirectory);
-
     if (!initializeReader()) {
         return false;
     }
@@ -192,6 +192,10 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
     }
 
     qCDebug(ARK) << "Going to extract" << totalEntriesCount << "entries";
+
+    qCDebug(ARK) << "Changing current directory to " << destinationDirectory;
+    m_oldWorkingDir = QDir::currentPath();
+    QDir::setCurrent(destinationDirectory);
 
     // Initialize variables.
     const bool preservePaths = options.preservePaths();
@@ -397,7 +401,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
     }
 
     qCDebug(ARK) << "Extracted" << extractedEntriesCount << "entries";
-
+    slotRestoreWorkingDir();
     return archive_read_close(m_archiveReader.data()) == ARCHIVE_OK;
 }
 
@@ -529,6 +533,19 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *source,
         }
 
         readBytes = archive_read_data(source, buff, sizeof(buff));
+    }
+}
+
+void LibarchivePlugin::slotRestoreWorkingDir()
+{
+    if (m_oldWorkingDir.isEmpty()) {
+        return;
+    }
+
+    if (!QDir::setCurrent(m_oldWorkingDir)) {
+        qCWarning(ARK) << "Failed to restore old working directory:" << m_oldWorkingDir;
+    } else {
+        m_oldWorkingDir.clear();
     }
 }
 
