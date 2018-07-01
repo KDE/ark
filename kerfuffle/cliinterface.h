@@ -52,8 +52,6 @@ class KERFUFFLE_EXPORT CliInterface : public ReadWriteArchiveInterface
     Q_OBJECT
 
 public:
-    OperationMode m_operationMode = List;
-
     explicit CliInterface(QObject *parent, const QVariantList & args);
     ~CliInterface() override;
 
@@ -136,6 +134,7 @@ protected:
 
     void cleanUp();
 
+    OperationMode m_operationMode = List;
     CliProperties *m_cliProps = nullptr;
     QString m_oldWorkingDir;
     QScopedPointer<QTemporaryDir> m_tempWorkingDir;
