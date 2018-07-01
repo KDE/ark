@@ -118,6 +118,7 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     }
 
     QUrl destDir = QUrl(destinationDirectory);
+    m_oldWorkingDirExtraction = QDir::currentPath();
     QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
 
     const bool useTmpExtractDir = options.isDragAndDropEnabled() || options.alwaysUseTempDir();
@@ -132,7 +133,6 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
             emit finished(false);
             return false;
         }
-        m_oldWorkingDir = QDir::currentPath();
         destDir = QUrl(m_extractTempDir->path());
         QDir::setCurrent(destDir.adjusted(QUrl::RemoveScheme).url());
     }
@@ -420,6 +420,9 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
         cleanUpExtracting();
     }
 
+    // #395939: make sure we *always* restore the old working dir.
+    restoreWorkingDirExtraction();
+
     emit progress(1.0);
     emit finished(true);
 }
@@ -535,11 +538,21 @@ bool CliInterface::isEmptyDir(const QDir &dir)
 
 void CliInterface::cleanUpExtracting()
 {
-    if (!m_oldWorkingDir.isEmpty()) {
-        QDir::setCurrent(m_oldWorkingDir);
+    restoreWorkingDirExtraction();
+    m_extractTempDir.reset();
+}
+
+void CliInterface::restoreWorkingDirExtraction()
+{
+    if (m_oldWorkingDirExtraction.isEmpty()) {
+        return;
     }
 
-    m_extractTempDir.reset();
+    if (!QDir::setCurrent(m_oldWorkingDirExtraction)) {
+        qCWarning(ARK) << "Failed to restore old working directory:" << m_oldWorkingDirExtraction;
+    } else {
+        m_oldWorkingDirExtraction.clear();
+    }
 }
 
 void CliInterface::finishCopying(bool result)

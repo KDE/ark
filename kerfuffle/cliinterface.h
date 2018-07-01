@@ -136,7 +136,8 @@ protected:
 
     OperationMode m_operationMode = List;
     CliProperties *m_cliProps = nullptr;
-    QString m_oldWorkingDir;
+    QString m_oldWorkingDirExtraction; // Used ONLY by extraction jobs.
+    QString m_oldWorkingDir; // Used by copy and move jobs.
     QScopedPointer<QTemporaryDir> m_tempWorkingDir;
     QScopedPointer<QTemporaryDir> m_tempAddDir;
     OperationMode m_subOperation = List;
@@ -194,6 +195,7 @@ private:
     virtual QString escapeFileName(const QString &fileName) const;
 
     void cleanUpExtracting();
+    void restoreWorkingDirExtraction();
 
     void finishCopying(bool result);
 
