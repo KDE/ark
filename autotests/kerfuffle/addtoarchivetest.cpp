@@ -239,7 +239,7 @@ void AddToArchiveTest::testCompressHere()
 
     QVERIFY(archive);
     QVERIFY(archive->isValid());
-    QCOMPARE(archive->completeBaseName() + QLatin1Char('.') + expectedSuffix, expectedArchiveName);
+    QCOMPARE(QString(archive->completeBaseName() + QLatin1Char('.') + expectedSuffix), expectedArchiveName);
 
     QCOMPARE(archive->encryptionType(), expectedEncryptionType);
 
