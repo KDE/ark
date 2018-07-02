@@ -389,8 +389,8 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehav
             entry = new Archive::Entry(parent);
 
             entry->setProperty("fullPath", (parent == m_rootEntry.data())
-                                           ? piece + QLatin1Char('/')
-                                           : parent->fullPath(WithTrailingSlash) + piece + QLatin1Char('/'));
+                                           ? QString(piece + QLatin1Char('/'))
+                                           : QString(parent->fullPath(WithTrailingSlash) + piece + QLatin1Char('/')));
             entry->setProperty("isDirectory", true);
             insertEntry(entry, behaviour);
         }
@@ -505,7 +505,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     // contain a trailing slash, so we append it.
     if (receivedEntry->property("isDirectory").toBool() &&
         !receivedEntry->property("fullPath").toString().endsWith(QLatin1Char('/'))) {
-        receivedEntry->setProperty("fullPath", receivedEntry->property("fullPath").toString() + QLatin1Char('/'));
+        receivedEntry->setProperty("fullPath", QString(receivedEntry->property("fullPath").toString() + QLatin1Char('/')));
         qCDebug(ARK) << "Trailing slash appended to entry:" << receivedEntry->property("fullPath");
     }
 
