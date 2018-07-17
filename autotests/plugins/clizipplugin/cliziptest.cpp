@@ -46,10 +46,22 @@ void CliZipTest::initTestCase()
 void CliZipTest::testListArgs_data()
 {
     QTest::addColumn<QString>("archiveName");
+    QTest::addColumn<QString>("password");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("fake zip")
             << QStringLiteral("/tmp/foo.zip")
+            << QString()
+            << QStringList {
+                   QStringLiteral("-l"),
+                   QStringLiteral("-T"),
+                   QStringLiteral("-z"),
+                   QStringLiteral("/tmp/foo.zip")
+               };
+
+    QTest::newRow("fake encrypted zip")
+            << QStringLiteral("/tmp/foo.zip")
+            << QStringLiteral("1234")
             << QStringList {
                    QStringLiteral("-l"),
                    QStringLiteral("-T"),
@@ -69,7 +81,8 @@ void CliZipTest::testListArgs()
                                              QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    const auto replacedArgs = plugin->cliProperties()->listArgs(archiveName, QString());
+    QFETCH(QString, password);
+    const auto replacedArgs = plugin->cliProperties()->listArgs(archiveName, password);
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
