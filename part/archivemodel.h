@@ -143,7 +143,7 @@ signals:
     void loadingFinished(KJob *);
     void extractionFinished(bool success);
     void error(const QString& error, const QString& details);
-    void droppedFiles(const QStringList& files, const Archive::Entry*, const QString&);
+    void droppedFiles(const QStringList& files, const Archive::Entry*);
     void messageWidget(KMessageWidget::MessageType type, const QString& msg);
 
 private slots:
