@@ -126,7 +126,9 @@ QStringList CliProperties::listArgs(const QString &archive, const QString &passw
     foreach (const QString &s, m_listSwitch) {
         args << s;
     }
-    if (!password.isEmpty()) {
+
+    const auto encryptionType = ArchiveFormat::fromMetadata(m_mimeType, m_metaData).encryptionType();
+    if (!password.isEmpty() && encryptionType == Archive::EncryptionType::HeaderEncrypted) {
         args << substitutePasswordSwitch(password);
     }
     args << archive;

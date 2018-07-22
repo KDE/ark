@@ -320,7 +320,7 @@ bool ArchiveModel::dropMimeData(const QMimeData *data, Qt::DropAction action, in
         }
     }
 
-    emit droppedFiles(paths, entry, QString());
+    emit droppedFiles(paths, entry);
 
     return true;
 }

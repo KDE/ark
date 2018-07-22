@@ -123,6 +123,7 @@ private slots:
      * watched file.
      */
     void slotAddFiles(const QStringList &files, const Kerfuffle::Archive::Entry *destination, const QString &relPath);
+    void slotDroppedFiles(const QStringList &files, const Kerfuffle::Archive::Entry *destination);
 
     /**
      * Creates and starts MoveJob or CopyJob.
@@ -191,6 +192,7 @@ private:
     QModelIndexList addChildren(const QModelIndexList &list) const;
     void registerJob(KJob *job);
     QModelIndexList getSelectedIndexes();
+    void readCompressionOptions();
 
     ArchiveModel         *m_model;
     ArchiveView          *m_view;

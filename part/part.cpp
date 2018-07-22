@@ -202,7 +202,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
     connect(m_model, &ArchiveModel::loadingFinished,
             this, &Part::slotLoadingFinished);
     connect(m_model, &ArchiveModel::droppedFiles,
-            this, QOverload<const QStringList&, const Archive::Entry*, const QString&>::of(&Part::slotAddFiles));
+            this, &Part::slotDroppedFiles);
     connect(m_model, &ArchiveModel::error,
             this, &Part::slotError);
     connect(m_model, &ArchiveModel::messageWidget,
@@ -243,7 +243,7 @@ Part::~Part()
 
 void Part::slotCommentChanged()
 {
-    if (!m_model->archive()) {
+    if (!m_model->archive() || m_commentView->toPlainText().isEmpty()) {
         return;
     }
 
@@ -739,6 +739,29 @@ QModelIndexList Part::getSelectedIndexes()
         list.append(m_filterModel->mapToSource(i));
     }
     return list;
+}
+
+void Part::readCompressionOptions()
+{
+    // Store options from CreateDialog if they are set.
+    if (!m_compressionOptions.isCompressionLevelSet() && arguments().metaData().contains(QStringLiteral("compressionLevel"))) {
+        m_compressionOptions.setCompressionLevel(arguments().metaData()[QStringLiteral("compressionLevel")].toInt());
+    }
+    if (m_compressionOptions.compressionMethod().isEmpty() && arguments().metaData().contains(QStringLiteral("compressionMethod"))) {
+        m_compressionOptions.setCompressionMethod(arguments().metaData()[QStringLiteral("compressionMethod")]);
+    }
+    if (m_compressionOptions.encryptionMethod().isEmpty() && arguments().metaData().contains(QStringLiteral("encryptionMethod"))) {
+        m_compressionOptions.setEncryptionMethod(arguments().metaData()[QStringLiteral("encryptionMethod")]);
+    }
+    if (!m_compressionOptions.isVolumeSizeSet() && arguments().metaData().contains(QStringLiteral("volumeSize"))) {
+        m_compressionOptions.setVolumeSize(arguments().metaData()[QStringLiteral("volumeSize")].toULong());
+    }
+
+    const auto compressionMethods = m_model->archive()->property("compressionMethods").toStringList();
+    qCDebug(ARK) << "compmethods:" << compressionMethods;
+    if (compressionMethods.size() == 1) {
+        m_compressionOptions.setCompressionMethod(compressionMethods.first());
+    }
 }
 
 bool Part::openFile()
@@ -1335,27 +1358,15 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
     job->start();
 }
 
+void Part::slotDroppedFiles(const QStringList &files, const Archive::Entry *destination)
+{
+    readCompressionOptions();
+    slotAddFiles(files, destination, QString());
+}
+
 void Part::slotAddFiles()
 {
-    // Store options from CreateDialog if they are set.
-    if (!m_compressionOptions.isCompressionLevelSet() && arguments().metaData().contains(QStringLiteral("compressionLevel"))) {
-        m_compressionOptions.setCompressionLevel(arguments().metaData()[QStringLiteral("compressionLevel")].toInt());
-    }
-    if (m_compressionOptions.compressionMethod().isEmpty() && arguments().metaData().contains(QStringLiteral("compressionMethod"))) {
-        m_compressionOptions.setCompressionMethod(arguments().metaData()[QStringLiteral("compressionMethod")]);
-    }
-    if (m_compressionOptions.encryptionMethod().isEmpty() && arguments().metaData().contains(QStringLiteral("encryptionMethod"))) {
-        m_compressionOptions.setEncryptionMethod(arguments().metaData()[QStringLiteral("encryptionMethod")]);
-    }
-    if (!m_compressionOptions.isVolumeSizeSet() && arguments().metaData().contains(QStringLiteral("volumeSize"))) {
-        m_compressionOptions.setVolumeSize(arguments().metaData()[QStringLiteral("volumeSize")].toULong());
-    }
-
-    const auto compressionMethods = m_model->archive()->property("compressionMethods").toStringList();
-    qCDebug(ARK) << "compmethods:" << compressionMethods;
-    if (compressionMethods.size() == 1) {
-        m_compressionOptions.setCompressionMethod(compressionMethods.first());
-    }
+    readCompressionOptions();
 
     QString dialogTitle = i18nc("@title:window", "Add Files");
     const Archive::Entry *destination = nullptr;
