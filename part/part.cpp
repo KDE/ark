@@ -243,7 +243,7 @@ Part::~Part()
 
 void Part::slotCommentChanged()
 {
-    if (!m_model->archive()) {
+    if (!m_model->archive() || m_commentView->toPlainText().isEmpty()) {
         return;
     }
 
