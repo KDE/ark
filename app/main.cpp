@@ -26,6 +26,7 @@
 #include "mainwindow.h"
 #include "batchextract.h"
 #include "addtoarchive.h"
+#include "pluginmanager.h"
 
 #include <QApplication>
 #include <QCommandLineParser>
@@ -193,6 +194,9 @@ int main(int argc, char **argv)
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("a") << QStringLiteral("autosubfolder"),
                                         i18n("Archive contents will be read, and if detected to not be a single folder archive, a subfolder with the name of the archive will be created.")));
 
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("m") << QStringLiteral("mimetypes"),
+                                        i18n("List supported MIME types.")));
+
     aboutData.setupCommandLine(&parser);
 
     // Do the command line parsing.
@@ -300,6 +304,16 @@ int main(int argc, char **argv)
             }
 
             batchJob->start();
+
+        } else if (parser.isSet(QStringLiteral("mimetypes"))) {
+
+            Kerfuffle::PluginManager pluginManager;
+            const auto mimeTypes = pluginManager.supportedMimeTypes();
+            QTextStream cout(stdout);
+            for (const auto &mimeType : mimeTypes) {
+                cout << mimeType << '\n';
+            }
+            return 0;
 
         } else {
 
