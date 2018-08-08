@@ -19,8 +19,8 @@
 <contrib>Update of &ark; man page in 2015 and 2016.</contrib>
 <email>rthomsen6@gmail.com</email></author>
 
-<date>2016-08-09</date><!--Update only when changing/reviewing this man page-->
-<releaseinfo>16.08</releaseinfo><!--Update only when changing/reviewing this man page-->
+<date>2018-08-08</date><!--Update only when changing/reviewing this man page-->
+<releaseinfo>18.12</releaseinfo><!--Update only when changing/reviewing this man page-->
 <productname>KDE Applications</productname>
 </refentryinfo>
 
@@ -48,6 +48,7 @@ suffix</replaceable></group>
 <group choice="opt"><option>-t</option> <replaceable>
 file</replaceable></group>
 <group choice="opt"><option>-d</option></group>
+<group choice="opt"><option>-m</option></group>
 <group choice="opt"><option>-o</option> <replaceable>
 directory</replaceable></group>
 <arg choice="opt">&kf5; Generic Options</arg>
@@ -90,6 +91,12 @@ be added to a new archive or to an existing archive.</para>
 <term><option>-d, --dialog</option></term>
 <listitem>
 <para>Show a dialog for specifying the options for a batch or add operation.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>-m, --mimetypes</option></term>
+<listitem>
+<para>List supported &MIME; types.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
