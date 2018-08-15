@@ -28,6 +28,8 @@
 #include <KLocalizedString>
 #include <KRun>
 
+#include <algorithm>
+
 #include "pluginmanager.h"
 
 K_PLUGIN_FACTORY_WITH_JSON(CompressFileItemActionFactory, "compressfileitemaction.json", registerPlugin<CompressFileItemAction>();)
@@ -46,6 +48,16 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
         return {};
     }
 
+    // KFileItemListProperties::isLocal() doesn't check target URL (e.g. files on the desktop)
+    const auto urlList = fileItemInfos.urlList();
+    const bool hasLocalUrl = std::any_of(urlList.begin(), urlList.end(), [](const QUrl &url) {
+        return url.isLocalFile();
+    });
+
+    if (!hasLocalUrl) {
+        return {};
+    }
+
     QList<QAction*> actions;
     const QIcon icon = QIcon::fromTheme(QStringLiteral("ark"));
 
@@ -54,7 +66,7 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
     compressMenu->addAction(createAction(icon,
                                          i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Here (as TAR.GZ)"),
                                          parentWidget,
-                                         fileItemInfos.urlList(),
+                                         urlList,
                                          QStringLiteral("ark --changetofirstpath --add --autofilename tar.gz %F")));
 
     const QMimeType zipMime = QMimeDatabase().mimeTypeForName(QStringLiteral("application/zip"));
@@ -63,14 +75,14 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
         compressMenu->addAction(createAction(icon,
                                              i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Here (as ZIP)"),
                                              parentWidget,
-                                             fileItemInfos.urlList(),
+                                             urlList,
                                              QStringLiteral("ark --changetofirstpath --add --autofilename zip %F")));
     }
 
     compressMenu->addAction(createAction(icon,
                                          i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Compress to..."),
                                          parentWidget,
-                                         fileItemInfos.urlList(),
+                                         urlList,
                                          QStringLiteral("ark --add --changetofirstpath --dialog %F")));
 
     QAction *compressMenuAction = new QAction(i18nc("@action:inmenu Compress submenu in Dolphin context menu", "Compress"), parentWidget);
