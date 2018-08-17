@@ -43,7 +43,7 @@ endif (ZLIB_FOUND)
 #
 find_package(BZip2)
 set_package_properties(BZip2 PROPERTIES
-                       URL "http://www.bzip.org/"
+                       URL "https://sourceware.org/bzip2/"
                        DESCRIPTION "The Bzip2 compression library"
                        PURPOSE "Required for .bz2 format support in Ark")
 
