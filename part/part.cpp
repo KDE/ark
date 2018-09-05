@@ -352,11 +352,6 @@ void Part::slotActivated(const QModelIndex &index)
 
 void Part::setupActions()
 {
-    // We use a QSignalMapper for the preview, open and openwith actions. This
-    // way we can connect all three actions to the same slot slotOpenEntry and
-    // pass the OpenFileMode as argument to the slot.
-    m_signalMapper = new QSignalMapper(this);
-
     m_showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show Information Panel"), this);
     actionCollection()->addAction(QStringLiteral( "show-infopanel" ), m_showInfoPanelAction);
     m_showInfoPanelAction->setChecked(ArkSettings::showInfoPanel());
@@ -370,23 +365,20 @@ void Part::setupActions()
     m_openFileAction->setText(i18nc("open a file with external program", "&Open"));
     m_openFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     m_openFileAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with the associated application"));
-    connect(m_openFileAction, &QAction::triggered, m_signalMapper, QOverload<>::of(&QSignalMapper::map));
-    m_signalMapper->setMapping(m_openFileAction, OpenFile);
+    connect(m_openFileAction, &QAction::triggered, this, [this]() { slotOpenEntry(OpenFile); });
 
     m_openFileWithAction = actionCollection()->addAction(QStringLiteral("openfilewith"));
     m_openFileWithAction->setText(i18nc("open a file with external program", "Open &With..."));
     m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
     m_openFileWithAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with an external program"));
-    connect(m_openFileWithAction, &QAction::triggered, m_signalMapper, QOverload<>::of(&QSignalMapper::map));
-    m_signalMapper->setMapping(m_openFileWithAction, OpenFileWith);
+    connect(m_openFileWithAction, &QAction::triggered, this, [this]() { slotOpenEntry(OpenFileWith); });
 
     m_previewAction = actionCollection()->addAction(QStringLiteral("preview"));
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(QIcon::fromTheme(QStringLiteral("document-preview-archive")));
     m_previewAction->setToolTip(i18nc("@info:tooltip", "Click to preview the selected file"));
     actionCollection()->setDefaultShortcut(m_previewAction, Qt::CTRL + Qt::Key_P);
-    connect(m_previewAction, &QAction::triggered, m_signalMapper, QOverload<>::of(&QSignalMapper::map));
-    m_signalMapper->setMapping(m_previewAction, Preview);
+    connect(m_previewAction, &QAction::triggered, this, [this]() { slotOpenEntry(Preview); });
 
     m_extractArchiveAction = actionCollection()->addAction(QStringLiteral("extract_all"));
     m_extractArchiveAction->setText(i18nc("@action:inmenu", "E&xtract All"));
@@ -440,9 +432,6 @@ void Part::setupActions()
     connect(m_testArchiveAction, &QAction::triggered, this, &Part::slotTestArchive);
 
     m_searchAction = KStandardAction::find(this, &Part::slotShowFind, actionCollection());
-
-    connect(m_signalMapper, QOverload<int>::of(&QSignalMapper::mapped),
-            this, &Part::slotOpenEntry);
 
     updateActions();
     updateQuickExtractMenu(m_extractArchiveAction);

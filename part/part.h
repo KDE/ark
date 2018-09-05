@@ -50,7 +50,6 @@ class QSplitter;
 class QTreeView;
 class QTemporaryDir;
 class QVBoxLayout;
-class QSignalMapper;
 class QFileSystemWatcher;
 class QGroupBox;
 class QPlainTextEdit;
@@ -227,7 +226,6 @@ private:
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;
     QVBoxLayout *m_vlayout;
-    QSignalMapper *m_signalMapper;
     QFileSystemWatcher *m_fileWatcher;
     QSplitter *m_commentSplitter;
     QGroupBox *m_commentBox;
