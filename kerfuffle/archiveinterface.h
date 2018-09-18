@@ -110,7 +110,7 @@ public:
      * Returns count of required finish signals for a job to be finished.
      *
      * These two methods are used by move and copy jobs, which in some plugins implementations have to call
-     * several processes sequentually. For instance, moving entries in zip archive is only possible if
+     * several processes sequentially. For instance, moving entries in zip archive is only possible if
      * extracting the entries, deleting them, recreating destination folder structure and adding them back again.
      */
     virtual int moveRequiredSignals() const;

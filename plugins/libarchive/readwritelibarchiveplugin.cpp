@@ -507,7 +507,7 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString &relativeName, const QSt
     //          which case stat() will be called. To avoid this, we
     //          call lstat() ourselves.
     struct stat st;
-    lstat(QFile::encodeName(absoluteFilename).constData(), &st);
+    lstat(QFile::encodeName(absoluteFilename).constData(), &st); // krazy:exclude=syscalls
 
     struct archive_entry *entry = archive_entry_new();
     archive_entry_set_pathname(entry, QFile::encodeName(destinationFilename).constData());

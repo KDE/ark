@@ -183,7 +183,7 @@ public:
      * @param destination New entry name (for renaming) or destination folder (for moving).
      * If ReadOnlyArchiveInterface::entriesWithoutChildren(files).count() returns 1, then it's renaming,
      * so you must specify the resulted entry name, even if it's not going to be changed.
-     * Otherwise (if count is more than 1) it's moving, so destination must conatin only targeted folder path
+     * Otherwise (if count is more than 1) it's moving, so destination must contain only targeted folder path
      * or be empty, if moving to the root.
      */
     MoveJob* moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
@@ -192,7 +192,7 @@ public:
      * Copies entries within the archive.
      *
      * @param files All the renamed or moved files and their child entries (for renaming a directory too).
-     * @param destination Destination path. It must conatin only targeted folder path or be empty,
+     * @param destination Destination path. It must contain only targeted folder path or be empty,
      * if copying to the root.
      */
     CopyJob* copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());

@@ -428,7 +428,7 @@ MoveJob* Archive::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entr
         newOptions.setEncryptedArchiveHint(true);
     }
 
-    qCDebug(ARK) << "Going to move files" << files << "to destinatian" << destination << "with options" << newOptions;
+    qCDebug(ARK) << "Going to move files" << files << "to destination" << destination << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
 
     MoveJob *newJob = new MoveJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
