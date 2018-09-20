@@ -181,7 +181,7 @@ public:
      */
     void setPreservePaths(bool value);
 
-private slots:
+private Q_SLOTS:
     /**
      * Updates the percentage of the job that has been completed.
      */

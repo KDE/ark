@@ -209,7 +209,7 @@ public:
      */
     void encrypt(const QString &password, bool encryptHeader);
 
-private slots:
+private Q_SLOTS:
     void onAddFinished(KJob*);
     void onUserQuery(Kerfuffle::Query*);
     void onCompressionMethodFound(const QString &method);

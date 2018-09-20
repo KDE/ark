@@ -63,7 +63,7 @@ public:
     void setChangeToFirstPath(bool value);
     QString detectBaseName(const QVector<Archive::Entry*> &entries) const;
 
-public slots:
+public Q_SLOTS:
     bool addInput(const QUrl &url);
     void setAutoFilenameSuffix(const QString& suffix);
     void setFilename(const QUrl &path);
@@ -75,7 +75,7 @@ public slots:
 protected:
     bool doKill() override;
 
-private slots:
+private Q_SLOTS:
     void slotFinished(KJob*);
     void slotStartJob();
 

@@ -138,7 +138,7 @@ public:
     QMap<QString, Kerfuffle::Archive::Entry*> filesToMove;
     QMap<QString, Kerfuffle::Archive::Entry*> filesToCopy;
 
-signals:
+Q_SIGNALS:
     void loadingStarted();
     void loadingFinished(KJob *);
     void extractionFinished(bool success);
@@ -146,7 +146,7 @@ signals:
     void droppedFiles(const QStringList& files, const Archive::Entry*);
     void messageWidget(KMessageWidget::MessageType type, const QString& msg);
 
-private slots:
+private Q_SLOTS:
     void slotNewEntry(Archive::Entry *entry);
     void slotListEntry(Archive::Entry *entry);
     void slotLoadingFinished(KJob *job);

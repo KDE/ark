@@ -365,7 +365,7 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
     // Set compression level if passed in CompressionOptions.
     if (options.isCompressionLevelSet()) {
         qCDebug(ARK) << "Using compression level:" << options.compressionLevel();
-        ret = archive_write_set_filter_option(m_archiveWriter.data(), nullptr, "compression-level", QString::number(options.compressionLevel()).toUtf8());
+        ret = archive_write_set_filter_option(m_archiveWriter.data(), nullptr, "compression-level", QString::number(options.compressionLevel()).toUtf8().constData());
         if (ret != ARCHIVE_OK) {
             qCWarning(ARK) << "Failed to set compression level" << archive_error_string(m_archiveWriter.data());
             emit error(i18nc("@info", "Could not set the compression level."));
@@ -425,7 +425,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(uint &entriesCounter, Operatio
                 iteratedEntries--;
 
                 // Change entry path.
-                archive_entry_set_pathname(entry, newPathname.toUtf8());
+                archive_entry_set_pathname(entry, newPathname.toUtf8().constData());
                 emitEntryFromArchiveEntry(entry);
             }
         } else if (m_filesPaths.contains(file)) {

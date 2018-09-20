@@ -122,7 +122,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             }
 
             default:
-                return entry->property(m_propertiesMap[column]);
+                return entry->property(m_propertiesMap[column].constData());
             }
         }
         case Qt::DecorationRole:
@@ -475,7 +475,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
             if (i.key() == Size && size == 0 && compressedSize > 0) {
                 continue;
             }
-            if (!receivedEntry->property(i.value()).toString().isEmpty()) {
+            if (!receivedEntry->property(i.value().constData()).toString().isEmpty()) {
                 if (i.key() != CompressedSize || receivedEntry->compressedSizeIsSet) {
                     toInsert << i.key();
                 }

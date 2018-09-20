@@ -49,7 +49,7 @@ public:
      */
     void setDropsEnabled(bool enabled);
 
-public slots:
+public Q_SLOTS:
     void renameSelectedEntry();
 
 protected:
@@ -57,7 +57,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void entryChanged(const QString &name);
 
 private:

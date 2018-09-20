@@ -65,7 +65,7 @@ private:
     QMimeType m_mimetype;
     CompressionOptions m_opts;
 
-private slots:
+private Q_SLOTS:
     void slotMultiVolumeChecked(int state);
     void slotCompMethodChanged(const QString &value);
     void slotEncryptionMethodChanged(const QString &value);

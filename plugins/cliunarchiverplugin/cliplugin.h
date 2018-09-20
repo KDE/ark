@@ -44,14 +44,14 @@ public:
      */
     void setJsonOutput(const QString &jsonOutput);
 
-protected slots:
+protected Q_SLOTS:
     void readStdout(bool handleAll = false) override;
 
 protected:
 
     bool handleLine(const QString& line) override;
 
-private slots:
+private Q_SLOTS:
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus) override;
 
 private:

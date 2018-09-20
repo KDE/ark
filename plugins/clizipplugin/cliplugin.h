@@ -42,7 +42,7 @@ public:
     bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) override;
     int moveRequiredSignals() const override;
 
-private slots:
+private Q_SLOTS:
     void continueMoving(bool result);
 
 private:

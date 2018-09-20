@@ -43,11 +43,11 @@ class KERFUFFLE_EXPORT PluginSettingsPage : public SettingsPage, public Ui::Plug
 public:
     explicit PluginSettingsPage(QWidget *parent = nullptr, const QString &name = QString(), const QString &iconName = QString());
 
-public slots:
+public Q_SLOTS:
     void slotSettingsChanged() override;
     void slotDefaultsButtonClicked() override;
 
-private slots:
+private Q_SLOTS:
     void slotItemChanged(QTreeWidgetItem *item);
 
 private:

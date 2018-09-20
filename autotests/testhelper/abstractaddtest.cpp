@@ -54,7 +54,7 @@ void AbstractAddTest::setupRows(const QString &testName, const QString &archiveN
 
         const auto plugins = m_pluginManager.preferredWritePluginsFor(mime);
         foreach (const auto plugin, plugins) {
-            QTest::newRow(QStringLiteral("%1 (%2, %3)").arg(testName, format, plugin->metaData().pluginId()).toUtf8())
+            QTest::newRow(QStringLiteral("%1 (%2, %3)").arg(testName, format, plugin->metaData().pluginId()).toUtf8().constData())
                 << filename
                 << plugin
                 << targetEntries

@@ -30,7 +30,7 @@ class ExtractHereDndPlugin : public KIO::DndPopupMenuPlugin
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     void slotTriggered();
 
 public:

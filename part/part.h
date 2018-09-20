@@ -93,13 +93,13 @@ public:
      */
     bool confirmAndDelete(const QString& targetFile);
 
-public slots:
+public Q_SLOTS:
     void extractSelectedFilesTo(const QString& localPath);
 
 protected:
     void guiActivateEvent(KParts::GUIActivateEvent *event) override;
 
-private slots:
+private Q_SLOTS:
     void slotCompleted();
     void slotLoadingStarted();
     void slotLoadingFinished(KJob *job);
@@ -164,7 +164,7 @@ private slots:
     void displayMsgWidget(KMessageWidget::MessageType type, const QString& msg);
     void searchEdited(const QString &text);
 
-signals:
+Q_SIGNALS:
     void busy();
     void ready();
     void quit();

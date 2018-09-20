@@ -44,14 +44,14 @@ public:
     void dropEvent(class QDropEvent * event) override;
     void dragMoveEvent(class QDragMoveEvent * event) override;
 
-public slots:
+public Q_SLOTS:
     void openUrl(const QUrl &url);
     void setShowExtractDialog(bool);
 
 protected:
     void closeEvent(QCloseEvent *event) override;
 
-private slots:
+private Q_SLOTS:
     void updateActions();
     void newArchive();
     void openArchive();

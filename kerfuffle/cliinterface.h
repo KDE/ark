@@ -154,7 +154,7 @@ protected:
 
     bool m_abortingOperation = false;
 
-protected slots:
+protected Q_SLOTS:
     virtual void readStdout(bool handleAll = false);
 
 private:
@@ -217,10 +217,10 @@ private:
     qulonglong m_archiveSizeOnDisk = 0;
     qulonglong m_listedSize = 0;
 
-protected slots:
+protected Q_SLOTS:
     virtual void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
-private slots:
+private Q_SLOTS:
     void extractProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void continueCopying(bool result);
     void onEntry(Archive::Entry *archiveEntry);

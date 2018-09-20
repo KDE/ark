@@ -60,7 +60,7 @@ private:
     QMimeType m_mimeType;
     CompressionOptions m_compOptions;
 
-public slots:
+public Q_SLOTS:
     void slotOpenOptions();
 };
 }

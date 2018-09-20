@@ -83,7 +83,7 @@ public:
      */
     bool isHeaderEncryptionEnabled() const;
 
-public slots:
+public Q_SLOTS:
     void accept() override;
 
 private:
@@ -95,7 +95,7 @@ private:
     QStringList m_supportedMimeTypes;
     PluginManager m_pluginManger;
 
-private slots:
+private Q_SLOTS:
     void slotFileNameEdited(const QString &text);
     void slotUpdateWidgets(int index);
     void slotUpdateDefaultMimeType();

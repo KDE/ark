@@ -422,7 +422,7 @@ bool LibarchivePlugin::initializeReader()
         return false;
     }
 
-    if (archive_read_open_filename(m_archiveReader.data(), QFile::encodeName(filename()), 10240) != ARCHIVE_OK) {
+    if (archive_read_open_filename(m_archiveReader.data(), QFile::encodeName(filename()).constData(), 10240) != ARCHIVE_OK) {
         qCWarning(ARK) << "Could not open the archive:" << archive_error_string(m_archiveReader.data());
         emit error(i18nc("@info", "Archive corrupted or insufficient permissions."));
         return false;

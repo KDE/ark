@@ -68,10 +68,10 @@ protected:
 
     void connectToArchiveInterfaceSignals();
 
-public slots:
+public Q_SLOTS:
     virtual void doWork() = 0;
 
-protected slots:
+protected Q_SLOTS:
     virtual void onCancelled();
     virtual void onError(const QString &message, const QString &details);
     virtual void onInfo(const QString &info);
@@ -81,7 +81,7 @@ protected slots:
     virtual void onFinished(bool result);
     virtual void onUserQuery(Query *query);
 
-signals:
+Q_SIGNALS:
     void entryRemoved(const QString & entry);
     void newEntry(Archive::Entry*);
     void userQuery(Kerfuffle::Query*);
@@ -125,10 +125,10 @@ public:
     bool isSingleFolderArchive() const;
     QString subfolderName() const;
 
-public slots:
+public Q_SLOTS:
     void doWork() override;
 
-protected slots:
+protected Q_SLOTS:
     void onFinished(bool result) override;
 
 private:
@@ -142,7 +142,7 @@ private:
     qlonglong m_dirCount;
     qlonglong m_filesCount;
 
-private slots:
+private Q_SLOTS:
     void onNewEntry(const Archive::Entry*);
 };
 
@@ -158,13 +158,13 @@ class KERFUFFLE_EXPORT BatchExtractJob : public Job
 public:
     explicit BatchExtractJob(LoadJob *loadJob, const QString &destination, bool autoSubfolder, bool preservePaths);
 
-public slots:
+public Q_SLOTS:
     void doWork() override;
 
 protected:
     bool doKill() override;
 
-private slots:
+private Q_SLOTS:
     void slotLoadingProgress(double progress);
     void slotExtractProgress(double progress);
     void slotLoadingFinished(KJob *job);
@@ -208,7 +208,7 @@ public:
      */
     void setMultiVolume(bool isMultiVolume);
 
-public slots:
+public Q_SLOTS:
     void doWork() override;
 
 protected:
@@ -230,7 +230,7 @@ public:
     QString destinationDirectory() const;
     ExtractionOptions extractionOptions() const;
 
-public slots:
+public Q_SLOTS:
     void doWork() override;
 
 private:
@@ -266,7 +266,7 @@ public:
      */
     QTemporaryDir *tempDir() const;
 
-public slots:
+public Q_SLOTS:
     void doWork() override;
 
 private:
@@ -316,10 +316,10 @@ class KERFUFFLE_EXPORT AddJob : public Job
 public:
     AddJob(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
-public slots:
+public Q_SLOTS:
     void doWork() override;
 
-protected slots:
+protected Q_SLOTS:
     void onFinished(bool result) override;
 
 private:
@@ -340,10 +340,10 @@ Q_OBJECT
 public:
     MoveJob(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
-public slots:
+public Q_SLOTS:
     void doWork() override;
 
-protected slots:
+protected Q_SLOTS:
     void onFinished(bool result) override;
 
 private:
@@ -364,10 +364,10 @@ Q_OBJECT
 public:
     CopyJob(const QVector<Archive::Entry*> &entries, Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface);
 
-public slots:
+public Q_SLOTS:
     void doWork() override;
 
-protected slots:
+protected Q_SLOTS:
     void onFinished(bool result) override;
 
 private:
@@ -384,7 +384,7 @@ class KERFUFFLE_EXPORT DeleteJob : public Job
 public:
     DeleteJob(const QVector<Archive::Entry*> &files, ReadWriteArchiveInterface *interface);
 
-public slots:
+public Q_SLOTS:
     void doWork() override;
 
 private:
@@ -398,7 +398,7 @@ class KERFUFFLE_EXPORT CommentJob : public Job
 public:
     CommentJob(const QString& comment, ReadWriteArchiveInterface *interface);
 
-public slots:
+public Q_SLOTS:
     void doWork() override;
 
 private:
@@ -413,10 +413,10 @@ public:
     explicit TestJob(ReadOnlyArchiveInterface *interface);
     bool testSucceeded();
 
-public slots:
+public Q_SLOTS:
     void doWork() override;
 
-private slots:
+private Q_SLOTS:
     virtual void onTestSuccess();
 
 private:

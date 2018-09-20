@@ -39,6 +39,6 @@ namespace TestHelper
      * @return List of format extensions (without the leading dot) to be used in tests.
      */
     QStringList testFormats();
-};
+}
 
 #endif //TESTHELPER_H

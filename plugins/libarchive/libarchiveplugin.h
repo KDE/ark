@@ -88,7 +88,7 @@ protected:
     ArchiveRead m_archiveReader;
     ArchiveRead m_archiveReadDisk;
 
-private slots:
+private Q_SLOTS:
     void slotRestoreWorkingDir();
 
 private:

@@ -40,7 +40,7 @@ class KERFUFFLE_EXPORT PreviewSettingsPage : public SettingsPage, public Ui::Pre
 public:
     explicit PreviewSettingsPage(QWidget *parent = nullptr, const QString &name = QString(), const QString &iconName = QString());
 
-private slots:
+private Q_SLOTS:
     void slotToggled(bool enabled);
 };
 }

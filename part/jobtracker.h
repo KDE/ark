@@ -46,18 +46,18 @@ public:
 
     QWidget *widget(KJob *) override;
 
-public slots:
+public Q_SLOTS:
     void registerJob(KJob *job) override;
     void unregisterJob(KJob *job) override;
 
-protected slots:
+protected Q_SLOTS:
     void description(KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2)  override;
     void infoMessage(KJob *job, const QString &plain, const QString &rich) override;
     void warning(KJob *job, const QString &plain, const QString &rich) override;
 
     void percent(KJob *job, unsigned long  percent) override;
 
-private slots:
+private Q_SLOTS:
     void resetUi();
 
 private:

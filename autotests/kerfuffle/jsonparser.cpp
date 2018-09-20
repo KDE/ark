@@ -67,8 +67,8 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
         QVariantMap::const_iterator entryIterator = entryMap.constBegin();
         for (; entryIterator != entryMap.constEnd(); ++entryIterator) {
             const QByteArray key = entryIterator.key().toUtf8();
-            if (e->property(key).isValid()) {
-                e->setProperty(key, entryIterator.value());
+            if (e->property(key.constData()).isValid()) {
+                e->setProperty(key.constData(), entryIterator.value());
             } else {
                 qDebug() << entryIterator.key() << "is not a valid entry key";
             }

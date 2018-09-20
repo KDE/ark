@@ -168,7 +168,7 @@ public:
      */
     virtual bool hasBatchExtractionProgress() const;
 
-signals:
+Q_SIGNALS:
 
     /**
      * Emitted when the user cancels the operation. Examples:
@@ -214,7 +214,7 @@ private:
     bool m_isCorrupt;
     bool m_isMultiVolume;
 
-private slots:
+private Q_SLOTS:
     void onEntry(Archive::Entry *archiveEntry);
 };
 
@@ -246,10 +246,10 @@ public:
     virtual bool deleteFiles(const QVector<Archive::Entry*> &files) = 0;
     virtual bool addComment(const QString &comment) = 0;
 
-signals:
+Q_SIGNALS:
     void entryRemoved(const QString &path);
 
-private slots:
+private Q_SLOTS:
     void onEntryRemoved(const QString &path);
 };
 

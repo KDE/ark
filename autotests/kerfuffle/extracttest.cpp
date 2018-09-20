@@ -487,7 +487,7 @@ void ExtractTest::testPreservePermissions_data()
         const auto mime = QMimeDatabase().mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
         const auto plugins = m_pluginManager.preferredWritePluginsFor(mime);
         foreach (const auto plugin, plugins) {
-            QTest::newRow(QStringLiteral("test preserve 0755 permissions (%1, %2)").arg(format, plugin->metaData().pluginId()).toUtf8())
+            QTest::newRow(QStringLiteral("test preserve 0755 permissions (%1, %2)").arg(format, plugin->metaData().pluginId()).toUtf8().constData())
                 << filename
                 << plugin
                 << QStringLiteral("0755.sh")

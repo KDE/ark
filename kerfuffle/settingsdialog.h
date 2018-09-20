@@ -45,10 +45,10 @@ class KERFUFFLE_EXPORT SettingsDialog : public KConfigDialog
 public:
     explicit SettingsDialog(QWidget *parent, const QString &name, KCoreConfigSkeleton *config);
 
-signals:
+Q_SIGNALS:
     void defaultsButtonClicked();
 
-protected slots:
+protected Q_SLOTS:
     void updateWidgetsDefault() override;
 
 };
