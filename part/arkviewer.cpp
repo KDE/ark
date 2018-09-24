@@ -36,6 +36,8 @@
 #include <QProgressDialog>
 #include <QPushButton>
 
+#include <algorithm>
+
 ArkViewer::ArkViewer()
         : KParts::MainWindow()
 {
@@ -215,6 +217,20 @@ KService::Ptr ArkViewer::getViewer(const QString &mimeType)
 
     // Try to get a read-only kpart for the internal viewer
     KService::List offers = KMimeTypeTrader::self()->query(mimeType, QStringLiteral("KParts/ReadOnlyPart"));
+
+    auto arkPartIt = std::find_if(offers.begin(), offers.end(), [](KService::Ptr service) {
+        return service->storageId() == QLatin1String("ark_part.desktop");
+    });
+
+    // Use the Ark part only when the mime type matches an archive type directly.
+    // Many file types (e.g. Open Document) are technically just archives
+    // but browsing their internals is typically not what the user wants.
+    if (arkPartIt != offers.end()) {
+        // Not using hasMimeType() as we're explicitly not interested in inheritance.
+        if (!(*arkPartIt)->mimeTypes().contains(mimeType)) {
+            offers.erase(arkPartIt);
+        }
+    }
 
     // If we can't find a kpart, try to get an external application
     if (offers.isEmpty()) {
