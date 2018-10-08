@@ -61,15 +61,15 @@ QList<QAction *> ExtractHereDndPlugin::setup(const KFileItemListProperties& popu
 {
     QList<QAction *> actionList;
 
-    const QString extractHereMessage = i18nc("@action:inmenu Context menu shown when an archive is being drag'n'dropped", "Extract here");
-
     Kerfuffle::PluginManager pluginManager;
     if (!pluginManager.supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
-        qCWarning(ARK) << popupMenuInfo.mimeType() << "is not a supported mimetype";
+        qCDebug(ARK) << popupMenuInfo.mimeType() << "is not a supported mimetype";
         return actionList;
     }
 
     qCDebug(ARK) << "Plugin executed";
+
+    const QString extractHereMessage = i18nc("@action:inmenu Context menu shown when an archive is being drag'n'dropped", "Extract here");
 
     QAction *action = new QAction(QIcon::fromTheme(QStringLiteral("archive-extract")),
                                   extractHereMessage, nullptr);
