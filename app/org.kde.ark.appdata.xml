@@ -5,7 +5,6 @@
   <project_license>GPL-2.0+</project_license>
   <name>Ark</name>
   <name xml:lang="ar">آرك</name>
-  <name xml:lang="ast">Ark</name>
   <name xml:lang="bg">Ark</name>
   <name xml:lang="bs">Ark</name>
   <name xml:lang="ca">Ark</name>
@@ -50,7 +49,6 @@
   <name xml:lang="zh-TW">檔案壓縮_Ark</name>
   <summary>Archiving Tool</summary>
   <summary xml:lang="ar">أداة أرشفة</summary>
-  <summary xml:lang="ast">Ferramienta d'archiváu</summary>
   <summary xml:lang="bg">Работа с архиви</summary>
   <summary xml:lang="bs">Alat za arhiviranje</summary>
   <summary xml:lang="ca">Eina d'arxivament</summary>
@@ -100,7 +98,6 @@
       Ark can be used to browse, extract, create, and modify archives.
     </p>
     <p xml:lang="ar">آرك أداة رسوميّة لضغط وفكّ ضغط الملفات مع دعم لصيغ متعدّدة، منها tar، وgzip، وbzip2، وrar، وzip، إضافة إلى صور الأقراص الضوئيّة. يمكن استخدام آرك لتصفح، واستخراج، وإنشاء، وتعديل الأرشيفات.</p>
-    <p xml:lang="ast">Ark ye una utilidá gráfica des/compresora de ficheros con sofitu pa formatos múltiples, incluyendo tar, gzip, bzip2, rar amás d'imáxenes de discu. Ark pue usase pa restolar, estrayer, crear y modificar archivos.</p>
     <p xml:lang="bg">Ark е графичен инструмент за архивиране/разархивиране, поддържащ множество формати, включително tar, gzip, bzip2, rar и zip, както и образи на CD-ROM. Ark може да се използва за разглеждане, извличане, създаване и променяне на архиви.</p>
     <p xml:lang="bs">Ark je grafički alat za kompresiju/dekompresiju s podrškom za više formata, uključujući tar, gzip, bzip2, rar i zip, kao i CD-ROM slike. Ark se može koristiti za kreiranje, izdvjanje i modifikaciju arhiva.</p>
     <p xml:lang="ca">L'Ark és una utilitat gràfica de compressió/descompressió de fitxers que admet múltiples formats, incloent-hi tar, gzip, bzip2, rar i zip, i també imatges de CD-ROM. L'Ark es pot utilitzar per explorar, extreure, crear, i modificar arxius.</p>
@@ -142,7 +139,6 @@
     <p xml:lang="zh-TW">Ark 是一套圖形介面的檔案壓縮/解壓縮工具，支援多種格式，包括 tar, gzip, bzip2, rar 與 zip 等，還有 CD-ROM 映像檔等。Ark 有瀏覽、解開、建立與變更壓縮檔的功能。</p>
     <p>Features:</p>
     <p xml:lang="ar">المزايا</p>
-    <p xml:lang="ast">Carauterístiques:</p>
     <p xml:lang="bg">Функции:</p>
     <p xml:lang="bs">Svojstvo:</p>
     <p xml:lang="ca">Característiques:</p>
@@ -188,7 +184,6 @@
     <ul>
       <li>Several formats supported: gzip, bzip2, zip, rar, 7z and more</li>
       <li xml:lang="ar">دعم صيغ متعدّدة: مثل gzip، و bzip2، و zip، و rar، و 7z وغيرها</li>
-      <li xml:lang="ast">Dellos formatos sofitaos: gzip, bzip2, zip, rar, 7z y más</li>
       <li xml:lang="bg">Поддържани са много формати: gzip, bzip2, zip, rar, 7z и други</li>
       <li xml:lang="bs">Više podržanih formata: gzip, bzip2, zip, rar, 7z i drui</li>
       <li xml:lang="ca">Diversos formats admesos: gzip, bzip2, zip, rar, 7z i més</li>
@@ -230,7 +225,6 @@
       <li xml:lang="zh-TW">支援格式：gzip, bzip2, zip, rar, 7z 等等</li>
       <li>Preview file contents without extracting files</li>
       <li xml:lang="ar">استعراض محتوى الملف دون استخراج الملفات منه</li>
-      <li xml:lang="ast">Previsualización de conteníos de ficheros ensin estrayer los ficheros</li>
       <li xml:lang="bg">Преглеждане съдържанието на файла, без извличане на файловете</li>
       <li xml:lang="bs">Pregled sadržaja datoteka bez njihovog izdvajanja</li>
       <li xml:lang="ca">Vista prèvia del contingut de fitxers sense extreure'ls</li>
