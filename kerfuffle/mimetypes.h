@@ -32,6 +32,10 @@
 
 namespace Kerfuffle
 {
+    /**
+     * @param filename Absolute path of a file.
+     * @return The mimetype of the given file.
+     */
     KERFUFFLE_EXPORT QMimeType determineMimeType(const QString& filename);
 }
 
