@@ -134,13 +134,13 @@ protected:
 
     void cleanUp();
 
-    OperationMode m_operationMode = List;
+    OperationMode m_operationMode = NoOperation;
     CliProperties *m_cliProps = nullptr;
     QString m_oldWorkingDirExtraction; // Used ONLY by extraction jobs.
     QString m_oldWorkingDir; // Used by copy and move jobs.
     QScopedPointer<QTemporaryDir> m_tempWorkingDir;
     QScopedPointer<QTemporaryDir> m_tempAddDir;
-    OperationMode m_subOperation = List;
+    OperationMode m_subOperation = NoOperation;
     QVector<Archive::Entry*> m_passedFiles;
     QVector<Archive::Entry*> m_tempAddedFiles;
     Archive::Entry *m_passedDestination = nullptr;
