@@ -49,7 +49,7 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
     QList<QUrl> supportedUrls;
     // Filter URLs by supported mimetypes.
     foreach (const QUrl &url, fileItemInfos.urlList()) {
-        const QMimeType mimeType = determineMimeType(url.fileName());
+        const QMimeType mimeType = determineMimeType(url.path());
         if (m_pluginManager->preferredPluginsFor(mimeType).isEmpty()) {
             continue;
         }
