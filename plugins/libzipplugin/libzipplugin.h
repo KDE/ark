@@ -60,6 +60,7 @@ private:
     void progressEmitted(double pct);
     QString permissionsToString(const mode_t &perm);
     void setOperationMode(OperationMode operationMode);
+    static void progressCallback(zip_t *, double progress, void *that);
 
     QVector<Archive::Entry*> m_emittedEntries;
     bool m_overwriteAll;

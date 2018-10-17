@@ -45,19 +45,10 @@
 
 K_PLUGIN_FACTORY_WITH_JSON(LibZipPluginFactory, "kerfuffle_libzip.json", registerPlugin<LibzipPlugin>();)
 
-// This is needed for hooking a C callback to a C++ non-static member
-// function.
-template <typename T>
-struct Callback;
-template <typename Ret, typename... Params>
-struct Callback<Ret(Params...)> {
-    template <typename... Args>
-    static Ret callback(Args... args) { return func(args...); }
-    static std::function<Ret(Params...)> func;
-};
-// Initialize the static member.
-template <typename Ret, typename... Params>
-std::function<Ret(Params...)> Callback<Ret(Params...)>::func;
+void LibzipPlugin::progressCallback(zip_t *, double progress, void *that)
+{
+    static_cast<LibzipPlugin *>(that)->progressEmitted(progress);
+}
 
 LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList & args)
     : ReadWriteArchiveInterface(parent, args)
@@ -181,9 +172,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
     qCDebug(ARK) << "Added" << i << "entries";
 
     // Register the callback function to get progress feedback.
-    Callback<void(double)>::func = std::bind(&LibzipPlugin::progressEmitted, this, std::placeholders::_1);
-    void (*c_func)(double) = static_cast<decltype(c_func)>(Callback<void(double)>::callback);
-    zip_register_progress_callback(archive, c_func);
+    zip_register_progress_callback_with_state(archive, 0.001, progressCallback, nullptr, this);
 
     qCDebug(ARK) << "Writing entries to disk...";
     if (zip_close(archive)) {
@@ -925,9 +914,7 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
     }
 
     // Register the callback function to get progress feedback.
-    Callback<void(double)>::func = std::bind(&LibzipPlugin::progressEmitted, this, std::placeholders::_1);
-    void (*c_func)(double) = static_cast<decltype(c_func)>(Callback<void(double)>::callback);
-    zip_register_progress_callback(archive, c_func);
+    zip_register_progress_callback_with_state(archive, 0.001, progressCallback, nullptr, this);
 
     if (zip_close(archive)) {
         qCCritical(ARK) << "Failed to write archive";
