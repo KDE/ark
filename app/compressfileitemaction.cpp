@@ -87,7 +87,7 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
 
     QAction *compressMenuAction = new QAction(i18nc("@action:inmenu Compress submenu in Dolphin context menu", "Compress"), parentWidget);
     compressMenuAction->setMenu(compressMenu);
-    compressMenuAction->setEnabled(fileItemInfos.supportsWriting() && !m_pluginManager->availableWritePlugins().isEmpty());
+    compressMenuAction->setEnabled(fileItemInfos.isLocal() && fileItemInfos.supportsWriting() && !m_pluginManager->availableWritePlugins().isEmpty());
 
     actions << compressMenuAction;
     return actions;
