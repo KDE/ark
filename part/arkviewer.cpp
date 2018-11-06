@@ -64,7 +64,7 @@ ArkViewer::~ArkViewer()
 
         progressDialog.setMinimumDuration(500);
         progressDialog.setModal(true);
-        progressDialog.setCancelButton(0);
+        progressDialog.setCancelButton(nullptr);
         progressDialog.setRange(0, 0);
 
         // #261785: this preview dialog is not modal, so we need to delete

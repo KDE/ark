@@ -154,6 +154,7 @@ bool CliPlugin::readListLine(const QString &line)
         } else {
             m_tempComment.append(line + QLatin1Char('\n'));
         }
+        Q_FALLTHROUGH();
     case ParseStateEntry:
         QRegularExpressionMatch rxMatch = entryPattern.match(line);
         if (rxMatch.hasMatch()) {
