@@ -1362,7 +1362,7 @@ void Part::slotAddFiles()
     if (m_view->selectionModel()->selectedRows().count() == 1) {
         destination = m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()));
         if (destination->isDir()) {
-            dialogTitle = i18nc("@title:window", "Add Files to %1", destination->fullPath());;
+            dialogTitle = i18nc("@title:window", "Add Files to %1", destination->fullPath());
         } else {
             destination = nullptr;
         }
