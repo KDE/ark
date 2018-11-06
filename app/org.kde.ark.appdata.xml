@@ -268,6 +268,7 @@
   </description>
   <screenshots>
     <screenshot type="default">
+      <caption>Managing archives with Ark</caption>
       <image width="1250" height="754">https://cdn.kde.org/screenshots/ark/ark.png</image>
     </screenshot>
   </screenshots>
