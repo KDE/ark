@@ -229,6 +229,13 @@ void LoadTest::testProperties_data()
             << false << true << false << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("addonsu-remove-14.1-x86-signed")
             << QStringLiteral("signed by SignApk");
+
+    QTest::newRow("zstd-compressed tarball")
+            << QFINDTESTDATA("data/simplearchive.tar.zst")
+            << QStringLiteral("simplearchive")
+            << false << false << false << false << false << 0 << Archive::Unencrypted
+            << QStringLiteral("simplearchive")
+            << QString();
 }
 
 void LoadTest::testProperties()

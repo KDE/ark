@@ -71,6 +71,11 @@ set_package_properties(LibZip PROPERTIES
                        DESCRIPTION "A library for handling zip archives"
                        PURPOSE "Optional for zip archives.")
 
+find_package(SharedMimeInfo QUIET)
+set_package_properties(SharedMimeInfo PROPERTIES
+                       TYPE OPTIONAL
+                       PURPOSE "Required for archive formats without an official mimetype.")
+
 option(WITH_TEST_COVERAGE "Build with test coverage support" OFF)
 if (WITH_TEST_COVERAGE)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")

@@ -116,5 +116,10 @@
         "CompressionLevelDefault": 6,
         "CompressionLevelMax": 9,
         "CompressionLevelMin": 0
+    },
+    "application/x-zstd-compressed-tar": {
+        "CompressionLevelDefault": 3,
+        "CompressionLevelMax": 22,
+        "CompressionLevelMin": 1
     }
 }

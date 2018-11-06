@@ -569,6 +569,8 @@ QString LibarchivePlugin::convertCompressionName(const QString &method)
         return QStringLiteral("lzop");
     } else if (method == QLatin1String("lzma")) {
         return QStringLiteral("LZMA");
+    } else if (method == QLatin1String("zstd")) {
+        return QStringLiteral("Zstandard");
     }
     return QString();
 }

@@ -1,10 +1,18 @@
 include_directories(${LibArchive_INCLUDE_DIRS})
 
+if(NOT LibArchive_VERSION VERSION_LESS "3.3.3")
+  set(ENABLE_ZSTD_SUPPORT ON BOOL)
+endif()
+
 ########### next target ###############
 set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/x-tarz;application/x-xz-compressed-tar;")
 set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "${SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES}application/x-lzma-compressed-tar;application/x-lzip-compressed-tar;application/x-tzo;application/x-lrzip-compressed-tar;application/x-lz4-compressed-tar;")
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "application/vnd.debian.binary-package;application/x-deb;application/x-cd-image;application/x-bcpio;application/x-cpio;application/x-cpio-compressed;application/x-sv4cpio;application/x-sv4crc;")
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}application/x-rpm;application/x-source-rpm;application/vnd.ms-cab-compressed;application/x-xar;application/x-iso9660-appimage;application/x-archive;")
+
+if(ENABLE_ZSTD_SUPPORT)
+    set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "${SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES}application/x-zstd-compressed-tar;")
+endif()
 
 set(INSTALLED_LIBARCHIVE_PLUGINS "")
 
@@ -49,6 +57,12 @@ set(SUPPORTED_READWRITE_MIMETYPES
     \"application/x-lrzip-compressed-tar\",
     \"application/x-lz4-compressed-tar")
 
+if(ENABLE_ZSTD_SUPPORT)
+    set(SUPPORTED_READWRITE_MIMETYPES
+        "${SUPPORTED_READWRITE_MIMETYPES}\",
+        \"application/x-zstd-compressed-tar")
+endif()
+
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libarchive_readonly.json.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive_readonly.json)
@@ -59,6 +73,10 @@ configure_file(
 
 kerfuffle_add_plugin(kerfuffle_libarchive_readonly ${kerfuffle_libarchive_readonly_SRCS})
 kerfuffle_add_plugin(kerfuffle_libarchive ${kerfuffle_libarchive_readwrite_SRCS})
+
+if(ENABLE_ZSTD_SUPPORT)
+    target_compile_definitions(kerfuffle_libarchive PRIVATE -DHAVE_ZSTD_SUPPORT)
+endif()
 
 target_link_libraries(kerfuffle_libarchive_readonly ${LibArchive_LIBRARIES})
 target_link_libraries(kerfuffle_libarchive ${LibArchive_LIBRARIES})
@@ -81,4 +99,11 @@ if(LZOP)
     message(STATUS "Found lzop executable: ${LZOP}")
 else()
     message(WARNING "Could not find the lzop executable. Ark requires lzop to handle the tar.lzo archive format if libarchive >= 3.3 has been compiled without liblzo2 support.")
+endif()
+
+find_program(ZSTD zstd)
+if(ZSTD)
+    message(STATUS "Found zstd executable: ${ZSTD}")
+else()
+    message(WARNING "Could not find the zstd executable. Ark requires zstd to handle the tar.zst archive format if libarchive >= 3.3.3 has been compiled without libzstd support.")
 endif()
