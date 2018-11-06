@@ -230,12 +230,17 @@ void LoadTest::testProperties_data()
             << QStringLiteral("addonsu-remove-14.1-x86-signed")
             << QStringLiteral("signed by SignApk");
 
-    QTest::newRow("zstd-compressed tarball")
-            << QFINDTESTDATA("data/simplearchive.tar.zst")
-            << QStringLiteral("simplearchive")
-            << false << false << false << false << false << 0 << Archive::Unencrypted
-            << QStringLiteral("simplearchive")
-            << QString();
+    // Only run test for zstd-compressed tar if zstd executable is found in path.
+    if (!QStandardPaths::findExecutable(QStringLiteral("zstd")).isEmpty()) {
+        QTest::newRow("zstd-compressed tarball")
+                << QFINDTESTDATA("data/simplearchive.tar.zst")
+                << QStringLiteral("simplearchive")
+                << false << false << false << false << false << 0 << Archive::Unencrypted
+                << QStringLiteral("simplearchive")
+                << QString();
+    } else {
+        qDebug() << "zstd executable not found in path. Skipping zstd test.";
+    }
 }
 
 void LoadTest::testProperties()
