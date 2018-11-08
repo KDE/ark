@@ -269,6 +269,15 @@
   <screenshots>
     <screenshot type="default">
       <caption>Managing archives with Ark</caption>
+      <caption xml:lang="ca">Gestió d'arxius amb l'Ark</caption>
+      <caption xml:lang="ca-valencia">Gestió d'arxius amb l'Ark</caption>
+      <caption xml:lang="gl">Xestionando arquivos con Ark</caption>
+      <caption xml:lang="nl">Archieven beheren met Ark</caption>
+      <caption xml:lang="pt">A gerir pacotes com Ark</caption>
+      <caption xml:lang="pt-BR">Gerenciando arquivos compactados com o Ark</caption>
+      <caption xml:lang="sv">Hantera arkiv med Ark</caption>
+      <caption xml:lang="uk">Керування архівами за допомогою Ark</caption>
+      <caption xml:lang="x-test">xxManaging archives with Arkxx</caption>
       <image width="1250" height="754">https://cdn.kde.org/screenshots/ark/ark.png</image>
     </screenshot>
   </screenshots>
