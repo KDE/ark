@@ -279,6 +279,7 @@
       <caption xml:lang="sv">Hantera arkiv med Ark</caption>
       <caption xml:lang="uk">Керування архівами за допомогою Ark</caption>
       <caption xml:lang="x-test">xxManaging archives with Arkxx</caption>
+      <caption xml:lang="zh-CN">在 Ark 中管理归档</caption>
       <image width="1250" height="754">https://cdn.kde.org/screenshots/ark/ark.png</image>
     </screenshot>
   </screenshots>
