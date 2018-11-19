@@ -1,10 +1,10 @@
-ark.main Ark Main
-ark.kerfuffle Ark Kerfuffle
-ark.part Ark KPart
-ark.libarchive Ark Libarchive plugin
-ark.singlefile Ark Singlefile plugin
-ark.clizip Ark Infozip plugin
-ark.clirar Ark Rar plugin
-ark.cliunarchiver Ark The Unarchiver plugin
-ark.cli7z Ark p7zip plugin
-ark.cliexample Ark Cliexample
+ark.main Ark Main IDENTIFIER [ARK]
+ark.kerfuffle Ark Kerfuffle IDENTIFIER [ARK]
+ark.part Ark KPart IDENTIFIER [ARK]
+ark.libarchive Ark Libarchive plugin IDENTIFIER [ARK]
+ark.singlefile Ark Singlefile plugin IDENTIFIER [ARK]
+ark.clizip Ark Infozip plugin IDENTIFIER [ARK]
+ark.clirar Ark Rar plugin IDENTIFIER [ARK]
+ark.cliunarchiver Ark The Unarchiver plugin IDENTIFIER [ARK]
+ark.cli7z Ark p7zip plugin IDENTIFIER [ARK]
+ark.cliexample Ark Cliexample IDENTIFIER [ARK]
