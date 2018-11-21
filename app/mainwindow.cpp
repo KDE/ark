@@ -174,13 +174,13 @@ bool MainWindow::loadPart()
 
 void MainWindow::setupActions()
 {
-    m_newAction = KStandardAction::openNew(this, &MainWindow::newArchive, nullptr);
+    m_newAction = KStandardAction::openNew(this, &MainWindow::newArchive, this);
     actionCollection()->addAction(QStringLiteral("ark_file_new"), m_newAction);
-    m_openAction = KStandardAction::open(this, &MainWindow::openArchive, nullptr);
+    m_openAction = KStandardAction::open(this, &MainWindow::openArchive, this);
     actionCollection()->addAction(QStringLiteral("ark_file_open"), m_openAction);
-    auto quitAction = KStandardAction::quit(this, &MainWindow::quit, nullptr);
+    auto quitAction = KStandardAction::quit(this, &MainWindow::quit, this);
     actionCollection()->addAction(QStringLiteral("ark_quit"), quitAction);
-    m_recentFilesAction = KStandardAction::openRecent(this, &MainWindow::openUrl, nullptr);
+    m_recentFilesAction = KStandardAction::openRecent(this, &MainWindow::openUrl, this);
     actionCollection()->addAction(QStringLiteral("ark_file_open_recent"), m_recentFilesAction);
 
     m_recentFilesAction->setToolBarMode(KRecentFilesAction::MenuMode);
