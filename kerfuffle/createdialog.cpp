@@ -60,8 +60,6 @@ CreateDialog::CreateDialog(QWidget *parent,
                            const QUrl &startDir)
         : QDialog(parent, Qt::Dialog)
 {
-    qCDebug(ARK) << "CreateDialog loaded";
-
     setWindowTitle(caption);
     setModal(true);
 

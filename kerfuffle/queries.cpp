@@ -210,7 +210,7 @@ LoadCorruptQuery::LoadCorruptQuery(const QString& archiveFilename)
 
 void LoadCorruptQuery::execute()
 {
-    qCDebug(ARK) << "Executing LoadCorrupt prompt";
+    qCDebug(ARK) << "Executing prompt";
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
     setResponse(KMessageBox::warningYesNo(nullptr,
@@ -235,7 +235,7 @@ ContinueExtractionQuery::ContinueExtractionQuery(const QString& error, const QSt
 
 void ContinueExtractionQuery::execute()
 {
-    qCDebug(ARK) << "Executing ContinueExtraction prompt";
+    qCDebug(ARK) << "Executing prompt";
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
     QMessageBox box(QMessageBox::Warning,

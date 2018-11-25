@@ -41,8 +41,6 @@
 ArkViewer::ArkViewer()
         : KParts::MainWindow()
 {
-    qCDebug(ARK) << "ArkViewer opened";
-
     setupUi(this);
 
     m_buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::Key_Escape);

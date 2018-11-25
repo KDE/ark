@@ -81,7 +81,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::dragEnterEvent(QDragEnterEvent * event)
 {
-    qCDebug(ARK) << "dragEnterEvent" << event;
+    qCDebug(ARK) << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {
@@ -97,7 +97,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent * event)
 
 void MainWindow::dropEvent(QDropEvent * event)
 {
-    qCDebug(ARK) << "dropEvent" << event;
+    qCDebug(ARK) << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {
@@ -116,7 +116,7 @@ void MainWindow::dropEvent(QDropEvent * event)
 
 void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 {
-    qCDebug(ARK) << "dragMoveEvent" << event;
+    qCDebug(ARK) << event;
 
     Interface *iface = qobject_cast<Interface*>(m_part);
     if (iface->isBusy()) {

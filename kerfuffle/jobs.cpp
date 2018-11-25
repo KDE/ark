@@ -249,7 +249,7 @@ LoadJob::LoadJob(Archive *archive, ReadOnlyArchiveInterface *interface)
     , m_dirCount(0)
     , m_filesCount(0)
 {
-    qCDebug(ARK) << "LoadJob created";
+    qCDebug(ARK) << "Created job instance";
     connect(this, &LoadJob::newEntry, this, &LoadJob::onNewEntry);
 }
 
@@ -355,7 +355,7 @@ BatchExtractJob::BatchExtractJob(LoadJob *loadJob, const QString &destination, b
     , m_autoSubfolder(autoSubfolder)
     , m_preservePaths(preservePaths)
 {
-    qCDebug(ARK) << "BatchExtractJob created";
+    qCDebug(ARK) << "Created job instance";
 }
 
 void BatchExtractJob::doWork()
@@ -458,7 +458,7 @@ CreateJob::CreateJob(Archive *archive, const QVector<Archive::Entry*> &entries, 
     , m_entries(entries)
     , m_options(options)
 {
-    qCDebug(ARK) << "CreateJob created";
+    qCDebug(ARK) << "Created job instance";
 }
 
 void CreateJob::enableEncryption(const QString &password, bool encryptHeader)
@@ -499,7 +499,7 @@ ExtractJob::ExtractJob(const QVector<Archive::Entry*> &entries, const QString &d
     , m_destinationDir(destinationDir)
     , m_options(options)
 {
-    qCDebug(ARK) << "ExtractJob created";
+    qCDebug(ARK) << "Created job instance";
 }
 
 void ExtractJob::doWork()
@@ -603,19 +603,19 @@ QString TempExtractJob::extractionDir() const
 PreviewJob::PreviewJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : TempExtractJob(entry, passwordProtectedHint, interface)
 {
-    qCDebug(ARK) << "PreviewJob created";
+    qCDebug(ARK) << "Created job instance";
 }
 
 OpenJob::OpenJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : TempExtractJob(entry, passwordProtectedHint, interface)
 {
-    qCDebug(ARK) << "OpenJob created";
+    qCDebug(ARK) << "Created job instance";
 }
 
 OpenWithJob::OpenWithJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : OpenJob(entry, passwordProtectedHint, interface)
 {
-    qCDebug(ARK) << "OpenWithJob created";
+    qCDebug(ARK) << "Created job instance";
 }
 
 AddJob::AddJob(const QVector<Archive::Entry*> &entries, const Archive::Entry *destination, const CompressionOptions& options, ReadWriteArchiveInterface *interface)
@@ -624,7 +624,7 @@ AddJob::AddJob(const QVector<Archive::Entry*> &entries, const Archive::Entry *de
     , m_destination(destination)
     , m_options(options)
 {
-    qCDebug(ARK) << "AddJob created";
+    qCDebug(ARK) << "Created job instance";
 }
 
 void AddJob::doWork()
@@ -653,7 +653,7 @@ void AddJob::doWork()
         }
     }
 
-    qCDebug(ARK) << "AddJob: going to add" << totalCount << "entries, counted in" << timer.elapsed() << "ms";
+    qCDebug(ARK) << "Going to add" << totalCount << "entries, counted in" << timer.elapsed() << "ms";
 
     const QString desc = i18np("Compressing a file", "Compressing %1 files", totalCount);
     emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
@@ -701,12 +701,12 @@ MoveJob::MoveJob(const QVector<Archive::Entry*> &entries, Archive::Entry *destin
     , m_destination(destination)
     , m_options(options)
 {
-    qCDebug(ARK) << "MoveJob created";
+    qCDebug(ARK) << "Created job instance";
 }
 
 void MoveJob::doWork()
 {
-    qCDebug(ARK) << "MoveJob: going to move" << m_entries.count() << "file(s)";
+    qCDebug(ARK) << "Going to move" << m_entries.count() << "file(s)";
 
     QString desc = i18np("Moving a file", "Moving %1 files", m_entries.count());
     emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
@@ -739,12 +739,12 @@ CopyJob::CopyJob(const QVector<Archive::Entry*> &entries, Archive::Entry *destin
     , m_destination(destination)
     , m_options(options)
 {
-    qCDebug(ARK) << "CopyJob created";
+    qCDebug(ARK) << "Created job instance";
 }
 
 void CopyJob::doWork()
 {
-    qCDebug(ARK) << "CopyJob: going to copy" << m_entries.count() << "file(s)";
+    qCDebug(ARK) << "Going to copy" << m_entries.count() << "file(s)";
 
     QString desc = i18np("Copying a file", "Copying %1 files", m_entries.count());
     emit description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
@@ -825,7 +825,7 @@ TestJob::TestJob(ReadOnlyArchiveInterface *interface)
 
 void TestJob::doWork()
 {
-    qCDebug(ARK) << "TestJob started";
+    qCDebug(ARK) << "Job started";
 
     emit description(this, i18n("Testing archive"), qMakePair(i18n("Archive"), archiveInterface()->filename()));
 

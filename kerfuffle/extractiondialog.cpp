@@ -59,8 +59,6 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
         : QDialog(parent, Qt::Dialog)
 
 {
-    qCDebug(ARK) << "ExtractionDialog loaded";
-
     setWindowTitle(i18nc("@title:window", "Extract"));
 
     QHBoxLayout *hlayout = new QHBoxLayout();

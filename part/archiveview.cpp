@@ -75,7 +75,7 @@ void ArchiveView::setDropsEnabled(bool enabled)
 void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 {
     //TODO: if no model, trigger some mechanism to create one automatically!
-    qCDebug(ARK) << "dragEnterEvent" << event;
+    qCDebug(ARK) << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.
@@ -87,7 +87,7 @@ void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
 
 void ArchiveView::dropEvent(QDropEvent * event)
 {
-    qCDebug(ARK) << "dropEvent" << event;
+    qCDebug(ARK) << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.
@@ -99,7 +99,7 @@ void ArchiveView::dropEvent(QDropEvent * event)
 
 void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
 {
-    qCDebug(ARK) << "dragMoveEvent" << event;
+    qCDebug(ARK) << event;
 
     if (event->source() == this) {
         //we don't support internal drops yet.

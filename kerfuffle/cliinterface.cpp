@@ -101,7 +101,7 @@ bool CliInterface::list()
 
 bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
-    qCDebug(ARK) << Q_FUNC_INFO << "to" << destinationDirectory;
+    qCDebug(ARK) << "destination directory:" << destinationDirectory;
 
     m_operationMode = Extract;
     m_extractionOptions = options;
