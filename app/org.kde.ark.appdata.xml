@@ -272,6 +272,7 @@
       <caption xml:lang="ca">Gestió d'arxius amb l'Ark</caption>
       <caption xml:lang="ca-valencia">Gestió d'arxius amb l'Ark</caption>
       <caption xml:lang="de">Verwaltung von Archiven mit Ark</caption>
+      <caption xml:lang="en-GB">Managing archives with Ark</caption>
       <caption xml:lang="es">Gestión de archivos comprimidos con Ark</caption>
       <caption xml:lang="fi">Hallitse arkistoja Arkilla</caption>
       <caption xml:lang="gl">Xestionando arquivos con Ark</caption>
@@ -284,6 +285,7 @@
       <caption xml:lang="sv">Hantera arkiv med Ark</caption>
       <caption xml:lang="uk">Керування архівами за допомогою Ark</caption>
       <caption xml:lang="x-test">xxManaging archives with Arkxx</caption>
+      <caption xml:lang="zh-TW">使用 Ark 管理封存檔</caption>
       <image width="1250" height="754">https://cdn.kde.org/screenshots/ark/ark.png</image>
     </screenshot>
   </screenshots>
