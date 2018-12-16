@@ -177,6 +177,10 @@ private:
      */
     void writeToProcess(const QByteArray& data);
 
+    /**
+     * Moves the dropped @files from the temp dir to the @p finalDest.
+     * @return @c true if the files have been moved, @c false otherwise.
+     */
     bool moveDroppedFilesToDest(const QVector<Archive::Entry*> &files, const QString &finalDest);
 
     /**

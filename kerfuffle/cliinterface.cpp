@@ -406,14 +406,9 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
     }
 
     if (m_extractionOptions.isDragAndDropEnabled()) {
-        if (!moveDroppedFilesToDest(m_extractedFiles, m_extractDestDir)) {
-            // FIXME: if the user canceled the overwrite query, we should emit cancelled(), not error().
-            emit error(i18ncp("@info",
-                              "Could not move the extracted file to the destination directory.",
-                              "Could not move the extracted files to the destination directory.",
-                              m_extractedFiles.size()));
+        const bool droppedFilesMoved = moveDroppedFilesToDest(m_extractedFiles, m_extractDestDir);
+        if (!droppedFilesMoved) {
             cleanUpExtracting();
-            emit finished(false);
             return;
         }
 
@@ -500,7 +495,8 @@ bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry*> &files,
                         continue;
 
                     } else if (query.responseCancelled()) {
-                        qCDebug(ARK) << "Copy action cancelled.";
+                        emit cancelled();
+                        emit finished(false);
                         return false;
                     }
 
@@ -521,6 +517,11 @@ bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry*> &files,
             // Move files to the final destination.
             if (!QFile(absSourceEntry.absoluteFilePath()).rename(absDestEntry.absoluteFilePath())) {
                 qCWarning(ARK) << "Failed to move file" << absSourceEntry.filePath() << "to final destination.";
+                emit error(i18ncp("@info",
+                                  "Could not move the extracted file to the destination directory.",
+                                  "Could not move the extracted files to the destination directory.",
+                                  m_extractedFiles.size()));
+                emit finished(false);
                 return false;
             }
         }
