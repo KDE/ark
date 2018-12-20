@@ -59,7 +59,7 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
     }
 
     QList<QAction*> actions;
-    const QIcon icon = QIcon::fromTheme(QStringLiteral("ark"));
+    const QIcon icon = QIcon::fromTheme(QStringLiteral("archive-insert"));
 
     QMenu *compressMenu = new QMenu(parentWidget);
 
@@ -88,6 +88,7 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
     QAction *compressMenuAction = new QAction(i18nc("@action:inmenu Compress submenu in Dolphin context menu", "Compress"), parentWidget);
     compressMenuAction->setMenu(compressMenu);
     compressMenuAction->setEnabled(fileItemInfos.isLocal() && fileItemInfos.supportsWriting() && !m_pluginManager->availableWritePlugins().isEmpty());
+    compressMenuAction->setIcon(icon);
 
     actions << compressMenuAction;
     return actions;

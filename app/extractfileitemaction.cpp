@@ -43,7 +43,7 @@ ExtractFileItemAction::ExtractFileItemAction(QObject* parent, const QVariantList
 QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fileItemInfos, QWidget* parentWidget)
 {
     QList<QAction*> actions;
-    const QIcon icon = QIcon::fromTheme(QStringLiteral("ark"));
+    const QIcon icon = QIcon::fromTheme(QStringLiteral("archive-extract"));
 
     bool readOnlyParentDir = false;
     QList<QUrl> supportedUrls;
@@ -87,6 +87,7 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
 
     QAction *extractMenuAction = new QAction(i18nc("@action:inmenu Extract submenu in Dolphin context menu", "Extract"), parentWidget);
     extractMenuAction->setMenu(extractMenu);
+    extractMenuAction->setIcon(icon);
 
     // #189177: disable extract menu in read-only folders.
     if (readOnlyParentDir) {
