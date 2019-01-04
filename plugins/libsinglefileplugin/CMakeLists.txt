@@ -18,7 +18,7 @@ set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}appli
 #
 find_package(ZLIB)
 set_package_properties(ZLIB PROPERTIES
-                       URL "http://www.zlib.net/"
+                       URL "https://www.zlib.net/"
                        DESCRIPTION "The Zlib compression library"
                        PURPOSE "Required for .gz format support in Ark")
 
@@ -68,7 +68,7 @@ endif (BZIP2_FOUND)
 #
 find_package(LibLZMA)
 set_package_properties(LibLZMA PROPERTIES
-                       URL "http://tukaani.org/xz/"
+                       URL "https://tukaani.org/xz/"
                        DESCRIPTION "A LZMA compression library"
                        PURPOSE "Required for .xz and .lzma format support in Ark")
 

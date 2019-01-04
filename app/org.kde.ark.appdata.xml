@@ -292,7 +292,7 @@
       <image width="1250" height="754">https://cdn.kde.org/screenshots/ark/ark.png</image>
     </screenshot>
   </screenshots>
-  <url type="homepage">http://kde.org/applications/utilities/ark/</url>
+  <url type="homepage">https://kde.org/applications/utilities/ark/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=ark</url>
   <url type="help">https://docs.kde.org/index.php?application=ark</url>
   <url type="donation">https://www.kde.org/community/donations/?app=ark&amp;source=appdata</url>

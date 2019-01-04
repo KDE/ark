@@ -17,7 +17,7 @@ set(SUPPORTED_MIMETYPES "application/zip")
 
 find_package(ZLIB REQUIRED)
 set_package_properties(ZLIB PROPERTIES
-                       URL "http://www.zlib.net/"
+                       URL "https://www.zlib.net/"
                        DESCRIPTION "The Zlib compression library"
                        PURPOSE "Required for integrity check in libzip plugin")
 

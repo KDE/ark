@@ -61,7 +61,7 @@ endif()
 
 find_package(LibArchive 3.2.0 REQUIRED)
 set_package_properties(LibArchive PROPERTIES
-                       URL "http://www.libarchive.org/"
+                       URL "https://www.libarchive.org/"
                        DESCRIPTION "A library for dealing with a wide variety of archive file formats"
                        PURPOSE "Required for among others tar, tar.gz, tar.bz2 formats in Ark.")
 
