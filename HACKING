@@ -3,8 +3,8 @@ Ark follows the kdelibs/Qt coding style. For more information about them,
 please see:
 
  - https://community.kde.org/Policies/Kdelibs_Coding_Style
- - http://wiki.qt.io/Qt_Coding_Style
- - http://wiki.qt.io/Coding_Conventions
+ - https://wiki.qt.io/Qt_Coding_Style
+ - https://wiki.qt.io/Coding_Conventions
 
 == Sending patches ==
 To send patches for Ark, you can choose one of the following:

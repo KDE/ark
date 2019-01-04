@@ -96,7 +96,7 @@ int main(int argc, char **argv)
                          KAboutLicense::GPL,
                          i18n("(c) 1997-2018, The Ark Developers"),
                          QString(),
-                         QStringLiteral("http://utils.kde.org/projects/ark")
+                         QStringLiteral("https://utils.kde.org/projects/ark")
     );
 
     aboutData.setOrganizationDomain("kde.org");
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
     aboutData.addCredit(i18n("Vladyslav Batyrenko"),
                         i18n("Advanced editing functionalities"),
                         QString(),
-                        QStringLiteral("http://mvlabat.github.io/ark-gsoc-2016/"));
+                        QStringLiteral("https://mvlabat.github.io/ark-gsoc-2016/"));
     aboutData.addCredit(i18n("Bryce Corkins"),
                         i18n("Icons"),
                         QStringLiteral("dbryce@attglobal.net"));
