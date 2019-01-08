@@ -217,7 +217,7 @@ void AddToArchiveTest::testCompressHere()
 
     QFETCH(Archive::EncryptionType, expectedEncryptionType);
     if (expectedEncryptionType == Archive::Encrypted) {
-        addToArchiveJob->setPassword(QLatin1String("1234"));
+        addToArchiveJob->setPassword(QStringLiteral("1234"));
     }
 
     QFETCH(QStringList, inputFiles);
