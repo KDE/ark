@@ -54,6 +54,7 @@ public:
     explicit CreateDialog(QWidget *parent,
                           const QString &caption,
                           const QUrl &startDir);
+    void setFileName(const QString &fileName);
     QUrl selectedUrl() const;
     QString password() const;
     QMimeType currentMimeType() const;

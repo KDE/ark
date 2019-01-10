@@ -92,10 +92,16 @@ bool AddToArchive::showAddDialog()
 {
     qCDebug(ARK) << "Opening add dialog";
 
+    if (m_filename.isEmpty()) {
+        detectFileName();
+    }
+
     QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
         nullptr, // parent
         i18n("Compress to Archive"), // caption
-        QUrl::fromLocalFile(m_firstPath)); // startDir
+        QUrl::fromLocalFile(QFileInfo(m_filename).path())); // startDir
+
+    dialog->setFileName(QFileInfo(m_filename).fileName());
 
     bool ret = dialog.data()->exec();
 
@@ -164,20 +170,7 @@ void AddToArchive::slotStartJob()
             return;
         }
 
-        const QString base = detectBaseName(m_entries);
-
-        QString finalName = base + QLatin1Char( '.' ) + m_autoFilenameSuffix;
-
-        //if file already exists, append a number to the base until it doesn't
-        //exist
-        int appendNumber = 0;
-        while (QFileInfo::exists(finalName)) {
-            ++appendNumber;
-            finalName = base + QLatin1Char( '_' ) + QString::number(appendNumber) + QLatin1Char( '.' ) + m_autoFilenameSuffix;
-        }
-
-        qCDebug(ARK) << "Autoset filename to" << finalName;
-        m_filename = finalName;
+        detectFileName();
     }
 
     if (m_changeToFirstPath) {
@@ -206,6 +199,25 @@ void AddToArchive::slotStartJob()
     KIO::getJobTracker()->registerJob(m_createJob);
     connect(m_createJob, &KJob::result, this, &AddToArchive::slotFinished);
     m_createJob->start();
+}
+
+void AddToArchive::detectFileName()
+{
+    const QString base = detectBaseName(m_entries);
+    const QString suffix = !m_autoFilenameSuffix.isEmpty() ? QLatin1Char( '.' ) + m_autoFilenameSuffix : QString();
+
+    QString finalName = base + suffix;
+
+    //if file already exists, append a number to the base until it doesn't
+    //exist
+    int appendNumber = 0;
+    while (QFileInfo::exists(finalName)) {
+        ++appendNumber;
+        finalName = base + QLatin1Char( '_' ) + QString::number(appendNumber) + suffix;
+    }
+
+    qCDebug(ARK) << "Autoset filename to" << finalName;
+    m_filename = finalName;
 }
 
 void AddToArchive::slotFinished(KJob *job)

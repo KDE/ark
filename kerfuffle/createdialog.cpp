@@ -101,6 +101,18 @@ CreateDialog::CreateDialog(QWidget *parent,
     slotUpdateFilenameExtension(m_ui->mimeComboBox->currentIndex());
 }
 
+void CreateDialog::setFileName(const QString &fileName)
+{
+    m_ui->filenameLineEdit->setText(fileName);
+
+    const QString detectedSuffix = QMimeDatabase().suffixForFileName(fileName);
+    if (currentMimeType().suffixes().contains(detectedSuffix)) {
+        m_ui->filenameLineEdit->setSelection(0, fileName.length() - detectedSuffix.length() - 1);
+    } else {
+        m_ui->filenameLineEdit->selectAll();
+    }
+}
+
 void CreateDialog::slotFileNameEdited(const QString &fileName)
 {
     const QMimeType mimeFromFileName = QMimeDatabase().mimeTypeForFile(fileName, QMimeDatabase::MatchExtension);

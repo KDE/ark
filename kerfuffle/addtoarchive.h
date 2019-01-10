@@ -80,6 +80,8 @@ private Q_SLOTS:
     void slotStartJob();
 
 private:
+    void detectFileName();
+
     CompressionOptions m_options;
     CreateJob *m_createJob;
     QString m_filename;
