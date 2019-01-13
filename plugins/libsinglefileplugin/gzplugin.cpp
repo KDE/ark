@@ -30,7 +30,7 @@
 
 #include <KPluginFactory>
 
-K_PLUGIN_FACTORY_WITH_JSON(GzipPluginFactory, "kerfuffle_libgz.json", registerPlugin<LibGzipInterface >();)
+K_PLUGIN_CLASS_WITH_JSON(LibGzipInterface, "kerfuffle_libgz.json")
 
 LibGzipInterface::LibGzipInterface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)

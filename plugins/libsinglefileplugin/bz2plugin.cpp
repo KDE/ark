@@ -29,7 +29,7 @@
 
 #include <KPluginFactory>
 
-K_PLUGIN_FACTORY_WITH_JSON(Bz2PluginFactory, "kerfuffle_libbz2.json", registerPlugin<LibBzip2Interface>();)
+K_PLUGIN_CLASS_WITH_JSON(LibBzip2Interface, "kerfuffle_libbz2.json")
 
 LibBzip2Interface::LibBzip2Interface(QObject *parent, const QVariantList & args)
         : LibSingleFileInterface(parent, args)

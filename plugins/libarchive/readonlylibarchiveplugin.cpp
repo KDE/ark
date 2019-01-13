@@ -30,7 +30,7 @@
 
 #include <KPluginFactory>
 
-K_PLUGIN_FACTORY_WITH_JSON(ReadOnlyLibarchivePluginFactory, "kerfuffle_libarchive_readonly.json", registerPlugin<ReadOnlyLibarchivePlugin>();)
+K_PLUGIN_CLASS_WITH_JSON(ReadOnlyLibarchivePlugin, "kerfuffle_libarchive_readonly.json")
 
 ReadOnlyLibarchivePlugin::ReadOnlyLibarchivePlugin(QObject *parent, const QVariantList & args)
     : LibarchivePlugin(parent, args)

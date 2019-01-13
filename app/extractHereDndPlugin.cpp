@@ -32,8 +32,7 @@
 #include <KPluginLoader>
 #include <KLocalizedString>
 
-K_PLUGIN_FACTORY_WITH_JSON(ExtractHereDndPluginFactory, "ark_dndextract.json",
-                           registerPlugin<ExtractHereDndPlugin>();)
+K_PLUGIN_CLASS_WITH_JSON(ExtractHereDndPlugin, "ark_dndextract.json")
 
 void ExtractHereDndPlugin::slotTriggered()
 {

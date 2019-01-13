@@ -31,7 +31,7 @@
 #include "mimetypes.h"
 #include "pluginmanager.h"
 
-K_PLUGIN_FACTORY_WITH_JSON(ExtractFileItemActionFactory, "extractfileitemaction.json", registerPlugin<ExtractFileItemAction>();)
+K_PLUGIN_CLASS_WITH_JSON(ExtractFileItemAction, "extractfileitemaction.json")
 
 using namespace Kerfuffle;
 

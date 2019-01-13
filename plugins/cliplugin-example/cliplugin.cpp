@@ -30,7 +30,7 @@
 #include <QDate>
 #include <QTime>
 
-K_PLUGIN_FACTORY_WITH_JSON(CliPluginFactory, "kerfuffle_cli.json", registerPlugin<CliPlugin >();)
+K_PLUGIN_CLASS_WITH_JSON(CliPlugin, "kerfuffle_cli.json")
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
     : CliInterface(parent, args),

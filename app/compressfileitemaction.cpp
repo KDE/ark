@@ -32,7 +32,7 @@
 
 #include "pluginmanager.h"
 
-K_PLUGIN_FACTORY_WITH_JSON(CompressFileItemActionFactory, "compressfileitemaction.json", registerPlugin<CompressFileItemAction>();)
+K_PLUGIN_CLASS_WITH_JSON(CompressFileItemAction, "compressfileitemaction.json")
 
 using namespace Kerfuffle;
 

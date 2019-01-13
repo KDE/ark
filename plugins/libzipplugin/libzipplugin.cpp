@@ -43,7 +43,7 @@
 #include <zlib.h>
 #include <memory>
 
-K_PLUGIN_FACTORY_WITH_JSON(LibZipPluginFactory, "kerfuffle_libzip.json", registerPlugin<LibzipPlugin>();)
+K_PLUGIN_CLASS_WITH_JSON(LibzipPlugin, "kerfuffle_libzip.json")
 
 void LibzipPlugin::progressCallback(zip_t *, double progress, void *that)
 {
