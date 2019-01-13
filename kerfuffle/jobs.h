@@ -79,7 +79,7 @@ protected Q_SLOTS:
     virtual void onProgress(double progress);
     virtual void onEntryRemoved(const QString &path);
     virtual void onFinished(bool result);
-    virtual void onUserQuery(Query *query);
+    virtual void onUserQuery(Kerfuffle::Query *query);
 
 Q_SIGNALS:
     void entryRemoved(const QString & entry);
