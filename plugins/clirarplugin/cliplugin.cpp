@@ -287,7 +287,7 @@ void CliPlugin::handleUnrar5Entry()
         e->setProperty("version", compression.left(optionPos).trimmed());
     } else {
         // No method specified.
-        e->setProperty("method", QStringLiteral(""));
+        e->setProperty("method", QString());
         e->setProperty("version", compression);
     }
 

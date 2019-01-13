@@ -225,7 +225,7 @@ void CopyTest::testCopying_data()
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt"))
               },
-              new Archive::Entry(this, QStringLiteral("")),
+              new Archive::Entry(this, QString()),
               QStringList {
                   QStringLiteral("dir/"),
                   QStringLiteral("dir/a.txt"),
