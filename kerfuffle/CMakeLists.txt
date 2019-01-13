@@ -53,7 +53,6 @@ if (APPLE)
    target_compile_definitions(kerfuffle PRIVATE -DDEPENDENCY_TOOL_ARGS="-L")
 else()
    target_compile_definitions(kerfuffle PRIVATE -DDEPENDENCY_TOOL="ldd")
-   target_compile_definitions(kerfuffle PRIVATE -DDEPENDENCY_TOOL_ARGS="")
 endif()
 
 target_link_libraries(kerfuffle

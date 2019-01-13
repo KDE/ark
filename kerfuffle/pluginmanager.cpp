@@ -271,7 +271,10 @@ bool PluginManager::libarchiveHasLzo()
 
     // Step 2: process the libarchive plugin dependencies to figure out the absolute libarchive path.
     QProcess dependencyTool;
-    const QStringList args = {QStringLiteral(DEPENDENCY_TOOL_ARGS)};
+    QStringList args;
+#ifdef DEPENDENCY_TOOL_ARGS
+    args << QStringLiteral(DEPENDENCY_TOOL_ARGS);
+#endif
     dependencyTool.setProgram(QStringLiteral(DEPENDENCY_TOOL));
     dependencyTool.setArguments(args + QStringList(pluginPath));
     dependencyTool.start();
