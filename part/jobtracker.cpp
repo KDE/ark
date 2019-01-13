@@ -70,7 +70,7 @@ void JobTracker::warning(KJob *job, const QString &plain, const QString &rich)
 void JobTracker::registerJob(KJob *job)
 {
     m_jobs << job;
-    KJobTrackerInterface::registerJob(job);
+    KAbstractWidgetJobTracker::registerJob(job);
     m_ui->show();
     m_ui->informationLabel->hide();
     m_ui->progressBar->show();
@@ -87,7 +87,7 @@ void JobTracker::percent(KJob *job, unsigned long percent)
 void JobTracker::unregisterJob(KJob *job)
 {
     m_jobs.remove(job);
-    KJobTrackerInterface::unregisterJob(job);
+    KAbstractWidgetJobTracker::unregisterJob(job);
     resetUi();
 }
 
