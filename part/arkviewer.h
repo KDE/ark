@@ -47,6 +47,7 @@ private:
     bool viewInInternalViewer(const QString& fileName, const QMimeType& mimeType);
 
     QPointer<KParts::ReadOnlyPart> m_part;
+    QString m_fileName;
 };
 
 #endif // ARKVIEWER_H
