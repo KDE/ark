@@ -67,12 +67,11 @@ ArkViewer::~ArkViewer()
 
         // #261785: this preview dialog is not modal, so we need to delete
         //          the previewed file ourselves when the dialog is closed;
-        const QString previewedFilePath(m_part.data()->url().toDisplayString(QUrl::PreferLocalFile));
 
         m_part.data()->closeUrl();
 
-        if (!previewedFilePath.isEmpty()) {
-            QFile::remove(previewedFilePath);
+        if (!m_fileName.isEmpty()) {
+            QFile::remove(m_fileName);
         }
     }
 
@@ -202,6 +201,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
 
     m_part.data()->openUrl(QUrl::fromLocalFile(fileName));
     m_part.data()->widget()->setFocus();
+    m_fileName = fileName;
 
     return true;
 }
