@@ -61,6 +61,7 @@ private:
 
     void setupCliProperties();
     void handleMethods(const QStringList &methods);
+    void fixDirectoryFullName();
 
     int m_linesComment;
     Kerfuffle::Archive::Entry *m_currentArchiveEntry;

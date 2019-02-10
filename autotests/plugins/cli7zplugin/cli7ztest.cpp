@@ -495,7 +495,6 @@ void Cli7zTest::testRDAAttributes()
     });
 
     TestHelper::startAndWaitForResult(loadJob);
-    QEXPECT_FAIL("", "Folders with RDA attributes are currently not parsed, see https://phabricator.kde.org/D18562", Continue);
     QCOMPARE(numberOfFolders, 2);
 }
 

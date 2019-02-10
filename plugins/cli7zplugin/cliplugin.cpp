@@ -114,6 +114,16 @@ void CliPlugin::setupCliProperties()
     m_cliProps->setProperty("multiVolumeSuffix", QStringList{QStringLiteral("$Suffix.001")});
 }
 
+void CliPlugin::fixDirectoryFullName()
+{
+    if (m_currentArchiveEntry->isDir()) {
+        const QString directoryName = m_currentArchiveEntry->fullPath();
+        if (!directoryName.endsWith(QLatin1Char('/'))) {
+            m_currentArchiveEntry->setProperty("fullPath", QString(directoryName + QLatin1Char('/')));
+        }
+    }
+}
+
 bool CliPlugin::readListLine(const QString& line)
 {
     static const QLatin1String archiveInfoDelimiter1("--"); // 7z 9.13+
@@ -226,22 +236,28 @@ bool CliPlugin::readListLine(const QString& line)
         } else if (line.startsWith(QStringLiteral("Modified = "))) {
             m_currentArchiveEntry->setProperty("timestamp", QDateTime::fromString(line.mid(11).trimmed(),
                                                                                   QStringLiteral("yyyy-MM-dd hh:mm:ss")));
+        } else if (line.startsWith(QStringLiteral("Folder = "))) {
+            const QString isDirectoryStr = line.mid(9).trimmed();
+            Q_ASSERT(isDirectoryStr == QStringLiteral("+") || isDirectoryStr == QStringLiteral("-"));
+            const bool isDirectory = isDirectoryStr.startsWith(QLatin1Char('+'));
+            m_currentArchiveEntry->setProperty("isDirectory", isDirectory);
+            fixDirectoryFullName();
         } else if (line.startsWith(QStringLiteral("Attributes = "))) {
             const QString attributes = line.mid(13).trimmed();
-
-            const bool isDirectory = attributes.startsWith(QLatin1Char('D'));
-            m_currentArchiveEntry->setProperty("isDirectory", isDirectory);
-            if (isDirectory) {
-                const QString directoryName =
-                    m_currentArchiveEntry->fullPath();
-                if (!directoryName.endsWith(QLatin1Char('/'))) {
-                    const bool isPasswordProtected = (line.at(12) == QLatin1Char('+'));
-                    m_currentArchiveEntry->setProperty("fullPath", QString(directoryName + QLatin1Char('/')));
-                    m_currentArchiveEntry->setProperty("isPasswordProtected", isPasswordProtected);
-                }
+            if (attributes.contains(QLatin1Char('D'))) {
+                m_currentArchiveEntry->setProperty("isDirectory", true);
+                fixDirectoryFullName();
             }
 
-            m_currentArchiveEntry->setProperty("permissions", attributes.mid(1));
+            if (attributes.contains(QLatin1Char('_'))) {
+                // Unix attributes
+                m_currentArchiveEntry->setProperty("permissions",
+                                                   attributes.mid(attributes.indexOf(QLatin1Char(' ')) + 1));
+            } else {
+                // FAT attributes
+                m_currentArchiveEntry->setProperty("permissions", attributes);
+            }
+
         } else if (line.startsWith(QStringLiteral("CRC = "))) {
             m_currentArchiveEntry->setProperty("CRC", line.mid(6).trimmed());
         } else if (line.startsWith(QStringLiteral("Method = "))) {
