@@ -46,6 +46,7 @@ private Q_SLOTS:
     void testAddArgs();
     void testExtractArgs_data();
     void testExtractArgs();
+    void testRDAAttributes();
 
 private:
     PluginManager m_pluginManger;
