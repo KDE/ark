@@ -478,3 +478,24 @@ void Cli7zTest::testExtractArgs()
     plugin->deleteLater();
 }
 
+void Cli7zTest::testRDAAttributes()
+{
+    if (!m_plugin->isValid()) {
+        QSKIP("cli7z plugin not available. Skipping test.", SkipSingle);
+    }
+
+    auto loadJob = Archive::load(QFINDTESTDATA("data/RDA-attributes.zip"), m_plugin, this);
+    QVERIFY(loadJob);
+
+    int numberOfFolders = 0;
+    connect(loadJob, &Job::newEntry, this, [&numberOfFolders](Archive::Entry *entry) {
+        if (entry->isDir()) {
+            numberOfFolders++;
+        }
+    });
+
+    TestHelper::startAndWaitForResult(loadJob);
+    QEXPECT_FAIL("", "Folders with RDA attributes are currently not parsed, see https://phabricator.kde.org/D18562", Continue);
+    QCOMPARE(numberOfFolders, 2);
+}
+
