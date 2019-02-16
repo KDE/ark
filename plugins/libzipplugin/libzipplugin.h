@@ -57,7 +57,7 @@ private:
     bool extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths, bool removeRootNode);
     bool writeEntry(zip_t *archive, const QString &entry, const Archive::Entry* destination, const CompressionOptions& options, bool isDir = false);
     bool emitEntryForIndex(zip_t *archive, qlonglong index);
-    void progressEmitted(double pct);
+    void emitProgress(double percentage);
     QString permissionsToString(const mode_t &perm);
     void setOperationMode(OperationMode operationMode);
     static void progressCallback(zip_t *, double progress, void *that);

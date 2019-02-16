@@ -47,7 +47,7 @@ K_PLUGIN_CLASS_WITH_JSON(LibzipPlugin, "kerfuffle_libzip.json")
 
 void LibzipPlugin::progressCallback(zip_t *, double progress, void *that)
 {
-    static_cast<LibzipPlugin *>(that)->progressEmitted(progress);
+    static_cast<LibzipPlugin *>(that)->emitProgress(progress);
 }
 
 LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList & args)
@@ -189,10 +189,10 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
     return true;
 }
 
-void LibzipPlugin::progressEmitted(double pct)
+void LibzipPlugin::emitProgress(double percentage)
 {
     // Go from 0 to 50%. The second half is the subsequent listing.
-    emit progress(0.5 * pct);
+    emit progress(0.5 * percentage);
 }
 
 bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive::Entry* destination, const CompressionOptions& options, bool isDir)
