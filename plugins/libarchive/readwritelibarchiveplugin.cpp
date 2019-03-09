@@ -352,7 +352,7 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
         qCDebug(ARK) << "Detected lz4 compression for new file";
         ret = archive_write_add_filter_lz4(m_archiveWriter.data());
 #ifdef HAVE_ZSTD_SUPPORT
-    } else if (filename().rightRef(3).compare(QLatin1String("zst"), Qt::CaseInsensitive)) {
+    } else if (filename().right(3).toUpper() == QLatin1String("ZST")) {
         qCDebug(ARK) << "Detected zstd compression for new file";
         ret = archive_write_add_filter_zstd(m_archiveWriter.data());
 #endif
