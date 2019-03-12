@@ -173,8 +173,7 @@ bool CliPlugin::readListLine(const QString &line)
 
 bool CliPlugin::handleUnrar5Line(const QString &line)
 {
-    const QRegularExpression rxVolume(QStringLiteral("Cannot find volume "));
-    if (rxVolume.match(line).hasMatch()) {
+    if (line.startsWith(QLatin1String("Cannot find volume "))) {
         emit error(i18n("Failed to find all archive volumes."));
         return false;
     }
@@ -182,11 +181,10 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
     // Parses the comment field.
     if (m_parseState == ParseStateComment) {
 
-        // RegExp matching end of comment field.
-        // FIXME: Comment itself could also contain the Archive path string here.
-        QRegularExpression rxCommentEnd(QStringLiteral("^Archive: .+$"));
+        // "Archive: " is printed after the comment.
+        // FIXME: Comment itself could also contain the searched string.
 
-        if (rxCommentEnd.match(line).hasMatch()) {
+        if (line.startsWith(QLatin1String("Archive: "))) {
             m_parseState = ParseStateHeader;
             m_comment = m_comment.trimmed();
             m_linesComment = m_comment.count(QLatin1Char('\n')) + 1;
@@ -206,7 +204,7 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
     else if (m_parseState == ParseStateHeader) {
 
         // "Details: " indicates end of header.
-        if (line.startsWith(QStringLiteral("Details: "))) {
+        if (line.startsWith(QLatin1String("Details: "))) {
             ignoreLines(1, ParseStateEntryDetails);
             if (line.contains(QLatin1String("volume"))) {
                 m_numberOfVolumes++;
@@ -269,9 +267,7 @@ void CliPlugin::handleUnrar5Entry()
     compressionRatio.chop(1); // Remove the '%'
     e->setProperty("ratio", compressionRatio);
 
-    QString time = m_unrar5Details.value(QStringLiteral("mtime"));
-    QDateTime ts = QDateTime::fromString(time, QStringLiteral("yyyy-MM-dd HH:mm:ss,zzz"));
-    e->setProperty("timestamp", ts);
+    e->setProperty("timestamp", QDateTime::fromString(m_unrar5Details.value(QStringLiteral("mtime")), QStringLiteral("yyyy-MM-dd HH:mm:ss,zzz")));
 
     bool isDirectory = (m_unrar5Details.value(QStringLiteral("type")) == QLatin1String("Directory"));
     e->setProperty("isDirectory", isDirectory);
@@ -313,8 +309,7 @@ void CliPlugin::handleUnrar5Entry()
 
 bool CliPlugin::handleUnrar4Line(const QString &line)
 {
-    const QRegularExpression rxVolume(QStringLiteral("Cannot find volume "));
-    if (rxVolume.match(line).hasMatch()) {
+    if (line.startsWith(QLatin1String("Cannot find volume "))) {
         emit error(i18n("Failed to find all archive volumes."));
         return false;
     }
@@ -377,7 +372,7 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
     else if (m_parseState == ParseStateHeader) {
 
         // Horizontal line indicates end of header.
-        if (line.startsWith(QStringLiteral("--------------------"))) {
+        if (line.startsWith(QLatin1String("--------------------"))) {
             m_parseState = ParseStateEntryFileName;
         } else if (line.startsWith(QLatin1String("Volume "))) {
             m_numberOfVolumes++;
@@ -412,7 +407,7 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
 
         // The entries list ends with a horizontal line, followed by a
         // single summary line or, for multi-volume archives, another header.
-        if (line.startsWith(QStringLiteral("-----------------"))) {
+        if (line.startsWith(QLatin1String("-----------------"))) {
             m_parseState = ParseStateHeader;
             return true;
 
@@ -448,7 +443,7 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
 
         // If we reach a horizontal line, then the previous line was not an
         // entry name, so go back to header.
-        if (line.startsWith(QStringLiteral("-----------------"))) {
+        if (line.startsWith(QLatin1String("-----------------"))) {
             m_parseState = ParseStateHeader;
             return true;
         }
@@ -561,8 +556,7 @@ bool CliPlugin::readExtractLine(const QString &line)
         return false;
     }
 
-    const QRegularExpression rxVolume(QStringLiteral("Cannot find volume "));
-    if (rxVolume.match(line).hasMatch()) {
+    if (line.startsWith(QLatin1String("Cannot find volume "))) {
         emit error(i18n("Failed to find all archive volumes."));
         return false;
     }
