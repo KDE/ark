@@ -129,41 +129,42 @@ bool CliPlugin::readListLine(const QString& line)
     static const QLatin1String archiveInfoDelimiter1("--"); // 7z 9.13+
     static const QLatin1String archiveInfoDelimiter2("----"); // 7z 9.04
     static const QLatin1String entryInfoDelimiter("----------");
-    const QRegularExpression rxComment(QStringLiteral("Comment = .+$"));
 
-    const QRegularExpression rxListFailed(QStringLiteral("Open ERROR: Can not open the file as \\[7z\\] archive"));
-    if (rxListFailed.match(line).hasMatch()) {
+    if (line.startsWith(QLatin1String("Open ERROR: Can not open the file as [7z] archive"))) {
         emit error(i18n("Listing the archive failed."));
         return false;
     }
 
-    if (m_parseState == ParseStateTitle) {
+    const QRegularExpression rxVersionLine(QStringLiteral("^p7zip Version ([\\d\\.]+) .*$"));
+    QRegularExpressionMatch matchVersion;
 
-        const QRegularExpression rxVersionLine(QStringLiteral("^p7zip Version ([\\d\\.]+) .*$"));
-        QRegularExpressionMatch matchVersion = rxVersionLine.match(line);
+    switch (m_parseState) {
+    case ParseStateTitle:
+        matchVersion = rxVersionLine.match(line);
         if (matchVersion.hasMatch()) {
             m_parseState = ParseStateHeader;
             const QString p7zipVersion = matchVersion.captured(1);
             qCDebug(ARK) << "p7zip version" << p7zipVersion << "detected";
         }
+        break;
 
-    } else if (m_parseState == ParseStateHeader) {
-
-        if (line.startsWith(QStringLiteral("Listing archive:"))) {
+    case ParseStateHeader:
+        if (line.startsWith(QLatin1String("Listing archive:"))) {
             qCDebug(ARK) << "Archive name: "
-                     << line.right(line.size() - 16).trimmed();
+                         << line.right(line.size() - 16).trimmed();
         } else if ((line == archiveInfoDelimiter1) ||
                    (line == archiveInfoDelimiter2)) {
             m_parseState = ParseStateArchiveInformation;
-        } else if (line.contains(QStringLiteral("Error: "))) {
+        } else if (line.contains(QLatin1String("Error: "))) {
             qCWarning(ARK) << line.mid(7);
         }
+        break;
 
-    } else if (m_parseState == ParseStateArchiveInformation) {
-
+    case ParseStateArchiveInformation:
         if (line == entryInfoDelimiter) {
             m_parseState = ParseStateEntryInformation;
-        } else if (line.startsWith(QStringLiteral("Type = "))) {
+
+        } else if (line.startsWith(QLatin1String("Type = "))) {
             const QString type = line.mid(7).trimmed();
             qCDebug(ARK) << "Archive type: " << type;
 
@@ -188,20 +189,21 @@ bool CliPlugin::readListLine(const QString& line)
                 qCWarning(ARK) << "Unsupported archive type";
                 return false;
             }
-        } else if (line.startsWith(QStringLiteral("Volumes = "))) {
+
+        } else if (line.startsWith(QLatin1String("Volumes = "))) {
             m_numberOfVolumes = line.section(QLatin1Char('='), 1).trimmed().toInt();
 
-        } else if (line.startsWith(QStringLiteral("Method = "))) {
+        } else if (line.startsWith(QLatin1String("Method = "))) {
             QStringList methods = line.section(QLatin1Char('='), 1).trimmed().split(QLatin1Char(' '), QString::SkipEmptyParts);
             handleMethods(methods);
 
-        } else if (rxComment.match(line).hasMatch()) {
+        } else if (line.startsWith(QLatin1String("Comment = "))) {
             m_parseState = ParseStateComment;
             m_comment.append(line.section(QLatin1Char('='), 1) + QLatin1Char('\n'));
         }
+        break;
 
-    } else if (m_parseState == ParseStateComment) {
-
+    case ParseStateComment:
         if (line == entryInfoDelimiter) {
             m_parseState = ParseStateEntryInformation;
             if (!m_comment.trimmed().isEmpty()) {
@@ -212,37 +214,42 @@ bool CliPlugin::readListLine(const QString& line)
         } else {
             m_comment.append(line + QLatin1Char('\n'));
         }
+        break;
 
-    } else if (m_parseState == ParseStateEntryInformation) {
-
+    case ParseStateEntryInformation:
         if (m_isFirstInformationEntry) {
             m_isFirstInformationEntry = false;
             m_currentArchiveEntry = new Archive::Entry(this);
             m_currentArchiveEntry->compressedSizeIsSet = false;
         }
-        if (line.startsWith(QStringLiteral("Path = "))) {
+        if (line.startsWith(QLatin1String("Path = "))) {
             const QString entryFilename =
                 QDir::fromNativeSeparators(line.mid(7).trimmed());
             m_currentArchiveEntry->setProperty("fullPath", entryFilename);
-        } else if (line.startsWith(QStringLiteral("Size = "))) {
+
+        } else if (line.startsWith(QLatin1String("Size = "))) {
             m_currentArchiveEntry->setProperty("size", line.mid(7).trimmed());
-        } else if (line.startsWith(QStringLiteral("Packed Size = "))) {
+
+        } else if (line.startsWith(QLatin1String("Packed Size = "))) {
             // #236696: 7z files only show a single Packed Size value
             //          corresponding to the whole archive.
             if (m_archiveType != ArchiveType7z) {
                 m_currentArchiveEntry->compressedSizeIsSet = true;
                 m_currentArchiveEntry->setProperty("compressedSize", line.mid(14).trimmed());
             }
-        } else if (line.startsWith(QStringLiteral("Modified = "))) {
+
+        } else if (line.startsWith(QLatin1String("Modified = "))) {
             m_currentArchiveEntry->setProperty("timestamp", QDateTime::fromString(line.mid(11).trimmed(),
                                                                                   QStringLiteral("yyyy-MM-dd hh:mm:ss")));
-        } else if (line.startsWith(QStringLiteral("Folder = "))) {
+
+        } else if (line.startsWith(QLatin1String("Folder = "))) {
             const QString isDirectoryStr = line.mid(9).trimmed();
             Q_ASSERT(isDirectoryStr == QStringLiteral("+") || isDirectoryStr == QStringLiteral("-"));
             const bool isDirectory = isDirectoryStr.startsWith(QLatin1Char('+'));
             m_currentArchiveEntry->setProperty("isDirectory", isDirectory);
             fixDirectoryFullName();
-        } else if (line.startsWith(QStringLiteral("Attributes = "))) {
+
+        } else if (line.startsWith(QLatin1String("Attributes = "))) {
             const QString attributes = line.mid(13).trimmed();
             if (attributes.contains(QLatin1Char('D'))) {
                 m_currentArchiveEntry->setProperty("isDirectory", true);
@@ -258,9 +265,10 @@ bool CliPlugin::readListLine(const QString& line)
                 m_currentArchiveEntry->setProperty("permissions", attributes);
             }
 
-        } else if (line.startsWith(QStringLiteral("CRC = "))) {
+        } else if (line.startsWith(QLatin1String("CRC = "))) {
             m_currentArchiveEntry->setProperty("CRC", line.mid(6).trimmed());
-        } else if (line.startsWith(QStringLiteral("Method = "))) {
+
+        } else if (line.startsWith(QLatin1String("Method = "))) {
             m_currentArchiveEntry->setProperty("method", line.mid(9).trimmed());
 
             // For zip archives we need to check method for each entry.
@@ -269,11 +277,12 @@ bool CliPlugin::readListLine(const QString& line)
                 handleMethods(methods);
             }
 
-        } else if (line.startsWith(QStringLiteral("Encrypted = ")) &&
+        } else if (line.startsWith(QLatin1String("Encrypted = ")) &&
                    line.size() >= 13) {
             m_currentArchiveEntry->setProperty("isPasswordProtected", line.at(12) == QLatin1Char('+'));
-        } else if (line.startsWith(QStringLiteral("Block = ")) ||
-                   line.startsWith(QStringLiteral("Version = "))) {
+
+        } else if (line.startsWith(QLatin1String("Block = ")) ||
+                   line.startsWith(QLatin1String("Version = "))) {
             m_isFirstInformationEntry = true;
             if (!m_currentArchiveEntry->fullPath().isEmpty()) {
                 emit entry(m_currentArchiveEntry);
@@ -283,6 +292,7 @@ bool CliPlugin::readListLine(const QString& line)
             }
             m_currentArchiveEntry = nullptr;
         }
+        break;
     }
 
     return true;
@@ -290,15 +300,13 @@ bool CliPlugin::readListLine(const QString& line)
 
 bool CliPlugin::readExtractLine(const QString &line)
 {
-    const QRegularExpression rxUnknownError(QStringLiteral("ERROR: E_FAIL"));
-    const QRegularExpression rxBadCRC(QStringLiteral("ERROR: CRC Failed"));
-
-    if (rxUnknownError.match(line).hasMatch()) {
+    if (line.startsWith(QLatin1String("ERROR: E_FAIL"))) {
         emit error(i18n("Extraction failed due to an unknown error."));
         return false;
     }
 
-    if (rxBadCRC.match(line).hasMatch()) {
+    if (line.startsWith(QLatin1String("ERROR: CRC Failed")) ||
+        line.startsWith(QLatin1String("ERROR: Headers Error"))) {
         emit error(i18n("Extraction failed due to one or more corrupt files. Any extracted files may be damaged."));
         return false;
     }
@@ -308,9 +316,8 @@ bool CliPlugin::readExtractLine(const QString &line)
 
 bool CliPlugin::readDeleteLine(const QString &line)
 {
-    QRegularExpression rx(QStringLiteral("Error: .+ is not supported archive"));
-
-    if (rx.match(line).hasMatch()) {
+    if (line.startsWith(QLatin1String("Error: ")) &&
+        line.endsWith(QLatin1String(" is not supported archive"))) {
         emit error(i18n("Delete operation failed. Try upgrading p7zip or disabling the p7zip plugin in the configuration dialog."));
         return false;
     }
