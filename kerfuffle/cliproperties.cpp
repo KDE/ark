@@ -290,69 +290,9 @@ QString CliProperties::substituteMultiVolumeSwitch(ulong volumeSize) const
     return multiVolumeSwitch;
 }
 
-bool CliProperties::isPasswordPrompt(const QString &line)
-{
-    foreach(const QString &rx, m_passwordPromptPatterns) {
-        if (QRegularExpression(rx).match(line).hasMatch()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool CliProperties::isWrongPasswordMsg(const QString &line)
-{
-    foreach(const QString &rx, m_wrongPasswordPatterns) {
-        if (QRegularExpression(rx).match(line).hasMatch()) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool CliProperties::isTestPassedMsg(const QString &line)
 {
     foreach(const QString &rx, m_testPassedPatterns) {
-        if (QRegularExpression(rx).match(line).hasMatch()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool CliProperties::isfileExistsMsg(const QString &line)
-{
-    foreach(const QString &rx, m_fileExistsPatterns) {
-        if (QRegularExpression(rx).match(line).hasMatch()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool CliProperties::isFileExistsFileName(const QString &line)
-{
-    foreach(const QString &rx, m_fileExistsFileName) {
-        if (QRegularExpression(rx).match(line).hasMatch()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool CliProperties::isCorruptArchiveMsg(const QString &line)
-{
-    foreach(const QString &rx, m_corruptArchivePatterns) {
-        if (QRegularExpression(rx).match(line).hasMatch()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool CliProperties::isDiskFullMsg(const QString &line)
-{
-    foreach(const QString &rx, m_diskFullPatterns) {
         if (QRegularExpression(rx).match(line).hasMatch()) {
             return true;
         }

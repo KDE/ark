@@ -70,6 +70,12 @@ public:
     virtual bool readListLine(const QString &line) = 0;
     virtual bool readExtractLine(const QString &line) = 0;
     virtual bool readDeleteLine(const QString &line);
+    virtual bool isPasswordPrompt(const QString &line);
+    virtual bool isWrongPasswordMsg(const QString &line);
+    virtual bool isCorruptArchiveMsg(const QString &line);
+    virtual bool isDiskFullMsg(const QString &line);
+    virtual bool isFileExistsMsg(const QString &line);
+    virtual bool isFileExistsFileName(const QString &line);
     bool doKill() override;
 
     /**

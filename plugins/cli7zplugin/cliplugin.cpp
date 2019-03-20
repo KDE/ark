@@ -95,22 +95,14 @@ void CliPlugin::setupCliProperties()
     m_cliProps->setProperty("encryptionMethodSwitch", QHash<QString,QVariant>{{QStringLiteral("application/x-7z-compressed"), QString()},
                                                                               {QStringLiteral("application/zip"), QStringLiteral("-mem=$EncryptionMethod")}});
     m_cliProps->setProperty("multiVolumeSwitch", QStringLiteral("-v$VolumeSizek"));
-
-    m_cliProps->setProperty("passwordPromptPatterns", QStringList{QStringLiteral("Enter password \\(will not be echoed\\)")});
-    m_cliProps->setProperty("wrongPasswordPatterns", QStringList{QStringLiteral("Wrong password")});
     m_cliProps->setProperty("testPassedPatterns", QStringList{QStringLiteral("^Everything is Ok$")});
-    m_cliProps->setProperty("fileExistsPatterns", QStringList{QStringLiteral("^\\(Y\\)es / \\(N\\)o / \\(A\\)lways / \\(S\\)kip all / A\\(u\\)to rename all / \\(Q\\)uit\\? $"),
-                                                          QStringLiteral("^\\? \\(Y\\)es / \\(N\\)o / \\(A\\)lways / \\(S\\)kip all / A\\(u\\)to rename all / \\(Q\\)uit\\? $")});
-    m_cliProps->setProperty("fileExistsFileName", QStringList{QStringLiteral("^file \\./(.*)$"),
-                                                          QStringLiteral("^  Path:     \\./(.*)$")});
+    m_cliProps->setProperty("fileExistsFileNameRegExp", QStringList{QStringLiteral("^file \\./(.*)$"),
+                                                                    QStringLiteral("^  Path:     \\./(.*)$")});
     m_cliProps->setProperty("fileExistsInput", QStringList{QStringLiteral("Y"),   //Overwrite
                                                        QStringLiteral("N"),   //Skip
                                                        QStringLiteral("A"),   //Overwrite all
                                                        QStringLiteral("S"),   //Autoskip
                                                        QStringLiteral("Q")}); //Cancel
-    m_cliProps->setProperty("corruptArchivePatterns", QStringList{QStringLiteral("Unexpected end of archive"),
-                                                              QStringLiteral("Headers Error")});
-    m_cliProps->setProperty("diskFullPatterns", QStringList{QStringLiteral("No space left on device")});
     m_cliProps->setProperty("multiVolumeSuffix", QStringList{QStringLiteral("$Suffix.001")});
 }
 
@@ -353,6 +345,39 @@ void CliPlugin::handleMethods(const QStringList &methods)
             emit compressionMethodFound(method);
         }
     }
+}
+
+bool CliPlugin::isPasswordPrompt(const QString &line)
+{
+    return line.startsWith(QLatin1String("Enter password (will not be echoed):"));
+}
+
+bool CliPlugin::isWrongPasswordMsg(const QString &line)
+{
+    return line.contains(QLatin1String("Wrong password"));
+}
+
+bool CliPlugin::isCorruptArchiveMsg(const QString &line)
+{
+    return (line == QLatin1String("Unexpected end of archive") ||
+            line == QLatin1String("Headers Error"));
+}
+
+bool CliPlugin::isDiskFullMsg(const QString &line)
+{
+    return line.contains(QLatin1String("No space left on device"));
+}
+
+bool CliPlugin::isFileExistsMsg(const QString &line)
+{
+    return (line == QLatin1String("(Y)es / (N)o / (A)lways / (S)kip all / A(u)to rename all / (Q)uit? ") ||
+            line == QLatin1String("? (Y)es / (N)o / (A)lways / (S)kip all / A(u)to rename all / (Q)uit? "));
+}
+
+bool CliPlugin::isFileExistsFileName(const QString &line)
+{
+    return (line.startsWith(QLatin1String("file ./")) ||
+            line.startsWith(QLatin1String("  Path:     ./")));
 }
 
 #include "cliplugin.moc"

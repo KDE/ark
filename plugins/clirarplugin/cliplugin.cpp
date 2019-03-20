@@ -108,21 +108,14 @@ void CliPlugin::setupCliProperties()
     m_cliProps->setProperty("multiVolumeSwitch", QStringLiteral("-v$VolumeSizek"));
 
 
-    m_cliProps->setProperty("passwordPromptPatterns", QStringList{QStringLiteral("Enter password \\(will not be echoed\\) for")});
-    m_cliProps->setProperty("wrongPasswordPatterns", QStringList{QStringLiteral("password incorrect"),
-                                                             QStringLiteral("wrong password")});
     m_cliProps->setProperty("testPassedPatterns", QStringList{QStringLiteral("^All OK$")});
-    m_cliProps->setProperty("fileExistsPatterns", QStringList{QStringLiteral("^\\[Y\\]es, \\[N\\]o, \\[A\\]ll, n\\[E\\]ver, \\[R\\]ename, \\[Q\\]uit $")});
-    m_cliProps->setProperty("fileExistsFileName", QStringList{QStringLiteral("^(.+) already exists. Overwrite it"),  // unrar 3 & 4
-                                                          QStringLiteral("^Would you like to replace the existing file (.+)$")}); // unrar 5
+    m_cliProps->setProperty("fileExistsFileNameRegExp", QStringList{QStringLiteral("^(.+) already exists. Overwrite it"),  // unrar 3 & 4
+                                                                    QStringLiteral("^Would you like to replace the existing file (.+)$")}); // unrar 5
     m_cliProps->setProperty("fileExistsInput", QStringList{QStringLiteral("Y"),   //Overwrite
                                                        QStringLiteral("N"),   //Skip
                                                        QStringLiteral("A"),   //Overwrite all
                                                        QStringLiteral("E"),   //Autoskip
                                                        QStringLiteral("Q")}); //Cancel
-    m_cliProps->setProperty("corruptArchivePatterns", QStringList{QStringLiteral("Unexpected end of archive"),
-                                                              QStringLiteral("the file header is corrupt")});
-    m_cliProps->setProperty("diskFullPatterns", QStringList{QStringLiteral("No space left on device")});
 
     // rar will sometimes create multi-volume archives where first volume is
     // called name.part1.rar and other times name.part01.rar.
@@ -573,6 +566,39 @@ void CliPlugin::ignoreLines(int lines, ParseState nextState)
 {
     m_remainingIgnoreLines = lines;
     m_parseState = nextState;
+}
+
+bool CliPlugin::isPasswordPrompt(const QString &line)
+{
+    return line.startsWith(QLatin1String("Enter password \\(will not be echoed\\) for"));
+}
+
+bool CliPlugin::isWrongPasswordMsg(const QString &line)
+{
+    return (line.contains(QLatin1String("password incorrect")) || line.contains(QLatin1String("wrong password")));
+}
+
+bool CliPlugin::isCorruptArchiveMsg(const QString &line)
+{
+    return (line == QLatin1String("Unexpected end of archive") ||
+            line.contains(QLatin1String("the file header is corrupt")) ||
+            line.endsWith(QLatin1String("checksum error")));
+}
+
+bool CliPlugin::isDiskFullMsg(const QString &line)
+{
+    return line.contains(QLatin1String("No space left on device"));
+}
+
+bool CliPlugin::isFileExistsMsg(const QString &line)
+{
+    return (line == QLatin1String("[Y]es, [N]o, [A]ll, n[E]ver, [R]ename, [Q]uit "));
+}
+
+bool CliPlugin::isFileExistsFileName(const QString &line)
+{
+    return (line.startsWith(QLatin1String("Would you like to replace the existing file ")) || // unrar 5
+            line.contains(QLatin1String(" already exists. Overwrite it"))); // unrar 3 & 4
 }
 
 #include "cliplugin.moc"

@@ -90,8 +90,6 @@ void CliPlugin::setupCliProperties()
 
     m_cliProps->setProperty("passwordSwitch", QStringList{QStringLiteral("-password"),
                                                       QStringLiteral("$Password")});
-
-    m_cliProps->setProperty("passwordPromptPatterns", QStringList{QStringLiteral("This archive requires a password to unpack. Use the -p option to provide one.")});
 }
 
 bool CliPlugin::readListLine(const QString &line)
@@ -152,7 +150,7 @@ bool CliPlugin::handleLine(const QString& line)
 
     if (m_operationMode == List) {
         // This can only be an header-encrypted archive.
-        if (m_cliProps->isPasswordPrompt(line)) {
+        if (isPasswordPrompt(line)) {
             qCDebug(ARK) << "Detected header-encrypted RAR archive";
 
             Kerfuffle::PasswordNeededQuery query(filename());
@@ -271,6 +269,11 @@ void CliPlugin::readJsonOutput()
 
         emit entry(currentEntry);
     }
+}
+
+bool CliPlugin::isPasswordPrompt(const QString &line)
+{
+    return (line == QLatin1String("This archive requires a password to unpack. Use the -p option to provide one."));
 }
 
 #include "cliplugin.moc"

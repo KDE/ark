@@ -38,6 +38,12 @@ public:
     QString escapeFileName(const QString &fileName) const override;
     bool readListLine(const QString &line) override;
     bool readExtractLine(const QString &line) override;
+    bool isPasswordPrompt(const QString &line) override;
+    bool isWrongPasswordMsg(const QString &line) override;
+    bool isCorruptArchiveMsg(const QString &line) override;
+    bool isDiskFullMsg(const QString &line) override;
+    bool isFileExistsMsg(const QString &line) override;
+    bool isFileExistsFileName(const QString &line) override;
 
     bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) override;
     int moveRequiredSignals() const override;

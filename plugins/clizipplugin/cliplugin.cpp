@@ -109,20 +109,13 @@ void CliPlugin::setupCliProperties()
                                                                                {QStringLiteral("application/x-java-archive"), QStringLiteral("-Z$CompressionMethod")}});
     m_cliProps->setProperty("multiVolumeSwitch", QStringLiteral("-v$VolumeSizek"));
 
-    m_cliProps->setProperty("passwordPromptPatterns", QStringList{QStringLiteral(" password: ")});
-    m_cliProps->setProperty("wrongPasswordPatterns", QStringList{QStringLiteral("incorrect password")});
     m_cliProps->setProperty("testPassedPatterns", QStringList{QStringLiteral("^No errors detected in compressed data of ")});
-    m_cliProps->setProperty("fileExistsPatterns", QStringList{QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $")});
-    m_cliProps->setProperty("fileExistsFileName", QStringList{QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $")});
+    m_cliProps->setProperty("fileExistsFileNameRegExp", QStringList{QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $")});
     m_cliProps->setProperty("fileExistsInput", QStringList{QStringLiteral("y"),   //Overwrite
                                                            QStringLiteral("n"),   //Skip
                                                            QStringLiteral("A"),   //Overwrite all
                                                            QStringLiteral("N")}); //Autoskip
     m_cliProps->setProperty("extractionFailedPatterns", QStringList{QStringLiteral("unsupported compression method")});
-    m_cliProps->setProperty("corruptArchivePatterns", QStringList{QStringLiteral("End-of-central-directory signature not found"),
-                                                                  QStringLiteral("didn't find end-of-central-dir signature at end of central dir")});
-    m_cliProps->setProperty("diskFullPatterns", QStringList{QStringLiteral("write error \\(disk full\\?\\)"),
-                                                            QStringLiteral("No space left on device")});
 }
 
 bool CliPlugin::readListLine(const QString &line)
@@ -333,6 +326,40 @@ QString CliPlugin::convertCompressionMethod(const QString &method)
         return i18nc("referred to compression method", "unknown");
     }
     return method;
+}
+
+bool CliPlugin::isPasswordPrompt(const QString &line)
+{
+    return line.endsWith(QLatin1String(" password: "));
+}
+
+bool CliPlugin::isWrongPasswordMsg(const QString &line)
+{
+    return line.endsWith(QLatin1String("incorrect password"));
+}
+
+bool CliPlugin::isCorruptArchiveMsg(const QString &line)
+{
+    return (line.contains(QLatin1String("End-of-central-directory signature not found")) ||
+            line.contains(QLatin1String("didn't find end-of-central-dir signature at end of central dir")));
+}
+
+bool CliPlugin::isDiskFullMsg(const QString &line)
+{
+    return (line.contains(QLatin1String("No space left on device")) ||
+            line.contains(QLatin1String("write error (disk full?)")));
+}
+
+bool CliPlugin::isFileExistsMsg(const QString &line)
+{
+    return (line.startsWith(QLatin1String("replace ")) &&
+            line.endsWith(QLatin1String("? [y]es, [n]o, [A]ll, [N]one, [r]ename: ")));
+}
+
+bool CliPlugin::isFileExistsFileName(const QString &line)
+{
+    return (line.startsWith(QLatin1String("replace ")) &&
+            line.endsWith(QLatin1String("? [y]es, [n]o, [A]ll, [N]one, [r]ename: ")));
 }
 
 #include "cliplugin.moc"
