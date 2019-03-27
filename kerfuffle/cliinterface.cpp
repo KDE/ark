@@ -778,13 +778,13 @@ void CliInterface::readStdout(bool handleAll)
     // TODO: The same check methods are called in handleLine(), this
     //       is suboptimal.
 
-    bool wrongPasswordMessage = m_cliProps->isWrongPasswordMsg(QLatin1String(lines.last()));
+    bool wrongPasswordMessage = isWrongPasswordMsg(QLatin1String(lines.last()));
 
     bool foundErrorMessage =
         (wrongPasswordMessage ||
-         m_cliProps->isDiskFullMsg(QLatin1String(lines.last())) ||
-         m_cliProps->isfileExistsMsg(QLatin1String(lines.last()))) ||
-         m_cliProps->isPasswordPrompt(QLatin1String(lines.last()));
+         isDiskFullMsg(QLatin1String(lines.last())) ||
+         isFileExistsMsg(QLatin1String(lines.last()))) ||
+         isPasswordPrompt(QLatin1String(lines.last()));
 
     if (foundErrorMessage) {
         handleAll = true;
@@ -852,7 +852,7 @@ bool CliInterface::handleLine(const QString& line)
 
     if (m_operationMode == Extract) {
 
-        if (m_cliProps->isPasswordPrompt(line)) {
+        if (isPasswordPrompt(line)) {
             qCDebug(ARK) << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
@@ -871,13 +871,13 @@ bool CliInterface::handleLine(const QString& line)
             return true;
         }
 
-        if (m_cliProps->isDiskFullMsg(line)) {
+        if (isDiskFullMsg(line)) {
             qCWarning(ARK) << "Found disk full message:" << line;
             emit error(i18nc("@info", "Extraction failed because the disk is full."));
             return false;
         }
 
-        if (m_cliProps->isWrongPasswordMsg(line)) {
+        if (isWrongPasswordMsg(line)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
             emit error(i18nc("@info", "Extraction failed: Incorrect password"));
@@ -892,7 +892,7 @@ bool CliInterface::handleLine(const QString& line)
     }
 
     if (m_operationMode == List) {
-        if (m_cliProps->isPasswordPrompt(line)) {
+        if (isPasswordPrompt(line)) {
             qCDebug(ARK) << "Found a password prompt";
 
             Kerfuffle::PasswordNeededQuery query(filename());
@@ -911,21 +911,17 @@ bool CliInterface::handleLine(const QString& line)
             return true;
         }
 
-        if (m_cliProps->isWrongPasswordMsg(line)) {
+        if (isWrongPasswordMsg(line)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
             emit error(i18n("Incorrect password."));
             return false;
         }
 
-        if (m_cliProps->isCorruptArchiveMsg(line)) {
+        if (isCorruptArchiveMsg(line)) {
             qCWarning(ARK) << "Archive corrupt";
             setCorrupt(true);
             // Special case: corrupt is not a "fatal" error so we return true here.
-            return true;
-        }
-
-        if (handleFileExistsMessage(line)) {
             return true;
         }
 
@@ -938,7 +934,7 @@ bool CliInterface::handleLine(const QString& line)
 
     if (m_operationMode == Test) {
 
-        if (m_cliProps->isPasswordPrompt(line)) {
+        if (isPasswordPrompt(line)) {
             qCDebug(ARK) << "Found a password prompt";
 
             emit error(i18n("Ark does not currently support testing this archive."));
@@ -964,17 +960,19 @@ bool CliInterface::readDeleteLine(const QString &line)
 bool CliInterface::handleFileExistsMessage(const QString& line)
 {
     // Check for a filename and store it.
-    foreach (const QString &pattern, m_cliProps->property("fileExistsFileName").toStringList()) {
-        const QRegularExpression rxFileNamePattern(pattern);
-        const QRegularExpressionMatch rxMatch = rxFileNamePattern.match(line);
+    if (isFileExistsFileName(line)) {
+        foreach (const QString &pattern, m_cliProps->property("fileExistsFileNameRegExp").toStringList()) {
+            const QRegularExpression rxFileNamePattern(pattern);
+            const QRegularExpressionMatch rxMatch = rxFileNamePattern.match(line);
 
-        if (rxMatch.hasMatch()) {
-            m_storedFileName = rxMatch.captured(1);
-            qCWarning(ARK) << "Detected existing file:" << m_storedFileName;
+            if (rxMatch.hasMatch()) {
+                m_storedFileName = rxMatch.captured(1);
+                qCWarning(ARK) << "Detected existing file:" << m_storedFileName;
+            }
         }
     }
 
-    if (!m_cliProps->isfileExistsMsg(line)) {
+    if (!isFileExistsMsg(line)) {
         return false;
     }
 
@@ -1107,6 +1105,42 @@ void CliInterface::onEntry(Archive::Entry *archiveEntry)
             emit progress(1);
         }
     }
+}
+
+bool CliInterface::isPasswordPrompt(const QString &line)
+{
+    Q_UNUSED(line);
+    return false;
+}
+
+bool CliInterface::isWrongPasswordMsg(const QString &line)
+{
+    Q_UNUSED(line);
+    return false;
+}
+
+bool CliInterface::isCorruptArchiveMsg(const QString &line)
+{
+    Q_UNUSED(line);
+    return false;
+}
+
+bool CliInterface::isDiskFullMsg(const QString &line)
+{
+    Q_UNUSED(line);
+    return false;
+}
+
+bool CliInterface::isFileExistsMsg(const QString &line)
+{
+    Q_UNUSED(line);
+    return false;
+}
+
+bool CliInterface::isFileExistsFileName(const QString &line)
+{
+    Q_UNUSED(line);
+    return false;
 }
 
 }

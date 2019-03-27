@@ -481,6 +481,9 @@ void CreateJob::doWork()
         connect(m_addJob, &KJob::description, this, [=](KJob *, const QString &title, const QPair<QString,QString> &field1, const QPair<QString,QString> &) {
             emit description(this, title, field1);
         });
+        connect(m_addJob, QOverload<KJob*,unsigned long>::of(&KJob::percent), this, [=](KJob*, unsigned long percent) {
+            emitPercent(percent, 100);
+        });
 
         m_addJob->start();
     } else {

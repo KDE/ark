@@ -38,6 +38,7 @@ public:
     void resetParsing() override;
     bool readListLine(const QString &line) override;
     bool readExtractLine(const QString &line) override;
+    bool isPasswordPrompt(const QString &line) override;
 
     /**
      * Fill the lsar's json output all in once (useful for unit testing).

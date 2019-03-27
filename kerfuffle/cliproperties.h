@@ -62,13 +62,8 @@ class KERFUFFLE_EXPORT CliProperties: public QObject
     Q_PROPERTY(QHash<QString,QVariant> encryptionMethodSwitch MEMBER m_encryptionMethodSwitch)
     Q_PROPERTY(QString multiVolumeSwitch MEMBER m_multiVolumeSwitch)
 
-    Q_PROPERTY(QStringList passwordPromptPatterns MEMBER m_passwordPromptPatterns)
-    Q_PROPERTY(QStringList wrongPasswordPatterns MEMBER m_wrongPasswordPatterns)
     Q_PROPERTY(QStringList testPassedPatterns MEMBER m_testPassedPatterns)
-    Q_PROPERTY(QStringList fileExistsPatterns MEMBER m_fileExistsPatterns)
-    Q_PROPERTY(QStringList fileExistsFileName MEMBER m_fileExistsFileName)
-    Q_PROPERTY(QStringList corruptArchivePatterns MEMBER m_corruptArchivePatterns)
-    Q_PROPERTY(QStringList diskFullPatterns MEMBER m_diskFullPatterns)
+    Q_PROPERTY(QStringList fileExistsFileNameRegExp MEMBER m_fileExistsFileNameRegExp)
 
     Q_PROPERTY(QStringList fileExistsInput MEMBER m_fileExistsInput)
     Q_PROPERTY(QStringList multiVolumeSuffix MEMBER m_multiVolumeSuffix)
@@ -93,13 +88,7 @@ public:
     QStringList moveArgs(const QString &archive, const QVector<Archive::Entry *> &entries, Archive::Entry *destination, const QString &password);
     QStringList testArgs(const QString &archive, const QString &password);
 
-    bool isPasswordPrompt(const QString &line);
-    bool isWrongPasswordMsg(const QString &line);
     bool isTestPassedMsg(const QString &line);
-    bool isfileExistsMsg(const QString &line);
-    bool isFileExistsFileName(const QString &line);
-    bool isCorruptArchiveMsg(const QString &line);
-    bool isDiskFullMsg(const QString &line);
 
 private:
     QStringList substituteCommentSwitch(const QString &commentfile) const;
@@ -132,13 +121,8 @@ private:
     QHash<QString,QVariant> m_encryptionMethodSwitch;
     QString m_multiVolumeSwitch;
 
-    QStringList m_passwordPromptPatterns;
-    QStringList m_wrongPasswordPatterns;
     QStringList m_testPassedPatterns;
-    QStringList m_fileExistsPatterns;
-    QStringList m_fileExistsFileName;
-    QStringList m_corruptArchivePatterns;
-    QStringList m_diskFullPatterns;
+    QStringList m_fileExistsFileNameRegExp;
 
     QStringList m_fileExistsInput;
     QStringList m_multiVolumeSuffix;
