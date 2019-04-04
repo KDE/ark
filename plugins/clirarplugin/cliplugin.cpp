@@ -570,7 +570,7 @@ void CliPlugin::ignoreLines(int lines, ParseState nextState)
 
 bool CliPlugin::isPasswordPrompt(const QString &line)
 {
-    return line.startsWith(QLatin1String("Enter password \\(will not be echoed\\) for"));
+    return line.startsWith(QLatin1String("Enter password (will not be echoed) for"));
 }
 
 bool CliPlugin::isWrongPasswordMsg(const QString &line)
