@@ -67,6 +67,13 @@ void CliRarTest::testArchive_data()
             << QFileInfo(archivePath).fileName()
             << false << true << Archive::Unencrypted
             << QStringLiteral("A");
+
+    archivePath = QFINDTESTDATA("data/locked_archive.rar");
+    QTest::newRow("locked archive")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << false << Archive::Unencrypted
+            << QStringLiteral("locked_archive");
 }
 
 void CliRarTest::testArchive()

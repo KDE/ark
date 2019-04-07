@@ -255,8 +255,17 @@ bool ReadOnlyArchiveInterface::hasBatchExtractionProgress() const
     return false;
 }
 
+bool ReadOnlyArchiveInterface::isLocked() const
+{
+    return false;
+}
+
 bool ReadWriteArchiveInterface::isReadOnly() const
 {
+    if (isLocked()) {
+        return true;
+    }
+
     // We set corrupt archives to read-only to avoid add/delete actions, that
     // are likely to fail anyway.
     if (isCorrupt()) {

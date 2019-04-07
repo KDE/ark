@@ -45,6 +45,7 @@ public:
     bool isDiskFullMsg(const QString &line) override;
     bool isFileExistsMsg(const QString &line) override;
     bool isFileExistsFileName(const QString &line) override;
+    bool isLocked() const override;
 
 private:
 
@@ -73,6 +74,7 @@ private:
     bool m_isPasswordProtected;
     bool m_isSolid;
     bool m_isRAR5;
+    bool m_isLocked;
 
     int m_remainingIgnoreLines;
     int m_linesComment;
