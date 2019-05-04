@@ -42,6 +42,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList& args)
         , m_isPasswordProtected(false)
         , m_isSolid(false)
         , m_isRAR5(false)
+        , m_isLocked(false)
         , m_remainingIgnoreLines(1) //The first line of UNRAR output is empty.
         , m_linesComment(0)
 {
@@ -216,6 +217,9 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
                 emit compressionMethodFound(QStringLiteral("RAR5"));
                 m_isRAR5 = true;
             }
+            if (line.contains(QLatin1String("lock"))) {
+                m_isLocked = true;
+            }
         }
         return true;
     }
@@ -369,6 +373,8 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
             m_parseState = ParseStateEntryFileName;
         } else if (line.startsWith(QLatin1String("Volume "))) {
             m_numberOfVolumes++;
+        } else if (line == QLatin1String("Lock is present")) {
+            m_isLocked = true;
         }
         return true;
     }
@@ -570,7 +576,7 @@ void CliPlugin::ignoreLines(int lines, ParseState nextState)
 
 bool CliPlugin::isPasswordPrompt(const QString &line)
 {
-    return line.startsWith(QLatin1String("Enter password \\(will not be echoed\\) for"));
+    return line.startsWith(QLatin1String("Enter password (will not be echoed) for"));
 }
 
 bool CliPlugin::isWrongPasswordMsg(const QString &line)
@@ -599,6 +605,11 @@ bool CliPlugin::isFileExistsFileName(const QString &line)
 {
     return (line.startsWith(QLatin1String("Would you like to replace the existing file ")) || // unrar 5
             line.contains(QLatin1String(" already exists. Overwrite it"))); // unrar 3 & 4
+}
+
+bool CliPlugin::isLocked() const
+{
+    return m_isLocked;
 }
 
 #include "cliplugin.moc"

@@ -154,6 +154,7 @@ X-DBUS-StartupType=Multi
 X-DBUS-ServiceName=org.kde.ark
 Categories=Qt;KDE;Utility;Archiving;Compression;X-KDE-Utilities-File;
 InitialPreference=3
+StartupWMClass=ark
 Comment=Work with file archives
 Comment[ca]=Treball amb arxius de fitxer
 Comment[ca@valencia]=Treball amb arxius de fitxer

@@ -168,6 +168,11 @@ public:
      */
     virtual bool hasBatchExtractionProgress() const;
 
+    /**
+     * @return Whether the archive is locked (RAR feature).
+     */
+    virtual bool isLocked() const;
+
 Q_SIGNALS:
 
     /**
