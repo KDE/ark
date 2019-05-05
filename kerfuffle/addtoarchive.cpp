@@ -93,7 +93,7 @@ bool AddToArchive::showAddDialog()
     qCDebug(ARK) << "Opening add dialog";
 
     if (m_filename.isEmpty()) {
-        detectFileName();
+        m_filename = detectBaseName(m_entries);
     }
 
     QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
