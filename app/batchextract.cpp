@@ -140,8 +140,6 @@ void BatchExtract::showFailedFiles()
 
 void BatchExtract::slotResult(KJob *job)
 {
-    // TODO: The user must be informed about which file caused the error, and that the other files
-    //       in the queue will not be extracted.
     if (job->error()) {
         qCDebug(ARK) << "There was en error:" << job->error() << ", errorText:" << job->errorString();
 
@@ -151,8 +149,18 @@ void BatchExtract::slotResult(KJob *job)
         removeSubjob(job);
 
         if (job->error() != KJob::KilledJobError) {
-            KMessageBox::error(nullptr, job->errorString().isEmpty() ?
-                                     i18n("There was an error during extraction.") : job->errorString());
+            const QString filename = m_fileNames.value(job).first;
+            if (hasSubjobs()) {
+                KMessageBox::error(nullptr,
+                                   job->errorString().isEmpty() ?
+                                   xi18nc("@info", "There was an error while extracting <filename>%1</filename>. Any further archive will not be extracted.", filename) :
+                                   xi18nc("@info", "There was an error while extracting <filename>%1</filename>:<nl/><message>%2</message><nl/>Any further archive will not be extracted.", filename, job->errorString()));
+            } else {
+                KMessageBox::error(nullptr,
+                                   job->errorString().isEmpty() ?
+                                   xi18nc("@info", "There was an error while extracting <filename>%1</filename>.", filename) :
+                                   xi18nc("@info", "There was an error while extracting <filename>%1</filename>:<nl/><message>%2</message>", filename, job->errorString()));
+            }
         }
 
         emitResult();
