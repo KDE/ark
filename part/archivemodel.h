@@ -194,6 +194,10 @@ private:
     qulonglong m_numberOfFiles;
     qulonglong m_numberOfFolders;
     qulonglong m_uncompressedSize;
+
+    // Whether a file entry has been listed. Used to ensure all relevent columns are shown,
+    // since directories might have fewer columns than files.
+    bool m_fileEntryListed;
 };
 
 #endif // ARCHIVEMODEL_H

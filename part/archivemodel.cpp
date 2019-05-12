@@ -46,6 +46,7 @@ ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     , m_dbusPathName(dbusPathName)
     , m_numberOfFiles(0)
     , m_numberOfFolders(0)
+    , m_fileEntryListed(false)
 {
     initRootEntry();
 
@@ -463,9 +464,9 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
         return;
     }
 
-    //if there are no addidional columns registered, then have a look at the
-    //entry and populate some
-    if (m_showColumns.isEmpty()) {
+    // If there are no columns registered, then populate columns from entry. If the first entry
+    // is a directory we check again for the first file entry to ensure all relevent columms are shown.
+    if (m_showColumns.isEmpty() || !m_fileEntryListed) {
         QList<int> toInsert;
 
         const auto size = receivedEntry->property("size").toULongLong();
@@ -477,7 +478,9 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
             }
             if (!receivedEntry->property(i.value().constData()).toString().isEmpty()) {
                 if (i.key() != CompressedSize || receivedEntry->compressedSizeIsSet) {
-                    toInsert << i.key();
+                    if (!m_showColumns.contains(i.key())) {
+                        toInsert << i.key();
+                    }
                 }
             }
         }
@@ -489,7 +492,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
             endInsertColumns();
         }
 
-        qCDebug(ARK) << "Showing columns: " << m_showColumns;
+        m_fileEntryListed = !receivedEntry->isDir();
     }
 
     // #194241: Filenames such as "./file" should be displayed as "file"
@@ -537,7 +540,11 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
 
 void ArchiveModel::slotLoadingFinished(KJob *job)
 {
+    std::sort(m_showColumns.begin(), m_showColumns.end());
+
     if (!job->error()) {
+
+        qCDebug(ARK) << "Showing columns: " << m_showColumns;
 
         m_archive.reset(qobject_cast<LoadJob*>(job)->archive());
 
