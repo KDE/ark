@@ -266,6 +266,11 @@ int main(int argc, char **argv)
 
         } else if (parser.isSet(QStringLiteral("batch"))) {
 
+            if (urls.isEmpty()) {
+                qCDebug(ARK) << "No urls to be extracted were provided.";
+                parser.showHelp(-1);
+            }
+
             BatchExtract *batchJob = new BatchExtract(&application);
             application.setQuitOnLastWindowClosed(false);
             QObject::connect(batchJob, &KJob::result, &application, &QCoreApplication::quit, Qt::QueuedConnection);
