@@ -224,10 +224,6 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVector<Archive::Entry*> &file
 
 bool ReadWriteLibarchivePlugin::initializeWriter(const bool creatingNewFile, const CompressionOptions &options)
 {
-    // |tempFile| needs to be created before |arch_writer| so that when we go
-    // out of scope in a `return false' case ArchiveWriteCustomDeleter is
-    // called before destructor of QSaveFile (ie. we call archive_write_close()
-    // before close()'ing the file descriptor).
     m_tempFile.setFileName(filename());
     if (!m_tempFile.open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
         emit error(i18nc("@info", "Failed to create a temporary file for writing data."));
