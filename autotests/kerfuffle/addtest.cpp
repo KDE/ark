@@ -158,7 +158,7 @@ void AddTest::testAdding()
     QStringList oldPaths = getEntryPaths(archive);
 
     // Check that the expected paths (after the AddJob) are not in the archive.
-    foreach (const auto &expectedPath, expectedNewPaths) {
+    for (const auto &expectedPath : qAsConst(expectedNewPaths)) {
         QVERIFY(!oldPaths.contains(expectedPath));
     }
 
@@ -171,7 +171,7 @@ void AddTest::testAdding()
     QStringList newPaths = getEntryPaths(archive);
 
     // Check that the expected paths are now in the archive.
-    foreach (const auto &path, expectedNewPaths) {
+    for (const auto &path : qAsConst(expectedNewPaths)) {
         QVERIFY(newPaths.contains(path));
     }
 

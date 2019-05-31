@@ -62,7 +62,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     }
 
     Archive *archive = nullptr;
-    foreach (Plugin *plugin, offers) {
+    for (Plugin *plugin : offers) {
         archive = create(fileName, plugin, parent);
         // Use the first valid plugin, according to the priority sorting.
         if (archive->isValid()) {

@@ -86,6 +86,11 @@ endif (WITH_TEST_COVERAGE)
 set(SUPPORTED_ARK_MIMETYPES "")
 
 add_definitions(-DTRANSLATION_DOMAIN="ark")
+# Until kf5 5.56 kconfig had some header which used Q_FOREACH
+# Q_FOREACH will be deprecated/removed in qt6. With QT_NO_FOREACH we prepare the migration to qt6.
+if (${KF5Config_VERSION} STRGREATER "5.56.0")
+        add_definitions(-DQT_NO_FOREACH)
+endif()
 
 add_subdirectory(plugins)
 add_subdirectory(kerfuffle)

@@ -57,7 +57,7 @@ void MetaDataTest::testPluginLoading()
 
 void MetaDataTest::testPluginMetadata()
 {
-    foreach (const KPluginMetaData& metaData, m_plugins) {
+    for (const KPluginMetaData& metaData : qAsConst(m_plugins)) {
         QVERIFY(metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin")));
         QVERIFY(!metaData.mimeTypes().isEmpty());
 

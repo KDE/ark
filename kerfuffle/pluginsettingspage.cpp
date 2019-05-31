@@ -40,7 +40,8 @@ PluginSettingsPage::PluginSettingsPage(QWidget *parent, const QString &name, con
 {
     setupUi(this);
 
-    foreach (const auto plugin, m_pluginManager.installedPlugins()) {
+    const auto installedPlugins = m_pluginManager.installedPlugins();
+    for (const auto plugin : installedPlugins) {
         const auto metaData = plugin->metaData();
         auto item = new QTreeWidgetItem(kcfg_disabledPlugins);
         item->setData(0, Qt::UserRole, QVariant::fromValue(plugin));

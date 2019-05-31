@@ -144,7 +144,7 @@ int Archive::Entry::row() const
 
 Archive::Entry *Archive::Entry::find(const QString &name) const
 {
-    foreach (Entry *entry, m_entries) {
+    for (Entry *entry : qAsConst(m_entries)) {
         if (entry && (entry->name() == name)) {
             return entry;
         }
@@ -175,7 +175,8 @@ void Archive::Entry::countChildren(uint &dirs, uint &files) const
         return;
     }
 
-    foreach (auto entry, entries()) {
+    const auto archiveEntries = entries();
+    for (auto entry : archiveEntries) {
         if (entry->isDir()) {
             dirs++;
         } else {

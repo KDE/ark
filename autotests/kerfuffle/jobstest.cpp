@@ -318,7 +318,7 @@ void JobsTest::testRemoveEntries()
     QStringList fullPathsToDelete = iface->entryFullPaths(entriesToDelete);
 
     QVector<Archive::Entry*> expectedRemainingEntries;
-    Q_FOREACH (Archive::Entry *entry, entries) {
+    for (Archive::Entry *entry : qAsConst(entries)) {
         if (!fullPathsToDelete.contains(entry->fullPath())) {
             expectedRemainingEntries.append(entry);
         }
@@ -412,7 +412,7 @@ void JobsTest::testAddEntries()
 
     QFETCH(QVector<Archive::Entry*>, originalEntries);
     QStringList originalFullPaths = QStringList();
-    Q_FOREACH (const Archive::Entry *entry, originalEntries) {
+    for (const Archive::Entry *entry : qAsConst(originalEntries)) {
         originalFullPaths.append(entry->fullPath());
     }
     auto currentEntries = listEntries(iface);
@@ -426,7 +426,7 @@ void JobsTest::testAddEntries()
     QStringList expectedAddedFullPaths = QStringList();
     const QString destinationPath = destinationEntry->fullPath();
     int expectedEntriesCount = originalEntries.size();
-    Q_FOREACH (const Archive::Entry *entry, entriesToAdd) {
+    for (const Archive::Entry *entry : qAsConst(entriesToAdd)) {
         const QString fullPath = destinationPath + entry->fullPath();
         if (!originalFullPaths.contains(fullPath)) {
             expectedEntriesCount++;
@@ -438,11 +438,11 @@ void JobsTest::testAddEntries()
     QCOMPARE(currentEntries.size(), expectedEntriesCount);
 
     QStringList currentFullPaths = QStringList();
-    Q_FOREACH (const Archive::Entry* entry, currentEntries) {
+    for (const Archive::Entry* entry : qAsConst(currentEntries)) {
         currentFullPaths << entry->fullPath();
     }
 
-    Q_FOREACH (const QString &fullPath, expectedAddedFullPaths) {
+    for (const QString &fullPath : qAsConst(expectedAddedFullPaths)) {
         QVERIFY(currentFullPaths.contains(fullPath));
     }
 

@@ -79,7 +79,7 @@ CreateDialog::CreateDialog(QWidget *parent,
     }
 
     // Populate combobox with mimetypes.
-    foreach (const QString &type, m_supportedMimeTypes) {
+    for (const QString &type : qAsConst(m_supportedMimeTypes)) {
         m_ui->mimeComboBox->addItem(QMimeDatabase().mimeTypeForName(type).comment());
     }
 

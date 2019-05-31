@@ -57,7 +57,7 @@ QVector<Plugin*> PluginManager::installedPlugins() const
 QVector<Plugin*> PluginManager::availablePlugins() const
 {
     QVector<Plugin*> availablePlugins;
-    foreach (Plugin *plugin, m_plugins) {
+    for (Plugin *plugin : qAsConst(m_plugins)) {
         if (plugin->isValid()) {
             availablePlugins << plugin;
         }
@@ -69,7 +69,8 @@ QVector<Plugin*> PluginManager::availablePlugins() const
 QVector<Plugin*> PluginManager::availableWritePlugins() const
 {
     QVector<Plugin*> availableWritePlugins;
-    foreach (Plugin *plugin, availablePlugins()) {
+    const auto plugins = availablePlugins();
+    for (Plugin *plugin : plugins) {
         if (plugin->isReadWrite()) {
             availableWritePlugins << plugin;
         }
@@ -81,7 +82,7 @@ QVector<Plugin*> PluginManager::availableWritePlugins() const
 QVector<Plugin*> PluginManager::enabledPlugins() const
 {
     QVector<Plugin*> enabledPlugins;
-    foreach (Plugin *plugin, m_plugins) {
+    for (Plugin *plugin : qAsConst(m_plugins)) {
         if (plugin->isEnabled()) {
             enabledPlugins << plugin;
         }
@@ -123,8 +124,10 @@ QStringList PluginManager::supportedMimeTypes(MimeSortingMode mode) const
 {
     QSet<QString> supported;
     QMimeDatabase db;
-    foreach (Plugin *plugin, availablePlugins()) {
-        foreach (const auto& mimeType, plugin->metaData().mimeTypes()) {
+    const auto plugins = availablePlugins();
+    for (Plugin *plugin : plugins) {
+        const auto mimeTypes = plugin->metaData().mimeTypes();
+        for (const auto& mimeType : mimeTypes) {
             if (db.mimeTypeForName(mimeType).isValid()) {
                 supported.insert(mimeType);
             }
@@ -157,8 +160,10 @@ QStringList PluginManager::supportedWriteMimeTypes(MimeSortingMode mode) const
 {
     QSet<QString> supported;
     QMimeDatabase db;
-    foreach (Plugin *plugin, availableWritePlugins()) {
-        foreach (const auto& mimeType, plugin->metaData().mimeTypes()) {
+    const auto plugins = availableWritePlugins();
+    for (Plugin *plugin : plugins) {
+        const auto mimeTypes = plugin->metaData().mimeTypes();
+        for (const auto& mimeType : mimeTypes) {
             if (db.mimeTypeForName(mimeType).isValid()) {
                 supported.insert(mimeType);
             }
@@ -191,10 +196,11 @@ QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const 
 {
     const bool supportedMime = supportedMimeTypes().contains(mimeType.name());
     QVector<Plugin*> filteredPlugins;
-    foreach (Plugin *plugin, plugins) {
+    for (Plugin *plugin : plugins) {
         if (!supportedMime) {
             // Check whether the mimetype inherits from a supported mimetype.
-            foreach (const QString &mime, plugin->metaData().mimeTypes()) {
+            const QStringList mimeTypes = plugin->metaData().mimeTypes();
+            for (const QString &mime : mimeTypes) {
                 if (mimeType.inherits(mime)) {
                     filteredPlugins << plugin;
                 }
@@ -211,7 +217,7 @@ void PluginManager::loadPlugins()
 {
     const QVector<KPluginMetaData> plugins = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"));
     QSet<QString> addedPlugins;
-    foreach (const KPluginMetaData &metaData, plugins) {
+    for (const KPluginMetaData &metaData : plugins) {
         const auto pluginId = metaData.pluginId();
         // Filter out duplicate plugins.
         if (addedPlugins.contains(pluginId)) {
@@ -241,14 +247,14 @@ QStringList PluginManager::sortByComment(const QSet<QString> &mimeTypes)
     QMap<QString,QString> map;
 
     // Initialize the QMap to sort by comment.
-    foreach (const QString &mimeType, mimeTypes) {
+    for (const QString &mimeType : mimeTypes) {
         QMimeType mime(QMimeDatabase().mimeTypeForName(mimeType));
         map[mime.comment().toLower()] = mime.name();
     }
 
     // Convert to sorted QStringList.
     QStringList sortedMimeTypes;
-    foreach (const QString &value, map) {
+    for (const QString &value : qAsConst(map)) {
         sortedMimeTypes << value;
     }
 
@@ -259,7 +265,8 @@ bool PluginManager::libarchiveHasLzo()
 {
     // Step 1: look for the libarchive plugin, which is built against libarchive.
     const QString pluginPath = []() {
-        foreach (const QString &path, QCoreApplication::libraryPaths()) {
+        const QStringList paths = QCoreApplication::libraryPaths();
+        for (const QString &path : paths) {
             const QString pluginPath = QStringLiteral("%1/kerfuffle/kerfuffle_libarchive.so").arg(path);
             if (QFileInfo::exists(pluginPath)) {
                 return pluginPath;

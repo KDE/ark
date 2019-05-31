@@ -240,7 +240,7 @@ void CliPlugin::readJsonOutput()
     }
     const QJsonArray entries = json.value(QStringLiteral("lsarContents")).toArray();
 
-    foreach (const QJsonValue& value, entries) {
+    for (const QJsonValue& value : entries) {
         const QJsonObject currentEntryJson = value.toObject();
 
         Archive::Entry *currentEntry = new Archive::Entry(this);

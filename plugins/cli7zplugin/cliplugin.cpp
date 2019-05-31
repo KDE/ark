@@ -319,7 +319,7 @@ bool CliPlugin::readDeleteLine(const QString &line)
 
 void CliPlugin::handleMethods(const QStringList &methods)
 {
-    foreach (const QString &method, methods) {
+    for (const QString &method : methods) {
 
         QRegularExpression rxEncMethod(QStringLiteral("^(7zAES|AES-128|AES-192|AES-256|ZipCrypto)$"));
         if (rxEncMethod.match(method).hasMatch()) {

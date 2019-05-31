@@ -246,7 +246,8 @@ void MainWindow::setShowExtractDialog(bool option)
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     // Preview windows don't have a parent, so we need to manually close them.
-    foreach (QWidget *widget, qApp->topLevelWidgets()) {
+    const auto topLevelWidgets = qApp->topLevelWidgets();
+    for (QWidget *widget : topLevelWidgets) {
         if (widget->isVisible()) {
             widget->close();
         }
@@ -271,7 +272,8 @@ void MainWindow::showSettings()
 
     auto dialog = new Kerfuffle::SettingsDialog(this, QStringLiteral("settings"), iface->config());
 
-    foreach (Kerfuffle::SettingsPage *page, iface->settingsPages(this)) {
+    const auto pages = iface->settingsPages(this);
+    for (Kerfuffle::SettingsPage *page : pages) {
         dialog->addPage(page, page->name(), page->iconName());
         connect(dialog, &KConfigDialog::settingsChanged, page, &Kerfuffle::SettingsPage::slotSettingsChanged);
         connect(dialog, &Kerfuffle::SettingsDialog::defaultsButtonClicked, page, &Kerfuffle::SettingsPage::slotDefaultsButtonClicked);

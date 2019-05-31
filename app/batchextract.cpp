@@ -112,7 +112,7 @@ void BatchExtract::slotStartJob()
         return;
     }
 
-    foreach (const auto& url, m_inputs) {
+    for (const auto& url : qAsConst(m_inputs)) {
         addExtraction(url);
     }
 

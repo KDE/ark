@@ -48,7 +48,8 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
     bool readOnlyParentDir = false;
     QList<QUrl> supportedUrls;
     // Filter URLs by supported mimetypes.
-    foreach (const QUrl &url, fileItemInfos.urlList()) {
+    const auto urlList = fileItemInfos.urlList();
+    for (const QUrl &url : urlList) {
         const QMimeType mimeType = determineMimeType(url.path());
         if (m_pluginManager->preferredPluginsFor(mimeType).isEmpty()) {
             continue;

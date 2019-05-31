@@ -69,7 +69,7 @@ QStringList Plugin::readOnlyExecutables() const
     QStringList readOnlyExecutables;
 
     const QJsonArray array = m_metaData.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadOnlyExecutables")].toArray();
-    foreach (const QJsonValue &value, array) {
+    for (const QJsonValue &value : array) {
         readOnlyExecutables << value.toString();
     }
 
@@ -81,7 +81,7 @@ QStringList Plugin::readWriteExecutables() const
     QStringList readWriteExecutables;
 
     const QJsonArray array = m_metaData.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWriteExecutables")].toArray();
-    foreach (const QJsonValue &value, array) {
+    for (const QJsonValue &value : array) {
         readWriteExecutables << value.toString();
     }
 
@@ -105,7 +105,7 @@ bool Plugin::isValid() const
 
 bool Plugin::findExecutables(const QStringList &executables)
 {
-    foreach (const QString &executable, executables) {
+    for (const QString &executable : executables) {
         if (executable.isEmpty()) {
             continue;
         }

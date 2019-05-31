@@ -56,12 +56,13 @@ void DeleteTest::testDelete_data()
     QTest::addColumn<uint>("expectedRemainingEntriesCount");
 
     // Repeat the same test case for each format and for each plugin supporting the format.
-    foreach (const QString &format, TestHelper::testFormats()) {
+    const QStringList formats = TestHelper::testFormats();
+    for (const QString &format : formats) {
         const QString filename = QStringLiteral("test.%1").arg(format);
         const auto mime = QMimeDatabase().mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
 
         const auto plugins = m_pluginManager.preferredWritePluginsFor(mime);
-        foreach (const auto plugin, plugins) {
+        for (const auto plugin : plugins) {
             QTest::newRow(qPrintable(QStringLiteral("delete a single file (%1, %2)").arg(format, plugin->metaData().pluginId())))
                 << filename
                 << plugin

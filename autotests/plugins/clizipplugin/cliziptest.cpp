@@ -35,7 +35,8 @@ using namespace Kerfuffle;
 void CliZipTest::initTestCase()
 {
     m_plugin = new Plugin(this);
-    foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
+    const auto plugins = m_pluginManger.availablePlugins();
+    for (Plugin *plugin : plugins) {
         if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_clizip")) {
             m_plugin = plugin;
             return;
@@ -230,7 +231,7 @@ void CliZipTest::testExtractArgs()
 
     QFETCH(QVector<Archive::Entry*>, files);
     QStringList filesList;
-    foreach (const Archive::Entry *e, files) {
+    for (const Archive::Entry *e : qAsConst(files)) {
         filesList << e->fullPath(NoTrailingSlash);
     }
 

@@ -47,7 +47,7 @@ QStringList CliProperties::addArgs(const QString &archive, const QStringList &fi
     }
 
     QStringList args;
-    foreach (const QString &s, m_addSwitch) {
+    for (const QString &s : qAsConst(m_addSwitch)) {
         args << s;
     }
     if (!password.isEmpty()) {
@@ -75,7 +75,8 @@ QStringList CliProperties::addArgs(const QString &archive, const QStringList &fi
 QStringList CliProperties::commentArgs(const QString &archive, const QString &commentfile)
 {
     QStringList args;
-    foreach (const QString &s, substituteCommentSwitch(commentfile)) {
+    const QStringList commentSwitches = substituteCommentSwitch(commentfile);
+    for (const QString &s : commentSwitches) {
         args << s;
     }
     args << archive;
@@ -92,7 +93,7 @@ QStringList CliProperties::deleteArgs(const QString &archive, const QVector<Arch
         args << substitutePasswordSwitch(password);
     }
     args << archive;
-    foreach (const Archive::Entry *e, files) {
+    for (const Archive::Entry *e : files) {
         args << e->fullPath(NoTrailingSlash);
     }
 
@@ -123,7 +124,7 @@ QStringList CliProperties::extractArgs(const QString &archive, const QStringList
 QStringList CliProperties::listArgs(const QString &archive, const QString &password)
 {
     QStringList args;
-    foreach (const QString &s, m_listSwitch) {
+    for (const QString &s : qAsConst(m_listSwitch)) {
         args << s;
     }
 
@@ -146,7 +147,7 @@ QStringList CliProperties::moveArgs(const QString &archive, const QVector<Archiv
     }
     args << archive;
     if (entries.count() > 1) {
-        foreach (const Archive::Entry *file, entries) {
+        for (const Archive::Entry *file : entries) {
             args << file->fullPath(NoTrailingSlash) << destination->fullPath() + file->name();
         }
     } else {
@@ -160,7 +161,7 @@ QStringList CliProperties::moveArgs(const QString &archive, const QVector<Archiv
 QStringList CliProperties::testArgs(const QString &archive, const QString &password)
 {
     QStringList args;
-    foreach (const QString &s, m_testSwitch) {
+    for (const QString &s : qAsConst(m_testSwitch)) {
         args << s;
     }
     if (!password.isEmpty()) {
@@ -292,7 +293,7 @@ QString CliProperties::substituteMultiVolumeSwitch(ulong volumeSize) const
 
 bool CliProperties::isTestPassedMsg(const QString &line)
 {
-    foreach(const QString &rx, m_testPassedPatterns) {
+    for (const QString &rx : qAsConst(m_testPassedPatterns)) {
         if (QRegularExpression(rx).match(line).hasMatch()) {
             return true;
         }

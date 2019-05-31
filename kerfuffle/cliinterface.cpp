@@ -167,7 +167,7 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
         qDir.mkpath(absoluteDestinationPath);
 
         QObject *preservedParent = nullptr;
-        foreach (Archive::Entry *file, files) {
+        for (Archive::Entry *file : files) {
             // The entries may have parent. We have to save and apply it to our new entry in order to prevent memory
             // leaks.
             if (preservedParent == nullptr) {
@@ -325,11 +325,11 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     }
 
     if (m_operationMode == Delete || m_operationMode == Move) {
-        QStringList removedFullPaths = entryFullPaths(m_removedFiles);
-        foreach (const QString &fullPath, removedFullPaths) {
+        const QStringList removedFullPaths = entryFullPaths(m_removedFiles);
+        for (const QString &fullPath : removedFullPaths) {
             emit entryRemoved(fullPath);
         }
-        foreach (Archive::Entry *e, m_newMovedFiles) {
+        for (Archive::Entry *e : qAsConst(m_newMovedFiles)) {
             emit entry(e);
         }
         m_newMovedFiles.clear();
@@ -455,7 +455,7 @@ bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry*> &files,
     bool overwriteAll = false;
     bool skipAll = false;
 
-    foreach (const Archive::Entry *file, files) {
+    for (const Archive::Entry *file : files) {
 
         QFileInfo relEntry(file->fullPath().remove(file->rootNode));
         QFileInfo absSourceEntry(QDir::current().absolutePath() + QLatin1Char('/') + file->fullPath());
@@ -647,7 +647,7 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
 {
     m_newMovedFiles.clear();
     QMap<QString, const Archive::Entry*> entryMap;
-    foreach (const Archive::Entry* entry, entries) {
+    for (const Archive::Entry* entry : entries) {
         entryMap.insert(entry->fullPath(), entry);
     }
 
@@ -655,7 +655,7 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
 
     QString newPath;
     int nameLength = 0;
-    foreach (const Archive::Entry* entry, entryMap) {
+    for (const Archive::Entry* entry : qAsConst(entryMap)) {
         if (lastFolder.count() > 0 && entry->fullPath().startsWith(lastFolder)) {
             // Replace last moved or copied folder path with destination path.
             int charsCount = entry->fullPath().count() - lastFolder.count();
@@ -690,7 +690,7 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
 QStringList CliInterface::extractFilesList(const QVector<Archive::Entry*> &entries) const
 {
     QStringList filesList;
-    foreach (const Archive::Entry *e, entries) {
+    for (const Archive::Entry *e : entries) {
         filesList << escapeFileName(e->fullPath(NoTrailingSlash));
     }
 
@@ -812,7 +812,7 @@ void CliInterface::readStdout(bool handleAll)
         m_stdOutData = lines.takeLast();
     }
 
-    foreach(const QByteArray& line, lines) {
+    for (const QByteArray& line : qAsConst(lines)) {
         if (!line.isEmpty() || (m_listEmptyLines && m_operationMode == List)) {
             if (!handleLine(QString::fromLocal8Bit(line))) {
                 killProcess();
@@ -825,7 +825,7 @@ void CliInterface::readStdout(bool handleAll)
 bool CliInterface::setAddedFiles()
 {
     QDir::setCurrent(m_tempAddDir->path());
-    foreach (const Archive::Entry *file, m_passedFiles) {
+    for (const Archive::Entry *file : qAsConst(m_passedFiles)) {
         const QString oldPath = m_tempWorkingDir->path() + QLatin1Char('/') + file->fullPath(NoTrailingSlash);
         const QString newPath = m_tempAddDir->path() + QLatin1Char('/') + file->name();
         if (!QFile::rename(oldPath, newPath)) {
@@ -961,7 +961,8 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 {
     // Check for a filename and store it.
     if (isFileExistsFileName(line)) {
-        foreach (const QString &pattern, m_cliProps->property("fileExistsFileNameRegExp").toStringList()) {
+        const QStringList fileExistsFileNameRegExp = m_cliProps->property("fileExistsFileNameRegExp").toStringList();
+        for (const QString &pattern : fileExistsFileNameRegExp) {
             const QRegularExpression rxFileNamePattern(pattern);
             const QRegularExpressionMatch rxMatch = rxFileNamePattern.match(line);
 
@@ -1027,7 +1028,7 @@ QStringList CliInterface::entryPathDestinationPairs(const QVector<Archive::Entry
 {
     QStringList pairList;
     if (entriesWithoutChildren.count() > 1) {
-        foreach (const Archive::Entry *file, entriesWithoutChildren) {
+        for (const Archive::Entry *file : entriesWithoutChildren) {
             pairList << file->fullPath(NoTrailingSlash) << destination->fullPath() + file->name();
         }
     } else {
@@ -1078,7 +1079,8 @@ QString CliInterface::multiVolumeName() const
     QString oldSuffix = QMimeDatabase().suffixForFileName(filename());
     QString name;
 
-    foreach (const QString &multiSuffix, m_cliProps->property("multiVolumeSuffix").toStringList()) {
+    const QStringList multiVolumeSuffix = m_cliProps->property("multiVolumeSuffix").toStringList();
+    for (const QString &multiSuffix : multiVolumeSuffix) {
         QString newSuffix = multiSuffix;
         newSuffix.replace(QStringLiteral("$Suffix"), oldSuffix);
         name = filename().remove(oldSuffix).append(newSuffix);

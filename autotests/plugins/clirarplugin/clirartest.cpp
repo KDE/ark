@@ -44,7 +44,8 @@ using namespace Kerfuffle;
 void CliRarTest::initTestCase()
 {
     m_plugin = new Plugin(this);
-    foreach (Plugin *plugin, m_pluginManger.availablePlugins()) {
+    const auto plugins = m_pluginManger.availablePlugins();
+    for (Plugin *plugin : plugins) {
         if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_clirar")) {
             m_plugin = plugin;
             return;
@@ -506,7 +507,7 @@ void CliRarTest::testExtractArgs()
 
     QFETCH(QVector<Archive::Entry*>, files);
     QStringList filesList;
-    foreach (const Archive::Entry *e, files) {
+    for (const Archive::Entry *e : qAsConst(files)) {
         filesList << e->fullPath(NoTrailingSlash);
     }
 

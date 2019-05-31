@@ -143,7 +143,7 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
         iconLabel->setPixmap(getDesktopIconForName(QStringLiteral("utilities-file-archiver")));
         fileName->setText(i18np("One file selected", "%1 files selected", list.size()));
         quint64 totalSize = 0;
-        foreach(const QModelIndex& index, list) {
+        for (const QModelIndex& index : list) {
             const Archive::Entry *entry = m_model->entryForIndex(index);
             totalSize += entry->property("size").toULongLong();
         }

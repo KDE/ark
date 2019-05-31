@@ -182,7 +182,7 @@ void AddToArchive::slotStartJob()
 
         const QDir stripDir(m_firstPath);
 
-        foreach (Archive::Entry *entry, m_entries) {
+        for (Archive::Entry *entry : qAsConst(m_entries)) {
             entry->setFullPath(stripDir.absoluteFilePath(entry->fullPath()));
         }
 

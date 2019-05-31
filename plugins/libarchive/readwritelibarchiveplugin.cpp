@@ -75,7 +75,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
                                     ? QString()
                                     : destination->fullPath();
 
-    foreach(Archive::Entry *selectedFile, files) {
+    for (Archive::Entry *selectedFile : files) {
         if (QThread::currentThread()->isInterruptionRequested()) {
             break;
         }

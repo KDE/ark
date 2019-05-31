@@ -267,12 +267,12 @@ void CopyTest::testCopying()
     QStringList oldPaths = getEntryPaths(archive);
 
     // Check that the entries to be copied are in the archive.
-    foreach (const auto entry, targetEntries) {
+    for (const auto entry : qAsConst(targetEntries)) {
         QVERIFY(oldPaths.contains(entry->fullPath()));
     }
 
     // Check that the expected paths (after the CopyJob) are not in the archive.
-    foreach (const auto &expectedPath, expectedNewPaths) {
+    for (const auto &expectedPath : qAsConst(expectedNewPaths)) {
         QVERIFY(!oldPaths.contains(expectedPath));
     }
 
@@ -285,12 +285,12 @@ void CopyTest::testCopying()
     QStringList newPaths = getEntryPaths(archive);
 
     // Check that the expected paths are now in the archive.
-    foreach (const auto &path, expectedNewPaths) {
+    for (const auto &path : qAsConst(expectedNewPaths)) {
         QVERIFY(newPaths.contains(path));
     }
 
     // Check also that the target paths are still in the archive.
-    foreach (const auto entry, targetEntries) {
+    for (const auto entry : qAsConst(targetEntries)) {
         QVERIFY(newPaths.contains(entry->fullPath()));
     }
 

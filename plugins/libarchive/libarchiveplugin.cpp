@@ -53,7 +53,7 @@ LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList &args)
 
 LibarchivePlugin::~LibarchivePlugin()
 {
-    foreach (const auto e, m_emittedEntries) {
+    for (const auto e : qAsConst(m_emittedEntries)) {
         // Entries might be passed to pending slots, so we just schedule their deletion.
         e->deleteLater();
     }

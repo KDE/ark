@@ -38,7 +38,7 @@ JobTracker::JobTracker(QWidget *parent)
 
 JobTracker::~JobTracker()
 {
-    foreach(KJob *job, m_jobs) {
+    for (KJob *job : qAsConst(m_jobs)) {
         job->kill();
     }
 }

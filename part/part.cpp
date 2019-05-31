@@ -724,7 +724,8 @@ void Part::selectionChanged()
 QModelIndexList Part::getSelectedIndexes()
 {
     QModelIndexList list;
-    foreach (const QModelIndex &i, m_view->selectionModel()->selectedRows()) {
+    const auto selectedRows = m_view->selectionModel()->selectedRows();
+    for (const QModelIndex &i : selectedRows) {
         list.append(m_filterModel->mapToSource(i));
     }
     return list;
@@ -1058,7 +1059,7 @@ void Part::slotWatchedFileModified(const QString& file)
 
     // Find the relative path of the file within the archive.
     QString relPath = file;
-    foreach (QTemporaryDir *tmpDir, m_tmpExtractDirList) {
+    for (QTemporaryDir *tmpDir : qAsConst(m_tmpExtractDirList)) {
         relPath.remove(tmpDir->path()); //Remove tmpDir.
     }
     relPath = relPath.mid(1); //Remove leading slash.
@@ -1196,7 +1197,7 @@ QVector<Archive::Entry*> Part::filesForIndexes(const QModelIndexList& list) cons
 {
     QVector<Archive::Entry*> ret;
 
-    foreach(const QModelIndex& index, list) {
+    for (const QModelIndex& index : list) {
         ret << m_model->entryForIndex(index);
     }
 
@@ -1208,7 +1209,7 @@ QVector<Kerfuffle::Archive::Entry*> Part::filesAndRootNodesForIndexes(const QMod
     QVector<Kerfuffle::Archive::Entry*> fileList;
     QStringList fullPathsList;
 
-    foreach (const QModelIndex& index, list) {
+    for (const QModelIndex& index : list) {
 
         // Find the topmost unselected parent. This is done by iterating up
         // through the directory hierarchy and see if each parent is included
@@ -1229,7 +1230,8 @@ QVector<Kerfuffle::Archive::Entry*> Part::filesAndRootNodesForIndexes(const QMod
 
         // Append index with root node to fileList.
         QModelIndexList alist = QModelIndexList() << index;
-        foreach (Archive::Entry *entry, filesForIndexes(alist)) {
+        const auto filesIndexes = filesForIndexes(alist);
+        for (Archive::Entry *entry : filesIndexes) {
             const QString fullPath = entry->fullPath();
             if (!fullPathsList.contains(fullPath)) {
                 entry->rootNode = rootFileName;
@@ -1270,7 +1272,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
     }
 
     QStringList withChildPaths;
-    foreach (const QString& file, filesToAdd) {
+    for (const QString& file : filesToAdd) {
         m_jobTempEntries.push_back(new Archive::Entry(nullptr, file));
         if (QFileInfo(file).isDir()) {
             withChildPaths << file + QLatin1Char('/');
@@ -1401,11 +1403,11 @@ void Part::slotCutFiles()
     m_model->filesToMove = ArchiveModel::entryMap(filesForIndexes(selectedRows));
     qCDebug(ARK) << "Entries marked to cut:" << m_model->filesToMove.values();
     m_model->filesToCopy.clear();
-    foreach (const QModelIndex &row, m_cutIndexes) {
+    for (const QModelIndex &row : qAsConst(m_cutIndexes)) {
         m_view->dataChanged(row, row);
     }
     m_cutIndexes = selectedRows;
-    foreach (const QModelIndex &row, m_cutIndexes) {
+    for (const QModelIndex &row : qAsConst(m_cutIndexes)) {
         m_view->dataChanged(row, row);
     }
     updateActions();
@@ -1415,7 +1417,7 @@ void Part::slotCopyFiles()
 {
     m_model->filesToCopy = ArchiveModel::entryMap(filesForIndexes(addChildren(getSelectedIndexes())));
     qCDebug(ARK) << "Entries marked to copy:" << m_model->filesToCopy.values();
-    foreach (const QModelIndex &row, m_cutIndexes) {
+    for (const QModelIndex &row : qAsConst(m_cutIndexes)) {
         m_view->dataChanged(row, row);
     }
     m_cutIndexes.clear();
@@ -1467,7 +1469,7 @@ void Part::slotPasteFiles()
             m_destination->setFullPath(m_destination->fullPath() + entryName);
         }
 
-        foreach (const Archive::Entry *entry, entriesWithoutChildren) {
+        for (const Archive::Entry *entry : qAsConst(entriesWithoutChildren)) {
             if (entry->isDir() && m_destination->fullPath().startsWith(entry->fullPath())) {
                 KMessageBox::error(widget(),
                                    i18n("Folders can't be moved into themselves."),

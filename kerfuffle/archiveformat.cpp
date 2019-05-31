@@ -65,7 +65,8 @@ ArchiveFormat::ArchiveFormat(const QMimeType& mimeType,
 ArchiveFormat ArchiveFormat::fromMetadata(const QMimeType& mimeType, const KPluginMetaData& metadata)
 {
     const QJsonObject json = metadata.rawData();
-    foreach (const QString& mime, metadata.mimeTypes()) {
+    const QStringList mimeTypes = metadata.mimeTypes();
+    for (const QString& mime : mimeTypes) {
         if (mimeType.name() != mime) {
             continue;
         }
@@ -86,8 +87,8 @@ ArchiveFormat ArchiveFormat::fromMetadata(const QMimeType& mimeType, const KPlug
         // We use a QStringList instead of QVariantMap for encryption methods, to
         // allow arbitrary ordering of the items.
         QStringList encryptionMethods;
-        QJsonArray array = formatProps[QStringLiteral("EncryptionMethods")].toArray();
-        foreach (const QJsonValue &value, array) {
+        const QJsonArray array = formatProps[QStringLiteral("EncryptionMethods")].toArray();
+        for (const QJsonValue &value : array) {
             encryptionMethods.append(value.toString());
         }
         QString defaultEncMethod = formatProps[QStringLiteral("EncryptionMethodDefault")].toString();

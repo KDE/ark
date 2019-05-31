@@ -48,12 +48,13 @@ QStringList AbstractAddTest::getEntryPaths(Archive *archive)
 void AbstractAddTest::setupRows(const QString &testName, const QString &archiveName, const QVector<Archive::Entry *> &targetEntries, Archive::Entry *destination, const QStringList &expectedNewPaths, uint numberOfEntries) const
 {
     // Repeat the same test case for each format and for each plugin supporting the format.
-    foreach (const QString &format, TestHelper::testFormats()) {
+    const QStringList formats = TestHelper::testFormats();
+    for (const QString &format : formats) {
         const QString filename = QStringLiteral("%1.%2").arg(archiveName, format);
         const auto mime = QMimeDatabase().mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
 
         const auto plugins = m_pluginManager.preferredWritePluginsFor(mime);
-        foreach (const auto plugin, plugins) {
+        for (const auto plugin : plugins) {
             QTest::newRow(QStringLiteral("%1 (%2, %3)").arg(testName, format, plugin->metaData().pluginId()).toUtf8().constData())
                 << filename
                 << plugin

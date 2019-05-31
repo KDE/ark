@@ -307,7 +307,8 @@ bool ArchiveModel::dropMimeData(const QMimeData *data, Qt::DropAction action, in
     }
 
     QStringList paths;
-    foreach(const QUrl &url, data->urls()) {
+    const auto urls = data->urls();
+    for (const QUrl &url : urls) {
         paths << url.toLocalFile();
     }
 
@@ -380,7 +381,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehav
 
     Archive::Entry *parent = m_rootEntry.data();
 
-    foreach(const QString &piece, pieces) {
+    for (const QString &piece : qAsConst(pieces)) {
         Archive::Entry *entry = parent->find(piece);
         if (!entry) {
             // Directory entry will be traversed later (that happens for some archive formats, 7z for instance).
@@ -742,7 +743,7 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
     const Archive::Entry *lastDirEntry = destination;
     QString skippedDirPath;
 
-    foreach (const QString &entry, entries) {
+    for (const QString &entry : entries) {
         if (skippedDirPath.count() > 0 && entry.startsWith(skippedDirPath)) {
             continue;
         } else {
@@ -786,7 +787,7 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
 bool ArchiveModel::hasDuplicatedEntries(const QStringList &entries)
 {
     QStringList tempList;
-    foreach (const QString &entry, entries) {
+    for (const QString &entry : entries) {
         if (tempList.contains(entry)) {
             return true;
         }
@@ -798,7 +799,7 @@ bool ArchiveModel::hasDuplicatedEntries(const QStringList &entries)
 QMap<QString, Archive::Entry*> ArchiveModel::entryMap(const QVector<Archive::Entry*> &entries)
 {
     QMap<QString, Archive::Entry*> map;
-    foreach (Archive::Entry *entry, entries) {
+    for (Archive::Entry *entry : entries) {
         map.insert(entry->fullPath(), entry);
     }
     return map;
@@ -835,7 +836,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         }
     }
 
-    foreach(const QPersistentModelIndex& node, nodesToDelete) {
+    for (const QPersistentModelIndex& node : qAsConst(nodesToDelete)) {
         Archive::Entry *rawEntry = static_cast<Archive::Entry*>(node.internalPointer());
         qCDebug(ARK) << "Delete with parent entries " << rawEntry->getParent()->entries() << " and row " << rawEntry->row();
         beginRemoveRows(parent(node), rawEntry->row(), rawEntry->row());
@@ -868,7 +869,8 @@ void ArchiveModel::countEntriesAndSize()
 
 void ArchiveModel::traverseAndCountDirNode(Archive::Entry *dir)
 {
-    foreach(Archive::Entry *entry, dir->entries()) {
+    const auto entries = dir->entries();
+    for (Archive::Entry *entry : entries) {
         if (entry->isDir()) {
             traverseAndCountDirNode(entry);
             m_numberOfFolders++;

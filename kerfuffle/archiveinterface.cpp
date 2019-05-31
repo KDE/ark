@@ -169,7 +169,7 @@ void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
 QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entry*> &entries, PathFormat format)
 {
     QStringList filesList;
-    foreach (const Archive::Entry *file, entries) {
+    for (const Archive::Entry *file : entries) {
         filesList << file->fullPath(format);
     }
     return filesList;
@@ -179,13 +179,13 @@ QVector<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const 
 {
     // QMap is easy way to get entries sorted by their fullPath.
     QMap<QString, Archive::Entry*> sortedEntries;
-    foreach (Archive::Entry *entry, entries) {
+    for (Archive::Entry *entry : entries) {
         sortedEntries.insert(entry->fullPath(), entry);
     }
 
     QVector<Archive::Entry*> filteredEntries;
     QString lastFolder;
-    foreach (Archive::Entry *entry, sortedEntries) {
+    for (Archive::Entry *entry : qAsConst(sortedEntries)) {
         if (lastFolder.count() > 0 && entry->fullPath().startsWith(lastFolder)) {
             continue;
         }
@@ -206,7 +206,7 @@ QStringList ReadOnlyArchiveInterface::entryPathsFromDestination(QStringList entr
 
     QString newPath;
     int nameLength = 0;
-    foreach (const QString &entryPath, entries) {
+    for (const QString &entryPath : qAsConst(entries)) {
         if (lastFolder.count() > 0 && entryPath.startsWith(lastFolder)) {
             // Replace last moved or copied folder path with destination path.
             int charsCount = entryPath.count() - lastFolder.count();

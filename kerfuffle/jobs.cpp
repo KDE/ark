@@ -645,7 +645,7 @@ void AddJob::doWork()
     uint totalCount = 0;
     QElapsedTimer timer;
     timer.start();
-    foreach (const Archive::Entry* entry, m_entries) {
+    for (const Archive::Entry* entry : qAsConst(m_entries)) {
         totalCount++;
         if (QFileInfo(entry->fullPath()).isDir()) {
             QDirIterator it(entry->fullPath(), QDir::AllEntries | QDir::Readable | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
@@ -667,7 +667,7 @@ void AddJob::doWork()
     Q_ASSERT(m_writeInterface);
 
     // The file paths must be relative to GlobalWorkDir.
-    foreach (Archive::Entry *entry, m_entries) {
+    for (Archive::Entry *entry : qAsConst(m_entries)) {
         // #191821: workDir must be used instead of QDir::current()
         //          so that symlinks aren't resolved automatically
         const QString &fullPath = entry->fullPath();

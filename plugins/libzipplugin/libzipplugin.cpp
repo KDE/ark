@@ -61,7 +61,7 @@ LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList & args)
 
 LibzipPlugin::~LibzipPlugin()
 {
-    foreach (const auto e, m_emittedEntries) {
+    for (const auto e : qAsConst(m_emittedEntries)) {
         // Entries might be passed to pending slots, so we just schedule their deletion.
         e->deleteLater();
     }
@@ -130,7 +130,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
     }
 
     uint i = 0;
-    foreach (const Archive::Entry* e, files) {
+    for (const Archive::Entry* e : files) {
 
         if (QThread::currentThread()->isInterruptionRequested()) {
             break;
@@ -395,7 +395,7 @@ bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
     }
 
     qulonglong i = 0;
-    foreach (const Archive::Entry* e, files) {
+    for (const Archive::Entry* e : files) {
 
         if (QThread::currentThread()->isInterruptionRequested()) {
             break;
@@ -572,7 +572,7 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     } else {
         // We extract only the entries in files.
         qulonglong i = 0;
-        foreach (const Archive::Entry* e, files) {
+        for (const Archive::Entry* e : files) {
             if (QThread::currentThread()->isInterruptionRequested()) {
                 break;
             }
