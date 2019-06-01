@@ -172,8 +172,10 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
         return false;
     }
 
+    switch (m_parseState) {
+
     // Parses the comment field.
-    if (m_parseState == ParseStateComment) {
+    case ParseStateComment:
 
         // "Archive: " is printed after the comment.
         // FIXME: Comment itself could also contain the searched string.
@@ -190,12 +192,11 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
             m_comment.append(line + QLatin1Char('\n'));
         }
 
-        return true;
-    }
+        break;
 
     // Parses the header, which is whatever is between the comment field
     // and the entries.
-    else if (m_parseState == ParseStateHeader) {
+    case ParseStateHeader:
 
         // "Details: " indicates end of header.
         if (line.startsWith(QLatin1String("Details: "))) {
@@ -221,11 +222,10 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
                 m_isLocked = true;
             }
         }
-        return true;
-    }
+        break;
 
     // Parses the entry details for each entry.
-    else if (m_parseState == ParseStateEntryDetails) {
+    case ParseStateEntryDetails:
 
         // For multi-volume archives there is a header between the entries in
         // each volume.
@@ -251,7 +251,10 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
                                    line.section(QLatin1Char(':'), 1).trimmed());
         }
 
-        return true;
+        break;
+
+    default:
+        break;
     }
     return true;
 }
@@ -311,12 +314,20 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
         return false;
     }
 
-    // Parses the comment field.
-    if (m_parseState == ParseStateComment) {
+    // RegExp matching end of comment field.
+    // FIXME: Comment itself could also contain the Archive path string here.
+    QRegularExpression rxCommentEnd(QStringLiteral("^(Solid archive|Archive|Volume) .+$"));
 
-        // RegExp matching end of comment field.
-        // FIXME: Comment itself could also contain the Archive path string here.
-        QRegularExpression rxCommentEnd(QStringLiteral("^(Solid archive|Archive|Volume) .+$"));
+    // Three types of subHeaders can be displayed for unrar 3 and 4.
+    // STM has 4 lines, RR has 3, and CMT has lines corresponding to
+    // length of comment field +3. We ignore the subheaders.
+    QRegularExpression rxSubHeader(QStringLiteral("^Data header type: (CMT|STM|RR)$"));
+    QRegularExpressionMatch matchSubHeader;
+
+    switch (m_parseState) {
+
+    // Parses the comment field.
+    case ParseStateComment:
 
         // unrar 4 outputs the following string when opening v5 RAR archives.
         if (line == QLatin1String("Unsupported archive format. Please update RAR to a newer version.")) {
@@ -361,12 +372,11 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
             m_comment.append(line + QLatin1Char('\n'));
         }
 
-        return true;
-    }
+        break;
 
     // Parses the header, which is whatever is between the comment field
     // and the entries.
-    else if (m_parseState == ParseStateHeader) {
+    case ParseStateHeader:
 
         // Horizontal line indicates end of header.
         if (line.startsWith(QLatin1String("--------------------"))) {
@@ -376,22 +386,18 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
         } else if (line == QLatin1String("Lock is present")) {
             m_isLocked = true;
         }
-        return true;
-    }
+        break;
 
     // Parses the entry name, which is on the first line of each entry.
-    else if (m_parseState == ParseStateEntryFileName) {
+    case ParseStateEntryFileName:
 
         // Ignore empty lines.
         if (line.trimmed().isEmpty()) {
             return true;
         }
 
-        // Three types of subHeaders can be displayed for unrar 3 and 4.
-        // STM has 4 lines, RR has 3, and CMT has lines corresponding to
-        // length of comment field +3. We ignore the subheaders.
-        QRegularExpression rxSubHeader(QStringLiteral("^Data header type: (CMT|STM|RR)$"));
-        QRegularExpressionMatch matchSubHeader = rxSubHeader.match(line);
+        matchSubHeader = rxSubHeader.match(line);
+
         if (matchSubHeader.hasMatch()) {
             qCDebug(ARK) << "SubHeader of type" << matchSubHeader.captured(1) << "found";
             if (matchSubHeader.captured(1) == QLatin1String("STM")) {
@@ -430,11 +436,10 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
 
         m_parseState = ParseStateEntryDetails;
 
-        return true;
-    }
+        break;
 
     // Parses the remainder of the entry details for each entry.
-    else if (m_parseState == ParseStateEntryDetails) {
+    case ParseStateEntryDetails:
 
         // If the line following an entry name is empty, we did something
         // wrong.
@@ -476,18 +481,21 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
         // line.
         ignoreLines(1, ParseStateEntryFileName);
 
-        return true;
-    }
+        break;
 
     // Parses a symlink target.
-    else if (m_parseState == ParseStateLinkTarget) {
+    case ParseStateLinkTarget:
 
         m_unrar4Details.append(QString(line).remove(QStringLiteral("-->")).trimmed());
         handleUnrar4Entry();
 
         m_parseState = ParseStateEntryFileName;
-        return true;
+        break;
+
+    default:
+        break;
     }
+
     return true;
 }
 
