@@ -477,7 +477,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(uint &entriesCounter, Operatio
         emit progress(float(newEntries + entriesCounter + iteratedEntries)/float(totalCount));
     }
 
-    return true;
+    return !QThread::currentThread()->isInterruptionRequested();
 }
 
 bool ReadWriteLibarchivePlugin::writeEntry(struct archive_entry *entry)
