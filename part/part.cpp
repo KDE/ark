@@ -616,7 +616,7 @@ void Part::resetGui()
     m_messageWidget->hide();
     m_commentView->clear();
     m_commentBox->hide();
-    m_infoPanel->setIndex(QModelIndex());
+    m_infoPanel->updateWithDefaults();
     // Also reset format-specific compression options.
     m_compressionOptions = CompressionOptions();
 }
