@@ -158,7 +158,7 @@ bool LibarchivePlugin::hasBatchExtractionProgress() const
 
 bool LibarchivePlugin::doKill()
 {
-    return true;
+    return false;
 }
 
 bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)

@@ -223,22 +223,18 @@ void Job::onUserQuery(Query *query)
 
 bool Job::doKill()
 {
-    const bool canKillJob = archiveInterface()->doKill();
-
-    if (!d->isRunning()) {
-        return canKillJob;
-    }
-
-    d->requestInterruption();
-
-    if (!canKillJob) {
-        qCDebug(ARK) << "Forcing thread exit in one second...";
-        d->wait(1000);
+    const bool killed = archiveInterface()->doKill();
+    if (killed) {
         return true;
     }
 
-    d->wait();
-    return canKillJob;
+    if (d->isRunning()) {
+        qCDebug(ARK) << "Requesting graceful thread interruption, will abort in one second otherwise.";
+        d->requestInterruption();
+        d->wait(1000);
+    }
+
+    return true;
 }
 
 LoadJob::LoadJob(Archive *archive, ReadOnlyArchiveInterface *interface)
