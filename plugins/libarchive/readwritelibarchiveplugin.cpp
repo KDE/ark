@@ -541,6 +541,11 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString &relativeName, const QSt
         return false;
     }
 
+    if (QThread::currentThread()->isInterruptionRequested()) {
+        archive_entry_free(entry);
+        return false;
+    }
+
     m_writtenFiles.push_back(destinationFilename);
 
     emitEntryFromArchiveEntry(entry);

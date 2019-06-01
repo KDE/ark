@@ -182,6 +182,7 @@ private:
 
     void createArchive();
     void loadArchive();
+    void resetArchive();
     void resetGui();
     void setupView();
     void setupActions();

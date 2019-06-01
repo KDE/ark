@@ -611,6 +611,15 @@ void Part::loadArchive()
     }
 }
 
+void Part::resetArchive()
+{
+    m_view->setDropsEnabled(false);
+    m_model->reset();
+    closeUrl();
+    setFileNameFromArchive();
+    updateActions();
+}
+
 void Part::resetGui()
 {
     m_messageWidget->hide();
@@ -913,11 +922,8 @@ void Part::slotLoadingFinished(KJob *job)
 
     // Loading failed or was canceled by the user (e.g. password dialog rejected).
     emit canceled(job->errorString());
-    m_view->setDropsEnabled(false);
-    m_model->reset();
-    closeUrl();
-    setFileNameFromArchive();
-    updateActions();
+    resetArchive();
+
     if (job->error() != KJob::KilledJobError) {
         displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error:<nl/><message>%2</message>",
                                                        localFilePath(),
@@ -1546,12 +1552,14 @@ void Part::slotAddFilesDone(KJob* job)
 {
     qDeleteAll(m_jobTempEntries);
     m_jobTempEntries.clear();
-    if (job->error() && job->error() != KJob::KilledJobError) {
-        KMessageBox::error(widget(), job->errorString());
+    m_messageWidget->hide();
+    if (job->error()) {
+        if (job->error() != KJob::KilledJobError) {
+            KMessageBox::error(widget(), job->errorString());
+        } else if (isCreatingNewArchive()) {
+            resetArchive();
+        }
     } else {
-        // Hide the "archive will be created as soon as you add a file" message.
-        m_messageWidget->hide();
-
         // For multi-volume archive, we need to re-open the archive after adding files
         // because the name changes from e.g name.rar to name.part1.rar.
         if (m_model->archive()->isMultiVolume()) {
