@@ -69,7 +69,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
 
     // First write the new files.
     qCDebug(ARK) << "Writing new entries";
-    uint no_entries = 0;
+    uint addedEntries = 0;
     // Recreate destination directory structure.
     const QString destinationPath = (destination == nullptr)
                                     ? QString()
@@ -84,8 +84,8 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
             finish(false);
             return false;
         }
-        no_entries++;
-        emit progress(float(no_entries)/float(totalCount));
+        addedEntries++;
+        emit progress(float(addedEntries)/float(totalCount));
 
         // For directories, write all subfiles/folders.
         const QString &fullPath = selectedFile->fullPath();
@@ -113,21 +113,21 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
                     finish(false);
                     return false;
                 }
-                no_entries++;
-                emit progress(float(no_entries)/float(totalCount));
+                addedEntries++;
+                emit progress(float(addedEntries)/float(totalCount));
             }
         }
     }
-    qCDebug(ARK) << "Added" << no_entries << "new entries to archive";
+    qCDebug(ARK) << "Added" << addedEntries << "new entries to archive";
 
     bool isSuccessful = true;
     // If we have old archive entries.
     if (!creatingNewFile) {
         qCDebug(ARK) << "Copying any old entries";
         m_filesPaths = m_writtenFiles;
-        isSuccessful = processOldEntries(no_entries, Add, totalCount);
+        isSuccessful = processOldEntries(addedEntries, Add, totalCount);
         if (isSuccessful) {
-            qCDebug(ARK) << "Added" << no_entries << "old entries to archive";
+            qCDebug(ARK) << "Added" << addedEntries << "old entries to archive";
         } else {
             qCDebug(ARK) << "Adding entries failed";
         }
@@ -152,13 +152,13 @@ bool ReadWriteLibarchivePlugin::moveFiles(const QVector<Archive::Entry*> &files,
     }
 
     // Copy old elements from previous archive to new archive.
-    uint no_entries = 0;
+    uint movedEntries = 0;
     m_filesPaths = entryFullPaths(files);
     m_entriesWithoutChildren = entriesWithoutChildren(files).count();
     m_destination = destination;
-    const bool isSuccessful = processOldEntries(no_entries, Move, m_numberOfEntries);
+    const bool isSuccessful = processOldEntries(movedEntries, Move, m_numberOfEntries);
     if (isSuccessful) {
-        qCDebug(ARK) << "Moved" << no_entries << "entries within archive";
+        qCDebug(ARK) << "Moved" << movedEntries << "entries within archive";
     } else {
         qCDebug(ARK) << "Moving entries failed";
     }
@@ -182,12 +182,12 @@ bool ReadWriteLibarchivePlugin::copyFiles(const QVector<Archive::Entry*> &files,
     }
 
     // Copy old elements from previous archive to new archive.
-    uint no_entries = 0;
+    uint copiedEntries = 0;
     m_filesPaths = entryFullPaths(files);
     m_destination = destination;
-    const bool isSuccessful = processOldEntries(no_entries, Copy, m_numberOfEntries);
+    const bool isSuccessful = processOldEntries(copiedEntries, Copy, m_numberOfEntries);
     if (isSuccessful) {
-        qCDebug(ARK) << "Copied" << no_entries << "entries within archive";
+        qCDebug(ARK) << "Copied" << copiedEntries << "entries within archive";
     } else {
         qCDebug(ARK) << "Copying entries failed";
     }
@@ -209,11 +209,11 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QVector<Archive::Entry*> &file
     }
 
     // Copy old elements from previous archive to new archive.
-    uint no_entries = 0;
+    uint deletedEntries = 0;
     m_filesPaths = entryFullPaths(files);
-    const bool isSuccessful = processOldEntries(no_entries, Delete, m_numberOfEntries);
+    const bool isSuccessful = processOldEntries(deletedEntries, Delete, m_numberOfEntries);
     if (isSuccessful) {
-        qCDebug(ARK) << "Removed" << no_entries << "entries from archive";
+        qCDebug(ARK) << "Removed" << deletedEntries << "entries from archive";
     } else {
         qCDebug(ARK) << "Removing entries failed";
     }
