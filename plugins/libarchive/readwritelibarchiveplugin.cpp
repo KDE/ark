@@ -393,8 +393,6 @@ void ReadWriteLibarchivePlugin::finish(const bool isSuccessful)
 
 bool ReadWriteLibarchivePlugin::processOldEntries(uint &entriesCounter, OperationMode mode, uint totalCount)
 {
-    struct archive_entry *entry;
-
     const uint newEntries = entriesCounter;
     entriesCounter = 0;
     uint iteratedEntries = 0;
@@ -411,6 +409,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(uint &entriesCounter, Operatio
         }
     }
 
+    struct archive_entry *entry;
     while (!QThread::currentThread()->isInterruptionRequested() && archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK) {
 
         const QString file = QFile::decodeName(archive_entry_pathname(entry));
