@@ -67,7 +67,6 @@ private:
     bool m_skipAll;
     bool m_listAfterAdd;
     QMutex m_mutex;
-    OperationMode m_operationMode = NoOperation;
 };
 
 #endif // LIBZIPPLUGIN_H

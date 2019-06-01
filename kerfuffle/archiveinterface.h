@@ -262,6 +262,9 @@ public:
 Q_SIGNALS:
     void entryRemoved(const QString &path);
 
+protected:
+    OperationMode m_operationMode = NoOperation;
+
 private Q_SLOTS:
     void onEntryRemoved(const QString &path);
 };

@@ -140,7 +140,6 @@ protected:
 
     void cleanUp();
 
-    OperationMode m_operationMode = NoOperation;
     CliProperties *m_cliProps = nullptr;
     QString m_oldWorkingDirExtraction; // Used ONLY by extraction jobs.
     QString m_oldWorkingDir; // Used by copy and move jobs.
