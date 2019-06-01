@@ -385,6 +385,7 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
 void ReadWriteLibarchivePlugin::finish(const bool isSuccessful)
 {
     if (!isSuccessful || QThread::currentThread()->isInterruptionRequested()) {
+        archive_write_fail(m_archiveWriter.data());
         m_tempFile.cancelWriting();
     } else {
         // archive_write_close() needs to be called before calling QSaveFile::commit(),
