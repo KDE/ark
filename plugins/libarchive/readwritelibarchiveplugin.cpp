@@ -387,6 +387,10 @@ void ReadWriteLibarchivePlugin::finish(const bool isSuccessful)
     if (!isSuccessful || QThread::currentThread()->isInterruptionRequested()) {
         m_tempFile.cancelWriting();
     }
+    // archive_write_close() needs to be called before calling QSaveFile::commit(),
+    // otherwise the latter will close() the file descriptor m_archiveWriter is still working on.
+    // TODO: We need to abstract this code better so that we only deal with one
+    // object that manages both QSaveFile and ArchiveWriter.
     archive_write_close(m_archiveWriter.data());
     m_tempFile.commit();
 }
