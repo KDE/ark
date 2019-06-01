@@ -502,7 +502,6 @@ bool ReadWriteLibarchivePlugin::writeEntry(struct archive_entry *entry)
 //       such as an fd to archive_read_disk_entry_from_file()
 bool ReadWriteLibarchivePlugin::writeFile(const QString &relativeName, const QString &destination)
 {
-    int header_response;
     const QString absoluteFilename = QFileInfo(relativeName).absoluteFilePath();
     const QString destinationFilename = destination + relativeName;
 
@@ -519,12 +518,13 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString &relativeName, const QSt
     archive_entry_copy_sourcepath(entry, QFile::encodeName(absoluteFilename).constData());
     archive_read_disk_entry_from_file(m_archiveReadDisk.data(), entry, -1, &st);
 
-    if ((header_response = archive_write_header(m_archiveWriter.data(), entry)) == ARCHIVE_OK) {
+    const auto returnCode = archive_write_header(m_archiveWriter.data(), entry);
+    if (returnCode == ARCHIVE_OK) {
         // If the whole archive is extracted and the total filesize is
         // available, we use partial progress.
         copyData(absoluteFilename, m_archiveWriter.data(), false);
     } else {
-        qCCritical(ARK) << "Writing header failed with error code " << header_response;
+        qCCritical(ARK) << "Writing header failed with error code " << returnCode;
         qCCritical(ARK) << "Error while writing..." << archive_error_string(m_archiveWriter.data()) << "(error no =" << archive_errno(m_archiveWriter.data()) << ')';
 
         emit error(i18nc("@info Error in a message box",
