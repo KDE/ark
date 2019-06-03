@@ -39,7 +39,6 @@ class ArchiveSortFilterModel;
 class ArchiveView;
 class InfoPanel;
 
-class KAboutData;
 class KAbstractWidgetJobTracker;
 class KJob;
 class KToggleAction;
@@ -47,7 +46,6 @@ class KToggleAction;
 class QAction;
 class QLineEdit;
 class QSplitter;
-class QTreeView;
 class QTemporaryDir;
 class QVBoxLayout;
 class QFileSystemWatcher;

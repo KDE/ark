@@ -40,7 +40,6 @@
 #include <QHBoxLayout>
 #include <QDialogButtonBox>
 
-class QUrl;
 
 class OverwriteDialog : public QDialog
 {
