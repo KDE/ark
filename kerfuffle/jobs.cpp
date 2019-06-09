@@ -473,6 +473,8 @@ void CreateJob::setMultiVolume(bool isMultiVolume)
 
 void CreateJob::doWork()
 {
+    connect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &CreateJob::onProgress);
+
     m_addJob = archive()->addFiles(m_entries, nullptr, m_options);
 
     if (m_addJob) {
@@ -480,9 +482,6 @@ void CreateJob::doWork()
         // Forward description signal from AddJob, we need to change the first argument ('this' needs to be a CreateJob).
         connect(m_addJob, &KJob::description, this, [=](KJob *, const QString &title, const QPair<QString,QString> &field1, const QPair<QString,QString> &) {
             emit description(this, title, field1);
-        });
-        connect(m_addJob, QOverload<KJob*,unsigned long>::of(&KJob::percent), this, [=](KJob*, unsigned long percent) {
-            emitPercent(percent, 100);
         });
 
         m_addJob->start();
