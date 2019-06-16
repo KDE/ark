@@ -105,7 +105,7 @@ endif()
 ki18n_install(po)
 kdoctools_install(po)
 
-if (${ECM_VERSION} STRGREATER "5.58.0")
+if (ECM_VERSION VERSION_GREATER_EQUAL "5.59.0")
     install(FILES ark.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 else()
     install(FILES ark.categories  DESTINATION ${KDE_INSTALL_CONFDIR})
