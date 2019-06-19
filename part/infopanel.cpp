@@ -24,6 +24,7 @@
 
 #include <KIO/Global>
 #include <KLocalizedString>
+#include <KIconLoader>
 
 #include <QFileInfo>
 #include <QIcon>

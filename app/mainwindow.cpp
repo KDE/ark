@@ -38,12 +38,11 @@
 #include <KActionCollection>
 #include <KStandardAction>
 #include <KRecentFilesAction>
-#include <KService>
 #include <KSharedConfig>
 #include <KConfigDialog>
-#include <KConfigGroup>
-#include <KConfigSkeleton>
 #include <KXMLGUIFactory>
+#include <KPluginLoader>
+#include <KConfigSkeleton>
 
 #include <QApplication>
 #include <QDragEnterEvent>
@@ -51,7 +50,6 @@
 #include <QFileDialog>
 #include <QMimeData>
 #include <QPointer>
-#include <QRegularExpression>
 #include <QStatusBar>
 
 static bool isValidArchiveDrag(const QMimeData *data)

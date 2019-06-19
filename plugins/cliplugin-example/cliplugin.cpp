@@ -25,7 +25,6 @@
 #include "kerfuffle/archiveentry.h"
 #include "kerfuffle/kerfuffle_export.h"
 
-#include <QDebug>
 #include <QDir>
 #include <QDate>
 #include <QTime>

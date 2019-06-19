@@ -30,7 +30,6 @@
 #include "ark_debug.h"
 #include "mimetypes.h"
 
-#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
 

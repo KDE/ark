@@ -32,8 +32,9 @@
 
 #include <KLocalizedString>
 
-#include <QDirIterator>
 #include <QThread>
+#include <QFileInfo>
+#include <QDir>
 
 #include <archive_entry.h>
 

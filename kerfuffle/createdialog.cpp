@@ -36,9 +36,7 @@
 
 #include <KMessageBox>
 #include <KSharedConfig>
-#include <KUrlRequester>
 
-#include <QDebug>
 #include <QMimeDatabase>
 #include <QUrl>
 

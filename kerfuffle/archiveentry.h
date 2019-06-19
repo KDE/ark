@@ -30,7 +30,6 @@
 
 #include <QDateTime>
 
-#include <KIconLoader>
 
 namespace Kerfuffle {
 

@@ -32,7 +32,6 @@
 #include "mimetypes.h"
 
 #include <QDialogButtonBox>
-#include <QPointer>
 #include <QPushButton>
 #include <QUrl>
 #include <QVBoxLayout>

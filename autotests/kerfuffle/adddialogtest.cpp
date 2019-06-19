@@ -30,8 +30,6 @@
 #include <KCollapsibleGroupBox>
 
 #include <QCheckBox>
-#include <QComboBox>
-#include <QLineEdit>
 #include <QMimeDatabase>
 #include <QTest>
 

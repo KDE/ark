@@ -28,7 +28,6 @@
 
 #include <QDebug>
 #include <QJsonDocument>
-#include <QLatin1String>
 
 JSONParser::JSONParser()
 {

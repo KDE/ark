@@ -30,7 +30,6 @@
 
 #include <QApplication>
 #include <QCommandLineParser>
-#include <QByteArray>
 #include <QFileInfo>
 #include <QFileOpenEvent>
 

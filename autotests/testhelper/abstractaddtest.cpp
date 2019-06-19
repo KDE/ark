@@ -29,7 +29,6 @@
 #include "jobs.h"
 #include "testhelper.h"
 
-#include <QEventLoop>
 #include <QMimeDatabase>
 #include <QTest>
 

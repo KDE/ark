@@ -28,7 +28,6 @@
 
 #include "archiveinterface.h"
 
-#include <QMutex>
 
 #include <zip.h>
 

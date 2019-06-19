@@ -30,7 +30,6 @@
 
 #include "libarchiveplugin.h"
 
-#include <QDir>
 #include <QStringList>
 #include <QSaveFile>
 

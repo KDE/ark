@@ -27,6 +27,8 @@
 
 #include "overwritedialog.h"
 
+#include <KLocalizedString>
+
 using namespace Kerfuffle;
 
 OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Entry*> &entries, const QHash<QString, QIcon> &icons, bool error)

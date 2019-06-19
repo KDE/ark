@@ -25,7 +25,6 @@
 
 #include <QHeaderView>
 #include <QMimeData>
-#include <QApplication>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QMouseEvent>

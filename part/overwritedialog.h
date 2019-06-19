@@ -30,8 +30,6 @@
 
 #include "archiveentry.h"
 
-#include <KFileWidget>
-#include <KLocalizedString>
 
 #include <QDialog>
 #include <QLabel>

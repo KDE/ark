@@ -40,12 +40,8 @@
 
 #include <KLocalizedString>
 
-#include <QApplication>
-#include <QDateTime>
-#include <QDebug>
 #include <QDir>
 #include <QDirIterator>
-#include <QEventLoop>
 #include <QFile>
 #include <QMimeDatabase>
 #include <QProcess>
@@ -54,8 +50,8 @@
 #include <QTemporaryDir>
 #include <QTemporaryFile>
 #include <QThread>
-#include <QTimer>
 #include <QUrl>
+#include <QCoreApplication>
 
 namespace Kerfuffle
 {

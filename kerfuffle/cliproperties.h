@@ -30,7 +30,6 @@
 #include "archiveinterface.h"
 #include "kerfuffle_export.h"
 
-#include <QRegularExpression>
 
 namespace Kerfuffle
 {

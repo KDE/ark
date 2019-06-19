@@ -28,6 +28,7 @@
 
 #include <KIO/Global>
 #include <KLocalizedString>
+#include <KIconLoader>
 
 #include <QDBusConnection>
 #include <QMimeData>

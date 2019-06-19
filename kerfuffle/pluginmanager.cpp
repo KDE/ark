@@ -29,7 +29,6 @@
 #include "ark_debug.h"
 #include "settings.h"
 
-#include <KConfigGroup>
 #include <KPluginLoader>
 #include <KSharedConfig>
 

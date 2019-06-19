@@ -28,7 +28,6 @@
 #include "jobs.h"
 #include "testhelper.h"
 
-#include <QMimeDatabase>
 #include <QTest>
 
 using namespace Kerfuffle;

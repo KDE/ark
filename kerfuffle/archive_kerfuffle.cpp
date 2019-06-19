@@ -33,7 +33,6 @@
 #include "mimetypes.h"
 #include "pluginmanager.h"
 
-#include <KLocalizedString>
 #include <KPluginFactory>
 #include <KPluginLoader>
 

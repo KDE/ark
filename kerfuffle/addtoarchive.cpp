@@ -33,7 +33,6 @@
 #include "createdialog.h"
 #include "jobs.h"
 
-#include <KConfig>
 #include <KJobTrackerInterface>
 #include <KIO/JobTracker>
 #include <KLocalizedString>

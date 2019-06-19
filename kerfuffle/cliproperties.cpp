@@ -29,7 +29,7 @@
 #include "ark_debug.h"
 #include "archiveformat.h"
 #include "pluginmanager.h"
-
+#include <QRegularExpression>
 namespace Kerfuffle
 {
 

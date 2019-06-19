@@ -36,7 +36,6 @@
 
 #include <QHash>
 #include <QMimeType>
-#include <QVariant>
 
 namespace Kerfuffle
 {
