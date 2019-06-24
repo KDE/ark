@@ -24,7 +24,7 @@ include(ECMSetupVersion)
 add_definitions(-DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
-ecm_setup_version(PROJECT
+ecm_setup_version(${KDE_APPLICATIONS_VERSION}
                   VARIABLE_PREFIX ARK
                   VERSION_HEADER "ark_version.h")
 
