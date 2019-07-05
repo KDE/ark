@@ -33,6 +33,7 @@
 
 #include <KJob>
 #include <KPluginMetaData>
+#include <kcoreaddons_version.h>
 
 #include <QHash>
 #include <QMimeType>
@@ -244,6 +245,8 @@ private:
 
 } // namespace Kerfuffle
 
+#if KCOREADDONS_VERSION < QT_VERSION_CHECK(5,60,0)
 Q_DECLARE_METATYPE(KPluginMetaData)
+#endif
 
 #endif // ARCHIVE_H
