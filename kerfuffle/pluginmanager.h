@@ -31,6 +31,7 @@
 #include "plugin.h"
 
 #include <QMimeType>
+#include <QVector>
 
 namespace Kerfuffle
 {
