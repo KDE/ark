@@ -52,6 +52,7 @@ enum EntryMetaDataType {
     Group,               /**< The user group the entry belongs to */
     Ratio,               /**< The compression ratio for the entry */
     CRC,                 /**< The entry's CRC */
+    BLAKE2,              /**< The entry's BLAKE2 */
     Method,              /**< The compression method used on the entry */
     Version,             /**< The archiver version needed to extract the entry */
     Timestamp            /**< The timestamp for the current entry */

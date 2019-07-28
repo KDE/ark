@@ -298,6 +298,7 @@ void CliPlugin::handleUnrar5Entry()
     e->setProperty("compressedSize", m_unrar5Details.value(QStringLiteral("packed size")));
     e->setProperty("permissions", m_unrar5Details.value(QStringLiteral("attributes")));
     e->setProperty("CRC", m_unrar5Details.value(QStringLiteral("crc32")));
+    e->setProperty("BLAKE2", m_unrar5Details.value(QStringLiteral("blake2")));
 
     if (e->property("permissions").toString().startsWith(QLatin1Char('l'))) {
         e->setProperty("link", m_unrar5Details.value(QStringLiteral("target")));

@@ -55,6 +55,7 @@ void Archive::Entry::copyMetaData(const Archive::Entry *sourceEntry)
     setProperty("link", sourceEntry->property("link"));
     setProperty("ratio", sourceEntry->property("ratio"));
     setProperty("CRC", sourceEntry->property("CRC"));
+    setProperty("BLAKE2", sourceEntry->property("BLAKE2"));
     setProperty("method", sourceEntry->property("method"));
     setProperty("version", sourceEntry->property("version"));
     setProperty("timestamp", sourceEntry->property("timestamp").toDateTime());

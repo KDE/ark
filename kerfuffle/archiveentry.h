@@ -62,6 +62,7 @@ class Archive::Entry : public QObject
     Q_PROPERTY(QString link MEMBER m_link)
     Q_PROPERTY(QString ratio MEMBER m_ratio)
     Q_PROPERTY(QString CRC MEMBER m_CRC)
+    Q_PROPERTY(QString BLAKE2 MEMBER m_BLAKE2)
     Q_PROPERTY(QString method MEMBER m_method)
     Q_PROPERTY(QString version MEMBER m_version)
     Q_PROPERTY(QDateTime timestamp MEMBER m_timestamp)
@@ -117,6 +118,7 @@ private:
     QString m_link;
     QString m_ratio;
     QString m_CRC;
+    QString m_BLAKE2;
     QString m_method;
     QString m_version;
     QDateTime m_timestamp;

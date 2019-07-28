@@ -61,6 +61,7 @@ ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
         { Group, "group" },
         { Ratio, "ratio" },
         { CRC, "CRC" },
+        { BLAKE2, "BLAKE2" },
         { Method, "method" },
         { Version, "version" },
         { Timestamp, "timestamp" },
@@ -184,7 +185,9 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
         case Permissions:
             return i18nc("File permissions", "Mode");
         case CRC:
-            return i18nc("CRC hash code", "CRC");
+            return i18nc("CRC hash code", "CRC checksum");
+        case BLAKE2:
+            return i18nc("BLAKE2 hash code", "BLAKE2 checksum");
         case Method:
             return i18nc("Compression method", "Method");
         case Version:
