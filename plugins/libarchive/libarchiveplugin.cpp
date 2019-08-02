@@ -445,11 +445,15 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
     const QString owner = QString::fromLatin1(archive_entry_uname(aentry));
     if (!owner.isEmpty()) {
         e->setProperty("owner", owner);
+    } else {
+        e->setProperty("owner", static_cast<qlonglong>(archive_entry_uid(aentry)));
     }
 
     const QString group = QString::fromLatin1(archive_entry_gname(aentry));
     if (!group.isEmpty()) {
         e->setProperty("group", group);
+    } else {
+        e->setProperty("group", static_cast<qlonglong>(archive_entry_gid(aentry)));
     }
 
     e->compressedSizeIsSet = false;
