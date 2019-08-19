@@ -155,7 +155,7 @@ void ArchiveView::renameSelectedEntry()
 {
     QModelIndex currentIndex = selectionModel()->currentIndex();
     currentIndex = (currentIndex.parent().isValid())
-                   ? currentIndex.parent().child(currentIndex.row(), 0)
+                   ? currentIndex.parent().model()->index(currentIndex.row(), 0, currentIndex.parent())
                    : model()->index(currentIndex.row(), 0);
     openEntryEditor(currentIndex);
 }
