@@ -121,5 +121,10 @@
         "CompressionLevelDefault": 3,
         "CompressionLevelMax": 22,
         "CompressionLevelMin": 1
+    },
+    "application/x-brotli-compressed-tar": {
+        "CompressionLevelDefault": 3,
+        "CompressionLevelMax": 9,
+        "CompressionLevelMin": 1
     }
 }

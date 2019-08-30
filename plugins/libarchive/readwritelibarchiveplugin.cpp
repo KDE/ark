@@ -295,6 +295,11 @@ bool ReadWriteLibarchivePlugin::initializeWriterFilters()
         ret = archive_write_add_filter_zstd(m_archiveWriter.data());
         break;
 #endif
+#ifdef HAVE_BROTLI_SUPPORT
+    case ARCHIVE_FILTER_BROTLI:
+        ret = archive_write_add_filter_brotli(m_archiveWriter.data());
+        break;
+#endif
     case ARCHIVE_FILTER_NONE:
         ret = archive_write_add_filter_none(m_archiveWriter.data());
         break;
@@ -351,6 +356,11 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
     } else if (filename().right(3).toUpper() == QLatin1String("ZST")) {
         qCDebug(ARK) << "Detected zstd compression for new file";
         ret = archive_write_add_filter_zstd(m_archiveWriter.data());
+#endif
+#ifdef HAVE_BROTLI_SUPPORT
+    } else if (filename().right(2).toUpper() == QLatin1String("BR")) {
+        qCDebug(ARK) << "Detected Brotli compression for new file";
+        ret = archive_write_add_filter_brotli(m_archiveWriter.data());
 #endif
     } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
         qCDebug(ARK) << "Detected no compression for new file (pure tar)";

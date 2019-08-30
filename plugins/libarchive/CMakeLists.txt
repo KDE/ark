@@ -3,6 +3,9 @@ include_directories(${LibArchive_INCLUDE_DIRS})
 if(NOT LibArchive_VERSION VERSION_LESS "3.3.3")
   set(ENABLE_ZSTD_SUPPORT ON BOOL)
 endif()
+if(NOT LibArchive_VERSION VERSION_LESS "3.3.3")
+  set(ENABLE_BROTLI_SUPPORT ON BOOL)
+endif()
 
 ########### next target ###############
 set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/x-tarz;application/x-xz-compressed-tar;")
@@ -12,6 +15,9 @@ set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIM
 
 if(ENABLE_ZSTD_SUPPORT)
     set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "${SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES}application/x-zstd-compressed-tar;")
+endif()
+if(ENABLE_BROTLI_SUPPORT)
+    set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "${SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES}application/x-brotli-compressed-tar;")
 endif()
 
 set(INSTALLED_LIBARCHIVE_PLUGINS "")
@@ -62,6 +68,11 @@ if(ENABLE_ZSTD_SUPPORT)
         "${SUPPORTED_READWRITE_MIMETYPES}\",
         \"application/x-zstd-compressed-tar")
 endif()
+if(ENABLE_BROTLI_SUPPORT)
+    set(SUPPORTED_READWRITE_MIMETYPES
+        "${SUPPORTED_READWRITE_MIMETYPES}\",
+        \"application/x-brotli-compressed-tar")
+endif()
 
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libarchive_readonly.json.cmake
@@ -76,6 +87,9 @@ kerfuffle_add_plugin(kerfuffle_libarchive ${kerfuffle_libarchive_readwrite_SRCS}
 
 if(ENABLE_ZSTD_SUPPORT)
     target_compile_definitions(kerfuffle_libarchive PRIVATE -DHAVE_ZSTD_SUPPORT)
+endif()
+if(ENABLE_BROTLI_SUPPORT)
+    target_compile_definitions(kerfuffle_libarchive PRIVATE -DHAVE_BROTLI_SUPPORT)
 endif()
 
 target_link_libraries(kerfuffle_libarchive_readonly ${LibArchive_LIBRARIES})
@@ -106,4 +120,11 @@ if(ZSTD)
     message(STATUS "Found zstd executable: ${ZSTD}")
 else()
     message(WARNING "Could not find the zstd executable. Ark requires zstd to handle the tar.zst archive format if libarchive >= 3.3.3 has been compiled without libzstd support.")
+endif()
+
+find_program(BROTLI brotli)
+if(BROTLI)
+    message(STATUS "Found brotli executable: ${BROTLI}")
+else()
+    message(WARNING "Could not find the brotli executable. Ark requires brotli to handle the tar.br archive format if libarchive >= 3.4.0 has been compiled without libbrotli support.")
 endif()
