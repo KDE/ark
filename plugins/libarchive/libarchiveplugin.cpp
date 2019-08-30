@@ -558,6 +558,8 @@ QString LibarchivePlugin::convertCompressionName(const QString &method)
 {
     if (method == QLatin1String("gzip")) {
         return QStringLiteral("GZip");
+    } else if (method == QLatin1String("brotli")) {
+        return QStringLiteral("Brotli");
     } else if (method == QLatin1String("bzip2")) {
         return QStringLiteral("BZip2");
     } else if (method == QLatin1String("xz")) {

@@ -4,4 +4,8 @@
         <comment>Tar archive (zstd-compressed)</comment>
         <glob pattern="*.tar.zst"/>
     </mime-type>
+    <mime-type type="application/x-brotli-compressed-tar">
+        <comment>Tar archive (brotli-compressed)</comment>
+        <glob pattern="*.tar.br"/>
+    </mime-type>
 </mime-info>
