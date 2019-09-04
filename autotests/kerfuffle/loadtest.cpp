@@ -146,7 +146,7 @@ void LoadTest::testProperties_data()
             << QStringLiteral("simplearchive")
             << QString();
 
-    if (PluginManager().supportedMimeTypes().contains(QStringLiteral("application/x-tzo"))) {
+    if (PluginManager().supportedMimeTypes().contains(QLatin1String("application/x-tzo"))) {
         QTest::newRow("lzop-compressed tarball")
                 << QFINDTESTDATA("data/simplearchive.tar.lzo")
                 << QStringLiteral("simplearchive")

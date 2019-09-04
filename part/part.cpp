@@ -587,7 +587,7 @@ void Part::createArchive()
     const QString fixedMimeType = arguments().metaData()[QStringLiteral("fixedMimeType")];
     m_model->createEmptyArchive(localFilePath(), fixedMimeType, m_model);
 
-    if (arguments().metaData().contains(QStringLiteral("volumeSize"))) {
+    if (arguments().metaData().contains(QLatin1String("volumeSize"))) {
         m_model->archive()->setMultiVolume(true);
     }
 
@@ -743,16 +743,16 @@ QModelIndexList Part::getSelectedIndexes()
 void Part::readCompressionOptions()
 {
     // Store options from CreateDialog if they are set.
-    if (!m_compressionOptions.isCompressionLevelSet() && arguments().metaData().contains(QStringLiteral("compressionLevel"))) {
+    if (!m_compressionOptions.isCompressionLevelSet() && arguments().metaData().contains(QLatin1String("compressionLevel"))) {
         m_compressionOptions.setCompressionLevel(arguments().metaData()[QStringLiteral("compressionLevel")].toInt());
     }
-    if (m_compressionOptions.compressionMethod().isEmpty() && arguments().metaData().contains(QStringLiteral("compressionMethod"))) {
+    if (m_compressionOptions.compressionMethod().isEmpty() && arguments().metaData().contains(QLatin1String("compressionMethod"))) {
         m_compressionOptions.setCompressionMethod(arguments().metaData()[QStringLiteral("compressionMethod")]);
     }
-    if (m_compressionOptions.encryptionMethod().isEmpty() && arguments().metaData().contains(QStringLiteral("encryptionMethod"))) {
+    if (m_compressionOptions.encryptionMethod().isEmpty() && arguments().metaData().contains(QLatin1String("encryptionMethod"))) {
         m_compressionOptions.setEncryptionMethod(arguments().metaData()[QStringLiteral("encryptionMethod")]);
     }
-    if (!m_compressionOptions.isVolumeSizeSet() && arguments().metaData().contains(QStringLiteral("volumeSize"))) {
+    if (!m_compressionOptions.isVolumeSizeSet() && arguments().metaData().contains(QLatin1String("volumeSize"))) {
         m_compressionOptions.setVolumeSize(arguments().metaData()[QStringLiteral("volumeSize")].toULong());
     }
 
@@ -1068,7 +1068,7 @@ void Part::slotWatchedFileModified(const QString& file)
     for (QTemporaryDir *tmpDir : qAsConst(m_tmpExtractDirList)) {
         relPath.remove(tmpDir->path()); //Remove tmpDir.
     }
-    relPath = relPath.mid(1); //Remove leading slash.
+    relPath.remove(0, 1); //Remove leading slash.
     if (relPath.contains(QLatin1Char('/'))) {
         relPath = relPath.section(QLatin1Char('/'), 0, -2); //Remove filename.
     } else {
@@ -1325,7 +1325,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
         globalWorkDir.remove(relPath);
         qCDebug(ARK) << "Adding" << filesToAdd << "to" << relPath;
     } else {
-        qCDebug(ARK) << "Adding " << filesToAdd << ((destination == nullptr) ? QString() : QStringLiteral("to ") + destination->fullPath());
+        qCDebug(ARK) << "Adding " << filesToAdd << ((destination == nullptr) ? QString() : QLatin1String("to ") + destination->fullPath());
     }
 
     // Remove trailing slash (needed when adding dirs).
@@ -1433,7 +1433,7 @@ void Part::slotCopyFiles()
 
 void Part::slotRenameFile(const QString &name)
 {
-    if (name == QLatin1String(".") || name == QLatin1String("..") || name.contains(QLatin1Char('/'))) {
+    if (name == QLatin1Char('.') || name == QLatin1String("..") || name.contains(QLatin1Char('/'))) {
         displayMsgWidget(KMessageWidget::Error, i18n("Filename can't contain slashes and can't be equal to \".\" or \"..\""));
         return;
     }

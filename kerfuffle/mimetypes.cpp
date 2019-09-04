@@ -45,18 +45,18 @@ QMimeType determineMimeType(const QString& filename)
 
     // #328815: since detection-by-content does not work for compressed tar archives (see below why)
     // we cannot rely on it when the archive extension is wrong; we need to validate by hand.
-    if (fileinfo.completeSuffix().toLower().remove(QRegularExpression(QStringLiteral("[^a-z\\.]"))).contains(QStringLiteral("tar."))) {
+    if (fileinfo.completeSuffix().toLower().remove(QRegularExpression(QStringLiteral("[^a-z\\.]"))).contains(QLatin1String("tar."))) {
         inputFile.chop(fileinfo.completeSuffix().length());
         QString cleanExtension(fileinfo.completeSuffix().toLower());
 
         // tar.bz2 and tar.lz4 need special treatment since they contain numbers.
         bool isBZ2 = false;
         bool isLZ4 = false;
-        if (fileinfo.completeSuffix().toLower().contains(QStringLiteral("bz2"))) {
+        if (fileinfo.completeSuffix().toLower().contains(QLatin1String("bz2"))) {
             cleanExtension.remove(QStringLiteral("bz2"));
             isBZ2 = true;
         }
-        if (fileinfo.completeSuffix().toLower().contains(QStringLiteral("lz4"))) {
+        if (fileinfo.completeSuffix().toLower().contains(QLatin1String("lz4"))) {
             cleanExtension.remove(QStringLiteral("lz4"));
             isLZ4 = true;
         }

@@ -132,9 +132,9 @@ bool MainWindow::loadPart()
     KPluginFactory *factory = nullptr;
 
     const auto plugins = KPluginLoader::findPlugins(QString(), [](const KPluginMetaData& metaData) {
-        return metaData.pluginId() == QStringLiteral("arkpart") &&
-               metaData.serviceTypes().contains(QStringLiteral("KParts/ReadOnlyPart")) &&
-               metaData.serviceTypes().contains(QStringLiteral("Browser/View"));
+        return metaData.pluginId() == QLatin1String("arkpart") &&
+               metaData.serviceTypes().contains(QLatin1String("KParts/ReadOnlyPart")) &&
+               metaData.serviceTypes().contains(QLatin1String("Browser/View"));
     });
 
     if (!plugins.isEmpty()) {

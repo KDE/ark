@@ -236,7 +236,7 @@ bool CliPlugin::readListLine(const QString& line)
 
         } else if (line.startsWith(QLatin1String("Folder = "))) {
             const QString isDirectoryStr = line.mid(9).trimmed();
-            Q_ASSERT(isDirectoryStr == QStringLiteral("+") || isDirectoryStr == QStringLiteral("-"));
+            Q_ASSERT(isDirectoryStr == QLatin1String("+") || isDirectoryStr == QStringLiteral("-"));
             const bool isDirectory = isDirectoryStr.startsWith(QLatin1Char('+'));
             m_currentArchiveEntry->setProperty("isDirectory", isDirectory);
             fixDirectoryFullName();

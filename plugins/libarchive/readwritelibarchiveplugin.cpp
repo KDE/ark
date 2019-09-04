@@ -99,7 +99,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
                 QString path = it.next();
 
                 if ((it.fileName() == QLatin1String("..")) ||
-                    (it.fileName() == QLatin1String("."))) {
+                    (it.fileName() == QLatin1Char('.'))) {
                     continue;
                 }
 

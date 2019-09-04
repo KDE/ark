@@ -65,7 +65,7 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive, qulonglong
     m_ui->lblArchiveName->setText(archive->fileName());
     m_ui->lblArchiveType->setText(archive->mimeType().comment());
     m_ui->lblMimetype->setText(archive->mimeType().name());
-    m_ui->lblCompressionMethods->setText(archive->property("compressionMethods").toStringList().join(QStringLiteral(", ")));
+    m_ui->lblCompressionMethods->setText(archive->property("compressionMethods").toStringList().join(QLatin1String(", ")));
     m_ui->lblReadOnly->setText(archive->isReadOnly() ?  i18n("yes") : i18n("no"));
     m_ui->lblMultiVolume->setText(archive->isMultiVolume() ? i18n("yes (%1 volumes)", archive->numberOfVolumes()) : i18n("no"));
     m_ui->lblHasComment->setText(archive->hasComment() ?  i18n("yes") : i18n("no"));
@@ -84,10 +84,10 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive, qulonglong
         m_ui->lblPasswordProtected->setText(i18n("no"));
         break;
     case Archive::Encrypted:
-        m_ui->lblPasswordProtected->setText(i18n("only file contents (%1)", archive->property("encryptionMethods").toStringList().join(QStringLiteral(", "))));
+        m_ui->lblPasswordProtected->setText(i18n("only file contents (%1)", archive->property("encryptionMethods").toStringList().join(QLatin1String(", "))));
         break;
     case Archive::HeaderEncrypted:
-        m_ui->lblPasswordProtected->setText(i18n("yes (%1)", archive->property("encryptionMethods").toStringList().join(QStringLiteral(", "))));
+        m_ui->lblPasswordProtected->setText(i18n("yes (%1)", archive->property("encryptionMethods").toStringList().join(QLatin1String(", "))));
         break;
     }
 

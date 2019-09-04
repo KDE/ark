@@ -45,7 +45,7 @@ void Cli7zTest::initTestCase()
     m_plugin = new Plugin(this);
     const auto plugins = m_pluginManger.availablePlugins();
     for (Plugin *plugin : plugins) {
-        if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_cli7z")) {
+        if (plugin->metaData().pluginId() == QLatin1String("kerfuffle_cli7z")) {
             m_plugin = plugin;
             return;
         }

@@ -37,7 +37,7 @@ void CliZipTest::initTestCase()
     m_plugin = new Plugin(this);
     const auto plugins = m_pluginManger.availablePlugins();
     for (Plugin *plugin : plugins) {
-        if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_clizip")) {
+        if (plugin->metaData().pluginId() == QLatin1String("kerfuffle_clizip")) {
             m_plugin = plugin;
             return;
         }

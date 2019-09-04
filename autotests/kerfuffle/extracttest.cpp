@@ -287,7 +287,7 @@ void ExtractTest::testExtraction_data()
             << 7;
 
     // Only run tests if tar.lzo format is available
-    if (PluginManager().supportedMimeTypes().contains(QStringLiteral("application/x-tzo"))) {
+    if (PluginManager().supportedMimeTypes().contains(QLatin1String("application/x-tzo"))) {
         archivePath = QFINDTESTDATA("data/simplearchive.tar.lzo");
         QTest::newRow("extract selected entries from a lzop-compressed tarball without path")
                 << archivePath

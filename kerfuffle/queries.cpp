@@ -55,7 +55,7 @@ void Query::waitForResponse()
 {
     QMutexLocker locker(&m_responseMutex);
     //if there is no response set yet, wait
-    if (!m_data.contains(QStringLiteral("response"))) {
+    if (!m_data.contains(QLatin1String("response"))) {
         m_responseCondition.wait(&m_responseMutex);
     }
 }

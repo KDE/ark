@@ -209,7 +209,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
 KService::Ptr ArkViewer::getViewer(const QString &mimeType)
 {
     // No point in even trying to find anything for application/octet-stream
-    if (mimeType == QStringLiteral("application/octet-stream")) {
+    if (mimeType == QLatin1String("application/octet-stream")) {
         return KService::Ptr();
     }
 

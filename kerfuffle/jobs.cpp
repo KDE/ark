@@ -320,7 +320,7 @@ void LoadJob::onNewEntry(const Archive::Entry *entry)
 
     if (m_isSingleFolderArchive) {
         // RPM filenames have the ./ prefix, and "." would be detected as the subfolder name, so we remove it.
-        const QString fullPath = entry->fullPath().replace(QRegularExpression(QStringLiteral("^\\./")), QString());
+        const QString fullPath = entry->fullPath().remove(QRegularExpression(QStringLiteral("^\\./")));
         const QString basePath = fullPath.split(QLatin1Char('/')).at(0);
 
         if (m_basePath.isEmpty()) {
@@ -434,7 +434,7 @@ void BatchExtractJob::setupDestination()
 
         // Special case for single folder RPM archives.
         // We don't want the autodetected folder to have a meaningless "usr" name.
-        if (isSingleFolderRPM && subfolderName == QStringLiteral("usr")) {
+        if (isSingleFolderRPM && subfolderName == QLatin1String("usr")) {
             qCDebug(ARK) << "Detected single folder RPM archive. Using archive basename as subfolder name";
             subfolderName = QFileInfo(archive()->fileName()).completeBaseName();
         }

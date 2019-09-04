@@ -287,7 +287,7 @@ void CliPlugin::handleUnrar5Entry()
         e->setProperty("version", compression);
     }
 
-    m_isPasswordProtected = m_unrar5Details.value(QStringLiteral("flags")).contains(QStringLiteral("encrypted"));
+    m_isPasswordProtected = m_unrar5Details.value(QStringLiteral("flags")).contains(QLatin1String("encrypted"));
     e->setProperty("isPasswordProtected", m_isPasswordProtected);
     if (m_isPasswordProtected) {
         m_isRAR5 ? emit encryptionMethodFound(QStringLiteral("AES256")) : emit encryptionMethodFound(QStringLiteral("AES128"));
@@ -527,9 +527,9 @@ void CliPlugin::handleUnrar4Entry()
     // whether the archive's position in the volume is displayed
     // instead of the compression ratio.
     QString compressionRatio = m_unrar4Details.at(3);
-    if ((compressionRatio == QStringLiteral("<--")) ||
-        (compressionRatio == QStringLiteral("<->")) ||
-        (compressionRatio == QStringLiteral("-->"))) {
+    if ((compressionRatio == QLatin1String("<--")) ||
+        (compressionRatio == QLatin1String("<->")) ||
+        (compressionRatio == QLatin1String("-->"))) {
         compressionRatio = QLatin1Char('0');
     } else {
         compressionRatio.chop(1); // Remove the '%'

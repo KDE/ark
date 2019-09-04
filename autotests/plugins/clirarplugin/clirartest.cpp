@@ -46,7 +46,7 @@ void CliRarTest::initTestCase()
     m_plugin = new Plugin(this);
     const auto plugins = m_pluginManger.availablePlugins();
     for (Plugin *plugin : plugins) {
-        if (plugin->metaData().pluginId() == QStringLiteral("kerfuffle_clirar")) {
+        if (plugin->metaData().pluginId() == QLatin1String("kerfuffle_clirar")) {
             m_plugin = plugin;
             return;
         }

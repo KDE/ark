@@ -58,22 +58,22 @@ void MetaDataTest::testPluginLoading()
 void MetaDataTest::testPluginMetadata()
 {
     for (const KPluginMetaData& metaData : qAsConst(m_plugins)) {
-        QVERIFY(metaData.serviceTypes().contains(QStringLiteral("Kerfuffle/Plugin")));
+        QVERIFY(metaData.serviceTypes().contains(QLatin1String("Kerfuffle/Plugin")));
         QVERIFY(!metaData.mimeTypes().isEmpty());
 
         const QJsonObject json = metaData.rawData();
-        QVERIFY(json.keys().contains(QStringLiteral("X-KDE-Priority")));
-        QVERIFY(json.keys().contains(QStringLiteral("KPlugin")));
+        QVERIFY(json.keys().contains(QLatin1String("X-KDE-Priority")));
+        QVERIFY(json.keys().contains(QLatin1String("KPlugin")));
 
-        if (json.keys().contains(QStringLiteral("X-KDE-Kerfuffle-ReadOnlyExecutables"))) {
+        if (json.keys().contains(QLatin1String("X-KDE-Kerfuffle-ReadOnlyExecutables"))) {
             QVERIFY(json[QStringLiteral("X-KDE-Kerfuffle-ReadOnlyExecutables")].isArray());
         }
 
-        if (json.keys().contains(QStringLiteral("X-KDE-Kerfuffle-ReadWriteExecutables"))) {
+        if (json.keys().contains(QLatin1String("X-KDE-Kerfuffle-ReadWriteExecutables"))) {
             QVERIFY(json[QStringLiteral("X-KDE-Kerfuffle-ReadWriteExecutables")].isArray());
 
             // If there is a list of read-write executables, the plugin has to be read-write.
-            QVERIFY(json.keys().contains(QStringLiteral("X-KDE-Kerfuffle-ReadWrite")));
+            QVERIFY(json.keys().contains(QLatin1String("X-KDE-Kerfuffle-ReadWrite")));
             QVERIFY(json[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toBool());
         }
     }
