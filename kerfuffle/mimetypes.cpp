@@ -127,7 +127,7 @@ QMimeType determineMimeType(const QString& filename)
             return mimeFromExtension;
         }
 
-        qCWarning(ARK) << "Mimetype for filename extension (" << mimeFromExtension.name()
+        qCDebug(ARK) << "Mimetype for filename extension (" << mimeFromExtension.name()
                        << ") did not match mimetype for content (" << mimeFromContent.name()
                        << "). Using content-based mimetype.";
     }
