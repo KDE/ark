@@ -52,11 +52,11 @@ QMimeType determineMimeType(const QString& filename)
         // tar.bz2 and tar.lz4 need special treatment since they contain numbers.
         bool isBZ2 = false;
         bool isLZ4 = false;
-        if (fileinfo.completeSuffix().toLower().contains(QLatin1String("bz2"))) {
+        if (fileinfo.completeSuffix().contains(QLatin1String("bz2"), Qt::CaseInsensitive)) {
             cleanExtension.remove(QStringLiteral("bz2"));
             isBZ2 = true;
         }
-        if (fileinfo.completeSuffix().toLower().contains(QLatin1String("lz4"))) {
+        if (fileinfo.completeSuffix().contains(QLatin1String("lz4"), Qt::CaseInsensitive)) {
             cleanExtension.remove(QStringLiteral("lz4"));
             isLZ4 = true;
         }
