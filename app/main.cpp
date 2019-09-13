@@ -191,7 +191,7 @@ int main(int argc, char **argv)
                                         i18n("The destination argument will be set to the path of the first file supplied.")));
 
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("a") << QStringLiteral("autosubfolder"),
-                                        i18n("Archive contents will be read, and if detected to not be a single folder archive, a subfolder with the name of the archive will be created.")));
+                                        i18n("Archive contents will be read, and if detected to not be a single folder or a single file archive, a subfolder with the name of the archive will be created.")));
 
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("m") << QStringLiteral("mimetypes"),
                                         i18n("List supported MIME types.")));

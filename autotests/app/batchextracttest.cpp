@@ -90,7 +90,7 @@ void BatchExtractTest::testBatchExtraction_data()
     QTest::newRow("single-file, autosubfolder")
             << QFINDTESTDATA("data/test.txt.gz")
             << true
-            << 2;
+            << 1;
 }
 
 void BatchExtractTest::testBatchExtraction()

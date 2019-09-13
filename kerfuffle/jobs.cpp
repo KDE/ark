@@ -428,7 +428,7 @@ void BatchExtractJob::setupDestination()
     const bool isSingleFolderRPM = (archive()->isSingleFolder() &&
                                    (archive()->mimeType().name() == QLatin1String("application/x-rpm")));
 
-    if (m_autoSubfolder && (!archive()->isSingleFolder() || isSingleFolderRPM)) {
+    if (m_autoSubfolder && (archive()->hasMultipleTopLevelEntries() || isSingleFolderRPM)) {
         const QDir d(m_destination);
         QString subfolderName = archive()->subfolderName();
 
