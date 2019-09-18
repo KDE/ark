@@ -32,6 +32,7 @@
 
 #include <QMimeType>
 #include <QVector>
+#include <QHash>
 
 namespace Kerfuffle
 {

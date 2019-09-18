@@ -291,7 +291,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     }
 
     if (statBuffer.valid & ZIP_STAT_MTIME) {
-        e->setProperty("timestamp", QDateTime::fromTime_t(statBuffer.mtime));
+        e->setProperty("timestamp", QDateTime::fromSecsSinceEpoch(statBuffer.mtime));
     }
     if (statBuffer.valid & ZIP_STAT_SIZE) {
         e->setProperty("size", (qulonglong)statBuffer.size);

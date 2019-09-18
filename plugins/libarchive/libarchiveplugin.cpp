@@ -465,7 +465,7 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
     }
 
     auto time = static_cast<uint>(archive_entry_mtime(aentry));
-    e->setProperty("timestamp", QDateTime::fromTime_t(time));
+    e->setProperty("timestamp", QDateTime::fromSecsSinceEpoch(time));
 
     emit entry(e);
     m_emittedEntries << e;
