@@ -196,7 +196,7 @@ private:
     qulonglong m_numberOfFolders;
     qulonglong m_uncompressedSize;
 
-    // Whether a file entry has been listed. Used to ensure all relevent columns are shown,
+    // Whether a file entry has been listed. Used to ensure all relevant columns are shown,
     // since directories might have fewer columns than files.
     bool m_fileEntryListed;
 };

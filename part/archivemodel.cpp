@@ -470,7 +470,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     }
 
     // If there are no columns registered, then populate columns from entry. If the first entry
-    // is a directory we check again for the first file entry to ensure all relevent columms are shown.
+    // is a directory we check again for the first file entry to ensure all relevant columms are shown.
     if (m_showColumns.isEmpty() || !m_fileEntryListed) {
         QList<int> toInsert;
 
