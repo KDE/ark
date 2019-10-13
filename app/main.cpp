@@ -68,13 +68,14 @@ private:
 
 int main(int argc, char **argv)
 {
-    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts); // Required for the webengine part.
-    QApplication application(argc, argv);
-
     /**
      * enable high dpi support
      */
-    application.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts); // Required for the webengine part.
+    QApplication application(argc, argv);
 
     KCrash::initialize();
 
