@@ -67,6 +67,7 @@ class Archive::Entry : public QObject
     Q_PROPERTY(QString version MEMBER m_version)
     Q_PROPERTY(QDateTime timestamp MEMBER m_timestamp)
     Q_PROPERTY(bool isDirectory MEMBER m_isDirectory WRITE setIsDirectory)
+    Q_PROPERTY(bool isExecutable MEMBER m_isExecutable WRITE setIsExecutable)
     Q_PROPERTY(bool isPasswordProtected MEMBER m_isPasswordProtected)
 
 public:
@@ -88,6 +89,8 @@ public:
     QString name() const;
     void setIsDirectory(const bool isDirectory);
     bool isDir() const;
+    void setIsExecutable(const bool isExecutable);
+    bool isExecutable() const;
     int row() const;
     Entry *find(const QString &name) const;
     Entry *findByPath(const QStringList & pieces, int index = 0) const;
@@ -123,6 +126,7 @@ private:
     QString m_version;
     QDateTime m_timestamp;
     bool m_isDirectory;
+    bool m_isExecutable;
     bool m_isPasswordProtected;
 };
 

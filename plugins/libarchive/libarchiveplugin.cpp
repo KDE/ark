@@ -456,6 +456,12 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
         e->setProperty("group", static_cast<qlonglong>(archive_entry_gid(aentry)));
     }
 
+    const mode_t mode = archive_entry_mode(aentry);
+    if (mode != 0) {
+        e->setProperty("permissions", QString::number(mode));
+    }
+    e->setProperty("isExecutable", mode & (S_IXUSR | S_IXGRP | S_IXOTH));
+
     e->compressedSizeIsSet = false;
     e->setProperty("size", (qlonglong)archive_entry_size(aentry));
     e->setProperty("isDirectory", S_ISDIR(archive_entry_mode(aentry)));

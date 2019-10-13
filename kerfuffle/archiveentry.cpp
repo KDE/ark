@@ -34,6 +34,7 @@ Archive::Entry::Entry(QObject *parent, const QString &fullPath, const QString &r
     , m_size(0)
     , m_compressedSize(0)
     , m_isDirectory(false)
+    , m_isExecutable(false)
     , m_isPasswordProtected(false)
 {
     if (!fullPath.isEmpty())
@@ -133,6 +134,16 @@ void Archive::Entry::setIsDirectory(const bool isDirectory)
 bool Archive::Entry::isDir() const
 {
     return m_isDirectory;
+}
+
+void Archive::Entry::setIsExecutable(const bool isExecutable)
+{
+    m_isExecutable = isExecutable;
+}
+
+bool Archive::Entry::isExecutable() const
+{
+    return m_isExecutable;
 }
 
 int Archive::Entry::row() const

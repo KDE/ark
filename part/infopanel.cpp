@@ -180,7 +180,11 @@ void InfoPanel::showMetaDataFor(const QModelIndex &index)
         mimeType = db.mimeTypeForFile(entry->fullPath(), QMimeDatabase::MatchExtension);
     }
 
-    m_typeValueLabel->setText(mimeType.comment());
+    if (entry->isExecutable() && mimeType.isDefault()) {
+        m_typeValueLabel->setText(db.mimeTypeForName(QStringLiteral("application/x-executable")).comment());
+    } else {
+        m_typeValueLabel->setText(mimeType.comment());
+    }
 
     if (!entry->property("owner").toString().isEmpty()) {
         m_ownerLabel->show();
