@@ -107,13 +107,6 @@ void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
 
     QTreeView::dragMoveEvent(event);
     if (event->mimeData()->hasFormat(QStringLiteral("text/uri-list"))) {
-        const auto urls = event->mimeData()->urls();
-        for (const auto &url : urls) {
-            if (!url.isLocalFile()) {
-                return;
-            }
-        }
-
         event->acceptProposedAction();
     }
 }

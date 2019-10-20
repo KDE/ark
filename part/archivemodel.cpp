@@ -314,6 +314,10 @@ bool ArchiveModel::dropMimeData(const QMimeData *data, Qt::DropAction action, in
     QStringList paths;
     const auto urls = data->urls();
     for (const QUrl &url : urls) {
+        if (!url.isLocalFile()) {
+            emit messageWidget(KMessageWidget::Error, i18n("You can only add local files to an archive."));
+            return false;
+        }
         paths << url.toLocalFile();
     }
 
