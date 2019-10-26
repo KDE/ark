@@ -39,6 +39,8 @@
 #include <Kdelibs4ConfigMigrator>
 #include <KLocalizedString>
 
+#include <iostream>
+
 using Kerfuffle::AddToArchive;
 
 class OpenFileEventHandler : public QObject
@@ -227,6 +229,11 @@ int main(int argc, char **argv)
 
         if (parser.isSet(QStringLiteral("add")) ||
             parser.isSet(QStringLiteral("add-to"))) {
+
+            if (urls.isEmpty()) {
+                std::cout << "Missing arguments: urls." << std::endl;
+                parser.showHelp(-1);
+            }
 
             AddToArchive *addToArchiveJob = new AddToArchive(&application);
             application.setQuitOnLastWindowClosed(false);
