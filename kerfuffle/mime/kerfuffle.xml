@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-    <mime-type type="application/x-zstd-compressed-tar">
-        <comment>Tar archive (zstd-compressed)</comment>
-        <glob pattern="*.tar.zst"/>
-    </mime-type>
-</mime-info>

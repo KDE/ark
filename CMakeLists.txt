@@ -59,7 +59,7 @@ if(NOT Qt5Test_FOUND)
     set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
 endif()
 
-find_package(LibArchive 3.2.0 REQUIRED)
+find_package(LibArchive 3.3.3 REQUIRED)
 set_package_properties(LibArchive PROPERTIES
                        URL "https://www.libarchive.org/"
                        DESCRIPTION "A library for dealing with a wide variety of archive file formats"
@@ -70,11 +70,6 @@ set_package_properties(LibZip PROPERTIES
                        URL "https://nih.at/libzip/"
                        DESCRIPTION "A library for handling zip archives"
                        PURPOSE "Optional for zip archives.")
-
-find_package(SharedMimeInfo QUIET)
-set_package_properties(SharedMimeInfo PROPERTIES
-                       TYPE OPTIONAL
-                       PURPOSE "Required for archive formats without an official mimetype.")
 
 option(WITH_TEST_COVERAGE "Build with test coverage support" OFF)
 if (WITH_TEST_COVERAGE)

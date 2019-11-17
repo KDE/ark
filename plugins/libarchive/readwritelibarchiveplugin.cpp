@@ -290,11 +290,9 @@ bool ReadWriteLibarchivePlugin::initializeWriterFilters()
     case ARCHIVE_FILTER_LZ4:
         ret = archive_write_add_filter_lz4(m_archiveWriter.data());
         break;
-#ifdef HAVE_ZSTD_SUPPORT
     case ARCHIVE_FILTER_ZSTD:
         ret = archive_write_add_filter_zstd(m_archiveWriter.data());
         break;
-#endif
     case ARCHIVE_FILTER_NONE:
         ret = archive_write_add_filter_none(m_archiveWriter.data());
         break;
@@ -347,11 +345,9 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
     } else if (filename().right(3).toUpper() == QLatin1String("LZ4")) {
         qCDebug(ARK) << "Detected lz4 compression for new file";
         ret = archive_write_add_filter_lz4(m_archiveWriter.data());
-#ifdef HAVE_ZSTD_SUPPORT
     } else if (filename().right(3).toUpper() == QLatin1String("ZST")) {
         qCDebug(ARK) << "Detected zstd compression for new file";
         ret = archive_write_add_filter_zstd(m_archiveWriter.data());
-#endif
     } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
         qCDebug(ARK) << "Detected no compression for new file (pure tar)";
         ret = archive_write_add_filter_none(m_archiveWriter.data());
