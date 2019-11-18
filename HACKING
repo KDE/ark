@@ -7,12 +7,8 @@ please see:
  - https://wiki.qt.io/Coding_Conventions
 
 == Sending patches ==
-To send patches for Ark, you can choose one of the following:
-
-1. Use KDE's Phabricator at <https://phabricator.kde.org>.
-   The diff should be created against the Ark repository.
-2. Use git's send-email command and send
-   it to the kde-utils-devel@kde.org mailing list.
+To send patches for Ark, plese use KDE's Phabricator at <https://phabricator.kde.org>.
+The diff should be created against the Ark repository.
 
 If you already have a KDE commit account, it is still preferrable to contact
 the maintainer instead of committing directly, at least to be a good citizen
@@ -30,7 +26,7 @@ New features are committed to the `master` branch, respecting KDE's Release
 Schedule policies.  This means the soft and hard freeze periods must be
 respected, as well as the string freeze policy.
 
-Bug fixes are committed to the latest stable branch (for example, `Applications/16.04`),
+Bug fixes are committed to the latest stable branch (for example, `release/19.12`),
 which is then merged into the `master` branch.  Do *NOT* cherry-pick commits
 into multiple branches! It makes following history unnecessarily harder for no
 reason.
@@ -39,11 +35,11 @@ reason.
 
 To merge the stable branch into `master`, the following steps can be followed:
 
-   $ git checkout Applications/16.04 # Whatever the stable branch is
+   $ git checkout release/19.12 # Whatever the stable branch is
    $ # hack, hack, hack
    $ # commit
    $ git checkout master
-   $ git merge --log --edit -s recursive -Xours Applications/16.04
+   $ git merge --log --edit -s recursive -Xours release/19.12
 
 Do not worry if unrelated commits (such as translation ones made by KDE's
 translation infrastructure) are also merged: translation commits are
@@ -79,7 +75,7 @@ If the diff output is not what you expect, you can reset the merge with:
 
 Then you can do a simple merge which will *not* resolve conflicts:
 
-    $ git merge Applications/16.04
+    $ git merge release/19.12
 
 and finally resolve all conflicts by hand.
 
