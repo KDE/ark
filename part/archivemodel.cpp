@@ -28,12 +28,13 @@
 
 #include <KIO/Global>
 #include <KLocalizedString>
-#include <KIconLoader>
 
+#include <QApplication>
 #include <QDBusConnection>
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QRegularExpression>
+#include <QStyle>
 #include <QUrl>
 
 using namespace Kerfuffle;
@@ -132,7 +133,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             if (index.column() == 0) {
                 const Archive::Entry *e = static_cast<Archive::Entry*>(index.internalPointer());
                 QIcon::Mode mode = (filesToMove.contains(e->fullPath())) ? QIcon::Disabled : QIcon::Normal;
-                return m_entryIcons.value(e->fullPath(NoTrailingSlash)).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small), mode);
+                return m_entryIcons.value(e->fullPath(NoTrailingSlash)).pixmap(QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize), mode);
             }
             return QVariant();
         case Qt::FontRole: {
