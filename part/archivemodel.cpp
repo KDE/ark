@@ -581,10 +581,8 @@ void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)
     QMimeDatabase db;
     QIcon icon;
     entry->isDir()
-    ? icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                                       IconSize(KIconLoader::Small))
-    : icon = QIcon::fromTheme(db.mimeTypeForFile(entry->fullPath()).iconName()).pixmap(IconSize(KIconLoader::Small),
-                                                                                       IconSize(KIconLoader::Small));
+    ? icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName())
+    : icon = QIcon::fromTheme(db.mimeTypeForFile(entry->fullPath()).iconName());
     m_entryIcons.insert(entry->fullPath(NoTrailingSlash), icon);
 }
 
