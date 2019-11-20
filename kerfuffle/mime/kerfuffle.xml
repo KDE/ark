@@ -4,8 +4,10 @@
         <comment>Tar archive (zstd-compressed)</comment>
         <comment xml:lang="ca">Arxiu Tar (comprimit amb «zstd»)</comment>
         <comment xml:lang="nl">Tar-archief (zstd-gecomprimeerd)</comment>
+        <comment xml:lang="pt_BR">Arquivo tar (comprimido com zstd)</comment>
         <comment xml:lang="sv">Tar-arkiv (komprimerat med zstd)</comment>
         <comment xml:lang="uk">архів tar (стиснений zstd)</comment>
+        <comment xml:lang="zh_CN">Tar 归档 (zstd 压缩)</comment>
         <glob pattern="*.tar.zst"/>
     </mime-type>
 </mime-info>
