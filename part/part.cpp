@@ -55,7 +55,6 @@
 #include <KParts/OpenUrlArguments>
 #include <KPluginFactory>
 #include <KRun>
-#include <KSelectAction>
 #include <KStandardGuiItem>
 #include <KToggleAction>
 #include <KLocalizedString>
