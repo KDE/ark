@@ -3,6 +3,7 @@
     <mime-type type="application/x-zstd-compressed-tar">
         <comment>Tar archive (zstd-compressed)</comment>
         <comment xml:lang="ca">Arxiu Tar (comprimit amb «zstd»)</comment>
+        <comment xml:lang="en_GB">Tar archive (zstd-compressed)</comment>
         <comment xml:lang="es">Archivo Tar (comprimido con zstd)</comment>
         <comment xml:lang="nl">Tar-archief (zstd-gecomprimeerd)</comment>
         <comment xml:lang="pt">Pacote TAR (comprimido com o 'zstd')</comment>
