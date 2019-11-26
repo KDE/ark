@@ -76,7 +76,7 @@ kcoreaddons_add_plugin(extracthere
 
 kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop DEFAULT_SERVICE_TYPE)
 
-target_link_libraries(extracthere kerfuffle KF5::Parts KF5::KIOWidgets KF5::KIOFileWidgets)
+target_link_libraries(extracthere kerfuffle KF5::KIOWidgets KF5::KIOFileWidgets)
 
 # compressfileitemaction plugin
 
