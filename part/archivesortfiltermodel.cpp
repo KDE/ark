@@ -26,8 +26,10 @@
 using namespace Kerfuffle;
 
 ArchiveSortFilterModel::ArchiveSortFilterModel(QObject *parent)
-    : KRecursiveFilterProxyModel(parent)
+    : QSortFilterProxyModel(parent)
 {
+    // always enable recursive fitlering
+    setRecursiveFilteringEnabled(true);
 }
 
 ArchiveSortFilterModel::~ArchiveSortFilterModel()

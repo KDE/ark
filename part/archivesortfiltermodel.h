@@ -21,9 +21,9 @@
 #ifndef ARCHIVESORTFILTERMODEL_H
 #define ARCHIVESORTFILTERMODEL_H
 
-#include <KRecursiveFilterProxyModel>
+#include <QSortFilterProxyModel>
 
-class ArchiveSortFilterModel: public KRecursiveFilterProxyModel
+class ArchiveSortFilterModel: public QSortFilterProxyModel
 {
     Q_OBJECT
 
