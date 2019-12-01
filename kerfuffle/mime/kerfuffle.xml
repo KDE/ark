@@ -11,6 +11,7 @@
         <comment xml:lang="pl">Archiwum Tar (spakowanie-zstd)</comment>
         <comment xml:lang="pt">Pacote TAR (comprimido com o 'zstd')</comment>
         <comment xml:lang="pt_BR">Arquivo tar (comprimido com zstd)</comment>
+        <comment xml:lang="ru">Архив TAR (сжатый zstd)</comment>
         <comment xml:lang="sk">Tar archív (zstd-komprimovaný)</comment>
         <comment xml:lang="sv">Tar-arkiv (komprimerat med zstd)</comment>
         <comment xml:lang="uk">архів tar (стиснений zstd)</comment>
