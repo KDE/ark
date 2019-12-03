@@ -38,7 +38,7 @@
 #include <QTimer>
 #include <QUrl>
 
-#include <KIO/RenameDialog>
+#include <KFileUtils>
 #include <KLocalizedString>
 
 namespace Kerfuffle
@@ -440,7 +440,7 @@ void BatchExtractJob::setupDestination()
         }
 
         if (d.exists(subfolderName)) {
-            subfolderName = KIO::suggestName(QUrl::fromUserInput(m_destination, QString(), QUrl::AssumeLocalFile), subfolderName);
+            subfolderName = KFileUtils::suggestName(QUrl::fromUserInput(m_destination, QString(), QUrl::AssumeLocalFile), subfolderName);
         }
 
         d.mkdir(subfolderName);
