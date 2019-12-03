@@ -155,7 +155,7 @@ Qt::ItemFlags ArchiveModel::flags(const QModelIndex &index) const
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | defaultFlags;
     }
 
-    return nullptr;
+    return Qt::NoItemFlags;
 }
 
 QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
