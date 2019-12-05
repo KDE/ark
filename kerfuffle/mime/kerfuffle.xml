@@ -16,6 +16,7 @@
         <comment xml:lang="sv">Tar-arkiv (komprimerat med zstd)</comment>
         <comment xml:lang="uk">архів tar (стиснений zstd)</comment>
         <comment xml:lang="zh_CN">Tar 归档 (zstd 压缩)</comment>
+        <comment xml:lang="zh_TW">Tar 封存檔 (以 zstd 壓縮)</comment>
         <glob pattern="*.tar.zst"/>
     </mime-type>
 </mime-info>
