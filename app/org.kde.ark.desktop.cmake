@@ -170,6 +170,7 @@ Comment[fi]=Käsittele tiedostoarkistoja
 Comment[fr]=Travailler avec des archives
 Comment[gl]=Traballa con arquivos de ficheiros
 Comment[he]=עבוד עם קבצי ארכיונים
+Comment[hu]=Archívumkezelő program
 Comment[ia]=Trvalia con le archivos de file
 Comment[id]=Bekerja dengan arsip-arsip file
 Comment[is]=Vinna með safnskrár
