@@ -3,7 +3,7 @@
     "branch": "master",
     "rename-icon": "ark",
     "runtime": "org.kde.Platform",
-    "runtime-version": "5.9",
+    "runtime-version": "5.13",
     "sdk": "org.kde.Sdk",
     "command": "ark",
     "tags": ["nightly"],
@@ -17,8 +17,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "http://libarchive.org/downloads/libarchive-3.3.2.tar.gz",
-                    "sha256": "ed2dbd6954792b2c054ccf8ec4b330a54b85904a80cef477a1c74643ddafa0ce"
+                    "url": "https://www.libarchive.de/downloads/libarchive-3.4.0.tar.gz",
+                    "sha256": "8643d50ed40c759f5412a3af4e353cffbce4fdf3b5cf321cb72cacf06b2d825e"
                 }
             ]
         },
