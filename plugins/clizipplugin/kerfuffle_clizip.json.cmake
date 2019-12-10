@@ -75,7 +75,7 @@
         "ServiceTypes": [
             "Kerfuffle/Plugin"
         ],
-        "Version": "@KDE_APPLICATIONS_VERSION@"
+        "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [
         "zipinfo",

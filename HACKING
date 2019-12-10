@@ -48,18 +48,18 @@ bug fixes by definition.
 
 The merge command above will try to automatically resolve conflicts by
 preferring the version of master. This is usually good, for example a conflict
-often happens on the `KDE_APPLICATIONS_VERSION_XXX` variables in the root
+often happens on the `RELEASE_SERVICE_VERSION_XXX` variables in the root
 CMakeLists.txt file. On the stable branch you will find something like:
 
-    set (KDE_APPLICATIONS_VERSION_MAJOR "16")
-    set (KDE_APPLICATIONS_VERSION_MINOR "04")
-    set (KDE_APPLICATIONS_VERSION_MICRO "02")
+    set (RELEASE_SERVICE_VERSION_MAJOR "16")
+    set (RELEASE_SERVICE_VERSION_MINOR "04")
+    set (RELEASE_SERVICE_VERSION_MICRO "02")
 
 while on master you will find something like:
 
-    set (KDE_APPLICATIONS_VERSION_MAJOR "16")
-    set (KDE_APPLICATIONS_VERSION_MINOR "07")
-    set (KDE_APPLICATIONS_VERSION_MICRO "70")
+    set (RELEASE_SERVICE_VERSION_MAJOR "16")
+    set (RELEASE_SERVICE_VERSION_MINOR "07")
+    set (RELEASE_SERVICE_VERSION_MICRO "70")
 
 In this example, the `ours` strategy option will pick the master version,
 which is what we want. However, when a more complex conflict happens,
