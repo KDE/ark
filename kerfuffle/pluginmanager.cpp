@@ -152,7 +152,7 @@ QStringList PluginManager::supportedMimeTypes(MimeSortingMode mode) const
         return sortByComment(supported);
     }
 
-    return supported.toList();
+    return supported.values();
 }
 
 QStringList PluginManager::supportedWriteMimeTypes(MimeSortingMode mode) const
@@ -188,7 +188,7 @@ QStringList PluginManager::supportedWriteMimeTypes(MimeSortingMode mode) const
         return sortByComment(supported);
     }
 
-    return supported.toList();
+    return supported.values();
 }
 
 QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const QMimeType &mimeType) const
