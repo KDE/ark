@@ -1059,7 +1059,7 @@ bool CliInterface::addComment(const QString &comment)
     }
 
     QTextStream stream(m_commentTempFile.data());
-    stream << comment << endl;
+    stream << comment << "\n";
     m_commentTempFile->close();
 
     if (!runProcess(m_cliProps->property("addProgram").toString(),
