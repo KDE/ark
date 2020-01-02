@@ -341,7 +341,7 @@ QString ArchiveModel::cleanFileName(const QString& fileName)
 {
     // Skip entries with filename "/" or "//" or "."
     // "." is present in ISO files.
-    QRegularExpression pattern(QStringLiteral("/+|\\."));
+    static QRegularExpression pattern(QStringLiteral("/+|\\."));
     QRegularExpressionMatch match;
     if (fileName.contains(pattern, &match) && match.captured() == fileName) {
         qCDebug(ARK) << "Skipping entry with filename" << fileName;
