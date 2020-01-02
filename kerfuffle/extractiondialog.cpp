@@ -31,7 +31,6 @@
 
 #include <KDirOperator>
 #include <KLocalizedString>
-#include <KIconLoader>
 #include <KMessageBox>
 #include <KUrlComboBox>
 #include <KWindowConfig>
@@ -83,7 +82,7 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
     m_ui = new ExtractionDialogUI(this);
     hlayout->addWidget(m_ui);
 
-    m_ui->iconLabel->setPixmap(QIcon::fromTheme(QStringLiteral("archive-extract")).pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop)));
+    m_ui->iconLabel->setPixmap(QIcon::fromTheme(QStringLiteral("archive-extract")).pixmap(48));
 
     m_ui->filesToExtractGroupBox->hide();
     m_ui->allFilesButton->setChecked(true);

@@ -24,7 +24,6 @@
 
 #include <KIO/Global>
 #include <KLocalizedString>
-#include <KIconLoader>
 
 #include <QFileInfo>
 #include <QIcon>
@@ -32,9 +31,9 @@
 
 using namespace Kerfuffle;
 
-static QPixmap getDesktopIconForName(const QString& name)
+QPixmap InfoPanel::getPixmap(const QString& name)
 {
-    return QIcon::fromTheme(name).pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop));
+    return QIcon::fromTheme(name).pixmap(48);
 }
 
 InfoPanel::InfoPanel(ArchiveModel *model, QWidget *parent)
@@ -60,7 +59,7 @@ InfoPanel::~InfoPanel()
 
 void InfoPanel::updateWithDefaults()
 {
-    iconLabel->setPixmap(getDesktopIconForName(QStringLiteral("utilities-file-archiver")));
+    iconLabel->setPixmap(getPixmap(QStringLiteral("utilities-file-archiver")));
 
     const QString currentFileName = prettyFileName();
 
@@ -109,7 +108,7 @@ void InfoPanel::setIndex(const QModelIndex& index)
             mimeType = db.mimeTypeForFile(entry->fullPath(), QMimeDatabase::MatchExtension);
         }
 
-        iconLabel->setPixmap(getDesktopIconForName(mimeType.iconName()));
+        iconLabel->setPixmap(getPixmap(mimeType.iconName()));
         if (entry->isDir()) {
             uint dirs;
             uint files;
@@ -141,7 +140,7 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
     } else if (list.size() == 1) {
         setIndex(list[ 0 ]);
     } else {
-        iconLabel->setPixmap(getDesktopIconForName(QStringLiteral("utilities-file-archiver")));
+        iconLabel->setPixmap(getPixmap(QStringLiteral("utilities-file-archiver")));
         fileName->setText(i18np("One file selected", "%1 files selected", list.size()));
         quint64 totalSize = 0;
         for (const QModelIndex& index : list) {

@@ -42,7 +42,6 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive
                                                         DBusAddons
                                                         DocTools
                                                         I18n
-                                                        IconThemes
                                                         ItemModels
                                                         KIO
                                                         Service

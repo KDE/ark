@@ -37,7 +37,6 @@
 #include <QFutureWatcher>
 #include <QIcon>
 
-#include <KIconLoader>
 #include <KIO/Global>
 
 namespace Kerfuffle
@@ -102,7 +101,7 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive, qulonglong
 
     // Show an icon representing the mimetype of the archive.
     QIcon icon = QIcon::fromTheme(archive->mimeType().iconName());
-    m_ui->lblIcon->setPixmap(icon.pixmap(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop)));
+    m_ui->lblIcon->setPixmap(icon.pixmap(48));
 
     m_ui->lblMD5->setText(i18n("Calculating..."));
     m_ui->lblSHA1->setText(i18n("Calculating..."));

@@ -65,6 +65,8 @@ private:
 
     void showMetaDataFor(const QModelIndex &index);
 
+    QPixmap getPixmap(const QString& name);
+
     ArchiveModel *m_model;
     QString m_prettyFileName;
 };

@@ -24,7 +24,6 @@
 
 #include <KLocalizedString>
 #include <KMimeTypeTrader>
-#include <KIconLoader>
 #include <KMessageBox>
 #include <KParts/ReadOnlyPart>
 #include <KParts/OpenUrlArguments>
@@ -35,6 +34,7 @@
 #include <QMimeDatabase>
 #include <QProgressDialog>
 #include <QPushButton>
+#include <QStyle>
 
 #include <algorithm>
 
@@ -172,7 +172,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     setWindowFilePath(fileName);
 
     // Set icon and comment for the mimetype.
-    m_iconLabel->setPixmap(QIcon::fromTheme(mimeType.iconName()).pixmap(IconSize(KIconLoader::Small), IconSize(KIconLoader::Small)));
+    m_iconLabel->setPixmap(QIcon::fromTheme(mimeType.iconName()).pixmap(style()->pixelMetric(QStyle::PixelMetric::PM_SmallIconSize)));
     m_commentLabel->setText(mimeType.comment());
 
     // Create the ReadOnlyPart instance.

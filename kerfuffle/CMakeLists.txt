@@ -57,7 +57,6 @@ endif()
 
 target_link_libraries(kerfuffle
 PUBLIC
-    KF5::IconThemes
     KF5::Pty
     KF5::I18n
     KF5::WidgetsAddons
