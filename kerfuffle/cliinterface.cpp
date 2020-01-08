@@ -840,7 +840,7 @@ bool CliInterface::handleLine(const QString& line)
         //read the percentage
         int pos = line.indexOf(QLatin1Char( '%' ));
         if (pos > 1) {
-            int percentage = line.midRef(pos - 2, 2).toInt();
+            int percentage = line.midRef(pos - 3, 3).toInt();
             emit progress(float(percentage) / 100);
             return true;
         }
