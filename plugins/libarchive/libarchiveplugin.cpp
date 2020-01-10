@@ -68,7 +68,7 @@ bool LibarchivePlugin::list()
         return false;
     }
 
-    qDebug(ARK) << "Detected compression filter:" << archive_filter_name(m_archiveReader.data(), 0);
+    qCDebug(ARK) << "Detected compression filter:" << archive_filter_name(m_archiveReader.data(), 0);
     QString compMethod = convertCompressionName(QString::fromUtf8(archive_filter_name(m_archiveReader.data(), 0)));
     if (!compMethod.isEmpty()) {
         emit compressionMethodFound(compMethod);
@@ -86,7 +86,7 @@ bool LibarchivePlugin::list()
     while (!QThread::currentThread()->isInterruptionRequested() && (result = archive_read_next_header(m_archiveReader.data(), &aentry)) == ARCHIVE_OK) {
 
         if (firstEntry) {
-            qDebug(ARK) << "Detected format for first entry:" << archive_format_name(m_archiveReader.data());
+            qCDebug(ARK) << "Detected format for first entry:" << archive_format_name(m_archiveReader.data());
             firstEntry = false;
         }
 
