@@ -10,6 +10,7 @@
         <comment xml:lang="fr">Archive Tar (compressée avec zstd)</comment>
         <comment xml:lang="ia">Arhivo Tar (zstd-comprimite)</comment>
         <comment xml:lang="it">Archivio Tar (compresso zstd)</comment>
+        <comment xml:lang="ko">TAR 보관 파일(zstd 압축)</comment>
         <comment xml:lang="nl">Tar-archief (zstd-gecomprimeerd)</comment>
         <comment xml:lang="pl">Archiwum Tar (spakowanie-zstd)</comment>
         <comment xml:lang="pt">Pacote TAR (comprimido com o 'zstd')</comment>
