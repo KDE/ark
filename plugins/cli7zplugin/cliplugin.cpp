@@ -186,7 +186,11 @@ bool CliPlugin::readListLine(const QString& line)
             m_numberOfVolumes = line.section(QLatin1Char('='), 1).trimmed().toInt();
 
         } else if (line.startsWith(QLatin1String("Method = "))) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
             QStringList methods = line.section(QLatin1Char('='), 1).trimmed().split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+            QStringList methods = line.section(QLatin1Char('='), 1).trimmed().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
             handleMethods(methods);
 
         } else if (line.startsWith(QLatin1String("Comment = "))) {
@@ -265,7 +269,11 @@ bool CliPlugin::readListLine(const QString& line)
 
             // For zip archives we need to check method for each entry.
             if (m_archiveType == ArchiveTypeZip) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 QStringList methods = line.section(QLatin1Char('='), 1).trimmed().split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+                QStringList methods = line.section(QLatin1Char('='), 1).trimmed().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
                 handleMethods(methods);
             }
 

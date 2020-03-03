@@ -457,7 +457,11 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
         // pass a QStringList containing the details. We need to store
         // it due to symlinks (see below).
         m_unrar4Details.append(line.split(QLatin1Char(' '),
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                                           QString::SkipEmptyParts));
+#else
+                                          Qt::SkipEmptyParts));
+#endif
 
         // The details line contains 9 fields, so m_unrar4Details
         // should now contain 9 + the filename = 10 strings. If not, this is

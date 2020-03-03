@@ -109,7 +109,11 @@ bool CliPlugin::readListLine(const QString &line)
         return true;
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QStringList fileprops = line.split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+    QStringList fileprops = line.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
     m_entryFilename = QDir::fromNativeSeparators(m_entryFilename);
     bool isDirectory = (bool)(fileprops[ 5 ].contains(QLatin1Char('d'), Qt::CaseInsensitive));
 

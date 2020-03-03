@@ -361,7 +361,11 @@ void ArchiveModel::initRootEntry()
 
 Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehaviour behaviour)
 {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QStringList pieces = entry->fullPath().split(QLatin1Char('/'), QString::SkipEmptyParts);
+#else
+    QStringList pieces = entry->fullPath().split(QLatin1Char('/'), Qt::SkipEmptyParts);
+#endif
     if (pieces.isEmpty()) {
         return nullptr;
     }
@@ -439,7 +443,11 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         return;
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     Archive::Entry *entry = m_rootEntry->findByPath(entryFileName.split(QLatin1Char('/'), QString::SkipEmptyParts));
+#else
+    Archive::Entry *entry = m_rootEntry->findByPath(entryFileName.split(QLatin1Char('/'), Qt::SkipEmptyParts));
+#endif
     if (entry) {
         Archive::Entry *parent = entry->getParent();
         QModelIndex index = indexForEntry(entry);
@@ -537,7 +545,11 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     Archive::Entry *parent = parentFor(receivedEntry, behaviour);
 
     // Create an Archive::Entry.
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     const QStringList path = entryFileName.split(QLatin1Char('/'), QString::SkipEmptyParts);
+#else
+    const QStringList path = entryFileName.split(QLatin1Char('/'), Qt::SkipEmptyParts);
+#endif
     Archive::Entry *entry = parent->find(path.last());
     if (entry) {
         entry->copyMetaData(receivedEntry);
@@ -746,7 +758,11 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
     // We can't accept destination as an argument, because it can be a new entry path for renaming.
     const Archive::Entry *destination;
     {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         QStringList destinationParts = entries.first().split(QLatin1Char('/'), QString::SkipEmptyParts);
+#else
+        QStringList destinationParts = entries.first().split(QLatin1Char('/'), Qt::SkipEmptyParts);
+#endif
         destinationParts.removeLast();
         if (destinationParts.count() > 0) {
             destination = m_rootEntry->findByPath(destinationParts);
@@ -769,7 +785,11 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
         }
 
         bool isDir = entry.right(1) == QLatin1String("/");
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         const Archive::Entry *archiveEntry = lastDirEntry->find(entry.split(QLatin1Char('/'), QString::SkipEmptyParts).last());
+#else
+        const Archive::Entry *archiveEntry = lastDirEntry->find(entry.split(QLatin1Char('/'), Qt::SkipEmptyParts).last());
+#endif
 
         if (archiveEntry != nullptr) {
             if (archiveEntry->isDir() != isDir || !allowMerging) {

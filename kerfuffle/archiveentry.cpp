@@ -108,7 +108,11 @@ void Archive::Entry::setParent(Archive::Entry *parent)
 void Archive::Entry::setFullPath(const QString &fullPath)
 {
     m_fullPath = fullPath;
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     const QStringList pieces = m_fullPath.split(QLatin1Char('/'), QString::SkipEmptyParts);
+#else
+    const QStringList pieces = m_fullPath.split(QLatin1Char('/'), Qt::SkipEmptyParts);
+#endif
     m_name = pieces.isEmpty() ? QString() : pieces.last();
 }
 
