@@ -29,7 +29,7 @@
 #include "archive_kerfuffle.h"
 
 #include <QDateTime>
-
+#include <QIcon>
 
 namespace Kerfuffle {
 
@@ -94,6 +94,7 @@ public:
     int row() const;
     Entry *find(const QString &name) const;
     Entry *findByPath(const QStringList & pieces, int index = 0) const;
+    QIcon icon() const;
 
     /**
      * Fills @p dirs and @p files with the number of directories and files
@@ -128,6 +129,7 @@ private:
     bool m_isDirectory;
     bool m_isExecutable;
     bool m_isPasswordProtected;
+    mutable QIcon m_icon;
 };
 
 QDebug KERFUFFLE_EXPORT operator<<(QDebug d, const Kerfuffle::Archive::Entry &entry);

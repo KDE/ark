@@ -25,6 +25,8 @@
 
 #include "archiveentry.h"
 
+#include <QMimeDatabase>
+
 namespace Kerfuffle {
 Archive::Entry::Entry(QObject *parent, const QString &fullPath, const QString &rootNode)
     : QObject(parent)
@@ -199,6 +201,22 @@ void Archive::Entry::countChildren(uint &dirs, uint &files) const
             files++;
         }
     }
+}
+
+QIcon Archive::Entry::icon() const
+{
+    if (m_icon.isNull()) {
+        QMimeDatabase db;
+
+        if (m_isDirectory) {
+            static QIcon directoryIcon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName());
+            m_icon = directoryIcon;
+        } else {
+            m_icon = QIcon::fromTheme(db.mimeTypeForFile(m_name, QMimeDatabase::MatchMode::MatchExtension).iconName());
+        }
+    }
+
+    return m_icon;
 }
 
 bool Archive::Entry::operator==(const Archive::Entry &right) const

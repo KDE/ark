@@ -43,7 +43,7 @@ class OverwriteDialog : public QDialog
 {
     Q_OBJECT
 public:
-    explicit OverwriteDialog(QWidget *parent, const QList<const Kerfuffle::Archive::Entry*> &entries, const QHash<QString, QIcon> &icons, bool error = false);
+    explicit OverwriteDialog(QWidget *parent, const QList<const Kerfuffle::Archive::Entry*> &entries, bool error = false);
     ~OverwriteDialog() override;
 
 private:

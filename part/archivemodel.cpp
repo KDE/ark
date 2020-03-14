@@ -131,9 +131,9 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
         }
         case Qt::DecorationRole:
             if (index.column() == 0) {
-                const Archive::Entry *e = static_cast<Archive::Entry*>(index.internalPointer());
+                Archive::Entry *e = static_cast<Archive::Entry*>(index.internalPointer());
                 QIcon::Mode mode = (filesToMove.contains(e->fullPath())) ? QIcon::Disabled : QIcon::Normal;
-                return m_entryIcons.value(e->fullPath(NoTrailingSlash)).pixmap(QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize), mode);
+                return e->icon().pixmap(QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize), mode);
             }
             return QVariant();
         case Qt::FontRole: {
@@ -454,7 +454,6 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         Q_UNUSED(index);
 
         beginRemoveRows(indexForEntry(parent), entry->row(), entry->row());
-        m_entryIcons.remove(parent->entries().at(entry->row())->fullPath(NoTrailingSlash));
         parent->removeEntryAt(entry->row());
         endRemoveRows();
     }
@@ -589,14 +588,6 @@ void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)
     if (behaviour == NotifyViews) {
         endInsertRows();
     }
-
-    // Save an icon for each newly added entry.
-    QMimeDatabase db;
-    QIcon icon;
-    entry->isDir()
-    ? icon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName())
-    : icon = QIcon::fromTheme(db.mimeTypeForFile(entry->fullPath()).iconName());
-    m_entryIcons.insert(entry->fullPath(NoTrailingSlash), icon);
 }
 
 Kerfuffle::Archive* ArchiveModel::archive() const
@@ -839,11 +830,6 @@ QMap<QString, Archive::Entry*> ArchiveModel::entryMap(const QVector<Archive::Ent
     return map;
 }
 
-const QHash<QString, QIcon> ArchiveModel::entryIcons() const
-{
-    return m_entryIcons;
-}
-
 void ArchiveModel::slotCleanupEmptyDirs()
 {
     QList<QPersistentModelIndex> queue;
@@ -874,7 +860,6 @@ void ArchiveModel::slotCleanupEmptyDirs()
         Archive::Entry *rawEntry = static_cast<Archive::Entry*>(node.internalPointer());
         qCDebug(ARK) << "Delete with parent entries " << rawEntry->getParent()->entries() << " and row " << rawEntry->row();
         beginRemoveRows(parent(node), rawEntry->row(), rawEntry->row());
-        m_entryIcons.remove(rawEntry->getParent()->entries().at(rawEntry->row())->fullPath(NoTrailingSlash));
         rawEntry->getParent()->removeEntryAt(rawEntry->row());
         endRemoveRows();
     }

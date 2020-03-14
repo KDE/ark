@@ -1299,7 +1299,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
     bool error = m_model->conflictingEntries(conflictingEntries, withChildPaths, true);
 
     if (conflictingEntries.count() > 0) {
-        QPointer<OverwriteDialog> overwriteDialog = new OverwriteDialog(widget(), conflictingEntries, m_model->entryIcons(), error);
+        QPointer<OverwriteDialog> overwriteDialog = new OverwriteDialog(widget(), conflictingEntries, error);
         int ret = overwriteDialog->exec();
         delete overwriteDialog;
         if (ret == QDialog::Rejected) {
@@ -1515,7 +1515,7 @@ void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle:
     bool error = m_model->conflictingEntries(conflictingEntries, newPaths, false);
 
     if (conflictingEntries.count() != 0) {
-        QPointer<OverwriteDialog> overwriteDialog = new OverwriteDialog(widget(), conflictingEntries, m_model->entryIcons(), error);
+        QPointer<OverwriteDialog> overwriteDialog = new OverwriteDialog(widget(), conflictingEntries, error);
         int ret = overwriteDialog->exec();
         delete overwriteDialog;
         if (ret == QDialog::Rejected) {

@@ -31,7 +31,7 @@
 
 using namespace Kerfuffle;
 
-OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Entry*> &entries, const QHash<QString, QIcon> &icons, bool error)
+OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Entry*> &entries, bool error)
         : QDialog(parent)
         , m_buttonBox(QDialogButtonBox::Cancel, Qt::Horizontal)
 {
@@ -54,7 +54,7 @@ OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Ent
     connect(&m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
     for (const Archive::Entry *entry : entries) {
-        QListWidgetItem *item = new QListWidgetItem(icons.value(entry->fullPath(NoTrailingSlash)), entry->fullPath(NoTrailingSlash));
+        QListWidgetItem *item = new QListWidgetItem(entry->icon(), entry->fullPath(NoTrailingSlash));
         m_entriesList.addItem(item);
     }
 

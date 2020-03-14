@@ -134,8 +134,6 @@ public:
 
     static QMap<QString, Archive::Entry*> entryMap(const QVector<Archive::Entry*> &entries);
 
-    const QHash<QString, QIcon> entryIcons() const;
-
     QMap<QString, Kerfuffle::Archive::Entry*> filesToMove;
     QMap<QString, Kerfuffle::Archive::Entry*> filesToCopy;
 
