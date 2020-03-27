@@ -217,7 +217,7 @@
       <li xml:lang="pt-BR">Diversos formatos suportados: gzip, bzip2, zip, rar, 7z, entre outros</li>
       <li xml:lang="ru">Поддержка нескольких форматов: GZIP, BZip2, ZIP, RAR, 7z и другие</li>
       <li xml:lang="sk">Niektoré z podporovaných formátov: gzip, bzip2, zip, rar, 7z a viac</li>
-      <li xml:lang="sl">Številne podprte vrste arhivov: gzip, bzip2, zip, rar, 7z in več</li>
+      <li xml:lang="sl">Številne podprte vrste arhivov: gzip, bzip2, zip, rar, 7z in druge</li>
       <li xml:lang="sr">Више подржаних формата: гзип, бзип2, ЗИП, РАР, 7зип, итд.</li>
       <li xml:lang="sr-Latn">Više podržanih formata: gzip, bzip2, ZIP, RAR, 7zip, itd.</li>
       <li xml:lang="sr-ijekavian">Више подржаних формата: гзип, бзип2, ЗИП, РАР, 7зип, итд.</li>
@@ -259,7 +259,7 @@
       <li xml:lang="pt-BR">Visualização do conteúdo dos arquivos sem precisar extraí-los</li>
       <li xml:lang="ru">Предварительный просмотр содержимого файлов из архива без их сохранения на диск.</li>
       <li xml:lang="sk">Náhľad obsahu súboru bez rozbalenia súborov</li>
-      <li xml:lang="sl">Predoglejte vsebino datoteke brez razširjanja</li>
+      <li xml:lang="sl">Predogled vsebine datoteke brez razširjanja</li>
       <li xml:lang="sr">Преглед садржаја фајлова без распакивања.</li>
       <li xml:lang="sr-Latn">Pregled sadržaja fajlova bez raspakivanja.</li>
       <li xml:lang="sr-ijekavian">Преглед садржаја фајлова без распакивања.</li>
@@ -296,6 +296,7 @@
       <caption xml:lang="pt-BR">Gerenciando arquivos compactados com o Ark</caption>
       <caption xml:lang="ru">Управление архивами в Ark</caption>
       <caption xml:lang="sk">Spravovanie archívov s Ark</caption>
+      <caption xml:lang="sl">Upravljanje arhivov z Ark</caption>
       <caption xml:lang="sv">Hantera arkiv med Ark</caption>
       <caption xml:lang="uk">Керування архівами за допомогою Ark</caption>
       <caption xml:lang="x-test">xxManaging archives with Arkxx</caption>
