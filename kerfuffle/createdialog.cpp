@@ -85,13 +85,9 @@ CreateDialog::CreateDialog(QWidget *parent,
     connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(m_ui->buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     connect(this, &QDialog::accepted, this, &CreateDialog::slotUpdateDefaultMimeType);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_ui->mimeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CreateDialog::slotUpdateWidgets);
     connect(m_ui->mimeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CreateDialog::slotUpdateFilenameExtension);
-#else
-    connect(m_ui->mimeComboBox, QOverload<int, const QString &>::of(&QComboBox::currentIndexChanged), this, &CreateDialog::slotUpdateWidgets);
-    connect(m_ui->mimeComboBox, QOverload<int, const QString &>::of(&QComboBox::currentIndexChanged), this, &CreateDialog::slotUpdateFilenameExtension);
-#endif
+
     m_vlayout->addWidget(m_ui);
 
     m_ui->optionsWidget->setMimeType(currentMimeType());
