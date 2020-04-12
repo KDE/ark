@@ -411,6 +411,7 @@ void BatchExtractJob::slotLoadingFinished(KJob *job)
     if (m_extractJob) {
         connect(m_extractJob, &KJob::result, this, &BatchExtractJob::emitResult);
         connect(m_extractJob, &Kerfuffle::Job::userQuery, this, &BatchExtractJob::userQuery);
+        connect(archiveInterface(), &ReadOnlyArchiveInterface::error, this, &BatchExtractJob::onError);
         if (archiveInterface()->hasBatchExtractionProgress()) {
             // The LoadJob is done, change slot and start setting the percentage from m_lastPercentage on.
             disconnect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &BatchExtractJob::slotLoadingProgress);
