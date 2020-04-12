@@ -958,4 +958,10 @@ QString LibzipPlugin::permissionsToString(const mode_t &perm)
     return modeval;
 }
 
+
+bool LibzipPlugin::hasBatchExtractionProgress() const
+{
+    return true;
+}
+
 #include "libzipplugin.moc"

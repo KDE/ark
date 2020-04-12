@@ -51,6 +51,7 @@ public:
     bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) override;
     bool addComment(const QString& comment) override;
     bool testArchive() override;
+    bool hasBatchExtractionProgress() const override;
 
 private:
     bool extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths, bool removeRootNode);
