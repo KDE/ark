@@ -562,8 +562,7 @@ void CliPlugin::handleUnrar4Entry()
 
 bool CliPlugin::readExtractLine(const QString &line)
 {
-    const QRegularExpression rxCRC(QStringLiteral("CRC failed"));
-    if (rxCRC.match(line).hasMatch()) {
+    if (line.contains(QLatin1String("CRC failed"))) {
         emit error(i18n("One or more wrong checksums"));
         return false;
     }
