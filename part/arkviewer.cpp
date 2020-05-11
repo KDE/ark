@@ -22,12 +22,13 @@
 #include "arkviewer.h"
 #include "ark_debug.h"
 
+#include <KIO/JobUiDelegate>
+#include <KIO/ApplicationLauncherJob>
 #include <KLocalizedString>
 #include <KMimeTypeTrader>
 #include <KMessageBox>
 #include <KParts/ReadOnlyPart>
 #include <KParts/OpenUrlArguments>
-#include <KRun>
 #include <KXMLGUIFactory>
 
 #include <QFile>
@@ -96,9 +97,12 @@ void ArkViewer::view(const QString& fileName)
         qCDebug(ARK) << "Using external viewer";
 
         const QList<QUrl> fileUrlList = {QUrl::fromLocalFile(fileName)};
-        // The last argument (tempFiles) set to true means that the temporary
-        // file will be removed when the viewer application exits.
-        KRun::runService(*viewer, fileUrlList, nullptr, true);
+        KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(viewer);
+        job->setUrls(fileUrlList);
+        job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, nullptr));
+        // The temporary file will be removed when the viewer application exits.
+        job->setRunFlags(KIO::ApplicationLauncherJob::DeleteTemporaryFiles);
+        job->start();
         return;
     }
 

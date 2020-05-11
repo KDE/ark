@@ -24,9 +24,11 @@
 #include <QMenu>
 #include <QMimeDatabase>
 
-#include <KPluginFactory>
+#include <KDialogJobUiDelegate>
+#include <KIO/ApplicationLauncherJob>
 #include <KLocalizedString>
-#include <KRun>
+#include <KPluginFactory>
+#include <KService>
 
 #include <algorithm>
 
@@ -99,7 +101,11 @@ QAction *CompressFileItemAction::createAction(const QIcon& icon, const QString& 
     QAction *action = new QAction(icon, name, parent);
 
     connect(action, &QAction::triggered, this, [exec, urls, parent]() {
-        KRun::run(exec, urls, parent);
+        KService::Ptr service(new KService(QStringLiteral("ark"), exec, QString()));
+        KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service);
+        job->setUrls(urls);
+        job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, parent));
+        job->start();
     });
 
     return action;

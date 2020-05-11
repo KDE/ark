@@ -24,9 +24,11 @@
 #include <QFileInfo>
 #include <QMenu>
 
-#include <KPluginFactory>
+#include <KDialogJobUiDelegate>
+#include <KIO/ApplicationLauncherJob>
 #include <KLocalizedString>
-#include <KRun>
+#include <KPluginFactory>
+#include <KService>
 
 #include "mimetypes.h"
 #include "pluginmanager.h"
@@ -104,7 +106,11 @@ QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& n
     QAction *action = new QAction(icon, name, parent);
 
     connect(action, &QAction::triggered, this, [exec, urls, parent]() {
-        KRun::run(exec, urls, parent);
+        KService::Ptr service(new KService(QStringLiteral("ark"), exec, QString()));
+        KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service);
+        job->setUrls(urls);
+        job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, parent));
+        job->start();
     });
 
     return action;
