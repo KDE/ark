@@ -303,7 +303,7 @@
       <caption xml:lang="x-test">xxManaging archives with Arkxx</caption>
       <caption xml:lang="zh-CN">在 Ark 中管理归档</caption>
       <caption xml:lang="zh-TW">使用 Ark 管理封存檔</caption>
-      <image width="1250" height="754">https://cdn.kde.org/screenshots/ark/ark.png</image>
+      <image width="688" height="553">https://cdn.kde.org/screenshots/ark/ark.png</image>
     </screenshot>
   </screenshots>
   <url type="homepage">https://kde.org/applications/utilities/ark/</url>
@@ -321,4 +321,5 @@
     <release version="20.04.0" date="2020-04-23"/>
     <release version="19.12.3" date="2020-03-05"/>
   </releases>
+  <content_rating type="oars-1.1" />
 </component>
