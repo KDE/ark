@@ -31,7 +31,6 @@
         "Description[sv]": "Öppna och packa upp DEB-, RPM-, ISO-, AppImage-, XAR- och CAB-filer",
         "Description[tr]": "DEB, RPM, ISO, AppImage, XAR ve CAB dosyalarını açıp çıkartın",
         "Description[uk]": "Здатен відкривати і видобувати дані з архівів DEB, RPM, ISO, AppImage, XAR та CAB",
-        "Description[x-test]": "xxOpen and extract DEB, RPM, ISO, AppImage, XAR and CAB filesxx",
         "Description[zh_CN]": "打开和解压 DEB，RPM，ISO，AppImage，XAR 和 CAB 文件",
         "Description[zh_TW]": "開啟並解壓縮 DEB, RPM, ISO, AppImage, XAR 與 CAB 檔案",
         "Id": "kerfuffle_libarchive_readonly",
@@ -69,7 +68,6 @@
         "Name[sv]": "Libarchive-insticksprogram (endast läsningsformat)",
         "Name[tr]": "Libarchive eklentisi (salt okunur biçimler)",
         "Name[uk]": "Додаток libarchive (формати лише для читання)",
-        "Name[x-test]": "xxLibarchive plugin (read-only formats)xx",
         "Name[zh_CN]": "Libarchive 插件 (只读格式)",
         "Name[zh_TW]": "Libarchive 外掛程式（唯讀格式）",
         "ServiceTypes": [
