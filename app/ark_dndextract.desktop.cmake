@@ -56,6 +56,7 @@ Name[th]=อาร์ก คลายแฟ้มไว้ที่นี่
 Name[tr]=Ark Arşivi Buraya Çıkart
 Name[uk]=Видобути архів сюди з Ark
 Name[wa]=Saetchî foû avou Ark cial
+Name[x-test]=xxArk Extract Herexx
 Name[zh_CN]=Ark 在此解压缩
 Name[zh_TW]=在此解壓縮
 MimeType=@SUPPORTED_ARK_MIMETYPES@

@@ -31,6 +31,7 @@
         "Description[sv]": "Öppna och extrahera RAR-arkiv",
         "Description[tr]": "RAR arşivlerini aç ve çıkar",
         "Description[uk]": "Здатен відкривати і видобувати архіви RAR",
+        "Description[x-test]": "xxOpen and extract RAR archivesxx",
         "Description[zh_CN]": "打开和解压 RAR 归档",
         "Description[zh_TW]": "開啟並解壓縮 RAR 壓縮檔",
         "Id": "kerfuffle_cliunarchiver",
@@ -69,6 +70,7 @@
         "Name[sv]": "Unarchiver-insticksprogram",
         "Name[tr]": "Unarchiver eklentisi",
         "Name[uk]": "Додаток Unarchiver",
+        "Name[x-test]": "xxThe Unarchiver pluginxx",
         "Name[zh_CN]": "Unarchiver 插件",
         "Name[zh_TW]": "解壓縮外掛程式",
         "ServiceTypes": [
