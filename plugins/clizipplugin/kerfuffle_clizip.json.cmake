@@ -31,6 +31,7 @@
         "Description[sv]": "Stöd för föråldrat zip-arkivformat",
         "Description[tr]": "Zip arşivi biçimi için eski desteği",
         "Description[uk]": "Підтримка архівів у застарілій версії формату zip",
+        "Description[x-test]": "xxLegacy support for the zip archive formatxx",
         "Description[zh_CN]": "zip 归档格式的老旧支持",
         "Description[zh_TW]": "對 zip 壓縮格式的舊版支援",
         "Id": "kerfuffle_clizip",
@@ -68,6 +69,7 @@
         "Name[sv]": "Info-zip-insticksprogram",
         "Name[tr]": "Info-zip eklentisi",
         "Name[uk]": "Додаток info-zip",
+        "Name[x-test]": "xxInfo-zip pluginxx",
         "Name[zh_CN]": "Info-zip 插件",
         "Name[zh_TW]": "Info-zip 外掛程式",
         "ServiceTypes": [
