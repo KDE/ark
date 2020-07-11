@@ -94,6 +94,7 @@ private Q_SLOTS:
 private:
     int extractionFlags() const;
     QString convertCompressionName(const QString &method);
+    bool emitCorruptArchive();
 
     int m_cachedArchiveEntryCount;
     qlonglong m_currentExtractedFilesSize;

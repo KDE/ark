@@ -99,15 +99,45 @@ bool LibarchivePlugin::list()
         emit progress(float(archive_filter_bytes(m_archiveReader.data(), -1))/float(compressedArchiveSize));
 
         m_cachedArchiveEntryCount++;
-        archive_read_data_skip(m_archiveReader.data());
+
+        // Skip the entry data.
+        int readSkipResult = archive_read_data_skip(m_archiveReader.data());
+        if (readSkipResult != ARCHIVE_OK) {
+            qCCritical(ARK) << "Error while skipping data for entry:"
+                            << QString::fromWCharArray(archive_entry_pathname_w(aentry))
+                            << readSkipResult
+                            << QLatin1String(archive_error_string(m_archiveReader.data()));
+            if (!emitCorruptArchive()) {
+                return false;
+            }
+        }
     }
 
     if (result != ARCHIVE_EOF) {
-        qCWarning(ARK) << "Could not read until the end of the archive:" << QLatin1String(archive_error_string(m_archiveReader.data()));
-        return false;
+        qCCritical(ARK) << "Error while reading archive:"
+                        << result
+                        << QLatin1String(archive_error_string(m_archiveReader.data()));
+        if (!emitCorruptArchive()) {
+            return false;
+        }
     }
 
     return archive_read_close(m_archiveReader.data()) == ARCHIVE_OK;
+}
+
+bool LibarchivePlugin::emitCorruptArchive()
+{
+    Kerfuffle::LoadCorruptQuery query(filename());
+    emit userQuery(&query);
+    query.waitForResponse();
+    if (!query.responseYes()) {
+        emit cancelled();
+        archive_read_close(m_archiveReader.data());
+        return false;
+    } else {
+        emit progress(1.0);
+        return true;
+    }
 }
 
 bool LibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd)
