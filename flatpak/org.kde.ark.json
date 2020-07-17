@@ -15,6 +15,14 @@
         "--filesystem=host",
         "--device=dri"
     ],
+    "cleanup": [
+        "*.a",
+        "*.la",
+        "/include",
+        "/lib/pkgconfig",
+        "/share/doc",
+        "/share/man"
+    ],
     "modules": [
         {
             "name": "libarchive",
