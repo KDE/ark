@@ -9,11 +9,12 @@
     "tags": ["nightly"],
     "desktop-file-name-prefix": "(Nightly) ",
     "finish-args": [
-        "--share=ipc",
-        "--socket=x11",
-        "--socket=wayland",
+        "--device=dri",
         "--filesystem=host",
-        "--device=dri"
+        "--share=ipc",
+        "--socket=wayland",
+        "--socket=x11",
+        "--talk-name=org.a11y.Bus"
     ],
     "cleanup": [
         "*.a",
