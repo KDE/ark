@@ -180,6 +180,14 @@ void Job::onError(const QString & message, const QString & details)
 
 void Job::onEntry(Archive::Entry *entry)
 {
+    const QString entryFullPath = entry->fullPath();
+    if (QDir::cleanPath(entryFullPath).contains(QLatin1String("../"))) {
+        qCWarning(ARK) << "Possibly malicious archive. Detected entry that could lead to a directory traversal attack:" << entryFullPath;
+        onError(i18n("Could not load the archive because it contains ill-formed entries and might be a malicious archive."), QString());
+        onFinished(false);
+        return;
+    }
+
     emit newEntry(entry);
 }
 
