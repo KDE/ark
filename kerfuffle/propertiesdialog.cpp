@@ -55,6 +55,7 @@ public:
 PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive, qulonglong numberOfFiles, qulonglong numberOfFolders, qulonglong size)
         : QDialog(parent, Qt::Dialog)
 {
+    setAttribute(Qt::WA_DeleteOnClose, true);
     QFileInfo fi(archive->fileName());
 
     setWindowTitle(i18nc("@title:window", "Properties for %1", fi.fileName()));
