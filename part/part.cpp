@@ -357,7 +357,7 @@ void Part::setupActions()
     connect(m_showInfoPanelAction, &QAction::triggered,
             this, &Part::slotToggleInfoPanel);
 
-    m_saveAsAction = KStandardAction::saveAs(this, &Part::slotSaveAs, nullptr);
+    m_saveAsAction = KStandardAction::saveAs(this, &Part::slotSaveAs, this);
     actionCollection()->addAction(QStringLiteral("ark_file_save_as"), m_saveAsAction);
 
     m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
