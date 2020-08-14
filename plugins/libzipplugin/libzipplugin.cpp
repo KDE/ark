@@ -754,7 +754,10 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         default:    // TODO: non-UNIX.
             break;
         }
-
+        
+        // Free libzip file entry from the memory
+        zip_fclose(zipFile);
+        // Close extracted file, flush any buffered data
         file.close();
     }
 
