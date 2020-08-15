@@ -490,6 +490,9 @@ bool LibzipPlugin::testArchive()
             qCCritical(ARK) << "CRC check failed for" << statBuffer.name;
             return false;
         }
+        
+        // Free libzip file entry from the memory
+        zip_fclose(zipFile);
 
         emit progress(float(i) / nofEntries);
     }
