@@ -479,9 +479,9 @@ bool LibzipPlugin::testArchive()
             return false;
         }
 
-        zip_file *zipFile = zip_fopen_index(archive, i, 0);
+        std::unique_ptr<zip_file, decltype(&zip_fclose)> zipFile { zip_fopen_index(archive, i, 0), &zip_fclose };
         std::unique_ptr<uchar[]> buf(new uchar[statBuffer.size]);
-        const int len = zip_fread(zipFile, buf.get(), statBuffer.size);
+        const int len = zip_fread(zipFile.get(), buf.get(), statBuffer.size)
         if (len == -1 || uint(len) != statBuffer.size) {
             qCCritical(ARK) << "Failed to read data for" << statBuffer.name;
             return false;
@@ -490,9 +490,6 @@ bool LibzipPlugin::testArchive()
             qCCritical(ARK) << "CRC check failed for" << statBuffer.name;
             return false;
         }
-        
-        // Free libzip file entry from the memory
-        zip_fclose(zipFile);
 
         emit progress(float(i) / nofEntries);
     }
@@ -676,11 +673,10 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         }
 
         // Handle password-protected files.
-        zip_file *zipFile = nullptr;
+        std::unique_ptr<zip_file, decltype(&zip_fclose)> zipFile { zip_fopen(archive, entry.toUtf8().constData(), 0), &zip_fclose };
         bool firstTry = true;
-        while (!zipFile) {
-            zipFile = zip_fopen(archive, entry.toUtf8().constData(), 0);
-            if (zipFile) {
+        while (!zipFile.get()) {
+            if (zipFile.get()) {
                 break;
             } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD ||
                        zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_WRONGPASSWD) {
@@ -718,7 +714,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         qulonglong sum = 0;
         char buf[1000];
         while (sum != statBuffer.size) {
-            const auto readBytes = zip_fread(zipFile, buf, 1000);
+            const auto readBytes = zip_fread(zipFile.get(), buf, 1000);
             if (readBytes < 0) {
                 qCCritical(ARK) << "Failed to read data";
                 emit error(xi18n("Failed to read data for entry: %1", entry));
@@ -757,9 +753,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         default:    // TODO: non-UNIX.
             break;
         }
-        
-        // Free libzip file entry from the memory
-        zip_fclose(zipFile);
+
         // Close extracted file, flush any buffered data
         file.close();
     }
