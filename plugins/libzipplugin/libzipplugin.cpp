@@ -481,7 +481,7 @@ bool LibzipPlugin::testArchive()
 
         std::unique_ptr<zip_file, decltype(&zip_fclose)> zipFile { zip_fopen_index(archive, i, 0), &zip_fclose };
         std::unique_ptr<uchar[]> buf(new uchar[statBuffer.size]);
-        const int len = zip_fread(zipFile.get(), buf.get(), statBuffer.size)
+        const int len = zip_fread(zipFile.get(), buf.get(), statBuffer.size);
         if (len == -1 || uint(len) != statBuffer.size) {
             qCCritical(ARK) << "Failed to read data for" << statBuffer.name;
             return false;
@@ -676,7 +676,9 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         std::unique_ptr<zip_file, decltype(&zip_fclose)> zipFile { zip_fopen(archive, entry.toUtf8().constData(), 0), &zip_fclose };
         bool firstTry = true;
         while (!zipFile.get()) {
-            if (zipFile.get()) {
+            std::unique_ptr<zip_file, decltype(&zip_fclose)> tempPtr { zip_fopen(archive, entry.toUtf8().constData(), 0), &zip_fclose };
+            if (tempPtr.get()) {
+                zipFile.swap(tempPtr);
                 break;
             } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD ||
                        zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_WRONGPASSWD) {
@@ -754,7 +756,6 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
             break;
         }
 
-        // Close extracted file, flush any buffered data
         file.close();
     }
 
