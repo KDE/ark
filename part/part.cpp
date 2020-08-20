@@ -1656,44 +1656,33 @@ void Part::slotToggleInfoPanel(bool visible)
 
 void Part::slotSaveAs()
 {
-    QUrl saveUrl = QFileDialog::getSaveFileUrl(widget(), i18nc("@title:window", "Save Archive As"), url());
+    const QUrl srcUrl = url();
+    const QUrl saveUrl = QFileDialog::getSaveFileUrl(widget(), i18nc("@title:window", "Save Archive As"), srcUrl);
 
-    if ((saveUrl.isValid()) && (!saveUrl.isEmpty())) {
-        auto statJob = KIO::stat(saveUrl, KIO::StatJob::DestinationSide, 0);
-        KJobWidgets::setWindow(statJob, widget());
-        if (statJob->exec()) {
-            int overwrite = KMessageBox::warningContinueCancel(widget(),
-                                                               xi18nc("@info", "An archive named <filename>%1</filename> already exists. Are you sure you want to overwrite it?", saveUrl.fileName()),
-                                                               QString(),
-                                                               KStandardGuiItem::overwrite());
-
-            if (overwrite != KMessageBox::Continue) {
-                return;
-            }
-        }
-
-        QUrl srcUrl = QUrl::fromLocalFile(localFilePath());
-
-        if (!QFile::exists(localFilePath())) {
-            if (url().isLocalFile()) {
-                KMessageBox::error(widget(),
-                                   xi18nc("@info", "The archive <filename>%1</filename> cannot be copied to the specified location. The archive does not exist anymore.", localFilePath()));
-
-                return;
-            } else {
-                srcUrl = url();
-            }
-        }
-
-        KIO::Job *copyJob = KIO::file_copy(srcUrl, saveUrl, -1, KIO::Overwrite);
-
-        KJobWidgets::setWindow(copyJob, widget());
-        copyJob->exec();
-        if (copyJob->error()) {
-            KMessageBox::error(widget(),
-                               xi18nc("@info", "The archive could not be saved as <filename>%1</filename>. Try saving it to another location.", saveUrl.path()));
-        }
+    if (saveUrl.isEmpty()) { // If the user selected "cancel" the returned url is empty
+        return;
     }
+
+    KIO::Job *copyJob = KIO::file_copy(srcUrl, saveUrl, -1, KIO::Overwrite);
+    KJobWidgets::setWindow(copyJob, widget());
+    connect(copyJob, &KJob::result, this, [this, copyJob, srcUrl, saveUrl]() {
+        const int err = copyJob->error();
+        if (err) {
+            QString msg = copyJob->errorString();
+            // Use custom error messages for these two cases, otherwise just use KIO's
+            if (err == KIO::ERR_WRITE_ACCESS_DENIED) {
+                msg = xi18nc("@info",
+                            "The archive could not be saved as <filename>%1</filename>. Try saving"
+                            " it to another location.", saveUrl.toDisplayString(QUrl::PreferLocalFile));
+            } else if (err == KIO::ERR_DOES_NOT_EXIST) {
+                msg = xi18nc("@info",
+                            "The archive <filename>%1</filename> does not exist anymore, therefore it"
+                            " cannot be copied to the specified location.", srcUrl.toDisplayString(QUrl::PreferLocalFile));
+            }
+
+            KMessageBox::error(widget(), msg);
+        }
+    });
 }
 
 void Part::slotShowContextMenu()
