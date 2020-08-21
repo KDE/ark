@@ -33,9 +33,10 @@
 #include "queries.h"
 
 #include <KIO/JobTracker>
+#include <KIO/JobUiDelegate>
+#include <KIO/OpenUrlJob>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KRun>
 #include <KWidgetJobTracker>
 
 #include <QDir>
@@ -171,9 +172,11 @@ void BatchExtract::slotResult(KJob *job)
 
     if (!hasSubjobs()) {
         if (openDestinationAfterExtraction()) {
-            QUrl destination(destinationFolder());
-            destination.setPath(QDir::cleanPath(destination.path()));
-            KRun::runUrl(destination, QStringLiteral("inode/directory"), nullptr, KRun::RunExecutables, QString(), QByteArray());
+            const QString path = QDir::cleanPath(destinationFolder());
+            const QUrl destination(QUrl::fromLocalFile(path));
+            KIO::OpenUrlJob *job = new KIO::OpenUrlJob(destination, QStringLiteral("inode/directory"));
+            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, nullptr));
+            job->start();
         }
 
         qCDebug(ARK) << "Finished, emitting the result";

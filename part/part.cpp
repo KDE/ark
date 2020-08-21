@@ -48,13 +48,15 @@
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KGuiItem>
+#include <KIO/ApplicationLauncherJob>
 #include <KIO/Job>
+#include <KIO/JobUiDelegate>
+#include <KIO/OpenUrlJob>
 #include <KJobWidgets>
 #include <KIO/StatJob>
 #include <KMessageBox>
 #include <KParts/OpenUrlArguments>
 #include <KPluginFactory>
-#include <KRun>
 #include <KStandardGuiItem>
 #include <KToggleAction>
 #include <KLocalizedString>
@@ -1029,13 +1031,18 @@ void Part::slotOpenExtractedEntry(KJob *job)
             QFile::setPermissions(fullName, QFileDevice::ReadOwner | QFileDevice::ReadGroup | QFileDevice::ReadOther);
         }
 
+        const QUrl url = QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile);
         if (qobject_cast<OpenWithJob*>(job)) {
-            const QList<QUrl> urls = {QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile)};
-            KRun::displayOpenWithDialog(urls, widget());
+            // Constructing an ApplicationLauncherJob without an argument will
+            // trigger the openWith dialog
+            KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob();
+            job->setUrls({url});
+            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
+            job->start();
         } else {
-            KRun::runUrl(QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile),
-                         QMimeDatabase().mimeTypeForFile(fullName).name(),
-                         widget(), KRun::RunFlags());
+            KIO::OpenUrlJob *job = new KIO::OpenUrlJob(url);
+            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
+            job->start();
         }
     } else if (job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
@@ -1261,7 +1268,9 @@ void Part::slotExtractionDone(KJob* job)
             QUrl destinationDirectory = QUrl::fromLocalFile(extractJob->destinationDirectory()).adjusted(QUrl::NormalizePathSegments);
             qCDebug(ARK) << "Shall open URL" << destinationDirectory;
 
-            KRun::runUrl(destinationDirectory, QStringLiteral("inode/directory"), widget(), KRun::RunExecutables, QString(), QByteArray());
+            KIO::OpenUrlJob *job = new KIO::OpenUrlJob(destinationDirectory, QStringLiteral("inode/directory"));
+            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
+            job->start();
         }
 
         if (ArkSettings::closeAfterExtraction()) {
