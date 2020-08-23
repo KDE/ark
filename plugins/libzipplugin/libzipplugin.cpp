@@ -676,8 +676,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         std::unique_ptr<zip_file, decltype(&zip_fclose)> zipFile { zip_fopen(archive, entry.toUtf8().constData(), 0), &zip_fclose };
         bool firstTry = true;
         while (!zipFile.get()) {
-            zipFile.reset();
-            zipFile = { zip_fopen(archive, entry.toUtf8().constData(), 0), &zip_fclose };
+            zipFile.reset(zip_fopen(archive, entry.toUtf8().constData(), 0));
             if (zipFile.get()) {
                 break;
             } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD ||
