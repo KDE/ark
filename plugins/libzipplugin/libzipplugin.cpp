@@ -673,7 +673,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         }
 
         // Handle password-protected files.
-        std::unique_ptr<zip_file, decltype(&zip_fclose)> zipFile { zip_fopen(archive, entry.toUtf8().constData(), 0), &zip_fclose };
+        std::unique_ptr<zip_file, decltype(&zip_fclose)> zipFile { nullptr, &zip_fclose };
         bool firstTry = true;
         while (!zipFile.get()) {
             zipFile.reset(zip_fopen(archive, entry.toUtf8().constData(), 0));
