@@ -280,38 +280,44 @@ void Part::extractSelectedFilesTo(const QString& localPath)
     }
 
     const QUrl url = QUrl::fromUserInput(localPath, QString());
-    KIO::StatJob* statJob = nullptr;
 
-    // Try to resolve the URL to a local path.
+    auto doExtract = [this](const QString &destination) {
+        qCDebug(ARK) << "Extract to" << destination;
+
+        Kerfuffle::ExtractionOptions options;
+        options.setDragAndDropEnabled(true);
+
+        // Create and start the ExtractJob.
+        ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(getSelectedIndexes())), destination, options);
+        registerJob(job);
+        connect(job, &KJob::result, this, &Part::slotExtractionDone);
+        job->start();
+    };
+
     if (!url.isLocalFile() && !url.scheme().isEmpty()) {
-        statJob = KIO::mostLocalUrl(url);
+        // Try to resolve the URL to a local path.
+        KIO::StatJob *statJob = KIO::mostLocalUrl(url);
 
-        if (!statJob->exec() || statJob->error() != 0) {
-            return;
-        }
-    }
+        connect(statJob, &KJob::result, this, [=]() {
+            if (statJob->error()) {
+                KMessageBox::error(widget(), statJob->errorString());
+                return;
+            }
 
-    const QString destination = statJob ? statJob->statResult().stringValue(KIO::UDSEntry::UDS_LOCAL_PATH) : localPath;
-    delete statJob;
+            const QString udsLocalPath = statJob->statResult().stringValue(KIO::UDSEntry::UDS_LOCAL_PATH);
+            if (udsLocalPath.isEmpty()) { // The URL could not be resolved to a local path
+                qCWarning(ARK) << "Ark cannot extract to non-local destination:" << localPath;
+                KMessageBox::sorry(widget(), xi18nc("@info", "Ark can extract archives to local destinations only."));
+                return;
+            }
 
-    // The URL could not be resolved to a local path.
-    if (!url.isLocalFile() && destination.isEmpty()) {
-        qCWarning(ARK) << "Ark cannot extract to non-local destination:" << localPath;
-        KMessageBox::sorry(widget(), xi18nc("@info", "Ark can only extract to local destinations."));
+            doExtract(udsLocalPath);
+        });
+
         return;
     }
 
-    qCDebug(ARK) << "Extract to" << destination;
-
-    Kerfuffle::ExtractionOptions options;
-    options.setDragAndDropEnabled(true);
-
-    // Create and start the ExtractJob.
-    ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(getSelectedIndexes())), destination, options);
-    registerJob(job);
-    connect(job, &KJob::result,
-            this, &Part::slotExtractionDone);
-    job->start();
+    doExtract(localPath);
 }
 
 void Part::guiActivateEvent(KParts::GUIActivateEvent *event)

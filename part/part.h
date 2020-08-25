@@ -92,6 +92,7 @@ public:
     bool confirmAndDelete(const QString& targetFile);
 
 public Q_SLOTS:
+    // Extracts selected files to @p localPath when drag and drop'ing from Ark to e.g. Dolphin
     void extractSelectedFilesTo(const QString& localPath);
 
 protected:
