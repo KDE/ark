@@ -509,10 +509,9 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 
 int LibarchivePlugin::extractionFlags() const
 {
-    int result = ARCHIVE_EXTRACT_TIME;
-    result |= ARCHIVE_EXTRACT_SECURE_NODOTDOT;
-
-    return result;
+    return ARCHIVE_EXTRACT_TIME
+           | ARCHIVE_EXTRACT_SECURE_NODOTDOT
+           | ARCHIVE_EXTRACT_SECURE_SYMLINKS;
 }
 
 void LibarchivePlugin::copyData(const QString& filename, struct archive *dest, bool partialprogress)
