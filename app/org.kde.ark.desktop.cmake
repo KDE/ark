@@ -182,6 +182,7 @@ Comment[nn]=Arbeid med filarkiv
 Comment[pl]=Pracuj z archiwami plików
 Comment[pt]=Lidar com pacotes em ficheiros
 Comment[pt_BR]=Manipulação de arquivos compactados
+Comment[ro]=Lucrează cu arhive de fișiere
 Comment[ru]=Работа с архивами файлов
 Comment[sk]=Práca s archívmi súborov
 Comment[sl]=Delajte z datotečnimi arhivi
