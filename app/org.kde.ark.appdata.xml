@@ -35,6 +35,7 @@
   <name xml:lang="pl">Ark</name>
   <name xml:lang="pt">Ark</name>
   <name xml:lang="pt-BR">Ark</name>
+  <name xml:lang="ro">Ark</name>
   <name xml:lang="ru">Ark</name>
   <name xml:lang="sk">Ark</name>
   <name xml:lang="sl">Ark</name>
@@ -80,6 +81,7 @@
   <summary xml:lang="pl">Narzędzie do archiwizowania</summary>
   <summary xml:lang="pt">Ferramenta de Arquivo</summary>
   <summary xml:lang="pt-BR">Ferramenta de arquivamento</summary>
+  <summary xml:lang="ro">Utilitar de arhivare</summary>
   <summary xml:lang="ru">Архиватор файлов</summary>
   <summary xml:lang="sk">Archivačný nástroj</summary>
   <summary xml:lang="sl">Orodje za ravnanje z arhivi</summary>
@@ -127,6 +129,7 @@
     <p xml:lang="pl">Ark jest graficznym narzędziem do pakowania/rozpakowywania plików wraz z obsługą różnych formatów, włączając w to tar, gzip, bzip2, rar oraz zip, a także obrazy CD-ROM. Programu Ark można używać do przeglądania, tworzenia, zmieniania oraz wydobywania z archiwów</p>
     <p xml:lang="pt">O Ark é um utilitário de compressão/descompressão com o suporte para diversos formatos, incluindo o 'tar', 'gzip', 'bzip2', 'rar' e 'zip', assim como imagens de CD-ROM. O Ark pode ser usado para navegar, extrair, criar e modificar esses pacotes.</p>
     <p xml:lang="pt-BR">O Ark é um utilitário de compressão/descompressão com o suporte a diversos formatos, incluindo tar, gzip, bzip2, rar e zip, assim como imagens de CD-ROM. O Ark pode ser usado para navegar, extrair, criar e modificar esses arquivos.</p>
+    <p xml:lang="ro">Ark este un utilitar grafic de comprimare/decomprimare cu suport pentru formate multiple, inclusiv tar, gzip, bzip2, rar și zip, precum și imagini CD-ROM. Ark poate fi folosit pentru a răsfoi, extrage, crea și modifica arhive.</p>
     <p xml:lang="ru">Ark — графическая утилита для упаковки и распаковки файлов, поддерживающая множество форматов архивов, включая TAR, GZIP, BZip2, RAR, ZIP и образы компакт-дисков. Ark позволяет просматривать, распаковывать, создавать и редактировать архивы.</p>
     <p xml:lang="sk">Ark je grafický nástroj na kompresiu a dekompresiu súborov s podporou pre mnoho formátov, vrátane tar, gzip bzip2, rar a zip, ako ako CD-ROM obrazy. Ark sa dá použiť na prehliadanie, rozbaľovanie vytváranie a úpravu archívov.</p>
     <p xml:lang="sl">Ark je grafično orodje za stiskanje/razširjanje datotek, ki podpira večje število arhivov (med podprtimi so tudi tar, gzip, bzip2, rar in zip) kot tudi odtise CD-ROM. Ark lahko uporabite za brskanje po, razširjanje, ustvarjanje in spreminjanje arhivov.</p>
@@ -172,6 +175,7 @@
     <p xml:lang="pl">Cechy:</p>
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
+    <p xml:lang="ro">Caracteristici:</p>
     <p xml:lang="ru">Возможности:</p>
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sl">Zmožnosti:</p>
@@ -215,6 +219,7 @@
       <li xml:lang="pl">Obsługa kilku formatów: gzip, bzip2, zip, rar, 7z oraz więcej</li>
       <li xml:lang="pt">Diversos formatos suportados: gzip, bzip2, zip, rar, 7z, entre outros</li>
       <li xml:lang="pt-BR">Diversos formatos suportados: gzip, bzip2, zip, rar, 7z, entre outros</li>
+      <li xml:lang="ro">Câteva formate susținute: gzip, bzip2, zip, rar, 7z și altele</li>
       <li xml:lang="ru">Поддержка нескольких форматов: GZIP, BZip2, ZIP, RAR, 7z и другие</li>
       <li xml:lang="sk">Niektoré z podporovaných formátov: gzip, bzip2, zip, rar, 7z a viac</li>
       <li xml:lang="sl">Številne podprte vrste arhivov: gzip, bzip2, zip, rar, 7z in druge</li>
@@ -257,6 +262,7 @@
       <li xml:lang="pl">Podejrzyj zawartość pliku bez jego wypakowywania</li>
       <li xml:lang="pt">Antevisão do conteúdo dos ficheiros sem os extrair</li>
       <li xml:lang="pt-BR">Visualização do conteúdo dos arquivos sem precisar extraí-los</li>
+      <li xml:lang="ro">Previzualizează conținutul fișierelor fără a le extrage</li>
       <li xml:lang="ru">Предварительный просмотр содержимого файлов из архива без их сохранения на диск.</li>
       <li xml:lang="sk">Náhľad obsahu súboru bez rozbalenia súborov</li>
       <li xml:lang="sl">Predogled vsebine datoteke brez razširjanja</li>
@@ -296,6 +302,7 @@
       <caption xml:lang="pl">Zarządzanie archiwami w Ark</caption>
       <caption xml:lang="pt">A gerir pacotes com Ark</caption>
       <caption xml:lang="pt-BR">Gerenciando arquivos compactados com o Ark</caption>
+      <caption xml:lang="ro">Gestiunea arhivelor cu Ark</caption>
       <caption xml:lang="ru">Управление архивами в Ark</caption>
       <caption xml:lang="sk">Spravovanie archívov s Ark</caption>
       <caption xml:lang="sl">Upravljanje arhivov z Ark</caption>
