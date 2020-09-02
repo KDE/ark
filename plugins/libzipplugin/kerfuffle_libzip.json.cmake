@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Full support for the zip archive format",
+        "Description[az]": "Zip formatlı arxivin tam dəstəklənməsi",
         "Description[ca@valencia]": "Implementació completa del format d'arxiu ZIP",
         "Description[ca]": "Implementació completa del format d'arxiu ZIP",
         "Description[cs]": "Plná podpora archivačního formátu zip",
@@ -14,6 +15,7 @@
         "Description[fi]": "Täysi Zip-tiedostomuodon tuki",
         "Description[fr]": "Prise en charge complète du format d'archive ZIP",
         "Description[gl]": "Compatibilidade total co formato de arquivo zip.",
+        "Description[ia]": "Supporto complete per le formato de archivo zip",
         "Description[it]": "Supporto completo per il formato di archivi ZIP",
         "Description[ko]": "zip 압축 형식 지원",
         "Description[nl]": "Volledige ondersteuning voor het zip-archiefformaat",
@@ -40,6 +42,7 @@
             "@SUPPORTED_MIMETYPES@"
         ],
         "Name": "Libzip plugin",
+        "Name[az]": "Libzip qoşması",
         "Name[ca@valencia]": "Connector del Libzip",
         "Name[ca]": "Connector del Libzip",
         "Name[cs]": "Modul pro libzip",

@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Full support for compressed TAR archives",
+        "Description[az]": "Sıxılmış TAR arxivlərinin tam dəstəklənməsi",
         "Description[ca@valencia]": "Implementació completa dels arxius TAR comprimits",
         "Description[ca]": "Implementació completa dels arxius TAR comprimits",
         "Description[cs]": "Plná podpora komprimovaných archivů TAR",
@@ -14,6 +15,7 @@
         "Description[fi]": "Pakattujen Tar-arkistojen täysi tuki",
         "Description[fr]": "Prise en charge complète des archives compressées TAR",
         "Description[gl]": "Compatibilidade total con arquivos TAR comprimidos.",
+        "Description[ia]": "Suppoto complete per archivos comprimite TAR",
         "Description[it]": "Supporto completo per archivi compressi TAR",
         "Description[ko]": "압축된 TAR 형식 지원",
         "Description[nl]": "Volledige ondersteuning voor gecomprimeerde TAR-archieven",
@@ -40,6 +42,7 @@
             "@SUPPORTED_READWRITE_MIMETYPES@"
         ],
         "Name": "Libarchive plugin",
+        "Name[az]": "Libarchive qoşması",
         "Name[ca@valencia]": "Connector del Libarchive",
         "Name[ca]": "Connector del Libarchive",
         "Name[cs]": "Modul libarchive",
@@ -53,6 +56,7 @@
         "Name[fi]": "Libarchive-liitännäinen",
         "Name[fr]": "Module externe libarchive",
         "Name[gl]": "Complemento de libarchive",
+        "Name[ia]": "Libarchive plugin",
         "Name[it]": "Estensione Libarchive",
         "Name[ko]": "Libarchive 플러그인",
         "Name[nl]": "LibArchive-plug-in",

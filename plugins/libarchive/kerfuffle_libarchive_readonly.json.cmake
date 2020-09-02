@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Open and extract DEB, RPM, ISO, AppImage, XAR and CAB files",
+        "Description[az]": "DEB, RPM, İSO, Appİmage, XAR, və CAB fayllarını açmaq və çıxartmaq",
         "Description[ca@valencia]": "Obri i extreu fitxers DEB, RPM, ISO, AppImage, XAR i CAB",
         "Description[ca]": "Obre i extreu fitxers DEB, RPM, ISO, AppImage, XAR i CAB",
         "Description[cs]": "Otevřít a rozbalit soubory DEB, RPM, ISO, AppImage, XAR a CAB",
@@ -14,6 +15,7 @@
         "Description[fi]": "Avaa ja pura Deb-, RPM-, ISO-, AppImage-, Xar- ja Cab-tiedostoja",
         "Description[fr]": "Ouvre et extrait les fichiers DEB, RPM, ISO, AppImage, XAR et CAB",
         "Description[gl]": "Abrir e extraer ficheiros DEB, RPM, ISO, AppImage, XAR e CAB.",
+        "Description[ia]": "Aperir e Extraher files DEB, RPM, ISO, AppImage, XAR e CAB ",
         "Description[it]": "Apri ed estrai file DEB, RPM, ISO, AppImage, XAR e CAB",
         "Description[ko]": "DEB, RPM, ISO, AppImage, XAR, CAB 파일 열고 풀기",
         "Description[nl]": "Open en pak uit DEB, RPM, ISO, AppImage, XAR en CAB bestanden",
@@ -40,6 +42,7 @@
             "@SUPPORTED_READONLY_MIMETYPES@"
         ],
         "Name": "Libarchive plugin (read-only formats)",
+        "Name[az]": "Libarchive qoşması (yalnız_oxumaq formatları)",
         "Name[ca@valencia]": "Connector del Libarchive (formats de només lectura)",
         "Name[ca]": "Connector del Libarchive (formats de només lectura)",
         "Name[cs]": "Modul libarchive (formáty pouze pro čtení)",
@@ -53,6 +56,7 @@
         "Name[fi]": "Libarchive-liitännäinen (vain luku -muodot)",
         "Name[fr]": "Module externe libarchive (formats en lecture seule)",
         "Name[gl]": "Complemento de libarchive (formatos de só lectura)",
+        "Name[ia]": "Libarchive plugin (formatos de sol lectura)",
         "Name[it]": "Estensione Libarchive (formati in sola lettura)",
         "Name[ko]": "Libarchive 플러그인(읽기 전용 형식)",
         "Name[nl]": "LibArchive-plug-in (alleen-lezen formaten)",

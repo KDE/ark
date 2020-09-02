@@ -6,6 +6,7 @@
             "inode/directory"
         ],
         "Name": "'Compress' service menu",
+        "Name[az]": "'Sıxmaq' xidməti menyusu",
         "Name[ca@valencia]": "Menú de servei «Comprimeix»",
         "Name[ca]": "Menú de servei «Comprimeix»",
         "Name[cs]": "Servisní nabídka 'Zkomprimovat'",
@@ -20,6 +21,7 @@
         "Name[fr]": "Menu de service « compresser »",
         "Name[gl]": "Menú de servizo «Comprimir»",
         "Name[he]": "תפריט שירות \"דחיסה\"",
+        "Name[ia]": "Menu de servicio de 'Comprimer'",
         "Name[it]": "Menu di servizio «Comprimi»",
         "Name[ko]": "'압축' 서비스 메뉴",
         "Name[nl]": "Servicemenu 'Comprimeren'",

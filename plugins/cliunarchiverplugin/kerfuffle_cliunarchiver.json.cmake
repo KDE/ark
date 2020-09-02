@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Open and extract RAR archives",
+        "Description[az]": "RAR arxivləri açmaq və çıxartmaq",
         "Description[ca@valencia]": "Obri i extreu arxius RAR",
         "Description[ca]": "Obre i extreu arxius RAR",
         "Description[cs]": "Otevřít a rozbalit archivy RAR",
@@ -14,6 +15,7 @@
         "Description[fi]": "Avaa ja pura RAR-arkistoja",
         "Description[fr]": "Ouvre et extrait les archives RAR",
         "Description[gl]": "Abrir e extraer arquivos RAR.",
+        "Description[ia]": "Aperir e extraher archivos RAR",
         "Description[it]": "Apri ed estrai archivi RAR",
         "Description[ko]": "RAR 압축 파일 열고 풀기",
         "Description[nl]": "Open en pak uit RAR-archieven",
@@ -40,6 +42,7 @@
             "@SUPPORTED_MIMETYPES@"
         ],
         "Name": "The Unarchiver plugin",
+        "Name[az]": "Unarchive qoşması",
         "Name[ca@valencia]": "Connector de l'Unarchiver",
         "Name[ca]": "Connector de l'Unarchiver",
         "Name[cs]": "Modul pro Unarchiver",
@@ -54,6 +57,7 @@
         "Name[fr]": "Module externe d'extraction d'archive",
         "Name[gl]": "Complemento de desarquivar",
         "Name[he]": "תוסף חילוץ אכיונים",
+        "Name[ia]": "Le Unarchiver plugin - plugin per de-archivar",
         "Name[it]": "Estensione The Unarchiver",
         "Name[ko]": "The Unarchiver 플러그인",
         "Name[nl]": "De plug-in voor uit archief halen",

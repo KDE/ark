@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Legacy support for the zip archive format",
+        "Description[az]": "Zip arxivlərinin çıxarılmasının köhnə üsulu",
         "Description[ca@valencia]": "Implementació pel format d'arxiu «zip» antic",
         "Description[ca]": "Implementació pel format d'arxiu «zip» antic",
         "Description[cs]": "Historická podpora archivačního formátu zip",
@@ -14,6 +15,7 @@
         "Description[fi]": "Zip-tiedostomuodon perinteinen tuki",
         "Description[fr]": "Prise en charge traditionnelle du format d'archive zip",
         "Description[gl]": "Compatibilidade co formato de arquivo zip.",
+        "Description[ia]": "Supporto obsolescente per formato de archivo zip",
         "Description[it]": "Supporto originale per il formato di archivi ZIP",
         "Description[ko]": "zip 압축 형식의 레거시 지원",
         "Description[nl]": "Verouderde ondersteuning voor het zip-archiefformaat",
@@ -40,6 +42,7 @@
             "@SUPPORTED_MIMETYPES@"
         ],
         "Name": "Info-zip plugin",
+        "Name[az]": "İnfo-zip qoşması",
         "Name[ca@valencia]": "Connector de l'Info-zip",
         "Name[ca]": "Connector de l'Info-zip",
         "Name[cs]": "Modul info-zip",
@@ -53,6 +56,7 @@
         "Name[fi]": "Info-Zip-liitännäinen",
         "Name[fr]": "Module externe info-zip",
         "Name[gl]": "Complemento de info-zip",
+        "Name[ia]": "Info-zip plugin",
         "Name[it]": "Estensione Info-zip",
         "Name[ko]": "Info-zip 플러그인",
         "Name[nl]": "Info-zip-plug-in",
