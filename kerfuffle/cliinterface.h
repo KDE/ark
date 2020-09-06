@@ -226,6 +226,8 @@ private:
     qulonglong m_archiveSizeOnDisk = 0;
     qulonglong m_listedSize = 0;
 
+    QMetaObject::Connection m_readyStdOutConnection;
+
 protected Q_SLOTS:
     virtual void processFinished(int exitCode, QProcess::ExitStatus exitStatus);
 

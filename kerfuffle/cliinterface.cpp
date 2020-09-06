@@ -285,7 +285,7 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
     m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered | QIODevice::Text);
     m_process->setProgram(programPath, arguments);
 
-    connect(m_process, &QProcess::readyReadStandardOutput, this, [=]() {
+    m_readyStdOutConnection = connect(m_process, &QProcess::readyReadStandardOutput, this, [=]() {
         readStdout();
     });
 
@@ -702,6 +702,10 @@ void CliInterface::killProcess(bool emitFinished)
     if (!m_process) {
         return;
     }
+
+    // waitForFinished() will enter QT's event loop. Disconnect the readyReadStandardOutput
+    // signal, to avoid an endless recursion, if the process keeps spamming output on stdout.
+    disconnect(m_readyStdOutConnection);
 
     m_abortingOperation = !emitFinished;
 
