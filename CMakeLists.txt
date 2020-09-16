@@ -80,11 +80,7 @@ endif (WITH_TEST_COVERAGE)
 set(SUPPORTED_ARK_MIMETYPES "")
 
 add_definitions(-DTRANSLATION_DOMAIN="ark")
-# Until kf5 5.56 kconfig had some header which used Q_FOREACH
-# Q_FOREACH will be deprecated/removed in qt6. With QT_NO_FOREACH we prepare the migration to qt6.
-if (KF5Config_VERSION VERSION_GREATER "5.56.0")
-        add_definitions(-DQT_NO_FOREACH)
-endif()
+add_definitions(-DQT_NO_FOREACH)
 
 add_subdirectory(plugins)
 add_subdirectory(kerfuffle)
@@ -99,10 +95,6 @@ endif()
 ki18n_install(po)
 kdoctools_install(po)
 
-if (NOT ECM_VERSION VERSION_LESS "5.59.0")
-    install(FILES ark.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
-else()
-    install(FILES ark.categories  DESTINATION ${KDE_INSTALL_CONFDIR})
-endif()
+install(FILES ark.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
