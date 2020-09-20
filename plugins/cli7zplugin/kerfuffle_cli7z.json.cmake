@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Full support for the zip and 7z archive formats",
+        "Description[az]": "Zip və 7z formatlı arxivlərin tam dəstəklənməsi",
         "Description[ca@valencia]": "Implementació completa dels formats d'arxiu «zip» i «7z»",
         "Description[ca]": "Implementació completa dels formats d'arxiu «zip» i «7z»",
         "Description[cs]": "Plná podpora archivačních formátů zip a 7z",
@@ -40,6 +41,7 @@
             "@SUPPORTED_MIMETYPES@"
         ],
         "Name": "P7zip plugin",
+        "Name[az]": "p7zip qoşması",
         "Name[ca@valencia]": "Connector del P7zip",
         "Name[ca]": "Connector del P7zip",
         "Name[cs]": "Modul pro p7zip",

@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Open and extract single files compressed with the bzip2 algorithm",
+        "Description[az]": "Bzip2 alqoritmi ilə sıxılmış tək faylları açmaq və çıxartmaq",
         "Description[ca@valencia]": "Obri i extreu fitxers individuals comprimits amb l'algorisme «bzip2»",
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «bzip2»",
         "Description[cs]": "Otevřít a rozbalit jednotlivé soubory komprimované algoritmem bzip2",
@@ -40,6 +41,7 @@
             "@SUPPORTED_MIMETYPES@"
         ],
         "Name": "Bzip2 plugin",
+        "Name[az]": "Bzip2 qoşması",
         "Name[ca@valencia]": "Connector del Bzip2",
         "Name[ca]": "Connector del Bzip2",
         "Name[cs]": "Modul pro bzip2",

@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Open and extract RAR archives",
+        "Description[az]": "RAR arxivləri açmaq və çıxartmaq",
         "Description[ca@valencia]": "Obri i extreu arxius RAR",
         "Description[ca]": "Obre i extreu arxius RAR",
         "Description[cs]": "Otevřít a rozbalit archivy RAR",
@@ -40,6 +41,7 @@
             "@SUPPORTED_MIMETYPES@"
         ],
         "Name": "The Unarchiver plugin",
+        "Name[az]": "Unarchive qoşması",
         "Name[ca@valencia]": "Connector de l'Unarchiver",
         "Name[ca]": "Connector de l'Unarchiver",
         "Name[cs]": "Modul pro Unarchiver",
