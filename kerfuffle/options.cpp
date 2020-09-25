@@ -148,7 +148,7 @@ QDebug operator<<(QDebug d, const CompressionOptions &options)
     return d.space();
 }
 
-QDebug operator<<(QDebug d, const ExtractionOptions &options)
+QDebug operator<<(QDebug d, ExtractionOptions options)
 {
     d.nospace() << "(encryption hint: " << options.encryptedArchiveHint();
     d.nospace() << ", preserve paths: " << options.preservePaths();

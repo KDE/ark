@@ -197,7 +197,7 @@ public:
      */
     CopyJob* copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
 
-    ExtractJob* extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options = ExtractionOptions());
+    ExtractJob* extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDir, ExtractionOptions options = ExtractionOptions());
 
     PreviewJob* preview(Archive::Entry *entry);
     OpenJob* open(Archive::Entry *entry);

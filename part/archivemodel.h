@@ -91,8 +91,8 @@ public:
 
     Archive::Entry *entryForIndex(const QModelIndex &index);
 
-    Kerfuffle::ExtractJob* extractFile(Archive::Entry *file, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
-    Kerfuffle::ExtractJob* extractFiles(const QVector<Archive::Entry*>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options = Kerfuffle::ExtractionOptions()) const;
+    Kerfuffle::ExtractJob* extractFile(Archive::Entry *file, const QString& destinationDir, Kerfuffle::ExtractionOptions options = Kerfuffle::ExtractionOptions()) const;
+    Kerfuffle::ExtractJob* extractFiles(const QVector<Archive::Entry*>& files, const QString& destinationDir, Kerfuffle::ExtractionOptions options = Kerfuffle::ExtractionOptions()) const;
 
     Kerfuffle::PreviewJob* preview(Archive::Entry *file) const;
     Kerfuffle::OpenJob* open(Archive::Entry *file) const;

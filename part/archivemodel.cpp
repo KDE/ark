@@ -628,13 +628,13 @@ KJob *ArchiveModel::loadArchive(const QString &path, const QString &mimeType, QO
     return loadJob;
 }
 
-ExtractJob* ArchiveModel::extractFile(Archive::Entry *file, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
+ExtractJob* ArchiveModel::extractFile(Archive::Entry *file, const QString& destinationDir, Kerfuffle::ExtractionOptions options) const
 {
     QVector<Archive::Entry*> files({file});
     return extractFiles(files, destinationDir, options);
 }
 
-ExtractJob* ArchiveModel::extractFiles(const QVector<Archive::Entry*>& files, const QString& destinationDir, const Kerfuffle::ExtractionOptions& options) const
+ExtractJob* ArchiveModel::extractFiles(const QVector<Archive::Entry*>& files, const QString& destinationDir, Kerfuffle::ExtractionOptions options) const
 {
     Q_ASSERT(m_archive);
     ExtractJob *newJob = m_archive->extractFiles(files, destinationDir, options);

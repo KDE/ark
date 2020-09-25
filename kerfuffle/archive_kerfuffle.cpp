@@ -452,7 +452,7 @@ CopyJob* Archive::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entr
     return newJob;
 }
 
-ExtractJob* Archive::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDir, const ExtractionOptions &options)
+ExtractJob* Archive::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDir, ExtractionOptions options)
 {
     if (!isValid()) {
         return nullptr;

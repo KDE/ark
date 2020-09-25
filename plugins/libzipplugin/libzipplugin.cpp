@@ -912,7 +912,7 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
     return true;
 }
 
-QString LibzipPlugin::permissionsToString(const mode_t &perm)
+QString LibzipPlugin::permissionsToString(mode_t perm)
 {
     QString modeval;
     if ((perm & S_IFMT) == S_IFDIR) {

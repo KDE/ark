@@ -503,7 +503,7 @@ bool CreateJob::doKill()
     return m_addJob && m_addJob->kill();
 }
 
-ExtractJob::ExtractJob(const QVector<Archive::Entry*> &entries, const QString &destinationDir, const ExtractionOptions &options, ReadOnlyArchiveInterface *interface)
+ExtractJob::ExtractJob(const QVector<Archive::Entry*> &entries, const QString &destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface)
     : Job(interface)
     , m_entries(entries)
     , m_destinationDir(destinationDir)

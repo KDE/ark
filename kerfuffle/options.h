@@ -113,7 +113,7 @@ private:
 };
 
 QDebug KERFUFFLE_EXPORT operator<<(QDebug d, const CompressionOptions &options);
-QDebug KERFUFFLE_EXPORT operator<<(QDebug d, const ExtractionOptions &options);
+QDebug KERFUFFLE_EXPORT operator<<(QDebug d, ExtractionOptions options);
 
 }
 

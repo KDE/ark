@@ -58,7 +58,7 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
     for (const QVariant &entry : jsonList) {
         const QVariantMap entryMap = entry.toMap();
 
-        if (!entryMap.contains(QLatin1String("fullPath"))) {
+        if (!entryMap.contains(QStringLiteral("fullPath"))) {
             continue;
         }
 

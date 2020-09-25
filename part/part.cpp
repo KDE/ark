@@ -594,7 +594,7 @@ void Part::createArchive()
     const QString fixedMimeType = arguments().metaData()[QStringLiteral("fixedMimeType")];
     m_model->createEmptyArchive(localFilePath(), fixedMimeType, m_model);
 
-    if (arguments().metaData().contains(QLatin1String("volumeSize"))) {
+    if (arguments().metaData().contains(QStringLiteral("volumeSize"))) {
         m_model->archive()->setMultiVolume(true);
     }
 
@@ -750,16 +750,16 @@ QModelIndexList Part::getSelectedIndexes()
 void Part::readCompressionOptions()
 {
     // Store options from CreateDialog if they are set.
-    if (!m_compressionOptions.isCompressionLevelSet() && arguments().metaData().contains(QLatin1String("compressionLevel"))) {
+    if (!m_compressionOptions.isCompressionLevelSet() && arguments().metaData().contains(QStringLiteral("compressionLevel"))) {
         m_compressionOptions.setCompressionLevel(arguments().metaData()[QStringLiteral("compressionLevel")].toInt());
     }
-    if (m_compressionOptions.compressionMethod().isEmpty() && arguments().metaData().contains(QLatin1String("compressionMethod"))) {
+    if (m_compressionOptions.compressionMethod().isEmpty() && arguments().metaData().contains(QStringLiteral("compressionMethod"))) {
         m_compressionOptions.setCompressionMethod(arguments().metaData()[QStringLiteral("compressionMethod")]);
     }
-    if (m_compressionOptions.encryptionMethod().isEmpty() && arguments().metaData().contains(QLatin1String("encryptionMethod"))) {
+    if (m_compressionOptions.encryptionMethod().isEmpty() && arguments().metaData().contains(QStringLiteral("encryptionMethod"))) {
         m_compressionOptions.setEncryptionMethod(arguments().metaData()[QStringLiteral("encryptionMethod")]);
     }
-    if (!m_compressionOptions.isVolumeSizeSet() && arguments().metaData().contains(QLatin1String("volumeSize"))) {
+    if (!m_compressionOptions.isVolumeSizeSet() && arguments().metaData().contains(QStringLiteral("volumeSize"))) {
         m_compressionOptions.setVolumeSize(arguments().metaData()[QStringLiteral("volumeSize")].toULong());
     }
 
