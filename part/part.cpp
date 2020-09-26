@@ -366,6 +366,7 @@ void Part::setupActions()
             this, &Part::slotToggleInfoPanel);
 
     m_saveAsAction = KStandardAction::saveAs(this, &Part::slotSaveAs, this);
+    m_saveAsAction->setText(i18nc("@action:inmenu", "Save Copy As..."));
     actionCollection()->addAction(QStringLiteral("ark_file_save_as"), m_saveAsAction);
 
     m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
@@ -1663,7 +1664,7 @@ void Part::slotToggleInfoPanel(bool visible)
 void Part::slotSaveAs()
 {
     const QUrl srcUrl = url();
-    const QUrl saveUrl = QFileDialog::getSaveFileUrl(widget(), i18nc("@title:window", "Save Archive As"), srcUrl);
+    const QUrl saveUrl = QFileDialog::getSaveFileUrl(widget(), i18nc("@title:window", "Save Copy As"), srcUrl);
 
     if (saveUrl.isEmpty()) { // If the user selected "cancel" the returned url is empty
         return;
