@@ -266,7 +266,7 @@ void Part::registerJob(KJob* job)
     KIO::getJobTracker()->registerJob(job);
     m_jobTracker->registerJob(job);
 
-    emit busy();
+    Q_EMIT busy();
     connect(job, &KJob::result, this, &Part::ready);
 }
 
@@ -924,12 +924,12 @@ void Part::slotLoadingStarted()
 void Part::slotLoadingFinished(KJob *job)
 {
     if (!job->error()) {
-        emit completed();
+        Q_EMIT completed();
         return;
     }
 
     // Loading failed or was canceled by the user (e.g. password dialog rejected).
-    emit canceled(job->errorString());
+    Q_EMIT canceled(job->errorString());
     resetArchive();
 
     if (job->error() != KJob::KilledJobError) {
@@ -972,7 +972,7 @@ void Part::setFileNameFromArchive()
     m_infoPanel->setPrettyFileName(prettyName);
     m_infoPanel->updateWithDefaults();
 
-    emit setWindowCaption(prettyName);
+    Q_EMIT setWindowCaption(prettyName);
 }
 
 void Part::slotOpenEntry(int mode)
@@ -1281,7 +1281,7 @@ void Part::slotExtractionDone(KJob* job)
         }
 
         if (ArkSettings::closeAfterExtraction()) {
-           emit quit();
+           Q_EMIT quit();
         }
     }
 }

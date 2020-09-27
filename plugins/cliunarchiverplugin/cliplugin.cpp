@@ -97,7 +97,7 @@ bool CliPlugin::readListLine(const QString &line)
     const QRegularExpression rx(QStringLiteral("Failed! \\((.+)\\)$"));
 
     if (rx.match(line).hasMatch()) {
-        emit error(i18n("Listing the archive failed."));
+        Q_EMIT error(i18n("Listing the archive failed."));
         return false;
     }
 
@@ -109,7 +109,7 @@ bool CliPlugin::readExtractLine(const QString &line)
     const QRegularExpression rx(QStringLiteral("Failed! \\((.+)\\)$"));
 
     if (rx.match(line).hasMatch()) {
-        emit error(i18n("Extraction failed."));
+        Q_EMIT error(i18n("Extraction failed."));
         return false;
     }
 
@@ -143,7 +143,7 @@ bool CliPlugin::handleLine(const QString& line)
             m_jsonOutput += line + QLatin1Char('\n');
         } catch (const std::bad_alloc&) {
             m_jsonOutput.clear();
-            emit error(i18n("Not enough memory for loading the archive."));
+            Q_EMIT error(i18n("Not enough memory for loading the archive."));
             return false;
         }
     }
@@ -154,13 +154,13 @@ bool CliPlugin::handleLine(const QString& line)
             qCDebug(ARK) << "Detected header-encrypted RAR archive";
 
             Kerfuffle::PasswordNeededQuery query(filename());
-            emit userQuery(&query);
+            Q_EMIT userQuery(&query);
             query.waitForResponse();
 
             if (query.responseCancelled()) {
-                emit cancelled();
+                Q_EMIT cancelled();
                 // Process is gone, so we emit finished() manually and we return true.
-                emit finished(false);
+                Q_EMIT finished(false);
                 return true;
             }
 
@@ -185,7 +185,7 @@ void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
     }
 
     // #193908 - #222392
-    // Don't emit finished() if the job was killed quietly.
+    // Don't Q_EMIT finished() if the job was killed quietly.
     if (m_abortingOperation) {
         return;
     }
@@ -195,8 +195,8 @@ void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
         // lsar -json exits with error code 1 if the archive is header-encrypted and the password is wrong.
         if (exitCode == 1) {
             qCWarning(ARK) << "Wrong password, list() aborted";
-            emit error(i18n("Wrong password."));
-            emit finished(false);
+            Q_EMIT error(i18n("Wrong password."));
+            Q_EMIT finished(false);
             setPassword(QString());
             return;
         }
@@ -204,12 +204,12 @@ void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 
     // lsar -json exits with error code 2 if the archive is header-encrypted and no password is given as argument.
     // At this point we are asking a password to the user and we are going to list() again after we get one.
-    // This means that we cannot emit finished here.
+    // This means that we cannot Q_EMIT finished here.
     if (exitCode == 2) {
         return;
     }
 
-    emit finished(true);
+    Q_EMIT finished(true);
 }
 
 void CliPlugin::readJsonOutput()
@@ -234,9 +234,9 @@ void CliPlugin::readJsonOutput()
 
     QString formatName = json.value(QStringLiteral("lsarFormatName")).toString();
     if (formatName == QLatin1String("RAR")) {
-        emit compressionMethodFound(QStringLiteral("RAR4"));
+        Q_EMIT compressionMethodFound(QStringLiteral("RAR4"));
     } else if (formatName == QLatin1String("RAR 5")) {
-        emit compressionMethodFound(QStringLiteral("RAR5"));
+        Q_EMIT compressionMethodFound(QStringLiteral("RAR5"));
     }
     const QJsonArray entries = json.value(QStringLiteral("lsarContents")).toArray();
 
@@ -262,12 +262,12 @@ void CliPlugin::readJsonOutput()
         const bool isPasswordProtected = (currentEntryJson.value(QStringLiteral("XADIsEncrypted")).toInt() == 1);
         currentEntry->setProperty("isPasswordProtected", isPasswordProtected);
         if (isPasswordProtected) {
-            formatName == QLatin1String("RAR 5") ? emit encryptionMethodFound(QStringLiteral("AES256")) :
-                                                   emit encryptionMethodFound(QStringLiteral("AES128"));
+            formatName == QLatin1String("RAR 5") ? Q_EMIT encryptionMethodFound(QStringLiteral("AES256")) :
+                                                   Q_EMIT encryptionMethodFound(QStringLiteral("AES128"));
         }
         // TODO: missing fields
 
-        emit entry(currentEntry);
+        Q_EMIT entry(currentEntry);
     }
 }
 

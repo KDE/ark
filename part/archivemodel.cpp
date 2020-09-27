@@ -308,7 +308,7 @@ bool ArchiveModel::dropMimeData(const QMimeData *data, Qt::DropAction action, in
     if (archive()->isReadOnly() ||
         (archive()->encryptionType() != Archive::Unencrypted &&
          archive()->password().isEmpty())) {
-        emit messageWidget(KMessageWidget::Error, i18n("Adding files is not supported for this archive."));
+        Q_EMIT messageWidget(KMessageWidget::Error, i18n("Adding files is not supported for this archive."));
         return false;
     }
 
@@ -316,7 +316,7 @@ bool ArchiveModel::dropMimeData(const QMimeData *data, Qt::DropAction action, in
     const auto urls = data->urls();
     for (const QUrl &url : urls) {
         if (!url.isLocalFile()) {
-            emit messageWidget(KMessageWidget::Error, i18n("You can only add local files to an archive."));
+            Q_EMIT messageWidget(KMessageWidget::Error, i18n("You can only add local files to an archive."));
             return false;
         }
         paths << url.toLocalFile();
@@ -331,7 +331,7 @@ bool ArchiveModel::dropMimeData(const QMimeData *data, Qt::DropAction action, in
         }
     }
 
-    emit droppedFiles(paths, entry);
+    Q_EMIT droppedFiles(paths, entry);
 
     return true;
 }
@@ -573,7 +573,7 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
         endResetModel();
     }
 
-    emit loadingFinished(job);
+    Q_EMIT loadingFinished(job);
 }
 
 void ArchiveModel::insertEntry(Archive::Entry *entry, InsertBehaviour behaviour)
@@ -623,7 +623,7 @@ KJob *ArchiveModel::loadArchive(const QString &path, const QString &mimeType, QO
     connect(loadJob, &Job::newEntry, this, &ArchiveModel::slotListEntry);
     connect(loadJob, &Job::userQuery, this, &ArchiveModel::slotUserQuery);
 
-    emit loadingStarted();
+    Q_EMIT loadingStarted();
 
     return loadJob;
 }

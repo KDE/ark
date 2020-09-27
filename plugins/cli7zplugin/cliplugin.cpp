@@ -123,7 +123,7 @@ bool CliPlugin::readListLine(const QString& line)
     static const QLatin1String entryInfoDelimiter("----------");
 
     if (line.startsWith(QLatin1String("Open ERROR: Can not open the file as [7z] archive"))) {
-        emit error(i18n("Listing the archive failed."));
+        Q_EMIT error(i18n("Listing the archive failed."));
         return false;
     }
 
@@ -285,7 +285,7 @@ bool CliPlugin::readListLine(const QString& line)
                    line.startsWith(QLatin1String("Version = "))) {
             m_isFirstInformationEntry = true;
             if (!m_currentArchiveEntry->fullPath().isEmpty()) {
-                emit entry(m_currentArchiveEntry);
+                Q_EMIT entry(m_currentArchiveEntry);
             }
             else {
                 delete m_currentArchiveEntry;
@@ -301,13 +301,13 @@ bool CliPlugin::readListLine(const QString& line)
 bool CliPlugin::readExtractLine(const QString &line)
 {
     if (line.startsWith(QLatin1String("ERROR: E_FAIL"))) {
-        emit error(i18n("Extraction failed due to an unknown error."));
+        Q_EMIT error(i18n("Extraction failed due to an unknown error."));
         return false;
     }
 
     if (line.startsWith(QLatin1String("ERROR: CRC Failed")) ||
         line.startsWith(QLatin1String("ERROR: Headers Error"))) {
-        emit error(i18n("Extraction failed due to one or more corrupt files. Any extracted files may be damaged."));
+        Q_EMIT error(i18n("Extraction failed due to one or more corrupt files. Any extracted files may be damaged."));
         return false;
     }
 
@@ -318,7 +318,7 @@ bool CliPlugin::readDeleteLine(const QString &line)
 {
     if (line.startsWith(QLatin1String("Error: ")) &&
         line.endsWith(QLatin1String(" is not supported archive"))) {
-        emit error(i18n("Delete operation failed. Try upgrading p7zip or disabling the p7zip plugin in the configuration dialog."));
+        Q_EMIT error(i18n("Delete operation failed. Try upgrading p7zip or disabling the p7zip plugin in the configuration dialog."));
         return false;
     }
 
@@ -334,9 +334,9 @@ void CliPlugin::handleMethods(const QStringList &methods)
             QRegularExpression rxAESMethods(QStringLiteral("^(AES-128|AES-192|AES-256)$"));
             if (rxAESMethods.match(method).hasMatch()) {
                 // Remove dash for AES methods.
-                emit encryptionMethodFound(QString(method).remove(QLatin1Char('-')));
+                Q_EMIT encryptionMethodFound(QString(method).remove(QLatin1Char('-')));
             } else {
-                emit encryptionMethodFound(method);
+                Q_EMIT encryptionMethodFound(method);
             }
             continue;
         }
@@ -344,13 +344,13 @@ void CliPlugin::handleMethods(const QStringList &methods)
         // LZMA methods are output with some trailing numbers by 7z representing dictionary/block sizes.
         // We are not interested in these, so remove them.
         if (method.startsWith(QLatin1String("LZMA2"))) {
-            emit compressionMethodFound(method.left(5));
+            Q_EMIT compressionMethodFound(method.left(5));
         } else if (method.startsWith(QLatin1String("LZMA"))) {
-            emit compressionMethodFound(method.left(4));
+            Q_EMIT compressionMethodFound(method.left(4));
         } else if (method == QLatin1String("xz")) {
-            emit compressionMethodFound(method.toUpper());
+            Q_EMIT compressionMethodFound(method.toUpper());
         } else {
-            emit compressionMethodFound(method);
+            Q_EMIT compressionMethodFound(method);
         }
     }
 }

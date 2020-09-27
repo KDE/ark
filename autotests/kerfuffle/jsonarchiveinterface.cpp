@@ -41,7 +41,7 @@ bool JSONArchiveInterface::list()
 {
     JSONParser::JSONArchive::const_iterator it = m_archive.constBegin();
     for (; it != m_archive.constEnd(); ++it) {
-        emit entry(*it);
+        Q_EMIT entry(*it);
     }
 
     return true;
@@ -117,7 +117,7 @@ bool JSONArchiveInterface::deleteFiles(const QVector<Kerfuffle::Archive::Entry*>
         const QString &fileName = file->fullPath();
         if (m_archive.contains(fileName)) {
             m_archive.remove(fileName);
-            emit entryRemoved(fileName);
+            Q_EMIT entryRemoved(fileName);
         }
     }
 

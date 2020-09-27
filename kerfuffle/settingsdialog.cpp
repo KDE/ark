@@ -36,7 +36,7 @@ SettingsDialog::SettingsDialog(QWidget *parent, const QString &name, KCoreConfig
 
 void SettingsDialog::updateWidgetsDefault()
 {
-    emit defaultsButtonClicked();
+    Q_EMIT defaultsButtonClicked();
 }
 
 }

@@ -144,7 +144,7 @@ bool CliPlugin::readListLine(const QString &line)
     e->setProperty("ssPasswordProtected", m_isPasswordProtected);
     qCDebug(ARK) << "Added entry: " << e;
 
-    emit entry(e);
+    Q_EMIT entry(e);
     m_isFirstLine = true;
     return true;
 }

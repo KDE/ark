@@ -64,7 +64,7 @@ bool LibSingleFileInterface::extractFiles(const QVector<Kerfuffle::Archive::Entr
     QFile outputFile(outputFileName);
     if (!outputFile.open(QIODevice::WriteOnly)) {
         qCCritical(ARK) << "Failed to open output file" << outputFile.errorString();
-        emit error(xi18nc("@info", "Ark could not extract <filename>%1</filename>.", outputFile.fileName()));
+        Q_EMIT error(xi18nc("@info", "Ark could not extract <filename>%1</filename>.", outputFile.fileName()));
 
         return false;
     }
@@ -72,7 +72,7 @@ bool LibSingleFileInterface::extractFiles(const QVector<Kerfuffle::Archive::Entr
     KCompressionDevice *device = new KCompressionDevice(filename(), KFilterDev::compressionTypeForMimeType(m_mimeType));
     if (!device) {
         qCCritical(ARK) << "Could not create KCompressionDevice";
-        emit error(xi18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
+        Q_EMIT error(xi18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
 
         return false;
     }
@@ -86,7 +86,7 @@ bool LibSingleFileInterface::extractFiles(const QVector<Kerfuffle::Archive::Entr
         bytesRead = device->read(dataChunk.data(), dataChunk.size());
 
         if (bytesRead == -1) {
-            emit error(xi18nc("@info", "There was an error while reading <filename>%1</filename> during extraction.", filename()));
+            Q_EMIT error(xi18nc("@info", "There was an error while reading <filename>%1</filename> during extraction.", filename()));
             break;
         } else if (bytesRead == 0) {
             break;
@@ -108,7 +108,7 @@ bool LibSingleFileInterface::list()
     connect(this, &QObject::destroyed, e, &QObject::deleteLater);
     e->setProperty("fullPath", uncompressedFileName());
     e->setProperty("compressedSize", QFileInfo(filename()).size());
-    emit entry(e);
+    Q_EMIT entry(e);
 
     return true;
 }
@@ -121,7 +121,7 @@ QString LibSingleFileInterface::overwriteFileName(QString& filename)
         Kerfuffle::OverwriteQuery query(newFileName);
 
         query.setMultiMode(false);
-        emit userQuery(&query);
+        Q_EMIT userQuery(&query);
         query.waitForResponse();
 
         if ((query.responseCancelled()) || (query.responseSkip())) {

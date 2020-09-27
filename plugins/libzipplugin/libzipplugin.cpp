@@ -80,7 +80,7 @@ bool LibzipPlugin::list()
     zip_error_init_with_code(&err, errcode);
     if (!archive) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
-        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
+        Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
@@ -101,9 +101,9 @@ bool LibzipPlugin::list()
         emitEntryForIndex(archive, i);
         if (m_listAfterAdd) {
             // Start at 50%.
-            emit progress(0.5 + (0.5 * float(i + 1) / nofEntries));
+            Q_EMIT progress(0.5 + (0.5 * float(i + 1) / nofEntries));
         } else {
-            emit progress(float(i + 1) / nofEntries);
+            Q_EMIT progress(float(i + 1) / nofEntries);
         }
     }
 
@@ -123,7 +123,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
     zip_error_init_with_code(&err, errcode);
     if (!archive) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
-        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
+        Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
@@ -175,7 +175,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
     qCDebug(ARK) << "Writing entries to disk...";
     if (zip_close(archive)) {
         qCCritical(ARK) << "Failed to write archive";
-        emit error(xi18n("Failed to write archive."));
+        Q_EMIT error(xi18n("Failed to write archive."));
         return false;
     }
 
@@ -190,7 +190,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
 void LibzipPlugin::emitProgress(double percentage)
 {
     // Go from 0 to 50%. The second half is the subsequent listing.
-    emit progress(0.5 * percentage);
+    Q_EMIT progress(0.5 * percentage);
 }
 
 bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive::Entry* destination, const CompressionOptions& options, bool isDir)
@@ -220,7 +220,7 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
         if (index == -1) {
             zip_source_free(src);
             qCCritical(ARK) << "Could not add entry" << file << ":" << zip_strerror(archive);
-            emit error(xi18n("Failed to add entry: %1", QString::fromUtf8(zip_strerror(archive))));
+            Q_EMIT error(xi18n("Failed to add entry: %1", QString::fromUtf8(zip_strerror(archive))));
             return false;
         }
     }
@@ -263,7 +263,7 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
     const int compLevel = options.isCompressionLevelSet() ? options.compressionLevel() : 6;
     if (zip_set_file_compression(archive, index, compMethod, compLevel) != 0) {
         qCCritical(ARK) << "Could not set compression options for" << file << ":" << zip_strerror(archive);
-        emit error(xi18n("Failed to set compression options for entry: %1", QString::fromUtf8(zip_strerror(archive))));
+        Q_EMIT error(xi18n("Failed to set compression options for entry: %1", QString::fromUtf8(zip_strerror(archive))));
         return false;
     }
 
@@ -308,27 +308,27 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
         switch(statBuffer.comp_method) {
             case ZIP_CM_STORE:
                 e->setProperty("method", QStringLiteral("Store"));
-                emit compressionMethodFound(QStringLiteral("Store"));
+                Q_EMIT compressionMethodFound(QStringLiteral("Store"));
                 break;
             case ZIP_CM_DEFLATE:
                 e->setProperty("method", QStringLiteral("Deflate"));
-                emit compressionMethodFound(QStringLiteral("Deflate"));
+                Q_EMIT compressionMethodFound(QStringLiteral("Deflate"));
                 break;
             case ZIP_CM_DEFLATE64:
                 e->setProperty("method", QStringLiteral("Deflate64"));
-                emit compressionMethodFound(QStringLiteral("Deflate64"));
+                Q_EMIT compressionMethodFound(QStringLiteral("Deflate64"));
                 break;
             case ZIP_CM_BZIP2:
                 e->setProperty("method", QStringLiteral("BZip2"));
-                emit compressionMethodFound(QStringLiteral("BZip2"));
+                Q_EMIT compressionMethodFound(QStringLiteral("BZip2"));
                 break;
             case ZIP_CM_LZMA:
                 e->setProperty("method", QStringLiteral("LZMA"));
-                emit compressionMethodFound(QStringLiteral("LZMA"));
+                Q_EMIT compressionMethodFound(QStringLiteral("LZMA"));
                 break;
             case ZIP_CM_XZ:
                 e->setProperty("method", QStringLiteral("XZ"));
-                emit compressionMethodFound(QStringLiteral("XZ"));
+                Q_EMIT compressionMethodFound(QStringLiteral("XZ"));
                 break;
         }
     }
@@ -337,16 +337,16 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
             e->setProperty("isPasswordProtected", true);
             switch(statBuffer.encryption_method) {
                 case ZIP_EM_TRAD_PKWARE:
-                    emit encryptionMethodFound(QStringLiteral("ZipCrypto"));
+                    Q_EMIT encryptionMethodFound(QStringLiteral("ZipCrypto"));
                     break;
                 case ZIP_EM_AES_128:
-                    emit encryptionMethodFound(QStringLiteral("AES128"));
+                    Q_EMIT encryptionMethodFound(QStringLiteral("AES128"));
                     break;
                 case ZIP_EM_AES_192:
-                    emit encryptionMethodFound(QStringLiteral("AES192"));
+                    Q_EMIT encryptionMethodFound(QStringLiteral("AES192"));
                     break;
                 case ZIP_EM_AES_256:
-                    emit encryptionMethodFound(QStringLiteral("AES256"));
+                    Q_EMIT encryptionMethodFound(QStringLiteral("AES256"));
                     break;
             }
         }
@@ -357,7 +357,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     zip_uint32_t attributes;
     if (zip_file_get_external_attributes(archive, index, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
         qCCritical(ARK) << "Could not read external attributes for entry:" << QString::fromUtf8(statBuffer.name);
-        emit error(xi18n("Failed to read metadata for entry: %1", QString::fromUtf8(statBuffer.name)));
+        Q_EMIT error(xi18n("Failed to read metadata for entry: %1", QString::fromUtf8(statBuffer.name)));
         return false;
     }
 
@@ -371,7 +371,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
         break;
     }
 
-    emit entry(e);
+    Q_EMIT entry(e);
     m_emittedEntries << e;
 
     return true;
@@ -387,7 +387,7 @@ bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
     zip_error_init_with_code(&err, errcode);
     if (archive == nullptr) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
-        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
+        Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
@@ -401,22 +401,22 @@ bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
         const qlonglong index = zip_name_locate(archive, e->fullPath().toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
             qCCritical(ARK) << "Could not find entry to delete:" << e->fullPath();
-            emit error(xi18n("Failed to delete entry: %1", e->fullPath()));
+            Q_EMIT error(xi18n("Failed to delete entry: %1", e->fullPath()));
             return false;
         }
         if (zip_delete(archive, index) == -1) {
             qCCritical(ARK) << "Could not delete entry" << e->fullPath() << ":" << zip_strerror(archive);
-            emit error(xi18n("Failed to delete entry: %1", QString::fromUtf8(zip_strerror(archive))));
+            Q_EMIT error(xi18n("Failed to delete entry: %1", QString::fromUtf8(zip_strerror(archive))));
             return false;
         }
-        emit entryRemoved(e->fullPath());
-        emit progress(float(++i) / files.size());
+        Q_EMIT entryRemoved(e->fullPath());
+        Q_EMIT progress(float(++i) / files.size());
     }
     qCDebug(ARK) << "Deleted" << i << "entries";
 
     if (zip_close(archive)) {
         qCCritical(ARK) << "Failed to write archive";
-        emit error(xi18n("Failed to write archive."));
+        Q_EMIT error(xi18n("Failed to write archive."));
         return false;
     }
     return true;
@@ -432,7 +432,7 @@ bool LibzipPlugin::addComment(const QString& comment)
     zip_error_init_with_code(&err, errcode);
     if (archive == nullptr) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
-        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
+        Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
@@ -444,7 +444,7 @@ bool LibzipPlugin::addComment(const QString& comment)
 
     if (zip_close(archive)) {
         qCCritical(ARK) << "Failed to write archive";
-        emit error(xi18n("Failed to write archive."));
+        Q_EMIT error(xi18n("Failed to write archive."));
         return false;
     }
     return true;
@@ -491,12 +491,12 @@ bool LibzipPlugin::testArchive()
             return false;
         }
 
-        emit progress(float(i) / nofEntries);
+        Q_EMIT progress(float(i) / nofEntries);
     }
 
     zip_close(archive);
 
-    emit testSuccess();
+    Q_EMIT testSuccess();
     return true;
 }
 
@@ -519,7 +519,7 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     zip_error_init_with_code(&err, errcode);
     if (archive == nullptr) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
-        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
+        Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
@@ -550,7 +550,7 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
                 qCDebug(ARK) << "Extraction failed";
                 return false;
             }
-            emit progress(float(i + 1) / nofEntries);
+            Q_EMIT progress(float(i + 1) / nofEntries);
         }
     } else {
         // We extract only the entries in files.
@@ -568,7 +568,7 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
                 qCDebug(ARK) << "Extraction failed";
                 return false;
             }
-            emit progress(float(++i) / nofEntries);
+            Q_EMIT progress(float(++i) / nofEntries);
         }
     }
 
@@ -624,7 +624,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     // Create parent directories for files. For directories create them.
     if (!QDir().mkpath(QFileInfo(destination).path())) {
         qCDebug(ARK) << "Failed to create directory:" << QFileInfo(destination).path();
-        emit error(xi18n("Failed to create directory: %1", QFileInfo(destination).path()));
+        Q_EMIT error(xi18n("Failed to create directory: %1", QFileInfo(destination).path()));
         return false;
     }
 
@@ -648,11 +648,11 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
                 return true;
             } else {
                 Kerfuffle::OverwriteQuery query(renamedEntry);
-                emit userQuery(&query);
+                Q_EMIT userQuery(&query);
                 query.waitForResponse();
 
                 if (query.responseCancelled()) {
-                    emit cancelled();
+                    Q_EMIT cancelled();
                     return false;
                 } else if (query.responseSkip()) {
                     return true;
@@ -682,11 +682,11 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
             } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD ||
                        zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_WRONGPASSWD) {
                 Kerfuffle::PasswordNeededQuery query(filename(), !firstTry);
-                emit userQuery(&query);
+                Q_EMIT userQuery(&query);
                 query.waitForResponse();
 
                 if (query.responseCancelled()) {
-                    emit cancelled();
+                    Q_EMIT cancelled();
                     return false;
                 }
                 setPassword(query.password());
@@ -697,7 +697,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
                 firstTry = false;
             } else {
                 qCCritical(ARK) << "Failed to open file:" << zip_strerror(archive);
-                emit error(xi18n("Failed to open '%1':<nl/>%2", entry, QString::fromUtf8(zip_strerror(archive))));
+                Q_EMIT error(xi18n("Failed to open '%1':<nl/>%2", entry, QString::fromUtf8(zip_strerror(archive))));
                 return false;
             }
         }
@@ -705,7 +705,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         QFile file(destination);
         if (!file.open(QIODevice::WriteOnly)) {
             qCCritical(ARK) << "Failed to open file for writing";
-            emit error(xi18n("Failed to open file for writing: %1", destination));
+            Q_EMIT error(xi18n("Failed to open file for writing: %1", destination));
             return false;
         }
 
@@ -718,12 +718,12 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
             const auto readBytes = zip_fread(zipFile.get(), buf, 1000);
             if (readBytes < 0) {
                 qCCritical(ARK) << "Failed to read data";
-                emit error(xi18n("Failed to read data for entry: %1", entry));
+                Q_EMIT error(xi18n("Failed to read data for entry: %1", entry));
                 return false;
             }
             if (out.writeRawData(buf, readBytes) != readBytes) {
                 qCCritical(ARK) << "Failed to write data";
-                emit error(xi18n("Failed to write data for entry: %1", entry));
+                Q_EMIT error(xi18n("Failed to write data for entry: %1", entry));
                 return false;
             }
 
@@ -733,7 +733,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         const auto index = zip_name_locate(archive, entry.toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
             qCCritical(ARK) << "Could not locate entry:" << entry;
-            emit error(xi18n("Failed to locate entry: %1", entry));
+            Q_EMIT error(xi18n("Failed to locate entry: %1", entry));
             return false;
         }
 
@@ -741,7 +741,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         zip_uint32_t attributes;
         if (zip_file_get_external_attributes(archive, index, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
             qCCritical(ARK) << "Could not read external attributes for entry:" << entry;
-            emit error(xi18n("Failed to read metadata for entry: %1", entry));
+            Q_EMIT error(xi18n("Failed to read metadata for entry: %1", entry));
             return false;
         }
 
@@ -787,7 +787,7 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
     zip_error_init_with_code(&err, errcode);
     if (archive == nullptr) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
-        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
+        Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
@@ -801,23 +801,23 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
         const int index = zip_name_locate(archive, filePaths.at(i).toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
             qCCritical(ARK) << "Could not find entry to move:" << filePaths.at(i);
-            emit error(xi18n("Failed to move entry: %1", filePaths.at(i)));
+            Q_EMIT error(xi18n("Failed to move entry: %1", filePaths.at(i)));
             return false;
         }
 
         if (zip_file_rename(archive, index, destPaths.at(i).toUtf8().constData(), ZIP_FL_ENC_GUESS) == -1) {
             qCCritical(ARK) << "Could not move entry:" << filePaths.at(i);
-            emit error(xi18n("Failed to move entry: %1", filePaths.at(i)));
+            Q_EMIT error(xi18n("Failed to move entry: %1", filePaths.at(i)));
             return false;
         }
 
-        emit entryRemoved(filePaths.at(i));
+        Q_EMIT entryRemoved(filePaths.at(i));
         emitEntryForIndex(archive, index);
-        emit progress(i/filePaths.count());
+        Q_EMIT progress(i/filePaths.count());
     }
     if (zip_close(archive)) {
         qCCritical(ARK) << "Failed to write archive";
-        emit error(xi18n("Failed to write archive."));
+        Q_EMIT error(xi18n("Failed to write archive."));
         return false;
     }
     qCDebug(ARK) << "Moved" << i << "entries";
@@ -836,7 +836,7 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
     zip_error_init_with_code(&err, errcode);
     if (archive == nullptr) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
-        emit error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
+        Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
@@ -859,7 +859,7 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
         const int srcIndex = zip_name_locate(archive, filePaths.at(i).toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (srcIndex == -1) {
             qCCritical(ARK) << "Could not find entry to copy:" << filePaths.at(i);
-            emit error(xi18n("Failed to copy entry: %1", filePaths.at(i)));
+            Q_EMIT error(xi18n("Failed to copy entry: %1", filePaths.at(i)));
             return false;
         }
 
@@ -873,7 +873,7 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
         if (destIndex == -1) {
             zip_source_free(src);
             qCCritical(ARK) << "Could not add entry" << dest << ":" << zip_strerror(archive);
-            emit error(xi18n("Failed to add entry: %1", QString::fromUtf8(zip_strerror(archive))));
+            Q_EMIT error(xi18n("Failed to add entry: %1", QString::fromUtf8(zip_strerror(archive))));
             return false;
         }
 
@@ -882,14 +882,14 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
         zip_uint32_t attributes;
         if (zip_file_get_external_attributes(archive, srcIndex, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
             qCCritical(ARK) << "Failed to read external attributes for source:" << filePaths.at(i);
-            emit error(xi18n("Failed to read metadata for entry: %1", filePaths.at(i)));
+            Q_EMIT error(xi18n("Failed to read metadata for entry: %1", filePaths.at(i)));
             return false;
         }
 
         // Set permissions on dest entry.
         if (zip_file_set_external_attributes(archive, destIndex, ZIP_FL_UNCHANGED, opsys, attributes) != 0) {
             qCCritical(ARK) << "Failed to set external attributes for destination:" << dest;
-            emit error(xi18n("Failed to set metadata for entry: %1", dest));
+            Q_EMIT error(xi18n("Failed to set metadata for entry: %1", dest));
             return false;
         }
     }
@@ -899,7 +899,7 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
 
     if (zip_close(archive)) {
         qCCritical(ARK) << "Failed to write archive";
-        emit error(xi18n("Failed to write archive."));
+        Q_EMIT error(xi18n("Failed to write archive."));
         return false;
     }
 

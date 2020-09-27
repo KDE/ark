@@ -139,7 +139,7 @@ void ArchiveView::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Return:
         case Qt::Key_Enter: {
             QLineEdit* editor = static_cast<QLineEdit*>(indexWidget(m_editorIndex));
-            emit entryChanged(editor->text());
+            Q_EMIT entryChanged(editor->text());
             closeEntryEditor();
             break;
         }

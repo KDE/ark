@@ -55,7 +55,7 @@ bool Plugin::isEnabled() const
 void Plugin::setEnabled(bool enabled)
 {
     m_enabled = enabled;
-    emit enabledChanged();
+    Q_EMIT enabledChanged();
 }
 
 bool Plugin::isReadWrite() const

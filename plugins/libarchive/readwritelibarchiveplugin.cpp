@@ -85,7 +85,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
             return false;
         }
         addedEntries++;
-        emit progress(float(addedEntries)/float(totalCount));
+        Q_EMIT progress(float(addedEntries)/float(totalCount));
 
         // For directories, write all subfiles/folders.
         const QString &fullPath = selectedFile->fullPath();
@@ -114,7 +114,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
                     return false;
                 }
                 addedEntries++;
-                emit progress(float(addedEntries)/float(totalCount));
+                Q_EMIT progress(float(addedEntries)/float(totalCount));
             }
         }
     }
@@ -226,13 +226,13 @@ bool ReadWriteLibarchivePlugin::initializeWriter(const bool creatingNewFile, con
 {
     m_tempFile.setFileName(filename());
     if (!m_tempFile.open(QIODevice::WriteOnly | QIODevice::Unbuffered)) {
-        emit error(i18nc("@info", "Failed to create a temporary file for writing data."));
+        Q_EMIT error(i18nc("@info", "Failed to create a temporary file for writing data."));
         return false;
     }
 
     m_archiveWriter.reset(archive_write_new());
     if (!(m_archiveWriter.data())) {
-        emit error(i18n("The archive writer could not be initialized."));
+        Q_EMIT error(i18n("The archive writer could not be initialized."));
         return false;
     }
 
@@ -250,7 +250,7 @@ bool ReadWriteLibarchivePlugin::initializeWriter(const bool creatingNewFile, con
     }
 
     if (archive_write_open_fd(m_archiveWriter.data(), m_tempFile.handle()) != ARCHIVE_OK) {
-        emit error(i18nc("@info", "Could not open the archive for writing entries."));
+        Q_EMIT error(i18nc("@info", "Could not open the archive for writing entries."));
         return false;
     }
 
@@ -297,7 +297,7 @@ bool ReadWriteLibarchivePlugin::initializeWriterFilters()
         ret = archive_write_add_filter_none(m_archiveWriter.data());
         break;
     default:
-        emit error(i18n("The compression type '%1' is not supported by Ark.",
+        Q_EMIT error(i18n("The compression type '%1' is not supported by Ark.",
                         QLatin1String(archive_filter_name(m_archiveReader.data(), 0))));
         return false;
     }
@@ -306,7 +306,7 @@ bool ReadWriteLibarchivePlugin::initializeWriterFilters()
     if ((requiresExecutable && ret != ARCHIVE_WARN) ||
         (!requiresExecutable && ret != ARCHIVE_OK)) {
         qCWarning(ARK) << "Failed to set compression method:" << archive_error_string(m_archiveWriter.data());
-        emit error(i18nc("@info", "Could not set the compression method."));
+        Q_EMIT error(i18nc("@info", "Could not set the compression method."));
         return false;
     }
 
@@ -360,7 +360,7 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
     if ((requiresExecutable && ret != ARCHIVE_WARN) ||
         (!requiresExecutable && ret != ARCHIVE_OK)) {
         qCWarning(ARK) << "Failed to set compression method:" << archive_error_string(m_archiveWriter.data());
-        emit error(i18nc("@info", "Could not set the compression method."));
+        Q_EMIT error(i18nc("@info", "Could not set the compression method."));
         return false;
     }
 
@@ -370,7 +370,7 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
         ret = archive_write_set_filter_option(m_archiveWriter.data(), nullptr, "compression-level", QString::number(options.compressionLevel()).toUtf8().constData());
         if (ret != ARCHIVE_OK) {
             qCWarning(ARK) << "Failed to set compression level" << archive_error_string(m_archiveWriter.data());
-            emit error(i18nc("@info", "Could not set the compression level."));
+            Q_EMIT error(i18nc("@info", "Could not set the compression level."));
             return false;
         }
     }
@@ -425,7 +425,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(uint &entriesCounter, Operatio
                         return false;
                     }
                 } else {
-                    emit entryRemoved(file);
+                    Q_EMIT entryRemoved(file);
                 }
 
                 entriesCounter++;
@@ -440,8 +440,8 @@ bool ReadWriteLibarchivePlugin::processOldEntries(uint &entriesCounter, Operatio
             switch (mode) {
             case Delete:
                 entriesCounter++;
-                emit entryRemoved(file);
-                emit progress(float(newEntries + entriesCounter + iteratedEntries)/float(totalCount));
+                Q_EMIT entryRemoved(file);
+                Q_EMIT progress(float(newEntries + entriesCounter + iteratedEntries)/float(totalCount));
                 break;
 
             case Add:
@@ -470,7 +470,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(uint &entriesCounter, Operatio
         } else {
             return false;
         }
-        emit progress(float(newEntries + entriesCounter + iteratedEntries)/float(totalCount));
+        Q_EMIT progress(float(newEntries + entriesCounter + iteratedEntries)/float(totalCount));
     }
 
     return !QThread::currentThread()->isInterruptionRequested();
@@ -489,7 +489,7 @@ bool ReadWriteLibarchivePlugin::writeEntry(struct archive_entry *entry)
     case ARCHIVE_FATAL:
         qCCritical(ARK) << "archive_write_header() has returned" << returnCode
                         << "with errno" << archive_errno(m_archiveWriter.data());
-        emit error(i18nc("@info", "Could not compress entry, operation aborted."));
+        Q_EMIT error(i18nc("@info", "Could not compress entry, operation aborted."));
         return false;
     default:
         qCDebug(ARK) << "archive_writer_header() has returned" << returnCode
@@ -529,7 +529,7 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString &relativeName, const QSt
         qCCritical(ARK) << "Writing header failed with error code " << returnCode;
         qCCritical(ARK) << "Error while writing..." << archive_error_string(m_archiveWriter.data()) << "(error no =" << archive_errno(m_archiveWriter.data()) << ')';
 
-        emit error(i18nc("@info Error in a message box",
+        Q_EMIT error(i18nc("@info Error in a message box",
                          "Could not compress entry."));
 
         archive_entry_free(entry);

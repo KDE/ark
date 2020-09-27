@@ -168,7 +168,7 @@ bool CliPlugin::readListLine(const QString &line)
 bool CliPlugin::handleUnrar5Line(const QString &line)
 {
     if (line.startsWith(QLatin1String("Cannot find volume "))) {
-        emit error(i18n("Failed to find all archive volumes."));
+        Q_EMIT error(i18n("Failed to find all archive volumes."));
         return false;
     }
 
@@ -213,9 +213,9 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
                 qCDebug(ARK) << "Solid archive detected";
             }
             if (line.contains(QLatin1String("RAR 4"))) {
-                emit compressionMethodFound(QStringLiteral("RAR4"));
+                Q_EMIT compressionMethodFound(QStringLiteral("RAR4"));
             } else if (line.contains(QLatin1String("RAR 5"))) {
-                emit compressionMethodFound(QStringLiteral("RAR5"));
+                Q_EMIT compressionMethodFound(QStringLiteral("RAR5"));
                 m_isRAR5 = true;
             }
             if (line.contains(QLatin1String("lock"))) {
@@ -290,7 +290,7 @@ void CliPlugin::handleUnrar5Entry()
     m_isPasswordProtected = m_unrar5Details.value(QStringLiteral("flags")).contains(QLatin1String("encrypted"));
     e->setProperty("isPasswordProtected", m_isPasswordProtected);
     if (m_isPasswordProtected) {
-        m_isRAR5 ? emit encryptionMethodFound(QStringLiteral("AES256")) : emit encryptionMethodFound(QStringLiteral("AES128"));
+        m_isRAR5 ? Q_EMIT encryptionMethodFound(QStringLiteral("AES256")) : Q_EMIT encryptionMethodFound(QStringLiteral("AES128"));
     }
 
     e->setProperty("fullPath", m_unrar5Details.value(QStringLiteral("name")));
@@ -305,13 +305,13 @@ void CliPlugin::handleUnrar5Entry()
     }
 
     m_unrar5Details.clear();
-    emit entry(e);
+    Q_EMIT entry(e);
 }
 
 bool CliPlugin::handleUnrar4Line(const QString &line)
 {
     if (line.startsWith(QLatin1String("Cannot find volume "))) {
-        emit error(i18n("Failed to find all archive volumes."));
+        Q_EMIT error(i18n("Failed to find all archive volumes."));
         return false;
     }
 
@@ -332,21 +332,21 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
 
         // unrar 4 outputs the following string when opening v5 RAR archives.
         if (line == QLatin1String("Unsupported archive format. Please update RAR to a newer version.")) {
-            emit error(i18n("Your unrar executable is version %1, which is too old to handle this archive. Please update to a more recent version.",
+            Q_EMIT error(i18n("Your unrar executable is version %1, which is too old to handle this archive. Please update to a more recent version.",
                             m_unrarVersion));
             return false;
         }
 
         // unrar 3 reports a non-RAR archive when opening v5 RAR archives.
         if (line.endsWith(QLatin1String(" is not RAR archive"))) {
-            emit error(i18n("Unrar reported a non-RAR archive. The installed unrar version (%1) is old. Try updating your unrar.",
+            Q_EMIT error(i18n("Unrar reported a non-RAR archive. The installed unrar version (%1) is old. Try updating your unrar.",
                             m_unrarVersion));
             return false;
         }
 
         // If we reach this point, then we can be sure that it's not a RAR5
         // archive, so assume RAR4.
-        emit compressionMethodFound(QStringLiteral("RAR4"));
+        Q_EMIT compressionMethodFound(QStringLiteral("RAR4"));
 
         if (rxCommentEnd.match(line).hasMatch()) {
 
@@ -421,7 +421,7 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
         } else if (line.startsWith(QLatin1Char('*'))) {
             m_isPasswordProtected = true;
             m_unrar4Details.append(QString(line.trimmed()).remove(0, 1)); //Remove the asterisk
-            emit encryptionMethodFound(QStringLiteral("AES128"));
+            Q_EMIT encryptionMethodFound(QStringLiteral("AES128"));
 
         // Entry names always start at the second position, so a line not
         // starting with a space is not an entry name.
@@ -557,18 +557,18 @@ void CliPlugin::handleUnrar4Entry()
     }
 
     m_unrar4Details.clear();
-    emit entry(e);
+    Q_EMIT entry(e);
 }
 
 bool CliPlugin::readExtractLine(const QString &line)
 {
     if (line.contains(QLatin1String("CRC failed"))) {
-        emit error(i18n("One or more wrong checksums"));
+        Q_EMIT error(i18n("One or more wrong checksums"));
         return false;
     }
 
     if (line.startsWith(QLatin1String("Cannot find volume "))) {
-        emit error(i18n("Failed to find all archive volumes."));
+        Q_EMIT error(i18n("Failed to find all archive volumes."));
         return false;
     }
 

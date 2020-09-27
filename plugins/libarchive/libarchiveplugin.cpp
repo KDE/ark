@@ -71,7 +71,7 @@ bool LibarchivePlugin::list()
     qCDebug(ARK) << "Detected compression filter:" << archive_filter_name(m_archiveReader.data(), 0);
     QString compMethod = convertCompressionName(QString::fromUtf8(archive_filter_name(m_archiveReader.data(), 0)));
     if (!compMethod.isEmpty()) {
-        emit compressionMethodFound(compMethod);
+        Q_EMIT compressionMethodFound(compMethod);
     }
 
     m_cachedArchiveEntryCount = 0;
@@ -96,7 +96,7 @@ bool LibarchivePlugin::list()
 
         m_extractedFilesSize += (qlonglong)archive_entry_size(aentry);
 
-        emit progress(float(archive_filter_bytes(m_archiveReader.data(), -1))/float(compressedArchiveSize));
+        Q_EMIT progress(float(archive_filter_bytes(m_archiveReader.data(), -1))/float(compressedArchiveSize));
 
         m_cachedArchiveEntryCount++;
 
@@ -128,14 +128,14 @@ bool LibarchivePlugin::list()
 bool LibarchivePlugin::emitCorruptArchive()
 {
     Kerfuffle::LoadCorruptQuery query(filename());
-    emit userQuery(&query);
+    Q_EMIT userQuery(&query);
     query.waitForResponse();
     if (!query.responseYes()) {
-        emit cancelled();
+        Q_EMIT cancelled();
         archive_read_close(m_archiveReader.data());
         return false;
     } else {
-        emit progress(1.0);
+        Q_EMIT progress(1.0);
         return true;
     }
 }
@@ -209,7 +209,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
     const bool extractAll = files.isEmpty();
     if (extractAll) {
         if (!m_cachedArchiveEntryCount) {
-            emit progress(0);
+            Q_EMIT progress(0);
             //TODO: once information progress has been implemented, send
             //feedback here that the archive is being read
             qCDebug(ARK) << "For getting progress information, the archive will be listed once";
@@ -282,7 +282,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
         // For now we just can't handle absolute filenames in a tar archive.
         // TODO: find out what to do here!!
         if (entryName.startsWith(QLatin1Char( '/' ))) {
-            emit error(i18n("This archive contains archive entries with absolute paths, "
+            Q_EMIT error(i18n("This archive contains archive entries with absolute paths, "
                             "which are not supported by Ark."));
             return false;
         }
@@ -334,11 +334,11 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
                     continue;
                 } else if (!overwriteAll && !skipAll) {
                     Kerfuffle::OverwriteQuery query(entryName);
-                    emit userQuery(&query);
+                    Q_EMIT userQuery(&query);
                     query.waitForResponse();
 
                     if (query.responseCancelled()) {
-                        emit cancelled();
+                        Q_EMIT cancelled();
                         archive_read_data_skip(m_archiveReader.data());
                         archive_entry_clear(entry);
                         break;
@@ -393,11 +393,11 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
                     // Ask the user if he wants to continue extraction despite an error for this entry.
                     Kerfuffle::ContinueExtractionQuery query(QLatin1String(archive_error_string(writer.data())),
                                                              entryName);
-                    emit userQuery(&query);
+                    Q_EMIT userQuery(&query);
                     query.waitForResponse();
 
                     if (query.responseCancelled()) {
-                        emit cancelled();
+                        Q_EMIT cancelled();
                         return false;
                     }
                     dontPromptErrors = query.dontAskAgain();
@@ -407,7 +407,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
             case ARCHIVE_FATAL:
                 qCCritical(ARK) << "archive_write_header() has returned" << returnCode
                                 << "with errno" << archive_errno(writer.data());
-                emit error(i18nc("@info", "Fatal error, extraction aborted."));
+                Q_EMIT error(i18nc("@info", "Fatal error, extraction aborted."));
                 return false;
             default:
                 qCDebug(ARK) << "archive_write_header() returned" << returnCode
@@ -420,7 +420,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
             // number of items extracted.
             if (!extractAll && m_cachedArchiveEntryCount) {
                 ++progressEntryCount;
-                emit progress(float(progressEntryCount) / totalEntriesCount);
+                Q_EMIT progress(float(progressEntryCount) / totalEntriesCount);
             }
 
             extractedEntriesCount++;
@@ -441,7 +441,7 @@ bool LibarchivePlugin::initializeReader()
     m_archiveReader.reset(archive_read_new());
 
     if (!(m_archiveReader.data())) {
-        emit error(i18n("The archive reader could not be initialized."));
+        Q_EMIT error(i18n("The archive reader could not be initialized."));
         return false;
     }
 
@@ -455,7 +455,7 @@ bool LibarchivePlugin::initializeReader()
 
     if (archive_read_open_filename(m_archiveReader.data(), QFile::encodeName(filename()).constData(), 10240) != ARCHIVE_OK) {
         qCWarning(ARK) << "Could not open the archive:" << archive_error_string(m_archiveReader.data());
-        emit error(i18nc("@info", "Archive corrupted or insufficient permissions."));
+        Q_EMIT error(i18nc("@info", "Archive corrupted or insufficient permissions."));
         return false;
     }
 
@@ -503,7 +503,7 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
     auto time = static_cast<uint>(archive_entry_mtime(aentry));
     e->setProperty("timestamp", QDateTime::fromSecsSinceEpoch(time));
 
-    emit entry(e);
+    Q_EMIT entry(e);
     m_emittedEntries << e;
 }
 
@@ -534,7 +534,7 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *dest, b
 
         if (partialprogress) {
             m_currentExtractedFilesSize += readBytes;
-            emit progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
+            Q_EMIT progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
         }
 
         readBytes = file.read(buff, sizeof(buff));
@@ -558,7 +558,7 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *source,
 
         if (partialprogress) {
             m_currentExtractedFilesSize += readBytes;
-            emit progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
+            Q_EMIT progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
         }
 
         readBytes = archive_read_data(source, buff, sizeof(buff));

@@ -126,7 +126,7 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
         qCDebug(ARK) << "Using temporary extraction dir:" << m_extractTempDir->path();
         if (!m_extractTempDir->isValid()) {
             qCDebug(ARK) << "Creation of temporary directory failed.";
-            emit finished(false);
+            Q_EMIT finished(false);
             return false;
         }
         destDir = QUrl(m_extractTempDir->path());
@@ -176,7 +176,7 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
                 qCDebug(ARK) << "Symlink's created:" << filePath << newFilePath;
             } else {
                 qCDebug(ARK) << "Can't create symlink" << filePath << newFilePath;
-                emit finished(false);
+                Q_EMIT finished(false);
                 return false;
             }
         }
@@ -269,8 +269,8 @@ bool CliInterface::runProcess(const QString& programName, const QStringList& arg
 
     QString programPath = QStandardPaths::findExecutable(programName);
     if (programPath.isEmpty()) {
-        emit error(xi18nc("@info", "Failed to locate program <filename>%1</filename> on disk.", programName));
-        emit finished(false);
+        Q_EMIT error(xi18nc("@info", "Failed to locate program <filename>%1</filename> on disk.", programName));
+        Q_EMIT finished(false);
         return false;
     }
 
@@ -327,10 +327,10 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     if (m_operationMode == Delete || m_operationMode == Move) {
         const QStringList removedFullPaths = entryFullPaths(m_removedFiles);
         for (const QString &fullPath : removedFullPaths) {
-            emit entryRemoved(fullPath);
+            Q_EMIT entryRemoved(fullPath);
         }
         for (Archive::Entry *e : qAsConst(m_newMovedFiles)) {
-            emit entry(e);
+            Q_EMIT entry(e);
         }
         m_newMovedFiles.clear();
     }
@@ -341,15 +341,15 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         Kerfuffle::LoadCorruptQuery query(filename());
         query.execute();
         if (!query.responseYes()) {
-            emit cancelled();
-            emit finished(false);
+            Q_EMIT cancelled();
+            Q_EMIT finished(false);
         } else {
-            emit progress(1.0);
-            emit finished(true);
+            Q_EMIT progress(1.0);
+            Q_EMIT finished(true);
         }
     } else  {
-        emit progress(1.0);
-        emit finished(true);
+        Q_EMIT progress(1.0);
+        Q_EMIT finished(true);
     }
 }
 
@@ -379,25 +379,25 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
         if (m_exitCode == 1) {
             if (password().isEmpty()) {
                 qCWarning(ARK) << "Extraction aborted, destination folder might not have enough space.";
-                emit error(i18n("Extraction failed. Make sure that enough space is available."));
+                Q_EMIT error(i18n("Extraction failed. Make sure that enough space is available."));
             } else {
                 qCWarning(ARK) << "Extraction aborted, either the password is wrong or the destination folder doesn't have enough space.";
-                emit error(i18n("Extraction failed. Make sure you provided the correct password and that enough space is available."));
+                Q_EMIT error(i18n("Extraction failed. Make sure you provided the correct password and that enough space is available."));
                 setPassword(QString());
             }
             cleanUpExtracting();
-            emit finished(false);
+            Q_EMIT finished(false);
             return;
         }
 
         if (!m_extractionOptions.isDragAndDropEnabled()) {
             if (!moveToDestination(QDir::current(), QDir(m_extractDestDir), m_extractionOptions.preservePaths())) {
-                emit error(i18ncp("@info",
+                Q_EMIT error(i18ncp("@info",
                                   "Could not move the extracted file to the destination directory.",
                                   "Could not move the extracted files to the destination directory.",
                                   m_extractedFiles.size()));
                 cleanUpExtracting();
-                emit finished(false);
+                Q_EMIT finished(false);
                 return;
             }
 
@@ -418,8 +418,8 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
     // #395939: make sure we *always* restore the old working dir.
     restoreWorkingDirExtraction();
 
-    emit progress(1.0);
-    emit finished(true);
+    Q_EMIT progress(1.0);
+    Q_EMIT finished(true);
 }
 
 void CliInterface::continueCopying(bool result)
@@ -495,8 +495,8 @@ bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry*> &files,
                         continue;
 
                     } else if (query.responseCancelled()) {
-                        emit cancelled();
-                        emit finished(false);
+                        Q_EMIT cancelled();
+                        Q_EMIT finished(false);
                         return false;
                     }
 
@@ -517,11 +517,11 @@ bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry*> &files,
             // Move files to the final destination.
             if (!QFile(absSourceEntry.absoluteFilePath()).rename(absDestEntry.absoluteFilePath())) {
                 qCWarning(ARK) << "Failed to move file" << absSourceEntry.filePath() << "to final destination.";
-                emit error(i18ncp("@info",
+                Q_EMIT error(i18ncp("@info",
                                   "Could not move the extracted file to the destination directory.",
                                   "Could not move the extracted files to the destination directory.",
                                   m_extractedFiles.size()));
-                emit finished(false);
+                Q_EMIT finished(false);
                 return false;
             }
         }
@@ -559,8 +559,8 @@ void CliInterface::restoreWorkingDirExtraction()
 void CliInterface::finishCopying(bool result)
 {
     disconnect(this, &CliInterface::finished, this, &CliInterface::continueCopying);
-    emit progress(1.0);
-    emit finished(result);
+    Q_EMIT progress(1.0);
+    Q_EMIT finished(result);
     cleanUp();
 }
 
@@ -724,9 +724,9 @@ bool CliInterface::passwordQuery()
     query.execute();
 
     if (query.responseCancelled()) {
-        emit cancelled();
+        Q_EMIT cancelled();
         // There is no process running, so finished() must be emitted manually.
-        emit finished(false);
+        Q_EMIT finished(false);
         return false;
     }
 
@@ -845,7 +845,7 @@ bool CliInterface::handleLine(const QString& line)
         int pos = line.indexOf(QLatin1Char( '%' ));
         if (pos > 1) {
             int percentage = line.midRef(pos - 2, 2).toInt();
-            emit progress(float(percentage) / 100);
+            Q_EMIT progress(float(percentage) / 100);
             return true;
         }
     }
@@ -859,7 +859,7 @@ bool CliInterface::handleLine(const QString& line)
             query.execute();
 
             if (query.responseCancelled()) {
-                emit cancelled();
+                Q_EMIT cancelled();
                 return false;
             }
 
@@ -873,14 +873,14 @@ bool CliInterface::handleLine(const QString& line)
 
         if (isDiskFullMsg(line)) {
             qCWarning(ARK) << "Found disk full message:" << line;
-            emit error(i18nc("@info", "Extraction failed because the disk is full."));
+            Q_EMIT error(i18nc("@info", "Extraction failed because the disk is full."));
             return false;
         }
 
         if (isWrongPasswordMsg(line)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
-            emit error(i18nc("@info", "Extraction failed: Incorrect password"));
+            Q_EMIT error(i18nc("@info", "Extraction failed: Incorrect password"));
             return false;
         }
 
@@ -899,7 +899,7 @@ bool CliInterface::handleLine(const QString& line)
             query.execute();
 
             if (query.responseCancelled()) {
-                emit cancelled();
+                Q_EMIT cancelled();
                 return false;
             }
 
@@ -914,7 +914,7 @@ bool CliInterface::handleLine(const QString& line)
         if (isWrongPasswordMsg(line)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
-            emit error(i18n("Incorrect password."));
+            Q_EMIT error(i18n("Incorrect password."));
             return false;
         }
 
@@ -937,13 +937,13 @@ bool CliInterface::handleLine(const QString& line)
         if (isPasswordPrompt(line)) {
             qCDebug(ARK) << "Found a password prompt";
 
-            emit error(i18n("Ark does not currently support testing this archive."));
+            Q_EMIT error(i18n("Ark does not currently support testing this archive."));
             return false;
         }
 
         if (m_cliProps->isTestPassedMsg(line)) {
             qCDebug(ARK) << "Test successful";
-            emit testSuccess();
+            Q_EMIT testSuccess();
             return true;
         }
     }
@@ -993,7 +993,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
     } else if (query.responseAutoSkip()) {
         responseToProcess = choices.at(3);
     } else if (query.responseCancelled()) {
-        emit cancelled();
+        Q_EMIT cancelled();
         if (choices.count() < 5) { // If the program has no way to cancel the extraction, we resort to killing it
             return doKill();
         }
@@ -1058,7 +1058,7 @@ bool CliInterface::addComment(const QString &comment)
     m_commentTempFile.reset(new QTemporaryFile());
     if (!m_commentTempFile->open()) {
         qCWarning(ARK) << "Failed to create temporary file for comment";
-        emit finished(false);
+        Q_EMIT finished(false);
         return false;
     }
 
@@ -1101,10 +1101,10 @@ void CliInterface::onEntry(Archive::Entry *archiveEntry)
     if (archiveEntry->compressedSizeIsSet) {
         m_listedSize += archiveEntry->property("compressedSize").toULongLong();
         if (m_listedSize <= m_archiveSizeOnDisk) {
-            emit progress(float(m_listedSize)/float(m_archiveSizeOnDisk));
+            Q_EMIT progress(float(m_listedSize)/float(m_archiveSizeOnDisk));
         } else {
             // In case summed compressed size exceeds archive size on disk.
-            emit progress(1);
+            Q_EMIT progress(1);
         }
     }
 }

@@ -167,14 +167,14 @@ bool CliPlugin::readListLine(const QString &line)
             e->setProperty("method", rxMatch.captured(7));
 
             QString method = convertCompressionMethod(rxMatch.captured(7));
-            emit compressionMethodFound(method);
+            Q_EMIT compressionMethodFound(method);
 
             const QDateTime ts(QDate::fromString(rxMatch.captured(8), QStringLiteral("yyyyMMdd")),
                                QTime::fromString(rxMatch.captured(9), QStringLiteral("hhmmss")));
             e->setProperty("timestamp", ts);
 
             e->setProperty("fullPath", rxMatch.captured(10));
-            emit entry(e);
+            Q_EMIT entry(e);
         }
         break;
     }
@@ -190,17 +190,17 @@ bool CliPlugin::readExtractLine(const QString &line)
 
     QRegularExpressionMatch unsupCompMethodMatch = rxUnsupCompMethod.match(line);
     if (unsupCompMethodMatch.hasMatch()) {
-        emit error(i18n("Extraction failed due to unsupported compression method (%1).", unsupCompMethodMatch.captured(1)));
+        Q_EMIT error(i18n("Extraction failed due to unsupported compression method (%1).", unsupCompMethodMatch.captured(1)));
         return false;
     }
 
     if (rxUnsupEncMethod.match(line).hasMatch()) {
-        emit error(i18n("Extraction failed due to unsupported encryption method."));
+        Q_EMIT error(i18n("Extraction failed due to unsupported encryption method."));
         return false;
     }
 
     if (rxBadCRC.match(line).hasMatch()) {
-        emit error(i18n("Extraction failed due to one or more corrupt files. Any extracted files may be damaged."));
+        Q_EMIT error(i18n("Extraction failed due to one or more corrupt files. Any extracted files may be damaged."));
         return false;
     }
 
@@ -300,8 +300,8 @@ bool CliPlugin::setMovingAddedFiles()
 void CliPlugin::finishMoving(bool result)
 {
     disconnect(this, &CliPlugin::finished, this, &CliPlugin::continueMoving);
-    emit progress(1.0);
-    emit finished(result);
+    Q_EMIT progress(1.0);
+    Q_EMIT finished(result);
     cleanUp();
 }
 
@@ -322,7 +322,7 @@ QString CliPlugin::convertCompressionMethod(const QString &method)
     } else if (method == QLatin1String("u095")) {
         return QStringLiteral("XZ");
     } else if (method == QLatin1String("u099")) {
-        emit encryptionMethodFound(QStringLiteral("AES"));
+        Q_EMIT encryptionMethodFound(QStringLiteral("AES"));
         return i18nc("referred to compression method", "unknown");
     }
     return method;
