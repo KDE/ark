@@ -7,8 +7,7 @@ please see:
  - https://wiki.qt.io/Coding_Conventions
 
 == Sending patches ==
-To send patches for Ark, plese use KDE's Phabricator at <https://phabricator.kde.org>.
-The diff should be created against the Ark repository.
+To send patches for Ark, plese use KDE's Gitlab instance at <https://invent.kde.org/utilities/ark>.
 
 If you already have a KDE commit account, it is still preferrable to contact
 the maintainer instead of committing directly, at least to be a good citizen
