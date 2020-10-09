@@ -68,36 +68,40 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
         return {};
     }
 
-    QMenu *extractMenu = new QMenu(parentWidget);
+    QAction *extractToAction = createAction(icon,
+                                                 i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive to..."),
+                                                 parentWidget,
+                                                 supportedUrls,
+                                                 QStringLiteral("ark --batch --autodestination --dialog %F"));
 
-    extractMenu->addAction(createAction(icon,
-                                        i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive here"),
-                                        parentWidget,
-                                        supportedUrls,
-                                        QStringLiteral("ark --batch --autodestination %F")));
-
-    extractMenu->addAction(createAction(icon,
-                                        i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive to..."),
-                                        parentWidget,
-                                        supportedUrls,
-                                        QStringLiteral("ark --batch --autodestination --dialog %F")));
-
-    extractMenu->addAction(createAction(icon,
-                                        i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive here, autodetect subfolder"),
-                                        parentWidget,
-                                        supportedUrls,
-                                        QStringLiteral("ark --batch --autodestination --autosubfolder %F")));
-
-    QAction *extractMenuAction = new QAction(i18nc("@action:inmenu Extract submenu in Dolphin context menu", "Extract"), parentWidget);
-    extractMenuAction->setMenu(extractMenu);
-    extractMenuAction->setIcon(icon);
-
-    // #189177: disable extract menu in read-only folders.
+    // #189177: disable "extract here" actions in read-only folders.
     if (readOnlyParentDir) {
-        extractMenuAction->setEnabled(false);
+       actions << extractToAction;
+    } else {
+        QMenu *extractMenu = new QMenu(parentWidget);
+
+        extractMenu->addAction(createAction(icon,
+                                            i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive here"),
+                                            parentWidget,
+                                            supportedUrls,
+                                            QStringLiteral("ark --batch --autodestination %F")));
+
+        extractMenu->addAction(extractToAction);
+
+        extractMenu->addAction(createAction(icon,
+                                            i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive here, autodetect subfolder"),
+                                            parentWidget,
+                                            supportedUrls,
+                                            QStringLiteral("ark --batch --autodestination --autosubfolder %F")));
+
+
+        QAction *extractMenuAction = new QAction(i18nc("@action:inmenu Extract submenu in Dolphin context menu", "Extract"), parentWidget);
+        extractMenuAction->setMenu(extractMenu);
+        extractMenuAction->setIcon(icon);
+
+        actions << extractMenuAction;
     }
 
-    actions << extractMenuAction;
     return actions;
 }
 
