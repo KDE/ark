@@ -92,6 +92,7 @@
         "CompressionMethodDefault": "Default",
         "CompressionMethods": {
             "BZip2": "BZip2",
+            @ZIP_CM_ZSTD_JSON_LINE@
             "Default": "Default",
             "Deflate": "Deflate",
             "Store": "Store"

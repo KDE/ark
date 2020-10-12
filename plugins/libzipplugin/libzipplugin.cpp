@@ -256,6 +256,10 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
             compMethod = ZIP_CM_DEFLATE;
         } else if (options.compressionMethod() == QLatin1String("BZip2")) {
             compMethod = ZIP_CM_BZIP2;
+#ifdef ZIP_CM_ZSTD
+        } else if (options.compressionMethod() == QLatin1String("Zstd")) {
+            compMethod = ZIP_CM_ZSTD;
+#endif
         } else if (options.compressionMethod() == QLatin1String("Store")) {
             compMethod = ZIP_CM_STORE;
         }
@@ -322,6 +326,12 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
                 e->setProperty("method", QStringLiteral("BZip2"));
                 Q_EMIT compressionMethodFound(QStringLiteral("BZip2"));
                 break;
+#ifdef ZIP_CM_ZSTD
+            case ZIP_CM_ZSTD:
+                e->setProperty("method", QStringLiteral("Zstd"));
+                Q_EMIT compressionMethodFound(QStringLiteral("Zstd"));
+            break;
+#endif
             case ZIP_CM_LZMA:
                 e->setProperty("method", QStringLiteral("LZMA"));
                 Q_EMIT compressionMethodFound(QStringLiteral("LZMA"));
