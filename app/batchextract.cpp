@@ -287,22 +287,33 @@ bool BatchExtract::showExtractDialog()
         loadJob->start();
     }
 
-    if (!dialog.data()->exec()) {
-        if (loadJob) {
-            loadJob->kill();
-            loadJob->deleteLater();
+    QUrl destinationDirectory;
+    if (dialog.data()->exec()) {
+        destinationDirectory = dialog.data()->destinationDirectory();
+        if (destinationDirectory.isLocalFile()) {
+            setAutoSubfolder(false && dialog.data()->autoSubfolders());
+            setDestinationFolder(destinationDirectory.toLocalFile());
+            setOpenDestinationAfterExtraction(dialog.data()->openDestinationAfterExtraction());
+            setPreservePaths(dialog.data()->preservePaths());
+
+            delete dialog.data();
+            return true;
         }
-        delete dialog.data();
-        return false;
     }
 
-    setAutoSubfolder(dialog.data()->autoSubfolders());
-    setDestinationFolder(dialog.data()->destinationDirectory().toDisplayString(QUrl::PreferLocalFile));
-    setOpenDestinationAfterExtraction(dialog.data()->openDestinationAfterExtraction());
-    setPreservePaths(dialog.data()->preservePaths());
+    // we get here if no directory was chosen, or the chosen directory is not local
+    if (loadJob) {
+        loadJob->kill();
+        loadJob->deleteLater();
+    }
+
+    if (!destinationDirectory.isEmpty() && !destinationDirectory.isLocalFile()) {
+        KMessageBox::error(nullptr,
+                            xi18nc("@info", "The archive could not be extracted to <filename>%1</filename> because Ark can only extract to local destinations.", destinationDirectory.toDisplayString()));
+    }
 
     delete dialog.data();
 
-    return true;
+    return false;
 }
 
