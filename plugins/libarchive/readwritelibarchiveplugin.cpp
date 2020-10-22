@@ -33,7 +33,6 @@
 #include <KPluginFactory>
 
 #include <QDirIterator>
-#include <QSaveFile>
 #include <QThread>
 
 #include <archive_entry.h>

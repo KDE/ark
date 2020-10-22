@@ -22,7 +22,6 @@
 
 #include "cliplugin.h"
 #include "ark_debug.h"
-#include "cliinterface.h"
 
 #include <KLocalizedString>
 #include <KPluginFactory>

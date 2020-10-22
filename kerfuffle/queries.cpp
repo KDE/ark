@@ -34,7 +34,6 @@
 #include <KIO/RenameDialog>
 
 #include <QApplication>
-#include <QCheckBox>
 #include <QDir>
 #include <QMessageBox>
 #include <QPointer>

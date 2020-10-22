@@ -44,8 +44,6 @@
 #include <QDirIterator>
 #include <QFile>
 #include <QMimeDatabase>
-#include <QProcess>
-#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTemporaryDir>
 #include <QTemporaryFile>

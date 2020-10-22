@@ -28,7 +28,6 @@
 
 #include "addtoarchive.h"
 #include "archiveentry.h"
-#include "archive_kerfuffle.h"
 #include "ark_debug.h"
 #include "createdialog.h"
 #include "jobs.h"

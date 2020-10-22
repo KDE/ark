@@ -28,7 +28,6 @@
 #include "adddialog.h"
 #include "ark_debug.h"
 #include "archiveformat.h"
-#include "compressionoptionswidget.h"
 #include "mimetypes.h"
 
 #include <QDialogButtonBox>

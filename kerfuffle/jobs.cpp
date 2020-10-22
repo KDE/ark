@@ -27,7 +27,6 @@
  */
 
 #include "jobs.h"
-#include "archiveentry.h"
 #include "ark_debug.h"
 
 #include <QDir>

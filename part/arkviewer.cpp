@@ -27,7 +27,6 @@
 #include <KLocalizedString>
 #include <KMimeTypeTrader>
 #include <KMessageBox>
-#include <KParts/ReadOnlyPart>
 #include <KParts/OpenUrlArguments>
 #include <KXMLGUIFactory>
 
