@@ -15,6 +15,7 @@
         "Description[fi]": "Täysi Zip-tiedostomuodon tuki",
         "Description[fr]": "Prise en charge complète du format d'archive ZIP",
         "Description[gl]": "Compatibilidade total co formato de arquivo zip.",
+        "Description[ia]": "Supporto complete per le formato de archivo zip",
         "Description[it]": "Supporto completo per il formato di archivi ZIP",
         "Description[ko]": "zip 압축 형식 지원",
         "Description[nl]": "Volledige ondersteuning voor het zip-archiefformaat",

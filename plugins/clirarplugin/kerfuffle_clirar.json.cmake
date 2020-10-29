@@ -15,6 +15,7 @@
         "Description[fi]": "Täysi RAR-tiedostomuodon tuki",
         "Description[fr]": "Prise en charge complète du format d'archive RAR",
         "Description[gl]": "Compatibilidade total co formato de arquivo RAR.",
+        "Description[ia]": "Supporto complete per le formato de archivo RAR",
         "Description[it]": "Supporto completo per il formato di archivi RAR",
         "Description[ko]": "RAR 압축 형식 지원",
         "Description[nl]": "Volledige ondersteuning voor het RAR-archiefformaat",
