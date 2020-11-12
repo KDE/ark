@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Open and extract single files compressed with the gzip algorithm",
+        "Description[ast]": "Abre y estrái ficheros comprimíos individuales col algoritmu de gzip",
         "Description[az]": "Gzip alqoritmi ilə sıxılmış tək faylları açmaq və çıxartmaq",
         "Description[ca@valencia]": "Obri i extreu fitxers individuals comprimits amb l'algorisme «gzip»",
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «gzip»",
@@ -43,6 +44,7 @@
             "@SUPPORTED_MIMETYPES@"
         ],
         "Name": "Gzip plugin",
+        "Name[ast]": "Plugin pa gzip",
         "Name[az]": "Gzip qoşması",
         "Name[ca@valencia]": "Connector del Gzip",
         "Name[ca]": "Connector del Gzip",

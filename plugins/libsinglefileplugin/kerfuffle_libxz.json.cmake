@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Open and extract single files compressed with the lzma algorithm",
+        "Description[ast]": "Abre y estrái ficheros comprimíos individuales col algoritmu de LZMA",
         "Description[az]": "lzma alqoritmi ilə sıxlaşdırılan tək faylları açmaq və çıxartmaq",
         "Description[ca@valencia]": "Obri i extreu fitxers individuals comprimits amb l'algorisme «lzma»",
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «lzma»",
@@ -43,6 +44,7 @@
             "@SUPPORTED_MIMETYPES@"
         ],
         "Name": "LZMA plugin",
+        "Name[ast]": "Plugin pa LZMA",
         "Name[az]": "LZMA qoşması",
         "Name[ca@valencia]": "Connector del LZMA",
         "Name[ca]": "Connector del LZMA",
