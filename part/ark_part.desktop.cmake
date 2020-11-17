@@ -152,3 +152,8 @@ X-KDE-ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=arkpart
 Type=Service
 MimeType=@SUPPORTED_ARK_MIMETYPES@
+
+X-KDE-PluginInfo-Name=ark
+X-KDE-PluginInfo-Version=@ARK_VERSION@
+X-KDE-PluginInfo-License=GPL v2+
+X-KDE-PluginInfo-Website=https://utils.kde.org/projects/ark

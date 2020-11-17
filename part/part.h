@@ -67,7 +67,7 @@ public:
         OpenFileWith
     };
 
-    Part(QWidget *parentWidget, QObject *parent, const QVariantList &);
+    Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaData, const QVariantList &);
     ~Part() override;
 
     bool openFile() override;

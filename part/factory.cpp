@@ -26,7 +26,7 @@ QObject *Factory::create(const char *iface, QWidget *parentWidget, QObject *pare
 {
     Q_UNUSED(keyword)
 
-    auto part = new Ark::Part(parentWidget, parent, args);
+    auto part = new Ark::Part(parentWidget, parent, metaData(), args);
     part->setReadWrite(QByteArray(iface) == QByteArray(KParts::ReadWritePart::staticMetaObject.className()));
 
     return part;

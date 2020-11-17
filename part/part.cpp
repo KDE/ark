@@ -44,7 +44,7 @@
 #include "pluginsettingspage.h"
 #include "pluginmanager.h"
 
-#include <KAboutData>
+#include <KPluginMetaData>
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KGuiItem>
@@ -88,17 +88,14 @@ namespace Ark
 
 static quint32 s_instanceCounter = 1;
 
-Part::Part(QWidget *parentWidget, QObject *parent, const QVariantList& args)
+Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaData, const QVariantList& args)
         : KParts::ReadWritePart(parent),
           m_splitter(nullptr),
           m_busy(false),
           m_jobTracker(nullptr)
 {
     Q_UNUSED(args)
-    KAboutData aboutData(QStringLiteral("ark"),
-                         i18n("ArkPart"),
-                         QStringLiteral("3.0"));
-    setComponentData(aboutData, false);
+    setMetaData(metaData);
 
     new DndExtractAdaptor(this);
 
