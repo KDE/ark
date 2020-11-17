@@ -1,6 +1,10 @@
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="ark_viewer" version="1">
+<gui name="ark_viewer" version="2">
 <MenuBar>
+    <Menu name="help">
+        <text>&amp;Help</text>
+        <Action name="help_about_kpart" append="about_merge"/>
+    </Menu>
     <Merge/>
 </MenuBar>
 </gui>

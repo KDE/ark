@@ -46,6 +46,10 @@ private:
     static KService::Ptr getViewer(const QString& mimeType);
     bool viewInInternalViewer(const QString& fileName, const QMimeType& mimeType);
 
+private Q_SLOTS:
+    void aboutKPart();
+
+private:
     QPointer<KParts::ReadOnlyPart> m_part;
     QString m_fileName;
 };

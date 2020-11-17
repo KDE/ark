@@ -29,12 +29,16 @@
 #include <KMessageBox>
 #include <KParts/OpenUrlArguments>
 #include <KXMLGUIFactory>
+#include <KActionCollection>
+#include <KAboutPluginDialog>
+#include <KPluginMetaData>
 
 #include <QFile>
 #include <QMimeDatabase>
 #include <QProgressDialog>
 #include <QPushButton>
 #include <QStyle>
+#include <QAction>
 
 #include <algorithm>
 
@@ -199,6 +203,15 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     // Insert the KPart into its placeholder.
     centralWidget()->layout()->replaceWidget(m_partPlaceholder, m_part.data()->widget());
 
+    QAction* action = actionCollection()->addAction(QStringLiteral("help_about_kpart"));
+    const KPluginMetaData partMetaData = m_part->metaData();
+    const QString iconName = partMetaData.iconName();
+    if (!iconName.isEmpty()) {
+        action->setIcon(QIcon::fromTheme(iconName));
+    }
+    action->setText(i18nc("@action", "About Viewer Component"));
+    connect(action, &QAction::triggered, this, &ArkViewer::aboutKPart);
+
     createGUI(m_part.data());
     setAutoSaveSettings(QStringLiteral("Viewer"), true);
 
@@ -243,4 +256,15 @@ KService::Ptr ArkViewer::getViewer(const QString &mimeType)
     } else {
         return KService::Ptr();
     }
+}
+
+void ArkViewer::aboutKPart()
+{
+    if (!m_part) {
+        return;
+    }
+
+    auto *dialog = new KAboutPluginDialog(m_part->metaData(), this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 }
