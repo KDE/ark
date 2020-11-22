@@ -239,6 +239,16 @@ Part::~Part()
     m_extractAction->menu()->deleteLater();
 }
 
+QString Part::componentName() const
+{
+    // also the part ui.rc file is in the program folder
+    // TODO: change the component name to "arkpart" by removing this method and
+    // adapting the folder where the file is placed.
+    // Needs a way to also move any potential custom user ui.rc files
+    // from ark/ark_part.rc to arkpart/ark_part.rc
+    return QStringLiteral("ark");
+}
+
 void Part::slotCommentChanged()
 {
     if (!m_model->archive() || m_commentView->toPlainText().isEmpty()) {

@@ -79,6 +79,11 @@ public:
     bool eventFilter(QObject *target, QEvent *event) override;
 
     /**
+     * Return custom compnentName for KXMLGUIClient, as by history not the plugin id is used
+     */
+    QString componentName() const override;
+
+    /**
      * Validate the localFilePath() associated to this part.
      * If the file is not valid, an error message is displayed to the user.
      * @return Whether the localFilePath() can be loaded by the part.
