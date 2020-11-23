@@ -40,4 +40,3 @@ install(TARGETS arkpart DESTINATION ${KDE_INSTALL_PLUGINDIR})
 ########### install files ###############
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
-install(FILES ark_viewer.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/ark)
