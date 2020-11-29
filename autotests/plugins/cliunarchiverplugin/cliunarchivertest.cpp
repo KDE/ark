@@ -21,8 +21,6 @@
 #include "jobs.h"
 #include "testhelper.h"
 
-#include <KPluginLoader>
-
 #include <QDirIterator>
 #include <QFile>
 #include <QSignalSpy>

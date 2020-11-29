@@ -31,8 +31,6 @@
 #include <QRegularExpression>
 #include <QStandardPaths>
 
-#include <KPluginLoader>
-
 namespace Kerfuffle
 {
 

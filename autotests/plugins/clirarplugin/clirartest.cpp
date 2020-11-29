@@ -30,8 +30,6 @@
 #include "jobs.h"
 #include "testhelper.h"
 
-#include <KPluginLoader>
-
 #include <QFile>
 #include <QSignalSpy>
 #include <QTest>

@@ -29,7 +29,6 @@
 
 #include <KFileItemListProperties>
 #include <KPluginFactory>
-#include <KPluginLoader>
 #include <KLocalizedString>
 
 K_PLUGIN_CLASS_WITH_JSON(ExtractHereDndPlugin, "ark_dndextract.json")

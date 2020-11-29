@@ -34,8 +34,6 @@
 #include <QTest>
 #include <QTextStream>
 
-#include <KPluginLoader>
-
 QTEST_GUILESS_MAIN(Cli7zTest)
 
 using namespace Kerfuffle;
