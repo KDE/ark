@@ -392,20 +392,20 @@ void Part::setupActions()
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(QIcon::fromTheme(QStringLiteral("document-preview-archive")));
     m_previewAction->setToolTip(i18nc("@info:tooltip", "Click to preview the selected file"));
-    actionCollection()->setDefaultShortcut(m_previewAction, Qt::CTRL + Qt::Key_P);
+    actionCollection()->setDefaultShortcut(m_previewAction, Qt::CTRL | Qt::Key_P);
     connect(m_previewAction, &QAction::triggered, this, [this]() { slotOpenEntry(Preview); });
 
     m_extractArchiveAction = actionCollection()->addAction(QStringLiteral("extract_all"));
     m_extractArchiveAction->setText(i18nc("@action:inmenu", "E&xtract All"));
     m_extractArchiveAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
     m_extractArchiveAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose how to extract all the files in the archive"));
-    actionCollection()->setDefaultShortcut(m_extractArchiveAction, Qt::CTRL + Qt::SHIFT + Qt::Key_E);
+    actionCollection()->setDefaultShortcut(m_extractArchiveAction, Qt::CTRL | Qt::SHIFT | Qt::Key_E);
     connect(m_extractArchiveAction, &QAction::triggered, this, &Part::slotExtractArchive);
 
     m_extractAction = actionCollection()->addAction(QStringLiteral("extract"));
     m_extractAction->setText(i18nc("@action:inmenu", "&Extract"));
     m_extractAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
-    actionCollection()->setDefaultShortcut(m_extractAction, Qt::CTRL + Qt::Key_E);
+    actionCollection()->setDefaultShortcut(m_extractAction, Qt::CTRL | Qt::Key_E);
     m_extractAction->setToolTip(i18n("Click to open an extraction dialog, where you can choose to extract either all files or just the selected ones"));
     connect(m_extractAction, &QAction::triggered, this, &Part::slotShowExtractionDialog);
 
@@ -413,7 +413,7 @@ void Part::setupActions()
     m_addFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
     m_addFilesAction->setText(i18n("Add &Files..."));
     m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
-    actionCollection()->setDefaultShortcut(m_addFilesAction, Qt::ALT + Qt::Key_A);
+    actionCollection()->setDefaultShortcut(m_addFilesAction, Qt::ALT | Qt::Key_A);
     connect(m_addFilesAction, &QAction::triggered, this, QOverload<>::of(&Part::slotAddFiles));
 
     m_renameFileAction = KStandardAction::renameFile(m_view, &ArchiveView::renameSelectedEntry, actionCollection());
@@ -429,20 +429,20 @@ void Part::setupActions()
     m_propertiesAction = actionCollection()->addAction(QStringLiteral("properties"));
     m_propertiesAction->setIcon(QIcon::fromTheme(QStringLiteral("document-properties")));
     m_propertiesAction->setText(i18nc("@action:inmenu", "&Properties"));
-    actionCollection()->setDefaultShortcut(m_propertiesAction, Qt::ALT + Qt::Key_Return);
+    actionCollection()->setDefaultShortcut(m_propertiesAction, Qt::ALT | Qt::Key_Return);
     m_propertiesAction->setToolTip(i18nc("@info:tooltip", "Click to see properties for archive"));
     connect(m_propertiesAction, &QAction::triggered, this, &Part::slotShowProperties);
 
     m_editCommentAction = actionCollection()->addAction(QStringLiteral("edit_comment"));
     m_editCommentAction->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
-    actionCollection()->setDefaultShortcut(m_editCommentAction, Qt::ALT + Qt::Key_C);
+    actionCollection()->setDefaultShortcut(m_editCommentAction, Qt::ALT | Qt::Key_C);
     m_editCommentAction->setToolTip(i18nc("@info:tooltip", "Click to add or edit comment"));
     connect(m_editCommentAction, &QAction::triggered, this, &Part::slotShowComment);
 
     m_testArchiveAction = actionCollection()->addAction(QStringLiteral("test_archive"));
     m_testArchiveAction->setIcon(QIcon::fromTheme(QStringLiteral("checkmark")));
     m_testArchiveAction->setText(i18nc("@action:inmenu", "&Test Integrity"));
-    actionCollection()->setDefaultShortcut(m_testArchiveAction, Qt::ALT + Qt::Key_T);
+    actionCollection()->setDefaultShortcut(m_testArchiveAction, Qt::ALT | Qt::Key_T);
     m_testArchiveAction->setToolTip(i18nc("@info:tooltip", "Click to test the archive for integrity"));
     connect(m_testArchiveAction, &QAction::triggered, this, &Part::slotTestArchive);
 
