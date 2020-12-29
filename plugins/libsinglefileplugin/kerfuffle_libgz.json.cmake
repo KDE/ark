@@ -55,7 +55,7 @@
         "Name[et]": "Gzip'i plugin",
         "Name[eu]": "Gzip plugina",
         "Name[fi]": "Gzip-liitännäinen",
-        "Name[fr]": "Module externe d'archive « gzip »",
+        "Name[fr]": "Module externe « gzip »",
         "Name[gl]": "Complemento de gzip",
         "Name[hu]": "Gzip bővítmény",
         "Name[ia]": "Plugin de Gzip",
