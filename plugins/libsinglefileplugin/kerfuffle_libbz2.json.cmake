@@ -57,7 +57,7 @@
         "Name[et]": "Bzip2 plugin",
         "Name[eu]": "Bzip2 plugina",
         "Name[fi]": "Bzip2-liitännäinen",
-        "Name[fr]": "Module externe d'archive « bzip2 »",
+        "Name[fr]": "Module externe « bzip2 »",
         "Name[gl]": "Complemento de bzip2",
         "Name[hu]": "Bzip2 bővítmény",
         "Name[ia]": "Plugin d Bzip2",

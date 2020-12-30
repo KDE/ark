@@ -57,7 +57,7 @@
         "Name[et]": "Libarchive'i plugin",
         "Name[eu]": "Libarchive plugina",
         "Name[fi]": "Libarchive-liitännäinen",
-        "Name[fr]": "Module externe libarchive",
+        "Name[fr]": "Module externe « libarchive »",
         "Name[gl]": "Complemento de libarchive",
         "Name[hu]": "Libarchive bővítmény",
         "Name[ia]": "Libarchive plugin",
