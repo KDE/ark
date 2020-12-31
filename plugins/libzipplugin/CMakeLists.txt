@@ -11,7 +11,7 @@ set(kerfuffle_libzip_SRCS libzipplugin.cpp ark_debug.cpp)
 ecm_qt_declare_logging_category(kerfuffle_libzip_SRCS
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
-                                CATEGORY_NAME ark.libzip)
+                                CATEGORY_NAME ark.libzip DESCRIPTION "Ark Infozip plugin" EXPORT ARK)
 
 # NOTE: the first double-quotes of the first mime and the last
 # double-quotes of the last mime must NOT be escaped.

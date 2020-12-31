@@ -15,7 +15,7 @@ qt5_add_resources(arkpart_PART_SRCS arkpart.qrc)
 ecm_qt_declare_logging_category(arkpart_PART_SRCS
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
-                                CATEGORY_NAME ark.part)
+                                CATEGORY_NAME ark.part DESCRIPTION "Ark KPart" EXPORT ARK)
 
 qt5_add_dbus_adaptor(arkpart_PART_SRCS dnddbusinterface.xml part.h Ark::Part)
 

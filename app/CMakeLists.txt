@@ -14,7 +14,7 @@ qt5_add_resources(ark_SRCS ark.qrc)
 ecm_qt_declare_logging_category(ark_SRCS
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
-                                CATEGORY_NAME ark.main)
+				CATEGORY_NAME ark.main DESCRIPTION "Ark Main" EXPORT ARK)
 
 # For Mac and Windows.
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*-apps-ark.png")

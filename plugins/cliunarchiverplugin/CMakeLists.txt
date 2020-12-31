@@ -8,7 +8,7 @@ set(kerfuffle_cliunarchiver_SRCS cliplugin.cpp)
 ecm_qt_declare_logging_category(kerfuffle_cliunarchiver_SRCS
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
-                                CATEGORY_NAME ark.cliunarchiver)
+                                CATEGORY_NAME ark.cliunarchiver DESCRIPTION "Ark The Unarchiver plugin" EXPORT ARK)
 
 # NOTE: the first double-quotes of the first mime and the last
 # double-quotes of the last mime must NOT be escaped.

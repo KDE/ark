@@ -3,7 +3,7 @@ set(kerfuffle_singlefile_SRCS singlefileplugin.cpp)
 ecm_qt_declare_logging_category(kerfuffle_singlefile_SRCS
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
-                                CATEGORY_NAME ark.singlefile)
+                                CATEGORY_NAME ark.singlefile DESCRIPTION "Ark Singlefile plugin" EXPORT ARK)
 
 set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "")
 set(INSTALLED_LIBSINGLEFILE_PLUGINS "")

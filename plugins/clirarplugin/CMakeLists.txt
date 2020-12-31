@@ -8,7 +8,7 @@ set(kerfuffle_clirar_SRCS cliplugin.cpp)
 ecm_qt_declare_logging_category(kerfuffle_clirar_SRCS
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
-                                CATEGORY_NAME ark.clirar)
+                                CATEGORY_NAME ark.clirar DESCRIPTION "Ark Rar plugin" EXPORT ARK)
 
 # NOTE: the first double-quotes of the first mime and the last
 # double-quotes of the last mime must NOT be escaped.

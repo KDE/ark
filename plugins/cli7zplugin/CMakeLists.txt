@@ -7,7 +7,7 @@ set(kerfuffle_cli7z_SRCS cliplugin.cpp)
 ecm_qt_declare_logging_category(kerfuffle_cli7z_SRCS
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
-                                CATEGORY_NAME ark.cli7z)
+                                CATEGORY_NAME ark.cli7z DESCRIPTION "Ark p7zip" EXPORT ARK)
 
 # NOTE: the first double-quotes of the first mime and the last
 # double-quotes of the last mime must NOT be escaped.
