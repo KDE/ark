@@ -38,7 +38,9 @@ JobTracker::JobTracker(QWidget *parent)
 
 JobTracker::~JobTracker()
 {
-    for (KJob *job : qAsConst(m_jobs)) {
+    QSetIterator<KJob *> it(m_jobs);
+    while (it.hasNext()) {
+        auto job = it.next();
         job->kill();
     }
 }
