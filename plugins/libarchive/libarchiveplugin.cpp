@@ -113,6 +113,10 @@ bool LibarchivePlugin::list()
         }
     }
 
+    if (QThread::currentThread()->isInterruptionRequested()) {
+        return false;
+    }
+
     if (result != ARCHIVE_EOF) {
         qCCritical(ARK) << "Error while reading archive:"
                         << result
