@@ -54,25 +54,39 @@ void CliUnarchiverTest::testArchive_data()
 
 
     QString archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
-    QTest::newRow("archive with one top-level folder")
+    QTest::newRow("RAR archive with one top-level folder")
             << archivePath
             << QFileInfo(archivePath).fileName()
             << true << true << Archive::Unencrypted
             << QStringLiteral("A");
 
     archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.rar");
-    QTest::newRow("archive with multiple top-level entries")
+    QTest::newRow("RAR archive with multiple top-level entries")
             << archivePath
             << QFileInfo(archivePath).fileName()
             << true << false << Archive::Unencrypted
             << QStringLiteral("multiple_toplevel_entries");
 
     archivePath = QFINDTESTDATA("data/encrypted_entries.rar");
-    QTest::newRow("archive with encrypted entries")
+    QTest::newRow("RAR archive with encrypted entries")
             << archivePath
             << QFileInfo(archivePath).fileName()
             << true << true << Archive::Encrypted
             << QStringLiteral("A");
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.lha");
+    QTest::newRow("LHA archive with one top-level folder")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << true << Archive::Unencrypted
+            << QStringLiteral("A");
+
+    archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.lha");
+    QTest::newRow("LHA archive with multiple top-level entries")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << false << Archive::Unencrypted
+            << QStringLiteral("multiple_toplevel_entries");
 }
 
 void CliUnarchiverTest::testArchive()
