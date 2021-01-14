@@ -36,7 +36,7 @@
         "Description[tr]": "RAR arşiv biçimi için tam destek",
         "Description[uk]": "Повноцінна підтримка архівів у форматі RAR",
         "Description[x-test]": "xxFull support for the RAR archive formatxx",
-        "Description[zh_CN]": "完全支持 RAR 归档格式",
+        "Description[zh_CN]": "完全支持 RAR 压缩包格式",
         "Description[zh_TW]": "對 RAR 壓縮檔格式的完整支援",
         "Id": "kerfuffle_clirar",
         "MimeTypes": [

@@ -36,7 +36,7 @@
         "Description[tr]": "RAR arşivlerini aç ve çıkar",
         "Description[uk]": "Здатен відкривати і видобувати архіви RAR",
         "Description[x-test]": "xxOpen and extract RAR archivesxx",
-        "Description[zh_CN]": "打开和解压 RAR 归档",
+        "Description[zh_CN]": "打开和解压 RAR 压缩包文件",
         "Description[zh_TW]": "開啟並解壓縮 RAR 壓縮檔",
         "Id": "kerfuffle_cliunarchiver",
         "MimeTypes": [
