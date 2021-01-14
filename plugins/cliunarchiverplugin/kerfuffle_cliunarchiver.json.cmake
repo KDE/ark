@@ -1,6 +1,6 @@
 {
     "KPlugin": {
-        "Description": "Open and extract RAR and LHA archives",
+        "Description": "Open and extract RAR, LHA and ARJ archives",
         "Description[ca]": "Obre i extreu arxius RAR i LHA",
         "Description[es]": "Abrir y extraer archivos RAR y LHA",
         "Description[nl]": "Open en pak RAR-en LHA-archieven uit",

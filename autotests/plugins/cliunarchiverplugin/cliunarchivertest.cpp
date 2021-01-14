@@ -87,6 +87,20 @@ void CliUnarchiverTest::testArchive_data()
             << QFileInfo(archivePath).fileName()
             << true << false << Archive::Unencrypted
             << QStringLiteral("multiple_toplevel_entries");
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.arj");
+    QTest::newRow("ARJ archive with one top-level folder")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << true << Archive::Unencrypted
+            << QStringLiteral("A");
+
+    archivePath = QFINDTESTDATA("data/multiple_toplevel_entries.arj");
+    QTest::newRow("ARJ archive with multiple top-level entries")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << false << Archive::Unencrypted
+            << QStringLiteral("multiple_toplevel_entries");
 }
 
 void CliUnarchiverTest::testArchive()
