@@ -53,6 +53,8 @@ ArkViewer::ArkViewer()
 
     connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QMainWindow::close);
 
+    KStandardAction::close(this, &QMainWindow::close, actionCollection());
+
     setXMLFile(QStringLiteral("ark_viewer.rc"));
     setupGUI(ToolBar);
 }
