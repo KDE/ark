@@ -37,7 +37,7 @@
         "Description[tr]": "Sıkıştırılmış TAR arşivleri için tam destek",
         "Description[uk]": "Повноцінна підтримка стиснених архівів TAR",
         "Description[x-test]": "xxFull support for compressed TAR archivesxx",
-        "Description[zh_CN]": "完全支持压缩的 TAR 归档",
+        "Description[zh_CN]": "完全支持压缩的 TAR 压缩包文件",
         "Description[zh_TW]": "對壓縮過的 TAR 壓縮檔的完整支援",
         "Id": "kerfuffle_libarchive",
         "MimeTypes": [

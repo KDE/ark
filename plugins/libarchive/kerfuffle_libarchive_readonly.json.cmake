@@ -37,7 +37,7 @@
         "Description[tr]": "DEB, RPM, ISO, AppImage, XAR ve CAB dosyalarını açıp çıkartın",
         "Description[uk]": "Здатен відкривати і видобувати дані з архівів DEB, RPM, ISO, AppImage, XAR та CAB",
         "Description[x-test]": "xxOpen and extract DEB, RPM, ISO, AppImage, XAR and CAB filesxx",
-        "Description[zh_CN]": "打开和解压 DEB，RPM，ISO，AppImage，XAR 和 CAB 文件",
+        "Description[zh_CN]": "打开和解压 DEB、RPM、ISO、AppImage、XAR 和 CAB 等文件类型",
         "Description[zh_TW]": "開啟並解壓縮 DEB, RPM, ISO, AppImage, XAR 與 CAB 檔案",
         "Id": "kerfuffle_libarchive_readonly",
         "MimeTypes": [
