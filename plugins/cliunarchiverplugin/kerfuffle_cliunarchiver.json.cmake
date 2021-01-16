@@ -1,6 +1,17 @@
 {
     "KPlugin": {
         "Description": "Open and extract RAR, LHA and ARJ archives",
+        "Description[ast]": "Abre y estrái ficheros RAR y LHA",
+        "Description[az]": "RAR, LHA,və ARJ arxivlərini açmaq və çıxartmaq",
+        "Description[ca]": "Obre i extreu arxius RAR, LHA i ARJ",
+        "Description[es]": "Abrir y extraer archivos RAR, LHA y ARJ",
+        "Description[eu]": "Ireki eta erauzi RAR, LHA eta ARJ artxiboak",
+        "Description[ia]": "Aperir e extraher archivos RAR, LHA e ARJ",
+        "Description[nl]": "Open en pak RAR-,LHA- en ARJ-archieven uit",
+        "Description[nn]": "Opna og pakk ut RAR-, LHA- og ARJ-arkiv",
+        "Description[sv]": "Öppna och extrahera RAR-, LHA-, och ARJ-arkiv",
+        "Description[uk]": "Здатен відкривати і видобувати архіви RAR, LHA і ARJ",
+        "Description[x-test]": "xxOpen and extract RAR, LHA and ARJ archivesxx",
         "Id": "kerfuffle_cliunarchiver",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
