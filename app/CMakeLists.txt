@@ -7,9 +7,8 @@ set(ark_SRCS
     batchextract.cpp
     main.cpp
     mainwindow.cpp
+    ark.qrc
    )
-
-qt5_add_resources(ark_SRCS ark.qrc)
 
 ecm_qt_declare_logging_category(ark_SRCS
                                 HEADER ark_debug.h

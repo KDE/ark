@@ -8,9 +8,8 @@ set(arkpart_PART_SRCS
     archiveview.cpp
     jobtracker.cpp
     overwritedialog.cpp
+    arkpart.qrc
     )
-
-qt5_add_resources(arkpart_PART_SRCS arkpart.qrc)
 
 ecm_qt_declare_logging_category(arkpart_PART_SRCS
                                 HEADER ark_debug.h
