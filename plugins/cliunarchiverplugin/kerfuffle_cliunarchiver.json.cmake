@@ -13,6 +13,7 @@
         "Description[nn]": "Opna og pakk ut RAR-, LHA- og ARJ-arkiv",
         "Description[pl]": "Otwiera i wypakowuje archiwa RAR, LHA oraz ARJ",
         "Description[pt]": "Abrir e extrair os pacotes RAR, LHA e ARJ",
+        "Description[pt_BR]": "Abrir e extrair arquivos RAR, LHA e ARJ",
         "Description[ru]": "Открытие и распаковка архивов RAR, LHA и ARJ",
         "Description[sl]": "Odprite in razširite arhive RAR, LHA in ARJ",
         "Description[sv]": "Öppna och extrahera RAR-, LHA-, och ARJ-arkiv",
