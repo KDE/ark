@@ -140,7 +140,6 @@ public:
 Q_SIGNALS:
     void loadingStarted();
     void loadingFinished(KJob *);
-    void extractionFinished(bool success);
     void error(const QString& error, const QString& details);
     void droppedFiles(const QStringList& files, const Archive::Entry*);
     void messageWidget(KMessageWidget::MessageType type, const QString& msg);
@@ -170,8 +169,6 @@ private:
     enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
     Archive::Entry *parentFor(const Kerfuffle::Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
     QModelIndex indexForEntry(Archive::Entry *entry);
-    static bool compareAscending(const QModelIndex& a, const QModelIndex& b);
-    static bool compareDescending(const QModelIndex& a, const QModelIndex& b);
     /**
      * Insert the node @p node into the model, ensuring all views are notified
      * of the change.
