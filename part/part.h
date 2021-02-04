@@ -33,6 +33,7 @@
 #include <KMessageWidget>
 
 #include <QModelIndex>
+#include <QTimer>
 
 class ArchiveModel;
 class ArchiveSortFilterModel;
@@ -159,6 +160,7 @@ private Q_SLOTS:
     void setBusyGui();
     void setReadyGui();
     void setFileNameFromArchive();
+    void slotResetFileChangeTimer(const QString& file);
     void slotWatchedFileModified(const QString& file);
     void slotShowComment();
     void slotAddComment();
@@ -227,6 +229,9 @@ private:
     QVector<Kerfuffle::Archive::Entry*> m_jobTempEntries;
     Kerfuffle::Archive::Entry *m_destination;
     QModelIndexList m_cutIndexes;
+
+    QTimer m_watchedFileChangeTimer;
+    QString m_lastChangedFilename;
 
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;

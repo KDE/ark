@@ -99,6 +99,16 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
 
     new DndExtractAdaptor(this);
 
+    // Since QFileSystemWatcher::fileChanged is emitted for each part of the file that is flushed,
+    // we wait a bit to ensure that the last flush will write the file completely
+    // BUG: 382606, also see https://bugreports.qt.io/browse/QTBUG-8244
+    // TODO: Find the most optimal flush interval
+    m_watchedFileChangeTimer.setSingleShot(true);
+    m_watchedFileChangeTimer.setInterval(200);
+    connect(&m_watchedFileChangeTimer, &QTimer::timeout, this, [this]() {
+        slotWatchedFileModified(m_lastChangedFilename);
+    });
+
     const QString pathName = QStringLiteral("/DndExtract/%1").arg(s_instanceCounter++);
     if (!QDBusConnection::sessionBus().registerObject(pathName, this)) {
         qCCritical(ARK) << "Could not register a D-Bus object for drag'n'drop";
@@ -1037,7 +1047,8 @@ void Part::slotOpenExtractedEntry(KJob *job)
         const QString fullName = openJob->validatedFilePath();
         if (isArchiveWritable()) {
             m_fileWatcher.reset(new QFileSystemWatcher);
-            connect(m_fileWatcher.get(), &QFileSystemWatcher::fileChanged, this, &Part::slotWatchedFileModified);
+            connect(m_fileWatcher.get(), &QFileSystemWatcher::fileChanged, this, &Part::slotResetFileChangeTimer);
+
             m_fileWatcher->addPath(fullName);
         } else {
             // If archive is readonly set temporarily extracted file to readonly as
@@ -1077,6 +1088,22 @@ void Part::slotPreviewExtractedEntry(KJob *job)
         KMessageBox::error(widget(), job->errorString());
     }
     setReadyGui();
+}
+
+void Part::slotResetFileChangeTimer(const QString& file)
+{
+    const bool timerActive = m_watchedFileChangeTimer.isActive();
+    m_watchedFileChangeTimer.stop();
+    // Check if a different file was changed while monitoring the previous file.
+    if (timerActive && !m_lastChangedFilename.isEmpty() && file != m_lastChangedFilename) {
+        const QString prevFile = m_lastChangedFilename;
+        QTimer::singleShot(0, this, [this, prevFile]() {
+            slotWatchedFileModified(prevFile);
+        });
+    }
+
+    m_lastChangedFilename = file;
+    m_watchedFileChangeTimer.start();
 }
 
 void Part::slotWatchedFileModified(const QString& file)
