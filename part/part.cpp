@@ -1138,7 +1138,7 @@ void Part::slotWatchedFileModified(const QString& file)
         QStringList list = QStringList() << file;
 
         qCDebug(ARK) << "Updating file" << file << "with path" << relPath;
-        slotAddFiles(list, nullptr, relPath);
+        slotAddFiles(list, nullptr, relPath, DoNotShowOverwriteDialog);
     }
     // This is needed because some apps, such as Kate, delete and recreate
     // files when saving.
@@ -1320,7 +1320,7 @@ void Part::slotExtractionDone(KJob* job)
     }
 }
 
-void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *destination, const QString &relPath)
+void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *destination, const QString &relPath, OverwriteBehaviour onOverwrite)
 {
     if (!m_model->archive() || filesToAdd.isEmpty()) {
         return;
@@ -1348,7 +1348,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
     QList<const Archive::Entry*> conflictingEntries;
     bool error = m_model->conflictingEntries(conflictingEntries, withChildPaths, true);
 
-    if (conflictingEntries.count() > 0) {
+    if (onOverwrite == ShowOverwriteDialog && conflictingEntries.count() > 0) {
         QPointer<OverwriteDialog> overwriteDialog = new OverwriteDialog(widget(), conflictingEntries, error);
         int ret = overwriteDialog->exec();
         delete overwriteDialog;

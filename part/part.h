@@ -68,6 +68,12 @@ public:
         OpenFileWith
     };
 
+    enum OverwriteBehaviour {
+        ShowOverwriteDialog,
+        DoNotShowOverwriteDialog
+    };
+
+
     Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaData, const QVariantList &);
     ~Part() override;
 
@@ -125,8 +131,9 @@ private Q_SLOTS:
      * or drag'n'drop event, for adding a watched file it has empty.
      * @param relPath Relative path of watched entry inside the archive. Is used only for adding temporarily extracted
      * watched file.
+     * @param onOverwrite Whether to show a confirmation dialog when files will be overwritten
      */
-    void slotAddFiles(const QStringList &files, const Kerfuffle::Archive::Entry *destination, const QString &relPath);
+    void slotAddFiles(const QStringList &files, const Kerfuffle::Archive::Entry *destination, const QString &relPath, OverwriteBehaviour onOverwrite = ShowOverwriteDialog);
     void slotDroppedFiles(const QStringList &files, const Kerfuffle::Archive::Entry *destination);
 
     /**
