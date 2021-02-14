@@ -231,7 +231,7 @@ private:
     KAbstractWidgetJobTracker  *m_jobTracker;
     KParts::StatusBarExtension *m_statusBarExtension;
     QVBoxLayout *m_vlayout;
-    QFileSystemWatcher *m_fileWatcher;
+    std::unique_ptr<QFileSystemWatcher> m_fileWatcher;
     QSplitter *m_commentSplitter;
     QGroupBox *m_commentBox;
     QPlainTextEdit *m_commentView;

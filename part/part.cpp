@@ -1036,8 +1036,8 @@ void Part::slotOpenExtractedEntry(KJob *job)
 
         const QString fullName = openJob->validatedFilePath();
         if (isArchiveWritable()) {
-            m_fileWatcher = new QFileSystemWatcher;
-            connect(m_fileWatcher, &QFileSystemWatcher::fileChanged, this, &Part::slotWatchedFileModified);
+            m_fileWatcher.reset(new QFileSystemWatcher);
+            connect(m_fileWatcher.get(), &QFileSystemWatcher::fileChanged, this, &Part::slotWatchedFileModified);
             m_fileWatcher->addPath(fullName);
         } else {
             // If archive is readonly set temporarily extracted file to readonly as
