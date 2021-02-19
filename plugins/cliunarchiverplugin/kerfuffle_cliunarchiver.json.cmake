@@ -7,6 +7,7 @@
         "Description[en_GB]": "Open and extract RAR, LHA and ARJ archives",
         "Description[es]": "Abrir y extraer archivos RAR, LHA y ARJ",
         "Description[eu]": "Ireki eta erauzi RAR, LHA eta ARJ artxiboak",
+        "Description[fr]": "Ouvre et extrait les archives « RAR », « LHA » et « ARJ »",
         "Description[hu]": "RAR, LHA és ARJ archívumok megnyitása és kibontása",
         "Description[ia]": "Aperir e extraher archivos RAR, LHA e ARJ",
         "Description[it]": "Apri ed estrai archivi RAR, LHA e ARJ",
