@@ -133,7 +133,7 @@ private Q_SLOTS:
      * watched file.
      * @param onOverwrite Whether to show a confirmation dialog when files will be overwritten
      */
-    void slotAddFiles(const QStringList &files, const Kerfuffle::Archive::Entry *destination, const QString &relPath, OverwriteBehaviour onOverwrite = ShowOverwriteDialog);
+    void slotAddFiles(const QStringList &files, const Kerfuffle::Archive::Entry *destination, const QString &relPath, Ark::Part::OverwriteBehaviour onOverwrite = ShowOverwriteDialog);
     void slotDroppedFiles(const QStringList &files, const Kerfuffle::Archive::Entry *destination);
 
     /**
