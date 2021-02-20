@@ -59,12 +59,15 @@ private:
     bool emitEntryForIndex(zip_t *archive, qlonglong index);
     void emitProgress(double percentage);
     QString permissionsToString(mode_t perm);
+    QString fromUnixSeparator(const QString& path);
+    QString toUnixSeparator(const QString& path);
     static void progressCallback(zip_t *, double progress, void *that);
 
     QVector<Archive::Entry*> m_emittedEntries;
     bool m_overwriteAll;
     bool m_skipAll;
     bool m_listAfterAdd;
+    bool m_backslashedZip;
 };
 
 #endif // LIBZIPPLUGIN_H

@@ -55,6 +55,7 @@ LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList & args)
     , m_overwriteAll(false)
     , m_skipAll(false)
     , m_listAfterAdd(false)
+    , m_backslashedZip(false)
 {
     qCDebug(ARK) << "Initializing libzip plugin";
 }
@@ -199,9 +200,9 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
 
     QByteArray destFile;
     if (destination) {
-        destFile = QString(destination->fullPath() + file).toUtf8();
+        destFile = fromUnixSeparator(QString(destination->fullPath() + file)).toUtf8();
     } else {
-        destFile = file.toUtf8();
+        destFile = fromUnixSeparator(file).toUtf8();
     }
 
     qlonglong index;
@@ -285,9 +286,10 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     }
 
     auto e = new Archive::Entry();
+    auto name = toUnixSeparator(QString::fromUtf8(statBuffer.name));
 
     if (statBuffer.valid & ZIP_STAT_NAME) {
-        e->setFullPath(QString::fromUtf8(statBuffer.name));
+        e->setFullPath(name);
     }
 
     if (e->fullPath(PathFormat::WithTrailingSlash).endsWith(QDir::separator())) {
@@ -366,8 +368,8 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     zip_uint8_t opsys;
     zip_uint32_t attributes;
     if (zip_file_get_external_attributes(archive, index, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
-        qCCritical(ARK) << "Could not read external attributes for entry:" << QString::fromUtf8(statBuffer.name);
-        Q_EMIT error(xi18n("Failed to read metadata for entry: %1", QString::fromUtf8(statBuffer.name)));
+        qCCritical(ARK) << "Could not read external attributes for entry:" << name;
+        Q_EMIT error(xi18n("Failed to read metadata for entry: %1", name));
         return false;
     }
 
@@ -408,7 +410,7 @@ bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
             break;
         }
 
-        const qlonglong index = zip_name_locate(archive, e->fullPath().toUtf8().constData(), ZIP_FL_ENC_GUESS);
+        const qlonglong index = zip_name_locate(archive, fromUnixSeparator(e->fullPath()).toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
             qCCritical(ARK) << "Could not find entry to delete:" << e->fullPath();
             Q_EMIT error(xi18n("Failed to delete entry: %1", e->fullPath()));
@@ -484,8 +486,10 @@ bool LibzipPlugin::testArchive()
 
         // Get statistic for entry. Used to get entry size.
         zip_stat_t statBuffer;
-        if (zip_stat_index(archive, i, 0, &statBuffer) != 0) {
-            qCCritical(ARK) << "Failed to read stat for" << statBuffer.name;
+        int stat_index = zip_stat_index(archive, i, 0, &statBuffer);
+        auto name = toUnixSeparator(QString::fromUtf8(statBuffer.name));
+        if (stat_index != 0) {
+            qCCritical(ARK) << "Failed to read stat for" << name;
             return false;
         }
 
@@ -493,11 +497,11 @@ bool LibzipPlugin::testArchive()
         std::unique_ptr<uchar[]> buf(new uchar[statBuffer.size]);
         const int len = zip_fread(zipFile.get(), buf.get(), statBuffer.size);
         if (len == -1 || uint(len) != statBuffer.size) {
-            qCCritical(ARK) << "Failed to read data for" << statBuffer.name;
+            qCCritical(ARK) << "Failed to read data for" << name;
             return false;
         }
         if (statBuffer.crc != crc32(0, &buf.get()[0], len)) {
-            qCCritical(ARK) << "CRC check failed for" << statBuffer.name;
+            qCCritical(ARK) << "CRC check failed for" << name;
             return false;
         }
 
@@ -552,7 +556,7 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
                 break;
             }
             if (!extractEntry(archive,
-                              QDir::fromNativeSeparators(QString::fromUtf8(zip_get_name(archive, i, ZIP_FL_ENC_GUESS))),
+                              toUnixSeparator(QString::fromUtf8(zip_get_name(archive, i, ZIP_FL_ENC_GUESS))),
                               QString(),
                               destinationDirectory,
                               options.preservePaths(),
@@ -640,7 +644,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
 
     // Get statistic for entry. Used to get entry size and mtime.
     zip_stat_t statBuffer;
-    if (zip_stat(archive, entry.toUtf8().constData(), 0, &statBuffer) != 0) {
+    if (zip_stat(archive, fromUnixSeparator(entry).toUtf8().constData(), 0, &statBuffer) != 0) {
         if (isDirectory && zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOENT) {
             qCWarning(ARK) << "Skipping folder without entry:" << entry;
             return true;
@@ -686,7 +690,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         std::unique_ptr<zip_file, decltype(&zip_fclose)> zipFile { nullptr, &zip_fclose };
         bool firstTry = true;
         while (!zipFile) {
-            zipFile.reset(zip_fopen(archive, entry.toUtf8().constData(), 0));
+            zipFile.reset(zip_fopen(archive, fromUnixSeparator(entry).toUtf8().constData(), 0));
             if (zipFile) {
                 break;
             } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD ||
@@ -740,7 +744,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
             sum += readBytes;
         }
 
-        const auto index = zip_name_locate(archive, entry.toUtf8().constData(), ZIP_FL_ENC_GUESS);
+        const auto index = zip_name_locate(archive, fromUnixSeparator(entry).toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
             qCCritical(ARK) << "Could not locate entry:" << entry;
             Q_EMIT error(xi18n("Failed to locate entry: %1", entry));
@@ -968,6 +972,22 @@ QString LibzipPlugin::permissionsToString(mode_t perm)
     return modeval;
 }
 
+QString LibzipPlugin::fromUnixSeparator(const QString& path)
+{
+    if (!m_backslashedZip) {
+        return path;
+    }
+    return QString(path).replace(QLatin1Char('/'), QLatin1Char('\\'));
+}
+
+QString LibzipPlugin::toUnixSeparator(const QString& path)
+{
+    if (!path.contains(QLatin1Char('\\'))) {
+        return path;
+    }
+    m_backslashedZip = true;
+    return QString(path).replace(QLatin1Char('\\'), QLatin1Char('/'));
+}
 
 bool LibzipPlugin::hasBatchExtractionProgress() const
 {
