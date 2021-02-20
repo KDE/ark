@@ -32,6 +32,7 @@
 #include "jobs.h"
 #include "queries.h"
 
+#include <kcoreaddons_version.h>
 #include <KIO/JobTracker>
 #include <KIO/JobUiDelegate>
 #include <KIO/OpenUrlJob>
@@ -71,8 +72,12 @@ void BatchExtract::addExtraction(const QUrl& url)
 
     m_fileNames[job] = qMakePair(url.toLocalFile(), destination);
 
-    connect(job, SIGNAL(percent(KJob*,ulong)),
-            this, SLOT(forwardProgress(KJob*,ulong)));
+#if KCOREADDONS_VERSION < QT_VERSION_CHECK(5, 80, 0)
+    connect(job, SIGNAL(percent(KJob*,ulong)), this, SLOT(forwardProgress(KJob*,ulong)));
+#else
+    connect(job, &KJob::percentChanged, this, &BatchExtract::forwardProgress);
+#endif
+
     connect(job, &Kerfuffle::BatchExtractJob::userQuery,
             this, &BatchExtract::slotUserQuery);
 }
