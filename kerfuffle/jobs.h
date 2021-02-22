@@ -73,7 +73,7 @@ public Q_SLOTS:
 
 protected Q_SLOTS:
     virtual void onCancelled();
-    virtual void onError(const QString &message, const QString &details);
+    virtual void onError(const QString &message, const QString &details, int errorCode);
     virtual void onInfo(const QString &info);
     virtual void onEntry(Archive::Entry *entry);
     virtual void onProgress(double progress);

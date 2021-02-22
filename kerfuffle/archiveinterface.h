@@ -42,6 +42,12 @@ namespace Kerfuffle
 {
 class Query;
 
+enum {
+    PossiblyMaliciousArchiveError = KJob::UserDefinedError + 1,
+    DestinationNotWritableError
+};
+
+
 class KERFUFFLE_EXPORT ReadOnlyArchiveInterface: public QObject
 {
     Q_OBJECT
@@ -181,7 +187,7 @@ Q_SIGNALS:
      * - the user cancels the overwrite dialog
      */
     void cancelled();
-    void error(const QString &message, const QString &details = QString());
+    void error(const QString &message, const QString &details = QString(), int errorCode = KJob::UserDefinedError);
     void entry(Archive::Entry *archiveEntry);
     void progress(double progress);
     void info(const QString &info);

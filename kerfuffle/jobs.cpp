@@ -168,12 +168,12 @@ void Job::onCancelled()
     setError(KJob::KilledJobError);
 }
 
-void Job::onError(const QString & message, const QString & details)
+void Job::onError(const QString & message, const QString & details, int errorCode)
 {
     Q_UNUSED(details)
 
-    qCDebug(ARK) << "Error emitted:" << message;
-    setError(KJob::UserDefinedError);
+    qCDebug(ARK) << "Error emitted:" << errorCode << "-" << message;
+    setError(errorCode);
     setErrorText(message);
 }
 
@@ -182,7 +182,7 @@ void Job::onEntry(Archive::Entry *entry)
     const QString entryFullPath = entry->fullPath();
     if (QDir::cleanPath(entryFullPath).contains(QLatin1String("../"))) {
         qCWarning(ARK) << "Possibly malicious archive. Detected entry that could lead to a directory traversal attack:" << entryFullPath;
-        onError(i18n("Could not load the archive because it contains ill-formed entries and might be a malicious archive."), QString());
+        onError(i18n("Could not load the archive because it contains ill-formed entries and might be a malicious archive."), QString(), Kerfuffle::PossiblyMaliciousArchiveError);
         onFinished(false);
         return;
     }
@@ -406,7 +406,7 @@ void BatchExtractJob::slotLoadingFinished(KJob *job)
 {
     if (job->error()) {
         // Forward errors as well.
-        onError(job->errorString(), QString());
+        onError(job->errorString(), QString(), job->error());
         onFinished(false);
         return;
     }
@@ -523,7 +523,7 @@ void ExtractJob::doWork()
 
     QFileInfo destDirInfo(m_destinationDir);
     if (destDirInfo.isDir() && (!destDirInfo.isWritable() || !destDirInfo.isExecutable())) {
-        onError(xi18n("Could not write to destination <filename>%1</filename>.<nl/>Check whether you have sufficient permissions.", m_destinationDir), QString());
+        onError(xi18n("Could not write to destination <filename>%1</filename>.<nl/>Check whether you have sufficient permissions.", m_destinationDir), QString(), Kerfuffle::DestinationNotWritableError);
         onFinished(false);
         return;
     }
