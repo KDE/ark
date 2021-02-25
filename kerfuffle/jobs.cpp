@@ -509,6 +509,8 @@ ExtractJob::ExtractJob(const QVector<Archive::Entry*> &entries, const QString &d
     , m_options(options)
 {
     qCDebug(ARK) << "Created job instance";
+    // Magic property that tells the job tracker the job's destination
+    setProperty("destUrl", QUrl::fromLocalFile(destinationDir).toString());
 }
 
 void ExtractJob::doWork()

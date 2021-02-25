@@ -240,6 +240,8 @@ void BatchExtract::setDestinationFolder(const QString& folder)
 {
     if (QFileInfo(folder).isDir()) {
         m_destinationFolder = folder;
+        // Magic property that tells the job tracker the job's destination
+        setProperty("destUrl", QUrl::fromLocalFile(folder).toString());
     }
 }
 
