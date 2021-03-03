@@ -4,6 +4,7 @@
         "Description[ast]": "Abre y estrái ficheros RAR y LHA",
         "Description[az]": "RAR, LHA,və ARJ arxivlərini açmaq və çıxartmaq",
         "Description[ca]": "Obre i extreu arxius RAR, LHA i ARJ",
+        "Description[de]": "Öffnen und Entpacken von RAR-, LHA- und ARJ-Archiven",
         "Description[el]": "Άνοιγμα και εξαγωγή αρχειοθηκών RAR, LHA και ARJ",
         "Description[en_GB]": "Open and extract RAR, LHA and ARJ archives",
         "Description[es]": "Abrir y extraer archivos RAR, LHA y ARJ",
@@ -22,6 +23,7 @@
         "Description[sv]": "Öppna och extrahera RAR-, LHA-, och ARJ-arkiv",
         "Description[uk]": "Здатен відкривати і видобувати архіви RAR, LHA і ARJ",
         "Description[x-test]": "xxOpen and extract RAR, LHA and ARJ archivesxx",
+        "Description[zh_CN]": "打开和解压 RAR、LHA 和 ARJ 压缩包文件",
         "Id": "kerfuffle_cliunarchiver",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
