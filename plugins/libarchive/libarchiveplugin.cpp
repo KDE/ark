@@ -264,12 +264,9 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
             continue;
         }
 
-        // For now we just can't handle absolute filenames in a tar archive.
-        // TODO: find out what to do here!!
+        // Don't allow absolute paths, instead, treat them like relative to the root of the archive.
         if (entryName.startsWith(QLatin1Char( '/' ))) {
-            Q_EMIT error(i18n("This archive contains archive entries with absolute paths, "
-                            "which are not supported by Ark."));
-            return false;
+            entryName.remove(0, 1);
         }
 
         // Should the entry be extracted?
