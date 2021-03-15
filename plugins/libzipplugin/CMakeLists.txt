@@ -1,7 +1,5 @@
 include(CheckSymbolExists)
 
-include_directories(${LibZip_INCLUDE_DIRS})
-
 set(SUPPORTED_LIBZIP_MIMETYPES "application/zip;")
 
 set(INSTALLED_LIBZIP_PLUGINS "")
@@ -35,7 +33,7 @@ configure_file(
 
 kerfuffle_add_plugin(kerfuffle_libzip ${kerfuffle_libzip_SRCS})
 
-target_link_libraries(kerfuffle_libzip KF5::KIOCore ${LibZip_LIBRARIES} ${ZLIB_LIBRARIES})
+target_link_libraries(kerfuffle_libzip KF5::KIOCore LibZip::LibZip ZLIB::ZLIB)
 
 set(INSTALLED_LIBZIP_PLUGINS "${INSTALLED_LIBZIP_PLUGINS}kerfuffle_libzip;")
 
