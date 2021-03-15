@@ -27,6 +27,8 @@
 
 #include <QMimeDatabase>
 
+#include "util.h"
+
 namespace Kerfuffle {
 Archive::Entry::Entry(QObject *parent, const QString &fullPath, const QString &rootNode)
     : QObject(parent)
@@ -110,12 +112,9 @@ void Archive::Entry::setParent(Archive::Entry *parent)
 void Archive::Entry::setFullPath(const QString &fullPath)
 {
     m_fullPath = fullPath;
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    const QStringList pieces = m_fullPath.split(QLatin1Char('/'), QString::SkipEmptyParts);
-#else
-    const QStringList pieces = m_fullPath.split(QLatin1Char('/'), Qt::SkipEmptyParts);
-#endif
-    m_name = pieces.isEmpty() ? QString() : pieces.last();
+
+    m_name = Kerfuffle::Util::lastPathSegment(m_fullPath);
+
 }
 
 QString Archive::Entry::fullPath(PathFormat format) const

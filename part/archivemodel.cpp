@@ -25,6 +25,7 @@
 #include "archivemodel.h"
 #include "ark_debug.h"
 #include "jobs.h"
+#include "util.h"
 
 #include <KIO/Global>
 #include <KLocalizedString>
@@ -544,12 +545,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     Archive::Entry *parent = parentFor(receivedEntry, behaviour);
 
     // Create an Archive::Entry.
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    const QStringList path = entryFileName.split(QLatin1Char('/'), QString::SkipEmptyParts);
-#else
-    const QStringList path = entryFileName.split(QLatin1Char('/'), Qt::SkipEmptyParts);
-#endif
-    Archive::Entry *entry = parent->find(path.last());
+    Archive::Entry *entry = parent->find(Kerfuffle::Util::lastPathSegment(entryFileName));
     if (entry) {
         entry->copyMetaData(receivedEntry);
         entry->setProperty("fullPath", entryFileName);
