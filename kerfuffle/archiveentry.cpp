@@ -131,6 +131,11 @@ QString Archive::Entry::name() const
     return m_name;
 }
 
+QStringView Archive::Entry::nameView() const
+{
+    return m_name;
+}
+
 void Archive::Entry::setIsDirectory(const bool isDirectory)
 {
     m_isDirectory = isDirectory;
@@ -159,10 +164,10 @@ int Archive::Entry::row() const
     return 0;
 }
 
-Archive::Entry *Archive::Entry::find(const QString &name) const
+Archive::Entry *Archive::Entry::find(QStringView name) const
 {
     for (Entry *entry : qAsConst(m_entries)) {
-        if (entry && (entry->name() == name)) {
+        if (entry && (entry->nameView() == name)) {
             return entry;
         }
     }

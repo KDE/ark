@@ -87,12 +87,13 @@ public:
     void setFullPath(const QString &fullPath);
     QString fullPath(PathFormat format = WithTrailingSlash) const;
     QString name() const;
+    QStringView nameView() const;
     void setIsDirectory(const bool isDirectory);
     bool isDir() const;
     void setIsExecutable(const bool isExecutable);
     bool isExecutable() const;
     int row() const;
-    Entry *find(const QString &name) const;
+    Entry *find(QStringView name) const;
     Entry *findByPath(const QStringList & pieces, int index = 0) const;
     QIcon icon() const;
 
