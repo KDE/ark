@@ -23,7 +23,6 @@
         "Description[sv]": "Öppna och extrahera RAR-, LHA-, och ARJ-arkiv",
         "Description[uk]": "Здатен відкривати і видобувати архіви RAR, LHA і ARJ",
         "Description[x-test]": "xxOpen and extract RAR, LHA and ARJ archivesxx",
-        "Description[zh_CN]": "打开和解压 RAR、LHA 和 ARJ 压缩包文件",
         "Id": "kerfuffle_cliunarchiver",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
