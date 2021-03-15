@@ -331,7 +331,8 @@ void LoadJob::onNewEntry(const Archive::Entry *entry)
             fullPath = fullPath.remove(0, 2);
         }
 
-        const QString basePath = fullPath.split(QLatin1Char('/')).at(0);
+        const int index = fullPath.indexOf(QLatin1Char('/'));
+        const QString basePath = fullPath.left(index);
 
         if (m_basePath.isEmpty()) {
             m_basePath = basePath;
