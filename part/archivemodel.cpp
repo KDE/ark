@@ -42,7 +42,7 @@ using namespace Kerfuffle;
 
 // Used to speed up the loading of large archives.
 static Archive::Entry *s_previousMatch = nullptr;
-Q_GLOBAL_STATIC(QStringList, s_previousPieces)
+Q_GLOBAL_STATIC(QString, s_previousPath)
 
 ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
     : QAbstractItemModel(parent)
@@ -362,39 +362,27 @@ void ArchiveModel::initRootEntry()
 
 Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehaviour behaviour)
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList pieces = entry->fullPath().split(QLatin1Char('/'), QString::SkipEmptyParts);
-#else
-    QStringList pieces = entry->fullPath().split(QLatin1Char('/'), Qt::SkipEmptyParts);
-#endif
-    if (pieces.isEmpty()) {
-        return nullptr;
+    QString fullPath = entry->fullPath();
+
+    // Remove the last segment from the path
+    if (fullPath.endsWith(QLatin1Char('/'))) {
+        fullPath = fullPath.chopped(1);
     }
-    pieces.removeLast();
 
-    // Used to speed up loading of large archives.
-    if (s_previousMatch) {
-        // The number of path elements must be the same for the shortcut
-        // to work.
-        if (s_previousPieces->count() == pieces.count()) {
-            bool equal = true;
+    const int index = fullPath.lastIndexOf(QLatin1Char('/'));
+    const QString folderPath = index != -1 ? fullPath.left(index) : QString();
 
-            // Check if all pieces match.
-            for (int i = 0; i < s_previousPieces->count(); ++i) {
-                if (s_previousPieces->at(i) != pieces.at(i)) {
-                    equal = false;
-                    break;
-                }
-            }
-
-            // If match return it.
-            if (equal) {
-                return s_previousMatch;
-            }
-        }
+    if (s_previousMatch && *s_previousPath == folderPath) {
+        return s_previousMatch;
     }
 
     Archive::Entry *parent = m_rootEntry.data();
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+    QStringList pieces = folderPath.split(QLatin1Char('/'), QString::SkipEmptyParts);
+#else
+    QStringList pieces = folderPath.split(QLatin1Char('/'), Qt::SkipEmptyParts);
+#endif
 
     for (const QString &piece : qAsConst(pieces)) {
         Archive::Entry *entry = parent->find(piece);
@@ -421,7 +409,7 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehav
     }
 
     s_previousMatch = parent;
-    *s_previousPieces = pieces;
+    *s_previousPath = folderPath;
 
     return parent;
 }
@@ -595,7 +583,7 @@ void ArchiveModel::reset()
 {
     m_archive.reset(nullptr);
     s_previousMatch = nullptr;
-    s_previousPieces->clear();
+    s_previousPath->clear();
     initRootEntry();
 
     // TODO: make sure if it's ok to not have calls to beginRemoveColumns here
