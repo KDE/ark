@@ -25,6 +25,7 @@ set(kerfuffle_SRCS
     pluginsettingspage.cpp
     archiveentry.cpp
     options.cpp
+    qstringtokenizer.cpp
 )
 
 kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc GENERATE_MOC)

@@ -26,6 +26,7 @@
 #include "ark_debug.h"
 #include "jobs.h"
 #include "util.h"
+#include "qstringtokenizer.h"
 
 #include <KIO/Global>
 #include <KLocalizedString>
@@ -364,11 +365,11 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehav
 {
     QString fullPath = entry->fullPath();
 
-    // Remove the last segment from the path
     if (fullPath.endsWith(QLatin1Char('/'))) {
         fullPath = fullPath.chopped(1);
     }
 
+    // Used to speed up loading of large archives.
     const int index = fullPath.lastIndexOf(QLatin1Char('/'));
     const QString folderPath = index != -1 ? fullPath.left(index) : QString();
 
@@ -378,13 +379,9 @@ Archive::Entry *ArchiveModel::parentFor(const Archive::Entry *entry, InsertBehav
 
     Archive::Entry *parent = m_rootEntry.data();
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    QStringList pieces = folderPath.split(QLatin1Char('/'), QString::SkipEmptyParts);
-#else
-    QStringList pieces = folderPath.split(QLatin1Char('/'), Qt::SkipEmptyParts);
-#endif
+    const auto pieces = QStringTokenizer{folderPath, QLatin1Char('/'), Qt::SkipEmptyParts};
 
-    for (const QString &piece : qAsConst(pieces)) {
+    for (const auto piece : pieces) {
         Archive::Entry *entry = parent->find(piece);
         if (!entry) {
             // Directory entry will be traversed later (that happens for some archive formats, 7z for instance).
