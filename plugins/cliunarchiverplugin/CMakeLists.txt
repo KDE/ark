@@ -1,7 +1,7 @@
 ########### next target ###############
 
 # TODO: drop application/x-rar alias once distributions ship shared-mime-info 1.7
-set(SUPPORTED_CLIUNARCHIVER_MIMETYPES "application/vnd.rar;application/x-rar;application/x-lha;application/x-arj;")
+set(SUPPORTED_CLIUNARCHIVER_MIMETYPES "application/vnd.rar;application/x-rar;application/x-lha;")
 
 set(kerfuffle_cliunarchiver_SRCS cliplugin.cpp)
 
@@ -15,8 +15,7 @@ ecm_qt_declare_logging_category(kerfuffle_cliunarchiver_SRCS
 set(SUPPORTED_MIMETYPES
     "application/vnd.rar\",
     \"application/x-rar\",
-    \"application/x-lha\",
-    \"application/x-arj")
+    \"application/x-lha")
 
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_cliunarchiver.json.cmake
