@@ -1,28 +1,6 @@
 {
     "KPlugin": {
         "Description": "Open and extract RAR and LHA archives",
-        "Description[ast]": "Abre y estrái ficheros RAR y LHA",
-        "Description[az]": "RAR, LHA,və ARJ arxivlərini açmaq və çıxartmaq",
-        "Description[ca]": "Obre i extreu arxius RAR, LHA i ARJ",
-        "Description[de]": "Öffnen und Entpacken von RAR-, LHA- und ARJ-Archiven",
-        "Description[el]": "Άνοιγμα και εξαγωγή αρχειοθηκών RAR, LHA και ARJ",
-        "Description[en_GB]": "Open and extract RAR, LHA and ARJ archives",
-        "Description[es]": "Abrir y extraer archivos RAR, LHA y ARJ",
-        "Description[eu]": "Ireki eta erauzi RAR, LHA eta ARJ artxiboak",
-        "Description[fr]": "Ouvre et extrait les archives « RAR », « LHA » et « ARJ »",
-        "Description[hu]": "RAR, LHA és ARJ archívumok megnyitása és kibontása",
-        "Description[ia]": "Aperir e extraher archivos RAR, LHA e ARJ",
-        "Description[it]": "Apri ed estrai archivi RAR, LHA e ARJ",
-        "Description[nl]": "Open en pak RAR-,LHA- en ARJ-archieven uit",
-        "Description[nn]": "Opna og pakk ut RAR-, LHA- og ARJ-arkiv",
-        "Description[pl]": "Otwiera i wypakowuje archiwa RAR, LHA oraz ARJ",
-        "Description[pt]": "Abrir e extrair os pacotes RAR, LHA e ARJ",
-        "Description[pt_BR]": "Abrir e extrair arquivos RAR, LHA e ARJ",
-        "Description[ru]": "Открытие и распаковка архивов RAR, LHA и ARJ",
-        "Description[sl]": "Odprite in razširite arhive RAR, LHA in ARJ",
-        "Description[sv]": "Öppna och extrahera RAR-, LHA-, och ARJ-arkiv",
-        "Description[uk]": "Здатен відкривати і видобувати архіви RAR, LHA і ARJ",
-        "Description[x-test]": "xxOpen and extract RAR, LHA and ARJ archivesxx",
         "Id": "kerfuffle_cliunarchiver",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
