@@ -1,6 +1,12 @@
 {
     "KPlugin": {
         "Description": "Open and extract RAR and LHA archives",
+        "Description[es]": "Abrir y extraer archivos RAR y LHA",
+        "Description[ia]": "Aperir e extraher archivos RAR e LHA ",
+        "Description[nl]": "Open en pak RAR- en LHA-archieven uit",
+        "Description[sv]": "Öppna och extrahera RAR- och LHA-arkiv",
+        "Description[uk]": "Здатен відкривати і видобувати архіви RAR і LHA",
+        "Description[x-test]": "xxOpen and extract RAR and LHA archivesxx",
         "Id": "kerfuffle_cliunarchiver",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
