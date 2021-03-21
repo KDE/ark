@@ -5,6 +5,7 @@
         "Description[ca]": "Obre i extreu arxius RAR i LHA",
         "Description[es]": "Abrir y extraer archivos RAR y LHA",
         "Description[nl]": "Open en pak RAR- en LHA-archieven uit",
+        "Description[pl]": "Otwiera i wypakowuje archiwa RAR oraz LHA",
         "Description[pt]": "Abrir e extrair os pacotes RAR e LHA",
         "Description[pt_BR]": "Abrir e extrair arquivos RAR e LHA",
         "Description[sl]": "Odprite in razširite arhive RAR in LHA",
