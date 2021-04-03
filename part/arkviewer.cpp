@@ -85,98 +85,103 @@ ArkViewer::~ArkViewer()
     delete m_part;
 }
 
+void ArkViewer::openExternalViewer(const KService::Ptr viewer, const QString& fileName)
+{
+    qCDebug(ARK) << "Using external viewer";
+
+    const QList<QUrl> fileUrlList = {QUrl::fromLocalFile(fileName)};
+    KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(viewer);
+    job->setUrls(fileUrlList);
+    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, nullptr));
+    // The temporary file will be removed when the viewer application exits.
+    job->setRunFlags(KIO::ApplicationLauncherJob::DeleteTemporaryFiles);
+    job->start();
+}
+
+void ArkViewer::openInternalViewer(const KService::Ptr viewer, const QString& fileName, const QMimeType& mimeType)
+{
+    qCDebug(ARK) << "Opening internal viewer";
+
+    ArkViewer *internalViewer = new ArkViewer();
+    internalViewer->show();
+    if (internalViewer->viewInInternalViewer(viewer, fileName, mimeType)) {
+        // The internal viewer is showing the file, and will
+        // remove the temporary file in its destructor.  So there
+        // is no more to do here.
+        return;
+    }
+    else {
+        KMessageBox::sorry(nullptr, i18n("The internal viewer cannot preview this file."));
+        delete internalViewer;
+
+        qCDebug(ARK) << "Removing temporary file:" << fileName;
+        QFile::remove(fileName);
+    }
+}
+
+bool ArkViewer::askViewAsPlainText(const QMimeType& mimeType)
+{
+    int response;
+    if (!mimeType.isDefault()) {
+        // File has a defined MIME type, and not the default
+        // application/octet-stream.  So it could be viewable as
+        // plain text, ask the user.
+        response = KMessageBox::warningContinueCancel(nullptr,
+            xi18n("The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do you want to try to view it as plain text?", mimeType.name()),
+            i18nc("@title:window", "Cannot Preview File"),
+            KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QStringLiteral("text-plain"))),
+            KStandardGuiItem::cancel(),
+            QStringLiteral("PreviewAsText_%1").arg(mimeType.name()));
+    }
+    else {
+        // No defined MIME type, or the default application/octet-stream.
+        // There is still a possibility that it could be viewable as plain
+        // text, so ask the user.  Not the same as the message/question
+        // above, because the wording and default are different.
+        response = KMessageBox::warningContinueCancel(nullptr,
+            xi18n("The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do you want to try to view it as plain text?"),
+            i18nc("@title:window", "Cannot Preview File"),
+            KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QStringLiteral("text-plain"))),
+            KStandardGuiItem::cancel(),
+            QString(),
+            KMessageBox::Dangerous);
+    }
+
+    return response != KMessageBox::Cancel;
+}
+
 void ArkViewer::view(const QString& fileName)
 {
     QMimeDatabase db;
     QMimeType mimeType = db.mimeTypeForFile(fileName);
     qCDebug(ARK) << "viewing" << fileName << "with mime type:" << mimeType.name();
-    KService::Ptr viewer = ArkViewer::getViewer(mimeType.name());
 
-    const bool needsExternalViewer = (viewer &&
-                                      !viewer->hasServiceType(QStringLiteral("KParts/ReadOnlyPart")));
-    if (needsExternalViewer) {
-        // We have already resolved the MIME type and the service above.
-        // So there is no point in using KRun::runUrl() which would need
-        // to do the same again.
+    const KService::Ptr internalViewer = ArkViewer::getInternalViewer(mimeType.name());
 
-        qCDebug(ARK) << "Using external viewer";
-
-        const QList<QUrl> fileUrlList = {QUrl::fromLocalFile(fileName)};
-        KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(viewer);
-        job->setUrls(fileUrlList);
-        job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, nullptr));
-        // The temporary file will be removed when the viewer application exits.
-        job->setRunFlags(KIO::ApplicationLauncherJob::DeleteTemporaryFiles);
-        job->start();
+    if (internalViewer) {
+        openInternalViewer(internalViewer, fileName, mimeType);
         return;
     }
 
-    qCDebug(ARK) << "Attempting to use internal viewer";
-    bool viewInInternalViewer = true;
-    if (!viewer) {
-        // No internal viewer available for the file.  Ask the user if it
-        // should be previewed as text/plain.
+    const KService::Ptr externalViewer = ArkViewer::getExternalViewer(mimeType.name());
 
-        qCDebug(ARK) << "Internal viewer not available";
-
-        int response;
-        if (!mimeType.isDefault()) {
-            // File has a defined MIME type, and not the default
-            // application/octet-stream.  So it could be viewable as
-            // plain text, ask the user.
-            response = KMessageBox::warningContinueCancel(nullptr,
-                xi18n("The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do you want to try to view it as plain text?", mimeType.name()),
-                i18nc("@title:window", "Cannot Preview File"),
-                KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QStringLiteral("text-plain"))),
-                KStandardGuiItem::cancel(),
-                QStringLiteral("PreviewAsText_%1").arg(mimeType.name()));
-        }
-        else {
-            // No defined MIME type, or the default application/octet-stream.
-            // There is still a possibility that it could be viewable as plain
-            // text, so ask the user.  Not the same as the message/question
-            // above, because the wording and default are different.
-            response = KMessageBox::warningContinueCancel(nullptr,
-                xi18n("The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do you want to try to view it as plain text?"),
-                i18nc("@title:window", "Cannot Preview File"),
-                KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QStringLiteral("text-plain"))),
-                KStandardGuiItem::cancel(),
-                QString(),
-                KMessageBox::Dangerous);
-        }
-
-        if (response == KMessageBox::Cancel) {
-            viewInInternalViewer = false;
-        }
-        else {						// set for viewer later
-            mimeType = db.mimeTypeForName(QStringLiteral("text/plain"));
-        }
+    if (externalViewer) {
+        openExternalViewer(externalViewer, fileName);
+        return;
     }
 
-    if (viewInInternalViewer) {
-        qCDebug(ARK) << "Opening internal viewer";
-        ArkViewer *internalViewer = new ArkViewer();
-        internalViewer->show();
-        if (internalViewer->viewInInternalViewer(fileName, mimeType)) {
-            // The internal viewer is showing the file, and will
-            // remove the temporary file in its destructor.  So there
-            // is no more to do here.
-            return;
-        }
-        else {
-            KMessageBox::sorry(nullptr, i18n("The internal viewer cannot preview this file."));
-            delete internalViewer;
-        }
+    // No internal or external viewer available for the file.  Ask the user if it
+    // should be previewed as text/plain.
+    if (askViewAsPlainText(mimeType)) {
+        const KService::Ptr textViewer = ArkViewer::getInternalViewer(QStringLiteral("text/plain"));
+        openInternalViewer(textViewer, fileName, db.mimeTypeForName(QStringLiteral("text/plain")));
+    } else {
+        qCDebug(ARK) << "Removing temporary file:" << fileName;
+        QFile::remove(fileName);
     }
-
-    // Only get here if there is no internal viewer available or could be
-    // used for the file, and no external viewer was opened.  Nothing can be
-    // done with the temporary file, so remove it now.
-    qCDebug(ARK) << "Removing temporary file:" << fileName;
-    QFile::remove(fileName);
 }
 
-bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &mimeType)
+bool ArkViewer::viewInInternalViewer(const KService::Ptr viewer, const QString& fileName, const QMimeType &mimeType)
 {
     setWindowFilePath(fileName);
 
@@ -185,18 +190,7 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     m_commentLabel->setText(mimeType.comment());
 
     // Create the ReadOnlyPart instance.
-    m_part = KMimeTypeTrader::self()->createPartInstanceFromQuery<KParts::ReadOnlyPart>(mimeType.name(), this, this);
-
-    // Drop the KHTMLPart, if necessary.
-    const KService::Ptr service = KMimeTypeTrader::self()->preferredService(mimeType.name(), QStringLiteral("KParts/ReadOnlyPart"));
-    qCDebug(ARK) << "Preferred service for mimetype" << mimeType.name() << "is" << service->library();
-    if (service.constData()->desktopEntryName() == QLatin1String("khtml")) {
-        KService::List offers = KMimeTypeTrader::self()->query(mimeType.name(), QStringLiteral("KParts/ReadOnlyPart"));
-        offers.removeFirst();
-        qCDebug(ARK) << "Removed KHTMLPart from the offers for mimetype" << mimeType.name()
-                     << ". Using" << offers.first().constData()->desktopEntryName() << "instead.";
-        m_part = offers.first().constData()->createInstance<KParts::ReadOnlyPart>(this, this);
-    }
+    m_part = viewer->createInstance<KParts::ReadOnlyPart>(this, this);
 
     if (!m_part.data()) {
         return false;
@@ -224,7 +218,18 @@ bool ArkViewer::viewInInternalViewer(const QString& fileName, const QMimeType &m
     return true;
 }
 
-KService::Ptr ArkViewer::getViewer(const QString &mimeType)
+KService::Ptr ArkViewer::getExternalViewer(const QString &mimeType)
+{
+    KService::List offers = KMimeTypeTrader::self()->query(mimeType, QStringLiteral("Application"));
+
+    if (!offers.isEmpty()) {
+        return offers.first();
+    } else {
+        return KService::Ptr();
+    }
+}
+
+KService::Ptr ArkViewer::getInternalViewer(const QString& mimeType)
 {
     // No point in even trying to find anything for application/octet-stream
     if (mimeType == QLatin1String("application/octet-stream")) {
@@ -248,9 +253,13 @@ KService::Ptr ArkViewer::getViewer(const QString &mimeType)
         }
     }
 
-    // If we can't find a kpart, try to get an external application
-    if (offers.isEmpty()) {
-        offers = KMimeTypeTrader::self()->query(mimeType, QStringLiteral("Application"));
+    // Skip the KHTML part
+    auto khtmlPart = std::find_if(offers.begin(), offers.end(), [](KService::Ptr service) {
+        return service->desktopEntryName() == QLatin1String("khtml");
+    });
+
+    if (khtmlPart != offers.end()) {
+        offers.erase(khtmlPart);
     }
 
     if (!offers.isEmpty()) {
