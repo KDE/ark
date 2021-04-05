@@ -63,6 +63,7 @@ PUBLIC
     KF5::WidgetsAddons
 PRIVATE
     Qt5::Concurrent
+    KF5::ConfigCore
     KF5::KIOCore
     KF5::KIOWidgets
     KF5::KIOFileWidgets
