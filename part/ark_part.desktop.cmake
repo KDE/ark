@@ -149,7 +149,7 @@ Comment[x-test]=xxArchive Handling Toolxx
 Comment[zh_CN]=压缩包文件管理工具
 Comment[zh_TW]=壓縮檔處理工具
 X-KDE-ServiceTypes=KParts/ReadOnlyPart,Browser/View
-X-KDE-Library=arkpart
+X-KDE-Library=kf5/parts/arkpart
 Type=Service
 MimeType=@SUPPORTED_ARK_MIMETYPES@
 
