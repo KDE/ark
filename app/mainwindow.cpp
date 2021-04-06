@@ -37,7 +37,7 @@
 #include <KLocalizedString>
 #include <KActionCollection>
 #include <KStandardAction>
-#include <KRecentFilesAction>
+#include <KRecentFilesMenu>
 #include <KSharedConfig>
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
@@ -68,10 +68,6 @@ MainWindow::MainWindow(QWidget *)
 
 MainWindow::~MainWindow()
 {
-    if (m_recentFilesAction) {
-        m_recentFilesAction->saveEntries(KSharedConfig::openConfig()->group("Recent Files"));
-    }
-
     guiFactory()->removeClient(m_part);
     delete m_part;
     m_part = nullptr;
@@ -178,14 +174,9 @@ void MainWindow::setupActions()
     actionCollection()->addAction(QStringLiteral("ark_file_open"), m_openAction);
     auto quitAction = KStandardAction::quit(this, &MainWindow::quit, this);
     actionCollection()->addAction(QStringLiteral("ark_quit"), quitAction);
-    m_recentFilesAction = KStandardAction::openRecent(this, &MainWindow::openUrl, this);
-    actionCollection()->addAction(QStringLiteral("ark_file_open_recent"), m_recentFilesAction);
-
-    m_recentFilesAction->setToolBarMode(KRecentFilesAction::MenuMode);
-    m_recentFilesAction->setToolButtonPopupMode(QToolButton::DelayedPopup);
-    m_recentFilesAction->setIconText(i18nc("action, to open an archive", "Open"));
-    m_recentFilesAction->setToolTip(i18n("Open an archive"));
-    m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group("Recent Files"));
+    m_recentFilesMenu = new KRecentFilesMenu(this);
+    actionCollection()->addAction(QStringLiteral("ark_file_open_recent"), m_recentFilesMenu->menuAction());
+    connect(m_recentFilesMenu, &KRecentFilesMenu::urlTriggered, this, &MainWindow::openUrl);
 
     KStandardAction::preferences(this, &MainWindow::showSettings, actionCollection());
 }
@@ -196,7 +187,7 @@ void MainWindow::updateActions()
     Kerfuffle::PluginManager pluginManager;
     m_newAction->setEnabled(!iface->isBusy() && !pluginManager.availableWritePlugins().isEmpty());
     m_openAction->setEnabled(!iface->isBusy());
-    m_recentFilesAction->setEnabled(!iface->isBusy());
+    m_recentFilesMenu->setEnabled(!iface->isBusy());
 }
 
 void MainWindow::openArchive()
@@ -294,7 +285,7 @@ void MainWindow::writeSettings()
 
 void MainWindow::addPartUrl()
 {
-    m_recentFilesAction->addUrl(m_part->url());
+    m_recentFilesMenu->addUrl(m_part->url());
 }
 
 void MainWindow::newArchive()

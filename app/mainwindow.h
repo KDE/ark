@@ -30,7 +30,7 @@ namespace KParts
 class ReadWritePart;
 }
 
-class KRecentFilesAction;
+class KRecentFilesMenu;
 
 class MainWindow: public KParts::MainWindow
 {
@@ -64,7 +64,7 @@ private:
     void setupActions();
 
     KParts::ReadWritePart *m_part;
-    KRecentFilesAction    *m_recentFilesAction;
+    KRecentFilesMenu      *m_recentFilesMenu;
     QAction               *m_openAction;
     QAction               *m_newAction;
     KParts::OpenUrlArguments m_openArgs;
