@@ -25,13 +25,14 @@
 #include <KIO/JobUiDelegate>
 #include <KIO/ApplicationLauncherJob>
 #include <KLocalizedString>
-#include <KMimeTypeTrader>
 #include <KMessageBox>
 #include <KParts/OpenUrlArguments>
 #include <KParts/ReadOnlyPart>
 #include <KXMLGUIFactory>
 #include <KActionCollection>
 #include <KAboutPluginDialog>
+#include <KApplicationTrader>
+#include <KParts/PartLoader>
 #include <KPluginMetaData>
 
 #include <QFile>
@@ -98,13 +99,13 @@ void ArkViewer::openExternalViewer(const KService::Ptr viewer, const QString& fi
     job->start();
 }
 
-void ArkViewer::openInternalViewer(const KService::Ptr viewer, const QString& fileName, const QMimeType& mimeType)
+void ArkViewer::openInternalViewer(const KPluginMetaData &pluginMetaData, const QString& fileName, const QMimeType& mimeType)
 {
     qCDebug(ARK) << "Opening internal viewer";
 
     ArkViewer *internalViewer = new ArkViewer();
     internalViewer->show();
-    if (internalViewer->viewInInternalViewer(viewer, fileName, mimeType)) {
+    if (internalViewer->viewInInternalViewer(pluginMetaData, fileName, mimeType)) {
         // The internal viewer is showing the file, and will
         // remove the temporary file in its destructor.  So there
         // is no more to do here.
@@ -156,15 +157,13 @@ void ArkViewer::view(const QString& fileName)
     QMimeType mimeType = db.mimeTypeForFile(fileName);
     qCDebug(ARK) << "viewing" << fileName << "with mime type:" << mimeType.name();
 
-    const KService::Ptr internalViewer = ArkViewer::getInternalViewer(mimeType.name());
-
-    if (internalViewer) {
-        openInternalViewer(internalViewer, fileName, mimeType);
+    const KPluginMetaData pluginMetaData = getInternalViewer(mimeType.name());
+    if (pluginMetaData.isValid()) {
+        openInternalViewer(pluginMetaData, fileName, mimeType);
         return;
     }
 
     const KService::Ptr externalViewer = ArkViewer::getExternalViewer(mimeType.name());
-
     if (externalViewer) {
         openExternalViewer(externalViewer, fileName);
         return;
@@ -173,28 +172,30 @@ void ArkViewer::view(const QString& fileName)
     // No internal or external viewer available for the file.  Ask the user if it
     // should be previewed as text/plain.
     if (askViewAsPlainText(mimeType)) {
-        const KService::Ptr textViewer = ArkViewer::getInternalViewer(QStringLiteral("text/plain"));
-        openInternalViewer(textViewer, fileName, db.mimeTypeForName(QStringLiteral("text/plain")));
+        const KPluginMetaData pluginMetaData = getInternalViewer(QStringLiteral("text/plain"));
+        if (pluginMetaData.isValid()) {
+            openInternalViewer(pluginMetaData, fileName, db.mimeTypeForName(QStringLiteral("text/plain")));
+        }
     } else {
         qCDebug(ARK) << "Removing temporary file:" << fileName;
         QFile::remove(fileName);
     }
 }
 
-bool ArkViewer::viewInInternalViewer(const KService::Ptr viewer, const QString& fileName, const QMimeType &mimeType)
+bool ArkViewer::viewInInternalViewer(const KPluginMetaData &pluginMetaData, const QString& fileName, const QMimeType &mimeType)
 {
+    KPluginLoader loader(pluginMetaData.fileName());
+    // Create the ReadOnlyPart instance
+    m_part.reset(loader.factory()->create<KParts::ReadOnlyPart>(nullptr, this));
+    if (!m_part) {
+        return false;
+    }
+
     setWindowFilePath(fileName);
 
     // Set icon and comment for the mimetype.
     m_iconLabel->setPixmap(QIcon::fromTheme(mimeType.iconName()).pixmap(style()->pixelMetric(QStyle::PixelMetric::PM_SmallIconSize)));
     m_commentLabel->setText(mimeType.comment());
-
-    // Create the ReadOnlyPart instance.
-    m_part.reset(viewer->createInstance<KParts::ReadOnlyPart>(this, this));
-
-    if (!m_part) {
-        return false;
-    }
 
     // Insert the KPart into its placeholder.
     centralWidget()->layout()->replaceWidget(m_partPlaceholder, m_part->widget());
@@ -220,53 +221,42 @@ bool ArkViewer::viewInInternalViewer(const KService::Ptr viewer, const QString& 
 
 KService::Ptr ArkViewer::getExternalViewer(const QString &mimeType)
 {
-    KService::List offers = KMimeTypeTrader::self()->query(mimeType, QStringLiteral("Application"));
-
-    if (!offers.isEmpty()) {
-        return offers.first();
-    } else {
-        return KService::Ptr();
-    }
+    return KApplicationTrader::preferredService(mimeType);
 }
 
-KService::Ptr ArkViewer::getInternalViewer(const QString& mimeType)
+KPluginMetaData ArkViewer::getInternalViewer(const QString &mimeType)
 {
     // No point in even trying to find anything for application/octet-stream
     if (mimeType == QLatin1String("application/octet-stream")) {
-        return KService::Ptr();
+        return {};
     }
 
     // Try to get a read-only kpart for the internal viewer
-    KService::List offers = KMimeTypeTrader::self()->query(mimeType, QStringLiteral("KParts/ReadOnlyPart"));
+    QVector<KPluginMetaData> pMetaData = KParts::PartLoader::partsForMimeType(mimeType);
 
-    auto arkPartIt = std::find_if(offers.begin(), offers.end(), [](KService::Ptr service) {
-        return service->storageId() == QLatin1String("ark_part.desktop");
+    auto it = std::remove_if(pMetaData.begin(), pMetaData.end(), [&mimeType](const KPluginMetaData &metaData) {
+        const QString plugId = metaData.pluginId();
+
+        // Open HTML/XML files with a text viewer part, so as not to execute any javascript ...etc.
+        // The user can still open such files with an external web browser using the "open with" menu.
+        const bool isHtmlPart = plugId == QLatin1String("khtmlpart") || plugId == QLatin1String("kwebkitpart");
+
+        // Use the Ark part only when the mime type matches an archive type directly.
+        // Many file types (e.g. Open Document) are technically just archives but browsing
+        // their internals is typically not what the user wants.
+        // Not using hasMimeType() as we're explicitly not interested in inheritance
+        const bool isArchive = plugId == QLatin1String("arkpart") && !metaData.mimeTypes().contains(mimeType);
+
+        return isHtmlPart || isArchive;
     });
 
-    // Use the Ark part only when the mime type matches an archive type directly.
-    // Many file types (e.g. Open Document) are technically just archives
-    // but browsing their internals is typically not what the user wants.
-    if (arkPartIt != offers.end()) {
-        // Not using hasMimeType() as we're explicitly not interested in inheritance.
-        if (!(*arkPartIt)->mimeTypes().contains(mimeType)) {
-            offers.erase(arkPartIt);
-        }
+    pMetaData.erase(it, pMetaData.end());
+
+    if (!pMetaData.isEmpty()) {
+        return pMetaData.at(0);
     }
 
-    // Skip the KHTML part
-    auto khtmlPart = std::find_if(offers.begin(), offers.end(), [](KService::Ptr service) {
-        return service->desktopEntryName() == QLatin1String("khtml");
-    });
-
-    if (khtmlPart != offers.end()) {
-        offers.erase(khtmlPart);
-    }
-
-    if (!offers.isEmpty()) {
-        return offers.first();
-    } else {
-        return KService::Ptr();
-    }
+    return {};
 }
 
 void ArkViewer::aboutKPart()
