@@ -25,11 +25,16 @@
 #include "ui_arkviewer.h"
 
 #include <KParts/MainWindow>
-#include <KParts/ReadOnlyPart>
 #include <KService>
 
+namespace KParts
+{
+    class ReadOnlyPart;
+}
+
 #include <QMimeType>
-#include <QPointer>
+
+#include <memory>
 
 class ArkViewer : public KParts::MainWindow, public Ui::ArkViewer
 {
@@ -57,9 +62,8 @@ private Q_SLOTS:
     void aboutKPart();
 
 private:
-    QPointer<KParts::ReadOnlyPart> m_part;
+    std::unique_ptr<KParts::ReadOnlyPart> m_part;
     QString m_fileName;
 };
 
 #endif // ARKVIEWER_H
-

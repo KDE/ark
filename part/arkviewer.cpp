@@ -28,6 +28,7 @@
 #include <KMimeTypeTrader>
 #include <KMessageBox>
 #include <KParts/OpenUrlArguments>
+#include <KParts/ReadOnlyPart>
 #include <KXMLGUIFactory>
 #include <KActionCollection>
 #include <KAboutPluginDialog>
@@ -74,15 +75,14 @@ ArkViewer::~ArkViewer()
         // #261785: this preview dialog is not modal, so we need to delete
         //          the previewed file ourselves when the dialog is closed;
 
-        m_part.data()->closeUrl();
+        m_part->closeUrl();
 
         if (!m_fileName.isEmpty()) {
             QFile::remove(m_fileName);
         }
     }
 
-    guiFactory()->removeClient(m_part);
-    delete m_part;
+    guiFactory()->removeClient(m_part.get());
 }
 
 void ArkViewer::openExternalViewer(const KService::Ptr viewer, const QString& fileName)
@@ -190,14 +190,14 @@ bool ArkViewer::viewInInternalViewer(const KService::Ptr viewer, const QString& 
     m_commentLabel->setText(mimeType.comment());
 
     // Create the ReadOnlyPart instance.
-    m_part = viewer->createInstance<KParts::ReadOnlyPart>(this, this);
+    m_part.reset(viewer->createInstance<KParts::ReadOnlyPart>(this, this));
 
-    if (!m_part.data()) {
+    if (!m_part) {
         return false;
     }
 
     // Insert the KPart into its placeholder.
-    centralWidget()->layout()->replaceWidget(m_partPlaceholder, m_part.data()->widget());
+    centralWidget()->layout()->replaceWidget(m_partPlaceholder, m_part->widget());
 
     QAction* action = actionCollection()->addAction(QStringLiteral("help_about_kpart"));
     const KPluginMetaData partMetaData = m_part->metaData();
@@ -208,11 +208,11 @@ bool ArkViewer::viewInInternalViewer(const KService::Ptr viewer, const QString& 
     action->setText(i18nc("@action", "About Viewer Component"));
     connect(action, &QAction::triggered, this, &ArkViewer::aboutKPart);
 
-    createGUI(m_part.data());
+    createGUI(m_part.get());
     setAutoSaveSettings(QStringLiteral("Viewer"), true);
 
-    m_part.data()->openUrl(QUrl::fromLocalFile(fileName));
-    m_part.data()->widget()->setFocus();
+    m_part->openUrl(QUrl::fromLocalFile(fileName));
+    m_part->widget()->setFocus();
     m_fileName = fileName;
 
     return true;
