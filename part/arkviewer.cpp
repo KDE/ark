@@ -163,8 +163,7 @@ void ArkViewer::view(const QString& fileName)
         return;
     }
 
-    const KService::Ptr externalViewer = ArkViewer::getExternalViewer(mimeType.name());
-    if (externalViewer) {
+    if (const auto externalViewer = KApplicationTrader::preferredService(mimeType.name())) {
         openExternalViewer(externalViewer, fileName);
         return;
     }
@@ -217,11 +216,6 @@ bool ArkViewer::viewInInternalViewer(const KPluginMetaData &pluginMetaData, cons
     m_fileName = fileName;
 
     return true;
-}
-
-KService::Ptr ArkViewer::getExternalViewer(const QString &mimeType)
-{
-    return KApplicationTrader::preferredService(mimeType);
 }
 
 KPluginMetaData ArkViewer::getInternalViewer(const QString &mimeType)

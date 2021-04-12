@@ -48,7 +48,6 @@ public:
 private:
     explicit ArkViewer();
 
-    static KService::Ptr getExternalViewer(const QString& mimeType);
     static KPluginMetaData getInternalViewer(const QString &mimeType);
 
     static void openExternalViewer(const KService::Ptr viewer, const QString& fileName);
