@@ -125,17 +125,7 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 
 bool MainWindow::loadPart()
 {
-    KPluginFactory *factory = nullptr;
-
-    const auto plugins = KPluginLoader::findPlugins(QStringLiteral("kf5/parts"), [](const KPluginMetaData& metaData) {
-        return metaData.pluginId() == QLatin1String("arkpart") &&
-               metaData.serviceTypes().contains(QLatin1String("KParts/ReadOnlyPart")) &&
-               metaData.serviceTypes().contains(QLatin1String("Browser/View"));
-    });
-
-    if (!plugins.isEmpty()) {
-        factory = KPluginLoader(plugins.first().fileName()).factory();
-    }
+    KPluginFactory *factory = KPluginLoader(QStringLiteral("kf5/parts/arkpart")).factory();
 
     m_part = factory ? static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this)) : nullptr;
 
