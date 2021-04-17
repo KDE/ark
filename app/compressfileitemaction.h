@@ -28,7 +28,6 @@
 class QAction;
 class QWidget;
 
-class KFileItemListProperties;
 
 namespace Kerfuffle
 {
