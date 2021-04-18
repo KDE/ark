@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
+ * Copyright (C) 2021 Alexander Lohnau <alexander.lohnau@gmx.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,9 +32,15 @@
 #include <KPluginFactory>
 #include <KService>
 
+#include <kio_version.h>
+
 #include <algorithm>
+#include <KIO/OpenFileManagerWindowJob>
+#include <QDir>
+#include <QGuiApplication>
 
 #include "pluginmanager.h"
+#include "addtoarchive.h"
 
 K_PLUGIN_CLASS_WITH_JSON(CompressFileItemAction, "compressfileitemaction.json")
 
@@ -70,7 +77,7 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
                                          i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Here (as TAR.GZ)"),
                                          parentWidget,
                                          urlList,
-                                         QStringLiteral("ark --changetofirstpath --add --autofilename tar.gz %F")));
+                                         QStringLiteral("tar.gz")));
 
     const QMimeType zipMime = QMimeDatabase().mimeTypeForName(QStringLiteral("application/zip"));
     // Don't offer zip compression if no zip plugin is available.
@@ -79,14 +86,14 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
                                              i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Here (as ZIP)"),
                                              parentWidget,
                                              urlList,
-                                             QStringLiteral("ark --changetofirstpath --add --autofilename zip %F")));
+                                             QStringLiteral("zip")));
     }
 
     compressMenu->addAction(createAction(icon,
                                          i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Compress to..."),
                                          parentWidget,
                                          urlList,
-                                         QStringLiteral("ark --add --changetofirstpath --dialog %F")));
+                                         QString()));
 
     QAction *compressMenuAction = new QAction(i18nc("@action:inmenu Compress submenu in Dolphin context menu", "Compress"), parentWidget);
     compressMenuAction->setMenu(compressMenu);
@@ -97,16 +104,34 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
     return actions;
 }
 
-QAction *CompressFileItemAction::createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, const QString& exec)
+QAction *CompressFileItemAction::createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, const QString& fileExtension)
 {
     QAction *action = new QAction(icon, name, parent);
 
-    connect(action, &QAction::triggered, this, [exec, urls, parent]() {
-        KService::Ptr service(new KService(QStringLiteral("ark"), exec, QString()));
-        KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service);
-        job->setUrls(urls);
-        job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, parent));
-        job->start();
+    connect(action, &QAction::triggered, this, [fileExtension, urls, name, parent, this]() {
+        auto *addToArchiveJob = new AddToArchive(parent);
+        addToArchiveJob->setChangeToFirstPath(true);
+        for (const QUrl &url : urls) {
+            addToArchiveJob->addInput(url);
+        }
+        if (!fileExtension.isEmpty()) {
+            addToArchiveJob->setAutoFilenameSuffix(fileExtension);
+        } else {
+            if (!addToArchiveJob->showAddDialog()) {
+                delete addToArchiveJob;
+                return;
+            }
+        }
+        addToArchiveJob->start();
+        connect(addToArchiveJob, &KJob::finished, this, [this, addToArchiveJob](){
+            if (addToArchiveJob->error() == 0) {
+                KIO::highlightInFileManager({QUrl::fromLocalFile(addToArchiveJob->fileName())});
+            } else if (!addToArchiveJob->errorString().isEmpty()) {
+                #if KIO_VERSION >= QT_VERSION_CHECK(5, 82, 0)
+                Q_EMIT error(addToArchiveJob->errorString());
+                #endif
+            }
+        });
     });
 
     return action;

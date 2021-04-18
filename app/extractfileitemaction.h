@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
+ * Copyright (C) 2021 Alexander Lohnau <alexander.lohnau@gmx.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,7 +46,12 @@ public:
     QList<QAction*> actions(const KFileItemListProperties& fileItemInfos, QWidget* parentWidget) override;
 
 private:
-    QAction *createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, const QString& exec);
+    enum AdditionalJobOptions {
+        None,
+        ShowDialog,
+        AutoSubfolder,
+    };
+    QAction *createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, AdditionalJobOptions option);
 
     Kerfuffle::PluginManager *m_pluginManager;
 };

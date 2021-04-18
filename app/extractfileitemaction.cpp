@@ -2,6 +2,7 @@
  * ark -- archiver for the KDE project
  *
  * Copyright (C) 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
+ * Copyright (C) 2021 Alexander Lohnau <alexander.lohnau@gmx.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,15 +24,18 @@
 
 #include <QFileInfo>
 #include <QMenu>
+#include <QGuiApplication>
 
-#include <KDialogJobUiDelegate>
-#include <KIO/ApplicationLauncherJob>
+#include <KIO/OpenFileManagerWindowJob>
 #include <KLocalizedString>
 #include <KPluginFactory>
 #include <KService>
 
+#include <kio_version.h>
+
 #include "mimetypes.h"
 #include "pluginmanager.h"
+#include "batchextract.h"
 
 K_PLUGIN_CLASS_WITH_JSON(ExtractFileItemAction, "extractfileitemaction.json")
 
@@ -72,7 +76,7 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
                                                  i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive to..."),
                                                  parentWidget,
                                                  supportedUrls,
-                                                 QStringLiteral("ark --batch --autodestination --dialog %F"));
+                                                 AdditionalJobOptions::ShowDialog);
 
     // #189177: disable "extract here" actions in read-only folders.
     if (readOnlyParentDir) {
@@ -84,7 +88,7 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
                                             i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive here"),
                                             parentWidget,
                                             supportedUrls,
-                                            QStringLiteral("ark --batch --autodestination %F")));
+                                            AdditionalJobOptions::None));
 
         extractMenu->addAction(extractToAction);
 
@@ -92,7 +96,7 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
                                             i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive here, autodetect subfolder"),
                                             parentWidget,
                                             supportedUrls,
-                                            QStringLiteral("ark --batch --autodestination --autosubfolder %F")));
+                                            AdditionalJobOptions::AutoSubfolder));
 
 
         QAction *extractMenuAction = new QAction(i18nc("@action:inmenu Extract submenu in Dolphin context menu", "Extract"), parentWidget);
@@ -105,18 +109,33 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
     return actions;
 }
 
-QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, const QString& exec)
+QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, AdditionalJobOptions option)
 {
     QAction *action = new QAction(icon, name, parent);
-
-    connect(action, &QAction::triggered, this, [exec, urls, parent]() {
-        KService::Ptr service(new KService(QStringLiteral("ark"), exec, QString()));
-        KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(service);
-        job->setUrls(urls);
-        job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, parent));
-        job->start();
+    connect(action, &QAction::triggered, this, [urls,name, option, parent,this]() {
+        auto *batchExtractJob = new BatchExtract(parent);
+        batchExtractJob->setDestinationFolder(QFileInfo(urls.first().toLocalFile()).path());
+        batchExtractJob->setOpenDestinationAfterExtraction(true);
+        if (option == AutoSubfolder) {
+            batchExtractJob->setAutoSubfolder(true);
+        } else if (option == ShowDialog) {
+            if (!batchExtractJob->showExtractDialog()) {
+                delete batchExtractJob;
+                return;
+            }
+        }
+        for (const QUrl &url : urls) {
+            batchExtractJob->addInput(url);
+        }
+        batchExtractJob->start();
+        connect(batchExtractJob, &KJob::finished, this, [this, batchExtractJob](){
+            if (!batchExtractJob->errorString().isEmpty()) {
+                #if KIO_VERSION >= QT_VERSION_CHECK(5, 82, 0)
+                Q_EMIT error(batchExtractJob->errorString());
+                #endif
+            }
+        });
     });
-
     return action;
 }
 

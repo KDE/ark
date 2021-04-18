@@ -97,11 +97,12 @@ target_link_libraries(compressfileitemaction
 # extractfileitemaction plugin
 
 kcoreaddons_add_plugin(extractfileitemaction
-    SOURCES extractfileitemaction.cpp
+    SOURCES extractfileitemaction.cpp batchextract.cpp ${CMAKE_CURRENT_BINARY_DIR}/ark_debug.cpp
     JSON extractfileitemaction.json
     INSTALL_NAMESPACE "kf5/kfileitemaction")
 
 target_link_libraries(extractfileitemaction
     kerfuffle
     KF5::I18n
-    KF5::KIOWidgets)
+    KF5::KIOWidgets
+    KF5::KIOFileWidgets)

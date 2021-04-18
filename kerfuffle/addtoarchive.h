@@ -62,6 +62,11 @@ public:
     void setChangeToFirstPath(bool value);
     QString detectBaseName(const QVector<Archive::Entry*> &entries) const;
 
+    QString fileName()
+    {
+        return m_filename;
+    }
+
 public Q_SLOTS:
     bool addInput(const QUrl &url);
     void setAutoFilenameSuffix(const QString& suffix);
