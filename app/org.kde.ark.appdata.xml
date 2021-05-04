@@ -27,6 +27,7 @@
   <name xml:lang="ia">Ark</name>
   <name xml:lang="id">Ark</name>
   <name xml:lang="it">Ark</name>
+  <name xml:lang="ja">Ark</name>
   <name xml:lang="ko">Ark</name>
   <name xml:lang="lt">Ark</name>
   <name xml:lang="nb">Ark</name>
@@ -75,6 +76,7 @@
   <summary xml:lang="ia">Instrumento per archivar</summary>
   <summary xml:lang="id">Alat Pengarsipan</summary>
   <summary xml:lang="it">Strumento di archiviazione</summary>
+  <summary xml:lang="ja">アーカイブツール</summary>
   <summary xml:lang="ko">압축 도구</summary>
   <summary xml:lang="lt">Archyvavimo įrankis</summary>
   <summary xml:lang="nb">Arkiveringsverktøy</summary>
@@ -174,6 +176,7 @@
     <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>
+    <p xml:lang="ja">特徴:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="lt">Galimybės:</p>
     <p xml:lang="nb">Egenskaper:</p>
@@ -223,6 +226,7 @@
       <li xml:lang="ia">Plure formatos supportate: gzip, bzip2, zip, rar, 7z e altere</li>
       <li xml:lang="id">beberapa format yang didukung: gzip, bzip2, zip, rar, 7z dan banyak lagi</li>
       <li xml:lang="it">Diversi formati supportati: gzip, bzip2, zip, rar, 7z e altri</li>
+      <li xml:lang="ja">gzip、bzip2、zip、rar、7z などの様々な形式をサポートしています</li>
       <li xml:lang="ko">다양한 형식 지원: gzip, bzip2, zip, rar, 7z 등</li>
       <li xml:lang="nb">Mange formater støttet: gzip, bzip2, zip, rar, 7z og mer</li>
       <li xml:lang="nds">En Reeg Fomaten warrt ünnerstütt: gzip, bzip2, zip, rar, 7z un anner</li>
@@ -269,6 +273,7 @@
       <li xml:lang="ia">Contentos de file de previsualisation sin extraher files</li>
       <li xml:lang="id">Pratinjau konten file tanpa mengekstrak filenya</li>
       <li xml:lang="it">Anteprima dei file senza estrarre i file</li>
+      <li xml:lang="ja">ファイルを展開せずにファイルの内容をプレビュー</li>
       <li xml:lang="ko">압축 풀지 않고 파일 내용 미리 보기</li>
       <li xml:lang="nb">Forhåndsvis innhold uten å pakke ut filer</li>
       <li xml:lang="nds">Datein ahn Ruttrecken vörweg ankieken</li>
@@ -315,6 +320,7 @@
       <caption xml:lang="ia">Gerer archivos con Ark</caption>
       <caption xml:lang="id">Mengelola arsip dengan Ark</caption>
       <caption xml:lang="it">Gestione archivi con Ark</caption>
+      <caption xml:lang="ja">Ark でアーカイブを管理</caption>
       <caption xml:lang="ko">Ark로 압축 파일 관리</caption>
       <caption xml:lang="nl">Archieven beheren met Ark</caption>
       <caption xml:lang="nn">Handsaming av arkiv med Ark</caption>
