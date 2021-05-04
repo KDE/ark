@@ -181,6 +181,7 @@ Comment[ia]=Trvalia con le archivos de file
 Comment[id]=Bekerja dengan arsip-arsip file
 Comment[is]=Vinna með safnskrár
 Comment[it]=Lavora con gli archivi di file
+Comment[ja]=ファイルアーカイブを操作
 Comment[ko]=압축 파일로 작업하기
 Comment[lt]=Dirbti su failų archyvais
 Comment[nl]=Mert bestandsarchieven werken

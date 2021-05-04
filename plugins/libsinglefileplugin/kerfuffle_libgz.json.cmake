@@ -62,6 +62,7 @@
         "Name[hu]": "Gzip bővítmény",
         "Name[ia]": "Plugin de Gzip",
         "Name[it]": "Estensione Gzip",
+        "Name[ja]": "Gzip プラグイン",
         "Name[ko]": "Gzip 플러그인",
         "Name[nl]": "Gzip-plug-in",
         "Name[nn]": "Gzip-tillegg",
