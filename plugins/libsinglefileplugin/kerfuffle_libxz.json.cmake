@@ -62,6 +62,7 @@
         "Name[hu]": "LZMA bővítmény",
         "Name[ia]": "Plugin de LZMA",
         "Name[it]": "Estensione LZMA",
+        "Name[ja]": "LZMA プラグイン",
         "Name[ko]": "LZMA 플러그인",
         "Name[nl]": "LZMA-plug-in",
         "Name[nn]": "LZMA-tillegg",

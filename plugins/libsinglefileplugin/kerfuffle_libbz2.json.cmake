@@ -62,6 +62,7 @@
         "Name[hu]": "Bzip2 bővítmény",
         "Name[ia]": "Plugin d Bzip2",
         "Name[it]": "Estensione Bzip2",
+        "Name[ja]": "Bzip2 プラグイン",
         "Name[ko]": "Bzip2 플러그인",
         "Name[nl]": "Bzip2-plug-in",
         "Name[nn]": "Bzip2-tillegg",
