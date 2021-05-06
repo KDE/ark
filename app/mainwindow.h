@@ -50,6 +50,7 @@ public Q_SLOTS:
 
 protected:
     void closeEvent(QCloseEvent *event) override;
+    QSize sizeHint() const override;
 
 private Q_SLOTS:
     void updateActions();
