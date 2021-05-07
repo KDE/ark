@@ -7,6 +7,7 @@ set(ark_SRCS
     batchextract.cpp
     main.cpp
     mainwindow.cpp
+    welcomescreen.cpp
     ark.qrc
    )
 
@@ -14,6 +15,10 @@ ecm_qt_declare_logging_category(ark_SRCS
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
 				CATEGORY_NAME ark.main DESCRIPTION "Ark Main" EXPORT ARK)
+
+
+ki18n_wrap_ui(ark_SRCS
+    welcomescreen.ui)
 
 # For Mac and Windows.
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*-apps-ark.png")

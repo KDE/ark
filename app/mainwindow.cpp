@@ -5,6 +5,7 @@
  * Copyright (C) 2003: Helio Chissini de Castro <helio@conectiva.com>
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (C) 2021 Jiří Wolker <woljiri@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,6 +31,7 @@
 #include "settingspage.h"
 #include "pluginmanager.h"
 #include "interface.h"
+#include "welcomescreen.h"
 
 #include <KParts/ReadWritePart>
 #include <KPluginFactory>
@@ -51,6 +53,7 @@
 #include <QMimeData>
 #include <QPointer>
 #include <QStatusBar>
+#include <QStackedWidget>
 
 static bool isValidArchiveDrag(const QMimeData *data)
 {
@@ -59,11 +62,17 @@ static bool isValidArchiveDrag(const QMimeData *data)
 
 MainWindow::MainWindow(QWidget *)
         : KParts::MainWindow()
+        , m_welcomeScreen(new WelcomeScreen(this))
+        , m_windowContents(new QStackedWidget(this))
 {
     setupActions();
     setAcceptDrops(true);
     // Ark doesn't provide a fullscreen mode; remove the corresponding window button
     setWindowFlags(windowFlags() & ~Qt::WindowFullscreenButtonHint);
+
+    setCentralWidget(m_windowContents);
+    m_windowContents->addWidget(m_welcomeScreen);
+    showWelcomeScreen();
 }
 
 MainWindow::~MainWindow()
@@ -71,6 +80,7 @@ MainWindow::~MainWindow()
     guiFactory()->removeClient(m_part);
     delete m_part;
     m_part = nullptr;
+    m_welcomeScreen = nullptr;
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent * event)
@@ -136,7 +146,7 @@ bool MainWindow::loadPart()
     }
 
     m_part->setObjectName(QStringLiteral("ArkPart"));
-    setCentralWidget(m_part->widget());
+    m_windowContents->addWidget(m_part->widget());
 
     setXMLFile(QStringLiteral("arkui.rc"));
     setupGUI(ToolBar | Keys | Save);
@@ -145,6 +155,7 @@ bool MainWindow::loadPart()
     statusBar()->hide();
 
     connect(m_part, SIGNAL(ready()), this, SLOT(updateActions()));
+    connect(m_part, SIGNAL(ready()), this, SLOT(hideWelcomeScreen()));
     connect(m_part, SIGNAL(quit()), this, SLOT(quit()));
     // #365200: this will disable m_recentFilesAction, while openUrl() will enable it.
     // So updateActions() needs to be called after openUrl() returns.
@@ -154,6 +165,17 @@ bool MainWindow::loadPart()
     updateActions();
 
     return true;
+}
+
+void MainWindow::showWelcomeScreen()
+{
+    m_windowContents->setCurrentWidget(m_welcomeScreen);
+}
+
+void MainWindow::hideWelcomeScreen()
+{
+    Q_ASSERT(m_part->widget());
+    m_windowContents->setCurrentWidget(m_part->widget());
 }
 
 void MainWindow::setupActions()
@@ -169,6 +191,10 @@ void MainWindow::setupActions()
     connect(m_recentFilesMenu, &KRecentFilesMenu::urlTriggered, this, &MainWindow::openUrl);
 
     KStandardAction::preferences(this, &MainWindow::showSettings, actionCollection());
+
+    // Connect the welcome screen to actions created above
+    connect(m_welcomeScreen, &WelcomeScreen::newClicked, m_newAction, &QAction::trigger);
+    connect(m_welcomeScreen, &WelcomeScreen::openClicked, m_openAction, &QAction::trigger);
 }
 
 void MainWindow::updateActions()

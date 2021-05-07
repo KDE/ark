@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2007 Henrique Pinto <henrique.pinto@kdemail.net>
  * Copyright (C) 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
+ * Copyright (C) 2021 Jiří Wolker <woljiri@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,6 +25,9 @@
 
 #include <KParts/MainWindow>
 #include <KParts/OpenUrlArguments>
+#include <QStackedWidget>
+
+#include "welcomescreen.h"
 
 namespace KParts
 {
@@ -48,6 +52,9 @@ public Q_SLOTS:
     void openUrl(const QUrl &url);
     void setShowExtractDialog(bool);
 
+    void showWelcomeScreen();
+    void hideWelcomeScreen();
+
 protected:
     void closeEvent(QCloseEvent *event) override;
     QSize sizeHint() const override;
@@ -69,6 +76,8 @@ private:
     QAction               *m_openAction;
     QAction               *m_newAction;
     KParts::OpenUrlArguments m_openArgs;
+    WelcomeScreen         *m_welcomeScreen;
+    QStackedWidget        *m_windowContents;
 };
 
 #endif // MAINWINDOW_H
