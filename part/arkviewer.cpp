@@ -248,6 +248,17 @@ KService::Ptr ArkViewer::getInternalViewer(const QString& mimeType)
         offers.erase(khtmlPart);
     }
 
+
+    // The oktetapart can open any file, but a hex viewer isn't really useful here
+    // Skip it so we prefer an external viewer instead
+    auto oktetaPart = std::find_if(offers.begin(), offers.end(), [](KService::Ptr service) {
+        return service->desktopEntryName() == QLatin1String("oktetapart");
+    });
+
+    if (oktetaPart != offers.end()) {
+        offers.erase(oktetaPart);
+    }
+
     if (!offers.isEmpty()) {
         return offers.first();
     } else {
