@@ -49,5 +49,7 @@
             "KFileItemAction/Plugin"
         ]
     },
-    "MimeType": "application/octet-stream;"
+    "MimeType": "application/octet-stream;",
+    "X-KDE-Require": "Write",
+    "X-KDE-Show-In-Submenu": "true"
 }

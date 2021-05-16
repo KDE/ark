@@ -51,5 +51,6 @@
         ]
     },
     "MimeType": "application/octet-stream;inode/directory;",
-    "X-KDE-Require": "Write"
+    "X-KDE-Require": "Write",
+    "X-KDE-Show-In-Submenu": "true"
 }
