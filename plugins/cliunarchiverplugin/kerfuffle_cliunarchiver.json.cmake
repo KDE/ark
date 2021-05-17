@@ -11,6 +11,7 @@
         "Description[ia]": "Aperir e extraher archivos RAR e LHA ",
         "Description[it]": "Apri ed estrai archivi RAR e LHA",
         "Description[ja]": "RAR と LHA アーカイブの閲覧と展開",
+        "Description[ko]": "RAR 및 LHA 압축 파일 열고 풀기",
         "Description[nl]": "Open en pak RAR- en LHA-archieven uit",
         "Description[nn]": "Opna og pakk ut RAR- og LHA-arkiv",
         "Description[pl]": "Otwiera i wypakowuje archiwa RAR oraz LHA",
