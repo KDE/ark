@@ -46,9 +46,6 @@
         "Name[x-test]": "xx'Compress' service menuxx",
         "Name[zh_CN]": "“压缩”服务菜单",
         "Name[zh_TW]": "「壓縮」服務選單",
-        "ServiceTypes": [
-            "KFileItemAction/Plugin"
-        ]
     },
     "MimeType": "application/octet-stream;inode/directory;",
     "X-KDE-Require": "Write"

@@ -84,9 +84,6 @@
         "Name[x-test]": "xxInfo-zip pluginxx",
         "Name[zh_CN]": "Info-zip 插件",
         "Name[zh_TW]": "Info-zip 外掛程式",
-        "ServiceTypes": [
-            "Kerfuffle/Plugin"
-        ],
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [

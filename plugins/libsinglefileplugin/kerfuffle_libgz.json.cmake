@@ -83,9 +83,6 @@
         "Name[x-test]": "xxGzip pluginxx",
         "Name[zh_CN]": "Gzip 插件",
         "Name[zh_TW]": "Gzip 外掛程式",
-        "ServiceTypes": [
-            "Kerfuffle/Plugin"
-        ],
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Priority": 100

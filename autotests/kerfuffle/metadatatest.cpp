@@ -58,7 +58,6 @@ void MetaDataTest::testPluginLoading()
 void MetaDataTest::testPluginMetadata()
 {
     for (const KPluginMetaData& metaData : qAsConst(m_plugins)) {
-        QVERIFY(metaData.serviceTypes().contains(QLatin1String("Kerfuffle/Plugin")));
         QVERIFY(!metaData.mimeTypes().isEmpty());
 
         const QJsonObject json = metaData.rawData();

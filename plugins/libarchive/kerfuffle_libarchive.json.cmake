@@ -84,9 +84,6 @@
         "Name[x-test]": "xxLibarchive pluginxx",
         "Name[zh_CN]": "Libarchive 插件",
         "Name[zh_TW]": "Libarchive 外掛程式",
-        "ServiceTypes": [
-            "Kerfuffle/Plugin"
-        ],
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Kerfuffle-ReadWrite": true,

@@ -45,9 +45,6 @@
         "Name[x-test]": "xx'Extract' service menuxx",
         "Name[zh_CN]": "“解压缩”服务菜单",
         "Name[zh_TW]": "「解壓縮」服務選單",
-        "ServiceTypes": [
-            "KFileItemAction/Plugin"
-        ]
     },
     "MimeType": "application/octet-stream;"
 }

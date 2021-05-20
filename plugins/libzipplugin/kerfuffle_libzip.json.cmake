@@ -78,9 +78,6 @@
         "Name[x-test]": "xxLibzip pluginxx",
         "Name[zh_CN]": "Libzip 插件",
         "Name[zh_TW]": "Libzip 外掛程式",
-        "ServiceTypes": [
-            "Kerfuffle/Plugin"
-        ],
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Kerfuffle-ReadWrite": true,

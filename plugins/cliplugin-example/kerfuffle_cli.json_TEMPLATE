@@ -5,9 +5,6 @@
             "TODO"
         ],
         "Name": "TODO archive plugin",
-        "ServiceTypes": [
-            "Kerfuffle/Plugin"
-        ],
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Kerfuffle-ReadWrite": true,

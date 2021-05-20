@@ -83,9 +83,6 @@
         "Name[x-test]": "xxBzip2 pluginxx",
         "Name[zh_CN]": "Bzip2 插件",
         "Name[zh_TW]": "Bzip2 外掛程式",
-        "ServiceTypes": [
-            "Kerfuffle/Plugin"
-        ],
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Priority": 100

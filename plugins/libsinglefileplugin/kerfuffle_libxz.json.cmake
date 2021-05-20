@@ -83,9 +83,6 @@
         "Name[x-test]": "xxLZMA pluginxx",
         "Name[zh_CN]": "LZMA 插件",
         "Name[zh_TW]": "LZMA 外掛程式",
-        "ServiceTypes": [
-            "Kerfuffle/Plugin"
-        ],
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Priority": 100

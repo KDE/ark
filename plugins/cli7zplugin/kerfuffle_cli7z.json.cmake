@@ -84,9 +84,6 @@
         "Name[x-test]": "xxP7zip pluginxx",
         "Name[zh_CN]": "P7zip 插件",
         "Name[zh_TW]": "P7zip 外掛程式",
-        "ServiceTypes": [
-            "Kerfuffle/Plugin"
-        ],
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [

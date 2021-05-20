@@ -84,9 +84,6 @@
         "Name[x-test]": "xxLibarchive plugin (read-only formats)xx",
         "Name[zh_CN]": "Libarchive 插件 (只读格式)",
         "Name[zh_TW]": "Libarchive 外掛程式（唯讀格式）",
-        "ServiceTypes": [
-            "Kerfuffle/Plugin"
-        ],
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Kerfuffle-ReadWrite": false,

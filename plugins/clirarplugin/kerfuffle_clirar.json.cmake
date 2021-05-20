@@ -84,9 +84,6 @@
         "Name[x-test]": "xxRAR pluginxx",
         "Name[zh_CN]": "RAR 插件",
         "Name[zh_TW]": "RAR 外掛程式",
-        "ServiceTypes": [
-            "Kerfuffle/Plugin"
-        ],
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [
