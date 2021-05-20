@@ -26,7 +26,7 @@
 #ifndef QSTRINGTOKENIZER_H
 #define QSTRINGTOKENIZER_H
 
-#include <QtCore/qnamespace.h>
+#include <qnamespace.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -146,7 +146,7 @@ private:
     Needle m_needle;
 };
 
-#include <QtCore/qstringview.h>
+#include <qstringview.h>
 
 namespace QtPrivate {
 namespace Tok {
