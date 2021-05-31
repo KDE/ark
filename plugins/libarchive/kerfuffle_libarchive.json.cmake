@@ -128,12 +128,12 @@
         "CompressionLevelMax": 9,
         "CompressionLevelMin": 0
     },
-    "application/zstd": {
+    "application/x-zstd-compressed-tar": {
         "CompressionLevelDefault": 3,
         "CompressionLevelMax": 22,
         "CompressionLevelMin": 1
     },
-    "application/x-zstd-compressed-tar": {
+    "application/zstd": {
         "CompressionLevelDefault": 3,
         "CompressionLevelMax": 22,
         "CompressionLevelMin": 1
