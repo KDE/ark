@@ -24,7 +24,6 @@
 
 #include "ui_welcomescreen.h"
 
-#include <QFrame>
 
 class WelcomeScreen: public QWidget, Ui::WelcomeScreen
 {

@@ -21,6 +21,7 @@
 
 #include "factory.h"
 #include "part.h"
+#include <KPluginMetaData>
 
 QObject *Factory::create(const char *iface, QWidget *parentWidget, QObject *parent, const QVariantList &args, const QString &keyword)
 {

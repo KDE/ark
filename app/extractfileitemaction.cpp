@@ -24,12 +24,10 @@
 
 #include <QFileInfo>
 #include <QMenu>
-#include <QGuiApplication>
 
 #include <KIO/OpenFileManagerWindowJob>
 #include <KLocalizedString>
 #include <KPluginFactory>
-#include <KService>
 
 #include "mimetypes.h"
 #include "pluginmanager.h"

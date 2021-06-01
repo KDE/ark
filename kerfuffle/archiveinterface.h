@@ -33,6 +33,8 @@
 #include "kerfuffle_export.h"
 #include "archiveentry.h"
 
+#include <KPluginMetaData>
+
 #include <QObject>
 #include <QStringList>
 #include <QString>

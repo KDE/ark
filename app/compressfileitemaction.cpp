@@ -25,17 +25,13 @@
 #include <QMenu>
 #include <QMimeDatabase>
 
-#include <KDialogJobUiDelegate>
 #include <KFileItem>
 #include <KIO/ApplicationLauncherJob>
 #include <KLocalizedString>
 #include <KPluginFactory>
-#include <KService>
 
 #include <algorithm>
 #include <KIO/OpenFileManagerWindowJob>
-#include <QDir>
-#include <QGuiApplication>
 
 #include "pluginmanager.h"
 #include "addtoarchive.h"

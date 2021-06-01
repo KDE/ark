@@ -47,7 +47,6 @@
 #include <KPluginMetaData>
 #include <KActionCollection>
 #include <KConfigGroup>
-#include <KGuiItem>
 #include <KIO/ApplicationLauncherJob>
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
@@ -66,20 +65,17 @@
 #include <QCursor>
 #include <QHeaderView>
 #include <QMenu>
-#include <QMimeData>
-#include <QMouseEvent>
-#include <QScopedPointer>
 #include <QStatusBar>
 #include <QPointer>
 #include <QSplitter>
 #include <QTimer>
 #include <QFileDialog>
 #include <QIcon>
-#include <QInputDialog>
 #include <QFileSystemWatcher>
 #include <QGroupBox>
 #include <QPlainTextEdit>
 #include <QPushButton>
+#include <QLineEdit>
 
 using namespace Kerfuffle;
 

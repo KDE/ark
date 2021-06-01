@@ -29,7 +29,6 @@
 
 #include <KLocalizedString>
 #include <KPluginFactory>
-#include <KPtyProcess>
 
 using namespace Kerfuffle;
 

@@ -32,7 +32,6 @@
 #include "options.h"
 
 #include <KJob>
-#include <KPluginMetaData>
 #include <kcoreaddons_version.h>
 
 #include <QHash>

@@ -34,7 +34,6 @@
 #include <QApplication>
 #include <QDBusConnection>
 #include <QMimeData>
-#include <QMimeDatabase>
 #include <QRegularExpression>
 #include <QStyle>
 #include <QUrl>
