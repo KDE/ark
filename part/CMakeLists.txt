@@ -1,4 +1,6 @@
-set(arkpart_PART_SRCS
+add_library(arkpart MODULE)
+
+target_sources(arkpart PRIVATE
     factory.cpp
     part.cpp
     infopanel.cpp
@@ -11,19 +13,18 @@ set(arkpart_PART_SRCS
     arkpart.qrc
     )
 
-ecm_qt_declare_logging_category(arkpart_PART_SRCS
+ecm_qt_declare_logging_category(arkpart
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
                                 CATEGORY_NAME ark.part DESCRIPTION "Ark KPart" EXPORT ARK)
-
-qt5_add_dbus_adaptor(arkpart_PART_SRCS dnddbusinterface.xml part.h Ark::Part)
-
-ki18n_wrap_ui(arkpart_PART_SRCS
+set(ark_adaptor_SRCS)
+qt5_add_dbus_adaptor(ark_adaptor_SRCS dnddbusinterface.xml part.h Ark::Part)
+target_sources(arkpart PRIVATE ${ark_adaptor_SRCS})
+ki18n_wrap_ui(arkpart
     arkviewer.ui
     infopanel.ui
     jobtracker.ui)
 
-add_library(arkpart MODULE ${arkpart_PART_SRCS})
 
 target_link_libraries(arkpart kerfuffle KF5::Parts KF5::KIOFileWidgets KF5::ItemModels)
 

@@ -1,6 +1,7 @@
 ########### next target ###############
 
-set(kerfuffle_SRCS
+add_library(kerfuffle SHARED)
+target_sources(kerfuffle PRIVATE
     archiveformat.cpp
     archive_kerfuffle.cpp
     archiveinterface.cpp
@@ -28,9 +29,9 @@ set(kerfuffle_SRCS
     qstringtokenizer.cpp
 )
 
-kconfig_add_kcfg_files(kerfuffle_SRCS settings.kcfgc GENERATE_MOC)
+kconfig_add_kcfg_files(kerfuffle settings.kcfgc GENERATE_MOC)
 
-ki18n_wrap_ui(kerfuffle_SRCS
+ki18n_wrap_ui(kerfuffle
     createdialog.ui
     extractiondialog.ui
     extractionsettingspage.ui
@@ -41,12 +42,11 @@ ki18n_wrap_ui(kerfuffle_SRCS
     compressionoptionswidget.ui
 )
 
-ecm_qt_declare_logging_category(kerfuffle_SRCS
+ecm_qt_declare_logging_category(kerfuffle
                                 HEADER ark_debug.h
                                 IDENTIFIER ARK
                                 CATEGORY_NAME ark.kerfuffle DESCRIPTION "Ark Kerfuffle" EXPORT ARK)
 
-add_library(kerfuffle SHARED ${kerfuffle_SRCS})
 generate_export_header(kerfuffle BASE_NAME kerfuffle)
 
 if (APPLE)
