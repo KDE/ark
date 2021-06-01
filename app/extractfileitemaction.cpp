@@ -31,8 +31,6 @@
 #include <KPluginFactory>
 #include <KService>
 
-#include <kio_version.h>
-
 #include "mimetypes.h"
 #include "pluginmanager.h"
 #include "batchextract.h"
@@ -130,9 +128,7 @@ QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& n
         batchExtractJob->start();
         connect(batchExtractJob, &KJob::finished, this, [this, batchExtractJob](){
             if (!batchExtractJob->errorString().isEmpty()) {
-                #if KIO_VERSION >= QT_VERSION_CHECK(5, 82, 0)
                 Q_EMIT error(batchExtractJob->errorString());
-                #endif
             }
         });
     });

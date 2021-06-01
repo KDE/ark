@@ -165,10 +165,8 @@ namespace Tok {
     template <> struct ViewForImpl<char16_t>    : ViewForImpl<QChar> {};
     template <> struct ViewForImpl<char16_t*>   : ViewForImpl<QStringView> {};
     template <> struct ViewForImpl<const char16_t*> : ViewForImpl<QStringView> {};
-#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     template <typename LHS, typename RHS>
     struct ViewForImpl<QStringBuilder<LHS, RHS>> : ViewForImpl<typename QStringBuilder<LHS,RHS>::ConvertTo> {};
-#endif
     template <typename Char, typename...Args>
     struct ViewForImpl<std::basic_string<Char, Args...>> : ViewForImpl<Char*> {};
 #ifdef __cpp_lib_string_view

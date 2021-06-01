@@ -32,8 +32,6 @@
 #include <KPluginFactory>
 #include <KService>
 
-#include <kio_version.h>
-
 #include <algorithm>
 #include <KIO/OpenFileManagerWindowJob>
 #include <QDir>
@@ -127,9 +125,7 @@ QAction *CompressFileItemAction::createAction(const QIcon& icon, const QString& 
             if (addToArchiveJob->error() == 0) {
                 KIO::highlightInFileManager({QUrl::fromLocalFile(addToArchiveJob->fileName())});
             } else if (!addToArchiveJob->errorString().isEmpty()) {
-                #if KIO_VERSION >= QT_VERSION_CHECK(5, 82, 0)
                 Q_EMIT error(addToArchiveJob->errorString());
-                #endif
             }
         });
     });

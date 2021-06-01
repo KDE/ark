@@ -429,11 +429,7 @@ void ArchiveModel::slotEntryRemoved(const QString & path)
         return;
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    Archive::Entry *entry = m_rootEntry->findByPath(entryFileName.split(QLatin1Char('/'), QString::SkipEmptyParts));
-#else
     Archive::Entry *entry = m_rootEntry->findByPath(entryFileName.split(QLatin1Char('/'), Qt::SkipEmptyParts));
-#endif
     if (entry) {
         Archive::Entry *parent = entry->getParent();
         QModelIndex index = indexForEntry(entry);
@@ -730,11 +726,7 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
     // We can't accept destination as an argument, because it can be a new entry path for renaming.
     const Archive::Entry *destination;
     {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        QStringList destinationParts = entries.first().split(QLatin1Char('/'), QString::SkipEmptyParts);
-#else
         QStringList destinationParts = entries.first().split(QLatin1Char('/'), Qt::SkipEmptyParts);
-#endif
         destinationParts.removeLast();
         if (destinationParts.count() > 0) {
             destination = m_rootEntry->findByPath(destinationParts);
@@ -757,11 +749,7 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
         }
 
         bool isDir = entry.right(1) == QLatin1String("/");
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        const Archive::Entry *archiveEntry = lastDirEntry->find(entry.split(QLatin1Char('/'), QString::SkipEmptyParts).last());
-#else
         const Archive::Entry *archiveEntry = lastDirEntry->find(entry.split(QLatin1Char('/'), Qt::SkipEmptyParts).last());
-#endif
 
         if (archiveEntry != nullptr) {
             if (archiveEntry->isDir() != isDir || !allowMerging) {

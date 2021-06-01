@@ -214,11 +214,7 @@ QStringList ReadOnlyArchiveInterface::entryPathsFromDestination(QStringList entr
             }
             newPath = destinationPath + entryPath.right(charsCount);
         } else {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-            const QString name = entryPath.split(QLatin1Char('/'), QString::SkipEmptyParts).last();
-#else
             const QString name = entryPath.split(QLatin1Char('/'), Qt::SkipEmptyParts).last();
-#endif
             if (entriesWithoutChildren != 1) {
                 newPath = destinationPath + name;
                 if (entryPath.right(1) == QLatin1String("/")) {

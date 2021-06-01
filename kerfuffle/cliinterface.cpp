@@ -182,11 +182,7 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
         qCDebug(ARK) << "Changing working dir again to " << m_extractTempDir->path();
         QDir::setCurrent(m_extractTempDir->path());
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-        filesToPass.push_back(new Archive::Entry(preservedParent, destinationPath.split(QLatin1Char('/'), QString::SkipEmptyParts).at(0)));
-#else
         filesToPass.push_back(new Archive::Entry(preservedParent, destinationPath.split(QLatin1Char('/'), Qt::SkipEmptyParts).at(0)));
-#endif
     } else {
         filesToPass = files;
     }
