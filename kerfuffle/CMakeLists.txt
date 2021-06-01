@@ -62,7 +62,7 @@ PUBLIC
     KF5::I18n
     KF5::WidgetsAddons
 PRIVATE
-    Qt5::Concurrent
+    Qt::Concurrent
     KF5::ConfigCore
     KF5::KIOCore
     KF5::KIOWidgets

@@ -5,4 +5,4 @@ set(TESTHELPER_SOURCES
     testhelper.cpp)
 
 add_library(testhelper STATIC ${TESTHELPER_SOURCES})
-target_link_libraries(testhelper Qt5::Test kerfuffle)
+target_link_libraries(testhelper Qt::Test kerfuffle)

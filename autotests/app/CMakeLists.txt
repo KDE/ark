@@ -4,6 +4,6 @@ ecm_add_test(
     batchextracttest.cpp
     ${CMAKE_SOURCE_DIR}/app/batchextract.cpp
     ${CMAKE_BINARY_DIR}/app/ark_debug.cpp
-    LINK_LIBRARIES Qt5::Test KF5::KIOFileWidgets kerfuffle
+    LINK_LIBRARIES Qt::Test KF5::KIOFileWidgets kerfuffle
     TEST_NAME batchextracttest
     NAME_PREFIX app-)

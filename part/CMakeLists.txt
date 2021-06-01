@@ -18,7 +18,7 @@ ecm_qt_declare_logging_category(arkpart
                                 IDENTIFIER ARK
                                 CATEGORY_NAME ark.part DESCRIPTION "Ark KPart" EXPORT ARK)
 set(ark_adaptor_SRCS)
-qt5_add_dbus_adaptor(ark_adaptor_SRCS dnddbusinterface.xml part.h Ark::Part)
+qt_add_dbus_adaptor(ark_adaptor_SRCS dnddbusinterface.xml part.h Ark::Part)
 target_sources(arkpart PRIVATE ${ark_adaptor_SRCS})
 ki18n_wrap_ui(arkpart
     arkviewer.ui

@@ -9,6 +9,6 @@ ecm_add_test(
     clirartest.cpp
     ${CMAKE_SOURCE_DIR}/plugins/clirarplugin/cliplugin.cpp
     ${CMAKE_BINARY_DIR}/plugins/clirarplugin/ark_debug.cpp
-    LINK_LIBRARIES testhelper kerfuffle Qt5::Test
+    LINK_LIBRARIES testhelper kerfuffle Qt::Test
     TEST_NAME clirartest
     NAME_PREFIX plugins-)
