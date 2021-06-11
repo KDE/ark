@@ -8,6 +8,7 @@
         "Description[en_GB]": "Open and extract RAR and LHA archives",
         "Description[es]": "Abrir y extraer archivos RAR y LHA",
         "Description[eu]": "Ireki eta erauzi RAR eta LHA artxiboak",
+        "Description[fi]": "Avaa ja pura RAR- ja LHA-arkistoja",
         "Description[fr]": "Ouvre et extrait les archives « RAR » et « LHA »",
         "Description[ia]": "Aperir e extraher archivos RAR e LHA ",
         "Description[it]": "Apri ed estrai archivi RAR e LHA",
