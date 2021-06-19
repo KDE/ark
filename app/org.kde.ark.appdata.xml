@@ -336,7 +336,7 @@
       <caption xml:lang="x-test">xxManaging archives with Arkxx</caption>
       <caption xml:lang="zh-CN">使用 Ark 来管理压缩包文件</caption>
       <caption xml:lang="zh-TW">使用 Ark 管理封存檔</caption>
-      <image width="688" height="553">https://cdn.kde.org/screenshots/ark/ark.png</image>
+      <image>https://cdn.kde.org/screenshots/ark/ark.png</image>
     </screenshot>
   </screenshots>
   <url type="homepage">https://apps.kde.org/ark</url>
