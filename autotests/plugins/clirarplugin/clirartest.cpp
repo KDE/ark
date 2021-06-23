@@ -37,6 +37,13 @@
 
 QTEST_GUILESS_MAIN(CliRarTest)
 
+void initLocale()
+{
+    qputenv("LC_ALL", "en_US.utf-8");
+}
+
+Q_CONSTRUCTOR_FUNCTION(initLocale)
+
 using namespace Kerfuffle;
 
 void CliRarTest::initTestCase()
