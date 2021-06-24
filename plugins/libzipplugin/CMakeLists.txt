@@ -1,5 +1,3 @@
-include(CheckSymbolExists)
-
 set(SUPPORTED_LIBZIP_MIMETYPES "application/zip;")
 
 set(INSTALLED_LIBZIP_PLUGINS "")
@@ -15,10 +13,10 @@ ecm_qt_declare_logging_category(kerfuffle_libzip_SRCS
 # double-quotes of the last mime must NOT be escaped.
 set(SUPPORTED_MIMETYPES "application/zip")
 
-# TODO: replace with version-based check once there is a new libzip release with zstd support
-check_symbol_exists(ZIP_CM_ZSTD "zip.h" HAVE_ZIP_CM_ZSTD)
-if (HAVE_ZIP_CM_ZSTD)
+if(LibZip_VERSION VERSION_GREATER_EQUAL "1.8.0")
     set(ZIP_CM_ZSTD_JSON_LINE "\"Zstd\": \"Zstd\",")
+    set(ZIP_CM_LZMA_JSON_LINE "\"LZMA\": \"LZMA\",")
+    set(ZIP_CM_XZ_JSON_LINE "\"XZ\": \"XZ\",")
 endif()
 
 find_package(ZLIB REQUIRED)
