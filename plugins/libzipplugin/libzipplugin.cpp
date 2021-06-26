@@ -343,18 +343,24 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
                 e->setProperty("method", QStringLiteral("BZip2"));
                 Q_EMIT compressionMethodFound(QStringLiteral("BZip2"));
                 break;
+#ifdef ZIP_CM_ZSTD
             case ZIP_CM_ZSTD:
                 e->setProperty("method", QStringLiteral("Zstd"));
                 Q_EMIT compressionMethodFound(QStringLiteral("Zstd"));
                 break;
+#endif
+#ifdef ZIP_CM_LZMA
             case ZIP_CM_LZMA:
                 e->setProperty("method", QStringLiteral("LZMA"));
                 Q_EMIT compressionMethodFound(QStringLiteral("LZMA"));
                 break;
+#endif
+#ifdef ZIP_CM_XZ
             case ZIP_CM_XZ:
                 e->setProperty("method", QStringLiteral("XZ"));
                 Q_EMIT compressionMethodFound(QStringLiteral("XZ"));
                 break;
+#endif
         }
     }
     if (statBuffer.valid & ZIP_STAT_ENCRYPTION_METHOD) {
