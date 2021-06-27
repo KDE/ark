@@ -30,6 +30,7 @@
 
 #include "kerfuffle_export.h"
 #include "archive_kerfuffle.h"
+#include "archiveformat.h"
 #include "ui_compressionoptionswidget.h"
 
 #include <QMimeType>
@@ -61,6 +62,7 @@ public:
 
 private:
     void updateWidgets();
+    ArchiveFormat getArchiveFormat() const;
 
     QMimeType m_mimetype;
     CompressionOptions m_opts;

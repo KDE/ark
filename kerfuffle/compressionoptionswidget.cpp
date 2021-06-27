@@ -27,7 +27,6 @@
 
 #include "compressionoptionswidget.h"
 #include "ark_debug.h"
-#include "archiveformat.h"
 #include "pluginmanager.h"
 #include "settings.h"
 
@@ -110,10 +109,15 @@ QString CompressionOptionsWidget::password() const
     return pwdWidget->password();
 }
 
-void CompressionOptionsWidget::updateWidgets()
+ArchiveFormat CompressionOptionsWidget::getArchiveFormat() const
 {
     const KPluginMetaData metadata = PluginManager().preferredPluginFor(m_mimetype)->metaData();
-    const ArchiveFormat archiveFormat = ArchiveFormat::fromMetadata(m_mimetype, metadata);
+    return ArchiveFormat::fromMetadata(m_mimetype, metadata);
+}
+
+void CompressionOptionsWidget::updateWidgets()
+{
+    const ArchiveFormat archiveFormat = getArchiveFormat();
     Q_ASSERT(archiveFormat.isValid());
 
     if (archiveFormat.encryptionType() != Archive::Unencrypted) {
@@ -283,7 +287,19 @@ void CompressionOptionsWidget::slotCompMethodChanged(const QString &value)
         } else {
             encMethodComboBox->insertItem(0, QStringLiteral("AES256"));
         }
+    }
 
+    const ArchiveFormat archiveFormat = getArchiveFormat();
+    Q_ASSERT(archiveFormat.isValid());
+
+    if (m_mimetype == QMimeDatabase().mimeTypeForName(QStringLiteral("application/zip"))) {
+
+        if (value == QLatin1String("Zstd")) {
+            compLevelSlider->setMaximum(22);
+        }
+        else {
+            compLevelSlider->setMaximum(archiveFormat.maxCompressionLevel());
+        }
     }
 }
 
