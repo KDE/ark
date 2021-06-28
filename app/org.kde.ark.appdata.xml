@@ -301,6 +301,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>Managing archives with Ark</caption>
+      <caption xml:lang="ar">يدير الأرشيفات بواسطة ارك</caption>
       <caption xml:lang="ast">Xestión d'archivos con Ark</caption>
       <caption xml:lang="az">Arxivlərin Ark ilə idarə edilməsi</caption>
       <caption xml:lang="ca">Gestió d'arxius amb l'Ark</caption>
