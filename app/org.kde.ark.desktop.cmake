@@ -160,6 +160,7 @@ Categories=Qt;KDE;Utility;Archiving;Compression;X-KDE-Utilities-File;
 InitialPreference=3
 StartupWMClass=ark
 Comment=Work with file archives
+Comment[ar]=العمل مع أرشيفات الملفات
 Comment[ast]=Trabaya con archivos
 Comment[az]=Fayl arxivləri ilə işləmək
 Comment[ca]=Treball amb arxius de fitxer
