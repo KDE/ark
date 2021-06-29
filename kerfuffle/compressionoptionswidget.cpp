@@ -109,7 +109,7 @@ QString CompressionOptionsWidget::password() const
     return pwdWidget->password();
 }
 
-ArchiveFormat CompressionOptionsWidget::getArchiveFormat() const
+ArchiveFormat CompressionOptionsWidget::archiveFormat() const
 {
     const KPluginMetaData metadata = PluginManager().preferredPluginFor(m_mimetype)->metaData();
     return ArchiveFormat::fromMetadata(m_mimetype, metadata);
@@ -117,7 +117,7 @@ ArchiveFormat CompressionOptionsWidget::getArchiveFormat() const
 
 void CompressionOptionsWidget::updateWidgets()
 {
-    const ArchiveFormat archiveFormat = getArchiveFormat();
+    const ArchiveFormat archiveFormat = this->archiveFormat();
     Q_ASSERT(archiveFormat.isValid());
 
     if (archiveFormat.encryptionType() != Archive::Unencrypted) {
@@ -289,15 +289,14 @@ void CompressionOptionsWidget::slotCompMethodChanged(const QString &value)
         }
     }
 
-    const ArchiveFormat archiveFormat = getArchiveFormat();
+    const ArchiveFormat archiveFormat = this->archiveFormat();
     Q_ASSERT(archiveFormat.isValid());
 
     if (m_mimetype == QMimeDatabase().mimeTypeForName(QStringLiteral("application/zip"))) {
 
         if (value == QLatin1String("Zstd")) {
             compLevelSlider->setMaximum(22);
-        }
-        else {
+        } else {
             compLevelSlider->setMaximum(archiveFormat.maxCompressionLevel());
         }
     }

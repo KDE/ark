@@ -62,7 +62,7 @@ public:
 
 private:
     void updateWidgets();
-    ArchiveFormat getArchiveFormat() const;
+    ArchiveFormat archiveFormat() const;
 
     QMimeType m_mimetype;
     CompressionOptions m_opts;
