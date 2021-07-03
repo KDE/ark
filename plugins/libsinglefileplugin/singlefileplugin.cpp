@@ -30,7 +30,12 @@
 #include <QFile>
 #include <QFileInfo>
 
+#include <karchive_version.h>
+#if KARCHIVE_VERSION >= QT_VERSION_CHECK(5, 85, 0)
+#include <KCompressionDevice>
+#else
 #include <KFilterDev>
+#endif
 #include <KLocalizedString>
 
 LibSingleFileInterface::LibSingleFileInterface(QObject *parent, const QVariantList & args)
@@ -69,7 +74,11 @@ bool LibSingleFileInterface::extractFiles(const QVector<Kerfuffle::Archive::Entr
         return false;
     }
 
+#if KARCHIVE_VERSION >= QT_VERSION_CHECK(5, 85, 0)
+    KCompressionDevice *device = new KCompressionDevice(filename(), KCompressionDevice::compressionTypeForMimeType(m_mimeType));
+#else
     KCompressionDevice *device = new KCompressionDevice(filename(), KFilterDev::compressionTypeForMimeType(m_mimeType));
+#endif
     if (!device) {
         qCCritical(ARK) << "Could not create KCompressionDevice";
         Q_EMIT error(xi18nc("@info", "Ark could not open <filename>%1</filename> for extraction.", filename()));
