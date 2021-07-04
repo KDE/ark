@@ -222,11 +222,12 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
             return true;
         }
     } else {
-        ark_unique_ptr<zip_source_t, zip_source_free> src { zip_source_file(archive, QFile::encodeName(file).constData(), 0, -1) };
-        Q_ASSERT(src.get());
+        zip_source_t *src = zip_source_file(archive, QFile::encodeName(file).constData(), 0, -1);
+        Q_ASSERT(src);
 
-        index = zip_file_add(archive, destFile.constData(), src.get(), ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
+        index = zip_file_add(archive, destFile.constData(), src, ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
         if (index == -1) {
+            zip_source_free(src);
             qCCritical(ARK) << "Could not add entry" << file << ":" << zip_strerror(archive);
             Q_EMIT error(xi18n("Failed to add entry: %1", QString::fromUtf8(zip_strerror(archive))));
             return false;
