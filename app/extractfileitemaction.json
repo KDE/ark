@@ -5,6 +5,7 @@
             "application/octet-stream"
         ],
         "Name": "'Extract' service menu",
+        "Name[ar]": "قائمة خدمة 'استخرج'",
         "Name[ast]": "Menú del serviciu «Extract»",
         "Name[az]": "'Çıxartmaq' xidməti menyusu",
         "Name[ca@valencia]": "Menú de servei «Extreu»",
