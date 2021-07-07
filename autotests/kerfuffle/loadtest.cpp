@@ -238,14 +238,6 @@ void LoadTest::testProperties_data()
                 << false << false << false << false << false << 0 << Archive::Unencrypted
                 << QStringLiteral("simplearchive")
                 << QString();
-
-        /* mimetype "application/zstd" */
-        QTest::newRow("zstd tarball")
-                << QFINDTESTDATA("data/simplearchive.tar.zstd")
-                << QStringLiteral("simplearchive")
-                << false << false << false << false << false << 0 << Archive::Unencrypted
-                << QStringLiteral("simplearchive")
-                << QString();
     } else {
         qDebug() << "zstd executable not found in path. Skipping zstd test.";
     }
