@@ -92,5 +92,35 @@ if (LIBLZMA_FOUND)
     set(INSTALLED_LIBSINGLEFILE_PLUGINS "${INSTALLED_LIBSINGLEFILE_PLUGINS}kerfuffle_libxz;")
 endif (LIBLZMA_FOUND)
 
+#
+# Zstd files
+#
+
+# KArchive supports zstd since 5.82, KArchive_HAVE_ZSTD only available since 5.85
+if(KF5Archive_VERSION VERSION_GREATER_EQUAL "5.85.0")
+    set(HAVE_ZSTD ${KArchive_HAVE_ZSTD})
+else()
+    # repeat dependency check done by KArchive
+    find_package(PkgConfig)
+    pkg_check_modules(LibZstd IMPORTED_TARGET "libzstd")
+    set(HAVE_ZSTD ${LibZstd_FOUND})
+endif()
+
+if (HAVE_ZSTD)
+    set(kerfuffle_libzstd_SRCS zstdplugin.cpp ${kerfuffle_singlefile_SRCS})
+    set(SUPPORTED_LIBSINGLEFILE_MIMETYPES "${SUPPORTED_LIBSINGLEFILE_MIMETYPES}application/zstd;")
+
+    set(SUPPORTED_MIMETYPES "application/zstd")
+
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libzstd.json.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libzstd.json)
+
+    kerfuffle_add_plugin(kerfuffle_libzstd ${kerfuffle_libzstd_SRCS})
+    target_link_libraries(kerfuffle_libzstd KF5::Archive)
+
+    set(INSTALLED_LIBSINGLEFILE_PLUGINS "${INSTALLED_LIBSINGLEFILE_PLUGINS}kerfuffle_libzstd;")
+endif (HAVE_ZSTD)
+
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_LIBSINGLEFILE_MIMETYPES}" PARENT_SCOPE)
 set(INSTALLED_KERFUFFLE_PLUGINS "${INSTALLED_KERFUFFLE_PLUGINS}${INSTALLED_LIBSINGLEFILE_PLUGINS}" PARENT_SCOPE)
