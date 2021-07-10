@@ -134,10 +134,5 @@
         "CompressionLevelDefault": 3,
         "CompressionLevelMax": 22,
         "CompressionLevelMin": 1
-    },
-    "application/zstd": {
-        "CompressionLevelDefault": 3,
-        "CompressionLevelMax": 22,
-        "CompressionLevelMin": 1
     }
 }
