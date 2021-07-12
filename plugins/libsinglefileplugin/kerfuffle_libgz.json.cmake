@@ -13,7 +13,7 @@
         "Description[en_GB]": "Open and extract single files compressed with the gzip algorithm",
         "Description[es]": "Abrir y extraer archivos individuales comprimidos con el algoritmo gzip",
         "Description[et]": "Gzipi algoritmiga pakitud failide avamine ja lahtipakkimine",
-        "Description[eu]": "Ireki eta erauzi gzip algoritmoarekin konprimatutako fitxategiak banaka",
+        "Description[eu]": "Ireki eta erauzi gzip algoritmoarekin konprimatutako fitxategi bakunak",
         "Description[fi]": "Avaa ja pura Gzip-algoritmilla pakattuja yksittäistiedostoja",
         "Description[fr]": "Ouvre et extrait des fichiers compressés avec l'algorithme gzip",
         "Description[gl]": "Abrir e extraer ficheiros individuais comprimidos co algoritmo gzip.",

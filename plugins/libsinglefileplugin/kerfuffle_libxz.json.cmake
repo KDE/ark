@@ -13,7 +13,7 @@
         "Description[en_GB]": "Open and extract single files compressed with the lzma algorithm",
         "Description[es]": "Abrir y extraer archivos individuales comprimidos con el algoritmo lzma",
         "Description[et]": "Lzma algoritmiga pakitud failide avamine ja lahtipakkimine",
-        "Description[eu]": "Ireki eta erauzi lzma algoritmoarekin konprimatutako fitxategiak banaka",
+        "Description[eu]": "Ireki eta erauzi lzma algoritmoarekin konprimatutako fitxategi bakunak",
         "Description[fi]": "Avaa ja pura LZMA-algoritmilla pakattuja yksittäistiedostoja",
         "Description[fr]": "Ouvre et extrait des fichiers compressés avec l'algorithme « lzma »",
         "Description[gl]": "Abrir e extraer ficheiros individuais comprimidos co algoritmo lzma.",

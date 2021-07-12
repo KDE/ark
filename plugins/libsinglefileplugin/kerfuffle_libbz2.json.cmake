@@ -13,7 +13,7 @@
         "Description[en_GB]": "Open and extract single files compressed with the bzip2 algorithm",
         "Description[es]": "Abrir y extraer archivos individuales comprimidos con el algoritmo bzip2",
         "Description[et]": "Bzip2 algoritmiga pakitud failide avamine ja lahtipakkimine",
-        "Description[eu]": "Ireki eta erauzi bzip2 algoritmoarekin konprimatutako fitxategiak banaka",
+        "Description[eu]": "Ireki eta erauzi bzip2 algoritmoarekin konprimatutako fitxategi bakunak",
         "Description[fi]": "Avaa ja pura Bzip2-algoritmilla pakattuja yksittäistiedostoja",
         "Description[fr]": "Ouvre et extrait des fichiers compressés avec l'algorithme bzip2",
         "Description[gl]": "Abrir e extraer ficheiros individuais comprimidos co algoritmo bzip2.",
