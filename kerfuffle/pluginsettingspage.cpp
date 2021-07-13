@@ -67,9 +67,8 @@ PluginSettingsPage::PluginSettingsPage(QWidget *parent, const QString &name, con
 
     // Set the custom property that KConfigDialogManager will use to update the settings.
     kcfg_disabledPlugins->setProperty("kcfg_property", QByteArray("disabledPlugins"));
-    // Tell KConfigDialogManager to monitor the itemChanged signal for a QTreeWidget instance in the dialog.
-    KConfigDialogManager::changedMap()->insert(QString::fromLatin1(QTreeWidget::staticMetaObject.className()),
-                                               SIGNAL(itemChanged(QTreeWidgetItem*,int)));
+    // Set the custom property that KConfigDialogManager will use to monitor signals for changes.
+    kcfg_disabledPlugins->setProperty("kcfg_propertyNotify", QByteArray(SIGNAL(itemChanged(QTreeWidgetItem*,int))));
 }
 
 void PluginSettingsPage::slotSettingsChanged()
