@@ -221,7 +221,7 @@ void AddToArchiveTest::testCompressHere()
     }
 
     QFETCH(QStringList, inputFiles);
-    for (const QString &file : qAsConst(inputFiles)) {
+    for (const QString &file : std::as_const(inputFiles)) {
         addToArchiveJob->addInput(QUrl::fromUserInput(file));
     }
 

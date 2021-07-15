@@ -47,7 +47,7 @@ QStringList CliProperties::addArgs(const QString &archive, const QStringList &fi
     }
 
     QStringList args;
-    for (const QString &s : qAsConst(m_addSwitch)) {
+    for (const QString &s : std::as_const(m_addSwitch)) {
         args << s;
     }
     if (!password.isEmpty()) {
@@ -124,7 +124,7 @@ QStringList CliProperties::extractArgs(const QString &archive, const QStringList
 QStringList CliProperties::listArgs(const QString &archive, const QString &password)
 {
     QStringList args;
-    for (const QString &s : qAsConst(m_listSwitch)) {
+    for (const QString &s : std::as_const(m_listSwitch)) {
         args << s;
     }
 
@@ -161,7 +161,7 @@ QStringList CliProperties::moveArgs(const QString &archive, const QVector<Archiv
 QStringList CliProperties::testArgs(const QString &archive, const QString &password)
 {
     QStringList args;
-    for (const QString &s : qAsConst(m_testSwitch)) {
+    for (const QString &s : std::as_const(m_testSwitch)) {
         args << s;
     }
     if (!password.isEmpty()) {
@@ -293,7 +293,7 @@ QString CliProperties::substituteMultiVolumeSwitch(ulong volumeSize) const
 
 bool CliProperties::isTestPassedMsg(const QString &line)
 {
-    for (const QString &rx : qAsConst(m_testPassedPatterns)) {
+    for (const QString &rx : std::as_const(m_testPassedPatterns)) {
         if (QRegularExpression(rx).match(line).hasMatch()) {
             return true;
         }

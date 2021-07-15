@@ -323,7 +323,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
         for (const QString &fullPath : removedFullPaths) {
             Q_EMIT entryRemoved(fullPath);
         }
-        for (Archive::Entry *e : qAsConst(m_newMovedFiles)) {
+        for (Archive::Entry *e : std::as_const(m_newMovedFiles)) {
             Q_EMIT entry(e);
         }
         m_newMovedFiles.clear();
@@ -649,7 +649,7 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
 
     QString newPath;
     int nameLength = 0;
-    for (const Archive::Entry* entry : qAsConst(entryMap)) {
+    for (const Archive::Entry* entry : std::as_const(entryMap)) {
         if (lastFolder.count() > 0 && entry->fullPath().startsWith(lastFolder)) {
             // Replace last moved or copied folder path with destination path.
             int charsCount = entry->fullPath().count() - lastFolder.count();
@@ -810,7 +810,7 @@ void CliInterface::readStdout(bool handleAll)
         m_stdOutData = lines.takeLast();
     }
 
-    for (const QByteArray& line : qAsConst(lines)) {
+    for (const QByteArray& line : std::as_const(lines)) {
         if (!line.isEmpty() || (m_listEmptyLines && m_operationMode == List)) {
             if (!handleLine(QString::fromLocal8Bit(line))) {
                 killProcess();
@@ -823,7 +823,7 @@ void CliInterface::readStdout(bool handleAll)
 bool CliInterface::setAddedFiles()
 {
     QDir::setCurrent(m_tempAddDir->path());
-    for (const Archive::Entry *file : qAsConst(m_passedFiles)) {
+    for (const Archive::Entry *file : std::as_const(m_passedFiles)) {
         const QString oldPath = m_tempWorkingDir->path() + QLatin1Char('/') + file->fullPath(NoTrailingSlash);
         const QString newPath = m_tempAddDir->path() + QLatin1Char('/') + file->name();
         if (!QFile::rename(oldPath, newPath)) {

@@ -41,7 +41,7 @@ void ExtractHereDndPlugin::slotTriggered()
     batchJob->setAutoSubfolder(true);
     batchJob->setDestinationFolder(m_dest.toDisplayString(QUrl::PreferLocalFile));
     batchJob->setPreservePaths(true);
-    for (const QUrl& url : qAsConst(m_urls)) {
+    for (const QUrl& url : std::as_const(m_urls)) {
         batchJob->addInput(url);
     }
 

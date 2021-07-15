@@ -824,7 +824,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
         }
     }
 
-    for (const QPersistentModelIndex& node : qAsConst(nodesToDelete)) {
+    for (const QPersistentModelIndex& node : std::as_const(nodesToDelete)) {
         Archive::Entry *rawEntry = static_cast<Archive::Entry*>(node.internalPointer());
         qCDebug(ARK) << "Delete with parent entries " << rawEntry->getParent()->entries() << " and row " << rawEntry->row();
         beginRemoveRows(parent(node), rawEntry->row(), rawEntry->row());

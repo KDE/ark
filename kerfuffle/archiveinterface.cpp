@@ -184,7 +184,7 @@ QVector<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const 
 
     QVector<Archive::Entry*> filteredEntries;
     QString lastFolder;
-    for (Archive::Entry *entry : qAsConst(sortedEntries)) {
+    for (Archive::Entry *entry : std::as_const(sortedEntries)) {
         if (lastFolder.count() > 0 && entry->fullPath().startsWith(lastFolder)) {
             continue;
         }
@@ -205,7 +205,7 @@ QStringList ReadOnlyArchiveInterface::entryPathsFromDestination(QStringList entr
 
     QString newPath;
     int nameLength = 0;
-    for (const QString &entryPath : qAsConst(entries)) {
+    for (const QString &entryPath : std::as_const(entries)) {
         if (lastFolder.count() > 0 && entryPath.startsWith(lastFolder)) {
             // Replace last moved or copied folder path with destination path.
             int charsCount = entryPath.count() - lastFolder.count();

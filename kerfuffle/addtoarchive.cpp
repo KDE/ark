@@ -180,7 +180,7 @@ void AddToArchive::slotStartJob()
 
         const QDir stripDir(m_firstPath);
 
-        for (Archive::Entry *entry : qAsConst(m_entries)) {
+        for (Archive::Entry *entry : std::as_const(m_entries)) {
             entry->setFullPath(stripDir.absoluteFilePath(entry->fullPath()));
         }
 

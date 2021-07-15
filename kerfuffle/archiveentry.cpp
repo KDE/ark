@@ -166,7 +166,7 @@ int Archive::Entry::row() const
 
 Archive::Entry *Archive::Entry::find(QStringView name) const
 {
-    for (Entry *entry : qAsConst(m_entries)) {
+    for (Entry *entry : std::as_const(m_entries)) {
         if (entry && (entry->nameView() == name)) {
             return entry;
         }

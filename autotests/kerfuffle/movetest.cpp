@@ -230,12 +230,12 @@ void MoveTest::testMoving()
     QStringList oldPaths = getEntryPaths(archive);
 
     // Check that the entries to be moved are in the archive.
-    for (const auto entry : qAsConst(targetEntries)) {
+    for (const auto entry : std::as_const(targetEntries)) {
         QVERIFY(oldPaths.contains(entry->fullPath()));
     }
 
     // Check that the expected paths (after the MoveJob) are not in the archive.
-    for (const auto &expectedPath : qAsConst(expectedNewPaths)) {
+    for (const auto &expectedPath : std::as_const(expectedNewPaths)) {
         QVERIFY(!oldPaths.contains(expectedPath));
     }
 
@@ -248,12 +248,12 @@ void MoveTest::testMoving()
     QStringList newPaths = getEntryPaths(archive);
 
     // Check that the expected paths are now in the archive.
-    for (const auto &path : qAsConst(expectedNewPaths)) {
+    for (const auto &path : std::as_const(expectedNewPaths)) {
         QVERIFY(newPaths.contains(path));
     }
 
     // Check that the target paths are no longer in the archive.
-    for (const auto entry : qAsConst(targetEntries)) {
+    for (const auto entry : std::as_const(targetEntries)) {
         QVERIFY(!newPaths.contains(entry->fullPath()));
     }
 

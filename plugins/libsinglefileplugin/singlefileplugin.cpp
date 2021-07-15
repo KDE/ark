@@ -155,7 +155,7 @@ const QString LibSingleFileInterface::uncompressedFileName() const
         return uncompressedName;
     }
 
-    for (const QString & extension : qAsConst(m_possibleExtensions)) {
+    for (const QString & extension : std::as_const(m_possibleExtensions)) {
         qCDebug(ARK) << extension;
 
         if (uncompressedName.endsWith(extension, Qt::CaseInsensitive)) {

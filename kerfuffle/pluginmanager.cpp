@@ -56,7 +56,7 @@ QVector<Plugin*> PluginManager::installedPlugins() const
 QVector<Plugin*> PluginManager::availablePlugins() const
 {
     QVector<Plugin*> availablePlugins;
-    for (Plugin *plugin : qAsConst(m_plugins)) {
+    for (Plugin *plugin : std::as_const(m_plugins)) {
         if (plugin->isValid()) {
             availablePlugins << plugin;
         }
@@ -81,7 +81,7 @@ QVector<Plugin*> PluginManager::availableWritePlugins() const
 QVector<Plugin*> PluginManager::enabledPlugins() const
 {
     QVector<Plugin*> enabledPlugins;
-    for (Plugin *plugin : qAsConst(m_plugins)) {
+    for (Plugin *plugin : std::as_const(m_plugins)) {
         if (plugin->isEnabled()) {
             enabledPlugins << plugin;
         }
@@ -253,7 +253,7 @@ QStringList PluginManager::sortByComment(const QSet<QString> &mimeTypes)
 
     // Convert to sorted QStringList.
     QStringList sortedMimeTypes;
-    for (const QString &value : qAsConst(map)) {
+    for (const QString &value : std::as_const(map)) {
         sortedMimeTypes << value;
     }
 

@@ -231,7 +231,7 @@ void CliZipTest::testExtractArgs()
 
     QFETCH(QVector<Archive::Entry*>, files);
     QStringList filesList;
-    for (const Archive::Entry *e : qAsConst(files)) {
+    for (const Archive::Entry *e : std::as_const(files)) {
         filesList << e->fullPath(NoTrailingSlash);
     }
 

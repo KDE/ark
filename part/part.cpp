@@ -1108,7 +1108,7 @@ void Part::slotWatchedFileModified(const QString& file)
 
     // Find the relative path of the file within the archive.
     QString relPath = file;
-    for (QTemporaryDir *tmpDir : qAsConst(m_tmpExtractDirList)) {
+    for (QTemporaryDir *tmpDir : std::as_const(m_tmpExtractDirList)) {
         relPath.remove(tmpDir->path()); //Remove tmpDir.
     }
     relPath.remove(0, 1); //Remove leading slash.
@@ -1454,11 +1454,11 @@ void Part::slotCutFiles()
     m_model->filesToMove = ArchiveModel::entryMap(filesForIndexes(selectedRows));
     qCDebug(ARK) << "Entries marked to cut:" << m_model->filesToMove.values();
     m_model->filesToCopy.clear();
-    for (const QModelIndex &row : qAsConst(m_cutIndexes)) {
+    for (const QModelIndex &row : std::as_const(m_cutIndexes)) {
         m_view->dataChanged(row, row);
     }
     m_cutIndexes = selectedRows;
-    for (const QModelIndex &row : qAsConst(m_cutIndexes)) {
+    for (const QModelIndex &row : std::as_const(m_cutIndexes)) {
         m_view->dataChanged(row, row);
     }
     updateActions();
@@ -1468,7 +1468,7 @@ void Part::slotCopyFiles()
 {
     m_model->filesToCopy = ArchiveModel::entryMap(filesForIndexes(addChildren(getSelectedIndexes())));
     qCDebug(ARK) << "Entries marked to copy:" << m_model->filesToCopy.values();
-    for (const QModelIndex &row : qAsConst(m_cutIndexes)) {
+    for (const QModelIndex &row : std::as_const(m_cutIndexes)) {
         m_view->dataChanged(row, row);
     }
     m_cutIndexes.clear();
@@ -1520,7 +1520,7 @@ void Part::slotPasteFiles()
             m_destination->setFullPath(m_destination->fullPath() + entryName);
         }
 
-        for (const Archive::Entry *entry : qAsConst(entriesWithoutChildren)) {
+        for (const Archive::Entry *entry : std::as_const(entriesWithoutChildren)) {
             if (entry->isDir() && m_destination->fullPath().startsWith(entry->fullPath())) {
                 KMessageBox::error(widget(),
                                    i18n("Folders can't be moved into themselves."),

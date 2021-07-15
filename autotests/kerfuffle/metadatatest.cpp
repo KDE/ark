@@ -57,7 +57,7 @@ void MetaDataTest::testPluginLoading()
 
 void MetaDataTest::testPluginMetadata()
 {
-    for (const KPluginMetaData& metaData : qAsConst(m_plugins)) {
+    for (const KPluginMetaData& metaData : std::as_const(m_plugins)) {
         QVERIFY(!metaData.mimeTypes().isEmpty());
 
         const QJsonObject json = metaData.rawData();
