@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Open and extract single files compressed with the zstd algorithm",
+        "Description[ar]": "يفتح و يستخرج الملفات المفردة المضغوطة باستخدام خوارزمية Zstd",
         "Description[az]": "Zstd alqoritmi ilə sıxılmış tək faylları açmaq və çıxartmaq",
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «zstd»",
         "Description[cs]": "Otevřít a rozbalit jednotlivé soubory komprimované algoritmem zstd",
@@ -23,6 +24,7 @@
             "@SUPPORTED_MIMETYPES@"
         ],
         "Name": "Zstd plugin",
+        "Name[ar]": "ملحق Zstd",
         "Name[az]": "Zstd qoşması",
         "Name[ca]": "Connector del Zstd",
         "Name[cs]": "Modul pro zstd",
