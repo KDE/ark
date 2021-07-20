@@ -20,6 +20,7 @@
         "Description[sv]": "Öppna och packa upp enstaka filer komprimerade med zstd-algoritmen",
         "Description[uk]": "Здатен відкривати і видобувати дані із окремих файлів, стиснених за допомогою алгоритму zstd",
         "Description[x-test]": "xxOpen and extract single files compressed with the zstd algorithmxx",
+        "Description[zh_CN]": "打开和解压 zstd 算法压缩的单个文件",
         "Id": "kerfuffle_libzstd",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -44,6 +45,7 @@
         "Name[sv]": "Zstd-insticksprogram",
         "Name[uk]": "Додаток zstd",
         "Name[x-test]": "xxZstd pluginxx",
+        "Name[zh_CN]": "Zstd 插件",
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Priority": 100
