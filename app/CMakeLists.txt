@@ -86,7 +86,6 @@ target_link_libraries(extracthere kerfuffle KF5::KIOWidgets KF5::KIOFileWidgets)
 
 kcoreaddons_add_plugin(compressfileitemaction
     SOURCES compressfileitemaction.cpp
-    JSON compressfileitemaction.json
     INSTALL_NAMESPACE "kf5/kfileitemaction")
 
 target_link_libraries(compressfileitemaction
@@ -98,7 +97,6 @@ target_link_libraries(compressfileitemaction
 
 kcoreaddons_add_plugin(extractfileitemaction
     SOURCES extractfileitemaction.cpp batchextract.cpp ${CMAKE_CURRENT_BINARY_DIR}/ark_debug.cpp
-    JSON extractfileitemaction.json
     INSTALL_NAMESPACE "kf5/kfileitemaction")
 
 target_link_libraries(extractfileitemaction
