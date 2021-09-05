@@ -2,7 +2,6 @@
     SPDX-FileCopyrightText: 2007 Henrique Pinto <henrique.pinto@kdemail.net>
 
     SPDX-License-Identifier: GPL-2.0-or-later
-
 */
 
 #ifndef INFOPANEL_H

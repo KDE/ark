@@ -3,7 +3,6 @@
     SPDX-FileCopyrightText: 2021 Alexander Lohnau <alexander.lohnau@gmx.de>
 
     SPDX-License-Identifier: GPL-2.0-or-later
-
 */
 
 #include "extractfileitemaction.h"

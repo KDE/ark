@@ -4,7 +4,6 @@
     SPDX-FileCopyrightText: 2004-2008 Henrique Pinto <henrique.pinto@kdemail.net>
 
     SPDX-License-Identifier: GPL-2.0-or-later
-
 */
 
 #ifndef ARKVIEWER_H

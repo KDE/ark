@@ -1,12 +1,10 @@
 /*
+    SPDX-FileCopyrightText: 2004-16 Simon Peter
+    SPDX-FileCopyrightText: 2007 Alexander Larsson
 
-SPDX-FileCopyrightText: 2004-16 Simon Peter
-SPDX-FileCopyrightText: 2007 Alexander Larsson
+    All Rights Reserved.
 
-All Rights Reserved.
-
-SPDX-License-Identifier: MIT
-
+    SPDX-License-Identifier: MIT
 */
 
 #include <sys/types.h>

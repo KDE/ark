@@ -3,7 +3,6 @@
     SPDX-FileCopyrightText: 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
 
     SPDX-License-Identifier: GPL-2.0-or-later
-
 */
 #ifndef JOBTRACKER_H
 #define JOBTRACKER_H

@@ -6,7 +6,6 @@
     SPDX-FileCopyrightText: 2021 Jiří Wolker <woljiri@gmail.com>
 
     SPDX-License-Identifier: GPL-2.0-or-later
-
 */
 
 #include "mainwindow.h"

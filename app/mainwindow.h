@@ -4,7 +4,6 @@
     SPDX-FileCopyrightText: 2021 Jiří Wolker <woljiri@gmail.com>
 
     SPDX-License-Identifier: GPL-2.0-or-later
-
 */
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
