@@ -1,6 +1,6 @@
 /*
-    Copyright (C) 2002-2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
-    Copyright (C) 2003: Helio Chissini de Castro <helio@conectiva.com>
+    SPDX-FileCopyrightText: 2002-2003 Georg Robbers <Georg.Robbers@urz.uni-hd.de>
+    SPDX-FileCopyrightText: 2003 Helio Chissini de Castro <helio@conectiva.com>
     SPDX-FileCopyrightText: 2007 Henrique Pinto <henrique.pinto@kdemail.net>
     SPDX-FileCopyrightText: 2008 Harald Hvaal <haraldhv@stud.ntnu.no>
     SPDX-FileCopyrightText: 2021 Jiří Wolker <woljiri@gmail.com>
