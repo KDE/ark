@@ -1,6 +1,4 @@
 /*
-    ark -- archiver for the KDE project
-
     Copyright (C) 2002-2003: Georg Robbers <Georg.Robbers@urz.uni-hd.de>
     Copyright (C) 2003: Helio Chissini de Castro <helio@conectiva.com>
     SPDX-FileCopyrightText: 2007 Henrique Pinto <henrique.pinto@kdemail.net>

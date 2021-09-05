@@ -1,6 +1,4 @@
 /*
-    ark -- archiver for the KDE project
-
     SPDX-FileCopyrightText: 2016 Ragnar Thomsen <rthomsen6@gmail.com>
 
     SPDX-License-Identifier: BSD-2-Clause

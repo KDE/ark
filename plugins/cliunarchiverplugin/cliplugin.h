@@ -1,6 +1,4 @@
 /*
-    ark -- archiver for the KDE project
-
     SPDX-FileCopyrightText: 2011 Luke Shumaker <lukeshu@sbcglobal.net>
     SPDX-FileCopyrightText: 2016 Elvis Angelaccio <elvis.angelaccio@kde.org>
 

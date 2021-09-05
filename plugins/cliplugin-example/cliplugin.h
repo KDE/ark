@@ -1,6 +1,4 @@
 /*
-    ark -- archiver for the KDE project
-
     SPDX-FileCopyrightText: 2008 Claudio Bantaloukas <rockdreamer@gmail.com>
     SPDX-FileCopyrightText: 2007 Henrique Pinto <henrique.pinto@kdemail.net>
 

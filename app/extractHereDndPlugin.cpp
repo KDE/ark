@@ -1,6 +1,4 @@
 /*
-    ark -- archiver for the KDE project
-
     SPDX-FileCopyrightText: 2009 Harald Hvaal <haraldhv (at@at) stud.ntnu.no>
 
     SPDX-License-Identifier: GPL-2.0-or-later

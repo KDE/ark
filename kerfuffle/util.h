@@ -1,6 +1,4 @@
 /*
-    ark -- archiver for the KDE project
-
     SPDX-FileCopyrightText: 2021 Nicolas Fella <nicolas.fella@gmx.de>
 
     SPDX-License-Identifier: BSD-2-Clause

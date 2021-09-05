@@ -1,6 +1,4 @@
 /*
-    ark -- archiver for the KDE project
-
     SPDX-FileCopyrightText: 2011 Raphael Kubo da Costa <rakuco@FreeBSD.org>
     SPDX-FileCopyrightText: 2016 Vladyslav Batyrenko <mvlabat@gmail.com>
 
