@@ -6,6 +6,7 @@
         "Description[az]": "RAR və LHA arxivlərini açın və çıxarın",
         "Description[ca]": "Obre i extreu arxius RAR i LHA",
         "Description[cs]": "Otevřít a rozbalit archivy RAR a LHA",
+        "Description[da]": "Åbn og udpak RAR- og LHA-arkiver",
         "Description[de]": "Öffnen und Entpacken von RAR- und LHA-Archiven",
         "Description[el]": "Άνοιγμα και εξαγωγή αρχειοθηκών RAR και LHA",
         "Description[en_GB]": "Open and extract RAR and LHA archives",
