@@ -14,7 +14,7 @@
    <string notr="true">MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="mainLayout">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -30,9 +30,6 @@
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <item>
-     <widget class="QWidget" name="m_partPlaceholder" native="true"/>
-    </item>
     <item>
      <widget class="QWidget" name="m_mimeWidget" native="true">
       <property name="sizePolicy">
@@ -74,16 +71,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item>
-        <widget class="QDialogButtonBox" name="m_buttonBox">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="standardButtons">
-          <set>QDialogButtonBox::Close</set>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>

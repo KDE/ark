@@ -47,13 +47,10 @@ ArkViewer::ArkViewer()
 {
     setupUi(this);
 
-    m_buttonBox->button(QDialogButtonBox::Close)->setShortcut(Qt::Key_Escape);
-    // Bug 369390: This prevents the Enter key from closing the window.
-    m_buttonBox->button(QDialogButtonBox::Close)->setAutoDefault(false);
-
-    connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QMainWindow::close);
-
     KStandardAction::close(this, &QMainWindow::close, actionCollection());
+
+    QAction *closeAction = actionCollection()->addAction(QStringLiteral("close"), this, &ArkViewer::close);
+    closeAction->setShortcut(Qt::Key_Escape);
 
     setXMLFile(QStringLiteral("ark_viewer.rc"));
     setupGUI(ToolBar);
@@ -197,7 +194,7 @@ bool ArkViewer::viewInInternalViewer(const KService::Ptr viewer, const QString& 
     }
 
     // Insert the KPart into its placeholder.
-    centralWidget()->layout()->replaceWidget(m_partPlaceholder, m_part.data()->widget());
+    mainLayout->insertWidget(0, m_part->widget());
 
     QAction* action = actionCollection()->addAction(QStringLiteral("help_about_kpart"));
     const KPluginMetaData partMetaData = m_part->metaData();
