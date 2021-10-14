@@ -28,6 +28,7 @@
 #include "pluginmanager.h"
 #include "ark_debug.h"
 #include "settings.h"
+#include "kcoreaddons_version.h"
 
 #include <KPluginLoader>
 #include <KSharedConfig>
@@ -214,7 +215,11 @@ QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const 
 
 void PluginManager::loadPlugins()
 {
+#if KCOREADDONS_VERSION < QT_VERSION_CHECK(5, 86, 0)
     const QVector<KPluginMetaData> plugins = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"));
+#else
+    const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("kerfuffle"));
+#endif
     QSet<QString> addedPlugins;
     for (const KPluginMetaData &metaData : plugins) {
         const auto pluginId = metaData.pluginId();
