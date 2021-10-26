@@ -39,6 +39,7 @@
 
 #include <QElapsedTimer>
 #include <QTemporaryDir>
+#include <QPointer>
 
 namespace Kerfuffle
 {
@@ -215,7 +216,7 @@ protected:
     bool doKill() override;
 
 private:
-    AddJob *m_addJob = nullptr;
+    QPointer<AddJob> m_addJob;
     QVector<Archive::Entry*> m_entries;
     CompressionOptions m_options;
 };
