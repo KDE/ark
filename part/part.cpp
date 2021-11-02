@@ -53,7 +53,6 @@
 #include <QStatusBar>
 #include <QPointer>
 #include <QSplitter>
-#include <QTimer>
 #include <QFileDialog>
 #include <QIcon>
 #include <QFileSystemWatcher>

@@ -16,7 +16,6 @@
 #include "settingspage.h"
 #include "pluginmanager.h"
 #include "interface.h"
-#include "welcomescreen.h"
 
 #include <KParts/ReadWritePart>
 #include <KPluginFactory>
@@ -38,7 +37,6 @@
 #include <QMimeData>
 #include <QPointer>
 #include <QStatusBar>
-#include <QStackedWidget>
 
 static bool isValidArchiveDrag(const QMimeData *data)
 {
