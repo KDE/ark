@@ -27,7 +27,6 @@
 #include <KSharedConfig>
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
-#include <KPluginLoader>
 #include <KConfigSkeleton>
 
 #include <QApplication>
@@ -118,9 +117,7 @@ void MainWindow::dragMoveEvent(QDragMoveEvent * event)
 
 bool MainWindow::loadPart()
 {
-    KPluginFactory *factory = KPluginLoader(QStringLiteral("kf5/parts/arkpart")).factory();
-
-    m_part = factory ? static_cast<KParts::ReadWritePart*>(factory->create<KParts::ReadWritePart>(this)) : nullptr;
+    m_part = KPluginFactory::instantiatePlugin<KParts::ReadWritePart>(KPluginMetaData(QStringLiteral("kf5/parts/arkpart"))).plugin;
 
     if (!m_part) {
         KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));

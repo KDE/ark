@@ -15,7 +15,6 @@
 #include "pluginmanager.h"
 
 #include <KPluginFactory>
-#include <KPluginLoader>
 
 #include <QMimeDatabase>
 #include <QRegularExpression>
@@ -60,15 +59,9 @@ Archive *Archive::create(const QString &fileName, Plugin *plugin, QObject *paren
 
     qCDebug(ARK) << "Checking plugin" << plugin->metaData().pluginId();
 
-    KPluginFactory *factory = KPluginLoader(plugin->metaData().fileName()).factory();
-    if (!factory) {
-        qCWarning(ARK) << "Invalid plugin factory for" << plugin->metaData().pluginId();
-        return new Archive(FailedPlugin, parent);
-    }
-
     const QVariantList args = {QVariant(QFileInfo(fileName).absoluteFilePath()),
                                QVariant().fromValue(plugin->metaData())};
-    ReadOnlyArchiveInterface *iface = factory->create<ReadOnlyArchiveInterface>(nullptr, args);
+    ReadOnlyArchiveInterface *iface = KPluginFactory::instantiatePlugin<ReadOnlyArchiveInterface>(plugin->metaData(), nullptr, args).plugin;
     if (!iface) {
         qCWarning(ARK) << "Could not create plugin instance" << plugin->metaData().pluginId();
         return new Archive(FailedPlugin, parent);

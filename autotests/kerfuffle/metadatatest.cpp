@@ -5,7 +5,6 @@
 */
 
 #include "kcoreaddons_version.h"
-#include <KPluginLoader>
 #include <KPluginMetaData>
 #include <QTest>
 
@@ -26,11 +25,7 @@ private:
 
 void MetaDataTest::initTestCase()
 {
-#if KCOREADDONS_VERSION < QT_VERSION_CHECK(5, 86, 0)
-    m_plugins = KPluginLoader::findPlugins(QStringLiteral("kerfuffle"));
-#else
     m_plugins = KPluginMetaData::findPlugins(QStringLiteral("kerfuffle"));
-#endif
 }
 
 // If a plugin has invalid JSON metadata (e.g. an extra comma somewhere)
