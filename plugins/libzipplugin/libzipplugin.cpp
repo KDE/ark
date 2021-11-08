@@ -998,11 +998,14 @@ QString LibzipPlugin::fromUnixSeparator(const QString& path)
 
 QString LibzipPlugin::toUnixSeparator(const QString& path)
 {
-    if (!path.contains(QLatin1Char('\\'))) {
-        return path;
+    // Even though the two contains may look similar they are not, the first is the \ char
+    // that needs to be escaped, the second is the string with two \ that doesn't need escaping
+    // so they look similar but they aren't
+    if (path.contains(QLatin1Char('\\')) && !path.contains(QLatin1String("\\"))) {
+        m_backslashedZip = true;
+        return QString(path).replace(QLatin1Char('\\'), QLatin1Char('/'));
     }
-    m_backslashedZip = true;
-    return QString(path).replace(QLatin1Char('\\'), QLatin1Char('/'));
+    return path;
 }
 
 bool LibzipPlugin::hasBatchExtractionProgress() const
