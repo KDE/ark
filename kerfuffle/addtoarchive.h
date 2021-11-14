@@ -41,7 +41,7 @@ public:
     void setChangeToFirstPath(bool value);
     QString detectBaseName(const QVector<Archive::Entry*> &entries) const;
 
-    QString fileName()
+    QString fileName() const
     {
         return m_filename;
     }
