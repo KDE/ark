@@ -13,11 +13,18 @@
 
 namespace Kerfuffle
 {
+
+    enum MimePreference {
+        PreferContentsMime,
+        PreferExtensionMime
+    };
+
     /**
      * @param filename Absolute path of a file.
+     * @param mp Whether to prefer extension or contents mime when they disagree.
      * @return The mimetype of the given file.
      */
-    KERFUFFLE_EXPORT QMimeType determineMimeType(const QString& filename);
+    KERFUFFLE_EXPORT QMimeType determineMimeType(const QString& filename, MimePreference mp = PreferContentsMime);
 }
 
 #endif // MIMETYPES_H

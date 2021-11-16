@@ -35,14 +35,20 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     PluginManager pluginManager;
     const QMimeType mimeType = fixedMimeType.isEmpty() ? determineMimeType(fileName) : QMimeDatabase().mimeTypeForName(fixedMimeType);
 
-    const QVector<Plugin*> offers = pluginManager.preferredPluginsFor(mimeType);
+    QVector<Plugin*> offers = pluginManager.preferredPluginsFor(mimeType);
     if (offers.isEmpty()) {
-        qCCritical(ARK) << "Could not find a plugin to handle" << fileName;
-        return new Archive(NoPlugin, parent);
+        if (fixedMimeType.isEmpty()) {
+            const QMimeType extensionMimeType = determineMimeType(fileName, PreferExtensionMime);
+            offers = pluginManager.preferredPluginsFor(extensionMimeType);
+        }
+        if (offers.isEmpty()) {
+            qCCritical(ARK) << "Could not find a plugin to handle" << fileName;
+            return new Archive(NoPlugin, parent);
+        }
     }
 
     Archive *archive = nullptr;
-    for (Plugin *plugin : offers) {
+    for (Plugin *plugin : std::as_const(offers)) {
         archive = create(fileName, plugin, parent);
         // Use the first valid plugin, according to the priority sorting.
         if (archive->isValid()) {
