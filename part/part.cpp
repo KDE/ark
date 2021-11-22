@@ -780,6 +780,7 @@ bool Part::openFile()
 
     if (isCreatingNewArchive()) {
         createArchive();
+        Q_EMIT ready();
         return true;
     }
 
