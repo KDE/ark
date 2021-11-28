@@ -44,6 +44,9 @@ void BatchExtract::addExtraction(const QUrl& url)
 
     auto job = Kerfuffle::Archive::batchExtract(url.toLocalFile(), destination, autoSubfolder(), preservePaths());
 
+    // Do not break ABI
+    job->setProperty("incorrectTryAgain", m_incorrectTryAgain);
+
     qCDebug(ARK) << QString(QStringLiteral("Registering job from archive %1, to %2, preservePaths %3")).arg(url.toLocalFile(), destination, QString::number(preservePaths()));
 
     addSubjob(job);
@@ -227,6 +230,16 @@ void BatchExtract::setOpenDestinationAfterExtraction(bool value)
 void BatchExtract::setPreservePaths(bool value)
 {
     m_preservePaths = value;
+}
+
+bool BatchExtract::incorrectTryAgain() const
+{
+    return m_incorrectTryAgain;
+}
+
+void BatchExtract::setIncorrectTryAgain(bool value)
+{
+    m_incorrectTryAgain = value;
 }
 
 bool BatchExtract::showExtractDialog()

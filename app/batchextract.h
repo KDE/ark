@@ -160,6 +160,21 @@ public:
      */
     void setPreservePaths(bool value);
 
+    /**
+     * Whether to show incorrect password message
+     *
+     * @return @c true  incorrect password message should be shown.
+     * @return @c false incorrect password message should be hidden.
+     */
+    bool incorrectTryAgain() const;
+
+    /**
+     * Sets whether to show incorrect password message.
+     *
+     * @param value whether to show incorrect password message.
+     */
+    void setIncorrectTryAgain(bool value);
+
 private Q_SLOTS:
     /**
      * Updates the percentage of the job that has been completed.
@@ -202,6 +217,7 @@ private:
     QStringList m_failedFiles;
     bool m_preservePaths;
     bool m_openDestinationAfterExtraction;
+    bool m_incorrectTryAgain = false;
 };
 
 #endif // BATCHEXTRACT_H

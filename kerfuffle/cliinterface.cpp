@@ -30,6 +30,8 @@
 #include <QUrl>
 #include <QCoreApplication>
 
+#include "jobs.h"
+
 namespace Kerfuffle
 {
 CliInterface::CliInterface(QObject *parent, const QVariantList & args)
@@ -697,7 +699,7 @@ void CliInterface::killProcess(bool emitFinished)
 
 bool CliInterface::passwordQuery()
 {
-    Kerfuffle::PasswordNeededQuery query(filename());
+    Kerfuffle::PasswordNeededQuery query(filename(), property("incorrectTryAgain").toBool());
     query.execute();
 
     if (query.responseCancelled()) {
@@ -836,7 +838,7 @@ bool CliInterface::handleLine(const QString& line)
         if (isPasswordPrompt(line)) {
             qCDebug(ARK) << "Found a password prompt";
 
-            Kerfuffle::PasswordNeededQuery query(filename());
+            Kerfuffle::PasswordNeededQuery query(filename(), property("incorrectTryAgain").toBool());
             query.execute();
 
             if (query.responseCancelled()) {
@@ -861,7 +863,7 @@ bool CliInterface::handleLine(const QString& line)
         if (isWrongPasswordMsg(line)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
-            Q_EMIT error(i18nc("@info", "Extraction failed: Incorrect password"));
+            Q_EMIT error(i18nc("@info", "Extraction failed: Incorrect password"), QString(), Job::PasswordError);
             return false;
         }
 
@@ -876,7 +878,7 @@ bool CliInterface::handleLine(const QString& line)
         if (isPasswordPrompt(line)) {
             qCDebug(ARK) << "Found a password prompt";
 
-            Kerfuffle::PasswordNeededQuery query(filename());
+            Kerfuffle::PasswordNeededQuery query(filename(), property("incorrectTryAgain").toBool());
             query.execute();
 
             if (query.responseCancelled()) {
@@ -895,7 +897,7 @@ bool CliInterface::handleLine(const QString& line)
         if (isWrongPasswordMsg(line)) {
             qCWarning(ARK) << "Wrong password!";
             setPassword(QString());
-            Q_EMIT error(i18n("Incorrect password."));
+            Q_EMIT error(i18n("Incorrect password."), QString(), Job::PasswordError);
             return false;
         }
 

@@ -26,19 +26,27 @@ class ExtractFileItemAction : public KAbstractFileItemActionPlugin
 Q_OBJECT
 
 public:
+    enum class AdditionalJobOption {
+        None = 1 << 0,
+        ShowDialog = 1 << 1,
+        AutoSubfolder = 1 << 2,
+        AllowRetryPassword = 1 << 3, /**< If the entered password is wrong, allow the user to retry rather than quit directly */
+    };
+    Q_DECLARE_FLAGS(AdditionalJobOptions, AdditionalJobOption)
+
     ExtractFileItemAction(QObject* parent, const QVariantList& args);
 
     QList<QAction*> actions(const KFileItemListProperties& fileItemInfos, QWidget* parentWidget) override;
 
+private Q_SLOTS:
+    void slotActionTriggered();
+
 private:
-    enum AdditionalJobOptions {
-        None,
-        ShowDialog,
-        AutoSubfolder,
-    };
     QAction *createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, AdditionalJobOptions option);
 
     Kerfuffle::PluginManager *m_pluginManager;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(ExtractFileItemAction::AdditionalJobOptions)
 
 #endif

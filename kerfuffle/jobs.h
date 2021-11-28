@@ -30,6 +30,9 @@ class KERFUFFLE_EXPORT Job : public KJob
     Q_OBJECT
 
 public:
+    enum {
+        PasswordError = KJob::UserDefinedError + 1,
+    };
 
     /**
      * @return The archive processed by this job.

@@ -254,6 +254,8 @@ void LoadJob::doWork()
     connectToArchiveInterfaceSignals();
 
     bool ret = archiveInterface()->list();
+    // This is for "unlock to see file list"
+    archiveInterface()->setProperty("incorrectTryAgain", property("incorrectTryAgain"));
 
     if (!archiveInterface()->waitForFinishedSignal()) {
         // onFinished() needs to be called after onNewEntry(), because the former reads members set in the latter.
@@ -363,6 +365,9 @@ void BatchExtractJob::doWork()
     // Forward LoadJob's signals.
     connect(m_loadJob, &Kerfuffle::Job::newEntry, this, &BatchExtractJob::newEntry);
     connect(m_loadJob, &Kerfuffle::Job::userQuery, this, &BatchExtractJob::userQuery);
+
+    m_loadJob->setProperty("incorrectTryAgain", property("incorrectTryAgain"));
+
     m_loadJob->start();
 }
 
@@ -414,6 +419,7 @@ void BatchExtractJob::slotLoadingFinished(KJob *job)
     options.setPreservePaths(m_preservePaths);
 
     m_extractJob = archive()->extractFiles({}, m_destination, options);
+
     if (m_extractJob) {
         connect(m_extractJob, &KJob::result, this, &BatchExtractJob::emitResult);
         connect(m_extractJob, &Kerfuffle::Job::userQuery, this, &BatchExtractJob::userQuery);
@@ -424,6 +430,8 @@ void BatchExtractJob::slotLoadingFinished(KJob *job)
             connect(archiveInterface(), &ReadOnlyArchiveInterface::progress, this, &BatchExtractJob::slotExtractProgress);
         }
         m_step = Extracting;
+        // This is for "can see file list without password"
+        m_extractJob->setProperty("incorrectTryAgain", property("incorrectTryAgain"));
         m_extractJob->start();
     } else {
         emitResult();
@@ -565,6 +573,9 @@ void ExtractJob::doWork()
         onFinished(false);
         return;
     }
+
+    // This is for "can see file list without password"
+    archiveInterface()->setProperty("incorrectTryAgain", property("incorrectTryAgain"));
 
     bool ret = archiveInterface()->extractFiles(m_entries, m_destinationDir, m_options);
 

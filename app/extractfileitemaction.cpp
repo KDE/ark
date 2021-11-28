@@ -14,10 +14,11 @@
 #include <KLocalizedString>
 #include <KPluginFactory>
 
-#include "settings.h"
+#include "batchextract.h"
+#include "jobs.h"
 #include "mimetypes.h"
 #include "pluginmanager.h"
-#include "batchextract.h"
+#include "settings.h"
 
 K_PLUGIN_CLASS_WITH_JSON(ExtractFileItemAction, "extractfileitemaction.json")
 
@@ -60,10 +61,10 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
     }
 
     QAction *extractToAction = createAction(icon,
-                                                 i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive to..."),
-                                                 parentWidget,
-                                                 supportedUrls,
-                                                 AdditionalJobOptions::ShowDialog);
+                                            i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive to..."),
+                                            parentWidget,
+                                            supportedUrls,
+                                            AdditionalJobOption::ShowDialog);
 
     // #189177: disable "extract here" actions in read-only folders.
     if (readOnlyParentDir) {
@@ -75,16 +76,16 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
                                             i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive here"),
                                             parentWidget,
                                             supportedUrls,
-                                            AdditionalJobOptions::None));
+                                            AdditionalJobOption::AllowRetryPassword));
 
         extractMenu->addAction(extractToAction);
 
-        extractMenu->addAction(createAction(icon,
-                                            i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive here, autodetect subfolder"),
-                                            parentWidget,
-                                            supportedUrls,
-                                            AdditionalJobOptions::AutoSubfolder));
-
+        extractMenu->addAction(
+            createAction(icon,
+                         i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive here, autodetect subfolder"),
+                         parentWidget,
+                         supportedUrls,
+                         AdditionalJobOption::AutoSubfolder | AdditionalJobOption::AllowRetryPassword));
 
         QAction *extractMenuAction = new QAction(i18nc("@action:inmenu Extract submenu in Dolphin context menu", "Extract"), parentWidget);
         extractMenuAction->setMenu(extractMenu);
@@ -96,31 +97,60 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
     return actions;
 }
 
-QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, AdditionalJobOptions option)
+void ExtractFileItemAction::slotActionTriggered()
+{
+    auto action = qobject_cast<QAction *>(sender());
+    if (!action) {
+        return;
+    }
+
+    const auto urls = action->property("urls").value<QVariantList>();
+    const auto option = static_cast<AdditionalJobOptions>(action->property("option").toInt());
+    const bool incorrectTryAgain = action->property("incorrectTryAgain").toBool();
+
+    auto batchExtractJob = new BatchExtract(action->parent());
+    batchExtractJob->setDestinationFolder(QFileInfo(urls.first().toUrl().toLocalFile()).path());
+    batchExtractJob->setOpenDestinationAfterExtraction(ArkSettings::openDestinationFolderAfterExtraction());
+    batchExtractJob->setIncorrectTryAgain(incorrectTryAgain);
+
+    if (option & AdditionalJobOption::AutoSubfolder) {
+        batchExtractJob->setAutoSubfolder(true);
+    } else if (option & AdditionalJobOption::ShowDialog) {
+        if (!batchExtractJob->showExtractDialog()) {
+            delete batchExtractJob;
+            return;
+        }
+    }
+
+    for (const QVariant &url : urls) {
+        batchExtractJob->addInput(url.toUrl());
+    }
+
+    batchExtractJob->start();
+    connect(batchExtractJob, &KJob::finished, this, [this, batchExtractJob, action, option]() {
+        if (batchExtractJob->error() == KJob::NoError) {
+            return;
+        }
+
+        if (batchExtractJob->error() == Job::PasswordError && (option & AdditionalJobOption::AllowRetryPassword)) {
+            // If AllowRetryPassword is set, allow the user to type a new password if the entered password is wrong.
+            action->setProperty("incorrectTryAgain", true);
+            action->trigger();
+        } else {
+            Q_EMIT error(batchExtractJob->errorString());
+        }
+    });
+}
+
+QAction *ExtractFileItemAction::createAction(const QIcon &icon, const QString &name, QWidget *parent, const QList<QUrl> &urls, AdditionalJobOptions option)
 {
     QAction *action = new QAction(icon, name, parent);
-    connect(action, &QAction::triggered, this, [urls,name, option, parent,this]() {
-        auto *batchExtractJob = new BatchExtract(parent);
-        batchExtractJob->setDestinationFolder(QFileInfo(urls.first().toLocalFile()).path());
-        batchExtractJob->setOpenDestinationAfterExtraction(ArkSettings::openDestinationFolderAfterExtraction());
-        if (option == AutoSubfolder) {
-            batchExtractJob->setAutoSubfolder(true);
-        } else if (option == ShowDialog) {
-            if (!batchExtractJob->showExtractDialog()) {
-                delete batchExtractJob;
-                return;
-            }
-        }
-        for (const QUrl &url : urls) {
-            batchExtractJob->addInput(url);
-        }
-        batchExtractJob->start();
-        connect(batchExtractJob, &KJob::finished, this, [this, batchExtractJob](){
-            if (!batchExtractJob->errorString().isEmpty()) {
-                Q_EMIT error(batchExtractJob->errorString());
-            }
-        });
-    });
+
+    action->setProperty("urls", QVariantList(urls.cbegin(), urls.cend()));
+    action->setProperty("option", static_cast<int>(option));
+    action->setProperty("incorrectTryAgain", false);
+
+    connect(action, &QAction::triggered, this, &ExtractFileItemAction::slotActionTriggered);
     return action;
 }
 
