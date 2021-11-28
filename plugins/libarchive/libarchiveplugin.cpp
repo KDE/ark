@@ -265,7 +265,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
         }
 
         // Don't allow absolute paths, instead, treat them like relative to the root of the archive.
-        if (entryName.startsWith(QLatin1Char( '/' ))) {
+        while (entryName.startsWith(QLatin1Char('/'))) {
             entryName.remove(0, 1);
         }
 
