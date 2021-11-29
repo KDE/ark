@@ -15,7 +15,7 @@
 namespace Kerfuffle
 {
 
-QMimeType determineMimeType(const QString& filename)
+QMimeType determineMimeType(const QString& filename, MimePreference mp)
 {
     QMimeDatabase db;
 
@@ -111,7 +111,7 @@ QMimeType determineMimeType(const QString& filename)
                        << "). Using content-based mimetype.";
     }
 
-    return mimeFromContent;
+    return mp == PreferExtensionMime ? mimeFromExtension : mimeFromContent;
 }
 
 } // namespace Kerfuffle
