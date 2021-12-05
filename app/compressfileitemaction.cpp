@@ -13,6 +13,7 @@
 #include <KFileItem>
 #include <KIO/ApplicationLauncherJob>
 #include <KLocalizedString>
+#include <KMessageBox>
 #include <KPluginFactory>
 
 #include <algorithm>
@@ -101,6 +102,17 @@ QAction *CompressFileItemAction::createAction(const QIcon& icon, const QString& 
                 return;
             }
         }
+        // clang-format off
+        connect(addToArchiveJob, &AddToArchive::isAboutToProcessManyFiles, this, []() {
+            KMessageBox::information(
+                nullptr,
+                i18nc("@info:usagetip", "A temporary file will be created in the destination folder. After the compression process is complete, the file will be deleted automatically."),
+                QStringLiteral(),
+                QStringLiteral("Show Temporary File Will Be Created Usage Tip"),
+                KMessageBox::Option::Notify
+            );
+        });
+        // clang-format on
         addToArchiveJob->start();
         connect(addToArchiveJob, &KJob::finished, this, [this, addToArchiveJob](){
             if (addToArchiveJob->error() == 0) {

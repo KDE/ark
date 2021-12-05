@@ -474,6 +474,7 @@ void CreateJob::doWork()
         connect(m_addJob, &KJob::description, this, [=](KJob *, const QString &title, const QPair<QString,QString> &field1, const QPair<QString,QString> &) {
             Q_EMIT description(this, title, field1);
         });
+        connect(m_addJob, &Job::isAboutToProcessManyFiles, this, &Job::isAboutToProcessManyFiles); // Relay the signal
 
         m_addJob->start();
     } else {
@@ -635,15 +636,24 @@ void AddJob::doWork()
 
     // Count total number of entries to be added.
     uint totalCount = 0;
+    qlonglong estimatedSize = 0;
     QElapsedTimer timer;
     timer.start();
     for (const Archive::Entry* entry : std::as_const(m_entries)) {
         totalCount++;
-        if (QFileInfo(entry->fullPath()).isDir()) {
+        const QFileInfo fileInfo(entry->fullPath());
+        if (fileInfo.isDir()) {
             QDirIterator it(entry->fullPath(), QDir::AllEntries | QDir::Readable | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
             while (it.hasNext()) {
+                if (estimatedSize < 1e8) {
+                    estimatedSize += it.fileInfo().size();
+                }
                 it.next();
                 totalCount++;
+            }
+        } else {
+            if (estimatedSize < 1e8) {
+                estimatedSize += fileInfo.size();
             }
         }
     }
@@ -670,6 +680,11 @@ void AddJob::doWork()
         }
 
         entry->setFullPath(relativePath);
+    }
+
+    // Notify the user a temporary file will be created when the user tries to compress many files or large files
+    if (totalCount >= 1000 || estimatedSize >= 1e8) {
+        Q_EMIT isAboutToProcessManyFiles();
     }
 
     connectToArchiveInterfaceSignals();

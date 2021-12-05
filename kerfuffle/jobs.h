@@ -65,6 +65,12 @@ protected Q_SLOTS:
 
 Q_SIGNALS:
     void entryRemoved(const QString & entry);
+
+    /**
+     * Emitted when a large number of files or large files are going to be processed.
+     */
+    void isAboutToProcessManyFiles();
+
     void newEntry(Archive::Entry*);
     void userQuery(Kerfuffle::Query*);
 

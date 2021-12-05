@@ -55,6 +55,12 @@ public Q_SLOTS:
     void setHeaderEncryptionEnabled(bool enabled);
     void start() override;
 
+Q_SIGNALS:
+    /**
+     * Emitted when a large number of files or large files are going to be compressed.
+     */
+    void isAboutToProcessManyFiles();
+
 protected:
     bool doKill() override;
 

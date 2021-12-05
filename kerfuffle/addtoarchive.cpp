@@ -174,6 +174,7 @@ void AddToArchive::slotStartJob()
     }
 
     KIO::getJobTracker()->registerJob(m_createJob);
+    connect(m_createJob, &CreateJob::isAboutToProcessManyFiles, this, &AddToArchive::isAboutToProcessManyFiles); // Relay the signal
     connect(m_createJob, &KJob::result, this, &AddToArchive::slotFinished);
     m_createJob->start();
 }
