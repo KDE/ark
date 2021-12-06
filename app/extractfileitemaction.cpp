@@ -14,6 +14,7 @@
 #include <KLocalizedString>
 #include <KPluginFactory>
 
+#include "settings.h"
 #include "mimetypes.h"
 #include "pluginmanager.h"
 #include "batchextract.h"
@@ -96,7 +97,7 @@ QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& n
     connect(action, &QAction::triggered, this, [urls,name, option, parent,this]() {
         auto *batchExtractJob = new BatchExtract(parent);
         batchExtractJob->setDestinationFolder(QFileInfo(urls.first().toLocalFile()).path());
-        batchExtractJob->setOpenDestinationAfterExtraction(true);
+        batchExtractJob->setOpenDestinationAfterExtraction(ArkSettings::openDestinationFolderAfterExtraction());
         if (option == AutoSubfolder) {
             batchExtractJob->setAutoSubfolder(true);
         } else if (option == ShowDialog) {
