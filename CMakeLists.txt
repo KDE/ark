@@ -10,15 +10,13 @@ project(ark VERSION ${RELEASE_SERVICE_VERSION})
 set(QT_MIN_VERSION 5.15.0)
 set(KF5_MIN_VERSION 5.86.0)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
-include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
+include(KDECompilerSettings NO_POLICY_SCOPE)
+
 include(KDEGitCommitHooks)
 include(GenerateExportHeader)
 include(FeatureSummary)
@@ -81,8 +79,6 @@ endif (WITH_TEST_COVERAGE)
 set(SUPPORTED_ARK_MIMETYPES "")
 
 add_definitions(-DTRANSLATION_DOMAIN="ark")
-add_definitions(-DQT_NO_FOREACH)
-add_definitions(-DQT_NO_KEYWORDS)
 
 add_subdirectory(plugins)
 add_subdirectory(kerfuffle)
