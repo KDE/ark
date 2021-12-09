@@ -183,6 +183,16 @@ void AddToArchive::detectFileName()
     const QString base = detectBaseName(m_entries);
     const QString suffix = !m_autoFilenameSuffix.isEmpty() ? QLatin1Char( '.' ) + m_autoFilenameSuffix : QString();
 
+    m_filename = getFileName(base, suffix);
+}
+
+QString AddToArchive::getFileName(const QList<QUrl> &entries)
+{
+    return getFileName(detectBaseName(entries), QString());
+}
+
+QString AddToArchive::getFileName(const QString &base, const QString &suffix)
+{
     QString finalName = base + suffix;
 
     //if file already exists, append a number to the base until it doesn't
@@ -194,7 +204,8 @@ void AddToArchive::detectFileName()
     }
 
     qCDebug(ARK) << "Autoset filename to" << finalName;
-    m_filename = finalName;
+
+    return finalName;
 }
 
 void AddToArchive::slotFinished(KJob *job)
@@ -210,11 +221,21 @@ void AddToArchive::slotFinished(KJob *job)
 
 QString AddToArchive::detectBaseName(const QVector<Archive::Entry*> &entries) const
 {
-    QFileInfo fileInfo = QFileInfo(entries.first()->fullPath());
+    return getBaseName(entries.constFirst()->fullPath(), entries.size());
+}
+
+QString AddToArchive::detectBaseName(const QList<QUrl> &entries)
+{
+    return getBaseName(entries.constFirst().toString(), entries.size());
+}
+
+QString AddToArchive::getBaseName(const QString &url, const int size)
+{
+    QFileInfo fileInfo = QFileInfo(url);
     QDir parentDir = fileInfo.dir();
     QString base = parentDir.absolutePath() + QLatin1Char('/');
 
-    if (entries.size() > 1) {
+    if (size > 1) {
         if (!parentDir.isRoot()) {
             // Use directory name for the new archive.
             base += parentDir.dirName();
@@ -239,5 +260,4 @@ QString AddToArchive::detectBaseName(const QVector<Archive::Entry*> &entries) co
 
     return base;
 }
-
 }
