@@ -226,7 +226,7 @@ QString AddToArchive::detectBaseName(const QVector<Archive::Entry*> &entries) co
 
 QString AddToArchive::detectBaseName(const QList<QUrl> &entries)
 {
-    return getBaseName(entries.constFirst().toString(), entries.size());
+    return getBaseName(entries.constFirst().toLocalFile(), entries.size());
 }
 
 QString AddToArchive::getBaseName(const QString &url, const int size)
