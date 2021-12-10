@@ -450,6 +450,11 @@ CreateJob::CreateJob(Archive *archive, const QVector<Archive::Entry*> &entries, 
     qCDebug(ARK) << "Created job instance";
 }
 
+CreateJob::~CreateJob()
+{
+    delete m_addJob;
+}
+
 void CreateJob::enableEncryption(const QString &password, bool encryptHeader)
 {
     archive()->encrypt(password, encryptHeader);
@@ -468,10 +473,9 @@ void CreateJob::doWork()
 
     if (m_addJob) {
         connect(m_addJob, &KJob::result, this, &CreateJob::emitResult);
-        // as autoDelete doesn't work for jobs outside of a QEventLoop
-        connect(m_addJob, &KJob::finished, this, [this] {delete m_addJob;});
-        // Forward description signal from AddJob, we need to change the first argument ('this' needs to be a CreateJob).
-        connect(m_addJob, &KJob::description, this, [=](KJob *, const QString &title, const QPair<QString,QString> &field1, const QPair<QString,QString> &) {
+        // Forward description signal from AddJob, we need to change the first
+        // argument ('this' needs to be a CreateJob).
+        connect(m_addJob, &KJob::description, this, [=](KJob *, const QString &title, const QPair<QString, QString> &field1, const QPair<QString, QString> &) {
             Q_EMIT description(this, title, field1);
         });
 

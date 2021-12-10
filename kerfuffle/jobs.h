@@ -179,6 +179,7 @@ class KERFUFFLE_EXPORT CreateJob : public Job
 public:
     explicit CreateJob(Archive *archive, const QVector<Archive::Entry*> &entries, const CompressionOptions& options);
 
+    ~CreateJob();
     /**
      * @param password The password to encrypt the archive with.
      * @param encryptHeader Whether to encrypt also the list of files.
