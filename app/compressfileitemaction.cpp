@@ -16,7 +16,6 @@
 #include <KPluginFactory>
 
 #include <algorithm>
-#include <KIO/OpenFileManagerWindowJob>
 
 #include "pluginmanager.h"
 #include "addtoarchive.h"
@@ -102,10 +101,8 @@ QAction *CompressFileItemAction::createAction(const QIcon& icon, const QString& 
             }
         }
         addToArchiveJob->start();
-        connect(addToArchiveJob, &KJob::finished, this, [this, addToArchiveJob](){
-            if (addToArchiveJob->error() == 0) {
-                KIO::highlightInFileManager({QUrl::fromLocalFile(addToArchiveJob->fileName())});
-            } else if (!addToArchiveJob->errorString().isEmpty()) {
+        connect(addToArchiveJob, &KJob::finished, this, [this, addToArchiveJob]() {
+            if (addToArchiveJob->error() != 0) {
                 Q_EMIT error(addToArchiveJob->errorString());
             }
         });
