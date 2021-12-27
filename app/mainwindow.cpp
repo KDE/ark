@@ -218,6 +218,7 @@ void MainWindow::openUrl(const QUrl& url)
         return;
     }
 
+    hideWelcomeScreen();
     m_part->setArguments(m_openArgs);
     m_part->openUrl(url);
 }
