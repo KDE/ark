@@ -552,6 +552,11 @@ TempExtractJob::TempExtractJob(Archive::Entry *entry, bool passwordProtectedHint
     m_tmpExtractDir = new QTemporaryDir();
 }
 
+Archive::Entry *TempExtractJob::entry() const
+{
+    return m_entry;
+}
+
 QString TempExtractJob::validatedFilePath() const
 {
     QString path = extractionDir() + QLatin1Char('/') + m_entry->fullPath();

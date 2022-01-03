@@ -235,6 +235,8 @@ class KERFUFFLE_EXPORT TempExtractJob : public Job
 public:
     TempExtractJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface);
 
+    Archive::Entry *entry() const;
+
     /**
      * @return The absolute path of the extracted file.
      * The path is validated in order to prevent directory traversal attacks.

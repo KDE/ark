@@ -82,13 +82,13 @@ void ArkViewer::openExternalViewer(const KService::Ptr viewer, const QString& fi
     job->start();
 }
 
-void ArkViewer::openInternalViewer(const KService::Ptr viewer, const QString& fileName, const QMimeType& mimeType)
+void ArkViewer::openInternalViewer(const KService::Ptr viewer, const QString& fileName, const QString& entryPath, const QMimeType& mimeType)
 {
     qCDebug(ARK) << "Opening internal viewer";
 
     ArkViewer *internalViewer = new ArkViewer();
     internalViewer->show();
-    if (internalViewer->viewInInternalViewer(viewer, fileName, mimeType)) {
+    if (internalViewer->viewInInternalViewer(viewer, fileName, entryPath, mimeType)) {
         // The internal viewer is showing the file, and will
         // remove the temporary file in its destructor.  So there
         // is no more to do here.
@@ -134,16 +134,16 @@ bool ArkViewer::askViewAsPlainText(const QMimeType& mimeType)
     return response != KMessageBox::Cancel;
 }
 
-void ArkViewer::view(const QString& fileName)
+void ArkViewer::view(const QString& fileName, const QString& entryPath)
 {
     QMimeDatabase db;
     QMimeType mimeType = db.mimeTypeForFile(fileName);
-    qCDebug(ARK) << "viewing" << fileName << "with mime type:" << mimeType.name();
+    qCDebug(ARK) << "viewing" << fileName << "from" << entryPath << "with mime type:" << mimeType.name();
 
     const KService::Ptr internalViewer = ArkViewer::getInternalViewer(mimeType.name());
 
     if (internalViewer) {
-        openInternalViewer(internalViewer, fileName, mimeType);
+        openInternalViewer(internalViewer, fileName, entryPath, mimeType);
         return;
     }
 
@@ -158,17 +158,15 @@ void ArkViewer::view(const QString& fileName)
     // should be previewed as text/plain.
     if (askViewAsPlainText(mimeType)) {
         const KService::Ptr textViewer = ArkViewer::getInternalViewer(QStringLiteral("text/plain"));
-        openInternalViewer(textViewer, fileName, db.mimeTypeForName(QStringLiteral("text/plain")));
+        openInternalViewer(textViewer, fileName, entryPath, db.mimeTypeForName(QStringLiteral("text/plain")));
     } else {
         qCDebug(ARK) << "Removing temporary file:" << fileName;
         QFile::remove(fileName);
     }
 }
 
-bool ArkViewer::viewInInternalViewer(const KService::Ptr viewer, const QString& fileName, const QMimeType &mimeType)
+bool ArkViewer::viewInInternalViewer(const KService::Ptr viewer, const QString& fileName, const QString& entryPath, const QMimeType &mimeType)
 {
-    setWindowFilePath(fileName);
-
     // Set icon and comment for the mimetype.
     m_iconLabel->setPixmap(QIcon::fromTheme(mimeType.iconName()).pixmap(style()->pixelMetric(QStyle::PixelMetric::PM_SmallIconSize)));
     m_commentLabel->setText(mimeType.comment());
@@ -198,6 +196,10 @@ bool ArkViewer::viewInInternalViewer(const KService::Ptr viewer, const QString& 
     m_part.data()->openUrl(QUrl::fromLocalFile(fileName));
     m_part.data()->widget()->setFocus();
     m_fileName = fileName;
+
+    // Needs to come after openUrl to override the part-provided caption
+    setWindowTitle(entryPath);
+    setWindowFilePath(fileName);
 
     return true;
 }
