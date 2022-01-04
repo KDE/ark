@@ -365,7 +365,7 @@ void CliPlugin::handleMethods(const QStringList &methods)
 
 bool CliPlugin::isPasswordPrompt(const QString &line)
 {
-    return line.startsWith(QLatin1String("Enter password (will not be echoed):"));
+    return line.startsWith(QLatin1String("Enter password"));
 }
 
 bool CliPlugin::isWrongPasswordMsg(const QString &line)
