@@ -65,8 +65,8 @@ void OverwriteQuery::execute()
         options = options | KIO::RenameDialog_MultipleItems;
     }
 
-    QUrl sourceUrl = QUrl::fromLocalFile(QDir::cleanPath(m_data.value(QStringLiteral("filename")).toString()));
     QUrl destUrl = QUrl::fromLocalFile(QDir::cleanPath(m_data.value(QStringLiteral("filename")).toString()));
+    const QUrl sourceUrl = QUrl(QStringLiteral("ark://%1").arg(destUrl.fileName()));
 
     QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(
         nullptr,
