@@ -163,6 +163,7 @@ Comment=Work with file archives
 Comment[ar]=العمل مع أرشيفات الملفات
 Comment[ast]=Trabaya con archivos
 Comment[az]=Fayl arxivləri ilə işləmək
+Comment[bg]=Работа с файлови архиви
 Comment[ca]=Treball amb arxius de fitxer
 Comment[ca@valencia]=Treball amb arxius de fitxer
 Comment[cs]=Práce s archivy souborů
