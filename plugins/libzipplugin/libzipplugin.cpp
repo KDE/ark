@@ -169,6 +169,10 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
         return false;
     }
 
+    if (QThread::currentThread()->isInterruptionRequested()) {
+        return false;
+    }
+
     // We list the entire archive after adding files to ensure entry
     // properties are up-to-date.
     m_listAfterAdd = true;
