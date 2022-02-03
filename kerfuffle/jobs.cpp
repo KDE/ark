@@ -487,7 +487,20 @@ void CreateJob::doWork()
 
 bool CreateJob::doKill()
 {
-    return m_addJob && m_addJob->kill();
+    bool killed = false;
+    if (m_addJob) {
+        killed = m_addJob->kill();
+
+        if (killed) {
+            // remove leftover archive if needed
+            auto archiveFile = QFile(archive()->fileName());
+            if (archiveFile.exists()) {
+                archiveFile.remove();
+            }
+        }
+    }
+
+    return killed;
 }
 
 ExtractJob::ExtractJob(const QVector<Archive::Entry*> &entries, const QString &destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface)
