@@ -183,16 +183,6 @@ void AddToArchive::detectFileName()
     const QString base = detectBaseName(m_entries);
     const QString suffix = !m_autoFilenameSuffix.isEmpty() ? QLatin1Char( '.' ) + m_autoFilenameSuffix : QString();
 
-    m_filename = getFileName(base, suffix);
-}
-
-QString AddToArchive::getFileName(const QList<QUrl> &entries)
-{
-    return getFileName(detectBaseName(entries), QString());
-}
-
-QString AddToArchive::getFileName(const QString &base, const QString &suffix)
-{
     QString finalName = base + suffix;
 
     //if file already exists, append a number to the base until it doesn't
@@ -204,8 +194,7 @@ QString AddToArchive::getFileName(const QString &base, const QString &suffix)
     }
 
     qCDebug(ARK) << "Autoset filename to" << finalName;
-
-    return finalName;
+    m_filename = finalName;
 }
 
 void AddToArchive::slotFinished(KJob *job)
