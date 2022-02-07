@@ -43,6 +43,7 @@ private:
     QString fromUnixSeparator(const QString& path);
     QString toUnixSeparator(const QString& path);
     static void progressCallback(zip_t *, double progress, void *that);
+    static int cancelCallback(zip_t *, void *that);
 
     QVector<Archive::Entry*> m_emittedEntries;
     bool m_overwriteAll;

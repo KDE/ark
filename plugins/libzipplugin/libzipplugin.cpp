@@ -5,6 +5,7 @@
 */
 
 #include "libzipplugin.h"
+#include "../config.h"
 #include "ark_debug.h"
 #include "queries.h"
 
@@ -34,6 +35,11 @@ using ark_unique_ptr = std::unique_ptr<T, deleter_from_fn<fn>>;
 void LibzipPlugin::progressCallback(zip_t *, double progress, void *that)
 {
     static_cast<LibzipPlugin *>(that)->emitProgress(progress);
+}
+
+int LibzipPlugin::cancelCallback(zip_t *, void * /* unused that*/)
+{
+    return QThread::currentThread()->isInterruptionRequested();
 }
 
 LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList & args)
@@ -153,12 +159,14 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
         }
         i++;
     }
-    qCDebug(ARK) << "Added" << i << "entries";
+    qCDebug(ARK) << "Writing " << i << "entries to disk...";
 
-    // Register the callback function to get progress feedback.
+    // Register the callback function to get progress feedback and cancelation.
     zip_register_progress_callback_with_state(archive.get(), 0.001, progressCallback, nullptr, this);
+#ifdef LIBZIP_CANCELATION
+    zip_register_cancel_callback_with_state(archive.get(), cancelCallback, nullptr, this);
+#endif
 
-    qCDebug(ARK) << "Writing entries to disk...";
     // Write and close archive manually.
     zip_close(archive.get());
     // Release unique pointer as it set to NULL via zip_close.
@@ -924,8 +932,11 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
         }
     }
 
-    // Register the callback function to get progress feedback.
+    // Register the callback function to get progress feedback and cancelation.
     zip_register_progress_callback_with_state(archive.get(), 0.001, progressCallback, nullptr, this);
+#ifdef LIBZIP_CANCELATION
+    zip_register_cancel_callback_with_state(archive.get(), cancelCallback, nullptr, this);
+#endif
 
     // Write and close archive manually before using list() function.
     zip_close(archive.get());
@@ -934,6 +945,10 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
     if (errcode > 0) {
         qCCritical(ARK) << "Failed to write archive";
         Q_EMIT error(xi18n("Failed to write archive."));
+        return false;
+    }
+
+    if (QThread::currentThread()->isInterruptionRequested()) {
         return false;
     }
 

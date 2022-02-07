@@ -68,6 +68,11 @@ set_package_properties(LibZip PROPERTIES
                        URL "https://nih.at/libzip/"
                        DESCRIPTION "A library for handling zip archives"
                        PURPOSE "Optional for zip archives.")
+# To remove once we can depend on LibZip 1.6+
+if (${LibZip_VERSION} GREATER_EQUAL 1.6)
+    set(LIBZIP_CANCELATION 1)
+endif()
+configure_file(config.h.in config.h)
 
 option(WITH_TEST_COVERAGE "Build with test coverage support" OFF)
 if (WITH_TEST_COVERAGE)
