@@ -208,26 +208,38 @@ void AddToArchive::slotFinished(KJob *job)
     emitResult();
 }
 
-QString AddToArchive::detectBaseName(const QVector<Archive::Entry*> &entries) const
+QString findCommonPrefixForUrls(const QList<QUrl> &list)
 {
-    return getBaseName(entries.constFirst()->fullPath(), entries.size());
+    QString prefix = list.front().fileName();
+    for (QList<QUrl>::const_iterator it = list.begin(); it != list.end(); ++it) {
+        auto fileName = it->fileName();
+        if (prefix.length() > fileName.length()) {
+            prefix.truncate(fileName.length());
+        }
+
+        for (int i = 0; i < prefix.length(); ++i) {
+            if (prefix.at(i) != fileName.at(i)) {
+                prefix.truncate(i);
+                break;
+            }
+        }
+    }
+
+    return prefix;
 }
 
-QString AddToArchive::detectBaseName(const QList<QUrl> &entries)
+QString AddToArchive::getBaseName(const QList<QUrl> &urls)
 {
-    return getBaseName(entries.constFirst().toLocalFile(), entries.size());
-}
-
-QString AddToArchive::getBaseName(const QString &url, const int size)
-{
-    QFileInfo fileInfo = QFileInfo(url);
+    QFileInfo fileInfo = QFileInfo(urls.constFirst().toLocalFile());
     QDir parentDir = fileInfo.dir();
     QString base = parentDir.absolutePath() + QLatin1Char('/');
 
-    if (size > 1) {
-        if (!parentDir.isRoot()) {
-            // Use directory name for the new archive.
-            base += parentDir.dirName();
+    if (urls.size() > 1) {
+        QString prefix = findCommonPrefixForUrls(urls);
+        if (prefix.length() < 5) {
+            base += i18nc("Default name of a newly-created multi-file archive", "Archive");
+        } else {
+            base += prefix;
         }
     } else {
         // Strip filename of its extension, but only if present (see #362690).
@@ -248,5 +260,14 @@ QString AddToArchive::getBaseName(const QString &url, const int size)
     }
 
     return base;
+}
+
+QString AddToArchive::detectBaseName(const QVector<Archive::Entry *> &entries)
+{
+    QList<QUrl> urls;
+    for (const auto &entry : entries) {
+        urls.append(QUrl::fromLocalFile(entry->fullPath()));
+    }
+    return getBaseName(urls);
 }
 }

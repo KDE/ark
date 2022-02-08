@@ -50,8 +50,14 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
 
     QList<QAction*> actions;
     const QIcon icon = QIcon::fromTheme(QStringLiteral("archive-insert"));
-    const QString fileName = i18nc("Default name of a newly-created multi-file archive", "Archive");
+    QString fileName;
 
+    if (!isSingleFile) {
+        fileName = AddToArchive::getBaseName(fileItemInfos.urlList()).section(QDir::separator(), -1);
+        if (fileName.length() > 20) {
+            fileName = fileName.left(10) + QStringLiteral("…") + fileName.right(10);
+        }
+    }
     QMenu *compressMenu = new QMenu(parentWidget);
 
     compressMenu->addAction(
