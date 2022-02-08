@@ -17,7 +17,6 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 
-include(KDEGitCommitHooks)
 include(GenerateExportHeader)
 include(FeatureSummary)
 include(ECMQtDeclareLoggingCategory)
@@ -97,8 +96,6 @@ endif()
 
 ki18n_install(po)
 kdoctools_install(po)
-
-kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
 ecm_qt_install_logging_categories(EXPORT ARK FILE ark.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
