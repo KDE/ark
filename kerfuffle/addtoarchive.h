@@ -39,7 +39,8 @@ public:
     bool showAddDialog();
     void setPreservePaths(bool value);
     void setChangeToFirstPath(bool value);
-    QString detectBaseName(const QVector<Archive::Entry*> &entries) const;
+    static QString detectBaseName(const QVector<Archive::Entry *> &entries);
+    static QString getBaseName(const QList<QUrl> &entries);
 
     QString fileName() const
     {
@@ -63,8 +64,6 @@ private Q_SLOTS:
     void slotStartJob();
 
 private:
-    static QString detectBaseName(const QList<QUrl> &entries);
-    static QString getBaseName(const QString &url, const int size);
     void detectFileName();
 
     CompressionOptions m_options;
