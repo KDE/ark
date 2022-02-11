@@ -70,7 +70,7 @@ set_package_properties(LibZip PROPERTIES
                        DESCRIPTION "A library for handling zip archives"
                        PURPOSE "Optional for zip archives.")
 # To remove once we can depend on LibZip 1.6+
-if (${LibZip_VERSION} GREATER_EQUAL 1.6)
+if ("${LibZip_VERSION}" VERSION_GREATER_EQUAL 1.6)
     set(LIBZIP_CANCELATION 1)
 endif()
 configure_file(config.h.in config.h)
