@@ -790,8 +790,9 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         file.close();
     }
 
-    // Set mtime for entry.
+    // Set mtime for entry (also access time otherwise it's "uninitilized")
     utimbuf times;
+    times.actime = statBuffer.mtime;
     times.modtime = statBuffer.mtime;
     if (utime(destination.toUtf8().constData(), &times) != 0) {
         qCWarning(ARK) << "Failed to restore mtime:" << destination;
@@ -799,6 +800,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
 
     if (restoreParentMtime) {
         // Restore mtime for parent dir.
+        times.actime = parent_mtime;
         times.modtime = parent_mtime;
         if (utime(parentDir.toUtf8().constData(), &times) != 0) {
             qCWarning(ARK) << "Failed to restore mtime for parent dir of:" << destination;
