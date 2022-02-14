@@ -169,6 +169,9 @@ void AddToArchive::slotStartJob()
 
     m_createJob = Archive::create(m_filename, m_mimeType, m_entries, m_options, this);
 
+    m_createJob->setProperty("immediateProgressReporting", m_immediateProgressReporting);
+    m_createJob->setProperty("destUrl", QUrl::fromLocalFile(m_filename));
+
     if (!m_password.isEmpty()) {
         m_createJob->enableEncryption(m_password, m_enableHeaderEncryption);
     }
@@ -259,5 +262,10 @@ QString AddToArchive::getBaseName(const QString &url, const int size)
     }
 
     return base;
+}
+
+void AddToArchive::setImmediateProgressReporting(bool immediateProgressReporting)
+{
+    m_immediateProgressReporting = immediateProgressReporting;
 }
 }

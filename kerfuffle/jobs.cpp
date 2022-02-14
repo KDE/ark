@@ -450,6 +450,7 @@ CreateJob::CreateJob(Archive *archive, const QVector<Archive::Entry*> &entries, 
     , m_options(options)
 {
     qCDebug(ARK) << "Created job instance";
+    setTotalAmount(Files, 1);
 }
 
 CreateJob::~CreateJob()

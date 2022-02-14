@@ -102,6 +102,7 @@ QAction *CompressFileItemAction::createAction(const QIcon& icon, const QString& 
 
     connect(action, &QAction::triggered, this, [fileExtension, urls, name, parent, this]() {
         auto *addToArchiveJob = new AddToArchive(parent);
+        addToArchiveJob->setImmediateProgressReporting(true);
         addToArchiveJob->setChangeToFirstPath(true);
         for (const QUrl &url : urls) {
             addToArchiveJob->addInput(url);

@@ -41,6 +41,7 @@ public:
     void setChangeToFirstPath(bool value);
     QString detectBaseName(const QVector<Archive::Entry*> &entries) const;
     static QString getFileName(const QList<QUrl> &entries);
+    void setImmediateProgressReporting(bool immediateProgressReporting);
 
     QString fileName() const
     {
@@ -80,6 +81,7 @@ private:
     QVector<Archive::Entry*> m_entries;
     bool m_changeToFirstPath;
     bool m_enableHeaderEncryption;
+    bool m_immediateProgressReporting;
 };
 }
 
