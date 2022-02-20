@@ -33,6 +33,7 @@
         "Description[uk]": "Здатен відкривати і видобувати архіви RAR і LHA",
         "Description[x-test]": "xxOpen and extract RAR and LHA archivesxx",
         "Description[zh_CN]": "打开和解压 RAR 和 LHA 压缩包文件",
+        "Description[zh_TW]": "開啟並解壓縮 RAR 與 LHA 壓縮檔",
         "Id": "kerfuffle_cliunarchiver",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
