@@ -72,7 +72,7 @@ ulong CompressionOptionsWidget::volumeSize() const
 {
     if (collapsibleMultiVolume->isEnabled() && multiVolumeCheckbox->isChecked()) {
         // Convert to kilobytes.
-        return static_cast<ulong>(volumeSizeSpinbox->value()) * 1024;
+        return static_cast<ulong>(volumeSizeSpinbox->value() * 1024);
     } else {
         return 0;
     }
