@@ -31,7 +31,7 @@ public:
     QList<QAction*> actions(const KFileItemListProperties& fileItemInfos, QWidget* parentWidget) override;
 
 private:
-    QAction *createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, const QString& fileExtension);
+    QAction *createAction(const QIcon &icon, QWidget *parent, const QList<QUrl> &urls, const QString &fileExtension);
 
     Kerfuffle::PluginManager *m_pluginManager;
 };

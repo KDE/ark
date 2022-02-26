@@ -42,7 +42,6 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
     const bool hasLocalUrl = std::any_of(urlList.begin(), urlList.end(), [](const QUrl &url) {
         return url.isLocalFile();
     });
-    const bool isSingleFile = urlList.count() == 1;
 
     if (!hasLocalUrl) {
         return {};
@@ -50,21 +49,11 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
 
     QList<QAction*> actions;
     const QIcon icon = QIcon::fromTheme(QStringLiteral("archive-insert"));
-    QString fileName;
-
-    if (!isSingleFile) {
-        fileName = AddToArchive::getFileName(urlList).section(QDir::separator(), -1);
-        if (fileName.length() > 20) {
-            fileName = fileName.left(10) + QStringLiteral("…") + fileName.right(10);
-        }
-    }
 
     QMenu *compressMenu = new QMenu(parentWidget);
 
     compressMenu->addAction(
         createAction(icon,
-                     isSingleFile ? i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Here (as TAR.GZ)")
-                                  : i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename", "Here (to \"%1.tar.gz\")", fileName),
                      parentWidget,
                      urlList,
                      QStringLiteral("tar.gz")));
@@ -74,15 +63,12 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
     if (!m_pluginManager->preferredWritePluginsFor(zipMime).isEmpty()) {
         compressMenu->addAction(
             createAction(icon,
-                         isSingleFile ? i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Here (as ZIP)")
-                                      : i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename", "Here (to \"%1.zip\")", fileName),
                          parentWidget,
                          urlList,
                          QStringLiteral("zip")));
     }
 
     compressMenu->addAction(createAction(icon,
-                                         i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Compress to..."),
                                          parentWidget,
                                          urlList,
                                          QString()));
@@ -96,8 +82,20 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
     return actions;
 }
 
-QAction *CompressFileItemAction::createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, const QString& fileExtension)
+QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent, const QList<QUrl> &urls, const QString &fileExtension)
 {
+    QString name;
+    if (fileExtension.isEmpty()) {
+        name = i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Compress to...");
+    } else {
+        QString fileName = AddToArchive::getFileNameForUrls(urls, fileExtension).section(QDir::separator(), -1);
+        if (fileName.length() > 21) {
+            fileName = fileName.left(10) + QStringLiteral("…") + fileName.right(10);
+        }
+
+        name = i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename", "Here as \"%1\"", fileName);
+    }
+
     QAction *action = new QAction(icon, name, parent);
 
     connect(action, &QAction::triggered, this, [fileExtension, urls, name, parent, this]() {

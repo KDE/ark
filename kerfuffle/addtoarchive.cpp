@@ -16,11 +16,12 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include <QFileInfo>
+#include <KFileUtils>
 #include <QDir>
+#include <QFileInfo>
 #include <QMimeDatabase>
-#include <QTimer>
 #include <QPointer>
+#include <QTimer>
 
 namespace Kerfuffle
 {
@@ -70,7 +71,7 @@ bool AddToArchive::showAddDialog()
     qCDebug(ARK) << "Opening add dialog";
 
     if (m_filename.isEmpty()) {
-        m_filename = detectBaseName(m_entries);
+        m_filename = getFileNameForEntries(m_entries, QString());
     }
 
     QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
@@ -183,32 +184,11 @@ void AddToArchive::slotStartJob()
 
 void AddToArchive::detectFileName()
 {
-    const QString base = detectBaseName(m_entries);
-    const QString suffix = !m_autoFilenameSuffix.isEmpty() ? QLatin1Char( '.' ) + m_autoFilenameSuffix : QString();
-
-    m_filename = getFileName(base, suffix);
-}
-
-QString AddToArchive::getFileName(const QList<QUrl> &entries)
-{
-    return getFileName(detectBaseName(entries), QString());
-}
-
-QString AddToArchive::getFileName(const QString &base, const QString &suffix)
-{
-    QString finalName = base + suffix;
-
-    //if file already exists, append a number to the base until it doesn't
-    //exist
-    int appendNumber = 0;
-    while (QFileInfo::exists(finalName)) {
-        ++appendNumber;
-        finalName = base + QLatin1Char( '_' ) + QString::number(appendNumber) + suffix;
-    }
+    const QString suffix = !m_autoFilenameSuffix.isEmpty() ? m_autoFilenameSuffix : QString();
+    const QString finalName = getFileNameForEntries(m_entries, suffix);
 
     qCDebug(ARK) << "Autoset filename to" << finalName;
-
-    return finalName;
+    m_filename = finalName;
 }
 
 void AddToArchive::slotFinished(KJob *job)
@@ -222,33 +202,47 @@ void AddToArchive::slotFinished(KJob *job)
     emitResult();
 }
 
-QString AddToArchive::detectBaseName(const QVector<Archive::Entry*> &entries) const
+QString findCommonPrefixForUrls(const QList<QUrl> &list)
 {
-    return getBaseName(entries.constFirst()->fullPath(), entries.size());
+    Q_ASSERT(!list.isEmpty());
+    QString prefix = list.front().fileName();
+    for (QList<QUrl>::const_iterator it = list.begin(); it != list.end(); ++it) {
+        const auto fileName = it->fileName();
+        if (prefix.length() > fileName.length()) {
+            prefix.truncate(fileName.length());
+        }
+
+        for (int i = 0; i < prefix.length(); ++i) {
+            if (prefix.at(i) != fileName.at(i)) {
+                prefix.truncate(i);
+                break;
+            }
+        }
+    }
+
+    return prefix;
 }
 
-QString AddToArchive::detectBaseName(const QList<QUrl> &entries)
+QString AddToArchive::getFileNameForUrls(const QList<QUrl> &urls, const QString &suffix)
 {
-    return getBaseName(entries.constFirst().toLocalFile(), entries.size());
-}
+    Q_ASSERT(!urls.isEmpty());
 
-QString AddToArchive::getBaseName(const QString &url, const int size)
-{
-    QFileInfo fileInfo = QFileInfo(url);
-    QDir parentDir = fileInfo.dir();
-    QString base = parentDir.absolutePath() + QLatin1Char('/');
+    const QFileInfo fileInfo = QFileInfo(urls.constFirst().toLocalFile());
+    QString base;
 
-    if (size > 1) {
-        if (!parentDir.isRoot()) {
-            // Use directory name for the new archive.
-            base += parentDir.dirName();
+    if (urls.size() > 1) {
+        QString prefix = findCommonPrefixForUrls(urls);
+        if (prefix.length() < 5) {
+            base = i18nc("Default name of a newly-created multi-file archive", "Archive");
+        } else {
+            base = prefix;
         }
     } else {
         // Strip filename of its extension, but only if present (see #362690).
         if (!QMimeDatabase().mimeTypeForFile(fileInfo.fileName(), QMimeDatabase::MatchExtension).isDefault()) {
-            base += fileInfo.completeBaseName();
+            base = fileInfo.completeBaseName();
         } else {
-            base += fileInfo.fileName();
+            base = fileInfo.fileName();
         }
     }
 
@@ -257,11 +251,27 @@ QString AddToArchive::getBaseName(const QString &url, const int size)
         base.chop(4);
     }
 
-    if (base.endsWith(QLatin1Char('/'))) {
-        base.chop(1);
+    QString finalName = base + QLatin1Char('.') + suffix;
+
+    // if file already exists, append a number to the base until it doesn't
+    // exist
+    int appendNumber = 0;
+    const QString path = fileInfo.absolutePath() + QStringLiteral("/");
+    while (QFileInfo::exists(path + finalName)) {
+        ++appendNumber;
+        finalName = KFileUtils::makeSuggestedName(finalName);
     }
 
-    return base;
+    return path + finalName;
+}
+
+QString AddToArchive::getFileNameForEntries(const QVector<Archive::Entry *> &entries, const QString &suffix)
+{
+    QList<QUrl> urls;
+    for (const auto &entry : entries) {
+        urls.append(QUrl::fromLocalFile(entry->fullPath()));
+    }
+    return getFileNameForUrls(urls, suffix);
 }
 
 void AddToArchive::setImmediateProgressReporting(bool immediateProgressReporting)
