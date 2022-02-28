@@ -122,8 +122,9 @@ QStringList PluginManager::supportedMimeTypes(MimeSortingMode mode) const
         supported.remove(QStringLiteral("application/x-lz4-compressed-tar"));
     }
 
+    static bool s_libarchiveHasLzo = libarchiveHasLzo();
     // Remove entry for lzo-compressed tar if libarchive not linked against lzo and lzop executable not found in path.
-    if (!libarchiveHasLzo() && QStandardPaths::findExecutable(QStringLiteral("lzop")).isEmpty()) {
+    if (!s_libarchiveHasLzo && QStandardPaths::findExecutable(QStringLiteral("lzop")).isEmpty()) {
         supported.remove(QStringLiteral("application/x-tzo"));
     }
 
