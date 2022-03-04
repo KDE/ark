@@ -281,7 +281,6 @@ void Cli7zTest::testAddArgs_data()
             << QString() << false << 5 << QStringLiteral("LZMA2") << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("-l"),
                    QStringLiteral("-mx=5"),
                    QStringLiteral("-m0=LZMA2"),
                    QStringLiteral("/tmp/foo.7z")
@@ -292,7 +291,6 @@ void Cli7zTest::testAddArgs_data()
             << QStringLiteral("1234") << false << 5 << QStringLiteral("LZMA2") << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("-l"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("-mx=5"),
                    QStringLiteral("-m0=LZMA2"),
@@ -304,7 +302,6 @@ void Cli7zTest::testAddArgs_data()
             << QStringLiteral("1234") << true << 5 << QStringLiteral("LZMA2") << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("-l"),
                    QStringLiteral("-p1234"),
                    QStringLiteral("-mhe=on"),
                    QStringLiteral("-mx=5"),
@@ -317,7 +314,6 @@ void Cli7zTest::testAddArgs_data()
             << QString() << false << 5 << QStringLiteral("LZMA2") << 2500UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("-l"),
                    QStringLiteral("-mx=5"),
                    QStringLiteral("-m0=LZMA2"),
                    QStringLiteral("-v2500k"),
@@ -329,7 +325,6 @@ void Cli7zTest::testAddArgs_data()
             << QString() << false << 5 << QStringLiteral("BZip2") << 0UL
             << QStringList {
                    QStringLiteral("a"),
-                   QStringLiteral("-l"),
                    QStringLiteral("-mx=5"),
                    QStringLiteral("-m0=BZip2"),
                    QStringLiteral("/tmp/foo.7z")
