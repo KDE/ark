@@ -50,8 +50,7 @@ void CliPlugin::setupCliProperties()
     m_cliProps->setProperty("captureProgress", false);
 
     m_cliProps->setProperty("addProgram", QStringLiteral("7z"));
-    m_cliProps->setProperty("addSwitch", QStringList{QStringLiteral("a"),
-                                                 QStringLiteral("-l")});
+    m_cliProps->setProperty("addSwitch", QStringList{QStringLiteral("a")});
 
     m_cliProps->setProperty("deleteProgram", QStringLiteral("7z"));
     m_cliProps->setProperty("deleteSwitch", QStringLiteral("d"));
