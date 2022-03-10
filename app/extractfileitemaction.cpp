@@ -47,9 +47,11 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
         }
         supportedUrls << url;
         // Check whether we can write in the parent directory of the file.
-        const QString directory = url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
-        if (!QFileInfo(directory).isWritable()) {
-            readOnlyParentDir = true;
+        if (!readOnlyParentDir) {
+            const QString directory = url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
+            if (!QFileInfo(directory).isWritable()) {
+                readOnlyParentDir = true;
+            }
         }
     }
 
