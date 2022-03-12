@@ -244,7 +244,7 @@
       <li xml:lang="sr-ijekavian">Више подржаних формата: гзип, бзип2, ЗИП, РАР, 7зип, итд.</li>
       <li xml:lang="sr-ijekavianlatin">Više podržanih formata: gzip, bzip2, ZIP, RAR, 7zip, itd.</li>
       <li xml:lang="sv">En mängd format stöds: gzip, bzip2, zip, rar, 7z med flera</li>
-      <li xml:lang="tr">Çeşitli biçimler destekleniyor: gzip, bzip2, zip, rar, 7z ve dahası</li>
+      <li xml:lang="tr">Çeşitli biçimler desteklenir: gzip, bzip2, zip, rar, 7z ve dahası</li>
       <li xml:lang="uk">Підтримка декількох форматів: gzip, bzip2, zip, rar, 7z тощо</li>
       <li xml:lang="x-test">xxSeveral formats supported: gzip, bzip2, zip, rar, 7z and morexx</li>
       <li xml:lang="zh-CN">支持多种格式：gzip、bzip2、zip、rar 和 7z 等</li>
@@ -334,6 +334,7 @@
       <caption xml:lang="sk">Spravovanie archívov s Ark</caption>
       <caption xml:lang="sl">Upravljanje arhivov z Ark</caption>
       <caption xml:lang="sv">Hantera arkiv med Ark</caption>
+      <caption xml:lang="tr">Ark ile arşivleri yönetme</caption>
       <caption xml:lang="uk">Керування архівами за допомогою Ark</caption>
       <caption xml:lang="x-test">xxManaging archives with Arkxx</caption>
       <caption xml:lang="zh-CN">使用 Ark 来管理压缩包文件</caption>
