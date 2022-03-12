@@ -30,6 +30,7 @@
         "Description[ru]": "Открытие и распаковка архивов RAR и LHA",
         "Description[sl]": "Odprite in razširite arhive RAR in LHA",
         "Description[sv]": "Öppna och extrahera RAR- och LHA-arkiv",
+        "Description[tr]": "RAR ve LHA arşivlerini açın ve çıkarın",
         "Description[uk]": "Здатен відкривати і видобувати архіви RAR і LHA",
         "Description[x-test]": "xxOpen and extract RAR and LHA archivesxx",
         "Description[zh_CN]": "打开和解压 RAR 和 LHA 压缩包文件",

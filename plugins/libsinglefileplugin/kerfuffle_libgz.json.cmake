@@ -36,7 +36,7 @@
         "Description[sr@latin]": "Otvaranje i raspakivanje pojedinačnih fajlova kompresovanih algoritmom gzip",
         "Description[sr]": "Отварање и распакивање појединачних фајлова компресованих алгоритмом гзип",
         "Description[sv]": "Öppna och packa upp enstaka filer komprimerade med gzip-algoritmen",
-        "Description[tr]": "Gzip algoritması ile sıkıştırılmış tek dosyaları açma ve çıkarma",
+        "Description[tr]": "Gzip algoritması ile sıkıştırılmış tek dosyaları açın ve çıkarın",
         "Description[uk]": "Здатен відкривати і видобувати дані із окремих файлів, стиснених за допомогою алгоритму gzip",
         "Description[x-test]": "xxOpen and extract single files compressed with the gzip algorithmxx",
         "Description[zh_CN]": "打开和解压 gzip 算法压缩的单个文件",

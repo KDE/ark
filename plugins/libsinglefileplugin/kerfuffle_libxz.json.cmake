@@ -36,7 +36,7 @@
         "Description[sr@latin]": "Otvaranje i raspakivanje pojedinačnih fajlova kompresovanih algoritmom LZMA",
         "Description[sr]": "Отварање и распакивање појединачних фајлова компресованих алгоритмом ЛЗМА",
         "Description[sv]": "Öppna och packa upp enstaka filer komprimerade med lzma-algoritmen",
-        "Description[tr]": "Lzma algoritması ile sıkıştırılmış tek dosyaları açma ve çıkarma",
+        "Description[tr]": "Lzma algoritması ile sıkıştırılmış tek dosyaları açın ve çıkarın",
         "Description[uk]": "Здатен відкривати і видобувати дані із окремих файлів, стиснених за допомогою алгоритму lzma",
         "Description[x-test]": "xxOpen and extract single files compressed with the lzma algorithmxx",
         "Description[zh_CN]": "打开和解压 lzma 算法压缩的单个文件",
