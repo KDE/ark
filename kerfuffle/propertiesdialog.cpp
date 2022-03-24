@@ -115,8 +115,11 @@ void PropertiesDialog::showChecksum(QCryptographicHash::Algorithm algorithm, con
         label->setText(futureWatcher->result());
         futureWatcher->deleteLater();
     });
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto future = QtConcurrent::run(this, &PropertiesDialog::calcHash, algorithm, fileName);
+#else
+    auto future = QtConcurrent::run(&PropertiesDialog::calcHash, this, algorithm, fileName);
+#endif
     futureWatcher->setFuture(future);
 }
 
