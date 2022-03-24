@@ -84,6 +84,14 @@ set(SUPPORTED_ARK_MIMETYPES "")
 
 add_definitions(-DTRANSLATION_DOMAIN="ark")
 
+add_definitions(
+    -DQT_DISABLE_DEPRECATED_BEFORE=0x050f00
+    -DQT_DEPRECATED_WARNINGS_SINCE=0x060000
+    #-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055200
+    -DKF_DEPRECATED_WARNINGS_SINCE=0x060000
+)
+
+
 add_subdirectory(plugins)
 add_subdirectory(kerfuffle)
 add_subdirectory(part)
