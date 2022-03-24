@@ -8,7 +8,7 @@ set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE
 project(ark VERSION ${RELEASE_SERVICE_VERSION})
 
 set(QT_MIN_VERSION 5.15.0)
-set(KF5_MIN_VERSION 5.86.0)
+set(KF5_MIN_VERSION 5.90.0)
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
@@ -29,7 +29,7 @@ ecm_setup_version(${RELEASE_SERVICE_VERSION}
 ecm_setup_version(PROJECT
                   VARIABLE_PREFIX KERFUFFLE)
 
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
+find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED
     Concurrent
     Core
     Gui
@@ -47,8 +47,8 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive
                                                         Pty
                                                         WidgetsAddons)
 
-find_package(Qt5Test ${QT_MIN_VERSION} CONFIG QUIET)
-set_package_properties(Qt5Test PROPERTIES
+find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG QUIET)
+set_package_properties(Qt${QT_MAJOR_VERSION}Test PROPERTIES
     PURPOSE "Required for tests"
     TYPE OPTIONAL)
 
