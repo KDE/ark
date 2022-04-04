@@ -112,6 +112,7 @@ bool CliPlugin::readListLine(const QString& line)
     }
 
     const QRegularExpression rxVersionLine(QStringLiteral("^p7zip Version ([\\d\\.]+) .*$"));
+    const QRegularExpression rxVersionLine7z(QStringLiteral("^7-Zip \\(z\\) ([\\d\\.]+) .*$"));
     QRegularExpressionMatch matchVersion;
 
     switch (m_parseState) {
@@ -121,6 +122,14 @@ bool CliPlugin::readListLine(const QString& line)
             m_parseState = ParseStateHeader;
             const QString p7zipVersion = matchVersion.captured(1);
             qCDebug(ARK) << "p7zip version" << p7zipVersion << "detected";
+	    break;
+        }
+	matchVersion = rxVersionLine7z.match(line);
+        if (matchVersion.hasMatch()) {
+            m_parseState = ParseStateHeader;
+            const QString l7zipVersion = matchVersion.captured(1);
+            qCDebug(ARK) << "7zip version" << l7zipVersion << "detected";
+	    break;
         }
         break;
 
