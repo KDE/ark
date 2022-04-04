@@ -161,7 +161,8 @@ void Job::onError(const QString & message, const QString & details, int errorCod
 void Job::onEntry(Archive::Entry *entry)
 {
     const QString entryFullPath = entry->fullPath();
-    if (QDir::cleanPath(entryFullPath).contains(QLatin1String("../"))) {
+    const QString cleanEntryFullPath = QDir::cleanPath(entryFullPath);
+    if (cleanEntryFullPath.startsWith(QLatin1String("../")) || cleanEntryFullPath.contains(QLatin1String("/../"))) {
         qCWarning(ARK) << "Possibly malicious archive. Detected entry that could lead to a directory traversal attack:" << entryFullPath;
         onError(i18n("Could not load the archive because it contains ill-formed entries and might be a malicious archive."), QString(), Kerfuffle::PossiblyMaliciousArchiveError);
         onFinished(false);
