@@ -28,6 +28,7 @@
         "Description[pt_BR]": "Abrir e extrair arquivos RAR e LHA",
         "Description[ro]": "Deschide și extrage arhive RAR și LHA",
         "Description[ru]": "Открытие и распаковка архивов RAR и LHA",
+        "Description[sk]": "Otvorenie a extrahovanie archívov RAR a LHA",
         "Description[sl]": "Odprite in razširite arhive RAR in LHA",
         "Description[sv]": "Öppna och extrahera RAR- och LHA-arkiv",
         "Description[tr]": "RAR ve LHA arşivlerini açın ve çıkarın",
