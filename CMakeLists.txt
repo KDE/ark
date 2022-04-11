@@ -52,7 +52,7 @@ set_package_properties(Qt${QT_MAJOR_VERSION}Test PROPERTIES
     PURPOSE "Required for tests"
     TYPE OPTIONAL)
 
-if(NOT Qt5Test_FOUND)
+if(NOT Qt${QT_MAJOR_VERSION}Test_FOUND)
     set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
 endif()
 
