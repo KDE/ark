@@ -898,12 +898,13 @@ void Part::slotCompleted()
     if (m_model->rowCount() == 0) {
         qCWarning(ARK) << "No entry listed by the plugin";
         displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive is empty or Ark could not open its content."));
-    } else if (m_model->rowCount() == 1) {
-        if (m_model->archive()->mimeType().inherits(QStringLiteral("application/x-cd-image")) &&
-            m_model->entryForIndex(m_model->index(0, 0))->fullPath() == QLatin1String("README.TXT")) {
-            qCWarning(ARK) << "Detected ISO image with UDF filesystem";
-            displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
-        }
+    } else if (m_model->rowCount() == 1 &&
+               m_model->archive()->mimeType().inherits(QStringLiteral("application/x-cd-image")) &&
+               m_model->entryForIndex(m_model->index(0, 0))->fullPath() == QLatin1String("README.TXT")) {
+        qCWarning(ARK) << "Detected ISO image with UDF filesystem";
+        displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
+    } else {
+        m_model->countEntriesAndSize();
     }
 
     if (arguments().metaData()[QStringLiteral("showExtractDialog")] == QLatin1String("true")) {
@@ -1599,6 +1600,8 @@ void Part::slotAddFilesDone(KJob* job)
             setArguments(args);
 
             openUrl(QUrl::fromLocalFile(m_model->archive()->multiVolumeName()));
+        } else {
+            m_model->countEntriesAndSize();
         }
     }
     m_cutIndexes.clear();
@@ -1610,6 +1613,8 @@ void Part::slotPasteFilesDone(KJob *job)
 {
     if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
+    } else {
+        m_model->countEntriesAndSize();
     }
     m_cutIndexes.clear();
     m_model->filesToMove.clear();
@@ -1620,6 +1625,8 @@ void Part::slotDeleteFilesDone(KJob* job)
 {
     if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
+    } else {
+        m_model->countEntriesAndSize();
     }
     m_cutIndexes.clear();
     m_model->filesToMove.clear();
@@ -1654,7 +1661,6 @@ void Part::slotDeleteFiles()
 
 void Part::slotShowProperties()
 {
-    m_model->countEntriesAndSize();
     QPointer<Kerfuffle::PropertiesDialog> dialog(new Kerfuffle::PropertiesDialog(nullptr,
                                                                                  m_model->archive(),
                                                                                  m_model->numberOfFiles(),

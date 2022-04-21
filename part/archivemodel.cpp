@@ -71,12 +71,7 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             case FullPath:
                 return entry->name();
             case Size:
-                if (entry->isDir()) {
-                    uint dirs;
-                    uint files;
-                    entry->countChildren(dirs, files);
-                    return KIO::itemsSummaryString(dirs + files, files, dirs, 0, false);
-                } else if (!entry->property("link").toString().isEmpty()) {
+                if (!entry->property("link").toString().isEmpty()) {
                     return QVariant();
                 } else {
                     return KIO::convertSize(entry->property("size").toULongLong());
@@ -829,28 +824,30 @@ void ArchiveModel::countEntriesAndSize()
 
     m_numberOfFiles = 0;
     m_numberOfFolders = 0;
-    m_uncompressedSize = 0;
 
     QElapsedTimer timer;
     timer.start();
 
-    traverseAndCountDirNode(m_rootEntry.data());
+    traverseAndComputeDirSizes(m_rootEntry.data());
 
     qCDebug(ARK) << "Time to count entries and size:" << timer.elapsed() << "ms";
 }
 
-void ArchiveModel::traverseAndCountDirNode(Archive::Entry *dir)
+qulonglong ArchiveModel::traverseAndComputeDirSizes(Archive::Entry *dir)
 {
     const auto entries = dir->entries();
+    qulonglong uncompressedSize = 0;
     for (Archive::Entry *entry : entries) {
         if (entry->isDir()) {
-            traverseAndCountDirNode(entry);
             m_numberOfFolders++;
+            uncompressedSize += traverseAndComputeDirSizes(entry);
         } else {
             m_numberOfFiles++;
-            m_uncompressedSize += entry->property("size").toULongLong();
+            uncompressedSize += entry->property("size").toULongLong();
         }
     }
+    dir->setProperty("size", uncompressedSize);
+    return uncompressedSize;
 }
 
 qulonglong ArchiveModel::numberOfFiles() const
@@ -865,7 +862,7 @@ qulonglong ArchiveModel::numberOfFolders() const
 
 qulonglong ArchiveModel::uncompressedSize() const
 {
-    return m_uncompressedSize;
+    return m_rootEntry.data()->property("size").toULongLong();
 }
 
 QList<int> ArchiveModel::shownColumns() const

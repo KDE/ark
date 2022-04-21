@@ -98,7 +98,7 @@ void InfoPanel::setIndex(const QModelIndex& index)
             uint dirs;
             uint files;
             entry->countChildren(dirs, files);
-            additionalInfo->setText(KIO::itemsSummaryString(dirs + files, files, dirs, 0, false));
+            additionalInfo->setText(KIO::itemsSummaryString(dirs + files, files, dirs, entry->property("size").toULongLong(), true));
         } else if (!entry->property("link").toString().isEmpty()) {
             additionalInfo->setText(i18n("Symbolic Link"));
         } else {

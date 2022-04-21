@@ -162,7 +162,7 @@ private:
     void insertEntry(Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
     void newEntry(Kerfuffle::Archive::Entry *receivedEntry, InsertBehaviour behaviour);
 
-    void traverseAndCountDirNode(Archive::Entry *dir);
+    qulonglong traverseAndComputeDirSizes(Archive::Entry *dir);
 
     QList<int> m_showColumns;
     QScopedPointer<Kerfuffle::Archive> m_archive;
@@ -174,7 +174,6 @@ private:
 
     qulonglong m_numberOfFiles;
     qulonglong m_numberOfFolders;
-    qulonglong m_uncompressedSize;
 
     // Whether a file entry has been listed. Used to ensure all relevant columns are shown,
     // since directories might have fewer columns than files.
