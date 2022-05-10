@@ -37,6 +37,9 @@ bool ArchiveSortFilterModel::lessThan(const QModelIndex &leftIndex,
         return false;
     } else {
         switch (col) {
+        case FullPath:
+            return true;
+            break;
         case Size:
         case CompressedSize:
             if (left->property(property.constData()).toULongLong() < right->property(property.constData()).toULongLong()) {
