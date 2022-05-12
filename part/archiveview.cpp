@@ -162,3 +162,16 @@ void ArchiveView::closeEntryEditor()
     closePersistentEditor(m_editorIndex);
     m_editorIndex = QModelIndex();
 }
+
+void NoHighlightSelectionDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    if (index.column() && option.state.testFlag(QStyle::State_Selected)) {
+        QStyleOptionViewItem myOption = option;
+        myOption.state |= QStyle::State_MouseOver;
+        myOption.state &= ~QStyle::State_Selected;
+
+        QStyledItemDelegate::paint(painter, myOption, index);
+    } else {
+        QStyledItemDelegate::paint(painter, option, index);
+    }
+}

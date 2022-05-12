@@ -329,6 +329,9 @@ void Part::setupView()
 
     m_filterModel->setSourceModel(m_model);
     m_view->setModel(m_filterModel);
+
+    m_view->setItemDelegate(new NoHighlightSelectionDelegate(this));
+
     m_filterModel->setFilterKeyColumn(0);
     m_filterModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 

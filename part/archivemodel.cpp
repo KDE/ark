@@ -131,10 +131,9 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags ArchiveModel::flags(const QModelIndex &index) const
 {
-    Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
-
     if (index.isValid()) {
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | defaultFlags;
+        const auto itemFlags = Qt::ItemIsEnabled | Qt::ItemIsSelectable | QAbstractItemModel::flags(index);
+        return index.column() ? itemFlags : itemFlags | Qt::ItemIsDragEnabled;
     }
 
     return Qt::NoItemFlags;

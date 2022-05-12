@@ -9,6 +9,7 @@
 #define ARCHIVEVIEW_H
 
 #include <QTreeView>
+#include <QStyledItemDelegate>
 
 class QLineEdit;
 
@@ -50,6 +51,16 @@ private:
     void closeEntryEditor();
     QModelIndex m_editorIndex;
     QLineEdit *m_entryEditor = nullptr;
+};
+
+class NoHighlightSelectionDelegate : public QStyledItemDelegate
+{
+    Q_OBJECT
+
+public:
+    explicit NoHighlightSelectionDelegate(QObject* parent)
+        : QStyledItemDelegate(parent) {}
+    void paint(QPainter* painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
 #endif /* ARCHIVEVIEW_H */
