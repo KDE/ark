@@ -165,10 +165,9 @@ void ArchiveView::closeEntryEditor()
 
 void NoHighlightSelectionDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if (index.column() && option.state.testFlag(QStyle::State_Selected)) {
+    if (index.column() && option.state & (QStyle::State_Selected | QStyle::State_MouseOver)) {
         QStyleOptionViewItem myOption = option;
-        myOption.state |= QStyle::State_MouseOver;
-        myOption.state &= ~QStyle::State_Selected;
+        myOption.state = QStyle::State_MouseOver;
 
         QStyledItemDelegate::paint(painter, myOption, index);
     } else {
