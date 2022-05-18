@@ -167,7 +167,8 @@ void NoHighlightSelectionDelegate::paint(QPainter *painter, const QStyleOptionVi
 {
     if (index.column() && option.state & (QStyle::State_Selected | QStyle::State_MouseOver)) {
         QStyleOptionViewItem myOption = option;
-        myOption.state = QStyle::State_MouseOver;
+        myOption.state |= QStyle::State_MouseOver;
+        myOption.state &= ~(QStyle::State_Selected | QStyle::State_Active);
 
         QStyledItemDelegate::paint(painter, myOption, index);
     } else {
