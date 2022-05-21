@@ -348,7 +348,11 @@ void Cli7zTest::testAddArgs()
     QFETCH(ulong, volumeSize);
     QFETCH(QString, compressionMethod);
 
-    const auto replacedArgs = plugin->cliProperties()->addArgs(archiveName, {}, password, encryptHeader, compressionLevel, compressionMethod, QString(), volumeSize);
+    auto replacedArgs = plugin->cliProperties()->addArgs(archiveName, {}, password, encryptHeader, compressionLevel, compressionMethod, QString(), volumeSize);
+    // The -l switch is added only for the p7zip variant, we just ignore it for simplicity.
+    if (replacedArgs.contains(QLatin1String("-l"))) {
+        replacedArgs.removeAll(QStringLiteral("-l"));
+    }
 
     QFETCH(QStringList, expectedArgs);
     QCOMPARE(replacedArgs, expectedArgs);
