@@ -50,6 +50,12 @@ private:
         ParseStateEntryInformation
     } m_parseState;
 
+    enum BinaryVariant {
+        Undefined = 0,
+        P7zip,
+        Upstream7zip
+    } m_binaryVariant;
+
     void setupCliProperties();
     void handleMethods(const QStringList &methods);
     void fixDirectoryFullName();

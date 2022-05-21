@@ -24,6 +24,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
         : CliInterface(parent, args)
         , m_archiveType(ArchiveType7z)
         , m_parseState(ParseStateTitle)
+        , m_binaryVariant(Undefined)
         , m_linesComment(0)
         , m_isFirstInformationEntry(true)
 {
@@ -47,10 +48,30 @@ void CliPlugin::setupCliProperties()
 {
     qCDebug(ARK) << "Setting up parameters...";
 
+    if (m_binaryVariant == Undefined) {
+        qCDebug(ARK) << "Checking 7z variant...";
+        QProcess process;
+        process.setProgram(QStringLiteral("7z"));
+        process.start();
+        process.waitForFinished(500);
+        const QString output = QString::fromUtf8(process.readAllStandardOutput());
+        if (output.contains(QLatin1String("p7zip"))) {
+            qCDebug(ARK) << "Detected p7zip variant.";
+            m_binaryVariant = P7zip;
+        } else if (output.contains(QLatin1String("7-Zip"))) {
+            qCDebug(ARK) << "Detected upstream 7-Zip variant.";
+            m_binaryVariant = Upstream7zip;
+        }
+    }
+
     m_cliProps->setProperty("captureProgress", false);
 
     m_cliProps->setProperty("addProgram", QStringLiteral("7z"));
-    m_cliProps->setProperty("addSwitch", QStringList{QStringLiteral("a")});
+    QStringList addSwitch = {QStringLiteral("a")};
+    if (m_binaryVariant == P7zip) {
+        addSwitch << QStringLiteral("-l");
+    }
+    m_cliProps->setProperty("addSwitch", addSwitch);
 
     m_cliProps->setProperty("deleteProgram", QStringLiteral("7z"));
     m_cliProps->setProperty("deleteSwitch", QStringLiteral("d"));
@@ -341,7 +362,7 @@ void CliPlugin::handleMethods(const QStringList &methods)
 
 bool CliPlugin::isPasswordPrompt(const QString &line)
 {
-    return line.startsWith(QLatin1String("Enter password (will not be echoed):"));
+    return line.startsWith(QLatin1String("Enter password"));
 }
 
 bool CliPlugin::isWrongPasswordMsg(const QString &line)
