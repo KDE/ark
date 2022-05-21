@@ -142,8 +142,6 @@ bool CliPlugin::readListLine(const QString& line)
             m_parseState = ParseStateHeader;
             const QString p7zipVersion = matchVersion.captured(1);
             qCDebug(ARK) << "p7zip version" << p7zipVersion << "detected";
-            m_cliProps->setProperty("addSwitch", QStringList{QStringLiteral("a"),
-                                                         QStringLiteral("-l")});
 	    break;
         }
 	matchVersion = rxVersionLine7z.match(line);
@@ -151,7 +149,6 @@ bool CliPlugin::readListLine(const QString& line)
             m_parseState = ParseStateHeader;
             const QString l7zipVersion = matchVersion.captured(1);
             qCDebug(ARK) << "7zip version" << l7zipVersion << "detected";
-            m_cliProps->setProperty("addSwitch", QStringList{QStringLiteral("a")});
 	    break;
         }
         break;
