@@ -13,6 +13,7 @@
 
 #include <QFile>
 #include <QSignalSpy>
+#include <QStandardPaths>
 #include <QTest>
 #include <QTextStream>
 
@@ -48,11 +49,13 @@ void CliRarTest::testArchive_data()
     QTest::addColumn<Archive::EncryptionType>("expectedEncryptionType");
     QTest::addColumn<QString>("expectedSubfolderName");
 
+    const bool hasRar = !QStandardPaths::findExecutable(QStringLiteral("rar")).isEmpty();
+
     QString archivePath = QFINDTESTDATA("data/one_toplevel_folder.rar");
     QTest::newRow("archive with one top-level folder")
             << archivePath
             << QFileInfo(archivePath).fileName()
-            << false << true << Archive::Unencrypted
+            << !hasRar << true << Archive::Unencrypted
             << QStringLiteral("A");
 
     archivePath = QFINDTESTDATA("data/locked_archive.rar");
