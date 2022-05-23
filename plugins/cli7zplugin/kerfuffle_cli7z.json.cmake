@@ -47,7 +47,7 @@
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
         ],
-        "Name": "P7zip plugin",
+        "Name": "7z plugin",
         "Name[ar]": "ملحق P7zip",
         "Name[ast]": "Plugin pa p7zip",
         "Name[az]": "p7zip qoşması",

@@ -323,7 +323,7 @@ bool CliPlugin::readDeleteLine(const QString &line)
 {
     if (line.startsWith(QLatin1String("Error: ")) &&
         line.endsWith(QLatin1String(" is not supported archive"))) {
-        Q_EMIT error(i18n("Delete operation failed. Try upgrading p7zip or disabling the p7zip plugin in the configuration dialog."));
+        Q_EMIT error(i18n("Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the configuration dialog."));
         return false;
     }
 
