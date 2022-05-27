@@ -48,10 +48,13 @@
             "@SUPPORTED_MIMETYPES@"
         ],
         "Name": "7z plugin",
+        "Name[az]": "7z qoşması",
         "Name[ca]": "Connector del 7z",
         "Name[es]": "Complemento 7z",
+        "Name[fr]": "Module externe « 7z »",
         "Name[nl]": "7z-plug-in",
         "Name[sl]": "Vstavek 7z",
+        "Name[sv]": "7z-insticksprogram",
         "Name[tr]": "7z eklentisi",
         "Name[uk]": "Додаток 7z",
         "Name[x-test]": "xx7z pluginxx",
