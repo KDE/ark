@@ -49,6 +49,7 @@
         ],
         "Name": "7z plugin",
         "Name[az]": "7z qoşması",
+        "Name[ca@valencia]": "Connector del 7z",
         "Name[ca]": "Connector del 7z",
         "Name[es]": "Complemento 7z",
         "Name[fr]": "Module externe « 7z »",
