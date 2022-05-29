@@ -48,6 +48,7 @@
             "@SUPPORTED_MIMETYPES@"
         ],
         "Name": "7z plugin",
+        "Name[ar]": "ملحق 7z",
         "Name[az]": "7z qoşması",
         "Name[ca@valencia]": "Connector del 7z",
         "Name[ca]": "Connector del 7z",
@@ -59,6 +60,7 @@
         "Name[tr]": "7z eklentisi",
         "Name[uk]": "Додаток 7z",
         "Name[x-test]": "xx7z pluginxx",
+        "Name[zh_CN]": "7z 插件",
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [
