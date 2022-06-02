@@ -56,6 +56,7 @@
         "Name[fr]": "Module externe « 7z »",
         "Name[it]": "Estensione 7z",
         "Name[nl]": "7z-plug-in",
+        "Name[ro]": "Extensie 7z",
         "Name[sl]": "Vstavek 7z",
         "Name[sv]": "7z-insticksprogram",
         "Name[tr]": "7z eklentisi",
