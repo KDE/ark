@@ -154,9 +154,9 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
         case FullPath:
             return i18nc("Name of a file inside an archive", "Name");
         case Size:
-            return i18nc("Uncompressed size of a file inside an archive", "Size");
+            return i18nc("Uncompressed size of a file inside an archive", "Original Size");
         case CompressedSize:
-            return i18nc("Compressed size of a file inside an archive", "Compressed");
+            return i18nc("Compressed size of a file inside an archive", "Compressed Size");
         case Ratio:
             return i18nc("Compression rate of file", "Rate");
         case Owner:
