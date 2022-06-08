@@ -316,7 +316,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     }
     if (statBuffer.valid & ZIP_STAT_CRC) {
         if (!e->isDir()) {
-            e->setProperty("CRC", QString::number((qulonglong)statBuffer.crc, 16).toUpper());
+            e->setProperty("CRC", QStringLiteral("%1").arg((qulonglong)statBuffer.crc, /*fieldWidth*/ 8, /*base*/ 16, QLatin1Char('0')).toUpper());
         }
     }
     if (statBuffer.valid & ZIP_STAT_COMP_METHOD) {
