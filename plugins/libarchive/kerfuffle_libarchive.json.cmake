@@ -5,7 +5,7 @@
         "Description[ast]": "Sofitu completu pa los archivos comprimíos en TAR",
         "Description[az]": "Sıxılmış TAR arxivlərinin tam dəstəklənməsi",
         "Description[bg]": "Пълна поддръжка на компресирани архиви TAR",
-        "Description[ca@valencia]": "Implementació completa dels archius TAR comprimits",
+        "Description[ca@valencia]": "Implementació completa dels arxius TAR comprimits",
         "Description[ca]": "Implementació completa dels arxius TAR comprimits",
         "Description[cs]": "Plná podpora komprimovaných archivů TAR",
         "Description[da]": "Fuld understøttelse af TAR-arkiver",

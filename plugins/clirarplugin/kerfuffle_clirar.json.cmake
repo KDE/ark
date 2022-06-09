@@ -5,7 +5,7 @@
         "Description[ast]": "Sofitu completu pal formatu de ficheros RAR",
         "Description[az]": "RAR formatlı arxivlərin tam dəstəklənməsi",
         "Description[bg]": "Пълна поддръжка на архивен формат RAR",
-        "Description[ca@valencia]": "Implementació completa del format d'archiu RAR",
+        "Description[ca@valencia]": "Implementació completa del format d'arxiu RAR",
         "Description[ca]": "Implementació completa del format d'arxiu RAR",
         "Description[cs]": "Plná podpora archivačního formátu RAR",
         "Description[da]": "Fuld understøttelse af RAR-arkivformatet",

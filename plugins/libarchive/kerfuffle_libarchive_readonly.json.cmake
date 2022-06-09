@@ -5,7 +5,7 @@
         "Description[ast]": "Abre y estrái ficheros deb, rpm, iso, AppImage, XAR y CAB",
         "Description[az]": "DEB, RPM, İSO, Appİmage, XAR, və CAB fayllarını açmaq və çıxartmaq",
         "Description[bg]": "Отваряне и извличане на файлове DEB, RPM, ISO, AppImage, XAR и CAB",
-        "Description[ca@valencia]": "Obri i extreu fichers DEB, RPM, ISO, AppImage, XAR i CAB",
+        "Description[ca@valencia]": "Obri i extreu fitxers DEB, RPM, ISO, AppImage, XAR i CAB",
         "Description[ca]": "Obre i extreu fitxers DEB, RPM, ISO, AppImage, XAR i CAB",
         "Description[cs]": "Otevřít a rozbalit soubory DEB, RPM, ISO, AppImage, XAR a CAB",
         "Description[da]": "Åbn og udpak DEB-, RPM-, ISO-, AppImage-, XAR- og CAB-filer",
