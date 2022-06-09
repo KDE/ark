@@ -13,6 +13,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QFileInfo>
+#include <QStorageInfo>
 #include <QThread>
 #include <QTimer>
 #include <QUrl>
@@ -396,6 +397,16 @@ void BatchExtractJob::slotLoadingFinished(KJob *job)
         return;
     }
 
+    // Block extraction if there's no space on the device.
+    // Probably we need to take into account a small delta too,
+    // so, free space + 1% just for the sake of it.
+    QStorageInfo destinationStorage(m_destination);
+    if (m_loadJob->extractedFilesSize() * 1.01 > destinationStorage.bytesAvailable()) {
+        onError(xi18n("No space available on device <filename>%1</filename>", m_destination), QString(), Kerfuffle::DestinationNotWritableError);
+        onFinished(false);
+        return;
+    }
+
     // Now we can start extraction.
     setupDestination();
 
@@ -541,6 +552,19 @@ void ExtractJob::doWork()
              << m_entries
              << "Destination dir:" << m_destinationDir
              << "Options:" << m_options;
+
+    qulonglong totalUncompressedSize = 0;
+    for (Archive::Entry *entry : m_entries) {
+        totalUncompressedSize += entry->size();
+    }
+
+    QStorageInfo destinationStorage(m_destinationDir);
+
+    if (totalUncompressedSize > destinationStorage.bytesAvailable()) {
+        onError(xi18n("No space available on device <filename>%1</filename>", m_destinationDir), QString(), Kerfuffle::DestinationNotWritableError);
+        onFinished(false);
+        return;
+    }
 
     bool ret = archiveInterface()->extractFiles(m_entries, m_destinationDir, m_options);
 

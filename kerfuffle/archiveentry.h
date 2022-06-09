@@ -77,6 +77,7 @@ public:
     Entry *find(QStringView name) const;
     Entry *findByPath(const QStringList & pieces, int index = 0) const;
     QIcon icon() const;
+    qulonglong size() const;
 
     /**
      * Fills @p dirs and @p files with the number of directories and files

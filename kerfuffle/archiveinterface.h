@@ -162,6 +162,11 @@ public:
      */
     virtual bool isLocked() const;
 
+    /**
+     * Returns the size of the unpacked archive
+     */
+    qulonglong unpackedSize() const;
+
 Q_SIGNALS:
 
     /**
@@ -207,6 +212,7 @@ private:
     bool m_isHeaderEncryptionEnabled;
     bool m_isCorrupt;
     bool m_isMultiVolume;
+    qulonglong m_unpackedSize;
 
 private Q_SLOTS:
     void onEntry(Archive::Entry *archiveEntry);

@@ -30,6 +30,11 @@ Archive::Entry::~Entry()
 {
 }
 
+qulonglong Archive::Entry::size() const
+{
+    return m_size;
+}
+
 void Archive::Entry::copyMetaData(const Archive::Entry *sourceEntry)
 {
     setProperty("fullPath", sourceEntry->property("fullPath"));

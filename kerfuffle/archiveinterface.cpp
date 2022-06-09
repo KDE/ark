@@ -16,14 +16,15 @@
 
 namespace Kerfuffle
 {
-ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVariantList & args)
-        : QObject(parent)
-        , m_numberOfVolumes(0)
-        , m_numberOfEntries(0)
-        , m_waitForFinishedSignal(false)
-        , m_isHeaderEncryptionEnabled(false)
-        , m_isCorrupt(false)
-        , m_isMultiVolume(false)
+ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVariantList &args)
+    : QObject(parent)
+    , m_numberOfVolumes(0)
+    , m_numberOfEntries(0)
+    , m_waitForFinishedSignal(false)
+    , m_isHeaderEncryptionEnabled(false)
+    , m_isCorrupt(false)
+    , m_isMultiVolume(false)
+    , m_unpackedSize(0)
 {
     Q_ASSERT(args.size() >= 2);
 
@@ -40,8 +41,9 @@ ReadOnlyArchiveInterface::~ReadOnlyArchiveInterface()
 
 void ReadOnlyArchiveInterface::onEntry(Archive::Entry *archiveEntry)
 {
-    Q_UNUSED(archiveEntry)
-    m_numberOfEntries++;
+    Q_ASSERT(archiveEntry);
+    m_numberOfEntries += 1;
+    m_unpackedSize += archiveEntry->size();
 }
 
 QString ReadOnlyArchiveInterface::filename() const
@@ -144,6 +146,11 @@ int ReadOnlyArchiveInterface::copyRequiredSignals() const
 void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
 {
     m_waitForFinishedSignal = value;
+}
+
+qulonglong ReadOnlyArchiveInterface::unpackedSize() const
+{
+    return m_unpackedSize;
 }
 
 QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entry*> &entries, PathFormat format)
