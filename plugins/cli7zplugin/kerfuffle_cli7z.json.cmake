@@ -5,7 +5,7 @@
         "Description[ast]": "Sofitu completu pa los formatos d'archivos zip y 7z",
         "Description[az]": "Zip və 7z formatlı arxivlərin tam dəstəklənməsi",
         "Description[bg]": "Пълна поддръжка на архивни формати zip и 7z",
-        "Description[ca@valencia]": "Implementació completa dels formats d'archiu «zip» i «7z»",
+        "Description[ca@valencia]": "Implementació completa dels formats d'arxiu «zip» i «7z»",
         "Description[ca]": "Implementació completa dels formats d'arxiu «zip» i «7z»",
         "Description[cs]": "Plná podpora archivačních formátů zip a 7z",
         "Description[da]": "Fuld understøttelse af zip- og 7z-arkivformater",

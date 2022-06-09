@@ -5,7 +5,7 @@
         "Description[ast]": "Abre y estrái ficheros comprimíos individuales col algoritmu de gzip",
         "Description[az]": "Gzip alqoritmi ilə sıxılmış tək faylları açmaq və çıxartmaq",
         "Description[bg]": "Отваряне и извличане на единични файлове, компресирани с алгоритъм gzip",
-        "Description[ca@valencia]": "Obri i extreu fichers individuals comprimits amb l'algorisme «gzip»",
+        "Description[ca@valencia]": "Obri i extreu fitxers individuals comprimits amb l'algorisme «gzip»",
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «gzip»",
         "Description[cs]": "Otevřít a rozbalit jednotlivé soubory komprimované algoritmem gzip",
         "Description[da]": "Åbn og udpak enkelte filer komprimeret med gzip-algoritmen",
