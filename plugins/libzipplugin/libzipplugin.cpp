@@ -163,7 +163,7 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
 
     // Register the callback function to get progress feedback and cancelation.
     zip_register_progress_callback_with_state(archive.get(), 0.001, progressCallback, nullptr, this);
-#ifdef LIBZIP_CANCELATION
+#if LIBZIP_CANCELATION
     zip_register_cancel_callback_with_state(archive.get(), cancelCallback, nullptr, this);
 #endif
 
@@ -936,7 +936,7 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
 
     // Register the callback function to get progress feedback and cancelation.
     zip_register_progress_callback_with_state(archive.get(), 0.001, progressCallback, nullptr, this);
-#ifdef LIBZIP_CANCELATION
+#if LIBZIP_CANCELATION
     zip_register_cancel_callback_with_state(archive.get(), cancelCallback, nullptr, this);
 #endif
 

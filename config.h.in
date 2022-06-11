@@ -1,6 +1,6 @@
 #ifndef ARK_CONFIG_H
 #define ARK_CONFIG_H
 
-#cmakedefine LIBZIP_CANCELATION 1
+#cmakedefine01 LIBZIP_CANCELATION
 
 #endif
