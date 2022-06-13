@@ -52,7 +52,7 @@
         "Name[ast]": "Plugin pa libarchive (formatos de namás llectura)",
         "Name[az]": "Libarchive qoşması (yalnız_oxumaq formatları)",
         "Name[bg]": "Приставка Libarchive (само за четене)",
-        "Name[ca@valencia]": "Conector de Libarchive (formats de només lectura)",
+        "Name[ca@valencia]": "Connector de Libarchive (formats de només lectura)",
         "Name[ca]": "Connector del Libarchive (formats de només lectura)",
         "Name[cs]": "Modul libarchive (formáty pouze pro čtení)",
         "Name[da]": "Libarchive-plugin (skrivebeskyttede formater)",

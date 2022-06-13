@@ -46,7 +46,7 @@
         "Name[ast]": "Plugin pa The Unarchiver",
         "Name[az]": "Unarchive qoşması",
         "Name[bg]": "Приставка Unarchiver",
-        "Name[ca@valencia]": "Conector d'Unarchiver",
+        "Name[ca@valencia]": "Connector d'Unarchiver",
         "Name[ca]": "Connector de l'Unarchiver",
         "Name[cs]": "Modul pro Unarchiver",
         "Name[da]": "Unarchiver-pluginet",

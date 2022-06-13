@@ -51,7 +51,7 @@
         "Name[ast]": "Plugin pa LZMA",
         "Name[az]": "LZMA qoşması",
         "Name[bg]": "Приставка LZMA",
-        "Name[ca@valencia]": "Conector de LZMA",
+        "Name[ca@valencia]": "Connector de LZMA",
         "Name[ca]": "Connector del LZMA",
         "Name[cs]": "Modul pro LZMA",
         "Name[da]": "LZMA-plugin",

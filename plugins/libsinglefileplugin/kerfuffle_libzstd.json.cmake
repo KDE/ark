@@ -43,7 +43,7 @@
         "Name[ar]": "ملحق Zstd",
         "Name[az]": "Zstd qoşması",
         "Name[bg]": "Приставка Zstd",
-        "Name[ca@valencia]": "Conector de Zstd",
+        "Name[ca@valencia]": "Connector de Zstd",
         "Name[ca]": "Connector del Zstd",
         "Name[cs]": "Modul pro zstd",
         "Name[da]": "Zstd-plugin",
