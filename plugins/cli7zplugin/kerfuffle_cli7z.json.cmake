@@ -52,7 +52,7 @@
         "Name[ast]": "Plugin pa p7zip",
         "Name[az]": "p7zip qoşması",
         "Name[bg]": "Приставка P7zip",
-        "Name[ca@valencia]": "Conector del P7zip",
+        "Name[ca@valencia]": "Connector del P7zip",
         "Name[ca]": "Connector del P7zip",
         "Name[cs]": "Modul pro p7zip",
         "Name[da]": "P7zip-plugin",

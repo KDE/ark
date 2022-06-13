@@ -51,7 +51,7 @@
         "Name[ast]": "Plugin pa bzip2",
         "Name[az]": "Bzip2 qoşması",
         "Name[bg]": "Приставка Bzip2",
-        "Name[ca@valencia]": "Conector de Bzip2",
+        "Name[ca@valencia]": "Connector de Bzip2",
         "Name[ca]": "Connector del Bzip2",
         "Name[cs]": "Modul pro bzip2",
         "Name[da]": "Bzip2-plugin",

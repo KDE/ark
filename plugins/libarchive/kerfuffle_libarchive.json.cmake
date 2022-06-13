@@ -52,7 +52,7 @@
         "Name[ast]": "Plugin pa libarchive",
         "Name[az]": "Libarchive qoşması",
         "Name[bg]": "Приставка Libarchive",
-        "Name[ca@valencia]": "Conector de Libarchive",
+        "Name[ca@valencia]": "Connector de Libarchive",
         "Name[ca]": "Connector del Libarchive",
         "Name[cs]": "Modul libarchive",
         "Name[da]": "Libarchive-plugin",

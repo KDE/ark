@@ -51,7 +51,7 @@
         "Name[ast]": "Plugin pa gzip",
         "Name[az]": "Gzip qoşması",
         "Name[bg]": "Приставка Gzip",
-        "Name[ca@valencia]": "Conector de Gzip",
+        "Name[ca@valencia]": "Connector de Gzip",
         "Name[ca]": "Connector del Gzip",
         "Name[cs]": "Modul pro gzip",
         "Name[da]": "Gzip-plugin",

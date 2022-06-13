@@ -52,7 +52,7 @@
         "Name[ast]": "Plugin pa info-zip",
         "Name[az]": "İnfo-zip qoşması",
         "Name[bg]": "Приставка Info-zip",
-        "Name[ca@valencia]": "Conector d'Info-zip",
+        "Name[ca@valencia]": "Connector d'Info-zip",
         "Name[ca]": "Connector de l'Info-zip",
         "Name[cs]": "Modul info-zip",
         "Name[da]": "Info-zip-plugin",

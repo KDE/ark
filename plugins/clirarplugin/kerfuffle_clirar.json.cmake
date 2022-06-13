@@ -52,7 +52,7 @@
         "Name[ast]": "plugin pa RAR",
         "Name[az]": "RAR qoşması",
         "Name[bg]": "Приставка RAR",
-        "Name[ca@valencia]": "Conector de RAR",
+        "Name[ca@valencia]": "Connector de RAR",
         "Name[ca]": "Connector del RAR",
         "Name[cs]": "Modul pro RAR",
         "Name[da]": "RAR-plugin",
