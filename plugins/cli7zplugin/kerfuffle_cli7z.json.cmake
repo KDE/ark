@@ -67,6 +67,7 @@
         "Name[gl]": "Complemento de p7zip",
         "Name[hu]": "P7zip bővítmény",
         "Name[ia]": "Plugin de P7zip",
+        "Name[id]": "Plugin P7zip",
         "Name[it]": "Estensione P7zip",
         "Name[ja]": "P7zip プラグイン",
         "Name[ko]": "P7zip 플러그인",
