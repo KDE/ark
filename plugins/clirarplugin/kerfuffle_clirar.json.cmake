@@ -85,6 +85,7 @@
         "Name[sr@latin]": "Priključak za RAR",
         "Name[sr]": "Прикључак за РАР",
         "Name[sv]": "RAR-insticksprogram",
+        "Name[ta]": "RAR செருகுநிரல்",
         "Name[tr]": "RAR eklentisi",
         "Name[uk]": "Додаток RAR",
         "Name[x-test]": "xxRAR pluginxx",

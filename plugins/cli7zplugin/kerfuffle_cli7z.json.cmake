@@ -62,6 +62,7 @@
         "Name[ro]": "Extensie 7z",
         "Name[sl]": "Vstavek 7z",
         "Name[sv]": "7z-insticksprogram",
+        "Name[ta]": "7z செருகுநிரல்",
         "Name[tr]": "7z eklentisi",
         "Name[uk]": "Додаток 7z",
         "Name[x-test]": "xx7z pluginxx",
