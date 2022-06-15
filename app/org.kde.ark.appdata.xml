@@ -47,6 +47,7 @@
   <name xml:lang="sr-ijekavian">Арк</name>
   <name xml:lang="sr-ijekavianlatin">Ark</name>
   <name xml:lang="sv">Ark</name>
+  <name xml:lang="ta">ஆர்க்</name>
   <name xml:lang="tr">Ark</name>
   <name xml:lang="uk">Ark</name>
   <name xml:lang="x-test">xxArkxx</name>
@@ -96,6 +97,7 @@
   <summary xml:lang="sr-ijekavian">Алатка за архивирање</summary>
   <summary xml:lang="sr-ijekavianlatin">Alatka za arhiviranje</summary>
   <summary xml:lang="sv">Arkiveringsverktyg</summary>
+  <summary xml:lang="ta">காப்பகச்செயலி</summary>
   <summary xml:lang="tr">Arşivleme Aracı</summary>
   <summary xml:lang="uk">Інструмент роботи з архівами</summary>
   <summary xml:lang="x-test">xxArchiving Toolxx</summary>
@@ -196,6 +198,7 @@
     <p xml:lang="sr-ijekavian">Могућности:</p>
     <p xml:lang="sr-ijekavianlatin">Mogućnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
+    <p xml:lang="ta">அம்சங்கள்:</p>
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
