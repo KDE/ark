@@ -58,6 +58,7 @@
         "Name[id]": "Plugin 7z",
         "Name[it]": "Estensione 7z",
         "Name[nl]": "7z-plug-in",
+        "Name[nn]": "7z-tillegg",
         "Name[pl]": "Wtyczka 7z",
         "Name[pt]": "'Plugin' do 7z",
         "Name[ro]": "Extensie 7z",
