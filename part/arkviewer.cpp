@@ -9,16 +9,18 @@
 #include "arkviewer.h"
 #include "ark_debug.h"
 
-#include <KIO/JobUiDelegate>
-#include <KIO/ApplicationLauncherJob>
-#include <KLocalizedString>
-#include <KMimeTypeTrader>
-#include <KMessageBox>
-#include <KParts/OpenUrlArguments>
-#include <KXMLGUIFactory>
-#include <KActionCollection>
 #include <KAboutPluginDialog>
+#include <KActionCollection>
+#include <KApplicationTrader>
+#include <KIO/ApplicationLauncherJob>
+#include <KIO/JobUiDelegate>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KMimeTypeTrader>
+#include <KParts/OpenUrlArguments>
+#include <KParts/PartLoader>
 #include <KPluginMetaData>
+#include <KXMLGUIFactory>
 
 #include <QFile>
 #include <QMimeDatabase>
@@ -206,7 +208,7 @@ bool ArkViewer::viewInInternalViewer(const KService::Ptr viewer, const QString& 
 
 KService::Ptr ArkViewer::getExternalViewer(const QString &mimeType)
 {
-    KService::List offers = KMimeTypeTrader::self()->query(mimeType, QStringLiteral("Application"));
+    KService::List offers = KApplicationTrader::queryByMimeType(mimeType);
 
     if (!offers.isEmpty()) {
         return offers.first();
