@@ -55,6 +55,7 @@ private Q_SLOTS:
 
 private:
     void setupActions();
+    void updateHamburgerMenu();
 
     KParts::ReadWritePart *m_part;
     KRecentFilesMenu      *m_recentFilesMenu;

@@ -16,6 +16,7 @@
 #include "settingspage.h"
 #include "pluginmanager.h"
 #include "interface.h"
+#include "settings.h"
 
 #include <KParts/ReadWritePart>
 #include <KPluginFactory>
@@ -28,6 +29,8 @@
 #include <KConfigDialog>
 #include <KXMLGUIFactory>
 #include <KConfigSkeleton>
+#include <KToolBar>
+#include <QMenuBar>
 
 #include <QApplication>
 #include <QDragEnterEvent>
@@ -128,9 +131,25 @@ bool MainWindow::loadPart()
     m_part->setObjectName(QStringLiteral("ArkPart"));
     m_windowContents->addWidget(m_part->widget());
 
+    // needs to be above createGUI()
+    KHamburgerMenu * const hamburgerMenu = KStandardAction::hamburgerMenu(nullptr, nullptr, m_part->actionCollection());
+
     setXMLFile(QStringLiteral("arkui.rc"));
     setupGUI(ToolBar | Keys | Save);
     createGUI(m_part);
+
+    connect(hamburgerMenu, &KHamburgerMenu::aboutToShowMenu,
+            this, &MainWindow::updateHamburgerMenu);
+    hamburgerMenu->setMenuBar(menuBar());
+
+    QAction * const showMenuBarAction = actionCollection()->action(
+                                    QLatin1String(KStandardAction::name(KStandardAction::ShowMenubar)));
+    hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
+    if (ArkSettings::version() < 1) {
+        menuBar()->hide();
+    }
+    // FIXME: workaround for BUG 171080
+    showMenuBarAction->setChecked(!menuBar()->isHidden());
 
     statusBar()->hide();
 
@@ -175,6 +194,51 @@ void MainWindow::setupActions()
     // Connect the welcome screen to actions created above
     connect(m_welcomeScreen, &WelcomeScreen::newClicked, m_newAction, &QAction::trigger);
     connect(m_welcomeScreen, &WelcomeScreen::openClicked, m_openAction, &QAction::trigger);
+
+    // add Menubar toggle to 'Settings' menu
+    KToggleAction* showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());
+    showMenuBar->setWhatsThis(xi18nc("@info:whatsthis",
+            "This switches between having a <emphasis>Menubar</emphasis> "
+            "and having a <interface>Hamburger Menu</interface> button. Both "
+            "contain mostly the same commands and configuration options."));
+    connect(showMenuBar, &KToggleAction::triggered,                   // Fixes #286822
+            this, [this]{ menuBar()->setVisible(!menuBar()->isVisible()); }, Qt::QueuedConnection);
+}
+
+void MainWindow::updateHamburgerMenu()
+{
+    const KActionCollection* ac = m_part->actionCollection();
+    auto hamburgerMenu = static_cast<KHamburgerMenu *>(
+                    ac->action(QLatin1String(KStandardAction::name(KStandardAction::HamburgerMenu))));
+    auto menu = hamburgerMenu->menu();
+    if (!menu) {
+        menu = new QMenu(this);
+        hamburgerMenu->setMenu(menu);
+    } else {
+        menu->clear();
+    }
+
+    if (!toolBar()->isVisible()) {
+        // If neither the menu bar nor the toolbar are visible, these actions should be available.
+        menu->addAction(actionCollection()->action(QLatin1String(KStandardAction::name(KStandardAction::ShowMenubar))));
+        menu->addAction(toolBarMenuAction());
+        menu->addSeparator();
+    }
+
+    menu->addAction(m_newAction);
+    menu->addAction(m_openAction);
+    menu->addMenu(m_recentFilesMenu);
+    menu->addSeparator();
+
+    menu->addAction(ac->action(QStringLiteral("extract")));
+    menu->addAction(ac->action(QStringLiteral("add")));
+    menu->addAction(ac->action(QStringLiteral("edit_find")));
+    menu->addSeparator();
+
+    menu->addMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("ark_file"), m_part)));
+    menu->addSeparator();
+
+    menu->addMenu(static_cast<QMenu *>(factory()->container(QStringLiteral("settings"), this)));
 }
 
 void MainWindow::updateActions()
@@ -238,6 +302,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
             widget->close();
         }
     }
+
+    ArkSettings::setVersion(1);
+    ArkSettings::self()->save();
 
     KParts::MainWindow::closeEvent(event);
 }

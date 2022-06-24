@@ -1,5 +1,5 @@
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="ark_part" version="24" translationDomain="ark">
+<gui name="ark_part" version="25" translationDomain="ark">
 <MenuBar>
 	<Menu name="archive">
 		<text>&amp;Archive</text>
@@ -39,6 +39,8 @@
 	<Action name="preview"/>
 	<Action name="openfile"/>
 	<Action name="deletefile"/>
+        <Spacer/>
+        <Action name="hamburger_menu" />
 </ToolBar>
 <Menu name="context_menu">
 	<Action name="preview"/>

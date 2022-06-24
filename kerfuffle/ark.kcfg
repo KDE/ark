@@ -17,6 +17,10 @@
 			</choices>
 			<default>Preview</default>
 		</entry>
+		<entry name="Version" type="Int">
+		<label>Internal config version of Ark, mainly used to determine whether an updated version of Ark is running, so as to migrate config entries that were removed/renamed ...etc</label>
+		<default>0</default>
+		</entry>
 	</group>
 	<group name="Extraction">
 		<entry name="openDestinationFolderAfterExtraction" type="Bool">
