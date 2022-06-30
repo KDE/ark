@@ -55,6 +55,7 @@
         "Name[de]": "7z-Modul",
         "Name[es]": "Complemento 7z",
         "Name[fr]": "Module externe « 7z »",
+        "Name[ia]": "Plugin de 7z",
         "Name[id]": "Plugin 7z",
         "Name[it]": "Estensione 7z",
         "Name[nl]": "7z-plug-in",
