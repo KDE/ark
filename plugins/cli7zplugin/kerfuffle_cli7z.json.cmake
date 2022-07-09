@@ -53,6 +53,7 @@
         "Name[bg]": "Приставка 7z",
         "Name[ca@valencia]": "Connector de 7z",
         "Name[ca]": "Connector del 7z",
+        "Name[cs]": "Modul pro 7z",
         "Name[de]": "7z-Modul",
         "Name[es]": "Complemento 7z",
         "Name[fr]": "Module externe « 7z »",
