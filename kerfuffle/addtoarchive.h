@@ -36,7 +36,7 @@ public:
     explicit AddToArchive(QObject *parent = nullptr);
     ~AddToArchive() override;
 
-    bool showAddDialog();
+    bool showAddDialog(QWidget *parentWidget);
     void setPreservePaths(bool value);
     void setChangeToFirstPath(bool value);
     void setImmediateProgressReporting(bool immediateProgressReporting);

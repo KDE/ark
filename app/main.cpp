@@ -253,7 +253,7 @@ int main(int argc, char **argv)
 
             if (parser.isSet(QStringLiteral("dialog"))) {
                 qCDebug(ARK) << "Using kerfuffle to open add dialog";
-                if (!addToArchiveJob->showAddDialog()) {
+                if (!addToArchiveJob->showAddDialog(nullptr)) {
                     return 0;
                 }
             }
