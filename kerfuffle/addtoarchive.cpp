@@ -66,7 +66,7 @@ void AddToArchive::setHeaderEncryptionEnabled(bool enabled)
     m_enableHeaderEncryption = enabled;
 }
 
-bool AddToArchive::showAddDialog()
+bool AddToArchive::showAddDialog(QWidget *parentWidget)
 {
     qCDebug(ARK) << "Opening add dialog";
 
@@ -75,7 +75,7 @@ bool AddToArchive::showAddDialog()
     }
 
     QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
-        nullptr, // parent
+        parentWidget, // parent
         i18n("Compress to Archive"), // caption
         QUrl::fromLocalFile(QFileInfo(m_filename).path())); // startDir
 

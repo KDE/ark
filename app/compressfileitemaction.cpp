@@ -109,7 +109,7 @@ QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent
         if (!fileExtension.isEmpty()) {
             addToArchiveJob->setAutoFilenameSuffix(fileExtension);
         } else {
-            if (!addToArchiveJob->showAddDialog()) {
+            if (!addToArchiveJob->showAddDialog(parent)) {
                 delete addToArchiveJob;
                 return;
             }
