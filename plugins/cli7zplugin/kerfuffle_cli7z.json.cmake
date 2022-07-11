@@ -74,6 +74,7 @@
         "Name[uk]": "Додаток 7z",
         "Name[x-test]": "xx7z pluginxx",
         "Name[zh_CN]": "7z 插件",
+        "Name[zh_TW]": "7z 外掛程式",
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [
