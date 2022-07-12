@@ -5,7 +5,7 @@
         "Description[ast]": "Abre y estrái ficheros comprimíos individuales col algoritmu de bzip2",
         "Description[az]": "Bzip2 alqoritmi ilə sıxılmış tək faylları açmaq və çıxartmaq",
         "Description[bg]": "Отваряне и извличане на единични файлове, компресирани с алгоритъм bzip2",
-        "Description[ca@valencia]": "Obri i extreu fitxers individuals comprimits amb l'algorisme «bzip2»",
+        "Description[ca@valencia]": "Obri i extrau fitxers individuals comprimits amb l'algorisme «bzip2»",
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «bzip2»",
         "Description[cs]": "Otevřít a rozbalit jednotlivé soubory komprimované algoritmem bzip2",
         "Description[da]": "Åbn og udpak enkelte filer komprimeret med bzip2-algoritmen",

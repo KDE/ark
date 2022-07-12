@@ -4,7 +4,7 @@
         "Description[ar]": "يفتح و يستخرج الملفات المفردة المضغوطة باستخدام خوارزمية Zstd",
         "Description[az]": "Zstd alqoritmi ilə sıxılmış tək faylları açmaq və çıxartmaq",
         "Description[bg]": "Отваряне и извличане на единични файлове, компресирани с алгоритъм zstd",
-        "Description[ca@valencia]": "Obri i extreu fitxers individuals comprimits amb l'algorisme «zstd»",
+        "Description[ca@valencia]": "Obri i extrau fitxers individuals comprimits amb l'algorisme «zstd»",
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «zstd»",
         "Description[cs]": "Otevřít a rozbalit jednotlivé soubory komprimované algoritmem zstd",
         "Description[da]": "Åbn og udpak enkelte filer komprimeret med zstd-algoritmen",

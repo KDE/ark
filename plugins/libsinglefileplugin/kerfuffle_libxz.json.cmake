@@ -5,7 +5,7 @@
         "Description[ast]": "Abre y estrái ficheros comprimíos individuales col algoritmu de LZMA",
         "Description[az]": "lzma alqoritmi ilə sıxlaşdırılan tək faylları açmaq və çıxartmaq",
         "Description[bg]": "Отваряне и извличане на единични файлове, компресирани с алгоритъм lzma",
-        "Description[ca@valencia]": "Obri i extreu fitxers individuals comprimits amb l'algorisme «lzma»",
+        "Description[ca@valencia]": "Obri i extrau fitxers individuals comprimits amb l'algorisme «lzma»",
         "Description[ca]": "Obre i extreu fitxers individuals comprimits amb l'algorisme «lzma»",
         "Description[cs]": "Otevřít a rozbalit jednotlivé soubory komprimované algoritmem lzma",
         "Description[da]": "Åbn og udpak enkelte filer komprimeret med lzma-algoritmen",
