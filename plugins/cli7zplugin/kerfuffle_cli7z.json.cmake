@@ -66,6 +66,7 @@
         "Name[nn]": "7z-tillegg",
         "Name[pl]": "Wtyczka 7z",
         "Name[pt]": "'Plugin' do 7z",
+        "Name[pt_BR]": "Plugin 7z",
         "Name[ro]": "Extensie 7z",
         "Name[ru]": "Модуль 7z",
         "Name[sl]": "Vstavek 7z",
