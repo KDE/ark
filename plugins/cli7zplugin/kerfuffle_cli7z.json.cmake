@@ -56,6 +56,7 @@
         "Name[cs]": "Modul pro 7z",
         "Name[de]": "7z-Modul",
         "Name[es]": "Complemento 7z",
+        "Name[eu]": "7z plugina",
         "Name[fi]": "7z-liitännäinen",
         "Name[fr]": "Module externe « 7z »",
         "Name[ia]": "Plugin de 7z",
