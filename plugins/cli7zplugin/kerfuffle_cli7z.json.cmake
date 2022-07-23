@@ -55,6 +55,7 @@
         "Name[ca]": "Connector del 7z",
         "Name[cs]": "Modul pro 7z",
         "Name[de]": "7z-Modul",
+        "Name[en_GB]": "7z plugin",
         "Name[es]": "Complemento 7z",
         "Name[eu]": "7z plugina",
         "Name[fi]": "7z-liitännäinen",
