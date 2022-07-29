@@ -304,7 +304,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
             const QString udsLocalPath = statJob->statResult().stringValue(KIO::UDSEntry::UDS_LOCAL_PATH);
             if (udsLocalPath.isEmpty()) { // The URL could not be resolved to a local path
                 qCWarning(ARK) << "Ark cannot extract to non-local destination:" << localPath;
-                KMessageBox::sorry(widget(), xi18nc("@info", "Ark can extract archives to local destinations only."));
+                KMessageBox::error(widget(), xi18nc("@info", "Ark can extract archives to local destinations only."));
                 return;
             }
 

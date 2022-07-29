@@ -97,7 +97,7 @@ void ArkViewer::openInternalViewer(const KService::Ptr viewer, const QString& fi
         return;
     }
     else {
-        KMessageBox::sorry(nullptr, i18n("The internal viewer cannot preview this file."));
+        KMessageBox::error(nullptr, i18n("The internal viewer cannot preview this file."));
         delete internalViewer;
 
         qCDebug(ARK) << "Removing temporary file:" << fileName;
