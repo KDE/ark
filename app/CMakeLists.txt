@@ -78,7 +78,7 @@ kcoreaddons_add_plugin(extracthere
     SOURCES ${extracthere_SRCS}
     INSTALL_NAMESPACE kf5/kio_dnd)
 
-kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop DEFAULT_SERVICE_TYPE)
+kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop)
 
 target_link_libraries(extracthere kerfuffle KF5::KIOWidgets KF5::KIOFileWidgets)
 

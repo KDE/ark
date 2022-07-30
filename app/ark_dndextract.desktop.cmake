@@ -1,7 +1,5 @@
 [Desktop Entry]
 Type=Service
-X-KDE-ServiceTypes=KIO/DndPopupMenu/Plugin
-X-KDE-Library=extracthere
 Name=Ark Extract Here
 Name[ar]=أرك استخرج هنا
 Name[az]=Ark buraya çıxarır
