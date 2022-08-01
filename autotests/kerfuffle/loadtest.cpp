@@ -222,6 +222,20 @@ void LoadTest::testProperties_data()
     } else {
         qDebug() << "zstd executable not found in path. Skipping zstd test.";
     }
+
+    QTest::newRow("arj unencrypted archive with comment")
+            << QFINDTESTDATA("data/test.arj")
+            << QStringLiteral("test")
+            << false << false << false << false << false << 0 << Archive::Unencrypted
+            << QStringLiteral("test")
+            << QStringLiteral("Arj archive");
+
+    QTest::newRow("arj encrypted archive")
+            << QFINDTESTDATA("data/test_encrypted.arj")
+            << QStringLiteral("test_encrypted")
+            << false << false << false << false << false << 0 << Archive::Encrypted
+            << QStringLiteral("test_encrypted")
+            << QString();
 }
 
 void LoadTest::testProperties()

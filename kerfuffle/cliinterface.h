@@ -55,6 +55,7 @@ public:
     virtual bool isDiskFullMsg(const QString &line);
     virtual bool isFileExistsMsg(const QString &line);
     virtual bool isFileExistsFileName(const QString &line);
+    virtual bool isNewMovedFileNamesMsg(const QString &line);
     bool doKill() override;
 
     /**

@@ -929,6 +929,15 @@ bool CliInterface::handleLine(const QString& line)
         }
     }
 
+    if (m_operationMode == Move && isNewMovedFileNamesMsg(line)) {
+        QString fNames;
+        for (auto entry : qAsConst(m_newMovedFiles)) {
+            fNames += QStringLiteral("%1\n").arg(entry->fullPath(NoTrailingSlash));
+        }
+        writeToProcess(fNames.toLocal8Bit());
+        return true;
+    }
+
     return true;
 }
 
@@ -1121,6 +1130,12 @@ bool CliInterface::isFileExistsMsg(const QString &line)
 }
 
 bool CliInterface::isFileExistsFileName(const QString &line)
+{
+    Q_UNUSED(line);
+    return false;
+}
+
+bool CliInterface::isNewMovedFileNamesMsg(const QString &line)
 {
     Q_UNUSED(line);
     return false;

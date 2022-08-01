@@ -407,6 +407,45 @@ void ExtractTest::testExtraction_data()
             << optionsPreservePaths
             << 2;
 
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.arj");
+    QTest::newRow("extract the whole one_toplevel_folder.arj")
+            << archivePath
+            << QVector<Archive::Entry*>()
+            << optionsPreservePaths
+            << 9;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.arj");
+    QTest::newRow("extract selected entries from a arj, without paths")
+            << archivePath
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+                   new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
+               }
+            << optionsNoPaths
+            << 2;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.arj");
+    QTest::newRow("extract selected entries from a arj, preserve paths")
+            << archivePath
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+                   new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))
+               }
+            << optionsPreservePaths
+            << 4;
+
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.arj");
+    QTest::newRow("extract selected entries from a arj, drag-and-drop")
+            << archivePath
+            << QVector<Archive::Entry*> {
+                   new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A/")),
+                   new Archive::Entry(this, QStringLiteral("A/B/C/"), QStringLiteral("A/B/")),
+                   new Archive::Entry(this, QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/")),
+                   new Archive::Entry(this, QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/"))
+               }
+            << dragAndDropOptions
+            << 4;
+
     m_expectedWorkingDir = QDir::currentPath();
 }
 

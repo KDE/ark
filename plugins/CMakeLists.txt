@@ -14,6 +14,7 @@ add_subdirectory(cliunarchiverplugin)
 if(LibZip_FOUND)
   add_subdirectory(libzipplugin)
 endif(LibZip_FOUND)
+add_subdirectory( cliarjplugin )
 
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}" PARENT_SCOPE)
 set(INSTALLED_KERFUFFLE_PLUGINS "${INSTALLED_KERFUFFLE_PLUGINS}" PARENT_SCOPE)

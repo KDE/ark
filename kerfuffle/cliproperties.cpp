@@ -127,10 +127,16 @@ QStringList CliProperties::moveArgs(const QString &archive, const QVector<Archiv
     args << archive;
     if (entries.count() > 1) {
         for (const Archive::Entry *file : entries) {
-            args << file->fullPath(NoTrailingSlash) << destination->fullPath() + file->name();
+            args << file->fullPath(NoTrailingSlash);
+            if (destination) {
+                args << destination->fullPath() + file->name();
+            }
         }
     } else {
-        args << entries.at(0)->fullPath(NoTrailingSlash) << destination->fullPath(NoTrailingSlash);
+        args << entries.at(0)->fullPath(NoTrailingSlash);
+        if (destination) {
+            args << destination->fullPath(NoTrailingSlash);
+        }
     }
 
     args.removeAll(QString());
