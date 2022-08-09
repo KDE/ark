@@ -9,8 +9,6 @@
 
 #include <QTreeWidget>
 
-#include <KConfigDialogManager>
-
 namespace Kerfuffle
 {
 
