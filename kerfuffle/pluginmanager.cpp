@@ -13,6 +13,7 @@
 
 #include <QFileInfo>
 #include <QMimeDatabase>
+#include <QPluginLoader>
 #include <QProcess>
 #include <QRegularExpression>
 #include <QSet>
@@ -197,8 +198,7 @@ void PluginManager::loadPlugins()
     const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("kerfuffle"));
     for (const KPluginMetaData &metaData : plugins) {
         Plugin *plugin = new Plugin(this, metaData);
-        plugin->setEnabled(!ArkSettings::disabledPlugins().contains(pluginId));
-        addedPlugins << pluginId;
+        plugin->setEnabled(!ArkSettings::disabledPlugins().contains(metaData.pluginId()));
         m_plugins << plugin;
     }
 }
@@ -236,17 +236,7 @@ QStringList PluginManager::sortByComment(const QSet<QString> &mimeTypes)
 bool PluginManager::libarchiveHasLzo()
 {
     // Step 1: look for the libarchive plugin, which is built against libarchive.
-    const QString pluginPath = []() {
-        const QStringList paths = QCoreApplication::libraryPaths();
-        for (const QString &path : paths) {
-            const QString pluginPath = QStringLiteral("%1/kerfuffle/kerfuffle_libarchive.so").arg(path);
-            if (QFileInfo::exists(pluginPath)) {
-                return pluginPath;
-            }
-        }
-
-        return QString();
-    }();
+    const QString pluginPath = QPluginLoader(QStringLiteral("kerfuffle/kerfuffle_libarchive")).fileName();
 
     // Step 2: process the libarchive plugin dependencies to figure out the absolute libarchive path.
     QProcess dependencyTool;
