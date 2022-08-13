@@ -195,14 +195,7 @@ QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const 
 void PluginManager::loadPlugins()
 {
     const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("kerfuffle"));
-    QSet<QString> addedPlugins;
     for (const KPluginMetaData &metaData : plugins) {
-        const auto pluginId = metaData.pluginId();
-        // Filter out duplicate plugins.
-        if (addedPlugins.contains(pluginId)) {
-            continue;
-        }
-
         Plugin *plugin = new Plugin(this, metaData);
         plugin->setEnabled(!ArkSettings::disabledPlugins().contains(pluginId));
         addedPlugins << pluginId;
