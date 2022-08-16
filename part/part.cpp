@@ -412,6 +412,7 @@ void Part::setupActions()
     m_renameFileAction = KStandardAction::renameFile(m_view, &ArchiveView::renameSelectedEntry, actionCollection());
 
     m_deleteFilesAction = KStandardAction::deleteFile(this, &Part::slotDeleteFiles, actionCollection());
+    m_deleteFilesAction->setText(i18nc("@action", "Remove from Archive"));
     m_deleteFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-remove")));
     actionCollection()->setDefaultShortcut(m_deleteFilesAction, Qt::Key_Delete);
 
