@@ -370,14 +370,13 @@ void Part::setupActions()
     actionCollection()->addAction(QStringLiteral("ark_file_save_as"), m_saveAsAction);
 
     m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
-    m_openFileAction->setText(i18nc("open a file with external program", "&Open"));
-    m_openFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
-    m_openFileAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with the associated application"));
+    m_openFileAction->setText(i18nc("open a file with external program", "&Open in External Application"));
+    m_openFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-export")));
     connect(m_openFileAction, &QAction::triggered, this, [this]() { slotOpenEntry(OpenFile); });
 
     m_openFileWithAction = actionCollection()->addAction(QStringLiteral("openfilewith"));
     m_openFileWithAction->setText(i18nc("open a file with external program", "Open &With..."));
-    m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-open")));
+    m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-export")));
     m_openFileWithAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with an external program"));
     connect(m_openFileWithAction, &QAction::triggered, this, [this]() { slotOpenEntry(OpenFileWith); });
 
