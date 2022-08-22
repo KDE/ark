@@ -153,7 +153,6 @@ Exec=ark %U
 Icon=ark
 X-DocPath=ark/index.html
 Type=Application
-Terminal=false
 X-DBUS-StartupType=Multi
 X-DBUS-ServiceName=org.kde.ark
 Categories=Qt;KDE;Utility;Archiving;Compression;X-KDE-Utilities-File;
