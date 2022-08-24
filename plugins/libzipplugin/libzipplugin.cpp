@@ -780,8 +780,10 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         // Inspired by fuse-zip source code: fuse-zip/lib/fileNode.cpp
         switch (opsys) {
         case ZIP_OPSYS_UNIX:
-            // Unix permissions are stored in the leftmost 16 bits of the external file attribute.
-            file.setPermissions(KIO::convertPermissions(attributes >> 16));
+            if (attributes != 0) {
+                // Unix permissions are stored in the leftmost 16 bits of the external file attribute.
+                file.setPermissions(KIO::convertPermissions(attributes >> 16));
+            }
             break;
         default:    // TODO: non-UNIX.
             break;
