@@ -46,6 +46,9 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Archive
                                                         Parts
                                                         Pty
                                                         WidgetsAddons)
+if ("${KF5_VERSION}" VERSION_GREATER_EQUAL 5.100)
+    message(WARNING "TODO: KDE Frameworks 5.99 has been released for a while, please revert a commit with this message and the old version checks, and bump KF5_MIN_VERSION")
+endif()
 
 find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG QUIET)
 set_package_properties(Qt${QT_MAJOR_VERSION}Test PROPERTIES

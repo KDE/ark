@@ -28,6 +28,7 @@
 #include "propertiesdialog.h"
 #include "pluginsettingspage.h"
 #include "pluginmanager.h"
+#include "kconfigwidgets_version.h" // TODO KF 5.99 Remove this include, because the relevant section below will also be removed.
 
 #include <KPluginMetaData>
 #include <KActionCollection>
@@ -1724,7 +1725,12 @@ void Part::slotShowContextMenu()
 
     QMenu *popup = static_cast<QMenu *>(factory()->container(QStringLiteral("context_menu"), this));
     if (KHamburgerMenu * const hamburgerMenu = static_cast<KHamburgerMenu *>(actionCollection()->action(QLatin1String(KStandardAction::name(KStandardAction::HamburgerMenu))))) {
+#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 99, 0)
         hamburgerMenu->insertIntoMenuBefore(popup, popup->actions().constFirst());
+// TODO: REMEMBER TO REMOVE STALE CODE BELOW, THE VERSION CHECK AND kconfigwidgets_version.h INCLUDE ON TOP
+#else
+        hamburgerMenu->addToMenu(popup);
+#endif
     }
     popup->popup(QCursor::pos());
 }
