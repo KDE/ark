@@ -132,7 +132,7 @@ bool CliPlugin::readListLine(const QString& line)
     }
 
     const QRegularExpression rxVersionLine(QStringLiteral("^p7zip Version ([\\d\\.]+) .*$"));
-    const QRegularExpression rxVersionLine7z(QStringLiteral("^7-Zip \\(z\\) ([\\d\\.]+) .*$"));
+    const QRegularExpression rxVersionLine7z(QStringLiteral("^7-Zip \\(\\w\\) ([\\d\\.]+) .*$"));
     QRegularExpressionMatch matchVersion;
 
     switch (m_parseState) {
