@@ -312,7 +312,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 // Set a sane default window size
 QSize MainWindow::sizeHint() const
 {
-    return QSize(700, 500);
+    return QSize(950, 600);
 }
 
 void MainWindow::quit()
