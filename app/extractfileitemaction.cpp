@@ -100,7 +100,8 @@ QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& n
 {
     QAction *action = new QAction(icon, name, parent);
     connect(action, &QAction::triggered, this, [urls,name, option, parent,this]() {
-        auto *batchExtractJob = new BatchExtract(parent);
+        // Don't pass a parent to the job, otherwise it will be killed if dolphin gets closed.
+        auto *batchExtractJob = new BatchExtract(nullptr);
         batchExtractJob->setDestinationFolder(QFileInfo(urls.first().toLocalFile()).path());
         batchExtractJob->setOpenDestinationAfterExtraction(ArkSettings::openDestinationFolderAfterExtraction());
         if (option == AutoSubfolder) {
@@ -119,6 +120,7 @@ QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& n
             if (!batchExtractJob->errorString().isEmpty()) {
                 Q_EMIT error(batchExtractJob->errorString());
             }
+            batchExtractJob->deleteLater();
         });
     });
     return action;
