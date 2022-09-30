@@ -1118,9 +1118,11 @@ void Part::slotWatchedFileModified(const QString& file)
     }
 
     if (KMessageBox::questionYesNo(widget(),
-                               xi18n("The file <filename>%1</filename> was modified. Do you want to update the archive?",
-                                     prettyFilename),
-                               i18nc("@title:window", "File Modified")) == KMessageBox::Yes) {
+                                   xi18n("The file <filename>%1</filename> was modified. Do you want to update the archive?", prettyFilename),
+                                   i18nc("@title:window", "File Modified"),
+                                   KGuiItem(i18nc("@action:button", "Update"), QStringLiteral("view-refresh")),
+                                   KGuiItem(i18nc("@action:button", "Ignore"), QStringLiteral("dialog-cancel")))
+        == KMessageBox::Yes) {
         QStringList list = QStringList() << file;
 
         qCDebug(ARK) << "Updating file" << file << "with path" << relPath;
@@ -1640,17 +1642,16 @@ void Part::slotDeleteFilesDone(KJob* job)
 void Part::slotDeleteFiles()
 {
     const int selectionsCount = m_view->selectionModel()->selectedRows().count();
-    const auto reallyDelete =
-        KMessageBox::questionYesNo(widget(),
-                                   i18ncp("@info",
-                                          "Deleting this file is not undoable. Are you sure you want to do this?",
-                                          "Deleting these files is not undoable. Are you sure you want to do this?",
-                                          selectionsCount),
-                                   i18ncp("@title:window", "Delete File", "Delete Files", selectionsCount),
-                                   KStandardGuiItem::del(),
-                                   KStandardGuiItem::no(),
-                                   QString(),
-                                   KMessageBox::Dangerous | KMessageBox::Notify);
+    const auto reallyDelete = KMessageBox::questionYesNo(widget(),
+                                                         i18ncp("@info",
+                                                                "Deleting this file is not undoable. Are you sure you want to do this?",
+                                                                "Deleting these files is not undoable. Are you sure you want to do this?",
+                                                                selectionsCount),
+                                                         i18ncp("@title:window", "Delete File", "Delete Files", selectionsCount),
+                                                         KStandardGuiItem::del(),
+                                                         KStandardGuiItem::cancel(),
+                                                         QString(),
+                                                         KMessageBox::Dangerous | KMessageBox::Notify);
 
     if (reallyDelete == KMessageBox::No) {
         return;
