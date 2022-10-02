@@ -1,0 +1,2193 @@
+# translation of ark.po to Chinese Traditional
+# Traditional Chinese translation of ark.
+# Copyright (C) 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+#
+# Woodman Tuen <wmtuen@gmail.com>, 2005.
+# Franklin Weng <franklin@goodhorse.idv.tw>, 2008, 2010, 2011, 2012, 2014.
+# Jeff Huang <s8321414@gmail.com>, 2016, 2017, 2020, 2022.
+# pan93412 <pan93412@gmail.com>, 2018, 2019.
+# Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2006, 2007, 2008, 2009, 2010.
+# Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
+# Kisaragi Hiu <mail@kisaragi-hiu.com>, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: ark\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"PO-Revision-Date: 2022-07-10 17:54+0800\n"
+"Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
+"Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.1.1\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Franklin Weng, Jeff Huang"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "franklin@goodhorse.idv.tw, s8321414@gmail.com"
+
+#. i18n: ectx: Menu (archive)
+#: app/arkui.rc:5
+#, kde-format
+msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
+msgid "&Archive"
+msgstr "封存檔(&A)"
+
+#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#, kde-format
+msgid "Extracting Files"
+msgstr "正在解開檔案"
+
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#, kde-format
+msgid "Source archive"
+msgstr "來源檔案"
+
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#, kde-format
+msgid "Destination"
+msgstr "目的地"
+
+#: app/batchextract.cpp:117
+#, kde-format
+msgid "The following files could not be extracted:"
+msgstr "以下的檔案無法解開："
+
+#: app/batchextract.cpp:136
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>. Any further "
+"archive will not be extracted."
+msgstr "解壓縮 <filename>%1</filename> 時發生錯誤。將不解壓縮剩餘封存檔。"
+
+#: app/batchextract.cpp:137
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message><nl/>Any further archive will not be extracted."
+msgstr ""
+"解壓縮 <filename>%1</filename> 時發生錯誤：<nl/><message>%2</message><nl/>將"
+"不解壓縮剩餘封存檔。"
+
+#: app/batchextract.cpp:141
+#, kde-kuit-format
+msgctxt "@info"
+msgid "There was an error while extracting <filename>%1</filename>."
+msgstr "解壓縮 <filename>%1</filename> 時發生錯誤。"
+
+#: app/batchextract.cpp:142
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message>"
+msgstr ""
+"解壓縮 <filename>%1</filename> 時發生錯誤：<nl/><message>%2</message><nl/>"
+
+#: app/batchextract.cpp:293
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive could not be extracted to <filename>%1</filename> because Ark "
+"can only extract to local destinations."
+msgstr ""
+"此封存檔無法解壓縮至 <filename>%1</filename>，因為 Ark 僅能解壓縮到本機目的"
+"地。"
+
+#: app/compressfileitemaction.cpp:77
+#, kde-format
+msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
+msgid "Compress"
+msgstr "壓縮"
+
+#: app/compressfileitemaction.cpp:90
+#, kde-format
+msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+msgid "Compress to..."
+msgstr "壓縮到…"
+
+#: app/compressfileitemaction.cpp:97
+#, kde-format
+msgctxt ""
+"@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
+msgid "Here as \"%1\""
+msgstr "在此壓縮為「%1」"
+
+#: app/extractfileitemaction.cpp:63
+#, kde-format
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive to..."
+msgstr "解壓縮到…"
+
+#: app/extractfileitemaction.cpp:75
+#, kde-format
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here"
+msgstr "在此解壓縮"
+
+#: app/extractfileitemaction.cpp:83
+#, kde-format
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here, autodetect subfolder"
+msgstr "在此解壓縮，自動偵測子資料夾"
+
+#: app/extractfileitemaction.cpp:89
+#, kde-format
+msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
+msgid "Extract"
+msgstr "解開"
+
+#: app/extractHereDndPlugin.cpp:55
+#, kde-format
+msgctxt ""
+"@action:inmenu Context menu shown when an archive is being drag'n'dropped"
+msgid "Extract here"
+msgstr "在此解壓縮"
+
+#: app/main.cpp:84
+#, kde-format
+msgid "Ark"
+msgstr "Ark"
+
+#: app/main.cpp:86
+#, kde-format
+msgid "KDE Archiving tool"
+msgstr "KDE 封存工具"
+
+#: app/main.cpp:88
+#, kde-format
+msgid "(c) 1997-2019, The Ark Developers"
+msgstr "(c) 1997-2019, Ark 開發群"
+
+#: app/main.cpp:93
+#, kde-format
+msgid "Elvis Angelaccio"
+msgstr "Elvis Angelaccio"
+
+#: app/main.cpp:94
+#, kde-format
+msgid "Maintainer"
+msgstr "維護人"
+
+#: app/main.cpp:96
+#, kde-format
+msgid "Ragnar Thomsen"
+msgstr "Ragnar Thomsen"
+
+#: app/main.cpp:97
+#, kde-format
+msgid "Maintainer, KF5 port"
+msgstr "維護者，KF5 移植"
+
+#: app/main.cpp:99
+#, kde-format
+msgid "Raphael Kubo da Costa"
+msgstr "Raphael Kubo da Costa"
+
+#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#, kde-format
+msgid "Former Maintainer"
+msgstr "前任維護者"
+
+#: app/main.cpp:102
+#, kde-format
+msgid "Harald Hvaal"
+msgstr "Harald Hvaal"
+
+#: app/main.cpp:105
+#, kde-format
+msgid "Henrique Pinto"
+msgstr "Henrique Pinto"
+
+#: app/main.cpp:108
+#, kde-format
+msgid "Helio Chissini de Castro"
+msgstr "Helio Chissini de Castro"
+
+#: app/main.cpp:109
+#, kde-format
+msgid "Former maintainer"
+msgstr "前維護人"
+
+#: app/main.cpp:111
+#, kde-format
+msgid "Georg Robbers"
+msgstr "Georg Robbers"
+
+#: app/main.cpp:114
+#, kde-format
+msgid "Roberto Selbach Teixeira"
+msgstr "Roberto Selbach Teixeira"
+
+#: app/main.cpp:117
+#, kde-format
+msgid "Francois-Xavier Duranceau"
+msgstr "Francois-Xavier Duranceau"
+
+#: app/main.cpp:120
+#, kde-format
+msgid "Emily Ezust (Corel Corporation)"
+msgstr "Emily Ezust (Corel Corporation)"
+
+#: app/main.cpp:123
+#, kde-format
+msgid "Michael Jarrett (Corel Corporation)"
+msgstr "Michael Jarrett (Corel Corporation)"
+
+#: app/main.cpp:126
+#, kde-format
+msgid "Robert Palmbos"
+msgstr "Robert Palmbos"
+
+#: app/main.cpp:130
+#, kde-format
+msgid "Vladyslav Batyrenko"
+msgstr "Vladyslav Batyrenko"
+
+#: app/main.cpp:131
+#, kde-format
+msgid "Advanced editing functionalities"
+msgstr "進階編輯功能"
+
+#: app/main.cpp:134
+#, kde-format
+msgid "Bryce Corkins"
+msgstr "Bryce Corkins"
+
+#: app/main.cpp:135
+#, kde-format
+msgid "Icons"
+msgstr "圖示"
+
+#: app/main.cpp:137
+#, kde-format
+msgid "Liam Smit"
+msgstr "Liam Smit"
+
+#: app/main.cpp:138
+#, kde-format
+msgid "Ideas, help with the icons"
+msgstr "概念、說明及圖示"
+
+#: app/main.cpp:140
+#, kde-format
+msgid "Andrew Smith"
+msgstr "Andrew Smith"
+
+#: app/main.cpp:141
+#, kde-format
+msgid "bkisofs code"
+msgstr "bkisofs 源碼"
+
+#: app/main.cpp:151
+#, kde-format
+msgid "URLs to open."
+msgstr "要開啟的網址。"
+
+#: app/main.cpp:154
+#, kde-format
+msgid ""
+"Show a dialog for specifying the options for the operation (extract/add)"
+msgstr "顯示對話框以指定操作選項"
+
+#: app/main.cpp:157
+#, kde-format
+msgid ""
+"Destination folder to extract to. Defaults to current path if not specified."
+msgstr "要解壓縮的目的資料夾。預設為目前的路徑。"
+
+#. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
+#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#, kde-format
+msgid "Open destination folder after extraction."
+msgstr "解壓後開啟目的資料夾"
+
+#: app/main.cpp:164
+#, kde-format
+msgid ""
+"Query the user for an archive filename and add specified files to it. Quit "
+"when finished."
+msgstr "詢問使用者封存檔名稱，並將指定的檔案加入。完成後即離開。"
+
+#: app/main.cpp:167
+#, kde-format
+msgid ""
+"Add the specified files to 'filename'. Create archive if it does not exist. "
+"Quit when finished."
+msgstr ""
+"將指定的檔案加入 “filename” 中。若封存檔不存在，則建立新檔案。完成即離開。"
+
+#: app/main.cpp:171
+#, kde-format
+msgid ""
+"Change the current dir to the first entry and add all other entries relative "
+"to this one."
+msgstr "變更目前的目錄到第一個項目，並將所有其它的項目都設為與此相關聯。"
+
+#: app/main.cpp:174
+#, kde-format
+msgid ""
+"Automatically choose a filename, with the selected suffix (for example rar, "
+"tar.gz, zip or any other supported types)"
+msgstr "使用選取的後置字串（如 rar, tar.gz, zip 等等）來自動選擇檔名。"
+
+#: app/main.cpp:178
+#, kde-format
+msgid ""
+"Use the batch interface instead of the usual dialog. This option is implied "
+"if more than one url is specified."
+msgstr "使用批次介面，而不使用一般的對話框。這個選項用於指定一個以上的網址時。"
+
+#: app/main.cpp:181
+#, kde-format
+msgid ""
+"The destination argument will be set to the path of the first file supplied."
+msgstr "目的地參數會設為第一個檔案的路徑。"
+
+#: app/main.cpp:184
+#, kde-format
+msgid ""
+"Archive contents will be read, and if detected to not be a single folder or "
+"a single file archive, a subfolder with the name of the archive will be "
+"created."
+msgstr ""
+"將會讀取封存檔內容，如果偵測到裡面不只一個資料夾或檔案，則會建立名稱是此封存"
+"檔名稱的子資料夾。"
+
+#: app/main.cpp:187
+#, kde-format
+msgid "List supported MIME types."
+msgstr "列出支援的 MIME 類型。"
+
+#: app/mainwindow.cpp:126
+#, kde-format
+msgid "Unable to find Ark's KPart component, please check your installation."
+msgstr "無法找到 Ark 的部件，請檢查您的安裝。"
+
+#: app/mainwindow.cpp:201
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches between having a <emphasis>Menubar</emphasis> and having a "
+"<interface>Hamburger Menu</interface> button. Both contain mostly the same "
+"commands and configuration options."
+msgstr ""
+
+#: app/mainwindow.cpp:260
+#, kde-format
+msgctxt "to open an archive"
+msgid "Open Archive"
+msgstr "開啟封存檔"
+
+#: app/mainwindow.cpp:371
+#, kde-format
+msgid "Create New Archive"
+msgstr "建立新封存檔"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
+#: app/welcomescreen.ui:18
+#, kde-format
+msgid "Form"
+msgstr "表單"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: app/welcomescreen.ui:53
+#, kde-format
+msgid "Welcome to Ark"
+msgstr "歡迎使用 Ark"
+
+#. i18n: ectx: property (text), widget (QPushButton, openButton)
+#: app/welcomescreen.ui:97
+#, kde-format
+msgctxt "to open an archive"
+msgid "Open Archive..."
+msgstr "開啟封存檔…"
+
+#. i18n: ectx: property (text), widget (QPushButton, newButton)
+#: app/welcomescreen.ui:107
+#, kde-format
+msgid "Create New Archive..."
+msgstr "建立新封存檔…"
+
+#: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
+#, kde-format
+msgid "Advanced Options"
+msgstr "進階選項"
+
+#: kerfuffle/adddialog.cpp:47
+#, kde-format
+msgctxt "@action:button"
+msgid "Add"
+msgstr "新增"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupCompressFiles)
+#: kerfuffle/adddialog.ui:35
+#, kde-format
+msgid "Files/Folders to Compress"
+msgstr "要壓縮的檔案/資料夾"
+
+#: kerfuffle/addtoarchive.cpp:79
+#, kde-format
+msgid "Compress to Archive"
+msgstr "壓縮到檔案中"
+
+#: kerfuffle/addtoarchive.cpp:133
+#, kde-format
+msgid "No input files were given."
+msgstr "未指定輸入檔。"
+
+#: kerfuffle/addtoarchive.cpp:140
+#, kde-kuit-format
+msgid ""
+"You need to either supply a filename for the archive or a suffix (such as "
+"rar, tar.gz) with the <command>--autofilename</command> argument."
+msgstr ""
+"使用 <command>--autofilename</command> 參數時，您需要指定封存檔名，或是副檔名"
+"（如 rar，tar.gz 等）。"
+
+#: kerfuffle/addtoarchive.cpp:236
+#, kde-format
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "封存檔"
+
+#. i18n: ectx: label, entry (showEncryptionWarning), group (General)
+#: kerfuffle/ark.kcfg:9
+#, kde-format
+msgid ""
+"Whether to show a warning when creating zip archives with AES encryption."
+msgstr "當建立有 AES 加密的 zip 封存檔時是否應該顯示警告。"
+
+#. i18n: ectx: label, entry (defaultOpenAction), group (General)
+#: kerfuffle/ark.kcfg:13
+#, kde-format
+msgid "Default action when opening archive entries."
+msgstr "開啟壓縮項目時的預設行為。"
+
+#. i18n: ectx: label, entry (Version), group (General)
+#: kerfuffle/ark.kcfg:21
+#, kde-format
+msgid ""
+"Internal config version of Ark, mainly used to determine whether an updated "
+"version of Ark is running, so as to migrate config entries that were removed/"
+"renamed ...etc"
+msgstr ""
+
+#. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
+#: kerfuffle/ark.kcfg:31
+#, kde-format
+msgid "Close Ark after extraction."
+msgstr "解壓後關閉 Ark"
+
+#. i18n: ectx: label, entry (preservePaths), group (Extraction)
+#: kerfuffle/ark.kcfg:35
+#, kde-format
+msgid "Preserve paths when extracting."
+msgstr "解壓時保留路徑"
+
+#. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
+#: kerfuffle/ark.kcfg:39
+#, kde-format
+msgid ""
+"Extract to a subfolder if the archive has more than one top-level entry."
+msgstr "如果封存檔中有一層以上，則解壓到子目錄中。"
+
+#. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
+#: kerfuffle/ark.kcfg:45
+#, kde-format
+msgid "How the main window is divided."
+msgstr "主視窗如何分割。"
+
+#. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
+#: kerfuffle/ark.kcfg:49
+#, kde-format
+msgid "Whether to show the information panel."
+msgstr "是否顯示資訊面板。"
+
+#. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
+#: kerfuffle/ark.kcfg:59
+#, kde-format
+msgid "Whether to limit the preview according to file size."
+msgstr "是否根據檔案大小限制預覽。"
+
+#. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
+#: kerfuffle/ark.kcfg:63
+#, kde-format
+msgid "Preview file size limit in megabytes."
+msgstr "預覽檔案大小限制（MB）。"
+
+#: kerfuffle/cliinterface.cpp:245
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Failed to locate program <filename>%1</filename> on disk."
+msgstr "在磁碟中找不到程式 <filename>%1</filename>。"
+
+#: kerfuffle/cliinterface.cpp:355
+#, kde-format
+msgid "Extraction failed. Make sure that enough space is available."
+msgstr "解開失敗。請確定硬碟空間是否足夠。"
+
+#: kerfuffle/cliinterface.cpp:358
+#, kde-format
+msgid ""
+"Extraction failed. Make sure you provided the correct password and that "
+"enough space is available."
+msgstr "解開失敗。請確定密碼正確，以及硬碟空間是否足夠。"
+
+#: kerfuffle/cliinterface.cpp:369 kerfuffle/cliinterface.cpp:494
+#, kde-format
+msgctxt "@info"
+msgid "Could not move the extracted file to the destination directory."
+msgid_plural "Could not move the extracted files to the destination directory."
+msgstr[0] "無法將解開的檔案移到目標目錄。"
+
+#: kerfuffle/cliinterface.cpp:857
+#, kde-format
+msgctxt "@info"
+msgid "Extraction failed because the disk is full."
+msgstr "解開失敗，因為磁碟已滿。"
+
+#: kerfuffle/cliinterface.cpp:864
+#, kde-format
+msgctxt "@info"
+msgid "Extraction failed: Incorrect password"
+msgstr "解開失敗：不正確的密碼。"
+
+#: kerfuffle/cliinterface.cpp:898
+#, kde-format
+msgid "Incorrect password."
+msgstr "不正確的密碼。"
+
+#: kerfuffle/cliinterface.cpp:921
+#, kde-format
+msgid "Ark does not currently support testing this archive."
+msgstr "Ark 目前不支援使用 UDF 檔案系統的 iso 檔。"
+
+#: kerfuffle/compressionoptionswidget.cpp:132
+#, kde-format
+msgid "Protection of the list of files is not possible with the %1 format."
+msgstr "使用 %1 格式無法保護檔案清單。"
+
+#: kerfuffle/compressionoptionswidget.cpp:141
+#, kde-format
+msgid ""
+"Protection of the archive with password is not possible with the %1 format."
+msgstr "使用 %1 格式無法用密碼來保護封存檔。"
+
+#: kerfuffle/compressionoptionswidget.cpp:156
+#, kde-format
+msgid "It is not possible to set compression level for the %1 format."
+msgstr "無法為 %1 格式設定壓縮等級。"
+
+#: kerfuffle/compressionoptionswidget.cpp:176
+#, kde-format
+msgid "It is not possible to set compression method for the %1 format."
+msgstr "無法為 %1 格式設定壓縮方法。"
+
+#: kerfuffle/compressionoptionswidget.cpp:199
+#, kde-format
+msgid "The %1 format does not support multi-volume archives."
+msgstr "%1 格式不支援多卷冊封存檔。"
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleCompression)
+#: kerfuffle/compressionoptionswidget.ui:20
+#, kde-format
+msgid "Compression"
+msgstr "壓縮"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel1)
+#: kerfuffle/compressionoptionswidget.ui:35
+#, kde-format
+msgid "Level:"
+msgstr "等級："
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel2)
+#: kerfuffle/compressionoptionswidget.ui:45
+#, kde-format
+msgid "Min"
+msgstr "最小值"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompMethod)
+#: kerfuffle/compressionoptionswidget.ui:83
+#, kde-format
+msgid "Method:"
+msgstr "方式："
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel3)
+#: kerfuffle/compressionoptionswidget.ui:93
+#, kde-format
+msgid "Max"
+msgstr "最大值"
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleEncryption)
+#: kerfuffle/compressionoptionswidget.ui:118
+#, kde-format
+msgid "Password Protection"
+msgstr "密碼保護"
+
+#. i18n: ectx: property (text), widget (QLabel, lblEncMethod)
+#: kerfuffle/compressionoptionswidget.ui:130
+#, kde-format
+msgid "Encryption method:"
+msgstr "加密方法："
+
+#. i18n: ectx: property (text), widget (QCheckBox, encryptHeaderCheckBox)
+#: kerfuffle/compressionoptionswidget.ui:160
+#, kde-format
+msgid "Ask for password before showing the list of files in the archive"
+msgstr "顯示封存檔中的檔案清單前先問密碼"
+
+#. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
+#: kerfuffle/compressionoptionswidget.ui:170
+#, kde-format
+msgid ""
+"This encryption method may not be supported by older archiving software."
+msgstr "這個加密方法可能不被較舊的壓縮軟體支援。"
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleMultiVolume)
+#: kerfuffle/compressionoptionswidget.ui:183
+#, kde-format
+msgid "Multi-volume Archive"
+msgstr "多卷冊封存檔"
+
+#. i18n: ectx: property (text), widget (QCheckBox, multiVolumeCheckbox)
+#: kerfuffle/compressionoptionswidget.ui:192
+#, kde-format
+msgid "Create multi-volume archive"
+msgstr "建立多卷冊封存檔"
+
+#. i18n: ectx: property (text), widget (QLabel, lblVolumeSize)
+#: kerfuffle/compressionoptionswidget.ui:210
+#, kde-format
+msgid "Volume size:"
+msgstr "卷冊大小："
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_previewFileSizeLimit)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, volumeSizeSpinbox)
+#: kerfuffle/compressionoptionswidget.ui:223
+#: kerfuffle/previewsettingspage.ui:32
+#, kde-format
+msgid " megabytes"
+msgstr "百萬位元組"
+
+#: kerfuffle/createdialog.cpp:111
+#, kde-format
+msgctxt "the argument is a file extension (the period is not a typo)"
+msgid "Automatically add .%1"
+msgstr "自動加入 .%1"
+
+#: kerfuffle/createdialog.cpp:198
+#, kde-format
+msgid "The chosen password does not match the given verification password."
+msgstr "密碼不正確。"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/createdialog.ui:30
+#, kde-format
+msgid "Folder:"
+msgstr "資料夾："
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/createdialog.ui:47
+#, kde-format
+msgid "Filename:"
+msgstr "檔案名稱："
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
+#: kerfuffle/createdialog.ui:54
+#, kde-format
+msgid "Type archive name..."
+msgstr "輸入封存檔名稱……"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
+#: kerfuffle/createdialog.ui:61 part/infopanel.ui:93
+#, kde-format
+msgid "Type:"
+msgstr "型態："
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/createdialog.ui:78
+#, kde-format
+msgid "Extension:"
+msgstr "副檔名:"
+
+#: kerfuffle/extractiondialog.cpp:40
+#, kde-format
+msgctxt "@title:window"
+msgid "Extract"
+msgstr "解開"
+
+#: kerfuffle/extractiondialog.cpp:54
+#, kde-format
+msgid "Extract"
+msgstr "解開"
+
+#: kerfuffle/extractiondialog.cpp:97
+#, kde-format
+msgid "The subfolder name may not contain the character '/'."
+msgstr "子資料夾的名稱不能包含 / 字元。"
+
+#: kerfuffle/extractiondialog.cpp:107
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The folder <filename>%1</filename> already exists. Are you sure you want to "
+"extract here?"
+msgstr "檔案 <filename>%1</filename> 已存在。您要在這裡展開嗎？"
+
+#: kerfuffle/extractiondialog.cpp:108
+#, kde-format
+msgid "Folder exists"
+msgstr "資料夾已存在"
+
+#: kerfuffle/extractiondialog.cpp:109
+#, kde-format
+msgid "Extract here"
+msgstr "在此解壓縮"
+
+#: kerfuffle/extractiondialog.cpp:110
+#, kde-format
+msgid "Retry"
+msgstr "重試"
+
+#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The folder <filename>%1</filename> could not be created."
+msgstr "無法建立資料夾 <filename>%1</filename>。"
+
+#: kerfuffle/extractiondialog.cpp:121
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<filename>%1</filename> already exists, but is not a folder."
+msgstr "<filename>%1</filename> 已存在，但不是資料夾。"
+
+#: kerfuffle/extractiondialog.cpp:127
+#, kde-format
+msgid "Please check your permissions to create it."
+msgstr "請檢查您是否有建立的權限。"
+
+#: kerfuffle/extractiondialog.cpp:166
+#, kde-format
+msgid "Extract multiple archives"
+msgstr "解開多個檔案"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ExtractionDialog)
+#: kerfuffle/extractiondialog.ui:21
+#, kde-format
+msgid "Extraction Dialog"
+msgstr "解壓縮對話框"
+
+#. i18n: ectx: property (text), widget (QLabel, extractAllLabel)
+#: kerfuffle/extractiondialog.ui:70
+#, kde-format
+msgid "Extract All Files"
+msgstr "解開所有檔案"
+
+#. i18n: ectx: property (title), widget (QGroupBox, singleFolderGroup)
+#: kerfuffle/extractiondialog.ui:79
+#, kde-format
+msgid "E&xtraction into subfolder:"
+msgstr "解壓縮到子資料夾(&X)："
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: kerfuffle/extractiondialog.ui:113
+#, kde-format
+msgid "Options"
+msgstr "選項"
+
+#. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
+#: kerfuffle/extractiondialog.ui:132
+#, kde-format
+msgid "Open &destination folder after extraction"
+msgstr "解壓後開啟目的資料夾(&D)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
+#: kerfuffle/extractiondialog.ui:139
+#, kde-format
+msgid "Close &Ark after extraction"
+msgstr "解壓後關閉 Ark(&A)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
+#: kerfuffle/extractiondialog.ui:146
+#, kde-format
+msgid "&Preserve paths when extracting"
+msgstr "解壓時保留路徑(&P)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
+#: kerfuffle/extractiondialog.ui:153
+#, kde-format
+msgid "&Automatically create subfolders"
+msgstr "自動建立子資料夾(&A)"
+
+#. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
+#: kerfuffle/extractiondialog.ui:169
+#, kde-format
+msgctxt "@title:group"
+msgid "Extract"
+msgstr "解開"
+
+#. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
+#: kerfuffle/extractiondialog.ui:187
+#, kde-format
+msgid "Sele&cted files only"
+msgstr "只針對選取的檔案(&C)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
+#: kerfuffle/extractiondialog.ui:203
+#, kde-format
+msgid "All &files"
+msgstr "所有檔案(&F)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_openDestinationFolderAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:17
+#, kde-format
+msgid "Open destination folder after extraction"
+msgstr "解壓後開啟目的資料夾"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_closeAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:24
+#, kde-format
+msgid "Close Ark after extraction"
+msgstr "解壓後關閉 Ark"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_preservePaths)
+#: kerfuffle/extractionsettingspage.ui:31
+#, kde-format
+msgid "Preserve paths when extracting"
+msgstr "解壓時保留路徑"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:41
+#, kde-format
+msgid ""
+"Whether to check by default the extraction into subfolder checkbox in the "
+"Extraction Dialog, when the archive has more than one top-level entry."
+msgstr "在解壓縮對話框中，壓縮到子目錄的選項是否預設要勾選。"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:44
+#, kde-format
+msgid "Extract to a subfolder if the archive has more than one top-level entry"
+msgstr "如果封存檔中有一層以上，則解壓到子目錄中。"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/generalsettingspage.ui:17
+#, kde-format
+msgid "When clicking a file in an archive or pressing the Return key:"
+msgstr "點擊封存檔中的檔案，或按下 Enter 鍵時："
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: kerfuffle/generalsettingspage.ui:33
+#, kde-format
+msgid "Pre&view the file with internal previewer"
+msgstr "使用內部預覽器預覽檔案(&V)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: kerfuffle/generalsettingspage.ui:43
+#, kde-format
+msgid "Open the fi&le with associated application"
+msgstr "以外部程式開啟檔案(&L)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
+#: kerfuffle/generalsettingspage.ui:60
+#, kde-format
+msgid "Show a warning when creating zip archives with AES encryption"
+msgstr "當建立有 AES 加密的 zip 封存檔時顯示警告"
+
+#: kerfuffle/jobs.cpp:99
+#, kde-format
+msgid "No suitable plugin found. Ark does not seem to support this file type."
+msgstr "找不到適合的外掛程式。Ark 似乎不支援此檔案類型。"
+
+#: kerfuffle/jobs.cpp:103
+#, kde-format
+msgid ""
+"Failed to load a suitable plugin. Make sure any executables needed to handle "
+"the archive type are installed."
+msgstr "載入適合的外掛程式失敗。請確認處理該封存檔類型的執行檔已安裝。"
+
+#: kerfuffle/jobs.cpp:168
+#, kde-format
+msgid ""
+"Could not load the archive because it contains ill-formed entries and might "
+"be a malicious archive."
+msgstr "無法載入封存檔，因為其包含了格式錯誤的項目，且可能為惡意封存檔。"
+
+#: kerfuffle/jobs.cpp:253
+#, kde-format
+msgid "Loading archive"
+msgstr "載入封存中"
+
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:704
+#: kerfuffle/jobs.cpp:757 kerfuffle/jobs.cpp:795 kerfuffle/jobs.cpp:827
+#: kerfuffle/jobs.cpp:875
+#, kde-format
+msgid "Archive"
+msgstr "封存"
+
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#, kde-kuit-format
+msgid "No space available on device <filename>%1</filename>"
+msgstr "裝置<filename>%1</filename>無可用空間"
+
+#: kerfuffle/jobs.cpp:536
+#, kde-format
+msgid "Extracting all files"
+msgstr "解開所有檔案"
+
+#. i18np on purpose so this translation may properly be reused.
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:630
+#, kde-format
+msgid "Extracting one file"
+msgid_plural "Extracting %1 files"
+msgstr[0] "解開 %1 個檔案"
+
+#: kerfuffle/jobs.cpp:540
+#, kde-format
+msgctxt "extraction folder"
+msgid "Destination"
+msgstr "目的地"
+
+#: kerfuffle/jobs.cpp:544
+#, kde-kuit-format
+msgid ""
+"Could not write to destination <filename>%1</filename>.<nl/>Check whether "
+"you have sufficient permissions."
+msgstr "無法寫入目標 <filename>%1</filename>。<nl/>請檢查您的權限。"
+
+#: kerfuffle/jobs.cpp:703
+#, kde-format
+msgid "Compressing a file"
+msgid_plural "Compressing %1 files"
+msgstr[0] "正在壓縮 %1 個檔案"
+
+#: kerfuffle/jobs.cpp:756
+#, kde-format
+msgid "Moving a file"
+msgid_plural "Moving %1 files"
+msgstr[0] "正在移動 %1 個檔案"
+
+#: kerfuffle/jobs.cpp:794
+#, kde-format
+msgid "Copying a file"
+msgid_plural "Copying %1 files"
+msgstr[0] "正在複製 %1 檔案"
+
+#: kerfuffle/jobs.cpp:826
+#, kde-format
+msgid "Deleting a file from the archive"
+msgid_plural "Deleting %1 files"
+msgstr[0] "刪除 %1 個檔案。"
+
+#: kerfuffle/jobs.cpp:850
+#, kde-format
+msgid "Adding comment"
+msgstr "加入註解"
+
+#: kerfuffle/jobs.cpp:875
+#, kde-format
+msgid "Testing archive"
+msgstr "正在測試封存檔"
+
+#: kerfuffle/pluginsettingspage.cpp:34
+#, kde-format
+msgid ""
+"The plugin cannot be used because one or more required executables are "
+"missing. Check your installation."
+msgstr "因為一個或多個必要的執行檔遺失，所以外掛程式無法使用。請檢查您的安裝。"
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:24
+#, kde-format
+msgid "Name"
+msgstr "名稱"
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:29
+#, kde-format
+msgid "Description"
+msgstr "描述"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_limitPreviewFileSize)
+#: kerfuffle/previewsettingspage.ui:22
+#, kde-format
+msgid "Disable preview for files larger than:"
+msgstr "檔案超過此大小時關閉預覽："
+
+#: kerfuffle/propertiesdialog.cpp:40
+#, kde-format
+msgctxt "@title:window"
+msgid "Properties for %1"
+msgstr "%1 的屬性"
+
+#. i18n: ectx: property (text), widget (KSqueezedTextLabel, m_passwordValueLabel)
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:50
+#: part/infopanel.ui:195
+#, kde-format
+msgid "yes"
+msgstr "是"
+
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:49
+#: kerfuffle/propertiesdialog.cpp:50 kerfuffle/propertiesdialog.cpp:63
+#, kde-format
+msgid "no"
+msgstr "否"
+
+#: kerfuffle/propertiesdialog.cpp:49
+#, kde-format
+msgid "yes (%1 volumes)"
+msgstr "是（%1 個卷冊）"
+
+#: kerfuffle/propertiesdialog.cpp:51
+#, kde-format
+msgid "%1 file"
+msgid_plural "%1 files"
+msgstr[0] "%1 個檔案"
+
+#: kerfuffle/propertiesdialog.cpp:52
+#, kde-format
+msgid ", %1 folder"
+msgid_plural ", %1 folders"
+msgstr[0] "，%1 個資料夾"
+
+#: kerfuffle/propertiesdialog.cpp:66
+#, kde-format
+msgid "only file contents (%1)"
+msgstr "僅檔案內容 (%1)"
+
+#: kerfuffle/propertiesdialog.cpp:69
+#, kde-format
+msgid "yes (%1)"
+msgstr "是 (%1)"
+
+#: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
+#: kerfuffle/propertiesdialog.cpp:88
+#, kde-format
+msgid "Calculating..."
+msgstr "計算中..."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/propertiesdialog.ui:37
+#, kde-format
+msgid "Archive name:"
+msgstr "封存名稱："
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/propertiesdialog.ui:54
+#, kde-format
+msgid "Archive type:"
+msgstr "封存類型："
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: kerfuffle/propertiesdialog.ui:71
+#, kde-format
+msgid "Mime-type:"
+msgstr "MIME 類型："
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: kerfuffle/propertiesdialog.ui:88
+#, kde-format
+msgid "Opened read-only:"
+msgstr "已開啟唯讀："
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_passwordLabel)
+#: kerfuffle/propertiesdialog.ui:105 part/infopanel.ui:179
+#, kde-format
+msgid "Password-protected:"
+msgstr "密碼受保護："
+
+#. i18n: ectx: property (text), widget (QLabel, label_10)
+#: kerfuffle/propertiesdialog.ui:122
+#, kde-format
+msgid "Has comment:"
+msgstr "有註解："
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/propertiesdialog.ui:139
+#, kde-format
+msgid "Number of entries:"
+msgstr "項目數："
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: kerfuffle/propertiesdialog.ui:156
+#, kde-format
+msgid "Unpacked size:"
+msgstr "壓縮前大小："
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: kerfuffle/propertiesdialog.ui:173
+#, kde-format
+msgid "Packed size:"
+msgstr "壓縮後大小："
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: kerfuffle/propertiesdialog.ui:190
+#, kde-format
+msgid "Compression ratio:"
+msgstr "壓縮比率："
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: kerfuffle/propertiesdialog.ui:207
+#, kde-format
+msgid "Last modified:"
+msgstr "最後變更："
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: kerfuffle/propertiesdialog.ui:224
+#, kde-format
+msgid "MD5 hash:"
+msgstr "MD5 hash 值："
+
+#. i18n: ectx: property (text), widget (QLabel, label_13)
+#: kerfuffle/propertiesdialog.ui:244
+#, kde-format
+msgid "SHA-1 hash:"
+msgstr "SHA-1 hash 值："
+
+#. i18n: ectx: property (text), widget (QLabel, label_14)
+#: kerfuffle/propertiesdialog.ui:261
+#, kde-format
+msgid "SHA-256 hash:"
+msgstr "SHA-256 hash 值："
+
+#. i18n: ectx: property (text), widget (QLabel, label_15)
+#: kerfuffle/propertiesdialog.ui:278
+#, kde-format
+msgid "Multi-volume:"
+msgstr "多卷冊："
+
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#: kerfuffle/propertiesdialog.ui:295
+#, kde-format
+msgid "Compression method(s):"
+msgstr "壓縮方法："
+
+#: kerfuffle/queries.cpp:73
+#, kde-format
+msgctxt "@title:window"
+msgid "File Already Exists"
+msgstr "檔案已存在"
+
+#: kerfuffle/queries.cpp:156
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> is password protected. Please enter the "
+"password."
+msgstr "此封存檔 <filename>%1</filename> 已使用密碼保護。請輸入密碼。"
+
+#: kerfuffle/queries.cpp:160
+#, kde-format
+msgid "Incorrect password, please try again."
+msgstr "密碼錯誤，請再試一次。"
+
+#: kerfuffle/queries.cpp:195
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive you're trying to open is corrupt.<nl/>Some files may be missing "
+"or damaged."
+msgstr "您試著開啟的封存檔已損毀。<nl/>有些檔案可能已遺失或已損毀。"
+
+#: kerfuffle/queries.cpp:197
+#, kde-format
+msgctxt "@title:window"
+msgid "Corrupt archive"
+msgstr "損毀的封存檔"
+
+#: kerfuffle/queries.cpp:198
+#, kde-format
+msgctxt "@action:button"
+msgid "Open as Read-Only"
+msgstr "以唯讀模式開啟"
+
+#: kerfuffle/queries.cpp:199
+#, kde-format
+msgctxt "@action:button"
+msgid "Don't Open"
+msgstr "不要開啟"
+
+#: kerfuffle/queries.cpp:208
+#, kde-format
+msgid "Don't ask again."
+msgstr "不要再詢問。"
+
+#: kerfuffle/queries.cpp:220
+#, kde-format
+msgid "Error during extraction"
+msgstr "解壓縮時發生錯誤"
+
+#: kerfuffle/queries.cpp:221
+#, kde-kuit-format
+msgid ""
+"Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
+"error message:<nl/>    %2<nl/><nl/>Do you want to continue extraction?<nl/>"
+msgstr ""
+"解開項目：<nl/>    <filename>%1</filename><nl/>時發生 錯誤訊息：<nl/>    "
+"%2<nl/><nl/>您要繼續解壓縮嗎？<nl/>"
+
+#: part/archivemodel.cpp:155
+#, kde-format
+msgctxt "Name of a file inside an archive"
+msgid "Name"
+msgstr "名稱"
+
+#: part/archivemodel.cpp:157
+#, kde-format
+msgctxt "Uncompressed size of a file inside an archive"
+msgid "Original Size"
+msgstr "原始大小"
+
+#: part/archivemodel.cpp:159
+#, kde-format
+msgctxt "Compressed size of a file inside an archive"
+msgid "Compressed Size"
+msgstr "壓縮後大小"
+
+#: part/archivemodel.cpp:161
+#, kde-format
+msgctxt "Compression rate of file"
+msgid "Rate"
+msgstr "壓縮率"
+
+#: part/archivemodel.cpp:163
+#, kde-format
+msgctxt "File's owner username"
+msgid "Owner"
+msgstr "擁有者"
+
+#: part/archivemodel.cpp:165
+#, kde-format
+msgctxt "File's group"
+msgid "Group"
+msgstr "群組"
+
+#: part/archivemodel.cpp:167
+#, kde-format
+msgctxt "File permissions"
+msgid "Mode"
+msgstr "權限"
+
+#: part/archivemodel.cpp:169
+#, kde-format
+msgctxt "CRC hash code"
+msgid "CRC checksum"
+msgstr "CRC 總和檢查碼"
+
+#: part/archivemodel.cpp:171
+#, kde-format
+msgctxt "BLAKE2 hash code"
+msgid "BLAKE2 checksum"
+msgstr "BLAKE2 總和檢查碼"
+
+#: part/archivemodel.cpp:173
+#, kde-format
+msgctxt "Compression method"
+msgid "Method"
+msgstr "方法"
+
+#: part/archivemodel.cpp:176
+#, kde-format
+msgctxt "File version"
+msgid "Version"
+msgstr "版本"
+
+#: part/archivemodel.cpp:178
+#, kde-format
+msgctxt "Timestamp"
+msgid "Date"
+msgstr "日期"
+
+#: part/archivemodel.cpp:180
+#, kde-format
+msgctxt "Unnamed column"
+msgid "??"
+msgstr "??"
+
+#: part/archivemodel.cpp:291
+#, kde-format
+msgid "Adding files is not supported for this archive."
+msgstr "此封存檔不支援加入檔案。"
+
+#: part/archivemodel.cpp:299
+#, kde-format
+msgid "You can only add local files to an archive."
+msgstr "你只能新增本機檔案至封存檔。"
+
+#. i18n: ectx: Menu (archive)
+#: part/ark_part.rc:5
+#, kde-format
+msgid "&Archive"
+msgstr "封存(&A)"
+
+#. i18n: ectx: Menu (ark_file)
+#: part/ark_part.rc:15
+#, kde-format
+msgid "&File"
+msgstr "檔案(&F)"
+
+#. i18n: ectx: Menu (settings)
+#: part/ark_part.rc:29
+#, kde-format
+msgid "&Settings"
+msgstr "設定(&S)"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: part/ark_part.rc:34
+#, kde-format
+msgid "Main Toolbar"
+msgstr "主工具列"
+
+#. i18n: ectx: Menu (help)
+#: part/ark_viewer.rc:5
+#, kde-format
+msgid "&Help"
+msgstr "說明"
+
+#: part/arkviewer.cpp:52
+#, kde-format
+msgid "Closing preview"
+msgstr "關閉預覽"
+
+#: part/arkviewer.cpp:53
+#, kde-format
+msgid "Please wait while the preview is being closed..."
+msgstr "請稍候，預覽正在關閉中..."
+
+#: part/arkviewer.cpp:100
+#, kde-format
+msgid "The internal viewer cannot preview this file."
+msgstr "內部檢視器無法預覽此檔案。"
+
+#: part/arkviewer.cpp:116
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+"內部檢視器無法預覽此型態的檔案<nl/>（%1）。<nl/><nl/>您要試著以純文字模式檢視"
+"嗎？"
+
+#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#, kde-format
+msgctxt "@title:window"
+msgid "Cannot Preview File"
+msgstr "無法預覽檔案"
+
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#, kde-format
+msgctxt "@action:button"
+msgid "Preview as Text"
+msgstr "以文字模式預覽"
+
+#: part/arkviewer.cpp:128
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+"內部檢視器無法預覽此未知型態的檔案。<nl/><nl/>您要試著以純文字模式檢視嗎？"
+
+#: part/arkviewer.cpp:192
+#, kde-format
+msgctxt "@action"
+msgid "About Viewer Component"
+msgstr "關於檢視程式元件"
+
+#: part/infopanel.cpp:52
+#, kde-format
+msgid "No archive loaded"
+msgstr "沒有載入封存檔"
+
+#: part/infopanel.cpp:103
+#, kde-format
+msgid "Symbolic Link"
+msgstr "符號連結"
+
+#: part/infopanel.cpp:108
+#, kde-format
+msgid "Unknown size"
+msgstr "未知的大小"
+
+#: part/infopanel.cpp:129
+#, kde-format
+msgid "One file selected"
+msgid_plural "%1 files selected"
+msgstr[0] "已選取 %1 個檔案"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, InformationPanel)
+#: part/infopanel.ui:20
+#, kde-format
+msgid "Information Panel"
+msgstr "資訊面板"
+
+#. i18n: ectx: property (text), widget (QLabel, additionalInfo)
+#: part/infopanel.ui:64
+#, kde-format
+msgid "Unknown file type"
+msgstr "未知的檔案型態"
+
+#. i18n: ectx: property (text), widget (QLabel, m_ownerLabel)
+#: part/infopanel.ui:113
+#, kde-format
+msgid "Owner:"
+msgstr "擁有者："
+
+#. i18n: ectx: property (text), widget (QLabel, m_groupLabel)
+#: part/infopanel.ui:133
+#, kde-format
+msgid "Group:"
+msgstr "群組："
+
+#. i18n: ectx: property (text), widget (QLabel, m_targetLabel)
+#: part/infopanel.ui:153
+#, kde-format
+msgid "Target:"
+msgstr "目標："
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, JobTrackerWidget)
+#: part/jobtracker.ui:13
+#, kde-format
+msgid "Job Tracker"
+msgstr "工作追蹤器"
+
+#. i18n: ectx: property (text), widget (QLabel, descriptionLabel)
+#: part/jobtracker.ui:43
+#, kde-format
+msgid "<b>Job Description</b>"
+msgstr "<b>工作描述</b>"
+
+#. i18n: ectx: property (text), widget (QLabel, informationLabel)
+#: part/jobtracker.ui:62
+#, kde-format
+msgid "Some Information about the job"
+msgstr "關於此工作的一些資訊"
+
+#: part/overwritedialog.cpp:26
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Remove them if you really want "
+"to overwrite."
+msgstr "下列路徑的檔案已存在。若您真的想要覆寫就移除它們。"
+
+#: part/overwritedialog.cpp:28
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Do you want to continue "
+"overwriting them?"
+msgstr "下列路徑的檔案已存在。您想要繼續覆寫它們嗎？"
+
+#: part/part.cpp:111
+#, kde-format
+msgid "Comment"
+msgstr "註解"
+
+#: part/part.cpp:122
+#, kde-format
+msgid "Comment has been modified."
+msgstr "註解已被修改。"
+
+#: part/part.cpp:127
+#, kde-format
+msgid "Save"
+msgstr "儲存"
+
+#: part/part.cpp:150
+#, kde-format
+msgid "Type to search..."
+msgstr "輸入以搜尋..."
+
+#: part/part.cpp:308
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark can extract archives to local destinations only."
+msgstr "Ark 只能解壓縮到本地端。"
+
+#: part/part.cpp:363
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Show Information Panel"
+msgstr "顯示資訊面板"
+
+#: part/part.cpp:370
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Save Copy As..."
+msgstr "儲存副本為……"
+
+#: part/part.cpp:374
+#, kde-format
+msgctxt "open a file with external program"
+msgid "&Open in External Application"
+msgstr ""
+
+#: part/part.cpp:379
+#, kde-format
+msgctxt "open a file with external program"
+msgid "Open &With..."
+msgstr "開啟方式... (&W)"
+
+#: part/part.cpp:381
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to open the selected file with an external program"
+msgstr "點選以外部程式開啟選取的檔案"
+
+#: part/part.cpp:385
+#, kde-format
+msgctxt "to preview a file inside an archive"
+msgid "Pre&view"
+msgstr "預覽(&V)"
+
+#: part/part.cpp:387
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to preview the selected file"
+msgstr "點選以預覽選取的檔案"
+
+#: part/part.cpp:392
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "E&xtract All"
+msgstr "全部解開(&X)"
+
+#: part/part.cpp:394
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose how to extract all "
+"the files in the archive"
+msgstr "點選以開啟解壓縮對話框，您可以選擇如何解開那些檔案。"
+
+#: part/part.cpp:399
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Extract"
+msgstr "解開(&E)"
+
+#: part/part.cpp:402
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose to extract either "
+"all files or just the selected ones"
+msgstr "點選以開啟解壓縮對話框，您可以選擇要解那些檔案。"
+
+#: part/part.cpp:407
+#, kde-format
+msgid "Add &Files..."
+msgstr "加入檔案...(&F)"
+
+#: part/part.cpp:408 part/part.cpp:471
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to add files to the archive"
+msgstr "點選以將檔案加入封存檔中。"
+
+#: part/part.cpp:415
+#, fuzzy, kde-format
+#| msgid "Compress to Archive"
+msgctxt "@action"
+msgid "Remove from Archive"
+msgstr "壓縮到檔案中"
+
+#: part/part.cpp:425
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Properties"
+msgstr "屬性(&P)"
+
+#: part/part.cpp:427
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to see properties for archive"
+msgstr "點擊檢視封存檔屬性。"
+
+#: part/part.cpp:433
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to add or edit comment"
+msgstr "點選以新增或編輯註解"
+
+#: part/part.cpp:438
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Test Integrity"
+msgstr "測試完整性(&T)"
+
+#: part/part.cpp:440 part/part.cpp:472
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to test the archive for integrity"
+msgstr "點選以測試封存檔的完整性"
+
+#: part/part.cpp:466
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Adding files to existing password-protected archives with no header-"
+"encryption is currently not supported.<nl/><nl/>Extract the files and create "
+"a new archive if you want to add files."
+msgstr ""
+"目前不支援加入檔案，到現有之未加密標頭、使用密碼保護的封存檔。<nl/><nl/>若您"
+"想要新增檔案，您必須解開檔案，並建立新的封存檔。"
+
+#: part/part.cpp:469
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Testing password-protected archives with no header-encryption is currently "
+"not supported."
+msgstr "目前不支援測試未加密標頭、使用密碼保護的封存檔。"
+
+#: part/part.cpp:537
+#, kde-format
+msgctxt "@action:inmenu mutually exclusive with Add &Comment"
+msgid "Edit &Comment"
+msgstr "編輯註解(&C)"
+
+#: part/part.cpp:538 part/part.cpp:546
+#, kde-format
+msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
+msgid "Add &Comment"
+msgstr "新增註解(&C)"
+
+#: part/part.cpp:647
+#, kde-format
+msgid "The archive passed the integrity test."
+msgstr "封存檔已通過完整度測試。"
+
+#: part/part.cpp:647 part/part.cpp:649
+#, kde-format
+msgid "Test Results"
+msgstr "測試結果"
+
+#: part/part.cpp:649
+#, kde-format
+msgid "The archive failed the integrity test."
+msgstr "封存檔未通過完整度測試。"
+
+#: part/part.cpp:670
+#, kde-format
+msgid "Extract To..."
+msgstr "解開到..."
+
+#: part/part.cpp:684
+#, kde-format
+msgid "Quick Extract To..."
+msgstr "快速解開到..."
+
+#: part/part.cpp:814
+#, kde-format
+msgctxt "@title:tab"
+msgid "General"
+msgstr "一般"
+
+#: part/part.cpp:815
+#, kde-format
+msgctxt "@title:tab"
+msgid "Extraction"
+msgstr "解開"
+
+#: part/part.cpp:816
+#, kde-format
+msgctxt "@title:tab"
+msgid "Plugins"
+msgstr "外掛程式"
+
+#: part/part.cpp:817
+#, kde-format
+msgctxt "@title:tab"
+msgid "Previews"
+msgstr "預覽"
+
+#: part/part.cpp:829
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<filename>%1</filename> is a directory."
+msgstr "<filename>%1</filename> 是個目錄。"
+
+#: part/part.cpp:838
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"Could not overwrite <filename>%1</filename>. Check whether you have write "
+"permission."
+msgstr "無法覆寫 <filename>%1</filename>。請檢查您是否有寫入權限。"
+
+#: part/part.cpp:844
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> will be created as soon as you add a "
+"file."
+msgstr "封存檔 <filename>%1</filename> 在您加入檔案後立即會建立。"
+
+#: part/part.cpp:847
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The archive <filename>%1</filename> was not found."
+msgstr "開啟封存檔發生錯誤：找不到檔案 <filename>%1</filename>。"
+
+#: part/part.cpp:852
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> could not be loaded, as it was not "
+"possible to read from it."
+msgstr "無法載入檔案 <filename>%1</filename>，因為無法讀取。"
+
+#: part/part.cpp:865
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "封存檔 <filename>%1</filename> 已存在。您要覆寫它嗎？"
+
+#: part/part.cpp:867
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "檔案已存在"
+
+#: part/part.cpp:904
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The archive is empty or Ark could not open its content."
+msgstr "封存檔是空的，或是 Ark 無法開啟內容。"
+
+#: part/part.cpp:909
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark does not currently support ISO files with UDF filesystem."
+msgstr "Ark 目前不支援使用 UDF 檔案系統的 iso 檔。"
+
+#: part/part.cpp:939
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"Loading the archive <filename>%1</filename> failed with the following error:"
+"<nl/><message>%2</message>"
+msgstr ""
+"讀取檔案 <filename>%1</filename> 失敗，錯誤訊息為：<nl/> <message>%2</"
+"message>"
+
+#: part/part.cpp:999
+#, kde-format
+msgid "Ark cannot open symlinks."
+msgstr "Ark 無法開啟符號連結。"
+
+#: part/part.cpp:1121
+#, kde-kuit-format
+msgid ""
+"The file <filename>%1</filename> was modified. Do you want to update the "
+"archive?"
+msgstr "檔案 <filename>%1</filename> 已被變更。您要更新此封存檔嗎？"
+
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@title:window"
+msgid "File Modified"
+msgstr "檔案已修改"
+
+#: part/part.cpp:1403
+#, kde-format
+msgctxt "@title:window"
+msgid "Add Files"
+msgstr "加入檔案"
+
+#: part/part.cpp:1408
+#, kde-format
+msgctxt "@title:window"
+msgid "Add Files to %1"
+msgstr "加入檔案到 %1"
+
+#: part/part.cpp:1472
+#, kde-format
+msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
+msgstr "檔名不能包含斜線及「.」或「..」等等符號"
+
+#: part/part.cpp:1516
+#, kde-format
+msgid "Folders can't be moved into themselves."
+msgstr "資料夾無法移動到它自己裡面"
+
+#: part/part.cpp:1517
+#, kde-format
+msgid "Moving a folder into itself"
+msgstr "正在移動資料夾到它自己裡面"
+
+#: part/part.cpp:1545
+#, kde-format
+msgid "Entries with the same names can't be pasted to the same destination."
+msgstr "有相同名稱的項目不能貼到同一個目的地。"
+
+#: part/part.cpp:1646
+#, kde-format
+msgctxt "@info"
+msgid "Deleting this file is not undoable. Are you sure you want to do this?"
+msgid_plural ""
+"Deleting these files is not undoable. Are you sure you want to do this?"
+msgstr[0] "刪除這些檔案後無法還原。您確定要這樣做嗎？"
+
+#: part/part.cpp:1649
+#, kde-format
+msgctxt "@title:window"
+msgid "Delete File"
+msgid_plural "Delete Files"
+msgstr[0] "刪除檔案"
+
+#: part/part.cpp:1692
+#, kde-format
+msgctxt "@title:window"
+msgid "Save Copy As"
+msgstr "儲存副本為"
+
+#: part/part.cpp:1707
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive could not be saved as <filename>%1</filename>. Try saving it to "
+"another location."
+msgstr "此封存無法儲存為 <filename>%1</filename>。請試著存到其它位置。"
+
+#: part/part.cpp:1711
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> does not exist anymore, therefore it "
+"cannot be copied to the specified location."
+msgstr "封存檔 <filename>%1</filename> 不再存在，因此無法複製到指定的位置。"
+
+#: plugins/cli7zplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:85
+#, kde-format
+msgid "Listing the archive failed."
+msgstr "列出封存失敗。"
+
+#: plugins/cli7zplugin/cliplugin.cpp:309
+#, kde-format
+msgid "Extraction failed due to an unknown error."
+msgstr "解開失敗，因為未知的原因。"
+
+#: plugins/cli7zplugin/cliplugin.cpp:315 plugins/clizipplugin/cliplugin.cpp:188
+#, kde-format
+msgid ""
+"Extraction failed due to one or more corrupt files. Any extracted files may "
+"be damaged."
+msgstr ""
+"壓縮失敗，因為一個或多個有損壞的檔案。已壓縮完成的所有檔案也許已經損壞。"
+
+#: plugins/cli7zplugin/cliplugin.cpp:326
+#, kde-format
+msgid ""
+"Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
+"configuration dialog."
+msgstr "刪除操作失敗。請嘗試更新 7z 或在設定中停用 7z 外掛程式。"
+
+#: plugins/clirarplugin/cliplugin.cpp:157
+#: plugins/clirarplugin/cliplugin.cpp:300
+#: plugins/clirarplugin/cliplugin.cpp:553
+#, kde-format
+msgid "Failed to find all archive volumes."
+msgstr "尋找所有的封存檔卷冊失敗。"
+
+#: plugins/clirarplugin/cliplugin.cpp:321
+#, kde-format
+msgid ""
+"Your unrar executable is version %1, which is too old to handle this "
+"archive. Please update to a more recent version."
+msgstr ""
+"您的 unrar 執行檔版本為 %1，其對於處理這個封存檔來說太舊了。請更新到最新的版"
+"本。"
+
+#: plugins/clirarplugin/cliplugin.cpp:328
+#, kde-format
+msgid ""
+"Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
+"Try updating your unrar."
+msgstr ""
+"Unrar 回報了一個非 RAR 封存檔。已安裝的 unrar 版本 (%1) 太舊了。請嘗試更新您"
+"的 unrar。"
+
+#: plugins/clirarplugin/cliplugin.cpp:548
+#, kde-format
+msgid "One or more wrong checksums"
+msgstr "一個或多個錯誤的檢查碼"
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:97
+#, kde-format
+msgid "Extraction failed."
+msgstr "解開失敗。"
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:131
+#, kde-format
+msgid "Not enough memory for loading the archive."
+msgstr "記憶體大小不足以載入封存檔。"
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Wrong password."
+msgstr "錯誤的密碼。"
+
+#: plugins/clizipplugin/cliplugin.cpp:178
+#, kde-format
+msgid "Extraction failed due to unsupported compression method (%1)."
+msgstr "解開失敗，因為遇到了不支援的壓縮方法 (%1)。"
+
+#: plugins/clizipplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Extraction failed due to unsupported encryption method."
+msgstr "解開失敗，因為遇到了不支援的加密方法。"
+
+#: plugins/clizipplugin/cliplugin.cpp:311
+#, kde-format
+msgctxt "referred to compression method"
+msgid "unknown"
+msgstr "未知"
+
+#: plugins/libarchive/libarchiveplugin.cpp:392
+#, kde-format
+msgctxt "@info"
+msgid "Fatal error, extraction aborted."
+msgstr "發生嚴重錯誤，中止解壓縮。"
+
+#: plugins/libarchive/libarchiveplugin.cpp:426
+#, kde-format
+msgid "The archive reader could not be initialized."
+msgstr "封存讀取器無法初始化。"
+
+#: plugins/libarchive/libarchiveplugin.cpp:440
+#, kde-format
+msgctxt "@info"
+msgid "Archive corrupted or insufficient permissions."
+msgstr "封存損毀或權限不足。"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:209
+#, kde-format
+msgctxt "@info"
+msgid "Failed to create a temporary file for writing data."
+msgstr "無法建立供寫入資料用的暫存檔。"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:215
+#, kde-format
+msgid "The archive writer could not be initialized."
+msgstr "封存寫入器無法初始化。"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:233
+#, kde-format
+msgctxt "@info"
+msgid "Could not open the archive for writing entries."
+msgstr "無法開啟封存供寫入項目。"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:280
+#, kde-format
+msgid "The compression type '%1' is not supported by Ark."
+msgstr "Ark 未支援壓縮型態 %1。"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:289
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:343
+#, kde-format
+msgctxt "@info"
+msgid "Could not set the compression method."
+msgstr "無法設定壓縮方法。"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:353
+#, kde-format
+msgctxt "@info"
+msgid "Could not set the compression level."
+msgstr "無法設定壓縮等級。"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:472
+#, kde-format
+msgctxt "@info"
+msgid "Could not compress entry, operation aborted."
+msgstr "無法壓縮項目，中止操作。"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:513
+#, kde-format
+msgctxt "@info Error in a message box"
+msgid "Could not compress entry."
+msgstr "無法壓縮項目。"
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:49
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark could not extract <filename>%1</filename>."
+msgstr "Ark 無法解開 <filename>%1</filename>。"
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:57
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark could not open <filename>%1</filename> for extraction."
+msgstr "Ark 無法開啟封存 <filename>%1</filename>。"
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:71
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while reading <filename>%1</filename> during extraction."
+msgstr "讀取封存 <filename>%1</filename> 時發生錯誤。"
+
+#: plugins/libzipplugin/libzipplugin.cpp:76
+#: plugins/libzipplugin/libzipplugin.cpp:118
+#: plugins/libzipplugin/libzipplugin.cpp:415
+#: plugins/libzipplugin/libzipplugin.cpp:464
+#: plugins/libzipplugin/libzipplugin.cpp:555
+#: plugins/libzipplugin/libzipplugin.cpp:826
+#: plugins/libzipplugin/libzipplugin.cpp:881
+#, kde-kuit-format
+msgid "Failed to open archive: %1"
+msgstr "開啟封存檔失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:176
+#: plugins/libzipplugin/libzipplugin.cpp:448
+#: plugins/libzipplugin/libzipplugin.cpp:480
+#: plugins/libzipplugin/libzipplugin.cpp:861
+#: plugins/libzipplugin/libzipplugin.cpp:951
+#, kde-kuit-format
+msgid "Failed to write archive."
+msgstr "寫入封存檔失敗。"
+
+#: plugins/libzipplugin/libzipplugin.cpp:225
+#: plugins/libzipplugin/libzipplugin.cpp:918
+#, kde-kuit-format
+msgid "Failed to add entry: %1"
+msgstr "新增項目失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:280
+#, kde-kuit-format
+msgid "Failed to set compression options for entry: %1"
+msgstr "設定項目的壓縮選項時失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:385
+#: plugins/libzipplugin/libzipplugin.cpp:776
+#: plugins/libzipplugin/libzipplugin.cpp:927
+#, kde-kuit-format
+msgid "Failed to read metadata for entry: %1"
+msgstr "讀取項目的後設資料時失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:429
+#: plugins/libzipplugin/libzipplugin.cpp:434
+#, kde-kuit-format
+msgid "Failed to delete entry: %1"
+msgstr "刪除項目失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:659
+#, kde-kuit-format
+msgid "Failed to create directory: %1"
+msgstr "建立目錄失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:732
+#, kde-kuit-format
+msgid "Failed to open '%1':<nl/>%2"
+msgstr "開啟 '%1' 失敗：<nl/>%2"
+
+#: plugins/libzipplugin/libzipplugin.cpp:740
+#, kde-kuit-format
+msgid "Failed to open file for writing: %1"
+msgstr "開啟檔案以寫入時失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:753
+#, kde-kuit-format
+msgid "Failed to read data for entry: %1"
+msgstr "讀取項目的資料時失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:758
+#, kde-kuit-format
+msgid "Failed to write data for entry: %1"
+msgstr "寫入項目的資料時失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:768
+#, kde-kuit-format
+msgid "Failed to locate entry: %1"
+msgstr "定位項目失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:840
+#: plugins/libzipplugin/libzipplugin.cpp:846
+#, kde-kuit-format
+msgid "Failed to move entry: %1"
+msgstr "移動項目失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:904
+#, kde-kuit-format
+msgid "Failed to copy entry: %1"
+msgstr "複製項目失敗：%1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:934
+#, kde-kuit-format
+msgid "Failed to set metadata for entry: %1"
+msgstr "設定項目的後設資料時失敗：%1"
+
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open"
+#~ msgstr "開啟(&O)"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to open the selected file with the associated application"
+#~ msgstr "點擊以使用相對應的應用程式開啟檔案"
+
+#~ msgctxt "Uncompressed size of a file inside an archive"
+#~ msgid "Size"
+#~ msgstr "大小"
+
+#~ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#~ msgid "Here (as TAR.GZ)"
+#~ msgstr "在此壓成 TAR.GZ 壓縮檔"
+
+#~ msgctxt ""
+#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
+#~ "filename"
+#~ msgid "Here (to \"%1.tar.gz\")"
+#~ msgstr "在此變為「%1.tar.gz」"
+
+#~ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#~ msgid "Here (as ZIP)"
+#~ msgstr "在此壓成 ZIP 壓縮檔"
+
+#~ msgid ""
+#~ "This archive contains archive entries with absolute paths, which are not "
+#~ "supported by Ark."
+#~ msgstr "此壓縮檔包含了絕對路徑的內容，目前 ark 尚未支援。"
+
+#~ msgctxt "action, to open an archive"
+#~ msgid "Open"
+#~ msgstr "開啟"
+
+#~ msgid "Open an archive"
+#~ msgstr "開啟壓縮檔"
+
+#~ msgid "ArkPart"
+#~ msgstr "ArkPart"
+
+#~ msgctxt "@title:window"
+#~ msgid "Save Archive As"
+#~ msgstr "另存壓縮檔為"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "An archive named <filename>%1</filename> already exists. Are you sure you "
+#~ "want to overwrite it?"
+#~ msgstr "檔案 <filename>%1</filename> 已存在，您是否要覆寫它？"
+
+#~ msgctxt "@title:tab"
+#~ msgid "Extraction Settings"
+#~ msgstr "解壓縮設定"
+
+#~ msgctxt "@title:tab"
+#~ msgid "Preview Settings"
+#~ msgstr "預覽設定"

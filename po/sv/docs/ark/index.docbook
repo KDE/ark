@@ -1,0 +1,812 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Swedish "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY Ragnar.Thomsen '<personname
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+></personname
+>'>
+  <!ENTITY Ragnar.Thomsen.mail '<email
+>rthomsen6@gmail.com</email
+>'>
+  <!ENTITY Henrique.Pinto '<personname
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+></personname
+>'>
+  <!ENTITY Henrique.Pinto.mail '<email
+>henrique.pinto@kdemail.net</email
+>'>
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>Handbok &ark;</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+<author
+>&Henrique.Pinto; &Henrique.Pinto.mail; </author>
+<author
+>&Ragnar.Thomsen; &Ragnar.Thomsen.mail; </author>
+
+<othercredit role="translator"
+> <firstname
+>Stefan</firstname
+> <surname
+>Asserhäll</surname
+> <affiliation
+><address
+><email
+>stefan.asserhall@bredband.net</email
+></address
+></affiliation
+> <contrib
+>Översättare</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>&Henrique.Pinto;</holder>
+</copyright>
+
+<copyright>
+<year
+>2015, 2016</year>
+<holder
+>&Ragnar.Thomsen;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2016-09-10</date>
+<releaseinfo
+>Program 16.12</releaseinfo>
+
+<abstract>
+<para
+>&ark; är en arkiverare av &kde;.</para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>arkiv</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>komprimering</keyword>
+<keyword
+>7z</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Inledning</title>
+<para
+>&ark; är ett program för att visa, packa upp, skapa och ändra arkiv. &ark; kan hantera olika arkivformat som <command
+>tar</command
+>, <command
+>gzip</command
+>, <command
+>bzip2</command
+>, <command
+>zip</command
+>, <command
+>rar</command
+><command
+>7zip</command
+>, <command
+>xz</command
+>, <command
+>rpm</command
+>, <command
+>cab</command
+>, <command
+>deb</command
+>,  <command
+>xar</command
+> och <command
+>AppImage</command
+>(stöd för vissa arkivformat beror på om passande kommandoradsprogram är installerade).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>&ark;s huvudfönster</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>För att använda &ark; med lyckat resultat, behöver du &kde; Ramverk 5. Biblioteket libarchive version 3.1 eller senare behövs för att hantera de flesta typer av arkiv, inklusive tar. För att hantera andra filformat, behövs lämpliga kommandoradsprogram, såsom <command
+>zipinfo</command
+>, <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>rar</command
+>, <command
+>unrar</command
+>, <command
+>7z</command
+>, <command
+>lsar</command
+>, <command
+>unar</command
+> och <command
+>lrzip</command
+>.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>Att använda &ark;</title>
+
+<sect1 id="ark-open">
+<title
+>Öppna arkiv</title>
+
+<para
+>För att öppna ett arkiv i &ark;, välj <guimenuitem
+>Öppna...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>) i menyn <guimenu
+>Arkiv</guimenu
+>. Du kan också öppna arkivfiler genom att dra och släppa från &dolphin;. Arkivfiler ska associeras med &ark;, så att du också kan <mousebutton
+>höger</mousebutton
+>klicka på en fil i &dolphin; och välja <guimenuitem
+>Öppna med &ark;</guimenuitem
+> för att öppna den eller välja ett uppackningsalternativ för filen.</para>
+
+<para
+>Om du har aktiverat informationsrutan i menyn <guimenu
+>Inställningar</guimenu
+> visas ytterligare information om de markerade katalogerna eller filerna i arkivet den visar.</para>
+
+<sect2 id="ark-archive-operations">
+<title
+>Arkivåtgärder</title>
+
+<para
+>Diverse åtgärder kan utföras med ett öppnat arkiv genom att använda menyn <guimenu
+>Arkiv</guimenu
+>. Du kan exempelvis spara arkivet med ett annat namn genom att använda <guimenuitem
+>Spara som...</guimenuitem
+>. Arkivegenskaper såsom typ, storlek och MD5 kondensat  kan visas genom att använda alternativet <guimenuitem
+>Egenskaper</guimenuitem
+>.</para>
+
+<para
+>&ark; har möjlighet att testa arkivens korrekthet. Funktionen är för närvarande tillgänglig för arkiven <command
+>zip</command
+>, <command
+>rar</command
+> och <command
+>7z</command
+>. Testalternativet finns i menyn <guimenu
+>Arkiv</guimenu
+>.</para>
+
+</sect2>
+
+<sect2 id="ark-archive-comments">
+<title
+>Arkivkommentarer</title>
+
+<para
+>&ark; kan hantera kommentarer inbäddade i <literal role="extension"
+>zip</literal
+>- och <literal role="extension"
+>rar</literal
+>-arkiv.</para>
+
+<para
+>Kommentarer inbäddade i <literal role="extension"
+>zip</literal
+>-arkiv visas automatiskt.</para>
+
+<para
+>Med <literal role="extension"
+>rar</literal
+>-arkiv kan en kommentar ändras med åtgärderna <guimenuitem
+>Lägg till kommentar</guimenuitem
+> eller <guimenuitem
+>Redigera kommentar</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>C</keycap
+></keycombo
+>) i menyn <guimenu
+>Arkiv</guimenu
+>. </para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Redigera en kommentar</phrase>
+</textobject>
+</mediaobject>
+
+<note
+><para
+>Menyalternativet för kommentar är bara aktiverat för <literal role="extension"
+>rar</literal
+>-arkiv. </para
+></note>
+
+<para
+>Ta bort texten i kommentarfönstret för att ta bort en kommentar från ett <literal role="extension"
+>rar</literal
+>-arkiv.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Arbeta med filer</title>
+
+<para
+>När ett arkiv väl har öppnats kan du utföra olika operationer på filerna i arkivet. Genom att markera en fil och använda menyn <guimenu
+>Arkiv</guimenu
+>, kan du välja olika åtgärder att utföra:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Förhandsgranskning</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+>) öppnar filen med &ark;s interna visning. Det är en snabb skrivskyddad visning, men stöder inte alla filtyper.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Öppna</guimenuitem
+> öppnar filen i programmet associerat med filtypen.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Öppna med...</guimenuitem
+> låter dig välja vilket program som filen ska öppnas med.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Byt namn</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>F2</keycap
+></keycombo
+>) gör det möjligt att byta namn på både filer och kataloger. Liksom i filhanteraren Dolphin, kan åtgärden utföras via en genväg och namnbyte sker med redigering på plats. Kontroller av filnamn utförs också, vilket förhindrar användning av ogiltiga tecken såsom <userinput
+>/</userinput
+>, <userinput
+>.</userinput
+> och <userinput
+>..</userinput
+> i filnamn.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Ta bort</guimenuitem
+> (<keycap
+>Delete</keycap
+>) tar bort filerna som för närvarande är markerade från arkivet. Observera att åtgärden inte kan ångras.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Packa upp...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>) visar en undermeny med tidigare använda kataloger, och du kan välja att snabbt packa upp i någon av dem eller att bläddra till en katalog som inte listas. Se nästa avsnitt för mer information om uppackning.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Klipp ut</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+>) / <guimenuitem
+>Kopiera</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>) / <guimenuitem
+>Klistra in</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+>): Liksom i typiska filhanterare, tillhandahålls flytta, klistra in och kopiera. Användare kan flytta eller kopiera filer från olika kataloger (som går att expandera i trädvyn) och direkt klistra in dem på samma ställe. En katalog kan kopieras till sig själv, men kan inte flyttas. Kontroller av filnamnskonflikter utförs också: Det är inte möjligt att kopiera eller flytta filer till en katalog som har poster med samma namn, eftersom det skulle kunna leda till dataförluster.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Lägg till filer</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>A</keycap
+></keycombo
+>) kan användas för att lägga till filer på vilken plats som helst inne i arkivet. Om du markerar en katalog och använder åtgärden, läggs filer till i den markerade katalogen. Annars läggs nya filer till i arkivets rot. </para>
+</listitem>
+</itemizedlist>
+
+<sect2 id="ark-editing-files">
+<title
+>Redigera filer</title>
+<para
+>Om du redigerar och sparar en fil som öppnades genom att använda <guimenuitem
+>Öppna</guimenuitem
+> eller <guimenuitem
+>Öppna med...</guimenuitem
+>, frågar Ark om du vill uppdatera filen i arkivet. Om du svarar ja, uppdateras arkivet med den sparade filen.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>Packa upp filer</title>
+
+<para
+>När ett arkiv väl har öppnats i &ark;, kan det packas upp. Det kan göras genom att välja <guisubmenu
+>Packa upp</guisubmenu
+> i menyn <guimenu
+>Arkiv</guimenu
+>. Det visar en undermeny med tidigare använda kataloger, där du kan välja att snabbt packa upp i någon av dem. Välj alternativt undermenyalternativet <guisubmenu
+>Packa upp i...</guisubmenu
+>, för att visa dialogrutan <guilabel
+>Packa upp</guilabel
+>, där olika alternativ som påverkar uppackningen kan ställas in. See nedan för information om de tillgängliga alternativen i dialogrutan.</para>
+
+<para
+>Du kan också använda knappen <guibutton
+>Packa upp</guibutton
+> i verktygsraden för att komma åt samma uppackningsalternativ.</para>
+
+<para
+>Välj <guisubmenu
+>Packa upp alla</guisubmenu
+> i menyn <guimenu
+>Arkiv</guimenu
+> för att packa upp hela arkivet. Åtgärden packar upp alla filer i arkivet utan några villkor.</para>
+
+<para
+>Det är möjligt att packa upp filer och kataloger genom att helt enkelt dra dem med musen till en katalog i &dolphin;.</para>
+
+<para
+>Observera: Att packa upp filer i ett arkiv ändrar inte arkivet och dess innehåll.</para>
+
+<sect2 id="ark-extract-dialog">
+<title
+>Uppackningsdialogrutan</title>
+
+<para
+>Dialogrutan <guilabel
+>Packa upp</guilabel
+> låter dig välja var filerna kommer att packas upp. Förvald plats är katalogen som arkivet finns i. Dialogrutan kan också visas genom att trycka på <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="extract-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>&ark;s uppackningsdialogruta</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Du kan ange att filer ska packas upp i en underkatalog. Normalt är namnet på underkatalogen arkivnamnet utan filnamnsändelsen, men du kan redigera det efter behov. Om du vill bevara sökvägar när du packar upp, markera då alternativet <guilabel
+>Bevara sökvägar vid uppackning</guilabel
+>. Du kan också välja att öppna katalogen som du packar upp i med &dolphin;, eller stänga &ark; när uppackningen väl är klar.</para>
+
+<para
+>Om en eller flera filer i arkivlistan är markerade, kan du också välja vilka filer som ska packas upp:</para>
+<itemizedlist>
+<listitem>
+<para
+><guilabel
+>Markerade filer</guilabel
+> packar bara upp filerna som är markerade.</para>
+</listitem>
+<listitem>
+<para
+><guilabel
+>Alla filer</guilabel
+> packar upp hela innehållet i arkivet.</para>
+</listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Skapa arkiv och lägga till filer</title>
+
+<para
+>För att skapa ett nytt arkiv i &ark;, välj <guimenuitem
+>Ny</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+>) i menyn <guimenu
+>Arkiv</guimenu
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Skapa ett arkiv</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Därefter kan du skriva in namnet på arkivet, med passande filändelse (<literal role="extension"
+>tar.gz</literal
+>, <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>7z</literal
+> etc.) eller välja ett format som stöds i kombinationsrutan <guilabel
+>Filter</guilabel
+> och markera alternativet <guilabel
+>Lägg automatiskt till <replaceable
+>filändelse</replaceable
+></guilabel
+>.</para>
+
+<para
+>För att lägga till filer i det nya arkivet, välj <guimenuitem
+>Lägg till filer...</guimenuitem
+> i menyn <guimenu
+>Arkiv</guimenu
+>.</para>
+
+<para
+>Ett alternativt sätt att lägga till filer i arkivet är att dra en eller flera filer från t.ex. &dolphin; till &ark;s huvudfönster, så läggs de till i det nuvarande arkivet. Observera att filer som läggs till på detta sätt alltid hamnar i arkivets rotkatalog.</para>
+
+<para
+>Ytterligare alternativ visas längst ner i dialogrutan i grupper som kan dras ihop. </para>
+
+<sect2 id="ark-compression">
+<title
+>Komprimering</title>
+<para
+>Ett större värde skapar mindre arkiv, men resulterar i längre komprimerings- och uppackningstider. Den förvalda komprimeringsnivån som &ark; föreslår är oftast en bra kompromiss mellan storlek och uppackningstid. För de flesta format motsvarar den minsta komprimeringsnivån att bara lagra filerna, dvs. inte utföra någon komprimering. </para>
+<para
+>För arkiven <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7z</literal
+> och <literal role="extension"
+>zip</literal
+> kan du välja mellan olika komprimeringsmetoder. </para>
+<para
+>Observera att användning av andra komprimeringsmetoder än de förvalda standardmetoderna kan begränsa kompatibiliteten med arkiveringsprogram. För att exempelvis öppna <literal role="extension"
+>zip</literal
+>-arkiv med andra komprimeringsmetoder än <quote
+>Deflate</quote
+> krävs nyare arkiveringsprogramvara.</para>
+</sect2>
+
+<sect2 id="ark-password-protection">
+<title
+>Lösenordsskydd</title>
+<para
+>Om du skapar ett arkiv med <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7zip</literal
+> eller <literal role="extension"
+>jar</literal
+> kan du skydda det med ett lösenord. För närvarande stöder bara formatet <literal role="extension"
+>zip</literal
+> flera krypteringsmetoder. För andra format som bara stöder en krypteringsmetod, visas metoden i kombinationsrutan.</para>
+<para
+>Andra krypteringsmetoder än den normala <guilabel
+>ZipCrypto</guilabel
+> kanske inte stöds av alla filarkiveringsprogram.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Skapa ett lösenordsskyddat arkiv</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Välj om lösenordet ska efterfrågas innan listan med filer visas. Det senare kallas huvudkryptering och är bara tillgängligt med formaten <literal role="extension"
+>rar</literal
+> och <literal role="extension"
+>7zip</literal
+>. Huvudkryptering är normalt aktiverat (om tillgängligt) för att ge maximalt skydd för ovana användare.</para>
+</sect2>
+
+<sect2 id="ark-multi-volume">
+<title
+>Arkiv med flera volymer</title>
+<para
+>Med formaten <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+> och <literal role="extension"
+>7z</literal
+> kan du skapa arkiv med flera volymer, också benämnda flerdelsarkiv eller delade arkiv.</para>
+<para
+>Ett arkiv med flera volymer är ett stort komprimerat arkiv delat i flera filer. Funktionen är användbar om den maximala filstorleken är begränsat, t.ex. av lagringsmediets kapacitet eller maximala storleken på bilagor till e-post.</para>
+<para
+>Markera kryssrutan <guilabel
+>Skapa arkiv med flera volymer</guilabel
+> för att skapa ett arkiv med flera volymer och ange en maximal <guilabel
+>Volymstorlek</guilabel
+> i dialogrutan. Lägg därefter till alla filer i arkivet, så skapar &ark; automatiskt det nödvändiga antalet volymer. Beroende på det valda formatet har filerna en filändelse med numrering i en följd, t.ex. <filename
+>xxx.7z.001</filename
+>, <filename
+>xxx.7z.002</filename
+> eller <filename
+>xxx.zip.001</filename
+>, <filename
+>xxx.zip.002</filename
+> eller <filename
+>xxx.part1.rar</filename
+>, <filename
+>xxx.part2.rar</filename
+> etc.</para>
+<para
+>För att packa upp ett arkiv med flera volymer, placera alla arkivfiler i en katalog och öppna filen med det lägsta filändelsenumret i &ark;, så öppnas alla andra delar av det delade arkivet automatiskt.</para>
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>Använda &ark; i filhanteraren</title>
+
+<para
+>Att klicka med höger musknapp på ett arkiv i en filhanterare som &dolphin; visar en sammanhangsberoende meny med alternativet <guimenuitem
+>Öppna med Ark</guimenuitem
+>. Menyn har följande ytterligare alternativ för att packa upp ett arkiv med användning av &ark;: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Packa upp arkiv här, detektera underkatalog automatiskt</guimenuitem
+> skapar en underkatalog i katalogen med arkivet och packar upp katalogerna och filerna i den.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Packa upp arkiv i...</guimenuitem
+> visar dialogrutan Packa upp, där du kan ange målkatalog och diverse uppackningsalternativ.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Packa upp arkiv här</guimenuitem
+> packar upp innehållet i arkivet i samma katalog.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>Den sammanhangsberoende menyn i &dolphin; vid markering av filer och/eller kataloger, visar följande åtgärder i undermenyn <guimenu
+>Komprimera</guimenu
+>: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Här (som TAR.GZ)</guimenuitem
+> eller <guimenuitem
+>Här (som ZIP)</guimenuitem
+> skapar dessa typer av arkiv i den nuvarande katalogen.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Komprimera till...</guimenuitem
+> visar en dialogruta där du kan ange katalog, namn och typ av arkiv.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>Avancerat bakgrundsläge</title>
+<para
+>&ark; har ett avancerat bakgrundsläge för att hantera arkiv utan att starta det grafiska användargränssnittet. Läget låter dig packa upp eller skapa arkiv och lägga till filer till dem.</para>
+
+<para
+>Bakgrundsläget är dokumenterat på <ulink url="man:/ark"
+>&ark;s manualsida</ulink
+> </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Tack till och licens</title>
+
+<para
+>&ark; är Copyright &copy; 1997-2016, &ark;-utvecklingsgruppen.</para>
+
+<itemizedlist>
+<title
+>Utvecklare:</title>
+<listitem
+><para
+>Elvis Angelaccio <email
+>elvis.angelaccio@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Ragnar Thomsen <email
+>rthomsen6@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Raphael Kubo da Costa <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+>Harald Hvaal <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (utvecklare: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (utvecklare: Michael Jarrett) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Dokumentation copyright &copy; 2000 Matt Johnston &Matt.Johnston.mail;</para>
+
+<para
+>Dokumentation uppdaterad för &kde; 3.3 av &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
+
+<para
+>Dokumentation uppdaterad för &kde;-program 16.04 av &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
+
+<para
+>Översättning Stefan Asserhäll <email
+>stefan.asserhall@bredband.net</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

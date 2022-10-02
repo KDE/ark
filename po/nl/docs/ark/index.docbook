@@ -1,0 +1,794 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Dutch "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY Ragnar.Thomsen '<personname
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+></personname
+>'>
+  <!ENTITY Ragnar.Thomsen.mail '<email
+>rthomsen6@gmail.com</email
+>'>
+  <!ENTITY Henrique.Pinto '<personname
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+></personname
+>'>
+  <!ENTITY Henrique.Pinto.mail '<email
+>henrique.pinto@kdemail.net</email
+>'>
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>Het handboek van &ark;</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+<author
+>&Henrique.Pinto; &Henrique.Pinto.mail; </author>
+<author
+>&Ragnar.Thomsen; &Ragnar.Thomsen.mail; </author>
+
+&Frank.Mulder;&Tom.Albers; 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>&Henrique.Pinto;</holder>
+</copyright>
+
+<copyright>
+<year
+>2015, 2016</year>
+<holder
+>&Ragnar.Thomsen;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2016-09-10</date>
+<releaseinfo
+>Applications 16.12</releaseinfo>
+
+<abstract>
+<para
+>&ark; is een archiefbeheerder door &kde;</para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>archief</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>compressie</keyword>
+<keyword
+>7z</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Inleiding</title>
+<para
+>&ark; is een programma voor het bekijken, uitpakken, aanmaken en bewerken van archieven. &ark; kan verscheidene archiefformaten aan, zoals <command
+>tar</command
+>, <command
+>gzip</command
+>, <command
+>bzip2</command
+>, <command
+>zip</command
+>, <command
+>rar</command
+> <command
+>7zip</command
+>, <command
+>xz</command
+>, <command
+>rpm</command
+>, <command
+>cab</command
+>, <command
+>deb</command
+>, <command
+>xar</command
+> en <command
+>AppImage</command
+> (ondersteuning voor bepaalde archiefformaten hangt er van af of de bijbehorende commandoregelprogramma's zijn geïnstalleerd).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Hoofdvenster van &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Om &ark; goed te kunnen gebruiken, hebt u KDE Frameworks 5 nodig. De bibliotheek libarchive versie 3.1 of hoger is nodig om de meeste typen archieven, inclusief tar, compressed tar, rpm, deb and cab archives. Om andere bestandsformaten te kunnen gebruiken, heeft u de bijbehorende (commandoregel-)programma's nodig, zoals <command
+>zipinfo</command
+>, <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>rar</command
+>, <command
+>unrar</command
+>, <command
+>7z</command
+>, <command
+>lsar</command
+>, <command
+>unar</command
+> en <command
+>lrzip</command
+>.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>&ark; gebruiken</title>
+
+<sect1 id="ark-open">
+<title
+>Archieven openen</title>
+
+<para
+>Om een archief te openen in &ark; kiest u <guimenuitem
+>Openen...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>) in het menu <guimenu
+>Archief</guimenu
+>. U kunt archieven ook openen door ze te verslepen en laten vallen vanuit &dolphin;. Archiefbestanden moeten verbonden zijn met &ark;, zodat u in &dolphin; <mousebutton
+>rechts</mousebutton
+> kunt klikken op een bestand en vervolgens <guimenuitem
+>Openen met &ark;</guimenuitem
+> kunt selecteren om het te openen of een uitpakactie selecteren voor dit bestand.</para>
+
+<para
+>Als u het informatiepaneel in het menu <guimenu
+>Instellingen</guimenu
+> hebt geactiveerd dan wordt extra informatie over de geselecteerde mappen of bestanden in het archief getoond.</para>
+
+<sect2 id="ark-archive-operations">
+<title
+>Archief bewerkingen</title>
+
+<para
+>Verschillende bewerkingen kunnen worden uitgevoerd voor een geopend archief door menu <guimenu
+>Archiveren</guimenu
+> te gebruiken. U kunt bijvoorbeeld het archief opslaan met een andere naam door <guimenuitem
+>Opslaan als...</guimenuitem
+> te gebruiken. Archiefeigenschappen zoals type, grootte en MD5-hash kunnen bekeken worden door het item <guimenuitem
+>Eigenschappen</guimenuitem
+>.</para>
+
+<para
+>&ark; heeft de mogelijkheid om archieven op integriteit te controleren. Deze functionaliteit is nu beschikbaar voor <command
+>zip</command
+>, <command
+>rar</command
+> en <command
+>7z</command
+> archieven. De testactie is te te vinden in het menu <guimenu
+>Archief</guimenu
+>.</para>
+
+</sect2>
+
+<sect2 id="ark-archive-comments">
+<title
+>Commentaar in archief </title>
+
+<para
+>&ark; kan commentaar ingebed in <literal role="extension"
+>zip</literal
+> en <literal role="extension"
+>rar</literal
+> archieven behandelen.</para>
+
+<para
+>Commentaar ingebed in <literal role="extension"
+>zip</literal
+> archieven wordt automatisch getoond.</para>
+
+<para
+>Bij gebruik van <literal role="extension"
+>rar</literal
+> archieven kunt u een commentaar met de actions <guimenuitem
+>Commentaar toevoegen</guimenuitem
+> of <guimenuitem
+>Commentaar bewerken</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>C</keycap
+></keycombo
+>) uit het menu <guimenu
+>Archief</guimenu
+> wijzigen. </para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Een commentaar bewerken</phrase>
+</textobject>
+</mediaobject>
+
+<note
+><para
+>Het menu-item commentaar is alleen ingeschakeld voor <literal role="extension"
+>rar</literal
+> archieven. </para
+></note>
+
+<para
+>Om een commentaar uit een <literal role="extension"
+>rar</literal
+> archief te verwijderen, verwijdert u de tekst in het venster commentaar.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Werken met bestanden</title>
+
+<para
+>Wanneer u een archief hebt geopend, kunt u verschillende dingen doen met de bestanden in het archief. U kunt kiezen wat u wilt doen door het te selecteren of door het menu <guimenu
+>Bestand</guimenu
+> te gebruiken:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Voorbeeld</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+>) zal het bestand met de interne vieuwer van &ark; openen. Dit is een snelle alleen-lezen viewer, maar ondersteunt niet alle typen bestanden.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Openen</guimenuitem
+> opent het bestand in het bijbehorende programma voor dat type bestand.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Openen met ...</guimenuitem
+> stelt u in staat programma te kiezen om het bestand mee te openen.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Hernoemen</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>F2</keycap
+></keycombo
+>) Deze actie stelt u in staat om namen van zowel bestanden als mappen te wijzigen. Net als in de bestandsbeheerder Dolphin kan deze actie worden aangeroepen via een sneltoets en hernoemen wordt gedaan via plaatselijke bewerking. Er worden ook controles op bestandsnamen gebonden, die gebruik van ongeldige tekens zoals <userinput
+>/</userinput
+>, <userinput
+>.</userinput
+> en <userinput
+>..</userinput
+> in bestandsnamen voorkomen.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Verwijderen</guimenuitem
+> (<keycap
+>Del</keycap
+>) wist het/de geselecteerde bestand(en) uit het archief. Merk op dat deze actie niet ongedaan gemaakt kan worden.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Uitpakken</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>)  opent een submenu met eerder gebruikte mappen en u kunt kiezen om snel in elk van deze uit te pakken of naar een niet-getoonde map bladeren. Zie de volgende sectie voor meer details over uitpakken.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Knippen</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+>) / <guimenuitem
+>Kopiëren</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>) / <guimenuitem
+>Plakken</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+>): Net als in typische bestandsbeheerders worden verplaatsen, plakken en kopiëren geboden. Gebruikers kunnen bestanden verplaatsen of kopiëren uit andere mappen (die uitgeklapt kunnen worden in de boomstructuurweergave) en ze direct plakken naar dezelfde bestemming. Een map kan gekopieerd worden in zichzelf, maar kan zo niet worden verplaatst. Er zijn ook controles op conflicterende bestandsnamen: U zult niet in staat zijn om bestanden te kopiëren of te verplaatsen in een map die items heeft met dezelfde namen - dat zou tot verlies van gegevens kunnen leiden.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Bestanden toevoegen</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>A</keycap
+></keycombo
+>) Deze actie kan gebruikt worden om bestanden toe te voegen op elke locatie binnen het archief. Als u een map selecteert en deze actie gebruikt, zullen bestanden toegevoegd worden aan de geselecteerde map. Anders zullen de nieuwe bestanden toegevoegd worden aan het begin van het archief. </para>
+</listitem>
+</itemizedlist>
+
+<sect2 id="ark-editing-files">
+<title
+>Bestanden bewerken</title>
+<para
+>Als u een bestand bewerkt en opslaat die u hebt geopend met <guimenuitem
+>Openen</guimenuitem
+> of <guimenuitem
+>Openen met...</guimenuitem
+>, dan zal Ark vragen of u het bestand in het archief wilt bijwerken. Als u Ja antwoord, dan zal het archief worden bijgewerkt met het opgeslagen bestand.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>Bestanden uitpakken</title>
+
+<para
+>Zodra u een archief hebt geopend in &ark;, kunt u het uitpakken. Dit kan gedaan  worden door <guisubmenu
+>Uitpakken</guisubmenu
+> te selecteren uit het menu <guimenu
+>Bestand</guimenu
+>. Dit opent een submenu met eerder gebruikte mappen en u kunt kiezen om snel uit te pakken in elk hiervan. Selecteer als alternatief het submenu-item <guisubmenu
+>Uitpakken naar...</guisubmenu
+> om de dialoog <guilabel
+>Uitpakken</guilabel
+> te openen, waar u verschillende opties in kunt stellen die van injvloed zijn op het uitpakken. Zie hieronder voor informatie over de beschikbare opties in de dialoog Uitpakken.</para>
+
+<para
+>U kunt ook de knop <guibutton
+>Uitpakken</guibutton
+> in de werkbalk gebruiken om toegang te krijgen tot dezelfde uitpakopties.</para>
+
+<para
+>Om het gehele archief uit te pakken kunt u <guisubmenu
+>Alles uitpakken</guisubmenu
+> selecteren uit het menu <guimenu
+>Archief</guimenu
+>. Deze actie pakt zonder voorbehoud alle bestanden in het archief uit.</para>
+
+<para
+>Het is mogelijk om bestanden en mappen uit te pakken door ze eenvoudig te slepen met de muis naar een map in &dolphin;.</para>
+
+<para
+>Opmerking: bestanden uitpakken uit een archief wijzigt het archief en zijn inhoud niet.</para>
+
+<sect2 id="ark-extract-dialog">
+<title
+>De dialoog Uitpakken</title>
+
+<para
+>De dialoog <guilabel
+>Uitpakken</guilabel
+> stelt u in staat om te kiezen waar de bestanden naar zullen worden uitgepakt. De standaard locatie is de map waarin zich het archief bevindt. De dialoog kan ook geopend worden door op <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+> te drukken.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="extract-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>De dialoog Uitpakken van &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>U kunt opgeven naar welke submap de bestanden moeten worden uitgepakt. De standaard naam van deze submap is de archiefnaam zonder de extensie, maar u kunt deze naar behoefte bewerken. Als u de paden wilt behouden bij het uitpakken, selecteer de optie <guilabel
+>Paden bewaren bij uitpakken</guilabel
+>. U kunt ook kiezen om de map waarnaar wordt uitgepakt in &dolphin; te openen of &ark; te sluiten als het uitpakken is voltooid.</para>
+
+<para
+>Als een of meer bestanden in de archieflijst zijn geaccentueerd, dan kunt u ook de uit te pakken bestanden selecteren:</para>
+<itemizedlist>
+<listitem>
+<para
+><guilabel
+>Alleen geselecteerde bestanden</guilabel
+> pakt alleen geselecteerde bestanden uit.</para>
+</listitem>
+<listitem>
+<para
+><guilabel
+>Alle bestanden</guilabel
+> pakt de gehele inhoud van het archief uit.</para>
+</listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Archieven aanmaken en bestanden toevoegen</title>
+
+<para
+>Om een nieuw archief aan te maken in &ark;, kiest u <guimenuitem
+>Nieuw</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+>) in het menu <guimenu
+>Archief</guimenu
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Een archief maken</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>U kunt vervolgens de naam van het archief intypen met de juiste extensie (<literal role="extension"
+>tar.gz</literal
+>, <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>7z</literal
+> &etc;) of selecteer een ondersteund formaat in de keuzevak <guilabel
+>Filter</guilabel
+> en activeer de optie <guilabel
+>Automatisch <replaceable
+>bestandsnaam-extensie</replaceable
+> toevoegen</guilabel
+>.</para>
+
+<para
+>Om bestanden of mappen aan het nieuwe archief toe te voegen, kies <guimenuitem
+>Bestanden toevoegen...</guimenuitem
+> uit het menu <guimenu
+>Archiveren</guimenu
+>.</para>
+
+<para
+>U kunt bestanden ook aan een archief toevoegen door er één of meer vanuit bijvoorbeeld &dolphin; naar het hoofdvenster van &ark; te slepen en ze worden toegevoegd aan het huidige archief. Merk op dat bestanden die op deze manier worden toegevoegd altijd aan de beginmap van het archief worden toegevoegd.</para>
+
+<para
+>Extra opties zijn aanwezig in in te vouwen groepen onderaan de dialoog. </para>
+
+<sect2 id="ark-compression">
+<title
+>Compressie</title>
+<para
+>Een hogere waarde genereert kleinere archieven, maar resulteert in langere compressie- en decompressietijden. Het standaard compressieniveau voorgesteld door &ark; is gewoonlijk een goed compromi tussen grootte en (de)compressiesnelheid. Voor de meeste formaten is het minimum compressieniveau equivalent om gewoon de bestanden op te slaan, &ie; zonder compressie toe te passen. </para>
+<para
+>Voor <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7z</literal
+> en <literal role="extension"
+>zip</literal
+> archieven kunt u kiezen tussen verschillende compressiemethoden. </para>
+<para
+>Merk op dat gebruikt van compressiemethoden anders dan de voorgeselecteerde standaarden compatibiliteit kan beperken met programma's voor archiveren van bestanden. Openen van <literal role="extension"
+>zip</literal
+> archieven met compressiemethoden anders dan <quote
+>Deflate</quote
+> vereist nieuwere software voor archivering.</para>
+</sect2>
+
+<sect2 id="ark-password-protection">
+<title
+>Wachtwoordbescherming</title>
+<para
+>Als u een archief met <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7zip</literal
+> en <literal role="extension"
+>jar</literal
+> maakt, dan kunt u het met een wachtwoord beschermen. op dit moment ondersteunt alleen het <literal role="extension"
+>zip</literal
+>-formaat meerdere versleutelingsmethoden. Voor andere formaten die slechts één versleutelingsmethode ondersteunen wordt de methode getoond in het afrolvak.</para>
+<para
+>Andere versleutelingsmethoden dan de standaard <guilabel
+>ZipCrypto</guilabel
+> worden mogelijk niet ondersteund door alle archiveringsprogramma's van bestanden.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Een archief aanmaken beschermd door een wachtwoord</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Kies of het wachtwoord vereist moet worden voor het tonen van de lijst met bestanden. Dit wordt versleuteling van de header genoemd en is alleen beschikbaar met de <literal role="extension"
+>rar</literal
+> en <literal role="extension"
+>7zip</literal
+> formaten. Deze vorm van versleuteling is standaard ingeschakeld om de maximum bescherming te bieden aan nieuw gebruikers.</para>
+</sect2>
+
+<sect2 id="ark-multi-volume">
+<title
+>Multi-volume archief</title>
+<para
+>Met de formaten <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+> en <literal role="extension"
+>7z</literal
+> kunt u multi-volume archieven aanmaken, ook bekend als multi-part of gesplitste archieven.</para>
+<para
+>Een multi-volume archief is één groot gecomprimeerd archief gesplitst in een aantal bestanden. Deze functie is nuttig als de maximale bestandsgrootte beperkt is, &eg; door de capaciteit van een opslagmedium van de maximale grootte van een e-mailbericht met bijlagen.</para>
+<para
+>Om een multi-volume archief aan te maken, activeer het keuzevakje <guilabel
+>Multi-volume archief aanmaken</guilabel
+> en stel een maximum <guilabel
+>Volumegrootte</guilabel
+> in in de dialoog. Voeg daarna alle bestanden toe aan het archief en &ark; zal automatisch het vereiste aantal archiefvolumes genereren. Afhankelijk van het geselecteerde formaat hebben de bestanden een extensie met opeenvolgende nummering &eg; <filename
+>xxx.7z.001</filename
+>, <filename
+>xxx.7z.002</filename
+> of <filename
+>xxx.zip.001</filename
+>, <filename
+>xxx.zip.002</filename
+> of <filename
+>xxx.part1.rar</filename
+>, <filename
+>xxx.part2.rar</filename
+> &etc;.</para>
+<para
+>Om een multi-volume archief uit te pakken, stopt u alle archiefbestanden in één map en opent u het bestand met het laagste extensienummer in &ark; en alle andere delen van het gesplitste archief zal automatisch geopend worden.</para>
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>&ark; in de bestandsbeheerder gebruiken</title>
+
+<para
+>Met de &RMB; op een archief klikken in een bestandsbeheerder zoals &dolphin; toont een contextmenu met een item <guimenuitem
+>Openen met Ark</guimenuitem
+>. Het menu heeft deze extra items om een archief uit te pakken met &ark;: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Archief hier uitpakken, submap autodetecteren</guimenuitem
+> maakt een submap in de map aan met het archief en pakt de mappen en bestanden erin uit.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Archief uitpakken naar...</guimenuitem
+> opent de dialoog Uitpakken waar u de doelmap kunt kiezen en verschillende uitpakopties.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Archief hier uitpakken</guimenuitem
+> pakt de inhoud van het archief uit in dezelfde map.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>Het contextmenu van &dolphin; voor een selectie toont deze acties in het submenu <guimenu
+>Comprimeren</guimenu
+>: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Hier (als TAR.GZ)</guimenuitem
+> of <guimenuitem
+>Hier (als ZIP)</guimenuitem
+> maakt deze typen archief aan in de huidige map.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Comprimeren naar...</guimenuitem
+> opent een dialoog waarin u een map, naam en archieftype kunt selecteren.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>Geavanceerde batchmodus</title>
+<para
+>&ark; heeft een geavanceerde batchmodus om archieven te beheren zonder een grafische gebruikersinterface. Deze modus stelt u in staat archieven uit te pakken of aan te maken en er bestanden aan toe te voegen.</para>
+
+<para
+>De batchmodus is gedocumenteerd in <ulink url="man:/ark"
+>manpagina van &ark;</ulink
+>. </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Dankbetuiging en licentie</title>
+
+<para
+>&ark; is copyright &copy; 1997-2016, het ontwikkelteam van &ark;.</para>
+
+<itemizedlist>
+<title
+>Auteurs:</title>
+<listitem
+><para
+>Elvis Angelaccio <email
+>elvis.angelaccio@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Ragnar Thomsen <email
+>rthomsen6@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Raphael Kubo da Costa <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+>Harald Hvaal <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (auteur: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (auteur: Michael Jarrett) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Documentatie copyright &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
+
+<para
+>Documentatie bijgewerkt voor &kde; 3.3 door &Henrique.Pinto; &Henrique.Pinto.mail;</para>
+
+<para
+>Documentatie bijgewerkt voor KDE Applications 16.04 door &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
+
+&meld.fouten;&vertaling.frank;&vertaling.tom;&vertaling.freek; &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

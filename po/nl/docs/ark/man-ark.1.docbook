@@ -1,0 +1,427 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Dutch "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Gebruikershandboek van &ark;</title>
+
+<author
+><firstname
+>Lauri</firstname
+><surname
+>Watts</surname
+> <contrib
+>Initiële versie van &ark; manpagina in 2005.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Raphael</firstname
+><surname
+>Kubo da Costa</surname
+> <contrib
+>Bijwerken van &ark; manpagina in 2009.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+> <contrib
+>Update of &ark; manpagina in 2015 en 2016.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>2018-08-08</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>18.12</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>KDE Applications</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>&kde;'s archiveerprogramma</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+> suffix</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+> bestand</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-m</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+> map</replaceable
+></group
+> <arg choice="opt"
+>&kf5; algemene opties</arg
+> <arg choice="opt"
+>&Qt; algemene opties</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Beschrijving</title>
+<para
+>&ark; is een programma voor het beheren van verschillende gecomprimeerde bestandsformaten binnen &kde;. Archieven kunnen worden bekeken, uitgepakt, aangemaakt en gewijzigd met &ark;. Het programma kan verschillende formaten behandelen zoals <application
+>tar</application
+>, <application
+>gzip</application
+>, <application
+>bzip2</application
+>, <application
+>zip</application
+>, <application
+>rar</application
+> (wanneer de juiste bibliotheken of commandoregel programma's zijn geïnstalleerd).</para>
+</refsect1>
+
+<refsect1>
+<title
+>Werkwijzen</title>
+<para
+>&ark; kan worden gebruikt ofwel als een alleenstaand &GUI;-programma of als een commandoregelprogramma om bepaalde specifieke taken uit te voeren.</para>
+<para
+>Aangeroepen zonder de -b (--batch) of -c (--add) opties, wordt &ark; gestart als een normaal &GUI;-programma.</para>
+<para
+>Wanneer de -b (--batch) optie wordt gebruikt, kan &ark; worden gebruikt om de inhoud van een of meer bestanden uit te pakken direct vanaf de commandoregel, zonder het starten van zijn &GUI;.</para>
+<para
+>Wanneer de -c (--add) optie wordt gebruikt, zal &ark; om bestanden vragen die zullen worden toegevoegd aan een nieuw of bestaand archief.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Opties</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>Een dialoog tonen om de opties voor een batch- of toevoeg-operatie te specificeren.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-m, --mimetypes</option
+></term>
+<listitem>
+<para
+>Maak een lijst met ondersteunde &MIME;-types.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>map</replaceable
+></option
+></term>
+<listitem
+><para
+>Maak <replaceable
+>map</replaceable
+> de standaard uitpakmap. Als deze niet wordt gegeven dan wordt het huidige pad gebruikt.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>Opties voor bestanden toevoegen</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>De gebruiker vragen om een bestandsnaam voor het archief en daaraan bestanden toevoegen. Afsluiten wanneer voltooid.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>bestandsnaam</replaceable
+></option
+></term>
+<listitem>
+<para
+>De gekozen bestanden toevoegen aan <replaceable
+>bestandsnaam</replaceable
+>. Archief aanmaken als het nog niet bestaat. Afsluiten wanneer voltooid.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>De huidige map veranderen naar de eerste, en alle andere relatief hier aan toevoegen.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>achtervoegsel</replaceable
+></option
+></term>
+<listitem>
+<para
+>Automatisch een bestandsnaam kiezen, met het geselecteerde <replaceable
+>achtervoegsel</replaceable
+> (bijv. rar, tar.gz of andere ondersteunde types)..</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Opties voor batch-uitpakken</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>De batch-interface gebruiken in plaats van de gebruikelijke dialoog. Deze optie is impliciet wanneer meer dan één url-adres wordt gespecificeerd.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --autodestination</option
+></term>
+<listitem>
+<para
+>Het doelargument zal worden ingesteld op het pad van het eerste gegeven bestand.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>De inhoud van het archief zal worden gelezen, en indien het meer dan één map bevat zal een submap met de naam van het archief worden gemaakt.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>Open de bestemmingsmap wanneer de extractie gereed is.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Zie ook</title>
+<simplelist>
+<member
+>Meer gedetailleerde gebruikersdocumentatie is beschikbaar van <ulink url="help:/ark"
+>help:/ark</ulink
+> (voer deze &URL; in in &konqueror; of voer <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+> uit).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Voorbeelden</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>archief.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Zal <replaceable
+>archief.tar.bz2</replaceable
+> uitpakken in de huidige map zonder een &GUI; te tonen. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>archief.tar.bz2</replaceable
+> <replaceable
+>archief2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Zal eerst een extractie-opties-dialoog tonen en beide <replaceable
+>archief.tar.bz2</replaceable
+> en <replaceable
+>archief2.zip</replaceable
+> uitpakken in de in de dialoog gekozen map.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>mijn-archief.zip</replaceable
+> <replaceable
+>foto1.jpg</replaceable
+> <replaceable
+>tekst.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Zal <replaceable
+>mijn-archief.zip</replaceable
+> aanmaken als het niet bestaat en daarna <replaceable
+>photo1.jpg</replaceable
+> en <replaceable
+>text.txt</replaceable
+> er aan toevoegen. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>Onderhouder</title>
+<para
+>&ark; wordt nu onderhouden door <emphasis role="bold"
+>Elvis Angelaccio</emphasis
+> en <emphasis role="bold"
+>Ragnar Thomsen</emphasis
+>.</para>
+</refsect1>
+
+</refentry>

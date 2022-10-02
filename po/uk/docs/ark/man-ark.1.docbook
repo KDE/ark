@@ -1,0 +1,429 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Ukrainian "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Інструкція користувача &ark;</title>
+
+<author
+><firstname
+>Lauri</firstname
+><surname
+>Watts</surname
+> <contrib
+>Початкова версія сторінки man &ark; у 2005 році.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Raphael</firstname
+><surname
+>Kubo da Costa</surname
+> <contrib
+>Оновлення сторінки man &ark; у 2009 році.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+> <contrib
+>Оновлення сторінки man &ark; у 2015 і 2016 роках.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>8 серпня 2018 року</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>18.12</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>Програми KDE</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>Архіватор &kde;</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+> суфікс</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+> файл</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-m</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+> каталог</replaceable
+></group
+> <arg choice="opt"
+>Загальні параметри &kf5;</arg
+> <arg choice="opt"
+>Загальні параметри &Qt;</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Опис</title>
+<para
+>&ark; — це програма для роботи з файлами у стиснутому форматі у межах середовища &kde;. За допомогою &ark; архіви можна переглядати, видобувати з архівів файли, створювати архіви або змінювати їх. Програма може працювати з архівами різноманітних форматів, серед яких <application
+>tar</application
+>, <application
+>gzip</application
+>, <application
+>bzip2</application
+>, <application
+>zip</application
+>, <application
+>rar</application
+> і <application
+>lha</application
+> (звичайно ж, якщо встановлено відповідні бібліотеки або інструменти командного рядка).</para>
+</refsect1>
+
+<refsect1>
+<title
+>Режими роботи</title>
+<para
+>&ark; можна користуватися як окремою програмою з графічним інтерфейсом і як програмою, що виконує специфічні завдання за командами, відданими з командного рядка.</para>
+<para
+>Якщо команду буде віддано з параметром -b (--batch) або -c (--add), &ark; буде запущено у режимі звичайної програми з графічним інтерфейсом.</para>
+<para
+>За допомогою параметра -b (--batch) ви можете скористатися &ark; для видобування одного або декількох файлів безпосередньо з командного рядка, без запуску графічного інтерфейсу.</para>
+<para
+>Якщо буде використано параметр -c (--add), &ark; надішле користувачеві запит щодо файлів, які слід додати до нового або вже існуючого архіву.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Параметри</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>Відкрити діалогове вікно для визначення параметрів пакетної дії або дії з додавання.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-m, --mimetypes</option
+></term>
+<listitem>
+<para
+>Вивести список підтримуваних типів &MIME;.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>каталог</replaceable
+></option
+></term>
+<listitem
+><para
+>Типово, видобувати у каталог <replaceable
+>каталог</replaceable
+>. Якщо цей параметр не буде передано програмі, вона розпакує архів у поточний каталог.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>Параметри для додавання файлів</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>Запитати користувача про назву файла архіву і додати вказані файли до нього. Вийти з програми після завершення операції.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>назва файла</replaceable
+></option
+></term>
+<listitem>
+<para
+>Додати вказані файли до архіву <replaceable
+>назва файла</replaceable
+>. Створити архів, якщо його не існує. Вийти з програми після завершення операції.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>Змінити поточний каталог на перший запис і додати всі інші записи відносно цього першого запису.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>суфікс</replaceable
+></option
+></term>
+<listitem>
+<para
+>Автоматично обрати назву файла з вказаним <replaceable
+>суфіксом</replaceable
+> (наприклад, rar, tar.gz, zip або будь-який з інших типів, що підтримуються)</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Параметри для пакетного видобування</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>Використовувати пакетний інтерфейс замість звичайного діалогового вікна. Цей параметр буде застосовано, якщо вказано декілька адрес.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --autodestination</option
+></term>
+<listitem>
+<para
+>Параметр призначення буде встановлено у значення адреси першого наданого файла.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>Буде прочитано вміст архіву і, якщо буде виявлено, що архів складається з декількох тек, буде створено підтеку за назвою архіву.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>Відкрити теку призначення, коли видобування буде завершено.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Прочитайте також</title>
+<simplelist>
+<member
+>Доступ до докладнішої документації, призначеної для користувачів, ви можете отримати за адресою <ulink url="help:/ark"
+>help:/ark</ulink
+> (або введіть цю адресу &URL; у поле адреси &konqueror;, або віддайте команду <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Приклади</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>archive.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Виконає видобування архіву <replaceable
+>archive.tar.bz2</replaceable
+> до поточного каталогу без показу графічного інтерфейсу користувача. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>archive.tar.bz2</replaceable
+> <replaceable
+>archive2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Спочатку покаже діалогове вікно параметрів видобування, а потім виконає видобування архівів <replaceable
+>archive.tar.bz2</replaceable
+> і <replaceable
+>archive2.zip</replaceable
+> до каталогу, вказаного за допомогою діалогового вікна.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>my-archive.zip</replaceable
+> <replaceable
+>photo1.jpg</replaceable
+> <replaceable
+>text.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Створить архів <replaceable
+>my-archive.zip</replaceable
+>, якщо його не існує, а потім додасть файли <replaceable
+>photo1.jpg</replaceable
+> і <replaceable
+>text.txt</replaceable
+> до створеного архіву. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>Супровід</title>
+<para
+>Поточними супровідниками &ark; є <emphasis role="bold"
+>Elvis Angelaccio</emphasis
+> та <emphasis role="bold"
+>Ragnar Thomsen</emphasis
+>.</para>
+</refsect1>
+
+</refentry>

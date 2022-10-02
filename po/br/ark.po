@@ -1,0 +1,2869 @@
+# KTranslator Generated File
+# Breton version of KDE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# Jañ-Mai Drapier <jdrapier@club-internet.fr>, 1999
+#
+msgid ""
+msgstr ""
+"Project-Id-Version:ark-1.1\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"PO-Revision-Date: 2004-05-19 11:54+0200\n"
+"Last-Translator: Jañ-Mai Drapier <jdrapier@club-internet.fr>\n"
+"Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
+"Language: br\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Thierry Vignaud, Jañ-Mai Drapier"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "tvignaud@mandriva.com, jdrapier@club-internet.fr"
+
+#. i18n: ectx: Menu (archive)
+#: app/arkui.rc:5
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
+msgid "&Archive"
+msgstr "Digeriñ an 'diell'"
+
+#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Extracting Files"
+msgstr "Eztennañ an holl restroù"
+
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#, fuzzy, kde-format
+#| msgid "Save Archive?"
+msgid "Source archive"
+msgstr "Enrollañ an diell ?"
+
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#, fuzzy, kde-format
+#| msgid "Destination folder: "
+msgid "Destination"
+msgstr "Renkell an dehaezadur :"
+
+#: app/batchextract.cpp:117
+#, kde-format
+msgid "The following files could not be extracted:"
+msgstr ""
+
+#: app/batchextract.cpp:136
+#, fuzzy, kde-kuit-format
+#| msgid "The folder could not be created. Please check permissions."
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>. Any further "
+"archive will not be extracted."
+msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
+
+#: app/batchextract.cpp:137
+#, fuzzy, kde-kuit-format
+#| msgid "The folder could not be created. Please check permissions."
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message><nl/>Any further archive will not be extracted."
+msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
+
+#: app/batchextract.cpp:141
+#, fuzzy, kde-kuit-format
+#| msgid "The folder could not be created. Please check permissions."
+msgctxt "@info"
+msgid "There was an error while extracting <filename>%1</filename>."
+msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
+
+#: app/batchextract.cpp:142
+#, fuzzy, kde-kuit-format
+#| msgid "The folder could not be created. Please check permissions."
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message>"
+msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
+
+#: app/batchextract.cpp:293
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid ""
+"The archive could not be extracted to <filename>%1</filename> because Ark "
+"can only extract to local destinations."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: app/compressfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
+msgid "Compress"
+msgstr "Restr moustret"
+
+#: app/compressfileitemaction.cpp:90
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+msgid "Compress to..."
+msgstr "Restr moustret"
+
+#: app/compressfileitemaction.cpp:97
+#, kde-format
+msgctxt ""
+"@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
+msgid "Here as \"%1\""
+msgstr ""
+
+#: app/extractfileitemaction.cpp:63
+#, fuzzy, kde-format
+#| msgid "E&xtract..."
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive to..."
+msgstr "E&ztennañ ..."
+
+#: app/extractfileitemaction.cpp:75
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here"
+msgstr "Eztennañ"
+
+#: app/extractfileitemaction.cpp:83
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here, autodetect subfolder"
+msgstr "Eztennañ an holl restroù"
+
+#: app/extractfileitemaction.cpp:89
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
+msgid "Extract"
+msgstr "Eztennañ"
+
+#: app/extractHereDndPlugin.cpp:55
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt ""
+"@action:inmenu Context menu shown when an archive is being drag'n'dropped"
+msgid "Extract here"
+msgstr "Eztennañ"
+
+#: app/main.cpp:84
+#, kde-format
+msgid "Ark"
+msgstr "Ark"
+
+#: app/main.cpp:86
+#, kde-format
+msgid "KDE Archiving tool"
+msgstr "Ostilh merañ an dielloù evit KDE"
+
+#: app/main.cpp:88
+#, fuzzy, kde-format
+#| msgid "(c) 1997-2003, The Various Ark Developers"
+msgid "(c) 1997-2019, The Ark Developers"
+msgstr "(c) 1997-2003, Diorroerien Ark a bep seurt"
+
+#: app/main.cpp:93
+#, kde-format
+msgid "Elvis Angelaccio"
+msgstr ""
+
+#: app/main.cpp:94
+#, kde-format
+msgid "Maintainer"
+msgstr "Ratreer"
+
+#: app/main.cpp:96
+#, kde-format
+msgid "Ragnar Thomsen"
+msgstr ""
+
+#: app/main.cpp:97
+#, fuzzy, kde-format
+#| msgid "Maintainer"
+msgid "Maintainer, KF5 port"
+msgstr "Ratreer"
+
+#: app/main.cpp:99
+#, kde-format
+msgid "Raphael Kubo da Costa"
+msgstr ""
+
+#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#, fuzzy, kde-format
+#| msgid "Former maintainer"
+msgid "Former Maintainer"
+msgstr "Ratreer diaraok"
+
+#: app/main.cpp:102
+#, kde-format
+msgid "Harald Hvaal"
+msgstr ""
+
+#: app/main.cpp:105
+#, kde-format
+msgid "Henrique Pinto"
+msgstr ""
+
+#: app/main.cpp:108
+#, kde-format
+msgid "Helio Chissini de Castro"
+msgstr ""
+
+#: app/main.cpp:109
+#, kde-format
+msgid "Former maintainer"
+msgstr "Ratreer diaraok"
+
+#: app/main.cpp:111
+#, kde-format
+msgid "Georg Robbers"
+msgstr ""
+
+#: app/main.cpp:114
+#, kde-format
+msgid "Roberto Selbach Teixeira"
+msgstr ""
+
+#: app/main.cpp:117
+#, kde-format
+msgid "Francois-Xavier Duranceau"
+msgstr ""
+
+#: app/main.cpp:120
+#, kde-format
+msgid "Emily Ezust (Corel Corporation)"
+msgstr ""
+
+#: app/main.cpp:123
+#, kde-format
+msgid "Michael Jarrett (Corel Corporation)"
+msgstr ""
+
+#: app/main.cpp:126
+#, kde-format
+msgid "Robert Palmbos"
+msgstr ""
+
+#: app/main.cpp:130
+#, kde-format
+msgid "Vladyslav Batyrenko"
+msgstr ""
+
+#: app/main.cpp:131
+#, kde-format
+msgid "Advanced editing functionalities"
+msgstr ""
+
+#: app/main.cpp:134
+#, kde-format
+msgid "Bryce Corkins"
+msgstr ""
+
+#: app/main.cpp:135
+#, kde-format
+msgid "Icons"
+msgstr "Arlunioù"
+
+#: app/main.cpp:137
+#, kde-format
+msgid "Liam Smit"
+msgstr ""
+
+#: app/main.cpp:138
+#, kde-format
+msgid "Ideas, help with the icons"
+msgstr ""
+
+#: app/main.cpp:140
+#, kde-format
+msgid "Andrew Smith"
+msgstr ""
+
+#: app/main.cpp:141
+#, kde-format
+msgid "bkisofs code"
+msgstr ""
+
+#: app/main.cpp:151
+#, kde-format
+msgid "URLs to open."
+msgstr ""
+
+#: app/main.cpp:154
+#, kde-format
+msgid ""
+"Show a dialog for specifying the options for the operation (extract/add)"
+msgstr ""
+
+#: app/main.cpp:157
+#, kde-format
+msgid ""
+"Destination folder to extract to. Defaults to current path if not specified."
+msgstr ""
+
+#. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
+#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#, kde-format
+msgid "Open destination folder after extraction."
+msgstr ""
+
+#: app/main.cpp:164
+#, kde-format
+msgid ""
+"Query the user for an archive filename and add specified files to it. Quit "
+"when finished."
+msgstr ""
+
+#: app/main.cpp:167
+#, kde-format
+msgid ""
+"Add the specified files to 'filename'. Create archive if it does not exist. "
+"Quit when finished."
+msgstr ""
+
+#: app/main.cpp:171
+#, kde-format
+msgid ""
+"Change the current dir to the first entry and add all other entries relative "
+"to this one."
+msgstr ""
+
+#: app/main.cpp:174
+#, kde-format
+msgid ""
+"Automatically choose a filename, with the selected suffix (for example rar, "
+"tar.gz, zip or any other supported types)"
+msgstr ""
+
+#: app/main.cpp:178
+#, kde-format
+msgid ""
+"Use the batch interface instead of the usual dialog. This option is implied "
+"if more than one url is specified."
+msgstr ""
+
+#: app/main.cpp:181
+#, kde-format
+msgid ""
+"The destination argument will be set to the path of the first file supplied."
+msgstr ""
+
+#: app/main.cpp:184
+#, kde-format
+msgid ""
+"Archive contents will be read, and if detected to not be a single folder or "
+"a single file archive, a subfolder with the name of the archive will be "
+"created."
+msgstr ""
+
+#: app/main.cpp:187
+#, kde-format
+msgid "List supported MIME types."
+msgstr ""
+
+#: app/mainwindow.cpp:126
+#, kde-format
+msgid "Unable to find Ark's KPart component, please check your installation."
+msgstr ""
+
+#: app/mainwindow.cpp:201
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches between having a <emphasis>Menubar</emphasis> and having a "
+"<interface>Hamburger Menu</interface> button. Both contain mostly the same "
+"commands and configuration options."
+msgstr ""
+
+#: app/mainwindow.cpp:260
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "to open an archive"
+msgid "Open Archive"
+msgstr "Digeriñ an 'diell'"
+
+#: app/mainwindow.cpp:371
+#, fuzzy, kde-format
+#| msgid "Create New Archive"
+msgid "Create New Archive"
+msgstr "Krouiñ un diell nevez"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
+#: app/welcomescreen.ui:18
+#, kde-format
+msgid "Form"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: app/welcomescreen.ui:53
+#, kde-format
+msgid "Welcome to Ark"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, openButton)
+#: app/welcomescreen.ui:97
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "to open an archive"
+msgid "Open Archive..."
+msgstr "Digeriñ an 'diell'"
+
+#. i18n: ectx: property (text), widget (QPushButton, newButton)
+#: app/welcomescreen.ui:107
+#, fuzzy, kde-format
+#| msgid "Create New Archive"
+msgid "Create New Archive..."
+msgstr "Krouiñ un diell nevez"
+
+#: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
+#, kde-format
+msgid "Advanced Options"
+msgstr ""
+
+#: kerfuffle/adddialog.cpp:47
+#, fuzzy, kde-format
+#| msgid "&Add"
+msgctxt "@action:button"
+msgid "Add"
+msgstr "&Ouzhpennañ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupCompressFiles)
+#: kerfuffle/adddialog.ui:35
+#, kde-format
+msgid "Files/Folders to Compress"
+msgstr ""
+
+#: kerfuffle/addtoarchive.cpp:79
+#, fuzzy, kde-format
+msgid "Compress to Archive"
+msgstr "Renkell diell"
+
+#: kerfuffle/addtoarchive.cpp:133
+#, kde-format
+msgid "No input files were given."
+msgstr ""
+
+#: kerfuffle/addtoarchive.cpp:140
+#, kde-kuit-format
+msgid ""
+"You need to either supply a filename for the archive or a suffix (such as "
+"rar, tar.gz) with the <command>--autofilename</command> argument."
+msgstr ""
+
+#: kerfuffle/addtoarchive.cpp:236
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "Digeriñ an 'diell'"
+
+#. i18n: ectx: label, entry (showEncryptionWarning), group (General)
+#: kerfuffle/ark.kcfg:9
+#, kde-format
+msgid ""
+"Whether to show a warning when creating zip archives with AES encryption."
+msgstr ""
+
+#. i18n: ectx: label, entry (defaultOpenAction), group (General)
+#: kerfuffle/ark.kcfg:13
+#, kde-format
+msgid "Default action when opening archive entries."
+msgstr ""
+
+#. i18n: ectx: label, entry (Version), group (General)
+#: kerfuffle/ark.kcfg:21
+#, kde-format
+msgid ""
+"Internal config version of Ark, mainly used to determine whether an updated "
+"version of Ark is running, so as to migrate config entries that were removed/"
+"renamed ...etc"
+msgstr ""
+
+#. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
+#: kerfuffle/ark.kcfg:31
+#, kde-format
+msgid "Close Ark after extraction."
+msgstr ""
+
+#. i18n: ectx: label, entry (preservePaths), group (Extraction)
+#: kerfuffle/ark.kcfg:35
+#, kde-format
+msgid "Preserve paths when extracting."
+msgstr ""
+
+#. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
+#: kerfuffle/ark.kcfg:39
+#, kde-format
+msgid ""
+"Extract to a subfolder if the archive has more than one top-level entry."
+msgstr ""
+
+#. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
+#: kerfuffle/ark.kcfg:45
+#, kde-format
+msgid "How the main window is divided."
+msgstr ""
+
+#. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
+#: kerfuffle/ark.kcfg:49
+#, fuzzy, kde-format
+#| msgid "Information"
+msgid "Whether to show the information panel."
+msgstr "Titouroù"
+
+#. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
+#: kerfuffle/ark.kcfg:59
+#, kde-format
+msgid "Whether to limit the preview according to file size."
+msgstr ""
+
+#. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
+#: kerfuffle/ark.kcfg:63
+#, kde-format
+msgid "Preview file size limit in megabytes."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:245
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Failed to locate program <filename>%1</filename> on disk."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: kerfuffle/cliinterface.cpp:355
+#, kde-format
+msgid "Extraction failed. Make sure that enough space is available."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:358
+#, kde-format
+msgid ""
+"Extraction failed. Make sure you provided the correct password and that "
+"enough space is available."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:369 kerfuffle/cliinterface.cpp:494
+#, fuzzy, kde-format
+#| msgid "Could not create the folder %1"
+msgctxt "@info"
+msgid "Could not move the extracted file to the destination directory."
+msgid_plural "Could not move the extracted files to the destination directory."
+msgstr[0] "Ne m'eus ket gallet krouiñ ar renkell %1"
+msgstr[1] ""
+
+#: kerfuffle/cliinterface.cpp:857
+#, kde-format
+msgctxt "@info"
+msgid "Extraction failed because the disk is full."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:864
+#, kde-format
+msgctxt "@info"
+msgid "Extraction failed: Incorrect password"
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:898
+#, kde-format
+msgid "Incorrect password."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:921
+#, kde-format
+msgid "Ark does not currently support testing this archive."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:132
+#, kde-format
+msgid "Protection of the list of files is not possible with the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:141
+#, kde-format
+msgid ""
+"Protection of the archive with password is not possible with the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:156
+#, kde-format
+msgid "It is not possible to set compression level for the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:176
+#, kde-format
+msgid "It is not possible to set compression method for the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:199
+#, kde-format
+msgid "The %1 format does not support multi-volume archives."
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleCompression)
+#: kerfuffle/compressionoptionswidget.ui:20
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgid "Compression"
+msgstr "Restr moustret"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel1)
+#: kerfuffle/compressionoptionswidget.ui:35
+#, kde-format
+msgid "Level:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel2)
+#: kerfuffle/compressionoptionswidget.ui:45
+#, kde-format
+msgid "Min"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompMethod)
+#: kerfuffle/compressionoptionswidget.ui:83
+#, fuzzy, kde-format
+#| msgid " Method "
+msgid "Method:"
+msgstr " Hentenn "
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel3)
+#: kerfuffle/compressionoptionswidget.ui:93
+#, kde-format
+msgid "Max"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleEncryption)
+#: kerfuffle/compressionoptionswidget.ui:118
+#, kde-format
+msgid "Password Protection"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, lblEncMethod)
+#: kerfuffle/compressionoptionswidget.ui:130
+#, fuzzy, kde-format
+#| msgid "Extraction Settings"
+msgid "Encryption method:"
+msgstr "Dibaboù evit eztennañ ar restroù"
+
+#. i18n: ectx: property (text), widget (QCheckBox, encryptHeaderCheckBox)
+#: kerfuffle/compressionoptionswidget.ui:160
+#, kde-format
+msgid "Ask for password before showing the list of files in the archive"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
+#: kerfuffle/compressionoptionswidget.ui:170
+#, kde-format
+msgid ""
+"This encryption method may not be supported by older archiving software."
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleMultiVolume)
+#: kerfuffle/compressionoptionswidget.ui:183
+#, kde-format
+msgid "Multi-volume Archive"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, multiVolumeCheckbox)
+#: kerfuffle/compressionoptionswidget.ui:192
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Create multi-volume archive"
+msgstr "Eztennañ an holl restroù"
+
+#. i18n: ectx: property (text), widget (QLabel, lblVolumeSize)
+#: kerfuffle/compressionoptionswidget.ui:210
+#, kde-format
+msgid "Volume size:"
+msgstr ""
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_previewFileSizeLimit)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, volumeSizeSpinbox)
+#: kerfuffle/compressionoptionswidget.ui:223
+#: kerfuffle/previewsettingspage.ui:32
+#, kde-format
+msgid " megabytes"
+msgstr ""
+
+#: kerfuffle/createdialog.cpp:111
+#, kde-format
+msgctxt "the argument is a file extension (the period is not a typo)"
+msgid "Automatically add .%1"
+msgstr ""
+
+#: kerfuffle/createdialog.cpp:198
+#, kde-format
+msgid "The chosen password does not match the given verification password."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/createdialog.ui:30
+#, fuzzy, kde-format
+#| msgid "&Folders"
+msgid "Folder:"
+msgstr "&Renkelloù"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/createdialog.ui:47
+#, fuzzy, kde-format
+#| msgid " Filename "
+msgid "Filename:"
+msgstr " Anv ar restr "
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
+#: kerfuffle/createdialog.ui:54
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Type archive name..."
+msgstr "Digeriñ an 'diell'"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
+#: kerfuffle/createdialog.ui:61 part/infopanel.ui:93
+#, kde-format
+msgid "Type:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/createdialog.ui:78
+#, kde-format
+msgid "Extension:"
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:40
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@title:window"
+msgid "Extract"
+msgstr "Eztennañ"
+
+#: kerfuffle/extractiondialog.cpp:54
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgid "Extract"
+msgstr "Eztennañ"
+
+#: kerfuffle/extractiondialog.cpp:97
+#, kde-format
+msgid "The subfolder name may not contain the character '/'."
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:107
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The folder <filename>%1</filename> already exists. Are you sure you want to "
+"extract here?"
+msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
+
+#: kerfuffle/extractiondialog.cpp:108
+#, fuzzy, kde-format
+#| msgid "Archive Already Exists"
+msgid "Folder exists"
+msgstr "An diel a zo endeo"
+
+#: kerfuffle/extractiondialog.cpp:109
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgid "Extract here"
+msgstr "Eztennañ"
+
+#: kerfuffle/extractiondialog.cpp:110
+#, kde-format
+msgid "Retry"
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#, fuzzy, kde-kuit-format
+#| msgid "The folder could not be created. Please check permissions."
+msgctxt "@info"
+msgid "The folder <filename>%1</filename> could not be created."
+msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
+
+#: kerfuffle/extractiondialog.cpp:121
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid "<filename>%1</filename> already exists, but is not a folder."
+msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
+
+#: kerfuffle/extractiondialog.cpp:127
+#, kde-format
+msgid "Please check your permissions to create it."
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:166
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Extract multiple archives"
+msgstr "Eztennañ an holl restroù"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ExtractionDialog)
+#: kerfuffle/extractiondialog.ui:21
+#, fuzzy, kde-format
+#| msgid "Extraction"
+msgid "Extraction Dialog"
+msgstr "Eztennañ"
+
+#. i18n: ectx: property (text), widget (QLabel, extractAllLabel)
+#: kerfuffle/extractiondialog.ui:70
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Extract All Files"
+msgstr "Eztennañ an holl restroù"
+
+#. i18n: ectx: property (title), widget (QGroupBox, singleFolderGroup)
+#: kerfuffle/extractiondialog.ui:79
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "E&xtraction into subfolder:"
+msgstr "Eztennañ an holl restroù"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: kerfuffle/extractiondialog.ui:113
+#, kde-format
+msgid "Options"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
+#: kerfuffle/extractiondialog.ui:132
+#, kde-format
+msgid "Open &destination folder after extraction"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
+#: kerfuffle/extractiondialog.ui:139
+#, kde-format
+msgid "Close &Ark after extraction"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
+#: kerfuffle/extractiondialog.ui:146
+#, kde-format
+msgid "&Preserve paths when extracting"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
+#: kerfuffle/extractiondialog.ui:153
+#, kde-format
+msgid "&Automatically create subfolders"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
+#: kerfuffle/extractiondialog.ui:169
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@title:group"
+msgid "Extract"
+msgstr "Eztennañ"
+
+#. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
+#: kerfuffle/extractiondialog.ui:187
+#, fuzzy, kde-format
+#| msgid "Selected files only"
+msgid "Sele&cted files only"
+msgstr "Restroù diuzet hepken"
+
+#. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
+#: kerfuffle/extractiondialog.ui:203
+#, fuzzy, kde-format
+#| msgid "All files"
+msgid "All &files"
+msgstr "Pep restr"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_openDestinationFolderAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:17
+#, kde-format
+msgid "Open destination folder after extraction"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_closeAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:24
+#, kde-format
+msgid "Close Ark after extraction"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_preservePaths)
+#: kerfuffle/extractionsettingspage.ui:31
+#, kde-format
+msgid "Preserve paths when extracting"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:41
+#, kde-format
+msgid ""
+"Whether to check by default the extraction into subfolder checkbox in the "
+"Extraction Dialog, when the archive has more than one top-level entry."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:44
+#, kde-format
+msgid "Extract to a subfolder if the archive has more than one top-level entry"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/generalsettingspage.ui:17
+#, kde-format
+msgid "When clicking a file in an archive or pressing the Return key:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: kerfuffle/generalsettingspage.ui:33
+#, kde-format
+msgid "Pre&view the file with internal previewer"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: kerfuffle/generalsettingspage.ui:43
+#, fuzzy, kde-format
+#| msgid "Do you really want to delete the selected items?"
+msgid "Open the fi&le with associated application"
+msgstr "Ha fellout a ra deoc'h da vat lemel an traoù dibabet ?"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
+#: kerfuffle/generalsettingspage.ui:60
+#, kde-format
+msgid "Show a warning when creating zip archives with AES encryption"
+msgstr ""
+
+#: kerfuffle/jobs.cpp:99
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "No suitable plugin found. Ark does not seem to support this file type."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: kerfuffle/jobs.cpp:103
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid ""
+"Failed to load a suitable plugin. Make sure any executables needed to handle "
+"the archive type are installed."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: kerfuffle/jobs.cpp:168
+#, kde-format
+msgid ""
+"Could not load the archive because it contains ill-formed entries and might "
+"be a malicious archive."
+msgstr ""
+
+#: kerfuffle/jobs.cpp:253
+#, fuzzy, kde-format
+#| msgid "Creating archive..."
+msgid "Loading archive"
+msgstr "Emaon o krouiñ un diell ..."
+
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:704
+#: kerfuffle/jobs.cpp:757 kerfuffle/jobs.cpp:795 kerfuffle/jobs.cpp:827
+#: kerfuffle/jobs.cpp:875
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Archive"
+msgstr "Digeriñ an 'diell'"
+
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "No space available on device <filename>%1</filename>"
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: kerfuffle/jobs.cpp:536
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Extracting all files"
+msgstr "Eztennañ an holl restroù"
+
+#. i18np on purpose so this translation may properly be reused.
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:630
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Extracting one file"
+msgid_plural "Extracting %1 files"
+msgstr[0] "Eztennañ an holl restroù"
+msgstr[1] ""
+
+#: kerfuffle/jobs.cpp:540
+#, fuzzy, kde-format
+#| msgid "Destination folder: "
+msgctxt "extraction folder"
+msgid "Destination"
+msgstr "Renkell an dehaezadur :"
+
+#: kerfuffle/jobs.cpp:544
+#, kde-kuit-format
+msgid ""
+"Could not write to destination <filename>%1</filename>.<nl/>Check whether "
+"you have sufficient permissions."
+msgstr ""
+
+#: kerfuffle/jobs.cpp:703
+#, fuzzy, kde-format
+#| msgid "Adding files..."
+msgid "Compressing a file"
+msgid_plural "Compressing %1 files"
+msgstr[0] "Emaon oc'h ouzhpennañ ar restroù ..."
+msgstr[1] ""
+
+#: kerfuffle/jobs.cpp:756
+#, fuzzy, kde-format
+#| msgid "Adding files..."
+msgid "Moving a file"
+msgid_plural "Moving %1 files"
+msgstr[0] "Emaon oc'h ouzhpennañ ar restroù ..."
+msgstr[1] ""
+
+#: kerfuffle/jobs.cpp:794
+#, fuzzy, kde-format
+#| msgid "Adding files..."
+msgid "Copying a file"
+msgid_plural "Copying %1 files"
+msgstr[0] "Emaon oc'h ouzhpennañ ar restroù ..."
+msgstr[1] ""
+
+#: kerfuffle/jobs.cpp:826
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Deleting a file from the archive"
+msgid_plural "Deleting %1 files"
+msgstr[0] "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+msgstr[1] ""
+
+#: kerfuffle/jobs.cpp:850
+#, fuzzy, kde-format
+#| msgid "Adding folder..."
+msgid "Adding comment"
+msgstr "Emaon oc'h ouzhpennañ ar renkell ..."
+
+#: kerfuffle/jobs.cpp:875
+#, fuzzy, kde-format
+#| msgid "Creating archive..."
+msgid "Testing archive"
+msgstr "Emaon o krouiñ un diell ..."
+
+#: kerfuffle/pluginsettingspage.cpp:34
+#, kde-format
+msgid ""
+"The plugin cannot be used because one or more required executables are "
+"missing. Check your installation."
+msgstr ""
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:24
+#, kde-format
+msgid "Name"
+msgstr ""
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:29
+#, fuzzy, kde-format
+#| msgid "Destination folder: "
+msgid "Description"
+msgstr "Renkell an dehaezadur :"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_limitPreviewFileSize)
+#: kerfuffle/previewsettingspage.ui:22
+#, kde-format
+msgid "Disable preview for files larger than:"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:40
+#, fuzzy, kde-format
+#| msgid "Create folder %1?"
+msgctxt "@title:window"
+msgid "Properties for %1"
+msgstr "Krouiñ ar renkell %1 ?"
+
+#. i18n: ectx: property (text), widget (KSqueezedTextLabel, m_passwordValueLabel)
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:50
+#: part/infopanel.ui:195
+#, kde-format
+msgid "yes"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:49
+#: kerfuffle/propertiesdialog.cpp:50 kerfuffle/propertiesdialog.cpp:63
+#, kde-format
+msgid "no"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:49
+#, kde-format
+msgid "yes (%1 volumes)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:51
+#, fuzzy, kde-format
+#| msgid "%1 file  %2"
+#| msgid_plural "%1 files  %2"
+msgid "%1 file"
+msgid_plural "%1 files"
+msgstr[0] "%1 restr  %2"
+msgstr[1] ""
+
+#: kerfuffle/propertiesdialog.cpp:52
+#, fuzzy, kde-format
+#| msgctxt "folder for adding files (used as part of a sentence)"
+#| msgid "add folder"
+msgid ", %1 folder"
+msgid_plural ", %1 folders"
+msgstr[0] "ouzhpennañ ur renkell"
+msgstr[1] ""
+
+#: kerfuffle/propertiesdialog.cpp:66
+#, kde-format
+msgid "only file contents (%1)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:69
+#, kde-format
+msgid "yes (%1)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
+#: kerfuffle/propertiesdialog.cpp:88
+#, fuzzy, kde-format
+#| msgid "Saving..."
+msgid "Calculating..."
+msgstr "Emaon oc'h enrollañ ..."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/propertiesdialog.ui:37
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Archive name:"
+msgstr "Digeriñ an 'diell'"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/propertiesdialog.ui:54
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Archive type:"
+msgstr "Digeriñ an 'diell'"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: kerfuffle/propertiesdialog.ui:71
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Mime-type:"
+msgstr "Digeriñ an 'diell'"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: kerfuffle/propertiesdialog.ui:88
+#, kde-format
+msgid "Opened read-only:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_passwordLabel)
+#: kerfuffle/propertiesdialog.ui:105 part/infopanel.ui:179
+#, kde-format
+msgid "Password-protected:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_10)
+#: kerfuffle/propertiesdialog.ui:122
+#, kde-format
+msgid "Has comment:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/propertiesdialog.ui:139
+#, kde-format
+msgid "Number of entries:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: kerfuffle/propertiesdialog.ui:156
+#, kde-format
+msgid "Unpacked size:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: kerfuffle/propertiesdialog.ui:173
+#, kde-format
+msgid "Packed size:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: kerfuffle/propertiesdialog.ui:190
+#, fuzzy, kde-format
+msgid "Compression ratio:"
+msgstr "Renkell diell"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: kerfuffle/propertiesdialog.ui:207
+#, kde-format
+msgid "Last modified:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: kerfuffle/propertiesdialog.ui:224
+#, kde-format
+msgid "MD5 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_13)
+#: kerfuffle/propertiesdialog.ui:244
+#, kde-format
+msgid "SHA-1 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_14)
+#: kerfuffle/propertiesdialog.ui:261
+#, kde-format
+msgid "SHA-256 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_15)
+#: kerfuffle/propertiesdialog.ui:278
+#, kde-format
+msgid "Multi-volume:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#: kerfuffle/propertiesdialog.ui:295
+#, fuzzy, kde-format
+msgid "Compression method(s):"
+msgstr "Renkell diell"
+
+#: kerfuffle/queries.cpp:73
+#, fuzzy, kde-format
+#| msgid "Archive Already Exists"
+msgctxt "@title:window"
+msgid "File Already Exists"
+msgstr "An diel a zo endeo"
+
+#: kerfuffle/queries.cpp:156
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> is password protected. Please enter the "
+"password."
+msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
+
+#: kerfuffle/queries.cpp:160
+#, kde-format
+msgid "Incorrect password, please try again."
+msgstr ""
+
+#: kerfuffle/queries.cpp:195
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive you're trying to open is corrupt.<nl/>Some files may be missing "
+"or damaged."
+msgstr ""
+
+#: kerfuffle/queries.cpp:197
+#, fuzzy, kde-format
+#| msgid "Save Archive?"
+msgctxt "@title:window"
+msgid "Corrupt archive"
+msgstr "Enrollañ an diell ?"
+
+#: kerfuffle/queries.cpp:198
+#, kde-format
+msgctxt "@action:button"
+msgid "Open as Read-Only"
+msgstr ""
+
+#: kerfuffle/queries.cpp:199
+#, kde-format
+msgctxt "@action:button"
+msgid "Don't Open"
+msgstr ""
+
+#: kerfuffle/queries.cpp:208
+#, kde-format
+msgid "Don't ask again."
+msgstr ""
+
+#: kerfuffle/queries.cpp:220
+#, kde-format
+msgid "Error during extraction"
+msgstr ""
+
+#: kerfuffle/queries.cpp:221
+#, kde-kuit-format
+msgid ""
+"Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
+"error message:<nl/>    %2<nl/><nl/>Do you want to continue extraction?<nl/>"
+msgstr ""
+
+#: part/archivemodel.cpp:155
+#, kde-format
+msgctxt "Name of a file inside an archive"
+msgid "Name"
+msgstr ""
+
+#: part/archivemodel.cpp:157
+#, kde-format
+msgctxt "Uncompressed size of a file inside an archive"
+msgid "Original Size"
+msgstr ""
+
+#: part/archivemodel.cpp:159
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgctxt "Compressed size of a file inside an archive"
+msgid "Compressed Size"
+msgstr "Restr moustret"
+
+#: part/archivemodel.cpp:161
+#, kde-format
+msgctxt "Compression rate of file"
+msgid "Rate"
+msgstr ""
+
+#: part/archivemodel.cpp:163
+#, fuzzy, kde-format
+#| msgid " Owner "
+msgctxt "File's owner username"
+msgid "Owner"
+msgstr " Perc'henn "
+
+#: part/archivemodel.cpp:165
+#, fuzzy, kde-format
+#| msgid " Group "
+msgctxt "File's group"
+msgid "Group"
+msgstr " Strollad "
+
+#: part/archivemodel.cpp:167
+#, kde-format
+msgctxt "File permissions"
+msgid "Mode"
+msgstr ""
+
+#: part/archivemodel.cpp:169
+#, kde-format
+msgctxt "CRC hash code"
+msgid "CRC checksum"
+msgstr ""
+
+#: part/archivemodel.cpp:171
+#, kde-format
+msgctxt "BLAKE2 hash code"
+msgid "BLAKE2 checksum"
+msgstr ""
+
+#: part/archivemodel.cpp:173
+#, fuzzy, kde-format
+#| msgid " Method "
+msgctxt "Compression method"
+msgid "Method"
+msgstr " Hentenn "
+
+#: part/archivemodel.cpp:176
+#, fuzzy, kde-format
+#| msgid " Version "
+msgctxt "File version"
+msgid "Version"
+msgstr " Doare "
+
+#: part/archivemodel.cpp:178
+#, kde-format
+msgctxt "Timestamp"
+msgid "Date"
+msgstr ""
+
+#: part/archivemodel.cpp:180
+#, kde-format
+msgctxt "Unnamed column"
+msgid "??"
+msgstr ""
+
+#: part/archivemodel.cpp:291
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Adding files is not supported for this archive."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: part/archivemodel.cpp:299
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "You can only add local files to an archive."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#. i18n: ectx: Menu (archive)
+#: part/ark_part.rc:5
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "&Archive"
+msgstr "Digeriñ an 'diell'"
+
+#. i18n: ectx: Menu (ark_file)
+#: part/ark_part.rc:15
+#, kde-format
+msgid "&File"
+msgstr "&Restr"
+
+#. i18n: ectx: Menu (settings)
+#: part/ark_part.rc:29
+#, kde-format
+msgid "&Settings"
+msgstr "&Kefluniadur"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: part/ark_part.rc:34
+#, kde-format
+msgid "Main Toolbar"
+msgstr ""
+
+#. i18n: ectx: Menu (help)
+#: part/ark_viewer.rc:5
+#, kde-format
+msgid "&Help"
+msgstr ""
+
+#: part/arkviewer.cpp:52
+#, kde-format
+msgid "Closing preview"
+msgstr ""
+
+#: part/arkviewer.cpp:53
+#, kde-format
+msgid "Please wait while the preview is being closed..."
+msgstr ""
+
+#: part/arkviewer.cpp:100
+#, kde-format
+msgid "The internal viewer cannot preview this file."
+msgstr ""
+
+#: part/arkviewer.cpp:116
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+
+#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#, kde-format
+msgctxt "@title:window"
+msgid "Cannot Preview File"
+msgstr ""
+
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "@action:button"
+msgid "Preview as Text"
+msgstr "&Gwel"
+
+#: part/arkviewer.cpp:128
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+
+#: part/arkviewer.cpp:192
+#, kde-format
+msgctxt "@action"
+msgid "About Viewer Component"
+msgstr ""
+
+#: part/infopanel.cpp:52
+#, kde-format
+msgid "No archive loaded"
+msgstr ""
+
+#: part/infopanel.cpp:103
+#, kde-format
+msgid "Symbolic Link"
+msgstr "Arouezere"
+
+#: part/infopanel.cpp:108
+#, kde-format
+msgid "Unknown size"
+msgstr ""
+
+#: part/infopanel.cpp:129
+#, fuzzy, kde-format
+#| msgid "0 files selected"
+msgid "One file selected"
+msgid_plural "%1 files selected"
+msgstr[0] "0 restr diuzet"
+msgstr[1] ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, InformationPanel)
+#: part/infopanel.ui:20
+#, fuzzy, kde-format
+#| msgid "Information"
+msgid "Information Panel"
+msgstr "Titouroù"
+
+#. i18n: ectx: property (text), widget (QLabel, additionalInfo)
+#: part/infopanel.ui:64
+#, kde-format
+msgid "Unknown file type"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, m_ownerLabel)
+#: part/infopanel.ui:113
+#, fuzzy, kde-format
+#| msgid " Owner "
+msgid "Owner:"
+msgstr " Perc'henn "
+
+#. i18n: ectx: property (text), widget (QLabel, m_groupLabel)
+#: part/infopanel.ui:133
+#, fuzzy, kde-format
+#| msgid " Group "
+msgid "Group:"
+msgstr " Strollad "
+
+#. i18n: ectx: property (text), widget (QLabel, m_targetLabel)
+#: part/infopanel.ui:153
+#, kde-format
+msgid "Target:"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, JobTrackerWidget)
+#: part/jobtracker.ui:13
+#, kde-format
+msgid "Job Tracker"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, descriptionLabel)
+#: part/jobtracker.ui:43
+#, kde-format
+msgid "<b>Job Description</b>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, informationLabel)
+#: part/jobtracker.ui:62
+#, kde-format
+msgid "Some Information about the job"
+msgstr ""
+
+#: part/overwritedialog.cpp:26
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Remove them if you really want "
+"to overwrite."
+msgstr ""
+
+#: part/overwritedialog.cpp:28
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Do you want to continue "
+"overwriting them?"
+msgstr ""
+
+#: part/part.cpp:111
+#, kde-format
+msgid "Comment"
+msgstr ""
+
+#: part/part.cpp:122
+#, kde-format
+msgid "Comment has been modified."
+msgstr ""
+
+#: part/part.cpp:127
+#, kde-format
+msgid "Save"
+msgstr ""
+
+#: part/part.cpp:150
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Type to search..."
+msgstr "Digeriñ an 'diell'"
+
+#: part/part.cpp:308
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark can extract archives to local destinations only."
+msgstr ""
+
+#: part/part.cpp:363
+#, fuzzy, kde-format
+#| msgid "Information"
+msgctxt "@action:inmenu"
+msgid "Show Information Panel"
+msgstr "Titouroù"
+
+#: part/part.cpp:370
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Save Copy As..."
+msgstr ""
+
+#: part/part.cpp:374
+#, kde-format
+msgctxt "open a file with external program"
+msgid "&Open in External Application"
+msgstr ""
+
+#: part/part.cpp:379
+#, fuzzy, kde-format
+#| msgid "&Open With..."
+msgctxt "open a file with external program"
+msgid "Open &With..."
+msgstr "&Digeriñ gant ..."
+
+#: part/part.cpp:381
+#, fuzzy, kde-format
+#| msgid "Do you really want to delete the selected items?"
+msgctxt "@info:tooltip"
+msgid "Click to open the selected file with an external program"
+msgstr "Ha fellout a ra deoc'h da vat lemel an traoù dibabet ?"
+
+#: part/part.cpp:385
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "to preview a file inside an archive"
+msgid "Pre&view"
+msgstr "&Gwel"
+
+#: part/part.cpp:387
+#, fuzzy, kde-format
+#| msgid "Do you really want to delete the selected items?"
+msgctxt "@info:tooltip"
+msgid "Click to preview the selected file"
+msgstr "Ha fellout a ra deoc'h da vat lemel an traoù dibabet ?"
+
+#: part/part.cpp:392
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu"
+msgid "E&xtract All"
+msgstr "Eztennañ"
+
+#: part/part.cpp:394
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose how to extract all "
+"the files in the archive"
+msgstr ""
+
+#: part/part.cpp:399
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu"
+msgid "&Extract"
+msgstr "Eztennañ"
+
+#: part/part.cpp:402
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose to extract either "
+"all files or just the selected ones"
+msgstr ""
+
+#: part/part.cpp:407
+#, fuzzy, kde-format
+#| msgid "Add &File..."
+msgid "Add &Files..."
+msgstr "Ouzhpennañ ur restr ..."
+
+#: part/part.cpp:408 part/part.cpp:471
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to add files to the archive"
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: part/part.cpp:415
+#, fuzzy, kde-format
+msgctxt "@action"
+msgid "Remove from Archive"
+msgstr "Renkell diell"
+
+#: part/part.cpp:425
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Properties"
+msgstr ""
+
+#: part/part.cpp:427
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to see properties for archive"
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: part/part.cpp:433
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to add or edit comment"
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: part/part.cpp:438
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Test Integrity"
+msgstr ""
+
+#: part/part.cpp:440 part/part.cpp:472
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to test the archive for integrity"
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: part/part.cpp:466
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Adding files to existing password-protected archives with no header-"
+"encryption is currently not supported.<nl/><nl/>Extract the files and create "
+"a new archive if you want to add files."
+msgstr ""
+
+#: part/part.cpp:469
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Testing password-protected archives with no header-encryption is currently "
+"not supported."
+msgstr ""
+
+#: part/part.cpp:537
+#, fuzzy, kde-format
+#| msgid "Adding folder..."
+msgctxt "@action:inmenu mutually exclusive with Add &Comment"
+msgid "Edit &Comment"
+msgstr "Emaon oc'h ouzhpennañ ar renkell ..."
+
+#: part/part.cpp:538 part/part.cpp:546
+#, fuzzy, kde-format
+#| msgid "Adding folder..."
+msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
+msgid "Add &Comment"
+msgstr "Emaon oc'h ouzhpennañ ar renkell ..."
+
+#: part/part.cpp:647
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive passed the integrity test."
+msgstr "N'eo ket un diell %1."
+
+#: part/part.cpp:647 part/part.cpp:649
+#, kde-format
+msgid "Test Results"
+msgstr ""
+
+#: part/part.cpp:649
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive failed the integrity test."
+msgstr "N'eo ket un diell %1."
+
+#: part/part.cpp:670
+#, fuzzy, kde-format
+#| msgid "E&xtract..."
+msgid "Extract To..."
+msgstr "E&ztennañ ..."
+
+#: part/part.cpp:684
+#, fuzzy, kde-format
+#| msgid "E&xtract..."
+msgid "Quick Extract To..."
+msgstr "E&ztennañ ..."
+
+#: part/part.cpp:814
+#, fuzzy, kde-format
+#| msgid "General"
+msgctxt "@title:tab"
+msgid "General"
+msgstr "Pennañ"
+
+#: part/part.cpp:815
+#, fuzzy, kde-format
+#| msgid "&Extracting"
+msgctxt "@title:tab"
+msgid "Extraction"
+msgstr "&Emaon oc'h eztennañ"
+
+#: part/part.cpp:816
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "@title:tab"
+msgid "Plugins"
+msgstr "&Gwel"
+
+#: part/part.cpp:817
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "@title:tab"
+msgid "Previews"
+msgstr "&Gwel"
+
+#: part/part.cpp:829
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<filename>%1</filename> is a directory."
+msgstr ""
+
+#: part/part.cpp:838
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid ""
+"Could not overwrite <filename>%1</filename>. Check whether you have write "
+"permission."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: part/part.cpp:844
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> will be created as soon as you add a "
+"file."
+msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
+
+#: part/part.cpp:847
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The archive <filename>%1</filename> was not found."
+msgstr ""
+
+#: part/part.cpp:852
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> could not be loaded, as it was not "
+"possible to read from it."
+msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
+
+#: part/part.cpp:865
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
+
+#: part/part.cpp:867
+#, fuzzy, kde-format
+#| msgid "Archive Already Exists"
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "An diel a zo endeo"
+
+#: part/part.cpp:904
+#, fuzzy, kde-kuit-format
+#| msgid "The archive %1 does not exist."
+msgctxt "@info"
+msgid "The archive is empty or Ark could not open its content."
+msgstr "N'eo ket un diell %1."
+
+#: part/part.cpp:909
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark does not currently support ISO files with UDF filesystem."
+msgstr ""
+
+#: part/part.cpp:939
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"Loading the archive <filename>%1</filename> failed with the following error:"
+"<nl/><message>%2</message>"
+msgstr ""
+
+#: part/part.cpp:999
+#, kde-format
+msgid "Ark cannot open symlinks."
+msgstr ""
+
+#: part/part.cpp:1121
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgid ""
+"The file <filename>%1</filename> was modified. Do you want to update the "
+"archive?"
+msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
+
+#: part/part.cpp:1123
+#, fuzzy, kde-format
+#| msgid "Files to be added"
+msgctxt "@title:window"
+msgid "File Modified"
+msgstr "Restroù da ouzhpennañ"
+
+#: part/part.cpp:1403
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgctxt "@title:window"
+msgid "Add Files"
+msgstr "An holl Restroù"
+
+#: part/part.cpp:1408
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgctxt "@title:window"
+msgid "Add Files to %1"
+msgstr "An holl Restroù"
+
+#: part/part.cpp:1472
+#, kde-format
+msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
+msgstr ""
+
+#: part/part.cpp:1516
+#, kde-format
+msgid "Folders can't be moved into themselves."
+msgstr ""
+
+#: part/part.cpp:1517
+#, kde-format
+msgid "Moving a folder into itself"
+msgstr ""
+
+#: part/part.cpp:1545
+#, kde-format
+msgid "Entries with the same names can't be pasted to the same destination."
+msgstr ""
+
+#: part/part.cpp:1646
+#, kde-format
+msgctxt "@info"
+msgid "Deleting this file is not undoable. Are you sure you want to do this?"
+msgid_plural ""
+"Deleting these files is not undoable. Are you sure you want to do this?"
+msgstr[0] ""
+msgstr[1] ""
+
+#: part/part.cpp:1649
+#, fuzzy, kde-format
+#| msgid "Selected files only"
+msgctxt "@title:window"
+msgid "Delete File"
+msgid_plural "Delete Files"
+msgstr[0] "Restroù diuzet hepken"
+msgstr[1] ""
+
+#: part/part.cpp:1692
+#, kde-format
+msgctxt "@title:window"
+msgid "Save Copy As"
+msgstr ""
+
+#: part/part.cpp:1707
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid ""
+"The archive could not be saved as <filename>%1</filename>. Try saving it to "
+"another location."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: part/part.cpp:1711
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> does not exist anymore, therefore it "
+"cannot be copied to the specified location."
+msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
+
+#: plugins/cli7zplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:85
+#, fuzzy, kde-format
+#| msgid "Opening the archive..."
+msgid "Listing the archive failed."
+msgstr "Emaon o tigeriñ an diell ..."
+
+#: plugins/cli7zplugin/cliplugin.cpp:309
+#, fuzzy, kde-format
+#| msgid "Extracting..."
+msgid "Extraction failed due to an unknown error."
+msgstr "Emaon oc'h eztennañ ..."
+
+#: plugins/cli7zplugin/cliplugin.cpp:315 plugins/clizipplugin/cliplugin.cpp:188
+#, kde-format
+msgid ""
+"Extraction failed due to one or more corrupt files. Any extracted files may "
+"be damaged."
+msgstr ""
+
+#: plugins/cli7zplugin/cliplugin.cpp:326
+#, kde-format
+msgid ""
+"Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
+"configuration dialog."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:157
+#: plugins/clirarplugin/cliplugin.cpp:300
+#: plugins/clirarplugin/cliplugin.cpp:553
+#, kde-format
+msgid "Failed to find all archive volumes."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:321
+#, kde-format
+msgid ""
+"Your unrar executable is version %1, which is too old to handle this "
+"archive. Please update to a more recent version."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:328
+#, kde-format
+msgid ""
+"Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
+"Try updating your unrar."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:548
+#, kde-format
+msgid "One or more wrong checksums"
+msgstr ""
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:97
+#, fuzzy, kde-format
+#| msgid "Extracting..."
+msgid "Extraction failed."
+msgstr "Emaon oc'h eztennañ ..."
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:131
+#, kde-format
+msgid "Not enough memory for loading the archive."
+msgstr ""
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Wrong password."
+msgstr ""
+
+#: plugins/clizipplugin/cliplugin.cpp:178
+#, kde-format
+msgid "Extraction failed due to unsupported compression method (%1)."
+msgstr ""
+
+#: plugins/clizipplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Extraction failed due to unsupported encryption method."
+msgstr ""
+
+#: plugins/clizipplugin/cliplugin.cpp:311
+#, kde-format
+msgctxt "referred to compression method"
+msgid "unknown"
+msgstr ""
+
+#: plugins/libarchive/libarchiveplugin.cpp:392
+#, kde-format
+msgctxt "@info"
+msgid "Fatal error, extraction aborted."
+msgstr ""
+
+#: plugins/libarchive/libarchiveplugin.cpp:426
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive reader could not be initialized."
+msgstr "N'eo ket un diell %1."
+
+#: plugins/libarchive/libarchiveplugin.cpp:440
+#, kde-format
+msgctxt "@info"
+msgid "Archive corrupted or insufficient permissions."
+msgstr ""
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:209
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Failed to create a temporary file for writing data."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:215
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive writer could not be initialized."
+msgstr "N'eo ket un diell %1."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:233
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Could not open the archive for writing entries."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:280
+#, kde-format
+msgid "The compression type '%1' is not supported by Ark."
+msgstr ""
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:289
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:343
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Could not set the compression method."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:353
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Could not set the compression level."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:472
+#, kde-format
+msgctxt "@info"
+msgid "Could not compress entry, operation aborted."
+msgstr ""
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:513
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info Error in a message box"
+msgid "Could not compress entry."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:49
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Ark could not extract <filename>%1</filename>."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:57
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Ark could not open <filename>%1</filename> for extraction."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:71
+#, fuzzy, kde-kuit-format
+#| msgid "The folder could not be created. Please check permissions."
+msgctxt "@info"
+msgid ""
+"There was an error while reading <filename>%1</filename> during extraction."
+msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
+
+#: plugins/libzipplugin/libzipplugin.cpp:76
+#: plugins/libzipplugin/libzipplugin.cpp:118
+#: plugins/libzipplugin/libzipplugin.cpp:415
+#: plugins/libzipplugin/libzipplugin.cpp:464
+#: plugins/libzipplugin/libzipplugin.cpp:555
+#: plugins/libzipplugin/libzipplugin.cpp:826
+#: plugins/libzipplugin/libzipplugin.cpp:881
+#, kde-kuit-format
+msgid "Failed to open archive: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:176
+#: plugins/libzipplugin/libzipplugin.cpp:448
+#: plugins/libzipplugin/libzipplugin.cpp:480
+#: plugins/libzipplugin/libzipplugin.cpp:861
+#: plugins/libzipplugin/libzipplugin.cpp:951
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Failed to write archive."
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libzipplugin/libzipplugin.cpp:225
+#: plugins/libzipplugin/libzipplugin.cpp:918
+#, kde-kuit-format
+msgid "Failed to add entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:280
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Failed to set compression options for entry: %1"
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libzipplugin/libzipplugin.cpp:385
+#: plugins/libzipplugin/libzipplugin.cpp:776
+#: plugins/libzipplugin/libzipplugin.cpp:927
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Failed to read metadata for entry: %1"
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libzipplugin/libzipplugin.cpp:429
+#: plugins/libzipplugin/libzipplugin.cpp:434
+#, kde-kuit-format
+msgid "Failed to delete entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:659
+#, kde-kuit-format
+msgid "Failed to create directory: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:732
+#, kde-kuit-format
+msgid "Failed to open '%1':<nl/>%2"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:740
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Failed to open file for writing: %1"
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libzipplugin/libzipplugin.cpp:753
+#, kde-kuit-format
+msgid "Failed to read data for entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:758
+#, kde-kuit-format
+msgid "Failed to write data for entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:768
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Failed to locate entry: %1"
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#: plugins/libzipplugin/libzipplugin.cpp:840
+#: plugins/libzipplugin/libzipplugin.cpp:846
+#, kde-kuit-format
+msgid "Failed to move entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:904
+#, kde-kuit-format
+msgid "Failed to copy entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:934
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Failed to set metadata for entry: %1"
+msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "&Open"
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open"
+#~ msgstr "&Digeriñ"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to open the selected file with the associated application"
+#~ msgstr "Ha fellout a ra deoc'h da vat lemel an traoù dibabet ?"
+
+#, fuzzy
+#~| msgid " Size "
+#~ msgctxt "Uncompressed size of a file inside an archive"
+#~ msgid "Size"
+#~ msgstr " Ment "
+
+#, fuzzy
+#~| msgid "Open"
+#~ msgctxt "action, to open an archive"
+#~ msgid "Open"
+#~ msgstr "Digeriñ"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "Open an archive"
+#~ msgstr "Digeriñ an 'diell'"
+
+#, fuzzy
+#~| msgid "Ark"
+#~ msgid "ArkPart"
+#~ msgstr "Ark"
+
+#, fuzzy
+#~| msgid "Save Archive As"
+#~ msgctxt "@title:window"
+#~ msgid "Save Archive As"
+#~ msgstr "Enrollañ an diell e"
+
+#, fuzzy
+#~| msgid "Archive already exists. Do you wish to overwrite it?"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "An archive named <filename>%1</filename> already exists. Are you sure you "
+#~ "want to overwrite it?"
+#~ msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
+
+#, fuzzy
+#~| msgid "General Settings"
+#~ msgctxt "@title:tab"
+#~ msgid "General Settings"
+#~ msgstr "Dibarzhoù hollek"
+
+#, fuzzy
+#~| msgid "Extract Settings"
+#~ msgctxt "@title:tab"
+#~ msgid "Extraction Settings"
+#~ msgstr "Dibaboù evit eztennañ"
+
+#, fuzzy
+#~| msgctxt "to view something"
+#~| msgid "&View"
+#~ msgctxt "@title:tab"
+#~ msgid "Preview Settings"
+#~ msgstr "&Gwel"
+
+#, fuzzy
+#~| msgid " Filename "
+#~ msgid "&Rename"
+#~ msgstr " Anv ar restr "
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to rename the selected file"
+#~ msgstr "Ha fellout a ra deoc'h da vat lemel an traoù dibabet ?"
+
+#~ msgid "De&lete"
+#~ msgstr "&Dilemel"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to delete the selected files"
+#~ msgstr "Ha fellout a ra deoc'h da vat lemel an traoù dibabet ?"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to cut the selected files"
+#~ msgstr "Ha fellout a ra deoc'h da vat lemel an traoù dibabet ?"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to copy the selected files"
+#~ msgstr "Ha fellout a ra deoc'h da vat lemel an traoù dibabet ?"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to paste the files here"
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "All Files"
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Find Files"
+#~ msgstr "An holl Restroù"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to search in archive"
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "Adding files..."
+#~ msgid "Adding a file"
+#~ msgid_plural "Adding %1 files"
+#~ msgstr[0] "Emaon oc'h ouzhpennañ ar restroù ..."
+
+#, fuzzy
+#~| msgid "Overwrite"
+#~ msgctxt "@action:button"
+#~ msgid "Overwrite"
+#~ msgstr "Rasklañ"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Extraction failed at:<nl/><filename>%1</filename>"
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>.<nl/>Check whether you "
+#~ "have sufficient permissions."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Failed to create a temporary file to compress <filename>%1</filename>."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not read until the end of the archive"
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "Add Folde&r..."
+#~ msgid "Add Fo&lder..."
+#~ msgstr "Ouzhpennañ ur &renkell ..."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to add a folder to the archive"
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "Add Folde&r..."
+#~ msgctxt "@title:window"
+#~ msgid "Add Folder"
+#~ msgstr "Ouzhpennañ ur &renkell ..."
+
+#, fuzzy
+#~| msgid "&Action"
+#~ msgid "ActionsLabel"
+#~ msgstr "&Gwezhiad"
+
+#, fuzzy
+#~| msgid "The password was incorrect. "
+#~ msgid "The password cannot be empty."
+#~ msgstr "Ne oa ket mat an tremenger. "
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Please select a filename for the archive."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "0 files selected"
+#~ msgid "No file selected"
+#~ msgstr "0 restr diuzet"
+
+#, fuzzy
+#~| msgid "Open with:"
+#~ msgid "Open File"
+#~ msgstr "Digeriñ gant :"
+
+#, fuzzy
+#~| msgid "Extract"
+#~ msgctxt "@action:intoolbar"
+#~ msgid "E&xtract"
+#~ msgstr "Eztennañ"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgctxt "@title:window"
+#~ msgid "Error Opening Archive"
+#~ msgstr "Digeriñ an 'diell'"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "lblArchiveNamed"
+#~ msgstr "Digeriñ an 'diell'"
+
+#, fuzzy
+#~| msgid "All Valid Archives\n"
+#~ msgid "lblArchiveType"
+#~ msgstr "An holl dielloù mat\n"
+
+#, fuzzy
+#~| msgid "Compressing..."
+#~ msgid "lblCompressionRatio"
+#~ msgstr "O moustrañ ..."
+
+#, fuzzy
+#~| msgid "Files to be added"
+#~ msgid "lblModified"
+#~ msgstr "Restroù da ouzhpennañ"
+
+#, fuzzy
+#~| msgid "Icons"
+#~ msgid "lblIcon"
+#~ msgstr "Arlunioù"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for reading"
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid "File <filename>%1</filename> not found in the archive"
+#~ msgstr "Ne m'eus ket gallet krouiñ ar renkell %1"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for writing."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not add the directory <filename>%1</filename> to the archive"
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename> after adding file."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not add the file <filename>%1</filename> to the archive."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#~ msgid "&Action"
+#~ msgstr "&Gwezhiad"
+
+#, fuzzy
+#~| msgid "Open with:"
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open File"
+#~ msgstr "Digeriñ gant :"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>, libarchive cannot "
+#~ "handle it."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Found program <filename>%1</filename>, but failed to initialize the "
+#~ "process."
+#~ msgstr "Ne m'eus ket gallet krouiñ ar renkell %1"
+
+#, fuzzy
+#~| msgid "Selected files only"
+#~ msgid "Delete files"
+#~ msgstr "Restroù diuzet hepken"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Unable to open the file '%1', libarchive cannot handle it."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgctxt "folder for opening files (used as part of a sentence)"
+#~| msgid "open folder"
+#~ msgid "Recent folders"
+#~ msgstr "digeriñ ur renkell"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgid "Could not extract '%1'"
+#~ msgstr "Ne m'eus ket gallet krouiñ ar renkell %1"
+
+#~ msgid "Missing Folder"
+#~ msgstr "Mankout a ra ar renkell"
+
+#~ msgid "Create Folder"
+#~ msgstr "Krouiñ ur renkell"
+
+#~ msgid "Do Not Create"
+#~ msgstr "Ne krouit ket"
+
+#~ msgid "The folder could not be created. Please check permissions."
+#~ msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
+
+#, fuzzy
+#~| msgid "An error occurred while opening the archive %1."
+#~ msgid "An error occurred while performing the operation."
+#~ msgstr "Degouezhet ez eus ur fazi en ur lenn an diell %1."
+
+#, fuzzy
+#~| msgid "An error occurred while extracting the archive."
+#~ msgid "Unknown error when extracting files"
+#~ msgstr "Degouezhet ez eus ar fazi en ur eztennañ an diell."
+
+#, fuzzy
+#~| msgid "An error occurred while trying to create the archive."
+#~ msgid "An error occurred while trying to read entry #%1 of the archive"
+#~ msgstr "Degouezhet ez eus ar fazi en ur c'houriñ an diell."
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgid "Could not create path"
+#~ msgstr "Ne m'eus ket gallet krouiñ ar renkell %1"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Could not locate file '%1' in the archive"
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgid "Could not read from the input file '%1'"
+#~ msgstr "Ne m'eus ket gallet krouiñ ar renkell %1"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Could not find a file named %1 in the archive."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Couldn't open the file '%1', libarchive can't handle it."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "Extracting file to view"
+#~ msgid "Extracting all files from the archive '%1'"
+#~ msgstr "Oc'h eztennañ ar restr da sellout ouzh"
+
+#, fuzzy
+#~| msgid "Extracting file to view"
+#~ msgid "Extracting one file from the archive %2"
+#~ msgid_plural "Extracting %1 files from the archive '%2'"
+#~ msgstr[0] "Oc'h eztennañ ar restr da sellout ouzh"
+
+#~ msgid "Could not start a subprocess."
+#~ msgstr "N'em eus ket loc'hañ un isargerzh."
+
+#~ msgid "The deletion operation failed."
+#~ msgstr "Fazi en ur dilemel."
+
+#~ msgid "Choose Archive Format"
+#~ msgstr "Dibabit furmad an diell"
+
+#~ msgid "ark"
+#~ msgstr "ark"
+
+#~ msgid "Edit &With..."
+#~ msgstr "Aozañ &gant ..."
+
+#~ msgid "&Unselect All"
+#~ msgstr "&Andibab an holl re"
+
+#~ msgid "&Invert Selection"
+#~ msgstr "&Eilpennañ an diuz"
+
+#~ msgid "Configure &Ark..."
+#~ msgstr "Kefluniañ &Ark ..."
+
+#~ msgid "Show Search Bar"
+#~ msgstr "Diskouez ar varenn glask"
+
+#~ msgid "Hide Search Bar"
+#~ msgstr "Kuzhat ar varenn glask"
+
+#~ msgid "Downloading %1..."
+#~ msgstr "Emaon oc'h enkargañ %1 ..."
+
+#~ msgid "Total: 0 files"
+#~ msgstr "Restroù en holl : 0"
+
+#~ msgid "&Search:"
+#~ msgstr "&Klask :"
+
+#~ msgid "You do not have permission to access that archive."
+#~ msgstr "N'hoc'h ket aotreet da voned an diell-mañ."
+
+#~ msgid "Do Not Overwrite"
+#~ msgstr "Ne rasklit ket"
+
+#~ msgid "You do not have permission to write to the directory %1"
+#~ msgstr "N'oc'h ket aotreet da skrivañ d'ar renkell %1."
+
+#~ msgid "Warning"
+#~ msgstr "Diwallit"
+
+#~ msgid "Select Files to Add"
+#~ msgstr "Dibabit ar restroù da ouzhpennañ"
+
+#~ msgid "Select Folder to Add"
+#~ msgstr "Dibabit ar renkell da ouzhpennañ"
+
+#~ msgid "Removing..."
+#~ msgstr "Emaon o tilemel ..."
+
+#, fuzzy
+#~ msgid "The archive to extract from no longer exists."
+#~ msgstr "Renkell an dielloù n'eus ket anezhi"
+
+#~ msgid "Edit with:"
+#~ msgstr "Aozañ gant :"
+
+#~ msgid "Trouble editing the file..."
+#~ msgstr "Fazi oc'h aozañ ar restr ..."
+
+#~ msgid "Readding edited file..."
+#~ msgstr "O lenn ar restr aozet ..."
+
+#~ msgid "Do Not View"
+#~ msgstr "Ne sellit ket ouzh"
+
+#~ msgctxt "%2 is the total size of selected files"
+#~ msgid "1 files selected  %2"
+#~ msgid_plural "%1 files selected  %2"
+#~ msgstr[0] "%1 restr diuzet  %2"
+
+#~ msgid "Create Archive"
+#~ msgstr "Krouiñ un diell"
+
+#, fuzzy
+#~ msgid "Unknown archive format or corrupted archive"
+#~ msgstr "Furmad diell dianav"
+
+#~ msgid "An error occurred while trying to open the archive %1"
+#~ msgstr "Degouezhet ez eus ar fazi en ur digeriñ an diell %1"
+
+#~ msgid "Trouble writing to the archive..."
+#~ msgstr "Fazi oc'h skrivañ an diell ..."
+
+#~ msgid "Extract Files From %1"
+#~ msgstr "Eztennañ ar restroù eus %1"
+
+#~ msgid "Extract:"
+#~ msgstr "Eztennañ :"
+
+#~ msgid ""
+#~ "You do not have write permission to this folder. Please provide another "
+#~ "folder."
+#~ msgstr ""
+#~ "N'oc'h ket aotreet da skrivañ d'ar renkell-mañ. Dibabit ur renkell all "
+#~ "mar plij."
+
+#~ msgctxt "Packed Ratio"
+#~ msgid "%1 %"
+#~ msgstr "%1 %"
+
+#~ msgid "(c) 1997-2005, The Various Ark Developers"
+#~ msgstr "(c) 1997-2005, Diorroerien Ark a bep seurt"
+
+#~ msgid "New &Window"
+#~ msgstr "&Prenestr Nevez"
+
+#~ msgid "Re&load"
+#~ msgstr "Ad&kargañ"
+
+#~ msgid "Open &as:"
+#~ msgstr "Digerñ &evel :"
+
+#~ msgid "Autodetect (default)"
+#~ msgstr "Dinoiñ dre ardivink (dre ziouer)"
+
+#~ msgid "Select Archive to Add Files To"
+#~ msgstr "Dibabit an dielloù da ouzhpennañ ar restroù ouzh"
+
+#~ msgid "Please Wait"
+#~ msgstr "Gortozit mar plij"
+
+#~ msgid "Overwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "Rasklañ ar restroù (Zip, Tar, Zoo, Rar)"
+
+#~ msgid "Preserve permissions"
+#~ msgstr "Gwareziñ an aotreoù"
+
+#~ msgid "Ignore folder names (Zip)"
+#~ msgstr "Gwareziñ an aotreoù (Zip)"
+
+#~ msgid "Convert filenames to lowercase (Zip, Rar)"
+#~ msgstr "Amdreiñ an anvioù restroù gant lizherennoù vihan (Zip, Rar)"
+
+#~ msgid "Convert filenames to uppercase"
+#~ msgstr "Amdreiñ an anvioù restroù gant lizherennoù vras"
+
+#~ msgid "Show search bar"
+#~ msgstr "Diskouez ar varenn glask"
+
+#~ msgid "Tar Command"
+#~ msgstr "Urzhiad Tar"
+
+#~ msgid "&Edit"
+#~ msgstr "&Aozañ"
+
+#~ msgid "O&verwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "R&asklañ ar restroù (Zip, Tar, Zoo, Rar)"
+
+#~ msgid "&Preserve permissions (Tar)"
+#~ msgstr "&Gwareziñ an aotreoù (Tar)"
+
+#~ msgid "&Ignore folder names (Zip)"
+#~ msgstr "&Gwareziñ an aotreoù (Zip)"
+
+#, fuzzy
+#~ msgid "Convert file names to &lowercase (Zip, Rar)"
+#~ msgstr "Anvioù restr e lizherennoù bihan"
+
+#, fuzzy
+#~ msgid "Convert file names to &uppercase (Rar)"
+#~ msgstr "Anvioù restr e lizherennoù bihan"
+
+#~ msgid "Trouble writing to the tempfile..."
+#~ msgstr "Fazi en ur skrivañ d'ar restr padennek ..."
+
+#~ msgid " Permissions "
+#~ msgstr " Aotreoù "
+
+#~ msgid " Owner/Group "
+#~ msgstr " Perc'henn/Strollad "
+
+#~ msgid " Link "
+#~ msgstr " Liamm "
+
+#~ msgid " Size Now "
+#~ msgstr " Ment bremañ "
+
+#~ msgctxt "(used as part of a sentence)"
+#~ msgid "start-up folder"
+#~ msgstr "Renkell loc'hañ"
+
+#~ msgctxt "folder for extracting files (used as part of a sentence)"
+#~ msgid "extract folder"
+#~ msgstr "renkell eztennañ"
+
+#~ msgid "Settings"
+#~ msgstr "Kefluniadur"
+
+#~ msgid "&Adding"
+#~ msgstr "&Emaon oc'h ouzhpennañ"
+
+#~ msgid "Add Settings"
+#~ msgstr "Ouzhpennañ an dibarzhoù"
+
+#~ msgid "Convert filenames to &lowercase (Zip, Rar)"
+#~ msgstr "Amdreiñ an anvioù restroù gant &lizherennoù vihan (Zip, Rar)"
+
+#~ msgid "Convert filenames to &uppercase (Rar)"
+#~ msgstr "Amdreiñ an anvioù restroù gant &lizherennoù vras (Rar)"
+
+#~ msgid "1 file selected  %2"
+#~ msgstr "1 restr dibabet  %2"
+
+#~ msgid "Addition"
+#~ msgstr "Ouzhpennañ"
+
+#~ msgid "File Addition Settings"
+#~ msgstr "Dibaboù evit ouzhpennañ restroù"
+
+#~ msgid "(c) 1997-2006, The Various Ark Developers"
+#~ msgstr "(c) 1997-2006, Diorroerien Ark"
+
+#~ msgid "Reset Search"
+#~ msgstr "Adkorañ ar glask"

@@ -1,0 +1,1197 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kappname "&ark;">
+  <!ENTITY package "kdeutils">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Polish "INCLUDE"
+> <!-- change language only here -->
+]>
+
+<book lang="&language;">
+
+<bookinfo>
+<title
+>Podręcznik &ark-dopelniacz;</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+
+<othercredit role="translator"
+><firstname
+></firstname
+><surname
+></surname
+><affiliation
+><address
+><email
+>marcink2005@o2.pl</email
+></address
+></affiliation
+><contrib
+>Polskie tłumaczenie</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>Matt Johnston</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>Henrique Pinto</holder>
+</copyright>
+
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2004-06-19</date>
+<releaseinfo
+>2.3.1</releaseinfo>
+
+<abstract>
+<para
+>&ark-mianownik; jest zarządcą archiwów dla &kde;.</para
+></abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>archiwum</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>kompresja</keyword>
+<keyword
+>lha</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Wprowadzenie</title>
+
+<para
+>&ark-mianownik; jest programem do zarządzania różnymi typami archiwów dla środowiska &kde;. Mogą one być przeglądane, wypakowywane, tworzone i modyfikowane w &ark-miejscownik;. Program może obsługiwać różne formaty archiwów, jak np. <application
+>tar</application
+>, <application
+>gzip</application
+>, <application
+>bzip2</application
+>, <application
+>zip</application
+>, <application
+>rar</application
+> i <application
+>lha</application
+> (jeśli są zainstalowane odpowiednie programy tekstowe). &ark-mianownik; może być zintegrowany z programem &konqueror-mianownik; w celu łatwiejszego manipulowania archiwami. Musisz tylko zainstalować odpowiednią wtyczkę do &konqueror-dopelniacz;, znajdującą się w pakiecie kdeaddons.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>Obsługa &ark-dopelniacz;</title>
+
+<sect1 id="ark-open">
+<title
+>Otwieranie archiwów</title>
+
+<para
+>Aby otworzyć archiwum w &ark-miejscownik;, wybierz polecenie <guimenuitem
+>Otwórz...</guimenuitem
+> z menu <guimenu
+>Plik</guimenu
+>. Możesz także otwierać archiwa przez przeciągnięcie ich myszką z okna &konqueror-dopelniacz;. Pliki archiwów powinny być skojarzone z &ark-narzednik;, więc możesz także <mousebutton
+>kliknąć prawym przyciskiem myszy</mousebutton
+> na plik w &konqueror-miejscownik; i wybrać pozycję <guimenuitem
+>&ark-mianownik;</guimenuitem
+>.</para>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Praca z plikami</title>
+
+<para
+>Gdy archiwum jest otworzone, możesz przeprowadzić na nim różne operacje, po <mousebutton
+>kliknięciu prawym przyciskiem myszy</mousebutton
+> na plikach, albo zaznaczając te pliki i wybierając polecenia z menu <guimenu
+>Akcja</guimenu
+>:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Rozpakuj</guimenuitem
+> wypakuje pliki do wskazanego przez Ciebie katalogu.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Usuń</guimenuitem
+> skasuje aktualnie zaznaczone pliki z archiwum.</para>
+</listitem
+> 
+<listitem>
+<para
+><guimenuitem
+>Pokaż</guimenuitem
+> otworzy zintegrowaną przeglądarkę lub domyślny program, odpowiedni dla pliku, w przypadku, gdyby wbudowana przeglądarka nie mogła otworzyć pliku lub gdy została wyłączona w oknie konfiguracji.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Otwórz w...</guimenuitem
+> pozwala na otworzenie pliku w wybranym przez Ciebie programie.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Edytuj w...</guimenuitem
+> pozwala na otworzenie pliku w wybranym przez Ciebie programie. Różnica między <guimenuitem
+>Otwórz w...</guimenuitem
+> polega na tym, że każda wykonana przez Ciebie zmiana w edytowanym pliku zostanie zapisana w pliku, znajdującym się w archium.</para>
+</listitem>
+</itemizedlist>
+
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>Wypakowywanie archiwów</title>
+
+<para
+>Kiedy archiwum jest otwarte w &ark-miejscownik;, może zostać rozpakowane. Żeby rozpakować pliki z archiwum, możesz wybrać polecenie<guimenuitem
+>Rozpakuj...</guimenuitem
+> z menu <guimenu
+>Akcja</guimenu
+> lub <mousebutton
+>prawym przyciskiem myszy</mousebutton
+> kliknąć na pliku i z wyświetlonego menu wybrać to samo polecenie. Okno <guilabel
+>Rozpakuj pliki</guilabel
+> umożliwia wybranie katalogu, gdzie chcesz wypakować pliki. Możesz także zdecydować, które pliki wypakować:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Aktualny</guimenuitem
+> wypakowuje ostatnio wybrany plik. Jeśli zaznaczono więcej plików, tylko jeden ostatnio zaznaczony zostanie wypakowany.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Wszystkie</guimenuitem
+> wypakowuje całą zawartość archiwum.</para>
+</listitem
+> 
+<listitem>
+<para
+><guimenuitem
+>Wybrane pliki</guimenuitem
+> wypakowuje wszystkie pliki, które zostały wcześniej zaznaczone.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Wzorzec</guimenuitem
+> pozwala sprecyzować, które pliki mają być wypakowane, mając na uwadze pewien wzór (wyrażenie), np. <literal role="extension"
+>*.txt</literal
+> lub <literal role="extension"
+>*.jpg</literal
+>. Zauważ, że możesz użyć tylko jednego wzoru za każdym razem.</para
+> 
+</listitem>
+</itemizedlist>
+
+<para
+>W polu tekstowym <guilabel
+>Rozpakuj do:</guilabel
+> możesz określić katalog, do którego mają być wypakowane pliki. Domyślnie jest to katalog, w którym znajduje się archiwum. Możesz także zażyczyć sobie otworzenie &konqueror-dopelniacz; w katalogu, do którego rozpakowano archiwum.</para>
+
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Tworzenie archiwów i dodawanie plików</title>
+
+<para
+>Żeby utworzyć nowe archiwum w &ark-miejscownik;, wybierz polecenie <guimenuitem
+>Nowy</guimenuitem
+> z menu <guimenu
+>Plik</guimenu
+>.</para>
+
+<para
+>Następnie wpisz nazwę archiwum z odpowiednim rozszerzeniem (<literal role="extension"
+>tar.gz</literal
+>, <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>bz2</literal
+> itd.). Żeby dodać pliki do archiwum, wybierz polecenie <guimenuitem
+>Dodaj plik...</guimenuitem
+> z menu <guimenu
+>Akcja</guimenu
+>. Jeśli chcesz dodać cały katalog do archiwum, wybierz <guimenuitem
+>Dodaj katalog...</guimenuitem
+> z menu <guimenu
+>Akcja</guimenu
+>.</para>
+
+<para
+>Alternatywną metodą dodawania plików do archiwum jest ich przeciągnięcie z okna &konqueror-dopelniacz; lub biurka i upuszczenie na głównym oknie &ark-dopelniacz;. Zostaną dodane do bieżącego archiwum.</para>
+
+</sect1>
+
+</chapter>
+
+<chapter id="configuration">
+<title
+>Konfigurowanie &ark-dopelniacz;</title>
+
+<sect1 id="generalsettings">
+<title
+>Ustawienia ogólne</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>Użyj wbudowanej przeglądarki</guilabel
+></term>
+<listitem>
+<para
+>Używa wbudowanej przeglądarki do otwierania plików, jeśli to możliwe.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Integruj z Konquerorem</guilabel
+></term>
+<listitem>
+<para
+>Aktywuje wtyczkę, pozwalającą na wypakowywanie lub dodawanie plików przez menu kontekstowe Konquerora.</para>
+<para
+>Ta opcja działa tylko wtedy, gdy odpowiednia wtyczka z pakietu kdeaddons jest zainstalowana w systemie.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="addition">
+<title
+>Ustawienia dodawania plików</title>
+
+<para
+>Wiele z tych ustawień działa tylko z określonymi typami archiwów. Inne formaty nie są konfigurowalne.</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Zastąp tylko starsze pliki</guilabel
+></term>
+<listitem>
+<para
+>Jeśli dodasz pliki o istniejących już nazwach, tylko je zastępuje, jeśli dodane pliki są nowsze od już istniejących w archiwum.</para>
+</listitem>
+</varlistentry>
+<!-- TODO: Entry seems to have disappearead, confirm that it's not just 
+hidden because I don't have lha installed
+<varlistentry>
+<term
+><guilabel
+>Keep entries generic (Lha)</guilabel
+></term>
+<listitem>
+<para
+> FIXME: Find out what this is</para>
+<para
+>Affects only Lha archives</para>
+</listitem>
+</varlistentry>
+ -->
+<varlistentry>
+<term
+><guilabel
+>Krótkie nazwy plików MS-DOS (Zip)</guilabel
+></term>
+<listitem>
+<para
+>Wymusza nazwy w formacie DOS 8.3.</para>
+<para
+>Działa tylko na pliki zip</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Konwersja końca wiersza na format Dos (Zip)</guilabel
+></term>
+<listitem>
+<para
+>Konwertuje znaki końca linii w plikach tekstowych na format DOS z formatu UNIX.</para>
+<para
+>Działa tylko na pliki zip</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Przechowywanie dowiązań symbolicznych (Zip, Rar)</guilabel
+></term>
+<listitem>
+<para
+>Pozostawia odnośniki do plików w archiwum, zamiast dodawania plików, do których prowadzą.</para>
+<para
+>Działa na plikach zip i rar.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Dodawanie podkatalogów (Zip, Rar)</guilabel
+></term>
+<listitem>
+<para
+>Jeśli dodasz katalog do archiwum, wszystkie podfoldery również zostaną dodane. Działa na pliki zip i rar.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="extraction">
+<title
+>Ustawienia rozpakowywania</title>
+
+<para
+>Wiele z tych ustawień działa tylko z określonymi typami archiwów. Inne formaty nie są konfigurowalne.</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Zastępowanie plików (Zip, Tar, Zoo, Rar)</guilabel
+></term>
+<listitem>
+<para
+>Zastępuje wszystkie pliki, znajdujące się na dysku, które pasują nazwą do plików z archiwum.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Zachowywanie praw dostępu (Tar)</guilabel
+></term>
+<listitem>
+<para
+>Zachowuje informacje o użytkowniku, grupie i uprawnieniach do pliku. Używaj z ostrożnością, ponieważ rozpakowane pliki mogą nie należeć do żadnego użytkownika na tym komputerze.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Pomijanie nazw katalogów (Zip)</guilabel
+></term>
+<listitem>
+<para
+>Rozpakowuje wszystkie pliki z archiwum do wybranego katalogu, ignorując strukturę katalogów, znajdujących się w archiwum.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Zmiana nazw plików na małe litery (Zip, Rar)</guilabel
+></term>
+<term
+><guilabel
+>Zmiana nazw plików na wielkie litery (Rar)</guilabel
+></term>
+<listitem>
+<para
+>Wypakowuje wszystkie pliki, zmieniając wszystkie znaki w nazwie na małe lub wielkie.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="folders">
+<title
+>Katalogi</title>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Katalogi</guilabel
+></term>
+<listitem>
+<para
+>Pokazuje okno <guilabel
+>Katalogi</guilabel
+>, gdzie można <action
+>wybrać domyślny katalog</action
+>. Możesz ustawić <guilabel
+>wspólny katalog</guilabel
+>, który będzie używany do wszystkich opcji, używanie ostatnio ustawionego katalogu lub osobny katalog.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="commands">
+<title
+>Wykaz poleceń w menu</title>
+
+<sect1 id="filemenu">
+<title
+>Menu <guimenu
+>Plik</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Plik</guimenu
+> <guimenuitem
+>Nowy</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Tworzy nowe archiwum</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Plik</guimenu
+> <guimenuitem
+>Otwórz...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Otwiera archiwum</action
+></para>
+</listitem>
+</varlistentry>
+        
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plik</guimenu
+> <guisubmenu
+>Otwórz poprzedni</guisubmenu
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Pokazuje listę ostatnio otwieranych archiwów do wybrania</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plik</guimenu
+> <guimenuitem
+>Nowe okno</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Otwiera nowe okno &ark-dopelniacz;</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Plik</guimenu
+> <guimenuitem
+>Odśwież</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Wczytuje ponownie aktualnie otwarte archiwum z dysku. Spowoduje to odświeżenie aktualnego widoku w &ark-miejscownik;. Przydatne, gdy inny program zmodyfikował archiwum.</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plik</guimenu
+> <guimenuitem
+>Zapisz jako...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Pozwala na zachowanie aktualnego archiwum pod inną nazwą</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+> </keycombo
+> </shortcut
+> <guimenu
+>Plik</guimenu
+> <guimenuitem
+>Zamknij</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Zamyka bierzące archiwum</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl; <keycap
+>Q</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Plik</guimenu
+> <guimenuitem
+>Zakończ</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Kończy pracę &ark-dopelniacz;</action
+></para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+<sect1 id="editmenu">
+<title
+>Menu <guimenu
+>Edycja</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edycja</guimenu
+> <guimenuitem
+>Wybierz...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Pozwala na wybranie plików o nazwach zgodnych z wzorem</action
+>. Np. możesz użyć wzoru <literal role="extension"
+>*.txt</literal
+>, żey zaznaczyć wszystkie pliki tekstowe. Pamiętaj, że możesz użyć tylko jednego filtra za jednym razem.</para>
+</listitem
+> 
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl; <keycap
+>A</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Edycja</guimenu
+> <guimenuitem
+>Wybierz wszystko</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Wybiera wszystkie pliki w archiwum</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edycja</guimenu
+> <guimenuitem
+>Anuluj wybór</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Odznacza wszystkie pliki w archiwum</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edycja</guimenu
+> <guimenuitem
+>Odwróć wybór</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Odwraca zaznaczenia dla plików. Pliki zaznaczone zostaną odznaczone, a odznaczone zostaną zaznaczone.</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edycja</guimenu
+> <guimenuitem
+>Pokaż komunikaty powłoki</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Pokazuje okno <guilabel
+>Komunikaty powłoki</guilabel
+>, które <action
+>wyświetla wyjście ostatnich komend</action
+> uruchomionych przez &ark-biernik;. Przydaje się, gdy napotkasz na problemy i chcesz je rozwiązać.</para>
+</listitem
+> 
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="actionmenu">
+<title
+>Menu <guimenu
+>Akcja</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Akcja</guimenu
+> <guimenuitem
+>Dodaj plik...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Wyświetla okienko <guilabel
+>Dodaj pliki</guilabel
+>, gdzie możesz wybrać pliki. Przytrzymaj &Ctrl; i kliknij, żeby zaznaczyć więcej plików. Aby dostać się wyżej w hierarchii katalogów, <mousebutton
+>kliknij prawym przyciskiem myszy</mousebutton
+> gdzieś środku okienka i wybierz <guimenuitem
+>Katalog wyżej</guimenuitem
+>. Pole <guilabel
+>Zaawansowane</guilabel
+> posiada opcje specyficzne do archiwum, nad jakim pracujesz.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Akcja</guimenu
+> <guimenuitem
+>Dodaj katalog...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Wyświetla okno dialogowe <guilabel
+>Wybierz katalog do dodania...</guilabel
+>, gdzie <action
+>możesz wybrać katalog do dodania</action
+>. Po prostu wybierz katalog i kliknij <guibutton
+>OK</guibutton
+>.</para>
+</listitem
+> 
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Akcja</guimenu
+> <guimenuitem
+>Usuń</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Usuwa zaznaczone pliki z archiwum</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Akcja</guimenu
+> <guimenuitem
+>Rozpakuj...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Wyświetla okno <guilabel
+>Rozpakuj pliki</guilabel
+>, które pozwala na <action
+>wybranie, gdzie pliki zostaną wypakowane</action
+>. Możesz także wybrać, które pliki wypakować:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guilabel
+>Aktualny</guilabel
+> rozpakowuje ostatnio zaznaczony plik. Jeśli zaznaczone zostało więcej plików, tylko ostatnio zaznaczony zostanie rozpakowany.</para>
+</listitem
+> 
+<listitem>
+<para
+><guilabel
+>Wszystkie</guilabel
+> wypakowuje całą zawartość archiwum.</para>
+</listitem>
+<listitem>
+<para
+><guilabel
+>Wybrane pliki</guilabel
+> rozpakowuje wszystkie pliki, które zostały zaznaczone.</para>
+</listitem
+> 
+<listitem>
+<para
+><guimenuitem
+>Wzorzec</guimenuitem
+> pozwala sprecyzować, które pliki mają być wypakowane, mając na uwadze pewien wzór (wyrażenie), np. <literal role="extension"
+>*.txt</literal
+> lub <literal role="extension"
+>*.jpg</literal
+>. Zauważ, że możesz użyć tylko jednego wzoru za każdym razem.</para>
+</listitem>
+
+</itemizedlist>
+
+<para
+>W polu tekstowym <guilabel
+>Rozpakuj do:</guilabel
+> możesz określić katalog, do którego mają być wypakowane pliki. Domyślnie jest to katalog, w którym znajduje się archiwum. Możesz także zażyczyć sobie otworzenie &konqueror-dopelniacz; w katalogu, do którego rozpakowano archiwum.</para>
+</listitem
+> 
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Akcja</guimenu
+> <guimenuitem
+>Pokaż</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Otwiera aktualnie zaznaczony plik we wbudowanej w program przeglądarce.</action
+></para>
+</listitem
+> 
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Akcja</guimenu
+> <guimenuitem
+>Otwórz w...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Otwiera aktualnie zaznaczony plik w wybranym przez Ciebie programie.</action
+> Okno dialogowe <guilabel
+>Otwórz w...</guilabel
+> pozwoli dokonać wyboru. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Akcja</guimenu
+> <guimenuitem
+>Edytuj w...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Otwiera aktualnie zaznaczony plik w wybranym przez Ciebie programie.</action
+> Wszystkie zmiany pliku zostaną naniesione w archiwum. </para>
+</listitem
+> 
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="settingsmenu">
+<title
+>Menu <guimenu
+>Ustawienia</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Wyświetlaj/Ukryj pasek narzędzi</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Pozwala włączyć lub ukryć wyświetlanie paska narzędzi. </action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Wyświetlaj/Ukryj pasek stanu</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Pozwala włączyć lub ukryć wyświetlanie paska stanu. </action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Pokaż/Ukryj pasek wyszukiwania</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Pozwala włączyć lub ukryć wyświetlanie paska wyszukiwania. </action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>konfiguracja skrótów...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Pokazuje okno dialogowe <guilabel
+>Konfiguracja skrótów</guilabel
+>. Pozwala ono <action
+>wybrać skróty klawiaturowe dla różnych poleceń menu.</action
+> Żeby zmienić skrót, wybierz zdarzenie z listy, a następnie kombinację klawiszy. Po prawej stronie znajduje się <interface
+>przycisk.</interface
+> Jego kliknięcie pozwala wybrać własny skrót klawiaturowy. </para>
+</listitem
+> 
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Konfiguracja pasków narzędzi...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Wyświetla standardowe okno dialogowe &kde;, gdzie możesz skonfigurować paski narzędzi.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Konfiguracja Ark...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Otwiera okno konfiguracji &ark-dopelniacz;. Okno składa się z trzech modułów (Ogólne, Dodawanie i Rozpakowywanie). Konfigurowanie &ark-dopelniacz; jest opisane w sekcji <link linkend="configuration"
+>Konfiguracja</link
+></para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="help-menu">
+<title
+>Menu <guimenu
+>Pomoc</guimenu
+></title>
+&help.menu.documentation; </sect1>
+
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Podziękowania i licencja</title>
+
+<para
+>Prawa autorskie &ark-dopelniacz;: &copy; 1997-2004, Wszyscy programiści &ark-dopelniacz;</para>
+
+<itemizedlist>
+<title
+>Autorzy:</title>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autor: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Prawa autorskie do dokumentacji: &copy; 2000 Matt Johnston <email
+>mattj@flashmail.com</email
+></para>
+
+<para
+>Aktualizacja dokumentacji dla &kde; 3.3 - Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+>.</para>
+&underFDL; &underGPL; </chapter>
+
+<appendix id="installation">
+<title
+>Instalacja</title>
+
+<sect1 id="getting-ark">
+<title
+>Jak zdobyć &ark-biernik;</title>
+&install.intro.documentation; </sect1>
+
+<sect1 id="requirements">
+<title
+>Wymagania</title>
+
+<para
+>Aby móc używać &ark-dopelniacz;, potrzebujesz &kde; 3.3. Jeśli chcesz, aby &ark-mianownik; mógł zarządzać archiwami tar potrzebny będzie <acronym
+>GNU</acronym
+> <command
+>Tar</command
+> v1.12 i ostatnia wersja <command
+>gzip</command
+>. Żeby używać &ark-dopelniacz; do innych rodzajów archiwów, musisz mieć zainstalowane odpowiednie programy tekstowe, jak np. <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>ar</command
+>, <command
+>rar</command
+> i <command
+>lha</command
+>. </para>
+
+</sect1>
+
+<sect1 id="compilation">
+<title
+>Kompilacja i instalacja</title>
+&install.compile.documentation; </sect1>
+
+</appendix>
+
+&documentation.index; 
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

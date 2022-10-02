@@ -1,0 +1,3392 @@
+# translation of ark.po to Estonian
+# Translation of ark.po to Estonian.
+# Copyright (C) 2003, 2004, 2005 Free Software Foundation, Inc.
+#
+# Hasso Tepper <hasso@linux.ee>, 1999.
+# Hasso Tepper <hasso@estpak.ee>, 2003.
+# Hasso Tepper <hasso@kde.org>, 2004, 2005.
+# Marek Laane <bald@smail.ee>, 2005-2009.
+# Marek Laane <bald@smail.ee>, 2009, 2010, 2011, 2012, 2016, 2019.
+# Mihkel Tõnnov <mihhkel@gmail.com>, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: ark\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"PO-Revision-Date: 2020-10-23 11:22+0200\n"
+"Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
+"Language-Team: Estonian <>\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 20.08.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "KDE Eesti meeskond"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kde-et@linux.ee"
+
+#. i18n: ectx: Menu (archive)
+#: app/arkui.rc:5
+#, fuzzy, kde-format
+#| msgid "&Archive"
+msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
+msgid "&Archive"
+msgstr "Ar&hiiv"
+
+#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#, kde-format
+msgid "Extracting Files"
+msgstr "Failide lahtipakkimine"
+
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#, kde-format
+msgid "Source archive"
+msgstr "Lähtearhiiv"
+
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#, kde-format
+msgid "Destination"
+msgstr "Sihtkoht"
+
+#: app/batchextract.cpp:117
+#, kde-format
+msgid "The following files could not be extracted:"
+msgstr "Järgmisi faile ei saa lahti pakkida:"
+
+#: app/batchextract.cpp:136
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>. Any further "
+"archive will not be extracted."
+msgstr ""
+"Tekkis tõrge <filename>%1</filename> lahtipakkimisel. Rohkem arhiive lahti "
+"ei pakita."
+
+#: app/batchextract.cpp:137
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message><nl/>Any further archive will not be extracted."
+msgstr ""
+"Tekkis tõrge <filename>%1</filename> lahtipakkimisel:<nl/><message>%2</"
+"message><nl/>Rohkem arhiive lahti ei pakita."
+
+#: app/batchextract.cpp:141
+#, kde-kuit-format
+msgctxt "@info"
+msgid "There was an error while extracting <filename>%1</filename>."
+msgstr "Tekkis tõrge <filename>%1</filename> lahtipakkimisel."
+
+#: app/batchextract.cpp:142
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message>"
+msgstr ""
+"Tekkis tõrge <filename>%1</filename> lahtipakkimisel:<nl/><message>%2</"
+"message>"
+
+#: app/batchextract.cpp:293
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive could not be extracted to <filename>%1</filename> because Ark "
+"can only extract to local destinations."
+msgstr ""
+"Arhiivi lahtipakkimine asukohta <filename>%1</filename> pole võimalik, kuna "
+"Ark saab arhiive lahti pakkida ainult kohalikesse asukohtadesse."
+
+#: app/compressfileitemaction.cpp:77
+#, kde-format
+msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
+msgid "Compress"
+msgstr "Pakkimine"
+
+#: app/compressfileitemaction.cpp:90
+#, kde-format
+msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+msgid "Compress to..."
+msgstr "Paki asukohta..."
+
+#: app/compressfileitemaction.cpp:97
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#| msgid "Here (as ZIP)"
+msgctxt ""
+"@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
+msgid "Here as \"%1\""
+msgstr "Siia (ZIP-arhiivina)"
+
+#: app/extractfileitemaction.cpp:63
+#, kde-format
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive to..."
+msgstr "Paki arhiiv lahti asukohta..."
+
+#: app/extractfileitemaction.cpp:75
+#, kde-format
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here"
+msgstr "Paki arhiiv siia lahti"
+
+#: app/extractfileitemaction.cpp:83
+#, kde-format
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here, autodetect subfolder"
+msgstr "Paki arhiiv siia lahti, tuvasta automaatselt alamkataloog"
+
+#: app/extractfileitemaction.cpp:89
+#, kde-format
+msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
+msgid "Extract"
+msgstr "Lahtipakkimine"
+
+#: app/extractHereDndPlugin.cpp:55
+#, kde-format
+msgctxt ""
+"@action:inmenu Context menu shown when an archive is being drag'n'dropped"
+msgid "Extract here"
+msgstr "Paki siia lahti"
+
+#: app/main.cpp:84
+#, kde-format
+msgid "Ark"
+msgstr "Ark"
+
+#: app/main.cpp:86
+#, kde-format
+msgid "KDE Archiving tool"
+msgstr "KDE arhiveerimisrakendus"
+
+#: app/main.cpp:88
+#, kde-format
+msgid "(c) 1997-2019, The Ark Developers"
+msgstr "(c) 1997-2019: Arki arendajad"
+
+#: app/main.cpp:93
+#, kde-format
+msgid "Elvis Angelaccio"
+msgstr "Elvis Angelaccio"
+
+#: app/main.cpp:94
+#, kde-format
+msgid "Maintainer"
+msgstr "Hooldaja"
+
+#: app/main.cpp:96
+#, kde-format
+msgid "Ragnar Thomsen"
+msgstr "Ragnar Thomsen"
+
+#: app/main.cpp:97
+#, kde-format
+msgid "Maintainer, KF5 port"
+msgstr "Hooldaja, KF5 port"
+
+#: app/main.cpp:99
+#, kde-format
+msgid "Raphael Kubo da Costa"
+msgstr "Raphael Kubo da Costa"
+
+#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#, kde-format
+msgid "Former Maintainer"
+msgstr "Endine hooldaja"
+
+#: app/main.cpp:102
+#, kde-format
+msgid "Harald Hvaal"
+msgstr "Harald Hvaal"
+
+#: app/main.cpp:105
+#, kde-format
+msgid "Henrique Pinto"
+msgstr "Henrique Pinto"
+
+#: app/main.cpp:108
+#, kde-format
+msgid "Helio Chissini de Castro"
+msgstr "Helio Chissini de Castro"
+
+#: app/main.cpp:109
+#, kde-format
+msgid "Former maintainer"
+msgstr "Endine hooldaja"
+
+#: app/main.cpp:111
+#, kde-format
+msgid "Georg Robbers"
+msgstr "Georg Robbers"
+
+#: app/main.cpp:114
+#, kde-format
+msgid "Roberto Selbach Teixeira"
+msgstr "Roberto Selbach Teixeira"
+
+#: app/main.cpp:117
+#, kde-format
+msgid "Francois-Xavier Duranceau"
+msgstr "Francois-Xavier Duranceau"
+
+#: app/main.cpp:120
+#, kde-format
+msgid "Emily Ezust (Corel Corporation)"
+msgstr "Emily Ezust (Corel Corporation)"
+
+#: app/main.cpp:123
+#, kde-format
+msgid "Michael Jarrett (Corel Corporation)"
+msgstr "Michael Jarrett (Corel Corporation)"
+
+#: app/main.cpp:126
+#, kde-format
+msgid "Robert Palmbos"
+msgstr "Robert Palmbos"
+
+#: app/main.cpp:130
+#, kde-format
+msgid "Vladyslav Batyrenko"
+msgstr "Vladyslav Batyrenko"
+
+#: app/main.cpp:131
+#, kde-format
+msgid "Advanced editing functionalities"
+msgstr "Täiustatud muutmisvõimalused"
+
+#: app/main.cpp:134
+#, kde-format
+msgid "Bryce Corkins"
+msgstr "Bryce Corkins"
+
+#: app/main.cpp:135
+#, kde-format
+msgid "Icons"
+msgstr "Ikoonid"
+
+#: app/main.cpp:137
+#, kde-format
+msgid "Liam Smit"
+msgstr "Liam Smit"
+
+#: app/main.cpp:138
+#, kde-format
+msgid "Ideas, help with the icons"
+msgstr "Ideed ja abi ikoonide juures"
+
+#: app/main.cpp:140
+#, kde-format
+msgid "Andrew Smith"
+msgstr "Andrew Smith"
+
+#: app/main.cpp:141
+#, kde-format
+msgid "bkisofs code"
+msgstr "bkisofs'i kood"
+
+#: app/main.cpp:151
+#, kde-format
+msgid "URLs to open."
+msgstr "Avatavad URL-id."
+
+#: app/main.cpp:154
+#, kde-format
+msgid ""
+"Show a dialog for specifying the options for the operation (extract/add)"
+msgstr ""
+"Dialoogi avamine toimingu valikute määramiseks (lahtipakkimine/lisamine)"
+
+#: app/main.cpp:157
+#, kde-format
+msgid ""
+"Destination folder to extract to. Defaults to current path if not specified."
+msgstr ""
+"Sihtkataloog, kuhu lahti pakkida. Vaikimisi aktiivne asukoht, kui pole "
+"teisiti määratud."
+
+#. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
+#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#, kde-format
+msgid "Open destination folder after extraction."
+msgstr "Lahtipakkimise järel avatakse sihtkataloog."
+
+#: app/main.cpp:164
+#, kde-format
+msgid ""
+"Query the user for an archive filename and add specified files to it. Quit "
+"when finished."
+msgstr ""
+"Küsitakse arhiivi nime ja lisatakse sellele määratud failid. Lõpetamisel "
+"väljutakse."
+
+#: app/main.cpp:167
+#, kde-format
+msgid ""
+"Add the specified files to 'filename'. Create archive if it does not exist. "
+"Quit when finished."
+msgstr ""
+"Määratud failide lisamine failile 'filename'. Arhiivi loomine, kui seda veel "
+"pole. Lõpetamisel väljutakse."
+
+#: app/main.cpp:171
+#, kde-format
+msgid ""
+"Change the current dir to the first entry and add all other entries relative "
+"to this one."
+msgstr ""
+"Aktiivse kataloogi muutmine esimeseks kirjeks ja kõigi teiste kirjete "
+"lisamine suhtelisena selle suhtes."
+
+#: app/main.cpp:174
+#, kde-format
+msgid ""
+"Automatically choose a filename, with the selected suffix (for example rar, "
+"tar.gz, zip or any other supported types)"
+msgstr ""
+"Failinime automaatne valimine koos valitud sufiksiga (nt rar, tar.gz, zio "
+"või mõni muu toetatud tüüp)"
+
+#: app/main.cpp:178
+#, kde-format
+msgid ""
+"Use the batch interface instead of the usual dialog. This option is implied "
+"if more than one url is specified."
+msgstr ""
+"Tavalise dialoogi asemel hulgipakkimise liidese kasutamine. See võetakse "
+"tarvitusele, kui määratud on üle ühe URL-i."
+
+#: app/main.cpp:181
+#, kde-format
+msgid ""
+"The destination argument will be set to the path of the first file supplied."
+msgstr "Sihtkoha argumendiks määratakse esimese antud faili asukoht."
+
+#: app/main.cpp:184
+#, kde-format
+msgid ""
+"Archive contents will be read, and if detected to not be a single folder or "
+"a single file archive, a subfolder with the name of the archive will be "
+"created."
+msgstr ""
+"Arhiivide sisu loetakse ja kui leitakse, et see ei ole ühe kataloogi või "
+"faili arhiiv, luuakse arhiivi nimega alamkataloog."
+
+#: app/main.cpp:187
+#, kde-format
+msgid "List supported MIME types."
+msgstr "Toetatud MIME-tüüpide loend."
+
+#: app/mainwindow.cpp:126
+#, kde-format
+msgid "Unable to find Ark's KPart component, please check your installation."
+msgstr "Arki KParti komponenti ei leitud, palun kontrolli paigaldust."
+
+#: app/mainwindow.cpp:201
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches between having a <emphasis>Menubar</emphasis> and having a "
+"<interface>Hamburger Menu</interface> button. Both contain mostly the same "
+"commands and configuration options."
+msgstr ""
+
+#: app/mainwindow.cpp:260
+#, kde-format
+msgctxt "to open an archive"
+msgid "Open Archive"
+msgstr "Arhiivi avamine"
+
+#: app/mainwindow.cpp:371
+#, kde-format
+msgid "Create New Archive"
+msgstr "Uue arhiivi loomine"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
+#: app/welcomescreen.ui:18
+#, kde-format
+msgid "Form"
+msgstr "Vorm"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: app/welcomescreen.ui:53
+#, kde-format
+msgid "Welcome to Ark"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, openButton)
+#: app/welcomescreen.ui:97
+#, fuzzy, kde-format
+#| msgctxt "to open an archive"
+#| msgid "Open Archive"
+msgctxt "to open an archive"
+msgid "Open Archive..."
+msgstr "Arhiivi avamine"
+
+#. i18n: ectx: property (text), widget (QPushButton, newButton)
+#: app/welcomescreen.ui:107
+#, fuzzy, kde-format
+#| msgid "Create New Archive"
+msgid "Create New Archive..."
+msgstr "Uue arhiivi loomine"
+
+#: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
+#, kde-format
+msgid "Advanced Options"
+msgstr "Muud valikud"
+
+#: kerfuffle/adddialog.cpp:47
+#, kde-format
+msgctxt "@action:button"
+msgid "Add"
+msgstr "Lisa"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupCompressFiles)
+#: kerfuffle/adddialog.ui:35
+#, kde-format
+msgid "Files/Folders to Compress"
+msgstr "Pakitavad failid/kataloogid"
+
+#: kerfuffle/addtoarchive.cpp:79
+#, kde-format
+msgid "Compress to Archive"
+msgstr "Pakkimine arhiivi"
+
+#: kerfuffle/addtoarchive.cpp:133
+#, kde-format
+msgid "No input files were given."
+msgstr "Sisendfaile pole määratud."
+
+#: kerfuffle/addtoarchive.cpp:140
+#, kde-kuit-format
+msgid ""
+"You need to either supply a filename for the archive or a suffix (such as "
+"rar, tar.gz) with the <command>--autofilename</command> argument."
+msgstr ""
+"Tuleb anda kas failinimi arhiivi jaoks või sufiks (nt. rar, tar.gz) "
+"argumendiga <command>--auofilename</command>."
+
+#: kerfuffle/addtoarchive.cpp:236
+#, fuzzy, kde-format
+#| msgid "Archive"
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "Arhiiv"
+
+#. i18n: ectx: label, entry (showEncryptionWarning), group (General)
+#: kerfuffle/ark.kcfg:9
+#, kde-format
+msgid ""
+"Whether to show a warning when creating zip archives with AES encryption."
+msgstr "Kas näidata hoiatust, kui luuakse AES krüptimisega ZIP-arhiiv."
+
+#. i18n: ectx: label, entry (defaultOpenAction), group (General)
+#: kerfuffle/ark.kcfg:13
+#, kde-format
+msgid "Default action when opening archive entries."
+msgstr "Vaiketoiming arhiivikirete avamisel."
+
+#. i18n: ectx: label, entry (Version), group (General)
+#: kerfuffle/ark.kcfg:21
+#, kde-format
+msgid ""
+"Internal config version of Ark, mainly used to determine whether an updated "
+"version of Ark is running, so as to migrate config entries that were removed/"
+"renamed ...etc"
+msgstr ""
+
+#. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
+#: kerfuffle/ark.kcfg:31
+#, kde-format
+msgid "Close Ark after extraction."
+msgstr "Arki sulgemine pärast lahtipakkimist."
+
+#. i18n: ectx: label, entry (preservePaths), group (Extraction)
+#: kerfuffle/ark.kcfg:35
+#, kde-format
+msgid "Preserve paths when extracting."
+msgstr "Lahtipakkimisel säilitatakse asukohad."
+
+#. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
+#: kerfuffle/ark.kcfg:39
+#, kde-format
+msgid ""
+"Extract to a subfolder if the archive has more than one top-level entry."
+msgstr ""
+"Lahtipakkimine alamkataloogi, kui arhiivil on üle ühe tipptaseme kirje."
+
+#. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
+#: kerfuffle/ark.kcfg:45
+#, kde-format
+msgid "How the main window is divided."
+msgstr "Kuidas jagada peaaken."
+
+#. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
+#: kerfuffle/ark.kcfg:49
+#, kde-format
+msgid "Whether to show the information panel."
+msgstr "Kas näidata infopaneeli."
+
+#. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
+#: kerfuffle/ark.kcfg:59
+#, kde-format
+msgid "Whether to limit the preview according to file size."
+msgstr "Kas piirata eelvaatlust vastavalt faili suurusele."
+
+#. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
+#: kerfuffle/ark.kcfg:63
+#, kde-format
+msgid "Preview file size limit in megabytes."
+msgstr "Eelvaatluse faili suuruse piirang megabaitides."
+
+#: kerfuffle/cliinterface.cpp:245
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Failed to locate program <filename>%1</filename> on disk."
+msgstr "Programmi <filename>%1</filename> kettalt ei leitud."
+
+#: kerfuffle/cliinterface.cpp:355
+#, kde-format
+msgid "Extraction failed. Make sure that enough space is available."
+msgstr "Lahtipakkimine nurjus. Kontrolli, kas ruumi ikka jagub."
+
+#: kerfuffle/cliinterface.cpp:358
+#, kde-format
+msgid ""
+"Extraction failed. Make sure you provided the correct password and that "
+"enough space is available."
+msgstr ""
+"Lahtipakkimine nurjus. Kontrolli, kas andsid õige parooli ja kas ruumi ikka "
+"jagub."
+
+#: kerfuffle/cliinterface.cpp:369 kerfuffle/cliinterface.cpp:494
+#, kde-format
+msgctxt "@info"
+msgid "Could not move the extracted file to the destination directory."
+msgid_plural "Could not move the extracted files to the destination directory."
+msgstr[0] "Lahti pakitud faili liigutamine sihtkataloogi nurjus."
+msgstr[1] "Lahti pakitud failide liigutamine sihtkataloogi nurjus."
+
+#: kerfuffle/cliinterface.cpp:857
+#, kde-format
+msgctxt "@info"
+msgid "Extraction failed because the disk is full."
+msgstr "Lahtipakkimine nurjus, sest ketas on täis."
+
+#: kerfuffle/cliinterface.cpp:864
+#, kde-format
+msgctxt "@info"
+msgid "Extraction failed: Incorrect password"
+msgstr "Lahtipakkimine nurjus: vigane parool"
+
+#: kerfuffle/cliinterface.cpp:898
+#, kde-format
+msgid "Incorrect password."
+msgstr "Vigane parool."
+
+#: kerfuffle/cliinterface.cpp:921
+#, kde-format
+msgid "Ark does not currently support testing this archive."
+msgstr "Ark ei toeta veel selle arhiivi testimist."
+
+#: kerfuffle/compressionoptionswidget.cpp:132
+#, kde-format
+msgid "Protection of the list of files is not possible with the %1 format."
+msgstr "Faililoendi kaitsmine ei ole %1-vormingu puhul võimalik."
+
+#: kerfuffle/compressionoptionswidget.cpp:141
+#, kde-format
+msgid ""
+"Protection of the archive with password is not possible with the %1 format."
+msgstr "Arhiivi kaitsmine parooliga ei ole %1-vormingu puhul võimalik."
+
+#: kerfuffle/compressionoptionswidget.cpp:156
+#, kde-format
+msgid "It is not possible to set compression level for the %1 format."
+msgstr "%1 vormingu korral ei saa pakkimistaset määrata."
+
+#: kerfuffle/compressionoptionswidget.cpp:176
+#, kde-format
+msgid "It is not possible to set compression method for the %1 format."
+msgstr "%1 vormingu korral ei saa pakkimiviisi määrata."
+
+#: kerfuffle/compressionoptionswidget.cpp:199
+#, kde-format
+msgid "The %1 format does not support multi-volume archives."
+msgstr "%1 vorming ei toeta mitmeköitelisi arhiive."
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleCompression)
+#: kerfuffle/compressionoptionswidget.ui:20
+#, kde-format
+msgid "Compression"
+msgstr "Pakkimine"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel1)
+#: kerfuffle/compressionoptionswidget.ui:35
+#, kde-format
+msgid "Level:"
+msgstr "Tase:"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel2)
+#: kerfuffle/compressionoptionswidget.ui:45
+#, kde-format
+msgid "Min"
+msgstr "Min"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompMethod)
+#: kerfuffle/compressionoptionswidget.ui:83
+#, kde-format
+msgid "Method:"
+msgstr "Meetod:"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel3)
+#: kerfuffle/compressionoptionswidget.ui:93
+#, kde-format
+msgid "Max"
+msgstr "Maks"
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleEncryption)
+#: kerfuffle/compressionoptionswidget.ui:118
+#, kde-format
+msgid "Password Protection"
+msgstr "Paroolikaitse"
+
+#. i18n: ectx: property (text), widget (QLabel, lblEncMethod)
+#: kerfuffle/compressionoptionswidget.ui:130
+#, kde-format
+msgid "Encryption method:"
+msgstr "Krüptimisviis:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, encryptHeaderCheckBox)
+#: kerfuffle/compressionoptionswidget.ui:160
+#, kde-format
+msgid "Ask for password before showing the list of files in the archive"
+msgstr "Parooli küsimine enne arhiivi failide loendi näitamist"
+
+#. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
+#: kerfuffle/compressionoptionswidget.ui:170
+#, kde-format
+msgid ""
+"This encryption method may not be supported by older archiving software."
+msgstr "Vanem arhiveerimistarkvara ei pruugi seda krüptimisviisi toetada."
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleMultiVolume)
+#: kerfuffle/compressionoptionswidget.ui:183
+#, kde-format
+msgid "Multi-volume Archive"
+msgstr "Mitmeköiteline arhiiv"
+
+#. i18n: ectx: property (text), widget (QCheckBox, multiVolumeCheckbox)
+#: kerfuffle/compressionoptionswidget.ui:192
+#, kde-format
+msgid "Create multi-volume archive"
+msgstr "Mitmeköitelise arhiivi loomine"
+
+#. i18n: ectx: property (text), widget (QLabel, lblVolumeSize)
+#: kerfuffle/compressionoptionswidget.ui:210
+#, kde-format
+msgid "Volume size:"
+msgstr "Köite suurus:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_previewFileSizeLimit)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, volumeSizeSpinbox)
+#: kerfuffle/compressionoptionswidget.ui:223
+#: kerfuffle/previewsettingspage.ui:32
+#, kde-format
+msgid " megabytes"
+msgstr " megabaiti"
+
+#: kerfuffle/createdialog.cpp:111
+#, kde-format
+msgctxt "the argument is a file extension (the period is not a typo)"
+msgid "Automatically add .%1"
+msgstr "Automaatselt lisatakse .%1"
+
+#: kerfuffle/createdialog.cpp:198
+#, kde-format
+msgid "The chosen password does not match the given verification password."
+msgstr "Valitud parool ei sobi kokku määratud kontrollimisparooliga."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/createdialog.ui:30
+#, kde-format
+msgid "Folder:"
+msgstr "Kataloog:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/createdialog.ui:47
+#, kde-format
+msgid "Filename:"
+msgstr "Failinimi:"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
+#: kerfuffle/createdialog.ui:54
+#, kde-format
+msgid "Type archive name..."
+msgstr "Kirjuta arhiivi nimi..."
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
+#: kerfuffle/createdialog.ui:61 part/infopanel.ui:93
+#, kde-format
+msgid "Type:"
+msgstr "Tüüp:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/createdialog.ui:78
+#, kde-format
+msgid "Extension:"
+msgstr "Laiend:"
+
+#: kerfuffle/extractiondialog.cpp:40
+#, kde-format
+msgctxt "@title:window"
+msgid "Extract"
+msgstr "Lahtipakkimine"
+
+#: kerfuffle/extractiondialog.cpp:54
+#, kde-format
+msgid "Extract"
+msgstr "Paki lahti"
+
+#: kerfuffle/extractiondialog.cpp:97
+#, kde-format
+msgid "The subfolder name may not contain the character '/'."
+msgstr "Alamkataloogi nimes ei tohi esineda märk '/'."
+
+#: kerfuffle/extractiondialog.cpp:107
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The folder <filename>%1</filename> already exists. Are you sure you want to "
+"extract here?"
+msgstr ""
+"Kataloog <filename>%1</filename> on juba olemas. Kas tõesti siia lahti "
+"pakkida?"
+
+#: kerfuffle/extractiondialog.cpp:108
+#, kde-format
+msgid "Folder exists"
+msgstr "Kataloog on juba olemas"
+
+#: kerfuffle/extractiondialog.cpp:109
+#, kde-format
+msgid "Extract here"
+msgstr "Paki siia lahti"
+
+#: kerfuffle/extractiondialog.cpp:110
+#, kde-format
+msgid "Retry"
+msgstr "Proovi uuesti"
+
+#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The folder <filename>%1</filename> could not be created."
+msgstr "Kataloogi <filename>%1</filename> loomine nurjus."
+
+#: kerfuffle/extractiondialog.cpp:121
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<filename>%1</filename> already exists, but is not a folder."
+msgstr "<filename>%1</filename> on juba olemas, aga ei ole kataloog."
+
+#: kerfuffle/extractiondialog.cpp:127
+#, kde-format
+msgid "Please check your permissions to create it."
+msgstr "Loomiseks kontrolli palun oma õigusi."
+
+#: kerfuffle/extractiondialog.cpp:166
+#, kde-format
+msgid "Extract multiple archives"
+msgstr "Mitme arhiivi lahtipakkimine"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ExtractionDialog)
+#: kerfuffle/extractiondialog.ui:21
+#, kde-format
+msgid "Extraction Dialog"
+msgstr "Lahtipakkimise dialoog"
+
+#. i18n: ectx: property (text), widget (QLabel, extractAllLabel)
+#: kerfuffle/extractiondialog.ui:70
+#, kde-format
+msgid "Extract All Files"
+msgstr "Kõigi failide lahtipakkimine"
+
+#. i18n: ectx: property (title), widget (QGroupBox, singleFolderGroup)
+#: kerfuffle/extractiondialog.ui:79
+#, kde-format
+msgid "E&xtraction into subfolder:"
+msgstr "Lahtipakkimin&e alamkataloogi..."
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: kerfuffle/extractiondialog.ui:113
+#, kde-format
+msgid "Options"
+msgstr "Valikud"
+
+#. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
+#: kerfuffle/extractiondialog.ui:132
+#, kde-format
+msgid "Open &destination folder after extraction"
+msgstr "Lahti&pakkimise järel avatakse sihtkataloog"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
+#: kerfuffle/extractiondialog.ui:139
+#, kde-format
+msgid "Close &Ark after extraction"
+msgstr "&Arki sulgemine pärast lahtipakkimist"
+
+#. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
+#: kerfuffle/extractiondialog.ui:146
+#, kde-format
+msgid "&Preserve paths when extracting"
+msgstr "Lahtipakkimisel säilitatakse asukoha&d"
+
+#. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
+#: kerfuffle/extractiondialog.ui:153
+#, kde-format
+msgid "&Automatically create subfolders"
+msgstr "&Alamkataloogide automaatne loomine"
+
+#. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
+#: kerfuffle/extractiondialog.ui:169
+#, kde-format
+msgctxt "@title:group"
+msgid "Extract"
+msgstr "Lahtipakkimine"
+
+#. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
+#: kerfuffle/extractiondialog.ui:187
+#, kde-format
+msgid "Sele&cted files only"
+msgstr "Ainult &valitud failid"
+
+#. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
+#: kerfuffle/extractiondialog.ui:203
+#, kde-format
+msgid "All &files"
+msgstr "Kõik &failid"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_openDestinationFolderAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:17
+#, kde-format
+msgid "Open destination folder after extraction"
+msgstr "Lahtipakkimise järel avatakse sihtkataloog"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_closeAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:24
+#, kde-format
+msgid "Close Ark after extraction"
+msgstr "Arki sulgemine pärast lahtipakkimist"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_preservePaths)
+#: kerfuffle/extractionsettingspage.ui:31
+#, kde-format
+msgid "Preserve paths when extracting"
+msgstr "Lahtipakkimisel säilitatakse asukohad"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:41
+#, kde-format
+msgid ""
+"Whether to check by default the extraction into subfolder checkbox in the "
+"Extraction Dialog, when the archive has more than one top-level entry."
+msgstr ""
+"Kas märkida vaikimisi alamkausta lahtipakkimise märkeruut lahtipakkimise "
+"dialoogis, kui arhiivis on üle ühe tipptaseme kirje."
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:44
+#, kde-format
+msgid "Extract to a subfolder if the archive has more than one top-level entry"
+msgstr "Lahtipakkimine alamkataloogi, kui arhiivil on üle ühe tipptaseme kirje"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/generalsettingspage.ui:17
+#, kde-format
+msgid "When clicking a file in an archive or pressing the Return key:"
+msgstr "Faili klõpsamisel arhiivis või klahvi Return vajutamisel"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: kerfuffle/generalsettingspage.ui:33
+#, kde-format
+msgid "Pre&view the file with internal previewer"
+msgstr "&Faili eelvaatlus sisemises näitajas"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: kerfuffle/generalsettingspage.ui:43
+#, kde-format
+msgid "Open the fi&le with associated application"
+msgstr "Fa&ili avamine seostatud rakenduses"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
+#: kerfuffle/generalsettingspage.ui:60
+#, kde-format
+msgid "Show a warning when creating zip archives with AES encryption"
+msgstr "Hoiatuse näitamine AES krüptimisega ZIP-arhiivi loomisel"
+
+#: kerfuffle/jobs.cpp:99
+#, kde-format
+msgid "No suitable plugin found. Ark does not seem to support this file type."
+msgstr "Sobivat pluginat ei leitud. Tundub, et Ark ei toeta seda failitüüpi."
+
+#: kerfuffle/jobs.cpp:103
+#, kde-format
+msgid ""
+"Failed to load a suitable plugin. Make sure any executables needed to handle "
+"the archive type are installed."
+msgstr ""
+"Sobiva plugina laadimine nurjus. Palun kontrolli, kas kõik täitmisfailid, "
+"mida on vaja arhiivitüübi käitlemiseks, on ikka paigaldatud."
+
+#: kerfuffle/jobs.cpp:168
+#, kde-format
+msgid ""
+"Could not load the archive because it contains ill-formed entries and might "
+"be a malicious archive."
+msgstr ""
+"Arhiivi laadimine nurjus, kuna see sisaldab vääral kujul kirjeid ja võib "
+"seega olla pahatahtlikult loodud."
+
+#: kerfuffle/jobs.cpp:253
+#, kde-format
+msgid "Loading archive"
+msgstr "Arhiivi laadimine"
+
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:704
+#: kerfuffle/jobs.cpp:757 kerfuffle/jobs.cpp:795 kerfuffle/jobs.cpp:827
+#: kerfuffle/jobs.cpp:875
+#, kde-format
+msgid "Archive"
+msgstr "Arhiiv"
+
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "Error creating directory <filename>%1</filename>"
+msgid "No space available on device <filename>%1</filename>"
+msgstr "Tõrge kataloogi <filename>%1</filename> loomisel"
+
+#: kerfuffle/jobs.cpp:536
+#, kde-format
+msgid "Extracting all files"
+msgstr "Kõigi failide lahtipakkimine"
+
+#. i18np on purpose so this translation may properly be reused.
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:630
+#, kde-format
+msgid "Extracting one file"
+msgid_plural "Extracting %1 files"
+msgstr[0] "Ühe faili lahtipakkimine"
+msgstr[1] "%1 faili lahtipakkimine"
+
+#: kerfuffle/jobs.cpp:540
+#, kde-format
+msgctxt "extraction folder"
+msgid "Destination"
+msgstr "Sihtkoht"
+
+#: kerfuffle/jobs.cpp:544
+#, kde-kuit-format
+msgid ""
+"Could not write to destination <filename>%1</filename>.<nl/>Check whether "
+"you have sufficient permissions."
+msgstr ""
+"<filename>%1</filename> kirjutamine sihtkohta nurjus.<nl/>Kontrolli, kas sul "
+"on selleks piisavalt õigusi."
+
+#: kerfuffle/jobs.cpp:703
+#, kde-format
+msgid "Compressing a file"
+msgid_plural "Compressing %1 files"
+msgstr[0] "Faili tihendamine"
+msgstr[1] "%1 faili tihendamine"
+
+#: kerfuffle/jobs.cpp:756
+#, kde-format
+msgid "Moving a file"
+msgid_plural "Moving %1 files"
+msgstr[0] "Faili liigutamine"
+msgstr[1] "%1 faili liigutamine"
+
+#: kerfuffle/jobs.cpp:794
+#, kde-format
+msgid "Copying a file"
+msgid_plural "Copying %1 files"
+msgstr[0] "Faili kopeerimine"
+msgstr[1] "%1 faili kopeerimine"
+
+#: kerfuffle/jobs.cpp:826
+#, kde-format
+msgid "Deleting a file from the archive"
+msgid_plural "Deleting %1 files"
+msgstr[0] "Faili kustutamine arhiivist"
+msgstr[1] "%1 faili  kustutamine"
+
+#: kerfuffle/jobs.cpp:850
+#, kde-format
+msgid "Adding comment"
+msgstr "Kommentaari lisamine"
+
+#: kerfuffle/jobs.cpp:875
+#, kde-format
+msgid "Testing archive"
+msgstr "Arhiivi test"
+
+#: kerfuffle/pluginsettingspage.cpp:34
+#, kde-format
+msgid ""
+"The plugin cannot be used because one or more required executables are "
+"missing. Check your installation."
+msgstr ""
+"Pluginat ei saa kasutada, sest vähemalt üks täitmisfail puudub. Kontrolli "
+"oma paigaldust."
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:24
+#, kde-format
+msgid "Name"
+msgstr "Nimi"
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:29
+#, kde-format
+msgid "Description"
+msgstr "Kirjeldus"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_limitPreviewFileSize)
+#: kerfuffle/previewsettingspage.ui:22
+#, kde-format
+msgid "Disable preview for files larger than:"
+msgstr "Eelvaatluse keelamine suuremate failide puhul kui:"
+
+#: kerfuffle/propertiesdialog.cpp:40
+#, kde-format
+msgctxt "@title:window"
+msgid "Properties for %1"
+msgstr "%1 omadused"
+
+#. i18n: ectx: property (text), widget (KSqueezedTextLabel, m_passwordValueLabel)
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:50
+#: part/infopanel.ui:195
+#, kde-format
+msgid "yes"
+msgstr "jah"
+
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:49
+#: kerfuffle/propertiesdialog.cpp:50 kerfuffle/propertiesdialog.cpp:63
+#, kde-format
+msgid "no"
+msgstr "ei"
+
+#: kerfuffle/propertiesdialog.cpp:49
+#, kde-format
+msgid "yes (%1 volumes)"
+msgstr "jah (%1 köidet)"
+
+#: kerfuffle/propertiesdialog.cpp:51
+#, kde-format
+msgid "%1 file"
+msgid_plural "%1 files"
+msgstr[0] "%1 fail"
+msgstr[1] "%1 faili"
+
+#: kerfuffle/propertiesdialog.cpp:52
+#, kde-format
+msgid ", %1 folder"
+msgid_plural ", %1 folders"
+msgstr[0] ", %1 kataloog"
+msgstr[1] ", %1 kataloogi"
+
+#: kerfuffle/propertiesdialog.cpp:66
+#, kde-format
+msgid "only file contents (%1)"
+msgstr "ainult faili sisu (%1)"
+
+#: kerfuffle/propertiesdialog.cpp:69
+#, kde-format
+msgid "yes (%1)"
+msgstr "jah (%1)"
+
+#: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
+#: kerfuffle/propertiesdialog.cpp:88
+#, kde-format
+msgid "Calculating..."
+msgstr "Arvutamine..."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/propertiesdialog.ui:37
+#, kde-format
+msgid "Archive name:"
+msgstr "Arhiivi nimi:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/propertiesdialog.ui:54
+#, kde-format
+msgid "Archive type:"
+msgstr "Arhiivi tüüp:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: kerfuffle/propertiesdialog.ui:71
+#, kde-format
+msgid "Mime-type:"
+msgstr "MIME tüüp:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: kerfuffle/propertiesdialog.ui:88
+#, kde-format
+msgid "Opened read-only:"
+msgstr "Avamine kirjutuskaitstuna:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_passwordLabel)
+#: kerfuffle/propertiesdialog.ui:105 part/infopanel.ui:179
+#, kde-format
+msgid "Password-protected:"
+msgstr "Parooliga kaitstud:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_10)
+#: kerfuffle/propertiesdialog.ui:122
+#, kde-format
+msgid "Has comment:"
+msgstr "Kommentaariga:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/propertiesdialog.ui:139
+#, kde-format
+msgid "Number of entries:"
+msgstr "Kirjete arv:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: kerfuffle/propertiesdialog.ui:156
+#, kde-format
+msgid "Unpacked size:"
+msgstr "Suurus pakkimata:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: kerfuffle/propertiesdialog.ui:173
+#, kde-format
+msgid "Packed size:"
+msgstr "Suurus pakitult:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: kerfuffle/propertiesdialog.ui:190
+#, kde-format
+msgid "Compression ratio:"
+msgstr "Pakkimise tase:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: kerfuffle/propertiesdialog.ui:207
+#, kde-format
+msgid "Last modified:"
+msgstr "Viimati muudetud:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: kerfuffle/propertiesdialog.ui:224
+#, kde-format
+msgid "MD5 hash:"
+msgstr "MD5 räsi:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_13)
+#: kerfuffle/propertiesdialog.ui:244
+#, kde-format
+msgid "SHA-1 hash:"
+msgstr "SHA-1 räsi:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_14)
+#: kerfuffle/propertiesdialog.ui:261
+#, kde-format
+msgid "SHA-256 hash:"
+msgstr "SHA-256 räsi:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_15)
+#: kerfuffle/propertiesdialog.ui:278
+#, kde-format
+msgid "Multi-volume:"
+msgstr "Mitmeköiteline:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#: kerfuffle/propertiesdialog.ui:295
+#, kde-format
+msgid "Compression method(s):"
+msgstr "Pakkimisviis(id):"
+
+#: kerfuffle/queries.cpp:73
+#, kde-format
+msgctxt "@title:window"
+msgid "File Already Exists"
+msgstr "Fail on juba olemas"
+
+#: kerfuffle/queries.cpp:156
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> is password protected. Please enter the "
+"password."
+msgstr ""
+"Arhiiv <filename>%1</filename> on parooliga kaitstud. Palun anna parool."
+
+#: kerfuffle/queries.cpp:160
+#, kde-format
+msgid "Incorrect password, please try again."
+msgstr "Vale parool, palun proovi uuesti."
+
+#: kerfuffle/queries.cpp:195
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive you're trying to open is corrupt.<nl/>Some files may be missing "
+"or damaged."
+msgstr ""
+"Arhiiv, mida püüad avada, on rikutud.<nl/>Mõned failid võivad olla puudu või "
+"kahjustatud."
+
+#: kerfuffle/queries.cpp:197
+#, kde-format
+msgctxt "@title:window"
+msgid "Corrupt archive"
+msgstr "Vigane arhiiv"
+
+#: kerfuffle/queries.cpp:198
+#, kde-format
+msgctxt "@action:button"
+msgid "Open as Read-Only"
+msgstr "Ava kirjutuskaitstuna"
+
+#: kerfuffle/queries.cpp:199
+#, kde-format
+msgctxt "@action:button"
+msgid "Don't Open"
+msgstr "Ära ava"
+
+#: kerfuffle/queries.cpp:208
+#, kde-format
+msgid "Don't ask again."
+msgstr "Rohkem ei küsita."
+
+#: kerfuffle/queries.cpp:220
+#, kde-format
+msgid "Error during extraction"
+msgstr "Tõrge lahtipakkimisel"
+
+#: kerfuffle/queries.cpp:221
+#, kde-kuit-format
+msgid ""
+"Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
+"error message:<nl/>    %2<nl/><nl/>Do you want to continue extraction?<nl/>"
+msgstr ""
+"Kirje: <nl/>    <filename>%1</filename><nl/>lahtipakkimine nurjus veateatega:"
+"<nl/>    %2<nl/><nl/>Kas jätkata lahtipakkimist?<nl/>"
+
+#: part/archivemodel.cpp:155
+#, kde-format
+msgctxt "Name of a file inside an archive"
+msgid "Name"
+msgstr "Nimi"
+
+#: part/archivemodel.cpp:157
+#, kde-format
+msgctxt "Uncompressed size of a file inside an archive"
+msgid "Original Size"
+msgstr ""
+
+#: part/archivemodel.cpp:159
+#, fuzzy, kde-format
+#| msgctxt "Compressed size of a file inside an archive"
+#| msgid "Compressed"
+msgctxt "Compressed size of a file inside an archive"
+msgid "Compressed Size"
+msgstr "Pakitud"
+
+#: part/archivemodel.cpp:161
+#, kde-format
+msgctxt "Compression rate of file"
+msgid "Rate"
+msgstr "Tase"
+
+#: part/archivemodel.cpp:163
+#, kde-format
+msgctxt "File's owner username"
+msgid "Owner"
+msgstr " Omanik"
+
+#: part/archivemodel.cpp:165
+#, kde-format
+msgctxt "File's group"
+msgid "Group"
+msgstr " Grupp"
+
+#: part/archivemodel.cpp:167
+#, kde-format
+msgctxt "File permissions"
+msgid "Mode"
+msgstr "Režiim"
+
+#: part/archivemodel.cpp:169
+#, kde-format
+msgctxt "CRC hash code"
+msgid "CRC checksum"
+msgstr "CRC kontrollsumma"
+
+#: part/archivemodel.cpp:171
+#, kde-format
+msgctxt "BLAKE2 hash code"
+msgid "BLAKE2 checksum"
+msgstr "BLAKE2 kontrollsumma"
+
+#: part/archivemodel.cpp:173
+#, kde-format
+msgctxt "Compression method"
+msgid "Method"
+msgstr " Meetod"
+
+#: part/archivemodel.cpp:176
+#, kde-format
+msgctxt "File version"
+msgid "Version"
+msgstr " Versioon"
+
+#: part/archivemodel.cpp:178
+#, kde-format
+msgctxt "Timestamp"
+msgid "Date"
+msgstr "Kuupäev"
+
+#: part/archivemodel.cpp:180
+#, kde-format
+msgctxt "Unnamed column"
+msgid "??"
+msgstr "??"
+
+#: part/archivemodel.cpp:291
+#, kde-format
+msgid "Adding files is not supported for this archive."
+msgstr "Seda tüüpi arhiivi korral ei ole failide lisamine toetatud."
+
+#: part/archivemodel.cpp:299
+#, kde-format
+msgid "You can only add local files to an archive."
+msgstr "Arhiivi saab lisada ainult kohalikke faile."
+
+#. i18n: ectx: Menu (archive)
+#: part/ark_part.rc:5
+#, kde-format
+msgid "&Archive"
+msgstr "Ar&hiiv"
+
+#. i18n: ectx: Menu (ark_file)
+#: part/ark_part.rc:15
+#, kde-format
+msgid "&File"
+msgstr "&Fail"
+
+#. i18n: ectx: Menu (settings)
+#: part/ark_part.rc:29
+#, kde-format
+msgid "&Settings"
+msgstr "&Seadistused"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: part/ark_part.rc:34
+#, kde-format
+msgid "Main Toolbar"
+msgstr "Peamine tööriistariba"
+
+#. i18n: ectx: Menu (help)
+#: part/ark_viewer.rc:5
+#, kde-format
+msgid "&Help"
+msgstr ""
+
+#: part/arkviewer.cpp:52
+#, kde-format
+msgid "Closing preview"
+msgstr "Eelvaatluse sulgemine"
+
+#: part/arkviewer.cpp:53
+#, kde-format
+msgid "Please wait while the preview is being closed..."
+msgstr "Palun oota, kuni eelvaatlus suletakse..."
+
+#: part/arkviewer.cpp:100
+#, kde-format
+msgid "The internal viewer cannot preview this file."
+msgstr "Sisemine näitaja ei saa seda faili näidata."
+
+#: part/arkviewer.cpp:116
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+"Sisemine näitaja ei saa seda tüüpi faili eelvaatlust näidata<nl/>(%1).<nl/"
+"><nl/>Kas proovida näidata seda klaartekstina?"
+
+#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#, kde-format
+msgctxt "@title:window"
+msgid "Cannot Preview File"
+msgstr "Faili eelvaatlus pole võimalik"
+
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#, kde-format
+msgctxt "@action:button"
+msgid "Preview as Text"
+msgstr "Eelvaatlus tekstina"
+
+#: part/arkviewer.cpp:128
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+"Sisemine näitaja ei saa tundmatut tüüpi faili eelvaatlust näidata<nl/>().<nl/"
+"><nl/>Kas proovida näidata seda klaartekstina?"
+
+#: part/arkviewer.cpp:192
+#, fuzzy, kde-format
+#| msgid "Ark KParts Component"
+msgctxt "@action"
+msgid "About Viewer Component"
+msgstr "Ark KParts komponent"
+
+#: part/infopanel.cpp:52
+#, kde-format
+msgid "No archive loaded"
+msgstr "Ühtegi arhiivi pole laaditud"
+
+#: part/infopanel.cpp:103
+#, kde-format
+msgid "Symbolic Link"
+msgstr "Sümbolviit"
+
+#: part/infopanel.cpp:108
+#, kde-format
+msgid "Unknown size"
+msgstr "Tundmatu suurus"
+
+#: part/infopanel.cpp:129
+#, kde-format
+msgid "One file selected"
+msgid_plural "%1 files selected"
+msgstr[0] "Üks fail valitud"
+msgstr[1] "%1 faili valitud"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, InformationPanel)
+#: part/infopanel.ui:20
+#, kde-format
+msgid "Information Panel"
+msgstr "Infopaneel"
+
+#. i18n: ectx: property (text), widget (QLabel, additionalInfo)
+#: part/infopanel.ui:64
+#, kde-format
+msgid "Unknown file type"
+msgstr "Tundmatu failitüüp"
+
+#. i18n: ectx: property (text), widget (QLabel, m_ownerLabel)
+#: part/infopanel.ui:113
+#, kde-format
+msgid "Owner:"
+msgstr "Omanik:"
+
+#. i18n: ectx: property (text), widget (QLabel, m_groupLabel)
+#: part/infopanel.ui:133
+#, kde-format
+msgid "Group:"
+msgstr "Grupp:"
+
+#. i18n: ectx: property (text), widget (QLabel, m_targetLabel)
+#: part/infopanel.ui:153
+#, kde-format
+msgid "Target:"
+msgstr "Sihtmärk:"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, JobTrackerWidget)
+#: part/jobtracker.ui:13
+#, kde-format
+msgid "Job Tracker"
+msgstr "Töö jälgija"
+
+#. i18n: ectx: property (text), widget (QLabel, descriptionLabel)
+#: part/jobtracker.ui:43
+#, kde-format
+msgid "<b>Job Description</b>"
+msgstr "<b>Töö kirjeldus</b>"
+
+#. i18n: ectx: property (text), widget (QLabel, informationLabel)
+#: part/jobtracker.ui:62
+#, kde-format
+msgid "Some Information about the job"
+msgstr "Veidi teavet töö kohta"
+
+#: part/overwritedialog.cpp:26
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Remove them if you really want "
+"to overwrite."
+msgstr ""
+"Järgmiste asukohtadega failid on juba olemas. Eemalda need, kui sa soovid "
+"need tõesti üle kirjutada."
+
+#: part/overwritedialog.cpp:28
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Do you want to continue "
+"overwriting them?"
+msgstr ""
+"Järgmiste asukohtadega failid on juba olemas. Kas jätkata ja kirjutada need "
+"üle?"
+
+#: part/part.cpp:111
+#, kde-format
+msgid "Comment"
+msgstr "Kommentaar"
+
+#: part/part.cpp:122
+#, kde-format
+msgid "Comment has been modified."
+msgstr "Kommentaari on muudetud"
+
+#: part/part.cpp:127
+#, kde-format
+msgid "Save"
+msgstr "Salvesta"
+
+#: part/part.cpp:150
+#, kde-format
+msgid "Type to search..."
+msgstr "Kirjuta otsimiseks ..."
+
+#: part/part.cpp:308
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark can extract archives to local destinations only."
+msgstr "Ark saab arhiive lahti pakkida ainult kohalikesse asukohtadesse."
+
+#: part/part.cpp:363
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Show Information Panel"
+msgstr "Infopaneeli näitamine"
+
+#: part/part.cpp:370
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Save Copy As..."
+msgstr "Salvesta koopia kui ..."
+
+#: part/part.cpp:374
+#, kde-format
+msgctxt "open a file with external program"
+msgid "&Open in External Application"
+msgstr ""
+
+#: part/part.cpp:379
+#, kde-format
+msgctxt "open a file with external program"
+msgid "Open &With..."
+msgstr "Ava &rakendusega..."
+
+#: part/part.cpp:381
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to open the selected file with an external program"
+msgstr "Klõpsa valitud faili avamiseks välises rakenduses"
+
+#: part/part.cpp:385
+#, kde-format
+msgctxt "to preview a file inside an archive"
+msgid "Pre&view"
+msgstr "&Eelvaatlus"
+
+#: part/part.cpp:387
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to preview the selected file"
+msgstr "Klõpsa valitud faili vaatamiseks"
+
+#: part/part.cpp:392
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "E&xtract All"
+msgstr "&Paki kõik lahti"
+
+#: part/part.cpp:394
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose how to extract all "
+"the files in the archive"
+msgstr ""
+"Klõpsa lahtipakkimisdialoogi avamiseks, kus saab valida, kuidas pakkida "
+"lahti kõik arhiivi failid"
+
+#: part/part.cpp:399
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Extract"
+msgstr "Paki la&hti"
+
+#: part/part.cpp:402
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose to extract either "
+"all files or just the selected ones"
+msgstr ""
+"Klõpsa lahtipakkimisdialoogi avamiseks, kus saab valida kas kõigi või ainult "
+"valitud failide lahtipakkimise"
+
+#: part/part.cpp:407
+#, kde-format
+msgid "Add &Files..."
+msgstr "Lisa &faile..."
+
+#: part/part.cpp:408 part/part.cpp:471
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to add files to the archive"
+msgstr "Klõpsa failide lisamiseks arhiivi"
+
+#: part/part.cpp:415
+#, fuzzy, kde-format
+#| msgid "Compress to Archive"
+msgctxt "@action"
+msgid "Remove from Archive"
+msgstr "Pakkimine arhiivi"
+
+#: part/part.cpp:425
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Properties"
+msgstr "&Omadused"
+
+#: part/part.cpp:427
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to see properties for archive"
+msgstr "Klõpsa arhiivi omaduste vaatamiseks"
+
+#: part/part.cpp:433
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to add or edit comment"
+msgstr "Klõpsa kommentaari lisamiseks või muutmiseks"
+
+#: part/part.cpp:438
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Test Integrity"
+msgstr "&Terviklikkuse kontroll"
+
+#: part/part.cpp:440 part/part.cpp:472
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to test the archive for integrity"
+msgstr "Klõpsa arhiivi terviklikkuse kontrollimiseks"
+
+#: part/part.cpp:466
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Adding files to existing password-protected archives with no header-"
+"encryption is currently not supported.<nl/><nl/>Extract the files and create "
+"a new archive if you want to add files."
+msgstr ""
+"Failide lisamine parooliga kaitstud krüptimata päisega arhiivi ei ole veel "
+"toetatud.<nl/><nl/>Paki failid lahti ja loo uus arhiiv, kui soovid faile "
+"ikkagi lisada."
+
+#: part/part.cpp:469
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Testing password-protected archives with no header-encryption is currently "
+"not supported."
+msgstr ""
+"Parooliga kaitstud krüptimata päisega arhiivide terviklikkuse kontroll ei "
+"ole veel toetatud."
+
+#: part/part.cpp:537
+#, kde-format
+msgctxt "@action:inmenu mutually exclusive with Add &Comment"
+msgid "Edit &Comment"
+msgstr "Muuda kommentaari"
+
+#: part/part.cpp:538 part/part.cpp:546
+#, kde-format
+msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
+msgid "Add &Comment"
+msgstr "Lisa &kommentaar"
+
+#: part/part.cpp:647
+#, kde-format
+msgid "The archive passed the integrity test."
+msgstr "Arhiiv läbi terviklikkuse kontrolli edukalt."
+
+#: part/part.cpp:647 part/part.cpp:649
+#, kde-format
+msgid "Test Results"
+msgstr "Testi tulemused"
+
+#: part/part.cpp:649
+#, kde-format
+msgid "The archive failed the integrity test."
+msgstr "Arhiiv ei läbinud terviklikkuse kontrolli."
+
+#: part/part.cpp:670
+#, kde-format
+msgid "Extract To..."
+msgstr "Paki lahti..."
+
+#: part/part.cpp:684
+#, kde-format
+msgid "Quick Extract To..."
+msgstr "Kiire lahtipakkimine..."
+
+#: part/part.cpp:814
+#, kde-format
+msgctxt "@title:tab"
+msgid "General"
+msgstr "Üldine"
+
+#: part/part.cpp:815
+#, kde-format
+msgctxt "@title:tab"
+msgid "Extraction"
+msgstr "Lahtipakkimine"
+
+#: part/part.cpp:816
+#, kde-format
+msgctxt "@title:tab"
+msgid "Plugins"
+msgstr "Pluginad"
+
+#: part/part.cpp:817
+#, kde-format
+msgctxt "@title:tab"
+msgid "Previews"
+msgstr "Eelvaatlused"
+
+#: part/part.cpp:829
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<filename>%1</filename> is a directory."
+msgstr "<filename>%1</filename> on kataloog."
+
+#: part/part.cpp:838
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"Could not overwrite <filename>%1</filename>. Check whether you have write "
+"permission."
+msgstr ""
+"<filename>%1</filename> ülekirjutamine nurjus. Kontrolli, kas sul on selleks "
+"piisavalt õigusi."
+
+#: part/part.cpp:844
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> will be created as soon as you add a "
+"file."
+msgstr "Arhiivi <filename>%1</filename> luuakse niipea, kui lisad mõne faili."
+
+#: part/part.cpp:847
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The archive <filename>%1</filename> was not found."
+msgstr "Arhiivi <filename>%1</filename> ei leitud."
+
+#: part/part.cpp:852
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> could not be loaded, as it was not "
+"possible to read from it."
+msgstr ""
+"Arhiivi <filename>%1</filename> laadimine nurjus, sest seda ei olnud "
+"võimalik lugeda."
+
+#: part/part.cpp:865
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "Arhiiv <filename>%1</filename> on juba olemas. Kas kirjutada see üle?"
+
+#: part/part.cpp:867
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "Fail on olemas"
+
+#: part/part.cpp:904
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The archive is empty or Ark could not open its content."
+msgstr "Arhiiv on tühi või ei suutnud Ark selle sisu avada."
+
+#: part/part.cpp:909
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark does not currently support ISO files with UDF filesystem."
+msgstr "Ark ei toeta veel UDF-failisüsteemiga ISO-faile."
+
+#: part/part.cpp:939
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"Loading the archive <filename>%1</filename> failed with the following error:"
+"<nl/><message>%2</message>"
+msgstr ""
+"Arhiivi <filename>%1</filename> laadimine nurjus järgmise tõrke tõttu:<nl/"
+"><message>%2</message>"
+
+#: part/part.cpp:999
+#, kde-format
+msgid "Ark cannot open symlinks."
+msgstr "Ark ei suuda avada nimeviitu."
+
+#: part/part.cpp:1121
+#, kde-kuit-format
+msgid ""
+"The file <filename>%1</filename> was modified. Do you want to update the "
+"archive?"
+msgstr ""
+"Faili <filename>%1</filename> on muudetud. Kas soovid arhiivi värskendada?"
+
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@title:window"
+msgid "File Modified"
+msgstr "Faili on muudetud"
+
+#: part/part.cpp:1403
+#, kde-format
+msgctxt "@title:window"
+msgid "Add Files"
+msgstr "Failide lisamine"
+
+#: part/part.cpp:1408
+#, kde-format
+msgctxt "@title:window"
+msgid "Add Files to %1"
+msgstr "Failide lisamine arhiivi %1"
+
+#: part/part.cpp:1472
+#, kde-format
+msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
+msgstr ""
+"Failinimi ei tohi sisaldada kaldkriipse ega olla kõigest \".\" või \"..\""
+
+#: part/part.cpp:1516
+#, kde-format
+msgid "Folders can't be moved into themselves."
+msgstr "Katalooge ei saa iseendasse liigutada"
+
+#: part/part.cpp:1517
+#, kde-format
+msgid "Moving a folder into itself"
+msgstr "Kataloogi liigutamine iseendasse"
+
+#: part/part.cpp:1545
+#, kde-format
+msgid "Entries with the same names can't be pasted to the same destination."
+msgstr "Sama nimega kirjeid ei saa ühte ja samasse sihtkohta asetada."
+
+#: part/part.cpp:1646
+#, kde-format
+msgctxt "@info"
+msgid "Deleting this file is not undoable. Are you sure you want to do this?"
+msgid_plural ""
+"Deleting these files is not undoable. Are you sure you want to do this?"
+msgstr[0] "Selle faili kustutamist ei saa tagasi võtta. Kas tõesti seda teha?"
+msgstr[1] ""
+"Nende failide kustutamist ei saa tagasi võtta. Kas tõesti seda teha?"
+
+#: part/part.cpp:1649
+#, kde-format
+msgctxt "@title:window"
+msgid "Delete File"
+msgid_plural "Delete Files"
+msgstr[0] "Faili kustutamine"
+msgstr[1] "Failide kustutamine"
+
+#: part/part.cpp:1692
+#, kde-format
+msgctxt "@title:window"
+msgid "Save Copy As"
+msgstr "Koopia salvestamine"
+
+#: part/part.cpp:1707
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive could not be saved as <filename>%1</filename>. Try saving it to "
+"another location."
+msgstr ""
+"Arhiivi salvestamine asukohta <filename>%1</filename> nurjus. Proovi mõnda "
+"muud asukohta."
+
+#: part/part.cpp:1711
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> does not exist anymore, therefore it "
+"cannot be copied to the specified location."
+msgstr ""
+"Arhiivi <filename>%1</filename> pole enam olemas, seega ei saa seda määratud "
+"asukohta kopeerida."
+
+#: plugins/cli7zplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:85
+#, kde-format
+msgid "Listing the archive failed."
+msgstr "Arhiivi sisu uurimine nurjus."
+
+#: plugins/cli7zplugin/cliplugin.cpp:309
+#, kde-format
+msgid "Extraction failed due to an unknown error."
+msgstr "Lahtipakkimine nurjus tundmatu tõrke tõttu."
+
+#: plugins/cli7zplugin/cliplugin.cpp:315 plugins/clizipplugin/cliplugin.cpp:188
+#, kde-format
+msgid ""
+"Extraction failed due to one or more corrupt files. Any extracted files may "
+"be damaged."
+msgstr ""
+"Lahtipakkimine nurjus ühe või enam rikutud faili tõttu. Kõik lahti pakitud "
+"failid võivad olla kahjustatud."
+
+#: plugins/cli7zplugin/cliplugin.cpp:326
+#, fuzzy, kde-format
+#| msgid ""
+#| "Delete operation failed. Try upgrading p7zip or disabling the p7zip "
+#| "plugin in the configuration dialog."
+msgid ""
+"Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
+"configuration dialog."
+msgstr ""
+"Kustutamine nurjus. Püüa p7zip'i uuendada või keela seadistusdialoogis "
+"p7zip'i plugin."
+
+#: plugins/clirarplugin/cliplugin.cpp:157
+#: plugins/clirarplugin/cliplugin.cpp:300
+#: plugins/clirarplugin/cliplugin.cpp:553
+#, kde-format
+msgid "Failed to find all archive volumes."
+msgstr "Kõiki arhiiviköiteid ei leitud."
+
+#: plugins/clirarplugin/cliplugin.cpp:321
+#, kde-format
+msgid ""
+"Your unrar executable is version %1, which is too old to handle this "
+"archive. Please update to a more recent version."
+msgstr ""
+"Programmi unrar täitmisfaili versioon on %1, mis on selle arhiivi "
+"käitlemiseks liiga vana. Palun uuenda mõne värskema versiooni peale."
+
+#: plugins/clirarplugin/cliplugin.cpp:328
+#, kde-format
+msgid ""
+"Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
+"Try updating your unrar."
+msgstr ""
+"Unrar andis teada, et tegu ei ole RAR-arhiiviga. Paigaldatud unrar'i "
+"versioon (%1) on liiga vana. Palun uuenda unrar'i."
+
+#: plugins/clirarplugin/cliplugin.cpp:548
+#, kde-format
+msgid "One or more wrong checksums"
+msgstr "Vähemalt üks vale kontrollsumma"
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:97
+#, kde-format
+msgid "Extraction failed."
+msgstr "Lahtipakkimine nurjus."
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:131
+#, kde-format
+msgid "Not enough memory for loading the archive."
+msgstr "Arhiivi laadimiseks napib mälu."
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Wrong password."
+msgstr "Vale parool."
+
+#: plugins/clizipplugin/cliplugin.cpp:178
+#, kde-format
+msgid "Extraction failed due to unsupported compression method (%1)."
+msgstr "Lahtipakkimine nurjus toetamata pakkimisviisi (%1) tõttu."
+
+#: plugins/clizipplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Extraction failed due to unsupported encryption method."
+msgstr "Lahtipakkimine nurjus toetamata krüptimisviisi tõttu."
+
+#: plugins/clizipplugin/cliplugin.cpp:311
+#, kde-format
+msgctxt "referred to compression method"
+msgid "unknown"
+msgstr "tundmatu"
+
+#: plugins/libarchive/libarchiveplugin.cpp:392
+#, kde-format
+msgctxt "@info"
+msgid "Fatal error, extraction aborted."
+msgstr "Saatuslik tõrge, lahtipakkimisest loobutakse."
+
+#: plugins/libarchive/libarchiveplugin.cpp:426
+#, kde-format
+msgid "The archive reader could not be initialized."
+msgstr "Arhiivilugeja initsialiseerimine nurjus."
+
+#: plugins/libarchive/libarchiveplugin.cpp:440
+#, kde-format
+msgctxt "@info"
+msgid "Archive corrupted or insufficient permissions."
+msgstr "Arhiiv on rikutud või puuduvad õigused."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:209
+#, kde-format
+msgctxt "@info"
+msgid "Failed to create a temporary file for writing data."
+msgstr "Ajutise faili loomine andmete kirjutamiseks nurjus."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:215
+#, kde-format
+msgid "The archive writer could not be initialized."
+msgstr "Arhiivikirjutaja initsialiseerimine nurjus."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:233
+#, kde-format
+msgctxt "@info"
+msgid "Could not open the archive for writing entries."
+msgstr "Arhiivi avamine kirjete kirjutamiseks nurjus."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:280
+#, kde-format
+msgid "The compression type '%1' is not supported by Ark."
+msgstr "Ark ei toeta pakkimistüüpi '%1'."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:289
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:343
+#, kde-format
+msgctxt "@info"
+msgid "Could not set the compression method."
+msgstr "Pakkimisviisi määramine nurjus."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:353
+#, kde-format
+msgctxt "@info"
+msgid "Could not set the compression level."
+msgstr "Pakkimistaseme määramine nurjus."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:472
+#, kde-format
+msgctxt "@info"
+msgid "Could not compress entry, operation aborted."
+msgstr "Kirje pakkimine nurjus, toimingust loobutakse."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:513
+#, kde-format
+msgctxt "@info Error in a message box"
+msgid "Could not compress entry."
+msgstr "Kirje pakkimine nurjus."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:49
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark could not extract <filename>%1</filename>."
+msgstr "Ark ei suutnud <filename>%1</filename> lahti pakkida."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:57
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark could not open <filename>%1</filename> for extraction."
+msgstr "Ark ei suutnud avada <filename>%1</filename> lahtipakkimiseks."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:71
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while reading <filename>%1</filename> during extraction."
+msgstr "<filename>%1</filename> lugemisel tekkis lahtipakkimise ajal viga."
+
+#: plugins/libzipplugin/libzipplugin.cpp:76
+#: plugins/libzipplugin/libzipplugin.cpp:118
+#: plugins/libzipplugin/libzipplugin.cpp:415
+#: plugins/libzipplugin/libzipplugin.cpp:464
+#: plugins/libzipplugin/libzipplugin.cpp:555
+#: plugins/libzipplugin/libzipplugin.cpp:826
+#: plugins/libzipplugin/libzipplugin.cpp:881
+#, kde-kuit-format
+msgid "Failed to open archive: %1"
+msgstr "Arhiivi avamine nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:176
+#: plugins/libzipplugin/libzipplugin.cpp:448
+#: plugins/libzipplugin/libzipplugin.cpp:480
+#: plugins/libzipplugin/libzipplugin.cpp:861
+#: plugins/libzipplugin/libzipplugin.cpp:951
+#, kde-kuit-format
+msgid "Failed to write archive."
+msgstr "Arhiivi kirjutamine nurjus."
+
+#: plugins/libzipplugin/libzipplugin.cpp:225
+#: plugins/libzipplugin/libzipplugin.cpp:918
+#, kde-kuit-format
+msgid "Failed to add entry: %1"
+msgstr "Kirje lisamine nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:280
+#, kde-kuit-format
+msgid "Failed to set compression options for entry: %1"
+msgstr "Tihendamisvalikute määramine kirjele nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:385
+#: plugins/libzipplugin/libzipplugin.cpp:776
+#: plugins/libzipplugin/libzipplugin.cpp:927
+#, kde-kuit-format
+msgid "Failed to read metadata for entry: %1"
+msgstr "Kirje metaandmete lugemine nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:429
+#: plugins/libzipplugin/libzipplugin.cpp:434
+#, kde-kuit-format
+msgid "Failed to delete entry: %1"
+msgstr "Kirje kustutamine nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:659
+#, kde-kuit-format
+msgid "Failed to create directory: %1"
+msgstr "Kataloogi loomine nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:732
+#, kde-kuit-format
+msgid "Failed to open '%1':<nl/>%2"
+msgstr "'%1' avamine nurjus:<nl/>%2"
+
+#: plugins/libzipplugin/libzipplugin.cpp:740
+#, kde-kuit-format
+msgid "Failed to open file for writing: %1"
+msgstr "Faili avamine kirjutamiseks nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:753
+#, kde-kuit-format
+msgid "Failed to read data for entry: %1"
+msgstr "Kirje andmete lugemine nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:758
+#, kde-kuit-format
+msgid "Failed to write data for entry: %1"
+msgstr "Kirje andmete kirjutamine nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:768
+#, kde-kuit-format
+msgid "Failed to locate entry: %1"
+msgstr "Kirje tuvastamine nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:840
+#: plugins/libzipplugin/libzipplugin.cpp:846
+#, kde-kuit-format
+msgid "Failed to move entry: %1"
+msgstr "Kirje liigutamine nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:904
+#, kde-kuit-format
+msgid "Failed to copy entry: %1"
+msgstr "Kirje kopeerimine nurjus: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:934
+#, kde-kuit-format
+msgid "Failed to set metadata for entry: %1"
+msgstr "Kirje metaandmete määramine nurjus: %1"
+
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open"
+#~ msgstr "&Ava"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to open the selected file with the associated application"
+#~ msgstr "Klõpsa valitud faili avamiseks seostatud rakenduses"
+
+#~ msgctxt "Uncompressed size of a file inside an archive"
+#~ msgid "Size"
+#~ msgstr "Suurus"
+
+#~ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#~ msgid "Here (as TAR.GZ)"
+#~ msgstr "Siia (TAR.GZ-arhiivina)"
+
+#~ msgid ""
+#~ "This archive contains archive entries with absolute paths, which are not "
+#~ "supported by Ark."
+#~ msgstr ""
+#~ "See arhiiv sisaldab absoluutse asukohaga arhiivikirjeid, mida Ark veel ei "
+#~ "toeta."
+
+#~ msgctxt "action, to open an archive"
+#~ msgid "Open"
+#~ msgstr "Ava"
+
+#~ msgid "Open an archive"
+#~ msgstr "Avab arhiivi"
+
+#~ msgid "ArkPart"
+#~ msgstr "ArkPart"
+
+#~ msgctxt "@title:window"
+#~ msgid "Save Archive As"
+#~ msgstr "Arhiivi salvestamine"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "An archive named <filename>%1</filename> already exists. Are you sure you "
+#~ "want to overwrite it?"
+#~ msgstr ""
+#~ "Arhiiv nimega <filename>%1</filename> on juba olemas. Kas tõesti "
+#~ "kirjutada see üle?"
+
+#~ msgctxt "@title:tab"
+#~ msgid "General Settings"
+#~ msgstr "Üldised seadistused"
+
+#~ msgctxt "@title:tab"
+#~ msgid "Extraction Settings"
+#~ msgstr "Lahtipakkimise seadistused"
+
+#~ msgctxt "@title:tab"
+#~ msgid "Preview Settings"
+#~ msgstr "Eelvaatluse seadistused"
+
+#~ msgctxt "CRC hash code"
+#~ msgid "CRC"
+#~ msgstr " CRC"
+
+#~ msgid "There was an error during extraction."
+#~ msgstr "Lahtipakkimisel tekkis viga."
+
+#~ msgid "&Rename"
+#~ msgstr "&Muuda nime..."
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to rename the selected file"
+#~ msgstr "Klõpsa valitud faili nime muutmiseks"
+
+#~ msgid "De&lete"
+#~ msgstr "&Kustuta"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to delete the selected files"
+#~ msgstr "Klõpsa valitud failide kustutamiseks"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "C&ut"
+#~ msgstr "Lõ&ika"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to cut the selected files"
+#~ msgstr "Klõpsa valitud failide lõikamiseks"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "C&opy"
+#~ msgstr "&Kopeeri"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to copy the selected files"
+#~ msgstr "Klõpsa valitud failide kopeerimiseks"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Pa&ste"
+#~ msgstr "&Aseta"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to paste the files here"
+#~ msgstr "Klõpsa failide asetamiseks siia"
+
+#, fuzzy
+#~| msgctxt "@title:window"
+#~| msgid "Add Files"
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Find Files"
+#~ msgstr "Failide lisamine"
+
+#, fuzzy
+#~| msgctxt "@info:tooltip"
+#~| msgid "Click to see properties for archive"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to search in archive"
+#~ msgstr "Klõpsa arhiivi omaduste vaatamiseks"
+
+#~ msgid "Adding a file"
+#~ msgid_plural "Adding %1 files"
+#~ msgstr[0] "Faili lisamine"
+#~ msgstr[1] "%1 faili lisamine"
+
+#~ msgid "<b>Type:</b> %1"
+#~ msgstr "<b>Tüüp:</b> %1"
+
+#~ msgid "<b>Owner:</b> %1"
+#~ msgstr "<b> Omanik:</b> %1"
+
+#~ msgid "<b>Group:</b> %1"
+#~ msgstr "<b>Grupp:</b> %1"
+
+#~ msgid "<b>Target:</b> %1"
+#~ msgstr "<b>Sihtmärk:</b> %1"
+
+#~ msgid "<b>Password protected:</b> Yes"
+#~ msgstr "<b>Parooliga kaitstud:</b> Jah"
+
+#~ msgid "Cancel"
+#~ msgstr "Loobu"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgctxt "@action:button"
+#~ msgid "Overwrite"
+#~ msgstr "Kirjuta üle"
+
+#~ msgid "Invalid filename"
+#~ msgstr "Vigane failinimi"
+
+#~ msgid "Pasting entries with the same name"
+#~ msgstr "Sama nimega kirjete asetamine"
+
+#~ msgctxt "@info"
+#~ msgid "Extraction failed at:<nl/><filename>%1</filename>"
+#~ msgstr "Lahtipakkimine nurjus:<nl/><filename>%1</filename>"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>.<nl/>Check whether you "
+#~ "have sufficient permissions."
+#~ msgstr ""
+#~ "Arhiivi <filename>%1</filename> avamine nurjus.<nl/>Kontrolli, kas sul on "
+#~ "selleks piisavalt õigusi."
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Failed to create a temporary file to compress <filename>%1</filename>."
+#~ msgstr "Ajutise faili loomine <filename>%1</filename> pakkimiseks nurjus."
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Opening the archive for writing failed with the following error:<nl/"
+#~ "><message>%1</message>"
+#~ msgstr ""
+#~ "Arhiivi avamine kirjutamiseks nurjus järgmise tõrke tõttu:<nl/><message>"
+#~ "%1</message>"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Setting the compression method failed with the following error:<nl/"
+#~ "><message>%1</message>"
+#~ msgstr ""
+#~ "Tihendusviisi määramine nurjus järgmise tõrke tõttu:<nl/><message>%1</"
+#~ "message>"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Setting the compression level failed with the following error:<nl/"
+#~ "><message>%1</message>"
+#~ msgstr ""
+#~ "Tihenduse taseme määramine nurjus järgmise tõrke tõttu:<nl/><message>%1</"
+#~ "message>"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Compression failed while processing:<nl/><filename>%1</filename><nl/><nl/"
+#~ ">Operation aborted."
+#~ msgstr ""
+#~ "Pakkimine nurjus, kui töödeldi:<nl/><filename>%1</filename><nl/><nl/"
+#~ ">Toimingust loobuti."
+
+#~ msgctxt "@info Error in a message box"
+#~ msgid "Ark could not compress <filename>%1</filename>:<nl/>%2"
+#~ msgstr "Ark ei suutnud tihendada faili <filename>%1</filename>:<nl/>%2"
+
+#~ msgid "yes (excluding the list of files)"
+#~ msgstr "jah (välja arvatud failide loend)"
+
+#~ msgid "yes (including the list of files)"
+#~ msgstr "jah (kaasa arvatud failide loend)"
+
+#~ msgid "Failed to create the new archive. No suitable plugin found."
+#~ msgstr "Uue arhiivi loomine nurjus. Sobivat pluginat ei leitud."
+
+#~ msgid "Failed to create the new archive. Could not load a suitable plugin."
+#~ msgstr "Uue arhiivi loomine nurjus. Sobiva plugina laadimine nurjus."
+
+#~ msgid "It is not possible to create archives of this type."
+#~ msgstr "Seda tüüpi arhiivi loomine ei ole võimalik."
+
+#~ msgctxt "File comment"
+#~ msgid "Comment"
+#~ msgstr "Kommentaar"
+
+#~ msgctxt "@info"
+#~ msgid "Could not read until the end of the archive"
+#~ msgstr "Lugemine arhiivi lõpuni nurjus."
+
+#~ msgid "The source file could not be read."
+#~ msgstr "Lähtefaili lugemine nurjus."
+
+#~ msgid "Add Fo&lder..."
+#~ msgstr "Lisa kata&loog..."
+
+#, fuzzy
+#~| msgid "Click to add a folder to the archive"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to add a folder to the archive"
+#~ msgstr "Klõpsa kataloogi lisamiseks arhiivi"
+
+#~ msgctxt "@title:window"
+#~ msgid "Add Folder"
+#~ msgstr "Kataloogi lisamine"
+
+#~ msgid "Metadata Label"
+#~ msgstr "Metaandmete silt"
+
+#~ msgid "ActionsLabel"
+#~ msgstr "Toimingusilt"
+
+#, fuzzy
+#~| msgid "Comment"
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Edit Comment"
+#~ msgstr "Kommentaar"
+
+#, fuzzy
+#~| msgid "The password was incorrect. "
+#~ msgid "The password cannot be empty."
+#~ msgstr "Parool polnud korrektne. "
+
+#~ msgid "Please select a filename for the archive."
+#~ msgstr "Palun vali arhiivile failinimi."
+
+#~ msgid "No file selected"
+#~ msgstr "Faili pole valitud"
+
+#~ msgid "Protect the archive with a password"
+#~ msgstr "Arhiivi kaitsmine parooliga"
+
+#~ msgid "Open File"
+#~ msgstr "Ava fail"
+
+#, fuzzy
+#~| msgid ""
+#~| "Click to open an extraction dialog, where you can choose to extract "
+#~| "either all files or just the selected ones"
+#~ msgid ""
+#~ "Click to open an extraction dialog, where you can choose how to extract "
+#~ "the selected files"
+#~ msgstr ""
+#~ "Klõpsa lahtipakkimisdialoogi avamiseks, kus saab valida kas kõigi või "
+#~ "ainult valitud failide lahtipakkimise"
+
+#, fuzzy
+#~| msgid "E&xtract"
+#~ msgctxt "@action:intoolbar"
+#~ msgid "E&xtract"
+#~ msgstr "&Paki lahti"
+
+#~ msgctxt "@title:window"
+#~ msgid "Error Opening Archive"
+#~ msgstr "Viga arhiivi avamisel"
+
+#~ msgid "All supported archives ("
+#~ msgstr "Kõik sobivad arhiivid ("
+
+#, fuzzy
+#~| msgctxt "to open an archive"
+#~| msgid "Open Archive"
+#~ msgid "lblArchiveNamed"
+#~ msgstr "Arhiivi avamine"
+
+#, fuzzy
+#~| msgctxt "@title:window"
+#~| msgid "Invalid Archive Type"
+#~ msgid "lblArchiveType"
+#~ msgstr "Vigane arhiivi tüüp"
+
+#, fuzzy
+#~| msgid "<b>Password protected:</b> Yes<br/>"
+#~ msgid "lblPasswordProtected"
+#~ msgstr "<b>Parooliga kaitstud:</b> Jah<br/>"
+
+#, fuzzy
+#~| msgid "Comment"
+#~ msgid "lblHasComment"
+#~ msgstr "Kommentaar"
+
+#, fuzzy
+#~| msgid "Compressing..."
+#~ msgid "lblCompressionRatio"
+#~ msgstr "Pakkimine..."
+
+#, fuzzy
+#~| msgid "File modified"
+#~ msgid "lblModified"
+#~ msgstr "Faili on muudetud"
+
+#, fuzzy
+#~| msgid "Icons"
+#~ msgid "lblIcon"
+#~ msgstr "Ikoonid"
+
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for reading"
+#~ msgstr "Arhiivi <filename>%1</filename> avamine lugemiseks nurjus"
+
+#~ msgctxt "@info"
+#~ msgid "File <filename>%1</filename> not found in the archive"
+#~ msgstr "Faili <filename>%1</filename> arhiivist ei leitud"
+
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for writing."
+#~ msgstr "Arhiivi <filename>%1</filename> avamine kirjutamiseks nurjus."
+
+#~ msgctxt "@info"
+#~ msgid "Could not add the directory <filename>%1</filename> to the archive"
+#~ msgstr "Kataloogi <filename>%1</filename> lisamine arhiivi nurjus"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename> after adding file."
+#~ msgstr ""
+#~ "Arhiivi <filename>%1</filename> avamine faili lisamise järel nurjus."
+
+#~ msgctxt "@info"
+#~ msgid "Could not add the file <filename>%1</filename> to the archive."
+#~ msgstr "Faili <filename>%1</filename> lisamine arhiivi nurjus."
+
+#~ msgid "Developer"
+#~ msgstr "Arendaja"
+
+#~ msgid "Developer, KF5 port"
+#~ msgstr "Arendaja, KF5 port"
+
+#~ msgid ""
+#~ "Click to open an archive, click and hold to open a recently-opened archive"
+#~ msgstr ""
+#~ "Klõpsa arhiivi avamiseks, klõpsa ja hoia nuppu all viimati avatud arhiivi "
+#~ "avamiseks"
+
+#~ msgid "Confirm password:"
+#~ msgstr "Parool teist korda:"
+
+#~ msgid "Password:"
+#~ msgstr "Parool:"
+
+#~ msgid "&Action"
+#~ msgstr "&Toimingud"
+
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open File"
+#~ msgstr "&Ava fail"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>, libarchive cannot "
+#~ "handle it."
+#~ msgstr ""
+#~ "Arhiivi <filename>%1</filename> avamine nurjus, libarchive ei suuda seda "
+#~ "käidelda."
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "The archive reading failed with the following error: <message>%1</message>"
+#~ msgstr "Arhiivi lugemine nurjus järgmise vea tõttu: <message>%1</message>"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid ""
+#~| "Ark cannot create archives of the type you have chosen.<nl/><nl/>Please "
+#~| "choose another archive type below."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Ark cannot create archives of the type you have chosen.<br />Please "
+#~ "choose another archive type below."
+#~ msgstr ""
+#~ "Ark ei suuda luua valitud tüüpi arhiive.<nl/><nl/>Palun vali allpool mõni "
+#~ "muu arhiivitüüp."
+
+#~ msgctxt "@title:window"
+#~ msgid "Unable to Determine Archive Type"
+#~ msgstr "Arhiivitüübi tuvastamine nurjus"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid ""
+#~| "Ark was unable to determine the archive type of the filename.<nl/><nl/"
+#~| ">Please choose the correct archive type below."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Ark was unable to determine the archive type of the filename.<br />Please "
+#~ "choose the correct archive type below."
+#~ msgstr ""
+#~ "Ark ei suutnud failinime põhjal tuvastada arhiivitüüpi.<nl/><nl/>Palun "
+#~ "vali allpool õige tüüp."
+
+#~ msgid ""
+#~ "Easter egg for the developers:\n"
+#~ "This is where future versions will have extra compression options for the "
+#~ "various compression interfaces."
+#~ msgstr ""
+#~ "Lihavõttemuna arendajatele:\n"
+#~ "Siia tulevad tulevastes versioonides pakkimise lisavalikud erinevat tüüpi "
+#~ "pakkimisliidestele."
+
+#~ msgid "URL of an archive to be opened"
+#~ msgstr "Avatava arhiivi URL"
+
+#~ msgid "Options for adding files"
+#~ msgstr "Failide lisamise valikud"
+
+#~ msgid "Options for batch extraction:"
+#~ msgstr "Hulgilahtipakkimise valikud:"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Found program <filename>%1</filename>, but failed to initialize the "
+#~ "process."
+#~ msgstr ""
+#~ "Leiti programm <filename>%1</filename>, aga protsessi ei õnnestunud "
+#~ "initsialiseerida."
+
+#~ msgid "One item"
+#~ msgid_plural "%1 items"
+#~ msgstr[0] "Üks element"
+#~ msgstr[1] "%1 elementi"
+
+#~ msgid "Delete files"
+#~ msgstr "Kustuta failid"
+
+#~ msgid "Unable to open the file '%1', libarchive cannot handle it."
+#~ msgstr "Faili '%1' avamine nurjus, libarchive ei suuda seda käidelda."
+
+#~ msgid "Recent folders"
+#~ msgstr "Viimati kasutatud kataloogid"
+
+#~ msgid "Operation finished."
+#~ msgstr "Operatsioon lõpetatud."
+
+#~ msgid "Setting format failed with the error '%1'"
+#~ msgstr "Vormingu määramine nurjus veaga '%1'"
+
+#~ msgid "Could not extract '%1'"
+#~ msgstr "'%1' lahtipakkimine nurjus"
+
+#~ msgid "KSqueezedTextLabel"
+#~ msgstr "KSqueezedTextLabel"
+
+#~ msgid "<font size=\"+2\"><b>Filename</b></font>"
+#~ msgstr "<font size=\"+2\"><b>Failinimi</b></font>"
+
+#~ msgid "Missing Folder"
+#~ msgstr "Puuduv kataloog"
+
+#~ msgid "Create Folder"
+#~ msgstr "Loo kataloog"
+
+#~ msgid "Do Not Create"
+#~ msgstr "Ära loo"
+
+#~ msgid "The folder could not be created. Please check permissions."
+#~ msgstr "Kataloogi ei suudetud luua. Kontrolli kirjutamisõigusi."
+
+#~ msgid "An error occurred while performing the operation."
+#~ msgstr "Toimingu käigus tekkis viga."
+
+#~ msgid "The folder '%1' could not be created. Please check permissions."
+#~ msgstr "Kataloogi '%1' ei suudetud luua. Palun kontrolli õigusi."
+
+#~ msgid "Create a subfolder under the destination directory and extract here."
+#~ msgstr "Sihtkataloogis luuakse alamkataloog ja pakitakse sinna lahti."
+
+#~ msgid "Unable to find 7zr, 7za or 7z"
+#~ msgstr "7zr, 7za ega 7z ei leitud"
+
+#~ msgid "Unknown error when extracting files"
+#~ msgstr "Tundmatu viga failide lahtipakkimisel"
+
+#~ msgid "An error occurred while trying to read entry #%1 of the archive"
+#~ msgstr "Arhiivi kirje nr %1 lugemisel tekkis viga"
+
+#~ msgid "Could not create path"
+#~ msgstr "Asukoha loomine nurjus"
+
+#~ msgid "Could not locate file '%1' in the archive"
+#~ msgstr "Faili '%1' tuvastamine arhiivis nurjus"
+
+#~ msgid "Could not locate file #%1 in the archive"
+#~ msgstr "Faili nr. %1 tuvastamine arhiivis nurjus"
+
+#~ msgid "Could not read from the input file '%1'"
+#~ msgstr "Sisendfaili '%1' lugemine nurjus"
+
+#~ msgid "Could not find a file named %1 in the archive."
+#~ msgstr "Arhiivis ei leitud faili %1."
+
+#~ msgid "Neither rar or unrar are available in your PATH."
+#~ msgstr "Ei rar ega unrar asu sinu otsinguteel (PATH)."
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Bitstream Vera Sans'; font-"
+#~ "size:10pt; font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Note: the archive has "
+#~ "been detected as a <span style=\" font-weight:600;\">single-folder "
+#~ "archive</span>, so this option has been automatically unchecked...</p></"
+#~ "body></html>"
+#~ msgstr ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Bitstream Vera Sans'; font-"
+#~ "size:10pt; font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Märkus: arhiiv leiti "
+#~ "olevat <span style=\" font-weight:600;\">ühe kataloogiga arhiiv</span>, "
+#~ "mistõttu see valik lülitati automaatselt välja...</p></body></html>"
+
+#~ msgid "Unexpected output from the unace process."
+#~ msgstr "Protsessi unace ootamatu väljund."
+
+#~ msgid ""
+#~ "Unable to launch <tt>unace</tt>. Make sure you have that tool installed "
+#~ "and available."
+#~ msgstr ""
+#~ "<tt>unace</tt> käivitamine nurjus. Kontrolli, kas see on paigaldatud ja "
+#~ "kättesaadav."
+
+#~ msgid "Only extracting full archive is currently supported."
+#~ msgstr "Praegu on toetatud ainult kogu arhiivi lahtipakkimine."
+
+#~ msgid "Only extracting while preserving paths is currently supported."
+#~ msgstr "Praegu on toetatud ainult lahtipakkimine asukohtade säilitamisega."
+
+#~ msgid ""
+#~ "Extracting with root node other than default is not currently supported."
+#~ msgstr ""
+#~ "Muude kui vaikimisi juursõlmede lahtipakkimine ei ole praegu toetatud."
+
+#~ msgid "<tt>unace</tt> crashed unexpectedly."
+#~ msgstr "<tt>unace</tt>'i tabas ootamatu krahh."
+
+#~ msgid "<tt>unace</tt> has encountered error when extracting:<pre>%1</pre>"
+#~ msgstr "<tt>unace</tt>'il tekkis lahtipakkimisel viga:<pre>%1</pre>"
+
+#~ msgid ""
+#~ "Ark was unable to automatically determine the archive type of the "
+#~ "filename. Please use a standard file extension (such as zip, rar or tar."
+#~ "gz), or manually choose one from the following mimetypes."
+#~ msgstr ""
+#~ "Ark ei suutnud failinime põhjal automaatselt tuvastada arhiivitüüpi. "
+#~ "Palun kasuta standardset faililaiendit (nt. zip, rar või tar.gz) või vali "
+#~ "käsitsi järgnevate MIME tüüpide seast õige tüüp."
+
+#~ msgctxt "Timestamp"
+#~ msgid "Time"
+#~ msgstr "Aeg"
+
+#~ msgid "Couldn't open the file '%1', libarchive can't handle it."
+#~ msgstr "Faili '%1' avamine nurjus, libarchive ei suuda seda käidelda."
+
+#~ msgid "Password input cancelled by user."
+#~ msgstr "Kasutaja katkestas parooli sisestamise."
+
+#~ msgid "Setting format %2 failed with the error '%1'"
+#~ msgstr "Vormingu %2 määramine nurjus veaga '%1'"
+
+#~ msgid "Adding directories is not supported yet, sorry."
+#~ msgstr "Kataloogide lisamine pole veel toetatud."
+
+#~ msgid ""
+#~ "This archive contains one or more password protected files. Please enter "
+#~ "the password to extract these."
+#~ msgstr ""
+#~ "Arhiiv sisaldab vähemalt üht parooliga kaitstud faili. Palun anna parool "
+#~ "nende lahtipakkimiseks."
+
+#~ msgid "Listing entries"
+#~ msgstr "Kirjete tuvastamine"
+
+#~ msgid "Show the extract dialog after opening archive"
+#~ msgstr "Lahtipakkimisdialoogi näitamine pärast arhiivi avamist"
+
+#, fuzzy
+#~| msgid "Extracting file to view"
+#~ msgid "Extracting all files from the archive '%1'"
+#~ msgstr "Faili lahtipakkimine vaatamiseks"
+
+#, fuzzy
+#~| msgid "Extracting file to view"
+#~ msgid "Extracting one file from the archive %2"
+#~ msgid_plural "Extracting %1 files from the archive '%2'"
+#~ msgstr[0] "Faili lahtipakkimine vaatamiseks"
+#~ msgstr[1] "Faili lahtipakkimine vaatamiseks"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Adding one file to the archive"
+#~ msgid_plural "Adding %1 files to the archive"
+#~ msgstr[0] "Failide lisamisel arhiivi tekkis viga."
+#~ msgstr[1] "Failide lisamisel arhiivi tekkis viga."
+
+#~ msgid "Could not start a subprocess."
+#~ msgstr "Alamprotsessi pole võimalik käivitada."
+
+#~ msgid "The deletion operation failed."
+#~ msgstr "Kustutamine ebaõnnestus."
+
+#~ msgid "You must enter a password to extract the file:"
+#~ msgstr "Faili lahti pakkimiseks pead sisestama parooli:"
+
+#~ msgid "The extraction operation failed."
+#~ msgstr "Lahtipakkimine ebaõnnestus."
+
+#~ msgid "The addition operation failed."
+#~ msgstr "Lisamine ebaõnnestus."
+
+#~ msgid "Choose Archive Format"
+#~ msgstr "Arhiivi vormingu valimine"
+
+#~ msgid ""
+#~ "This file appears to be of type %1,\n"
+#~ "which is not a supported archive format.\n"
+#~ "In order to proceed, please choose the format\n"
+#~ "of the file."
+#~ msgstr ""
+#~ "Failitüüp paistab olevat %1,\n"
+#~ "mis ei ole toetatud arhiivivorming.\n"
+#~ "Jätkamiseks vali palun faili vorming."
+
+#~ msgid ""
+#~ "You are about to open a file that has a non-standard extension.\n"
+#~ "Ark has detected the format: %1\n"
+#~ "If this is not correct, please choose the appropriate format."
+#~ msgstr ""
+#~ "Soovid avada mittestandardse laiendiga faili.\n"
+#~ "Ark tuvastas vormingu: %1\n"
+#~ "Kui see ei ole õige, vali palun sobiv vorming."
+
+#~ msgid "ark"
+#~ msgstr "ark"
+
+#~ msgid "Edit &With..."
+#~ msgstr "&Redigeeri kasutades..."
+
+#~ msgid "&Unselect All"
+#~ msgstr "&Tühista kõik valikud"
+
+#~ msgid "&Invert Selection"
+#~ msgstr "&Inverteeri valik"
+
+#~ msgid "Configure &Ark..."
+#~ msgstr "Arki &seadistamine..."
+
+#~ msgid "Show Search Bar"
+#~ msgstr "Otsinguriba näitamine"
+
+#~ msgid "Hide Search Bar"
+#~ msgstr "Otsinguriba peitmine"
+
+#~ msgid ""
+#~ "The archive \"%1\" has been modified.\n"
+#~ "Do you want to save it?"
+#~ msgstr ""
+#~ "Arhiivi \"%1\" on muudetud.\n"
+#~ "Kas salvestada see?"
+
+#~ msgid "Downloading %1..."
+#~ msgstr "%1 allalaadimine..."
+
+#~ msgid "Total: 0 files"
+#~ msgstr "Kokku: 0 faili"
+
+#~ msgid "Wrong number of arguments specified"
+#~ msgstr "Määratud on vigane arv argumente"
+
+#~ msgid "You need to specify at least one file to be added to the archive."
+#~ msgstr "Arhiivi tuleb lisada vähemalt üks fail."
+
+#~ msgid "You have run out of disk space."
+#~ msgstr "Sinu kettaruum on otsas. Vaat nii."
+
+#, fuzzy
+#~| msgid ""
+#~| "The file you're trying to view may be an executable. Running untrusted "
+#~| "executables may compromise your system's security.\n"
+#~| "Are you sure you want to run that file?"
+#~ msgid ""
+#~ "The file you are trying to view may be an executable. Running untrusted "
+#~ "executables may compromise your system's security.\n"
+#~ "Are you sure you want to run that file?"
+#~ msgstr ""
+#~ "Fail, mida sa üritad vaadata, on käivitatav. Mitteusaldusväärsetest "
+#~ "allikatest pärit failide käivitamine võib olla ohtlik su süsteemi "
+#~ "turvalisusele.\n"
+#~ "Oled sa kindel, et soovid faili käivitada?"
+
+#~ msgid "Run Nevertheless"
+#~ msgstr "Käivita igal juhul"
+
+#~ msgid "&Search:"
+#~ msgstr "Ot&sitakse:"
+
+#~ msgid ""
+#~ "Please save your archive in the same format as the original.\n"
+#~ "Hint: Use one of the suggested extensions."
+#~ msgstr ""
+#~ "Palun salvesta arhiiv samasse vormingusse nagu esialgne fail.\n"
+#~ "Vihje: kasuta sama laiendit."
+
+#~ msgid ""
+#~ "The following files will not be extracted\n"
+#~ "because they already exist:"
+#~ msgstr ""
+#~ "Järgmisi faile ei saa lahti pakkida,\n"
+#~ "sest nad on juba olemas:"
+
+#~ msgid "You do not have permission to access that archive."
+#~ msgstr "Puuduvad piisavad õigused sellele arhiivile juurdepääsuks."
+
+#~ msgid "Do Not Overwrite"
+#~ msgstr "Ära kirjuta üle"
+
+#~ msgid "You do not have permission to write to the directory %1"
+#~ msgstr "Sul ei ole õigusi kataloogi %1 kirjutamiseks."
+
+#~ msgid ""
+#~ "You are currently working with a simple compressed file.\n"
+#~ "Would you like to make it into an archive so that it can contain multiple "
+#~ "files?\n"
+#~ "If so, you must choose a name for your new archive."
+#~ msgstr ""
+#~ "Praegu töötad sa lihtsa pakitud failiga.\n"
+#~ "Soovid sa muuta selle arhiiviks, et see saaks sisaldada mitut faili?\n"
+#~ "Kui jah, siis pead sa valima uue arhiivi jaoks nime."
+
+#~ msgid "Make Into Archive"
+#~ msgstr "Muuda arhiiviks"
+
+#~ msgid "Do Not Make"
+#~ msgstr "Ära muuda"
+
+#~ msgid "Select Files to Add"
+#~ msgstr "Lisatavate failide valik"
+
+#~ msgid "Select Folder to Add"
+#~ msgstr "Lisatava kataloogi valik"
+
+#~ msgid "Adding folder..."
+#~ msgstr "Kataloogi lisamine..."
+
+#~ msgid "Removing..."
+#~ msgstr "Eemaldamine..."
+
+#~ msgid "The archive to extract from no longer exists."
+#~ msgstr "Lahtipakitavat arhiivi enam ei eksisteeri."
+
+#~ msgid "Edit with:"
+#~ msgstr "Redigeeritakse kasutades:"
+
+#~ msgid "Trouble editing the file..."
+#~ msgstr "Probleem faili redigeerimisel..."
+
+#~ msgid "Readding edited file..."
+#~ msgstr "Redigeeritud faili taaslisamine..."
+
+#~ msgid ""
+#~ "The internal viewer is not able to display this file. Would you like to "
+#~ "view it using an external program?"
+#~ msgstr ""
+#~ "Sisemine näitaja ei suuda seda faili kuvada. Kas soovid kasutada välist "
+#~ "programmi?"
+
+#~ msgid "View Externally"
+#~ msgstr "Näita välises rakenduses"
+
+#~ msgid "Do Not View"
+#~ msgstr "Ära näita"
+
+#, fuzzy
+#~ msgctxt "%2 is the total size of selected files"
+#~ msgid "1 files selected  %2"
+#~ msgid_plural "%1 files selected  %2"
+#~ msgstr[0] "%1 valitud faili  %2"
+#~ msgstr[1] "%1 valitud faili  %2"
+
+#~ msgid ""
+#~ "Do you wish to add this to the current archive or open it as a new "
+#~ "archive?"
+#~ msgstr ""
+#~ "Soovid sa lisada selle käesolevasse arhiivi või avada uue arhiivina?"
+
+#~ msgid ""
+#~ "There is no archive currently open. Do you wish to create one now for "
+#~ "these files?"
+#~ msgstr ""
+#~ "Momendil pole avatud ühtegi arhiivi. Kas soovid nüüd luua ühe nende "
+#~ "failide jaoks?"
+
+#~ msgid ""
+#~ "There is no archive currently open. Do you wish to create one now for "
+#~ "this file?"
+#~ msgstr ""
+#~ "Momendil pole avatud ühtegi arhiivi. Kas soovid nüüd luua ühe selle faili "
+#~ "jaoks?"
+
+#~ msgid "Create Archive"
+#~ msgstr "Loo arhiiv"
+
+#~ msgid "Unknown archive format or corrupted archive"
+#~ msgstr "Tundmatu arhiivi vorming või vigane arhiiv"
+
+#~ msgid ""
+#~ "The utility %1 is not in your PATH.\n"
+#~ "Please install it or contact your system administrator."
+#~ msgstr ""
+#~ "Utiliiti %1 pole sinu otsinguteel (PATH).\n"
+#~ "Palun paigalda see või võta ühendust süsteemiadministraatoriga."
+
+#~ msgid ""
+#~ "This archive is read-only. If you want to save it under a new name, go to "
+#~ "the File menu and select Save As."
+#~ msgstr ""
+#~ "Arhiivi on võimalik ainult lugeda. Kui sa soovid seda salvestada\n"
+#~ "uue nimega, siis vali menüüst Fail -> Salvesta kui."
+
+#~ msgid "An error occurred while trying to open the archive %1"
+#~ msgstr "Arhiivi %1 avamisel tekkis viga."
+
+#~ msgid ""
+#~ "You are creating a simple compressed archive which contains only one "
+#~ "input file.\n"
+#~ "When uncompressed, the file name will be based on the name of the archive "
+#~ "file.\n"
+#~ "If you add more files you will be prompted to convert it to a real "
+#~ "archive."
+#~ msgstr ""
+#~ "Oled loomas lihtsat arhiivi, mis sisaldab ainult ühte sisendfaili.\n"
+#~ "Lahtipakkimisel saadava faili nimi baseerub arhiivifaili nimel.\n"
+#~ "Kui lisad rohkem faile, küsitakse arhiivifaili muutmist reaalseks "
+#~ "arhiiviks."
+
+#~ msgid "Trouble writing to the archive..."
+#~ msgstr "Probleem arhiivi kirjutamisel..."
+
+#~ msgid "Extract Files From %1"
+#~ msgstr "Lahtipakkimine asukohast %1"
+
+#~ msgid "Extract:"
+#~ msgstr "Lahtipakkimine:"
+
+#~ msgid ""
+#~ "You do not have write permission to this folder. Please provide another "
+#~ "folder."
+#~ msgstr ""
+#~ "Sul ei ole õigusi sellesse kataloogi kirjutada. Määra mingi muu kataloog."
+
+#~ msgctxt "Packed Ratio"
+#~ msgid "%1 %"
+#~ msgstr "%1 %"
+
+#, fuzzy
+#~ msgid "(c) 1997-2005, The Various Ark Developers"
+#~ msgstr "(C) 1997-2003: erinevad Ark arendajad"
+
+#~ msgid ""
+#~ "Extract 'archive' to 'folder'. Quit when finished.\n"
+#~ "'folder' will be created if it does not exist."
+#~ msgstr ""
+#~ "'Arhiiv' pakitakse lahti 'kataloogi'. Lõpetamisel\n"
+#~ "väljutakse. 'Kataloog' luuakse, kui seda ei ole olemas."
+
+#~ msgid ""
+#~ "Add 'files' to 'archive'. Quit when finished.\n"
+#~ "'archive' will be created if it does not exist."
+#~ msgstr ""
+#~ "Lisab 'failid' 'arhiivi'. Lõpetamisel\n"
+#~ "väljutakse. 'Arhiiv' luuakse, kui seda ei ole olemas."
+
+#~ msgid ""
+#~ "Used with '--extract-to'. When specified, 'archive'\n"
+#~ "will be extracted to a subfolder of 'folder'\n"
+#~ "whose name will be the name of 'archive' without the filename extension."
+#~ msgstr ""
+#~ "Kasutamiseks võtmega '--extract-to'. Määramise\n"
+#~ "korral pakitakse 'arhiiv' lahti 'kataloog' alamkataloogi,\n"
+#~ "mille nimeks saab 'arhiivi' nimi ilma faililaiendita."
+
+#~ msgid "New &Window"
+#~ msgstr "Uus &aken"
+
+#~ msgid "Re&load"
+#~ msgstr "&Laadi uuesti"
+
+#~ msgid ""
+#~ "The archive %1 is already open and has been raised.\n"
+#~ "Note: if the filename does not match, it only means that one of the two "
+#~ "is a symbolic link."
+#~ msgstr ""
+#~ "Arhiiv %1 on juba avatud ja üles ehitatud.\n"
+#~ "Märkus: kui failinimi ei lange kokku, siis tähendab see ainult seda, et "
+#~ "üks kahest on nimeviit."
+
+#~ msgid "Open &as:"
+#~ msgstr "&Avatakse kui:"
+
+#~ msgid "Autodetect (default)"
+#~ msgstr "Automaatne tuvastus (vaikimisi)"
+
+#~ msgid "Select Archive to Add Files To"
+#~ msgstr "Arhiivi valimine, kuhu faile lisada"
+
+#~ msgid "Please Wait"
+#~ msgstr "Palun oota"
+
+#~ msgid "Replace old files only &with newer files"
+#~ msgstr "Vanad &failid asendatakse ainult uuematega"
+
+#~ msgid "Force &MS-DOS short filenames (Zip)"
+#~ msgstr "Kasutatakse ainult &MS-DOS lühikesi (8+3) failinimesid (Zip)"
+
+#~ msgid "Translate &LF to DOS CRLF (Zip)"
+#~ msgstr "LF -> DOS &CRLF teisendamine (Zip)"
+
+#~ msgid "&Store symlinks as links (Zip, Rar)"
+#~ msgstr "Nimeviitade &säilitamine viitadena (Zip, Rar)"
+
+#~ msgid "&Recursively add subfolders (Zip, Rar)"
+#~ msgstr "R&ekursiivne alamkataloogide lisamine (Zip, Rar)"
+
+#~ msgid "Last folders used for extraction"
+#~ msgstr "Viimased lahtipakkimiseks kasutatud kataloogid"
+
+#~ msgid "Replace old files only with newer files"
+#~ msgstr "Vanad failid asendatakse ainult uuematega"
+
+#~ msgid ""
+#~ "If this option is enabled and you add filenames that already exist in an "
+#~ "archive, only replace the old files if the added files are newer than them"
+#~ msgstr ""
+#~ "Selle valimisel asendatakse juhul, kui lisad failid, millega "
+#~ "samanimelised on arhiivis juba olemas, vanad failid ainult siis, kui "
+#~ "lisatud failid on uuemad."
+
+#~ msgid "Overwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "Failide ülekirjutamine (Zip, Tar, Zoo, Rar)"
+
+#~ msgid ""
+#~ "Overwrite any files that have matching names on disk with the one from "
+#~ "the archive"
+#~ msgstr ""
+#~ "Üle kirjutatakse kõik failid kettal, mille nimi on sama arhiivis oleva "
+#~ "failiga."
+
+#~ msgid "Preserve permissions"
+#~ msgstr "Loabitid säilitatakse (Tar)"
+
+#~ msgid ""
+#~ "Save the user, group, and permission settings on files. Use with care, as "
+#~ "this may result in files being extracted that do not belong to any valid "
+#~ "user on your computer"
+#~ msgstr ""
+#~ "Salvestab failide kasutaja, grupi ja õigused. Kasuta seda ettevaatlikult, "
+#~ "sest nii võivad tulemuseks olla lahtipakitud failid, millel antud arvutil "
+#~ "ühtegi kehtivat kasutajat polegi."
+
+#~ msgid "Force MS-DOS short filenames (Zip)"
+#~ msgstr "Kasutatakse ainult MS-DOS lühikesi (8+3) failinimesid (Zip)"
+
+#~ msgid "Force names of files in Zip archives to the DOS 8.3 format"
+#~ msgstr "Sunnib Zip arhiivide failinimed järgima DOS 8+3 vormingut."
+
+#~ msgid "Translate LF to DOS CRLF"
+#~ msgstr "LF -> DOS CRLF teisendamine (Zip)"
+
+#~ msgid "Ignore folder names (Zip)"
+#~ msgstr "Kataloogide nimesid ignoreeritakse (Zip)"
+
+#~ msgid ""
+#~ "Extract all the files into the extraction folder, ignoring any folder "
+#~ "structure in the archive."
+#~ msgstr ""
+#~ "Kõik failid pakitakse lahti määratud kataloogi, eirates täielikult "
+#~ "arhiivi enda kataloogistruktuuri."
+
+#~ msgid "Store symlinks as links (Zip, Rar)"
+#~ msgstr "Nimeviitade säilitamine viitadena (Zip, Rar)"
+
+#~ msgid "Recursively add subfolders (Zip, Rar)"
+#~ msgstr "Rekursiivne alamkataloogide lisamine (Zip, Rar)"
+
+#~ msgid "Convert filenames to lowercase (Zip, Rar)"
+#~ msgstr "Kõik tähed failinimedes muudetakse väikesteks (Zip, Rar)"
+
+#~ msgid "Convert filenames to uppercase"
+#~ msgstr "Kõik tähed failinimedes muudetakse suurteks (Rar)"
+
+#~ msgid "Show search bar"
+#~ msgstr "Otsinguriba näitamine"
+
+#~ msgid "Enable Konqueror integration"
+#~ msgstr "Põimitakse Konqueroriga"
+
+#~ msgid ""
+#~ "Enables integration with Konqueror's context menus, letting you easily "
+#~ "archive or unarchive files. This option will only work if you have the "
+#~ "kdeaddons package installed."
+#~ msgstr ""
+#~ "Võimaldab põimimise Konquerori kontekstimenüüga, mis hõlbustab failide "
+#~ "pakkimist või lahtipakkimist. See toimib ainult juhul, kui paigaldatud on "
+#~ "vastavat pluginat sisaldav pakett kdeaddons."
+
+#~ msgid "Use integrated viewer"
+#~ msgstr "Kasutatakse põimitud näitajat"
+
+#~ msgid "Tar Command"
+#~ msgstr "Tar käsk"
+
+#~ msgid "Enable experimental support for loading ACE files"
+#~ msgstr "Eksperimentaalne ACE failide tugi"
+
+#~ msgid "O&verwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "&Failide ülekirjutamine (Zip, Tar, Zoo, Rar)"
+
+#~ msgid "&Preserve permissions (Tar)"
+#~ msgstr "Loa&bitid säilitatakse (Tar)"
+
+#~ msgid "&Ignore folder names (Zip)"
+#~ msgstr "Kataloogide nimesid &ignoreeritakse (Zip)"
+
+#~ msgid "Convert file names to &lowercase (Zip, Rar)"
+#~ msgstr "&Kõik tähed failinimedes muudetakse väikesteks (Zip, Rar)"
+
+#~ msgid "Convert file names to &uppercase (Rar)"
+#~ msgstr "Kõik tähed failinimedes muudetakse s&uurteks (Rar)"
+
+#~ msgid "&Use integrated viewer"
+#~ msgstr "Kas&utatakse põimitud näitajat"
+
+#~ msgid "&Enable Konqueror integration"
+#~ msgstr "&Põimitakse Konqueroriga"
+
+#, fuzzy
+#~ msgid ""
+#~ "<font size=\"-1\"><i>Konqueror integration is only available<br> if you "
+#~ "install the Konqueror integration<br> plugin from the kdeaddons package.</"
+#~ "i></font>"
+#~ msgstr ""
+#~ "<font size=\"-1\"><i>Palun arvesta, et see võimalus toimib korralikult "
+#~ "ainult siis, kui süsteemi on paigaldatud Konqueroriga põimimise plugin, "
+#~ "mille leiab paketist kdeaddons.</i></font>"
+
+#~ msgid "Unable to fork a decompressor"
+#~ msgstr "Dekompressorit pole võimalik kahveldada"
+
+#~ msgid "Trouble writing to the tempfile..."
+#~ msgstr "Probleem ajutise faili kirjutamisel..."
+
+#~ msgid " Permissions "
+#~ msgstr " Loabitid "
+
+#~ msgid " Owner/Group "
+#~ msgstr " Omanik/grupp "
+
+#~ msgid " Timestamp "
+#~ msgstr " Ajatempel "
+
+#~ msgid " Link "
+#~ msgstr " Viit "
+
+#~ msgid " Size Now "
+#~ msgstr " Suurus praegu "
+
+#~ msgid " Ratio "
+#~ msgstr " Suhe "
+
+#~ msgctxt "(used as part of a sentence)"
+#~ msgid "start-up folder"
+#~ msgstr "kataloog käivitamisel"
+
+#~ msgctxt "folder for extracting files (used as part of a sentence)"
+#~ msgid "extract folder"
+#~ msgstr "kataloog lahtipakkimiseks"
+
+#~ msgid "Settings"
+#~ msgstr "Seadistused"
+
+#~ msgid "&Adding"
+#~ msgstr "Lis&amine"
+
+#~ msgid "Add Settings"
+#~ msgstr "Lisamise seadistused"
+
+#~ msgid "Replace &old files only with newer files"
+#~ msgstr "Vanad &failid asendatakse ainult uuematega"
+
+#~ msgid "Keep entries &generic (Lha)"
+#~ msgstr "Kir&jed hoitakse üldistena (Lha)"
+
+#~ msgid "Translate LF to DOS &CRLF (Zip)"
+#~ msgstr "LF -> DOS &CRLF teisendamine (Zip)"
+
+#~ msgid "Convert filenames to &lowercase (Zip, Rar)"
+#~ msgstr "&Kõik tähed failinimedes muudetakse väikesteks (Zip, Rar)"
+
+#~ msgid "Convert filenames to &uppercase (Rar)"
+#~ msgstr "Kõik tähed failinimedes muudetakse s&uurteks (Rar)"
+
+#~ msgid "1 file selected  %2"
+#~ msgstr "1 valitud fail  %2"
+
+#~ msgid "Addition"
+#~ msgstr "Lisamine"
+
+#~ msgid "File Addition Settings"
+#~ msgstr "Lisamise seadistused"
+
+#~ msgid ""
+#~ "This area is for displaying information about the files contained within "
+#~ "an archive."
+#~ msgstr "See piirkond näitab infot arhiivis sisalduvate failide kohta."
+
+#~ msgid "(c) 1997-2006, The Various Ark Developers"
+#~ msgstr "(c) 1997-2006: erinevad Ark arendajad"
+
+#~ msgid "Reset Search"
+#~ msgstr "Lähtesta otsing"
+
+#~ msgid ""
+#~ "Reset Search\n"
+#~ "Resets the search bar, so that all archive entries are shown again."
+#~ msgstr ""
+#~ "Lähtesta otsing\n"
+#~ "Lähtestab otsinguriba, näidates taas kõiki arhiivikirjeid."

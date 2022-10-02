@@ -1,0 +1,828 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Spanish "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY Ragnar.Thomsen '<personname
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+></personname
+>'>
+  <!ENTITY Ragnar.Thomsen.mail '<email
+>rthomsen6@gmail.com</email
+>'>
+  <!ENTITY Henrique.Pinto '<personname
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+></personname
+>'>
+  <!ENTITY Henrique.Pinto.mail '<email
+>henrique.pinto@kdemail.net</email
+>'>
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>El manual de &ark;</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+<author
+>&Henrique.Pinto; &Henrique.Pinto.mail; </author>
+<author
+>&Ragnar.Thomsen; &Ragnar.Thomsen.mail; </author>
+
+<othercredit role="translator"
+><firstname
+>Eloy</firstname
+><surname
+>Cuadra</surname
+> <affiliation
+><address
+><email
+>ecuadra@eloihr.net</email
+></address
+></affiliation
+><contrib
+>Traductor actual</contrib
+></othercredit
+> <othercredit role="translator"
+><firstname
+>Mario</firstname
+><surname
+>Teijeiro Otero</surname
+><affiliation
+><address
+><email
+>emeteo@escomposlinux.org</email
+></address
+></affiliation
+><contrib
+>Traductor anterior</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>&Henrique.Pinto;</holder>
+</copyright>
+
+<copyright>
+<year
+>2015, 2016</year>
+<holder
+>&Ragnar.Thomsen;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2016-09-10</date>
+<releaseinfo
+>Aplicaciones 16.12</releaseinfo>
+
+<abstract>
+<para
+>&ark; es un administrador de archivos comprimidos creado por &kde;.</para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>archivar</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>compresión</keyword>
+<keyword
+>7z</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Introducción</title>
+<para
+>&ark; es un programa para visualizar, extraer, crear y modificar archivos comprimidos. &ark; puede manejar varios formatos, como <command
+>tar</command
+>, <command
+>gzip</command
+>, <command
+>bzip2</command
+>, <command
+>zip</command
+>, <command
+>rar</command
+>, <command
+>7zip</command
+>, <command
+>xz</command
+>, <command
+>rpm</command
+>, <command
+>cab</command
+>, <command
+>deb</command
+>, <command
+>xar</command
+> y <command
+>AppImage</command
+> (el reconocimiento de ciertos formatos de archivo depende de si los correspondientes programas de la línea de órdenes están instalados).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Ventana principal de &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Para un uso satisfactorio de &ark;, necesita KDE Frameworks 5. Necesita libarchive versión 3.1 o superior para poder usar la mayoría de tipos de archivos comprimidos, como tar, tar comprimido, rpm, deb y cab. Para poder usar otros formatos de archivos, necesita los correspondientes programas de consola, como <command
+>zipinfo</command
+>, <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>rar</command
+>, <command
+>unrar</command
+>, <command
+>7z</command
+>, <command
+>lsar</command
+>, <command
+>unar</command
+> y <command
+>lrzip</command
+>.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>Uso de &ark;</title>
+
+<sect1 id="ark-open">
+<title
+>Abrir archivos comprimidos</title>
+
+<para
+>Para abrir un archivo comprimido en &ark;, seleccione <guimenuitem
+>Abrir...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>) en el menú <guimenu
+>Archivo</guimenu
+>. También puede abrir un archivo comprimido arrastrándolo y soltándolo desde &dolphin;. Los archivos comprimidos deben estar asociados con &ark; para que pueda hacer clic con el botón <mousebutton
+>derecho</mousebutton
+> del ratón sobre ellos en &dolphin; y seleccionar <guimenuitem
+>Abrir con &ark;</guimenuitem
+> para abrirlos o seleccionar una acción de extracción para dichos archivos.</para>
+
+<para
+>Si ha activado el panel de información en el menú <guimenu
+>Preferencias</guimenu
+>, se mostrará información adicional sobre las carpetas o archivos seleccionados en el archivo comprimido.</para>
+
+<sect2 id="ark-archive-operations">
+<title
+>Operaciones de archivos comprimidos</title>
+
+<para
+>Puede realizar varias operaciones en un archivo comprimido abierto usando el menú <guimenu
+>Archivo comprimido</guimenu
+>. Por ejemplo, puede guardar el archivo comprimido con un nombre diferente usando <guimenuitem
+>Guardar como...</guimenuitem
+>. Puede ver las propiedades del archivo comprimido (como su tipo, tamaño y suma de comprobación MD5) usando la opción <guimenuitem
+>Propiedades</guimenuitem
+>.</para>
+
+<para
+>&ark; posee la habilidad de comprobar la integridad de algunos archivos comprimidos. En la actualidad, está disponible para los formatos <command
+>zip</command
+>, <command
+>rar</command
+> y <command
+>7z</command
+>. La acción para realizar esta comprobación está disponible en el menú <guimenu
+>Archivo comprimido</guimenu
+>.</para>
+
+</sect2>
+
+<sect2 id="ark-archive-comments">
+<title
+>Comentarios de archivos comprimidos</title>
+
+<para
+>&ark; puede manejar comentarios integrados en archivos comprimidos <literal role="extension"
+>zip</literal
+> y <literal role="extension"
+>rar</literal
+>.</para>
+
+<para
+>Los comentarios integrados en los archivos comprimidos <literal role="extension"
+>zip</literal
+> se muestran automáticamente.</para>
+
+<para
+>Puede modificar un comentario de un archivo comprimido <literal role="extension"
+>rar</literal
+> con las acciones <guimenuitem
+>Añadir comentario</guimenuitem
+> o <guimenuitem
+>Editar comentario</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>C</keycap
+></keycombo
+>) del menú <guimenu
+>Archivo comprimido</guimenu
+>. </para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Edición de comentarios</phrase>
+</textobject>
+</mediaobject>
+
+<note
+><para
+>La opción del menú para comentarios estará activada solo para archivos comprimidos <literal role="extension"
+>rar</literal
+>. </para
+></note>
+
+<para
+>Para eliminar un comentario de un archivo comprimido <literal role="extension"
+>rar</literal
+>, borre su texto en la ventana del comentario.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Trabajar con archivos comprimidos</title>
+
+<para
+>Tras abrir un archivo comprimido, puede realizar varias operaciones sobre los archivos que contiene en su interior. Si selecciona un archivo y usa el menú <guimenu
+>Archivo</guimenu
+> podrá elegir distintas operaciones para realizar sobre él:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Vista previa</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+>) abrirá el archivo con el visor interno de &ark;. Se trata de un rápido visor de solo lectura, aunque no se puede usar con todos los tipos de archivos.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Abrir</guimenuitem
+> abrirá el archivo en la aplicación asociada para este tipo de archivo.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Abrir con...</guimenuitem
+> le permite escoger una aplicación para abrir el archivo.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Cambiar nombre</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>F2</keycap
+></keycombo
+>) permite cambiar los nombres de archivos y de carpetas. Como en el gestor de archivos Dolphin, esta acción se puede invocar usando un acceso rápido de teclado y el cambio de nombre se lleva a cabo mediante edición en línea. También se realiza una comprobación del nombre de los archivos para impedir el uso de caracteres no válidos, como <userinput
+>/</userinput
+>, <userinput
+>.</userinput
+> y <userinput
+>..</userinput
+>.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Borrar</guimenuitem
+> (<keycap
+>Supr</keycap
+>) eliminará los archivos seleccionados del archivo comprimido. Tenga en cuenta que esta acción no se puede deshacer.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Extraer</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>) abre un submenú con las carpetas a las que ha accedido anteriormente, donde podrá seleccionar una de ellas para realizar una extracción rápida de archivos en ella, o escoger una carpeta no listada para realizar la extracción. Consulte la siguiente sección para más detalles sobre la extracción de archivos.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Cortar</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+>) / <guimenuitem
+>Copiar</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>) / <guimenuitem
+>Pegar</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+>): como en los gestores de archivos típicos, se proporciona la posibilidad de mover, pegar y copiar. Puede mover o copiar archivos entre distintas carpetas (que son expansibles en la vista de árbol) y pegarlos en el mismo destino directamente. Es posible copiar una carpeta sobre sí misma, aunque no se puede mover dentro de sí misma. También se realizan comprobaciones para que no existan conflictos en los nombres de los archivos: no podrá mover ni copiar archivos en una carpeta que ya tuviera entradas con los mismos nombres (ya que esto podría conllevar la pérdida de datos).</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Añadir archivos</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>A</keycap
+></keycombo
+>) se puede usar para añadir archivos en cualquier lugar dentro del archivo comprimido. Si selecciona una carpeta y usa esta opción, se añadirán los archivos a dicha carpeta. En caso contrario, los nuevos archivos se añadirán a la raíz del archivo comprimido. </para>
+</listitem>
+</itemizedlist>
+
+<sect2 id="ark-editing-files">
+<title
+>Edición de archivos</title>
+<para
+>Si edita y guarda un archivo que había abierto usando <guimenuitem
+>Abrir</guimenuitem
+> o <guimenuitem
+>Abrir con...</guimenuitem
+>, &ark; le preguntará si desea actualizar dicho archivo dentro del archivo comprimido. Si responde afirmativamente, se actualizará dicho archivo dentro del archivo comprimido.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>Extracción de archivos</title>
+
+<para
+>Tras abrir un archivo comprimido con &ark;, puede extraer su contenido. Para ello, puede seleccionar <guimenuitem
+>Extraer</guimenuitem
+> en el menú <guimenu
+>Archivo</guimenu
+>. Esto abre un submenú con las carpetas a las que ha accedido anteriormente, donde podrá seleccionar una para extraer archivos rápidamente en ella. También puede realizar la misma acción usando la opción del submenú <guisubmenu
+>Extraer en...</guisubmenu
+> para abrir el diálogo <guilabel
+>Extraer</guilabel
+>, donde podrá ajustar diversas opciones que afectan a la extracción. Consulte más adelante la información sobre las opciones disponibles en el diálogo de extracción.</para>
+
+<para
+>También puede usar el botón <guibutton
+>Extraer</guibutton
+> que hay en la barra de herramientas para acceder a las mismas opciones de extracción.</para>
+
+<para
+>Para extraer todo el contenido del archivo comprimido, puede seleccionar <guisubmenu
+>Extraer todo</guisubmenu
+> en el menú <guimenu
+>Archivo</guimenu
+>. Esta acción extrae incondicionalmente todos los archivos contenidos en el interior del archivo comprimido.</para>
+
+<para
+>Es posible extraer archivos y carpetas arrastrándolos directamente con el ratón hasta una carpeta de &dolphin;.</para>
+
+<para
+>Nota: la extracción de archivos desde un archivo comprimido no modifica dicho archivo comprimido ni su contenido.</para>
+
+<sect2 id="ark-extract-dialog">
+<title
+>El diálogo de extracción</title>
+
+<para
+>El diálogo <guilabel
+>Extraer</guilabel
+> le permite escoger dónde se deben extraer los archivos. La ubicación por omisión es la carpeta donde reside el archivo comprimido. También puede mostrar este diálogo pulsando <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="extract-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>El diálogo de extracción de &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Puede especificar que extraerá los archivos en una subcarpeta. El nombre por omisión de esta subcarpeta es el nombre del archivo comprimido sin su extensión, pero puede modificarlo según sus necesidades. Seleccione la opción <guilabel
+>Preservar las rutas al extraer</guilabel
+> si desea conservar las rutas al extraer los archivos. También puede optar por abrir la carpeta de destino en &dolphin; o cerrar &ark; una vez que haya terminado la extracción.</para>
+
+<para
+>Si ha seleccionado uno o más archivos en la lista del archivo comprimido, también podrá seleccionar qué archivos va a extraer:</para>
+<itemizedlist>
+<listitem>
+<para
+><guilabel
+>Solo los archivos seleccionados</guilabel
+> extrae solo los archivos que haya seleccionado.</para>
+</listitem>
+<listitem>
+<para
+><guilabel
+>Todos los archivos</guilabel
+> extrae el contenido completo del archivo comprimido.</para>
+</listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Crear archivos comprimidos y añadir archivos</title>
+
+<para
+>Para crear un nuevo archivo comprimido en &ark;, use <guimenuitem
+>Nuevo</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+>) en el menú <guimenu
+>Archivo comprimido</guimenu
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Crear un archivo comprimido</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Puede escribir entonces el nombre del archivo comprimido, con la extensión apropiada (<literal role="extension"
+>tar.gz</literal
+>,<literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>7z</literal
+>, &etc;) o seleccionar un formato permitido en la lista desplegable <guilabel
+>Filtro</guilabel
+> y marcar la opción <guilabel
+>Añadir automáticamente la <replaceable
+>extensión del nombre de archivo</replaceable
+></guilabel
+>.</para>
+
+<para
+>Para añadir archivos o carpetas en el nuevo archivo comprimido, use <guimenuitem
+>Añadir archivos...</guimenuitem
+> en el menú <guimenu
+>Archivo comprimido</guimenu
+>.</para>
+
+<para
+>Una manera alternativa de añadir contenido a un archivo comprimido consiste en arrastrar uno o más archivos desde, por ejemplo, &dolphin; hasta  la ventana principal de &ark;, con lo que se añadirán al archivo comprimido actual. Tenga en cuenta que los archivos que añada de este modo se añadirán siempre al directorio raíz del archivo comprimido.</para>
+
+<para
+>Las opciones adicionales se muestran en grupos plegables en la parte inferior del diálogo. </para>
+
+<sect2 id="ark-compression">
+<title
+>Compresión</title>
+<para
+>Los valores más altos generan archivos comprimidos más pequeños, aunque esto se traduce en mayores tiempos de compresión y de descompresión. El nivel de compresión predeterminado que propone &ark; proporciona un buen compromiso entre tamaño y velocidad de (des)compresión. Para la mayoría de los formatos, el nivel de compresión mínimo es equivalente a almacenar los archivos (&ie;, sin aplicar compresión). </para>
+<para
+>Puede seleccionar distintos métodos de compresión para los archivos comprimidos <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7z</literal
+> y <literal role="extension"
+>zip</literal
+>. </para>
+<para
+>Tenga en cuenta que el uso de métodos de compresión distintos a los preseleccionados por omisión puede limitar la compatibilidad de los archivos comprimidos generados. Por ejemplo, la apertura de archivos comprimidos <literal role="extension"
+>zip</literal
+> con métodos de compresión distintos a «Deflate» (desinflar), necesita software de archivado más reciente.</para>
+</sect2>
+
+<sect2 id="ark-password-protection">
+<title
+>Protección con contraseña</title>
+<para
+>Si crea un archivo comprimido <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7zip</literal
+> o <literal role="extension"
+>jar</literal
+>, puede protegerlo con una contraseña. En la actualidad, solo el formato <literal role="extension"
+>zip</literal
+> permite el uso de múltiples métodos de cifrado. Para otros formatos que usan un único método de cifrado, dicho método se muestra en la lista desplegable.</para>
+<para
+>Es posible que los métodos de cifrado distintos al predeterminado <guilabel
+>ZipCrypto</guilabel
+> no estén permitidos por todos formatos de archivos comprimidos.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Crear un archivo comprimido protegido con contraseña</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Escoja si se debe solicitar la contraseña antes de mostrar la lista de archivos. A esto se le llama «cifrado de la cabecera» y solo está disponible para los formatos <literal role="extension"
+>rar</literal
+> y <literal role="extension"
+>7zip</literal
+>. El cifrado de la cabecera está activado por omisión (si está disponible) para ofrecer la máxima protección a los usuarios noveles.</para>
+</sect2>
+
+<sect2 id="ark-multi-volume">
+<title
+>Archivo comprimido multivolumen</title>
+<para
+>Con los formatos <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+> y <literal role="extension"
+>7z</literal
+> puede crear archivos comprimidos multivolumen, también conocidos como archivos multiparte o divididos.</para>
+<para
+>Un archivo comprimido multivolumen es un gran archivo comprimido dividido en varios archivos. Esta función resulta de utilidad cuando el tamaño de archivo máximo está limitado, &eg;, por la capacidad de un medio de almacenamiento o de un mensaje de correo electrónico con archivos adjuntos.</para>
+<para
+>Para crear un archivo comprimido multivolumen, marque la casilla <guilabel
+>Crear archivo comprimido multivolumen</guilabel
+> y defina un <guilabel
+>Tamaño del volumen</guilabel
+> máximo en el diálogo. Añada todos los archivos a continuación y &ark; generará automáticamente el número necesario de volúmenes de archivo comprimido. Dependiendo del formato seleccionado, los archivos tendrán una extensión que sigue un esquema de números consecutivos (&eg;, <filename
+>xxx.7z.001</filename
+>, <filename
+>xxx.7z.002</filename
+> o <filename
+>xxx.zip.001</filename
+>, <filename
+>xxx.zip.002</filename
+> o <filename
+>xxx.part1.rar</filename
+>, <filename
+>xxx.part2.rar</filename
+>, &etc;).</para>
+<para
+>Para extraer un archivo multivolumen, sitúe todos los archivos en una carpeta y abra en &ark; el archivo con el menor número de extensión. El resto de partes del archivo dividido se abrirán automáticamente.</para>
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>Uso de &ark; en el gestor de archivos</title>
+
+<para
+>Si pulsa con el &RMB; sobre un archivo en un gestor de archivos (como &dolphin;) se muestra un menú de contexto que contiene un elemento <guimenuitem
+>Abrir con Ark</guimenuitem
+>. El menú posee elementos adicionales para extraer un archivo comprimido usando &ark;: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Extraer archivo comprimido aquí, autodetectar subcarpeta</guimenuitem
+> crea una subcarpeta en la carpeta que contiene el archivo comprimido y extrae las carpetas y archivos en ella.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Extraer archivo comprimido en...</guimenuitem
+> abre un diálogo de extracción en el que podrá escoger la carpeta de destino y varias opciones de extracción.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Extraer archivo comprimido aquí</guimenuitem
+> extrae el contenido completo del archivo comprimido en la misma carpeta.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>El menú de contexto para un grupo de archivos y/o carpetas de &dolphin; muestra estas acciones en el submenú <guimenu
+>Comprimir</guimenu
+>: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Aquí (como TAR.GZ)</guimenuitem
+> o <guimenuitem
+>Aquí (como ZIP)</guimenuitem
+> crea estos tipos de archivos en la carpeta actual.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Comprimir en...</guimenuitem
+> abre un diálogo en el que podrá seleccionar la carpeta, el nombre y el tipo de archivo comprimido.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>Modo por lotes avanzado</title>
+<para
+>&ark; posee un modo avanzado de trabajo por lotes que le permite manejar archivos comprimidos sin lanzar una interfaz gráfica de usuario. Este modo le permite crear o extraer archivos comprimidos y añadir archivos en ellos.</para>
+
+<para
+>El modo por lotes está documentado en <ulink url="man:/ark"
+>la página man de &ark;</ulink
+>. </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Créditos y licencia</title>
+
+<para
+>&ark; tiene Copyright &copy; 1997-2016, el equipo de desarrollo de &ark;</para>
+
+<itemizedlist>
+<title
+>Autores:</title>
+<listitem
+><para
+>Elvis Angelaccio <email
+>elvis.angelaccio@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Ragnar Thomsen <email
+>rthomsen6@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Raphael Kubo da Costa <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+>Harald Hvaal <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autor: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autor: Michael Jarrett) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Copyright de la documentación &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
+
+<para
+>Documentación actualizada para &kde; 3.3 por &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
+
+<para
+>Documentación actualizada para Aplicaciones de KDE 16.04 por &Ragnar.Thomsen; &Ragnar.Thomsen.mail;</para>
+
+<para
+>Traducido por Eloy Cuadra <email
+>ecuadra@eloihr.net</email
+></para
+> <para
+>Traductor anterior: Mario Teijeiro Otero <email
+>emeteo@escomposlinux.org</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

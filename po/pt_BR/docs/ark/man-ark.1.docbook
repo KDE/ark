@@ -1,0 +1,392 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Brazilian-Portuguese "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Manual do Usuário do &ark;</title>
+
+<author
+><firstname
+>Lauri</firstname
+><surname
+>Watts</surname
+> <contrib
+>Versão inicial da página de manual do &ark; em 2005.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Raphael</firstname
+><surname
+>Kubo da Costa</surname
+> <contrib
+>Atualização da página de manual do &ark; em 2009.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+> <contrib
+>Atualização da página de manual do &ark; em 2015 e 2016.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>19/03/2016</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>16.04</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>KDE Applications</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>Ferramenta de arquivamento do &kde;</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+> sufixo</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+> arquivo</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+> pasta</replaceable
+></group
+> <arg choice="opt"
+>Opções genéricas do &kde;</arg
+> <arg choice="opt"
+>Opções genéricas do &Qt;</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Descrição</title>
+<para
+>O &ark; é um programa para gerenciamento de vários formatos de arquivos compactados no ambiente &kde;. Os arquivos compactados podem ser visualizados, extraídos, criados e modificados com o &ark;. O programa pode trabalhar com vários formatos, tais como: <application
+>tar</application
+>, <application
+>gzip</application
+>, <application
+>bzip2</application
+>, <application
+>zip</application
+>, <application
+>rar</application
+> (quando as bibliotecas ou programas em linha de comando apropriados estiverem instalados).</para>
+</refsect1>
+
+<refsect1>
+<title
+>Modos de operação</title>
+<para
+>O &ark; pode ser usado como uma interface gráfica independente ou como um programa da linha de comando para realizar algumas tarefas específicas.</para>
+<para
+>Se for carregado sem as opções -b (--batch) ou -c (--add), o &ark; é iniciado como um programa &GUI; normal.</para>
+<para
+>Quando for usada a opção -b (--batch), o &ark; pode ser usado para extrair diretamente o conteúdo de um ou mais arquivos a partir da linha de comando, sem carregar a sua interface gráfica.</para>
+<para
+>Quando a opção -c (--add) é usada, o &ark; solicita os arquivos que deverão ser adicionados a um novo arquivo compactado ou a um já existente.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Opções</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>Mostra uma janela para indicar as opções em uma operação em lote ou de adição.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>pasta</replaceable
+></option
+></term>
+<listitem
+><para
+>Usa a <replaceable
+>pasta</replaceable
+> para extração. Se não for indicada, é usada a pasta atual.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>Opções para adição de arquivos</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>Solicita ao usuário um nome de arquivo e adiciona arquivos a ele e sai quando concluir.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>nome_do_arquivo</replaceable
+></option
+></term>
+<listitem>
+<para
+>Adiciona os arquivos indicados ao <replaceable
+>nome_do_arquivo</replaceable
+>. Cria o arquivo se ele não existir e sai quando concluir.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>Altera a pasta atual para o primeiro item e adiciona todos os outros itens em relação a esta.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>sufixo</replaceable
+></option
+></term>
+<listitem>
+<para
+>Seleciona automaticamente um nome de arquivo, usando o <replaceable
+>sufixo</replaceable
+> selecionado (por exemplo rar, tar.gz, zip ou qualquer outro tipo suportado).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Opções para extração em lote</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>Usa a interface em lote, em vez da janela normal. Esta opção está implícita se indicar mais de uma URL.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --autodestination</option
+></term>
+<listitem>
+<para
+>O argumento de destino será configurado com o local do primeiro arquivo indicado.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>O conteúdo do arquivo será lido e, se for detectado que não é um arquivo compactado com apenas uma pasta, será criada uma subpasta com o nome do arquivo.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>Abre a pasta de destino quando concluir a extração.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Exemplos</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>arquivo.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Irá extrair o <replaceable
+>arquivo.tar.bz2</replaceable
+> na pasta atual sem exibir a interface do usuário. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>arquivo.tar.bz2</replaceable
+> <replaceable
+>arquivo2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Mostrará primeiro uma janela de opções de extração e irá então extrair o <replaceable
+>arquivo.tar.bz2</replaceable
+> e o <replaceable
+>arquivo2.zip</replaceable
+> para a pasta escolhida na janela.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>meu-arquivo.zip</replaceable
+> <replaceable
+>foto1.jpg</replaceable
+> <replaceable
+>texto.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Criará o arquivo <replaceable
+>meu-arquivo.zip</replaceable
+>, se não existir, e irá adicionar depois o <replaceable
+>foto1.jpg</replaceable
+> e <replaceable
+>texto.txt</replaceable
+> a ele. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>Mantenedor</title>
+<para
+>O &ark; é mantido por <emphasis role="bold"
+>Elvis Angelaccio</emphasis
+> e <emphasis role="bold"
+>Ragnar Thomsen</emphasis
+>.</para>
+</refsect1>
+
+</refentry>

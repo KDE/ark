@@ -1,0 +1,427 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Swedish "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>&ark; användarhandbok</title>
+
+<author
+><firstname
+>Lauri</firstname
+><surname
+>Watts</surname
+> <contrib
+>Ursprunglig version av &ark; manualsida 2005.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Raphael</firstname
+><surname
+>Kubo da Costa</surname
+> <contrib
+>Uppdatering av &ark; manualsida 2009.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+> <contrib
+>Uppdatering av &ark; manualsida 2015 och 2016.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>2018-08-08</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>18.12</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>KDE-program</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>Ett arkiveringsverktyg för &kde;</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+> suffix</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+> fil</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-m</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+> katalog</replaceable
+></group
+> <arg choice="opt"
+>Generella väljare för KF5</arg
+> <arg choice="opt"
+>Generella väljare för &Qt;</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Beskrivning</title>
+<para
+>&ark; är ett program för att hantera diverse komprimerade filformat i &kde;-miljön. Arkiv kan visas, packas upp, skapas och ändras inne i &ark;. Programmet hanterar diverse format som <application
+>tar</application
+>, <application
+>gzip</application
+>, <application
+>bzip2</application
+>, <application
+>zip</application
+> och <application
+>rar</application
+> (om lämpliga bibliotek eller kommandoradsprogram är installerade).</para>
+</refsect1>
+
+<refsect1>
+<title
+>Användningslägen</title>
+<para
+>&ark; kan antingen användas som ett fristående program med grafiskt användargränssnitt, samt som ett kommandoradsprogram för att utföra vissa specifika uppgifter.</para>
+<para
+>Om det startas utan väljarna -b (--batch) eller -c (--add), startas &ark; som ett vanligt program med grafiskt användargränssnitt.</para>
+<para
+>När alternativet -b (--batch) används, kan &ark; användas för att packa upp innehållet i en eller flera filer direkt från kommandoraden, utan att starta dess grafiska användargränssnitt.</para>
+<para
+>När alternativet -c (--add) används, frågar &ark; efter filer som ska läggas till i ett nytt arkiv eller i ett befintligt arkiv.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Väljare</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>Visa en dialogruta för att ange alternativ för åtgärderna batch eller add.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-m, --mimetypes</option
+></term>
+<listitem>
+<para
+>Lista Mime-typer som stöds.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>katalog</replaceable
+></option
+></term>
+<listitem
+><para
+>Ställ in standardkatalogen för uppackning till <replaceable
+>katalog</replaceable
+>. Om den inte anges, används aktuell sökväg.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>Väljare för att lägga till filer</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>Fråga användaren efter namnet på arkivet och lägg till angivna filer i det. Avsluta när det är färdigt.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>filnamn</replaceable
+></option
+></term>
+<listitem>
+<para
+>Lägg till angivna filer i <replaceable
+>filnamn</replaceable
+>. Skapa arkivet om det inte finns. Avsluta när det är färdigt.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>Byt arbetskatalog till den första posten och lägg till alla andra poster i förhållande till den.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>suffix</replaceable
+></option
+></term>
+<listitem>
+<para
+>Välj automatiskt filnamn med valt <replaceable
+>suffix</replaceable
+> (till exempel rar, tar.gz, zip, eller någon annan typ som stöds).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Alternativ för uppackning i bakgrunden</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>Använd bakgrundsgränssnittet istället för den vanliga dialogrutan. Alternativet är underförstått om mer än en webbadress anges.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --autodestination</option
+></term>
+<listitem>
+<para
+>Destinationsvärdet ställs in till sökvägen för den första filen som anges.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>Arkivets innehåll läses, och om det detekteras att det inte innehåller en enda katalog, skapas en underkatalog med arkivnamnet.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>Öppna målkatalogen när uppackningen är färdig.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Se också</title>
+<simplelist>
+<member
+>Mer detaljerad användardokumentation är tillgänglig med <ulink url="help:/ark"
+>help:/ark</ulink
+> (skriv antingen in webbadressen i &konqueror;, eller kör <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Exempel</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>arkiv.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Packar upp <replaceable
+>arkiv.tar.bz2</replaceable
+> i arbetskatalogen utan att visa något grafiskt användargränssnitt. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>arkiv.tar.bz2</replaceable
+> <replaceable
+>arkiv2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Visar först en dialogruta med uppackningsalternativ och packar därefter upp både <replaceable
+>arkiv.tar.bz2</replaceable
+> och <replaceable
+>arkiv2.zip</replaceable
+> i katalogen som väljes i dialogrutan.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>mitt-arkiv.zip</replaceable
+> <replaceable
+>foto1.jpg</replaceable
+> <replaceable
+>text.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Skapar <replaceable
+>mitt-arkiv.zip</replaceable
+> om det inte finns och lägger därefter till <replaceable
+>foto1.jpg</replaceable
+> och <replaceable
+>text.txt</replaceable
+> i det. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>Underhållsansvar</title>
+<para
+>&ark; underhålls för närvarande av <emphasis role="bold"
+>Elvis Angelaccio</emphasis
+> och <emphasis role="bold"
+>Ragnar Thomsen</emphasis
+>.</para>
+</refsect1>
+
+</refentry>

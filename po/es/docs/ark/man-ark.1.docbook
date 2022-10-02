@@ -1,0 +1,427 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Spanish "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Manual del usuario de &ark;</title>
+
+<author
+><firstname
+>Lauri</firstname
+><surname
+>Watts</surname
+> <contrib
+>Versión inicial de la página de manual de &ark; en 2005.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Raphael</firstname
+><surname
+>Kubo da Costa</surname
+> <contrib
+>Actualización de la página de manual de &ark; en 2009.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+> <contrib
+>Actualización de la página de manual de &ark; en 2015 y 2016.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>2018-08-08</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>18.12</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>KDE Applications</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>Herramienta de compresión de &kde;</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+> sufijo</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+> archivo</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-m</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+> directorio</replaceable
+></group
+> <arg choice="opt"
+>Opciones generales de &kf5;</arg
+> <arg choice="opt"
+>Opciones generales de &Qt;</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Descripción</title>
+<para
+>&ark; es un programa de &kde; para manejar varios formatos de archivos comprimidos. Los archivos comprimidos se pueden visualizar, extraer, crear y modificar con &ark;. El programa puede manejar diversos formatos, como <application
+>tar</application
+>, <application
+>gzip</application
+>, <application
+>bzip2</application
+>, <application
+>zip</application
+>, y <application
+>rar</application
+> (siempre que estén instalados los programas o bibliotecas correspondientes).</para>
+</refsect1>
+
+<refsect1>
+<title
+>Modos de operación</title>
+<para
+>&ark; se puede usar como un programa gráfico independiente o como un programa de la línea de órdenes para realizar algunas tareas específicas.</para>
+<para
+>Si se llama sin las opciones -b (--batch) ni -c (-add), &ark; se inicia como un programa gráfico normal.</para>
+<para
+>Cuando se usa la opción -b (--batch), &ark; se puede utilizar para extraer el contenido de uno o más archivos directamente desde la línea de órdenes, sin lanzar su interfaz gráfica.</para>
+<para
+>Cuando se usa la opción -c (-add), &ark; solicita los archivos que se van a añadir a un archivo comprimido nuevo o ya existente.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Opciones</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>Muestra un diálogo para especificar las opciones de una operación por lotes o de añadir archivos.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-m, --mimetypes</option
+></term>
+<listitem>
+<para
+>Lista los tipos &MIME; permitidos.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>directorio</replaceable
+></option
+></term>
+<listitem
+><para
+>Especifica el <replaceable
+>directorio</replaceable
+> de extracción por omisión. Si no se indica se usará la ruta actual.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>Opciones para añadir archivos</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>Solicita al usuario el un nombre de archivo comprimido al que añadir los archivos especificados. Sale cuando finaliza.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>archivo</replaceable
+></option
+></term>
+<listitem>
+<para
+>Añade los archivos especificados al <replaceable
+>archivo</replaceable
+> indicado. Crea el archivo comprimido si no existe. Sale cuando finaliza.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>Cambia el directorio actual a la primera entrada y añade el resto de entradas relativas a esta.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>sufijo</replaceable
+></option
+></term>
+<listitem>
+<para
+>Escoge un nombre de archivo automáticamente usando el <replaceable
+>sufijo</replaceable
+> proporcionado (por ejemplo, rar, tar.gz, zip o cualquier tipo permitido).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Opciones para la extracción por lotes</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>Usar la interfaz por lotes en lugar del diálogo normal. Esta opción se da por supuesta si se especifica más de un URL.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --autodestination</option
+></term>
+<listitem>
+<para
+>El argumento de destino se fijará a la ruta del primer archivo suministrado.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>Se leerá el contenido del archivo comprimido y, si se detecta que no se trata de un archivo de una única carpeta, se creará una subcarpeta con el nombre del archivo comprimido.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>Abrir la carpeta de destino tras completar la extracción.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Consulte también</title>
+<simplelist>
+<member
+>Dispone de documentación de usuario más detallada en <ulink url="help:/ark"
+>help:/ark</ulink
+> (introduzca dicha &URL; en &konqueror; o ejecute <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Ejemplos</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>archivo.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Extraerá <replaceable
+>archivo.tar.bz2</replaceable
+> en el directorio actual sin mostrar ninguna interfaz gráfica. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>archivo.tar.bz2</replaceable
+> <replaceable
+>archivo2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Mostrará primero un diálogo con opciones de extracción y luego extraerá <replaceable
+>archivo.tar.bz2</replaceable
+> y <replaceable
+>archivo2.zip</replaceable
+> en el directorio escogido en el diálogo.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>mi-archivo.zip</replaceable
+> <replaceable
+>foto1.jpg</replaceable
+> <replaceable
+>texto.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Creará <replaceable
+>mi-archivo.zip</replaceable
+> si no existe y luego se le añadirán <replaceable
+>foto1.jpg</replaceable
+> y <replaceable
+>texto.txt</replaceable
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>Mantenimiento</title>
+<para
+>&ark; está a cargo de <emphasis role="bold"
+>Elvis Angelaccio</emphasis
+> y <emphasis role="bold"
+>Ragnar Thomsen</emphasis
+> en la actualidad.</para>
+</refsect1>
+
+</refentry>

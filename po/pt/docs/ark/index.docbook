@@ -1,0 +1,809 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Portuguese "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY Ragnar.Thomsen '<personname
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+></personname
+>'>
+  <!ENTITY Ragnar.Thomsen.mail '<email
+>rthomsen6@gmail.com</email
+>'>
+  <!ENTITY Henrique.Pinto '<personname
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+></personname
+>'>
+  <!ENTITY Henrique.Pinto.mail '<email
+>henrique.pinto@kdemail.net</email
+>'>
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>O Manual do &ark;</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+<author
+>&Henrique.Pinto; &Henrique.Pinto.mail; </author>
+<author
+>&Ragnar.Thomsen; &Ragnar.Thomsen.mail; </author>
+
+<othercredit role="translator"
+><firstname
+>José</firstname
+><surname
+>Pires</surname
+><affiliation
+><address
+><email
+>zepires@gmail.com</email
+></address
+></affiliation
+><contrib
+>Tradução</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>&Henrique.Pinto;</holder>
+</copyright>
+
+<copyright>
+<year
+>2015, 2016</year>
+<holder
+>&Ragnar.Thomsen;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2016-09-10</date>
+<releaseinfo
+>Aplicações 16.12</releaseinfo>
+
+<abstract>
+<para
+>O &ark; é um gestor de pacotes do &kde;.</para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>pacote</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>compressão</keyword>
+<keyword
+>7z</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Introdução</title>
+<para
+>O &ark; é um programa para ver, extrair, criar e modificar pacotes. O &ark; consegue lidar com vários formatos como o <command
+>tar</command
+>, o <command
+>gzip</command
+>, o <command
+>bzip2</command
+>, o <command
+>zip</command
+>, o <command
+>rar</command
+>, o <command
+>7zip</command
+>, o <command
+>xz</command
+>, o <command
+>rpm</command
+>, o <command
+>cab</command
+> e o <command
+>deb</command
+> (o suporte para certos formatos de pacotes depende se estiverem instalados os programas da linha de comandos apropriados).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Janela principal do &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Para usar com sucesso o &ark;, precisa das Plataformas do KDE 5. É necessária a versão 3.1 ou posterior da 'libarchive' para lidar com a maioria dos tipos de pacotes, incluindo os pacotes TAR, RPM, DEB e CAB. Para lidar com outros tipos de formatos, precisa dos programas da linha de comandos apropriados, como o <command
+>zipinfo</command
+>, <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>rar</command
+>, <command
+>unrar</command
+>, <command
+>7z</command
+>, <command
+>lsar</command
+>, <command
+>unar</command
+> e <command
+>lrzip</command
+>.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>Usar o &ark;</title>
+
+<sect1 id="ark-open">
+<title
+>Abrir os Pacotes</title>
+
+<para
+>Para abrir um pacote no &ark;, escolha <guimenuitem
+>Abrir...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>) no menu <guimenu
+>Pacote</guimenu
+>. Você também pode abrir os ficheiros dos pacotes se os arrastar e largar a partir do &dolphin;. Os ficheiros dos pacotes deverão estar associados com o &ark;, para que você também possa carregar com o botão <mousebutton
+>direito</mousebutton
+> num ficheiro do &dolphin; e seleccionar o <guimenuitem
+>Abrir com o &ark;</guimenuitem
+> para o abrir.</para>
+
+<para
+>Se tiver activado o painel de informações no menu <guimenu
+>Configuração</guimenu
+>, será apresentada mais alguma informação adicional acerca das pastas ou ficheiros seleccionados no pacote.</para>
+
+<sect2 id="ark-archive-operations">
+<title
+>Operações com o Pacote</title>
+
+<para
+>Poderá efectuar várias operações sobre um pacote aberto se usar o menu <guimenu
+>Pacote</guimenu
+>. Por exemplo, poderá gravar o pacote com um nome diferente se usar a opção <guimenuitem
+>Gravar Como...</guimenuitem
+>. Poderá ver as propriedades do pacote, como o tipo, o tamanho e o código de validação MD5 com o item <guimenuitem
+>Propriedades</guimenuitem
+>.</para>
+
+<para
+>O &ark; tem a capacidade de testar a integridade dos pacotes. Esta funcionalidade está disponível de momento para os pacotes <command
+>zip</command
+>, <command
+>rar</command
+> e <command
+>7z</command
+>. A acção de teste pode ser encontrada no menu <guimenu
+>Pacote</guimenu
+>.</para>
+
+</sect2>
+
+<sect2 id="ark-archive-comments">
+<title
+>Comentários no Pacote</title>
+
+<para
+>O &ark; consegue lidar com os comentários incorporados nos pacotes <literal role="extension"
+>zip</literal
+> e <literal role="extension"
+>rar</literal
+>.</para>
+
+<para
+>Os comentários incorporados nos pacotes <literal role="extension"
+>zip</literal
+> são apresentados automaticamente.</para>
+
+<para
+>Ao usar pacotes <literal role="extension"
+>rar</literal
+>, poderá modificar um comentário com as acções <guimenuitem
+>Adicionar um Comentário</guimenuitem
+> ou <guimenuitem
+>Editar o comentário</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>C</keycap
+></keycombo
+>) no menu <guimenu
+>Pacote</guimenu
+>. </para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Editar um comentário</phrase>
+</textobject>
+</mediaobject>
+
+<note
+><para
+>O item de comentários no menu só fica activo nos pacotes <literal role="extension"
+>rar</literal
+>. </para
+></note>
+
+<para
+>Para remover um comentário de um pacote <literal role="extension"
+>rar</literal
+>, apague o texto na janela do comentário.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Lidar com os Ficheiros</title>
+
+<para
+>Logo que um pacote tenha sido aberto, você poderá efectuar várias operações sobre os ficheiros dentro do pacote. Ao seleccionar um ficheiro e usando o menu <guimenu
+>Ficheiro</guimenu
+>, você poderá escolher o que fazer:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>O <guimenuitem
+>Antevisão...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+>) irá abrir o ficheiro com o visualizador interno do &ark;. Isto é um visualizador rápido apenas para leitura, mas não suporta todos os tipos de ficheiros.</para>
+</listitem>
+<listitem>
+<para
+>A <guimenuitem
+>Abrir</guimenuitem
+> irá abrir o ficheiro na aplicação associada a esse tipo de ficheiro.</para>
+</listitem>
+<listitem>
+<para
+>A <guimenuitem
+>Abrir Com...</guimenuitem
+> permite-lhe escolher qual a aplicação com que deseja abrir o ficheiro.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Mudar o Nome</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>F2</keycap
+></keycombo
+>) Esta acção permite mudar os nomes tanto dos ficheiros como das pastas. Como no gestor de ficheiros Dolphin, esta acção poderá ser invocada através de um atalho e a mudança de nome é feita por edição incorporada. Existem também verificações no nome do ficheiro, que impedem o uso de caracteres inválidos, como o <userinput
+>/</userinput
+>, o <userinput
+>.</userinput
+> e o <userinput
+>..</userinput
+> nos nomes.</para>
+</listitem>
+<listitem>
+<para
+>A opção <guimenuitem
+>Remover</guimenuitem
+> (<keycap
+>Del</keycap
+>) irá apagar o ficheiro ou ficheiros seleccionados do pacote. Lembre-se que poderá anular esta operação.</para>
+</listitem>
+<listitem>
+<para
+>O <guimenuitem
+>Extrair...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>) abre um submenu com as pastas acedidas anteriormente, as quais poderá seleccionar para extrair rapidamente para dentro de uma delas ou escolher uma pasta não apresentada. Veja a secção seguinte para saber mais detalhes sobre a extracção.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Cortar</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+>) / <guimenuitem
+>Copiar</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>) / <guimenuitem
+>Colar</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+>): Como nos gestores de ficheiros típicos, o movimento, colagem e cópia são oferecidos. Os utilizadores poderão mover ou copiar os ficheiros das diferentes pastas (que podem ser expandidas na árvore) e colá-las no mesmo destino de uma vez. Poderá copiar uma pasta para si própria, mas não a poderá mover. Existem também verificações para os nomes dos ficheiros em conflito: Não será capaz de copiar ou mover os ficheiros para uma pasta que tem elementos com os mesmos nomes - o que poderia conduzir à perda de dados.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Adicionar Ficheiros</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>A</keycap
+></keycombo
+>) Esta acção poderá ser usada para adicionar ficheiros a qualquer local dentro do pacote. Se seleccionar uma pasta e usar esta acção, os ficheiros serão adicionados à pasta seleccionada. Caso contrário, os ficheiros novos serão adicionados ao topo do pacote. </para>
+</listitem>
+</itemizedlist>
+
+<sect2 id="ark-editing-files">
+<title
+>Editar os Ficheiros</title>
+<para
+>Se editar e gravar um ficheiro que tenha aberto com as opções <guimenuitem
+>Abrir</guimenuitem
+> ou <guimenuitem
+>Abrir Com...</guimenuitem
+>, o Ark perguntar-lhe-á se deseja actualizar o ficheiro no pacote. Se responder 'Sim', o pacote será actualizado com o ficheiro gravado.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>A Extrair os Ficheiros</title>
+
+<para
+>Logo que um pacote tenha sido aberto no &ark;, este poderá ser extraído. Para extrair os ficheiros de um pacote, você tanto pode optar por <guisubmenu
+>Extrair</guisubmenu
+>, no menu <guimenu
+>Ficheiro</guimenu
+>. Isto abre um submenu com as pastas acedidas anteriormente, onde poderá optar por extrair rapidamente para qualquer uma delas. Em alternativa, seleccione o item do sub-menu <guisubmenu
+>Extrair Para...</guisubmenu
+> para abrir a janela de <guilabel
+>Extracção</guilabel
+>, onde poderá definir várias opções que afectam a extracção. Veja mais em baixo informações sobre as opções disponíveis na janela de Extracção.</para>
+
+<para
+>Também poderá usar o botão <guibutton
+>Extrair</guibutton
+> da barra de ferramentas para aceder às mesmas operações de extracção.</para>
+
+<para
+>Para extrair o pacote por inteiro, poderá seleccionar a opção <guisubmenu
+>Extrair Tudo</guisubmenu
+> do menu <guimenu
+>Pacote</guimenu
+>. Esta acção extrai de forma incondicional todos os ficheiros no pacote.</para>
+
+<para
+>É possível extrair os ficheiros e pastas, bastando para tal arrastá-los com o rato para uma pasta no &dolphin;.</para>
+
+<para
+>Nota: A extracção de ficheiros de um pacote não altera o pacote nem o seu conteúdo.</para>
+
+<sect2 id="ark-extract-dialog">
+<title
+>A janela de Extracção</title>
+
+<para
+>A janela de <guilabel
+>Extracção</guilabel
+> permite-lhe escolher para onde serão extraídos os ficheiros. O local por omissão é a pasta onde se encontra o pacote. A janela também poderá ser aberta se carregar em <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="extract-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>A janela de Extracção do &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Pode indicar uma sub-pasta para onde extrair os ficheiros. O nome desta sub-pasta é a primeira parte do nome do pacote, mas poderá escolher à sua vontade. Se quiser preservar as pastas na extracção, seleccione a opção <guilabel
+>Preservar as localizações na extracção</guilabel
+>. Poderá também optar por ter a pasta de destino no &dolphin; ou ainda fechar o &ark;, logo que a extracção esteja completa.</para>
+
+<para
+>Se um ou mais ficheiros na lista de pacotes estiver seleccionado, poderá também escolher os ficheiros a extrair:</para>
+<itemizedlist>
+<listitem>
+<para
+>A opção <guilabel
+>Apenas os ficheiros seleccionados</guilabel
+> extrai todos os ficheiros que foram seleccionados.</para>
+</listitem>
+<listitem>
+<para
+>O <guilabel
+>Todos os ficheiros</guilabel
+> extrai o conteúdo completo do pacote.</para>
+</listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Criar os Pacotes e Adicionar os Ficheiros</title>
+
+<para
+>Para criar um novo pacote no &ark;, escolha <guimenuitem
+>Novo</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+>) no menu <guimenu
+>Pacote</guimenu
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Criar um pacote</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Você poderá então escrever o nome do pacote com a extensão apropriada (<literal role="extension"
+>tar.gz</literal
+>, <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>7z</literal
+> &etc;) ou seleccionar um formato suportado na lista <guilabel
+>Filtro</guilabel
+> e assinalar a opção <guilabel
+>Seleccionar automaticamente a <replaceable
+>extensão do ficheiro</replaceable
+></guilabel
+>.</para>
+
+<para
+>Para adicionar ficheiros ao novo pacote, escolha a opção <guimenuitem
+>Adicionar Ficheiros...</guimenuitem
+> do menu <guimenu
+>Pacote</guimenu
+>.</para>
+
+<para
+>Uma forma alternativa de adicionar ficheiros ao pacote é arrastar um ou mais ficheiros a partir p.ex. do &dolphin; ou do ecrã para a janela principal do &ark;, para que seja adicionado ao pacote actual. Lembre-se que os ficheiros adicionados desta forma serão sempre adicionados à pasta de base do pacote.</para>
+
+<para
+>As opções adicionais são apresentadas em grupos colapsáveis no fundo da janela. </para>
+
+<sect2 id="ark-compression">
+<title
+>Compressão</title>
+<para
+>Um valor maior gera pacotes mais pequenos, mas resulta em tempos de compressão e descompressão maiores. O nível de compressão por omissão proposto pelo &ark; normalmente é um bom compromisso entre o tamanho e a velocidade de (des)compressão. Para a maioria dos formatos, o nível de compressão mínimo é equivalente a apenas guardar os ficheiros, &ie; sem aplicar qualquer compressão. </para>
+<para
+>Para os pacotes <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7z</literal
+> e <literal role="extension"
+>zip</literal
+>, poderá optar por diferentes métodos de compressão. </para>
+<para
+>Lembre-se que o uso de métodos de compressão que não os predefinidos poderá limitar a compatibilidade com os utilitários de gestão de pacotes. Por exemplo, a abertura de pacotes <literal role="extension"
+>zip</literal
+> com métodos de compressão que não o <quote
+>Deflate</quote
+> precisam de aplicações de pacotes mais recentes.</para>
+</sect2>
+
+<sect2 id="ark-password-protection">
+<title
+>Protecção com Senha</title>
+<para
+>Se criar um pacote <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7zip</literal
+> e <literal role="extension"
+>jar</literal
+>, podê-lo-á proteger com uma senha. De momento, só o formato <literal role="extension"
+>zip</literal
+> suporta vários métodos de encriptação. Para os outros formatos que suportam apenas um método de encriptação, o método é apresentado na lista.</para>
+<para
+>Os outros métodos de encriptação que não o <guilabel
+>ZipCrypto</guilabel
+> (por omissão) poderão não ser suportados por todos os criadores de pacotes de ficheiros.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Criar um pacote protegido com uma senha</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Escolha se deseja pedir a senha antes de mostrar a lista de ficheiros. O último chama-se encriptação dos cabeçalhos e só está disponível nos formatos <literal role="extension"
+>rar</literal
+> e <literal role="extension"
+>7zip</literal
+>. A encriptação dos cabeçalhos está protegida por omissão (quando disponível), para poder oferecer o máximo de protecção para os utilizadores menos experientes.</para>
+</sect2>
+
+<sect2 id="ark-multi-volume">
+<title
+>Pacote Multi-Volume</title>
+<para
+>Se criar um pacote <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7z</literal
+>, poderá criar pacotes multi-volumes, também conhecidos por multi-partes ou divididos.</para>
+<para
+>Um pacote multi-volume é um pacote comprimido enorme e dividido em vários ficheiros. Esta funcionalidade é útil se o tamanho máximo do ficheiro for limitado, &eg; pela capacidade do dispositivo de armazenamento ou pelo tamanho máximo de um e-mail com anexos.</para>
+<para
+>Para criar um pacote multi-volume, assinale a opção <guilabel
+>Criar um pacote multi-volume</guilabel
+> e defina um <guilabel
+>Tamanho do volume</guilabel
+> na janela. Depois, adicione todos os ficheiros ao pacote para o &ark; gerar automaticamente o número necessário de volumes do pacote. Dependendo do formato seleccionado, os ficheiros terão uma extensão com um esquema de numeração consecutivo, &eg; <filename
+>xxx.7z.001</filename
+>, <filename
+>xxx.7z.002</filename
+> ou <filename
+>xxx.zip.001</filename
+>, <filename
+>xxx.zip.002</filename
+> ou <filename
+>xxx.part1.rar</filename
+>, <filename
+>xxx.part2.rar</filename
+> &etc;.</para>
+<para
+>Para extrair um pacote multi-volume, coloque todos os ficheiros do pacote numa pasta e abra o ficheiro com o número de extensão menor no &ark;, para que todas as outras partes do pacote dividido sejam abertas automaticamente.</para>
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>Usar o &ark; no Gestor de Ficheiros</title>
+
+<para
+>Se carregar com o &RMB; sobre um pacote, num gestor de ficheiros como o &dolphin;, irá mostrar um menu de contexto com um item <guimenuitem
+>Abrir com o Ark</guimenuitem
+>. O menu tem estes itens adicionais para extrair um pacote com o &ark;: </para>
+
+<itemizedlist>
+<listitem>
+<para
+>O <guimenuitem
+>Extrair Aqui, Auto-Detectar a Sub-Pasta</guimenuitem
+> cria uma sub-pasta da actual com o pacote e extrai as pastas e ficheiros para dentro desta.</para>
+</listitem>
+<listitem>
+<para
+>O <guimenuitem
+>Extrair o Pacote Para...</guimenuitem
+> abre uma janela onde poderá seleccionar a pasta de destino e outras opções diversas de extracção.</para>
+</listitem>
+<listitem>
+<para
+>O <guimenuitem
+>Extrair o Pacote Aqui</guimenuitem
+> extrai o conteúdo do pacote para a mesma pasta.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>O menu de contexto do &dolphin; de uma selecção de ficheiros e/ou pastas mostra estas acções no submenu <guimenu
+>Comprimir</guimenu
+>: </para>
+
+<itemizedlist>
+<listitem>
+<para
+>As opções <guimenuitem
+>Aqui (Como .TAR.GZ)</guimenuitem
+> ou <guimenuitem
+>Aqui (Como ZIP)</guimenuitem
+> criam estes tipos de pacotes na pasta actual.</para>
+</listitem>
+<listitem>
+<para
+>O <guimenuitem
+>Comprimir Para...</guimenuitem
+> abre uma janela onde poderá seleccionar a pasta, o nome e o tipo de pacote.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>Modo Avançado em Lote</title>
+<para
+>O &ark; tem um modo avançado em lote para gerir os pacotes sem invocar uma interface gráfica. Este modo permite-lhe extrair ou criar os pacotes, ou ainda adicionar os ficheiros aos mesmos.</para>
+
+<para
+>O modo em lote está documentado na <ulink url="man:/ark"
+>página de manual do &ark;</ulink
+>. </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Créditos e Licença</title>
+
+<para
+>O &ark; tem o Copyright &copy; 1997-2016, Os Vários Programadores do &ark;.</para>
+
+<itemizedlist>
+<title
+>Autores:</title>
+<listitem
+><para
+>Elvis Angelaccio <email
+>elvis.angelaccio@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Ragnar Thomsen <email
+>rthomsen6@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Raphael Kubo da Costa <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+>Harald Hvaal <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autor: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autor: Michael Jarrett) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Documentação com 'copyright' &copy; 2000 de &Matt.Johnston; &Matt.Johnston.mail;</para>
+
+<para
+>Documentação actualizada para o &kde; 3.3 por Henrique Pinto &Henrique.Pinto.mail;.</para>
+
+<para
+>Documentação actualizada para as Aplicações do KDE 16.04 por &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
+
+<para
+>Tradução de José Nuno Pires <email
+>zepires@gmail.com</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

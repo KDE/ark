@@ -1,0 +1,929 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Serbian "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY Ragnar.Thomsen '<personname
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+></personname
+>'>
+  <!ENTITY Ragnar.Thomsen.mail '<email
+>rthomsen6@gmail.com</email
+>'>
+  <!ENTITY Henrique.Pinto '<personname
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+></personname
+>'>
+  <!ENTITY Henrique.Pinto.mail '<email
+>henrique.pinto@kdemail.net</email
+>'>
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>Приручник за <application
+>Арк</application
+></title>
+
+<authorgroup>
+<author
+><personname
+><firstname
+>Мат</firstname
+> <surname
+>Џонстон</surname
+></personname
+> &Matt.Johnston.mail; </author>
+<author
+><personname
+><firstname
+>Енрике</firstname
+> <surname
+>Пинто</surname
+></personname
+> &Henrique.Pinto.mail; </author>
+<author
+><personname
+><firstname
+>Рагнар</firstname
+> <surname
+>Томсен</surname
+></personname
+> &Ragnar.Thomsen.mail; </author>
+
+<othercredit role="translator"
+><firstname
+>Драган</firstname
+><surname
+>Пантелић</surname
+><affiliation
+><address
+><email
+>falcon-10@gmx.de</email
+></address
+></affiliation
+><contrib
+>превод</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>Мат Џонстон</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>Енрике Пинто</holder>
+</copyright>
+
+<copyright>
+<year
+>2015, 2016</year>
+<holder
+>Рагнар Томсен</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>10. 9. 2016.</date>
+<releaseinfo
+>Програми КДЕ‑а 16.12</releaseinfo>
+
+<abstract>
+<para
+><application
+>Арк</application
+> је менаџер архива из КДЕ‑а.</para>
+</abstract>
+
+<keywordset>
+<keyword
+>КДЕ</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>архива</keyword>
+<keyword
+>ЗИП</keyword>
+<keyword
+>компресовање</keyword>
+<keyword
+>7зип</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>Арк</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Увод</title>
+<para
+><application
+>Арк</application
+> је програм прегледање, распакивање, стварање и мењање архива. Уме да рукује разним форматима архива, као што су тар, гзип, бзип2, ЗИП, РАР, 7зип, ИксЗ, РПМ, КАБ, ДЕБ, КСАР и ап‑имејџ (неки од њих су подржани само ако су инсталирани одговарајући програми командне линије).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Главни прозор <application
+>Арка</application
+>.</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>За успешно коришћење <application
+>Арка</application
+>, требају вам Радни оквири КДЕ‑а. За руковање већином врста архива — укључујући тар, РПМ, ДЕБ и КАБ — користи се библиотека Либархив издања 3.1 или новијег. За руковање осталим форматима архива потребни су одговарајући програми командне линије, као што су <command
+>zipinfo</command
+>, <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>rar</command
+>, <command
+>unrar</command
+>, <command
+>7z</command
+>, <command
+>lsar</command
+>, <command
+>unar</command
+> и <command
+>lrzip</command
+>.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>Коришћење <application
+>Арка</application
+></title>
+
+<sect1 id="ark-open">
+<title
+>Отварање архива</title>
+
+<para
+>Архиву у <application
+>Арку</application
+> отварате помоћу <guimenuitem
+>Отвори...</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>O</keycap
+></keycombo
+>) из менија <guimenu
+>Архива</guimenu
+>. Архивске фајлове можете отварати и превлачењем и пуштањем из <application
+>Делфина</application
+>. Формати архива треба да су придружени <application
+>Арку</application
+>, тако да можете кликнути десним на фајл у <application
+>Делфину</application
+> и изабрати <guimenuitem
+>Отвори помоћу Арком</guimenuitem
+> да га отворите, или изабрати једну од радњи распакивања.</para>
+
+<para
+>Ако сте у менију <guimenu
+>Подешавање</guimenu
+> активирали панел са подацима, видећете допунске податке о изабраним фасциклама и фајловима у архиви.</para>
+
+<sect2 id="ark-archive-operations">
+<title
+>Поступци архивирања</title>
+
+<para
+>Над отвореном архивом могу да се изврше разни поступци преко менија <guimenu
+>Архива</guimenu
+>. На пример, можете сачувати архиву под другим именом помоћу <guimenuitem
+>Сачувај као...</guimenuitem
+>. Својства архиве, попут типа, величине и МД5 дисперзије, могу се приказати ставком <guimenuitem
+>Својства</guimenuitem
+>.</para>
+
+<para
+><application
+>Арк</application
+> може да испитује интегритет архива. Ова функционалност је тренутно доступна за ЗИП, РАР и 7зип архиве. Радња испитивања може се наћи у менију <guimenu
+>Архива</guimenu
+>.</para>
+
+</sect2>
+
+<sect2 id="ark-archive-comments">
+<title
+>Коментари у архиви</title>
+
+<para
+>Арк може да рукује угнежђеним коментарима у ЗИП и РАР архивама.</para>
+
+<para
+>Коментари угнежђени у ЗИП архивама приказују се аутоматски.</para>
+
+<para
+>Код РАР архива, коментаре можете уређивати радњама <guimenuitem
+>Додај коментар</guimenuitem
+> и <guimenuitem
+>Уреди коментар</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>C</keycap
+></keycombo
+>) у менију <guimenu
+>Архива</guimenu
+>. </para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Уређивање коментара.</phrase>
+</textobject>
+</mediaobject>
+
+<note
+><para
+>Ставка менија за коментаре активна је само за РАР архиве. </para
+></note>
+
+<para
+>Коментар уклањате из РАР архиве тако што обришете текст у прозору коментара.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Рад са фајловима</title>
+
+<para
+>Пошто отворите архиву, можете вршити разне радње над фајловима унутар ње. Одабиром фајла и коришћењем менија <guimenu
+>Фајл</guimenu
+>, можете извршити неки од наредних поступака:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Прикажи</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>P</keycap
+></keycombo
+>) отвара фајл у <application
+>Арковом</application
+> унутрашњем приказивачу. Ово је брзи приказивач, само за читање, али не подржава све типове фајлова.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Отвори</guimenuitem
+> отвара фајл у програму придруженом том типу фајла.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Отвори помоћу...</guimenuitem
+> даје вам да изаберете којим програмом отворити фајл.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Преименуј</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>F2</keycap
+></keycombo
+>) омогућава мењање имена фајлова и фасцикли. Као и у менаџеру фајлова <application
+>Делфину</application
+>, ова радња може да се позове пречицом и преименовање се обавља утканим уређивањем. Присутне су и провере имена фајла које спречавају употребу лоших знакова, попут <userinput
+>/</userinput
+>, <userinput
+>.</userinput
+> и <userinput
+>..</userinput
+>.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Обриши</guimenuitem
+> (<keycap
+>Del</keycap
+>) уклања тренутно изабране фајлове из архиве. Имајте на уму да се ова радња не може опозвати.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Распакуј</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>E</keycap
+></keycombo
+>) отвара подмени са претходно посећеним фасциклама, одакле можете брзо изабрати неку у коју ћете распаковати, или прегледати за неком другом фасциклом. Погледајте наредни одељак за више детаља о распакивању.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Исеци</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>X</keycap
+></keycombo
+>) / <guimenuitem
+>Копирај</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>C</keycap
+></keycombo
+>) / <guimenuitem
+>Налепи</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>V</keycap
+></keycombo
+>): као и у типичним менаџерима фајлова, ставке се могу премештати, налепљивати и исецати. Корисник може да премести или копира фајлове из различитих фасцикли (које су прошириве у приказу стабла) и налепи их у исто одредиште одједном. Фасцикла може да се копира на саму себе, али не може да се премести. Ту су и провере сукоба у именима фајлова: не можете да копирате фајлове у фасциклу која већ има истоимене ставке, како би се спречио губитак података.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Додавање фајлова</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>A</keycap
+></keycombo
+>) је радња за додавање фајлова на било коју локацију унутар архиве. Ако изаберете фасциклу па употребите ову радњу, фајлови ће бити додати у изабрану фасциклу. Иначе ће бити додати у корен архиве. </para>
+</listitem>
+</itemizedlist>
+
+<sect2 id="ark-editing-files">
+<title
+>Уређивање фајлова</title>
+<para
+>Ако уредите и сачувате фајл који сте отворили помоћу <guimenuitem
+>Отвори</guimenuitem
+> или <guimenuitem
+>Отвори помоћу...</guimenuitem
+>, <application
+>Арк</application
+> ће вас питати желите ли да ажурирате фајл у архиви. Ако одговорите потврдно, архива ће бити допуњена сачуваним фајлом.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>Распакивање фајлова</title>
+
+<para
+>Пошто се отвори у <application
+>Арку</application
+>, архива се може распаковати. То можете учинити избором <guisubmenu
+>Распакуј</guisubmenu
+> из менија <guimenu
+>Фајл</guimenu
+>. Ово отвара подмени са претходно посећиваним фасциклама, тако да можете изабрати брзо распакивање у једну од њих. Алтернативно, изаберите ставку <guisubmenu
+>Распакуј у...</guisubmenu
+> да бисте отворили дијалог за распакивање, где можете задати разне опције у вези са распакивањем. Погледајте у наставку описе расположивих опција у овом дијалогу.</para>
+
+<para
+>За приступ истим опцијама распакивања такође можете употребити дугме <guibutton
+>Распакуј</guibutton
+> на траци алатки.</para>
+
+<para
+>Целу архиву можете да распакујете тако што изаберете <guisubmenu
+>Распакуј све</guisubmenu
+> из менија <guimenu
+>Архива</guimenu
+>. Ова радња безусловно распакује све фајлове из архиве.</para>
+
+<para
+>Фајлове и фасцикле је могуће распаковати простим превлачењем мишем у фасциклу у <application
+>Делфину</application
+>.</para>
+
+<para
+>Напомена: распакивање фајлова из архиве не уноси измене у њеном садржају.</para>
+
+<sect2 id="ark-extract-dialog">
+<title
+>Дијалог распакивања</title>
+
+<para
+>Дијалог распакивања вам омогућава да изаберете где ће фајлови бити распаковани. Подразумевана локација је фасцикла у којој се налази сама архива. Дијалог такође можете отворити притиском <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>E</keycap
+></keycombo
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="extract-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+><application
+>Арков</application
+> дијалог распакивања.</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Можете задати распакивање фајлова у нову потфасциклу. Подразумевано име потфасцикле биће име архиве без наставка из имена фајла. Ако желите да се путање очувају при распакивању, укључите опцију <guilabel
+>Очувај путање при распакивању</guilabel
+>. Такође можете изабрати да се по завршетку распакивања отвори циљна фасцикла у <application
+>Делфину</application
+>, и да се <application
+>Арк</application
+> затвори.</para>
+
+<para
+>Ако је на списку архиве истакнут један или више фајлова, такође можете да изаберете шта треба распаковати:</para>
+<itemizedlist>
+<listitem>
+<para
+><guilabel
+>Само изабрани фајлови</guilabel
+> распакује само изабране фајлове.</para>
+</listitem>
+<listitem>
+<para
+><guilabel
+>Сви фајлови</guilabel
+> распакује целокупан садржај архиве.</para>
+</listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Стварање архива и додавање фајлова</title>
+
+<para
+>Нову архиву у <application
+>Арку</application
+> стварате избором <guimenuitem
+>Ново</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>N</keycap
+></keycombo
+>) из менија <guimenu
+>Архива</guimenu
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Стварање архиве.</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Затим можете уписати име архиве, с одговарајућим наставком (<literal role="extension"
+>tar.gz</literal
+>, <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>7z</literal
+>, итд.), или изабрати један од подржаних формата са списка <guilabel
+>Филтер:</guilabel
+> и попунити кућицу <guilabel
+>Аутоматски додај .<replaceable
+>наставак</replaceable
+></guilabel
+>.</para>
+
+<para
+> За додавање фајлова или фасцикли у нову архиву, идите на <guimenuitem
+>Додај фајлове...</guimenuitem
+> у менију <guimenu
+>Архива</guimenu
+>.</para>
+
+<para
+>Други начин за додавање фајлова у архиву јесте превлачењем једног или више фајлова, нпр. из <application
+>Делфина</application
+>, у главни прозор <application
+>Арка</application
+>, што ће их додати у текућу архиву. Имајте на уму да ће овако додати фајлови увек бити смештени у корену фасциклу архиве.</para>
+
+<para
+>Додатне опције су дате проширивим групама у дну дијалога. </para>
+
+<sect2 id="ark-compression">
+<title
+>Компресовање</title>
+<para
+>Већа вредност резултује мањим архивама, али дужим временом компресовања и распакивања. Подразумевани степен компресије који <application
+>Арк</application
+> даје обично је добар компромис између величине и брзине компресовања. Код већине формата најмањи степен компресије означава просто складиштење фајлова, тј. без икаквог компресовања. </para>
+<para
+>За РАР, 7зип и ЗИП архиве можете да изаберете различите методе компресије. </para>
+<para
+>Имајте на уму да методи компресије различити од подразумевано изабраних могу смањити сагласност са другим архиварима фајлова. На пример, да би се отворила ЗИП архива са методом компресије различитим од дифлејта неопходан је новији софтвер за архивирање.</para>
+</sect2>
+
+<sect2 id="ark-password-protection">
+<title
+>Заштита лозинком</title>
+<para
+>Кад правите ЗИП, РАР, ЈАР или 7зип архиву, можете је заштитити лозинком. Тренутно, једино формат ЗИП подржава више метода шифровања. За формате који подржавају само један метод, тај метод је приказан у падајућем списку.</para>
+<para
+>Методи шифровања различити од подразумеваног зипкрипто могу не бити подржани у неким архиварима фајлова.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Стварање архиве заштићене лозинком.</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Изаберите да ли тражити лозинку и за приказивање списка фајлова. Ово се назива шифровањем заглавља, и могуће је само у форматима РАР и 7зип. Подразумевано је укључено (ако је доступно), да би се новим корисницима пружила највећа заштита.</para>
+</sect2>
+
+<sect2 id="ark-multi-volume">
+<title
+>Вишеделна архива</title>
+<para
+>Код формата ЗИП, РАР и 7зип можете правити вишеделне архиве, такође познате и као подељене архиве.</para>
+<para
+>Вишеделна архива је једна велика компресована архива подељена у неколико фајлова. Ова могућност добро дође када је величина фајла ограничена, нпр. простором складишног медијума или највећом величином поруке е‑поште са прилозима.</para>
+<para
+>Да направите вишеделну архиву, попуните кућицу <guilabel
+>Направи вишеделну архиву</guilabel
+> и задајте <guilabel
+>Величина делова:</guilabel
+> у дијалогу. Затим додајте све фајлове у архиву, и <application
+>Арк</application
+> ће аутоматски направити одговарајући број делова архиве. У зависности од изабраног формата, фајлови ће имати наставке са неком шемом узастопног нумерисања, нпр. <filename
+>xxx.7z.001</filename
+>, <filename
+>xxx.7z.002</filename
+> или <filename
+>xxx.zip.001</filename
+>, <filename
+>xxx.zip.002</filename
+> или <filename
+>xxx.part1.rar</filename
+>, <filename
+>xxx.part2.rar</filename
+>, итд.</para>
+<para
+>За распакивање вишеделне архиве, ставите све њене фајлове у исту фасциклу и отворите <application
+>Арком</application
+> фајл са најмањим бројем у наставку. Тада ће бити аутоматски отворени и сви остали делови подељене архиве.</para>
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>Употреба <application
+>Арк</application
+> у менаџеру фајлова</title>
+
+<para
+>Клик десним дугметом миша на архиву у менаџеру фајлова, попут <application
+>Делфина</application
+>, даје контекстни мени са ставком <guimenuitem
+>Отвори помоћу Арком</guimenuitem
+>. Мени садржи још и следеће ставке за распакивање архиве <application
+>Арком</application
+>: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Распакуј архиву овде, погоди потфасциклу</guimenuitem
+> ствара потфасциклу у фасцикли у којој је архива, и у њу распакује фасцикле и фајлове из архиве.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Распакуј архиву у...</guimenuitem
+> отвара дијалог распакивања, где можете изабрати одредишну фасциклу и разне опције распакивања.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Распакуј архиву овде</guimenuitem
+> распакује садржај архиве у исту фасциклу.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>При активном избору, <application
+>Делфинов</application
+> контекстни мени над изабраним фајловима и фасциклама даје следеће радње у подменију <guimenu
+>Компресуј</guimenu
+>: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Овде (као *.tar.gz)</guimenuitem
+> и <guimenuitem
+>Овде (као *.zip)</guimenuitem
+> стварају архиве ових типова у текућој фасцикли.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Компресуј у...</guimenuitem
+> отвара дијалог у којем можете изабрати фасциклу, име и тип архиве.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>Напредни пакетни режим</title>
+<para
+><application
+>Арк</application
+> поседује напредни пакетни режим за руковање архивама без покретања графичког сучеља. У овом режиму можете распакивати и стварати архиве, и додавати фајлове у њих.</para>
+
+<para
+>Пакетни режим документује <ulink url="man:/ark"
+>упутна страница <application
+>Арка</application
+></ulink
+>. </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Заслуге и лиценца</title>
+
+<para
+><application
+>Арк</application
+>: © 1997–2016, развојни тим <application
+>Арка</application
+>.</para>
+
+<itemizedlist>
+<title
+>Аутори:</title>
+<listitem
+><para
+><personname
+><firstname
+>Елвис</firstname
+> <surname
+>Ангелачо</surname
+></personname
+> <email
+>elvis.angelaccio@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+><personname
+><firstname
+>Рагнар</firstname
+> <surname
+>Томсен</surname
+></personname
+> <email
+>rthomsen6@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+><personname
+><firstname
+>Рафаел</firstname
+> <surname
+>Куба да Коста</surname
+></personname
+> <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+><personname
+><firstname
+>Харалд</firstname
+> <surname
+>Вол</surname
+></personname
+> <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+><personname
+><firstname
+>Хелио</firstname
+> <surname
+>Ћисини де Кастро</surname
+></personname
+> <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+><personname
+><firstname
+>Георг</firstname
+> <surname
+>Роберс</surname
+></personname
+> <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+><personname
+><firstname
+>Енрике</firstname
+> <surname
+>Пинто</surname
+></personname
+> <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+><personname
+><firstname
+>Роберто</firstname
+> <surname
+>Селбах Теjксеира</surname
+></personname
+> <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+><personname
+><firstname
+>Роберт</firstname
+> <surname
+>Палмбос</surname
+></personname
+> <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+><personname
+><firstname
+>Франсоа Ксавје</firstname
+> <surname
+>Дурансо</surname
+></personname
+> <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>компанија Корел (ауторка: <personname
+><firstname
+>Емили</firstname
+> <surname
+>Езуст</surname
+></personname
+>) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>компанија Корел (аутор: <personname
+><firstname
+>Мајкл</firstname
+> <surname
+>Џарет</surname
+></personname
+>) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Документација: © 2000, <personname
+><firstname
+>Мат</firstname
+> <surname
+>Џонстон</surname
+></personname
+> &Matt.Johnston.mail;.</para>
+
+<para
+>Документацију за КДЕ 3.3 ажурирао <personname
+><firstname
+>Енрике</firstname
+> <surname
+>Пинто</surname
+></personname
+> &Henrique.Pinto.mail;.</para>
+
+<para
+>Документацију за Програме КДЕ‑а 16.04 ажурирао <personname
+><firstname
+>Рагнар</firstname
+> <surname
+>Томсен</surname
+></personname
+> &Ragnar.Thomsen.mail;.</para>
+
+<para
+>Превео Драган Пантелић <email
+>falcon-10@gmx.de</email
+>.</para
+> 
+&underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

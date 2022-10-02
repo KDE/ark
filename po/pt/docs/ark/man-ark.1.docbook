@@ -1,0 +1,415 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Portuguese "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Manual do Utilizador do &ark;</title>
+
+<author
+><firstname
+>Lauri</firstname
+><surname
+>Watts</surname
+> <contrib
+>Versão inicial da página de manual do &ark; em 2005.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Raphael</firstname
+><surname
+>Kubo da Costa</surname
+> <contrib
+>Actualização da página de manual do &ark; em 2009.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+> <contrib
+>Actualização da página de manual do &ark; em 2015 e 2016.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>2016-08-09</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>16.08</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>Aplicações do KDE</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>Ferramenta de arquivo do &kde;</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+> sufixo</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+> ficheiro</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+> pasta</replaceable
+></group
+> <arg choice="opt"
+>Opções Genéricas do &kf5;</arg
+> <arg choice="opt"
+>Opções Genéricas do &Qt;</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Descrição</title>
+<para
+>O &kappname; é um programa para gerir vários formatos de pacotes no ambiente do &kde;. Os pacotes podem ser vistos, extraídos, criados e modificados dentro do &kappname;. O programa poderá lidar com vários formatos como o <application
+>tar</application
+>, o <application
+>gzip</application
+>, o <application
+>bzip2</application
+>, o <application
+>zip</application
+>, o <application
+>rar</application
+> e o <application
+>lha</application
+> (se estiverem instalados os programas da linha de comandos apropriados).</para>
+</refsect1>
+
+<refsect1>
+<title
+>Modos de operação</title>
+<para
+>O &ark; tanto pode ser usado como uma &GUI; independente ou como um programa da linha de comandos para efectuar algumas tarefas específicas.</para>
+<para
+>Se for invocado sem as opções -b (--batch) ou -c (--add), o &ark; é iniciado como um programa &GUI; normal.</para>
+<para
+>Quando for usada a opção -b (--batch), o &ark; pode ser usado para extrair directamente o conteúdo de um ou mais ficheiros a partir da linha de comandos, sem invocar a sua &GUI;.</para>
+<para
+>Quando é usada a opção -c (--add), o &ark; pede os ficheiros que deverão ser adicionados a um novo pacote ou a um pacote existente.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Opções</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>Mostrar uma janela para indicar as opções numa operação em lote ou de adição.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>pasta</replaceable
+></option
+></term>
+<listitem
+><para
+>Por omissão, usar a pasta de extracção <replaceable
+>pasta</replaceable
+>. Se não for indicada, é usada a pasta actual.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>Opções para adicionar ficheiros</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>Pedir ao utilizador um nome de pacote e adicionar ficheiros a ele. Sair quando terminar.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>ficheiro</replaceable
+></option
+></term>
+<listitem>
+<para
+>Adicionar os ficheiros indicados ao <replaceable
+>ficheiro</replaceable
+>. Criar o pacote se não existir. Sair quando terminar.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>Muda a pasta actual para o primeiro item e adiciona todos os outros itens em relação a esta.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>sufixo</replaceable
+></option
+></term>
+<listitem>
+<para
+>Escolhe adicionalmente um nome de ficheiro, usando o <replaceable
+>sufixo</replaceable
+> seleccionado (por exemplo rar, tar.gz, zip ou outro tipo suportado qualquer).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Opções para a extracção em lote</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>Usar a interface em lote, em vez da janela normal. Esta opção está implícita se indicar mais de um URL.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --autodestination</option
+></term>
+<listitem>
+<para
+>O argumento de destino será configurado com o local do primeiro ficheiro indicado.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>O conteúdo do pacote será lido e, se se detectar que não é um pacote com apenas uma pasta, será criada uma sub-pasta com o nome do pacote.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>Abre a pasta de destino, quando a extracção terminar.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Veja Também</title>
+<simplelist>
+<member
+>Está disponível mais alguma informação detalhada do utilizador em <ulink url="help:/ark"
+>help:/ark</ulink
+> (tanto pode introduzir este &URL; no &konqueror;, como executar <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Exemplos</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>pacote.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Irá extrair o <replaceable
+>pacote.tar.bz2</replaceable
+> para a pasta actual sem mostrar qualquer &GUI;. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>pacote.tar.bz2</replaceable
+> <replaceable
+>pacote2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Irá mostrar em primeiro lugar uma janela de opções de extracção e irá então extrair tanto o <replaceable
+>pacote.tar.bz2</replaceable
+> como o <replaceable
+>pacote2.zip</replaceable
+> para a pasta escolhida na janela.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>o-meu-pacote.zip</replaceable
+> <replaceable
+>fotografia1.jpg</replaceable
+> <replaceable
+>texto.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Irá criar o ficheiro <replaceable
+>o-meu-pacote.zip</replaceable
+>, se não existir, e irá adicionar depois o <replaceable
+>fotografia1.jpg</replaceable
+> e <replaceable
+>texto.txt</replaceable
+> a ele. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>Manutenção</title>
+<para
+>O &ark; é mantido neste momento por <emphasis role="bold"
+>Elvis Angelaccio</emphasis
+> e por <emphasis role="bold"
+>Ragnar Thomsen</emphasis
+>.</para>
+</refsect1>
+
+</refentry>

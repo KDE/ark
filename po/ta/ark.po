@@ -1,0 +1,3078 @@
+# translation of ark.po to
+# translation of ark.po to
+# translation of ark.po to
+# translation of ark.po to
+# translation of ark.po to
+# translation of ark.po to Tamil
+# Copyright (C) 2004 Free Software Foundation, Inc.
+#
+# Ambalam <tamilpc@ambalam.com>, 2004.
+# root <root@localhost.localdomain>, 2004.
+# Kishore G <kishore96@gmail.com>, 2021, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: ark\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"PO-Revision-Date: 2022-09-13 20:57+0530\n"
+"Last-Translator: Kishore G <kishore96@gmail.com>\n"
+"Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
+"Language: ta\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 22.08.1\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "சிவகுமார் சண்முகசுந்தரம், கோமதி சிவகுமார், துரையப்பா வசீகரன், மா சிவகுமார்."
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+"sshanmu@yahoo.com,gomathiss@hotmail.com,tvasee@usa.net,ma_sivakumar@yahoo.com"
+
+#. i18n: ectx: Menu (archive)
+#: app/arkui.rc:5
+#, kde-format
+msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
+msgid "&Archive"
+msgstr "&காப்பகப்படுத்து"
+
+#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#, kde-format
+msgid "Extracting Files"
+msgstr "கோப்புகள் பிரித்தெடுக்கப்படுகின்றன"
+
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#, kde-format
+msgid "Source archive"
+msgstr "மூல காப்பகம்"
+
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#, kde-format
+msgid "Destination"
+msgstr "சேருமிடம்"
+
+#: app/batchextract.cpp:117
+#, kde-format
+msgid "The following files could not be extracted:"
+msgstr "பின்வரும் கோப்புகளை பிரித்தெடுக்க முடியவில்லை:"
+
+#: app/batchextract.cpp:136
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>. Any further "
+"archive will not be extracted."
+msgstr ""
+"<filename>%1</filename> என்பதை பிரித்தெடுக்கும்போது சிக்கல் ஏற்பட்டது. மேற்பட்ட "
+"காப்பகங்கள் பிரித்தெடுக்கப்படா."
+
+#: app/batchextract.cpp:137
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message><nl/>Any further archive will not be extracted."
+msgstr ""
+"<filename>%1</filename> என்பதை பிரித்தெடுக்கும்போது சிக்கல் ஏற்பட்டது:<nl/><message>"
+"%2</message><nl/>மேற்பட்ட காப்பகங்கள் பிரித்தெடுக்கப்படா."
+
+#: app/batchextract.cpp:141
+#, kde-kuit-format
+msgctxt "@info"
+msgid "There was an error while extracting <filename>%1</filename>."
+msgstr "<filename>%1</filename> என்பதை பிரித்தெடுக்கும்போது சிக்கல் ஏற்பட்டது."
+
+#: app/batchextract.cpp:142
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message>"
+msgstr ""
+"<filename>%1</filename> என்பதை பிரித்தெடுக்கும்போது சிக்கல் ஏற்பட்டது:<nl/><message>"
+"%2</message>"
+
+#: app/batchextract.cpp:293
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive could not be extracted to <filename>%1</filename> because Ark "
+"can only extract to local destinations."
+msgstr ""
+"உள்ளமை சேருமிடங்களுக்கு மட்டும்தான் ஆர்க்கால் காப்பகங்களை பிரித்தெடுக்க முடிவதால், "
+"காப்பகத்தை <filename>%1</filename> என்ற இடத்திற்கு பிரித்தெடுக்க முடியவில்லை."
+
+#: app/compressfileitemaction.cpp:77
+#, kde-format
+msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
+msgid "Compress"
+msgstr "சுருக்கு"
+
+#: app/compressfileitemaction.cpp:90
+#, kde-format
+msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+msgid "Compress to..."
+msgstr "இவ்வாறு சுருக்கு..."
+
+#: app/compressfileitemaction.cpp:97
+#, kde-format
+msgctxt ""
+"@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
+msgid "Here as \"%1\""
+msgstr "\"%1\" என இங்கேயே"
+
+#: app/extractfileitemaction.cpp:63
+#, kde-format
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive to..."
+msgstr "காப்பகத்தை இவ்வாறு பிரித்தெடு..."
+
+#: app/extractfileitemaction.cpp:75
+#, kde-format
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here"
+msgstr "காப்பகத்தை இங்கேயே பிரித்தெடு"
+
+#: app/extractfileitemaction.cpp:83
+#, kde-format
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here, autodetect subfolder"
+msgstr "சார் அடைவை தானாக அமைத்து, காப்பகத்தை இங்கேயே பிரித்தெடு"
+
+#: app/extractfileitemaction.cpp:89
+#, kde-format
+msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
+msgid "Extract"
+msgstr "பிரித்தெடு"
+
+#: app/extractHereDndPlugin.cpp:55
+#, kde-format
+msgctxt ""
+"@action:inmenu Context menu shown when an archive is being drag'n'dropped"
+msgid "Extract here"
+msgstr "இங்கு பிரித்தெடு"
+
+#: app/main.cpp:84
+#, kde-format
+msgid "Ark"
+msgstr "ஆர்க்"
+
+#: app/main.cpp:86
+#, kde-format
+msgid "KDE Archiving tool"
+msgstr "KDE காப்பகச் செயலி"
+
+#: app/main.cpp:88
+#, kde-format
+msgid "(c) 1997-2019, The Ark Developers"
+msgstr "(c) 1997-2019, ஆர்க் நிரலாளர்கள்"
+
+#: app/main.cpp:93
+#, kde-format
+msgid "Elvis Angelaccio"
+msgstr "எல்விஸ் ஆஞ்செலாசியோ"
+
+#: app/main.cpp:94
+#, kde-format
+msgid "Maintainer"
+msgstr "பராமரிப்பாளர்"
+
+#: app/main.cpp:96
+#, kde-format
+msgid "Ragnar Thomsen"
+msgstr ""
+
+#: app/main.cpp:97
+#, kde-format
+msgid "Maintainer, KF5 port"
+msgstr "பராமரிப்பாளர், KF5 ஆக்கம்"
+
+#: app/main.cpp:99
+#, kde-format
+msgid "Raphael Kubo da Costa"
+msgstr ""
+
+#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#, kde-format
+msgid "Former Maintainer"
+msgstr "முந்தைய பராமரிப்பாளர்"
+
+#: app/main.cpp:102
+#, kde-format
+msgid "Harald Hvaal"
+msgstr ""
+
+#: app/main.cpp:105
+#, kde-format
+msgid "Henrique Pinto"
+msgstr ""
+
+#: app/main.cpp:108
+#, kde-format
+msgid "Helio Chissini de Castro"
+msgstr ""
+
+#: app/main.cpp:109
+#, kde-format
+msgid "Former maintainer"
+msgstr "முந்தைய பராமரிப்பாளர்"
+
+#: app/main.cpp:111
+#, kde-format
+msgid "Georg Robbers"
+msgstr ""
+
+#: app/main.cpp:114
+#, kde-format
+msgid "Roberto Selbach Teixeira"
+msgstr ""
+
+#: app/main.cpp:117
+#, kde-format
+msgid "Francois-Xavier Duranceau"
+msgstr ""
+
+#: app/main.cpp:120
+#, kde-format
+msgid "Emily Ezust (Corel Corporation)"
+msgstr ""
+
+#: app/main.cpp:123
+#, kde-format
+msgid "Michael Jarrett (Corel Corporation)"
+msgstr ""
+
+#: app/main.cpp:126
+#, kde-format
+msgid "Robert Palmbos"
+msgstr ""
+
+#: app/main.cpp:130
+#, kde-format
+msgid "Vladyslav Batyrenko"
+msgstr ""
+
+#: app/main.cpp:131
+#, kde-format
+msgid "Advanced editing functionalities"
+msgstr "மேம்பட்ட திருத்த அம்சங்கள்"
+
+#: app/main.cpp:134
+#, kde-format
+msgid "Bryce Corkins"
+msgstr ""
+
+#: app/main.cpp:135
+#, kde-format
+msgid "Icons"
+msgstr "சின்னங்கள்"
+
+#: app/main.cpp:137
+#, kde-format
+msgid "Liam Smit"
+msgstr ""
+
+#: app/main.cpp:138
+#, kde-format
+msgid "Ideas, help with the icons"
+msgstr "யோசனைகள், சின்னங்களுக்கு உதவி"
+
+#: app/main.cpp:140
+#, kde-format
+msgid "Andrew Smith"
+msgstr ""
+
+#: app/main.cpp:141
+#, kde-format
+msgid "bkisofs code"
+msgstr ""
+
+#: app/main.cpp:151
+#, kde-format
+msgid "URLs to open."
+msgstr "திறக்க வேண்டிய முகவரிகள்."
+
+#: app/main.cpp:154
+#, kde-format
+msgid ""
+"Show a dialog for specifying the options for the operation (extract/add)"
+msgstr ""
+"செயல்பாட்டிற்கான விருப்பங்களை அமைப்பதற்கான சாளரத்தை காட்டு (பிரித்தெடுப்பது/சேர்ப்பது)"
+
+#: app/main.cpp:157
+#, kde-format
+msgid ""
+"Destination folder to extract to. Defaults to current path if not specified."
+msgstr ""
+"எந்த அடைவிற்கு பிரித்தெடுக்க வேண்டும். குறிப்பிடப்படவில்லையெனில், தற்போதைய அடைவாக "
+"இருக்கும்."
+
+#. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
+#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#, kde-format
+msgid "Open destination folder after extraction."
+msgstr "பிரித்தெடுத்தபின் சேருமிட அடைவைத் திற."
+
+#: app/main.cpp:164
+#, kde-format
+msgid ""
+"Query the user for an archive filename and add specified files to it. Quit "
+"when finished."
+msgstr ""
+"காப்பகத்தின் பெயரை பயனரிடம் கோரி அதில் குறிப்பிட்ட கோப்புகளை சேர்க்கவிடும். முடிந்தபின் "
+"வெளியேறும்"
+
+#: app/main.cpp:167
+#, kde-format
+msgid ""
+"Add the specified files to 'filename'. Create archive if it does not exist. "
+"Quit when finished."
+msgstr ""
+"குறிப்படப்படும் கோப்புகளை 'filename' என்பதில் சேர்க்கும். அப்பெயரில் ஓர் காப்பகம் இல்லையேல், "
+"அதை உருவாக்கும். முடிந்தபின் வெளியேறும்."
+
+#: app/main.cpp:171
+#, kde-format
+msgid ""
+"Change the current dir to the first entry and add all other entries relative "
+"to this one."
+msgstr "முதல் பதிவுக்கு மாறி, மற்றப் பதிவுகளை அதைச் சார்ந்து புரிந்துகொள்ளும்."
+
+#: app/main.cpp:174
+#, kde-format
+msgid ""
+"Automatically choose a filename, with the selected suffix (for example rar, "
+"tar.gz, zip or any other supported types)"
+msgstr ""
+"உரிய பின்னொட்டுடன் (எ.கா. rar, tar.gz, zip, போன்ற ஆதரிக்கப்படும் வகைகள்) தானாக "
+"கோப்புப்பெயரை தேர்ந்தெடுக்கும்"
+
+#: app/main.cpp:178
+#, kde-format
+msgid ""
+"Use the batch interface instead of the usual dialog. This option is implied "
+"if more than one url is specified."
+msgstr ""
+"சாதாரண காட்சிமுறைக்கு பதிலாக, ஒரே நேரத்தில் பலவற்றைக் கையாள உதவும் batch இடைமுகப்பை "
+"பயன்படுத்தும். ஒன்றுக்கு மேற்பட்ட முகவரிகள் குறிப்பிடப்பட்டிருந்தால், இத்தேர்வு தானாக "
+"இயக்கப்படும்."
+
+#: app/main.cpp:181
+#, kde-format
+msgid ""
+"The destination argument will be set to the path of the first file supplied."
+msgstr "தரப்படும் முதல் கோப்பின் இருப்பிடம், சேருமிடமாக அமைக்கப்படும்."
+
+#: app/main.cpp:184
+#, kde-format
+msgid ""
+"Archive contents will be read, and if detected to not be a single folder or "
+"a single file archive, a subfolder with the name of the archive will be "
+"created."
+msgstr ""
+
+#: app/main.cpp:187
+#, kde-format
+msgid "List supported MIME types."
+msgstr "ஆதரிக்கப்படும் மைம்வகைகளை பட்டியலிடும்."
+
+#: app/mainwindow.cpp:126
+#, kde-format
+msgid "Unable to find Ark's KPart component, please check your installation."
+msgstr ""
+
+#: app/mainwindow.cpp:201
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches between having a <emphasis>Menubar</emphasis> and having a "
+"<interface>Hamburger Menu</interface> button. Both contain mostly the same "
+"commands and configuration options."
+msgstr ""
+
+#: app/mainwindow.cpp:260
+#, kde-format
+msgctxt "to open an archive"
+msgid "Open Archive"
+msgstr "காப்பகத்தை திற"
+
+#: app/mainwindow.cpp:371
+#, kde-format
+msgid "Create New Archive"
+msgstr "புதிய காப்பகத்தை உருவாக்கு"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
+#: app/welcomescreen.ui:18
+#, kde-format
+msgid "Form"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: app/welcomescreen.ui:53
+#, kde-format
+msgid "Welcome to Ark"
+msgstr "ஆர்க்குக்கு நல்வரவு"
+
+#. i18n: ectx: property (text), widget (QPushButton, openButton)
+#: app/welcomescreen.ui:97
+#, kde-format
+msgctxt "to open an archive"
+msgid "Open Archive..."
+msgstr "காப்பகத்தை திற..."
+
+#. i18n: ectx: property (text), widget (QPushButton, newButton)
+#: app/welcomescreen.ui:107
+#, kde-format
+msgid "Create New Archive..."
+msgstr "புதிய காப்பகத்தை உருவாக்கு..."
+
+#: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
+#, kde-format
+msgid "Advanced Options"
+msgstr "மேம்பட்ட விருப்பங்கள்"
+
+#: kerfuffle/adddialog.cpp:47
+#, kde-format
+msgctxt "@action:button"
+msgid "Add"
+msgstr "சேர்"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupCompressFiles)
+#: kerfuffle/adddialog.ui:35
+#, kde-format
+msgid "Files/Folders to Compress"
+msgstr "சுருக்க வேண்டிய கோப்புகள்/அடைவுகள்"
+
+#: kerfuffle/addtoarchive.cpp:79
+#, kde-format
+msgid "Compress to Archive"
+msgstr "காப்பகமாக சுருக்கு"
+
+#: kerfuffle/addtoarchive.cpp:133
+#, kde-format
+msgid "No input files were given."
+msgstr "உள்ளீட்டாக எந்த கோப்பும் தரப்படவில்லை."
+
+#: kerfuffle/addtoarchive.cpp:140
+#, kde-kuit-format
+msgid ""
+"You need to either supply a filename for the archive or a suffix (such as "
+"rar, tar.gz) with the <command>--autofilename</command> argument."
+msgstr ""
+"உருவாக்க வேண்டிய காப்பகத்திற்கான பெயரையோ, <command>--autofilename</command> "
+"விருப்பத்துடன் பின்னொட்டையோ (rar, tar.gz போல) நீங்கள் குறிப்பிட வேண்டும்."
+
+#: kerfuffle/addtoarchive.cpp:236
+#, kde-format
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "காப்பகம்"
+
+#. i18n: ectx: label, entry (showEncryptionWarning), group (General)
+#: kerfuffle/ark.kcfg:9
+#, kde-format
+msgid ""
+"Whether to show a warning when creating zip archives with AES encryption."
+msgstr "AES மறையாக்கத்தை பயன்படுத்தி zip காப்பகங்களை உருவாக்கும்போது எச்சரிக்க வேண்டுமா"
+
+#. i18n: ectx: label, entry (defaultOpenAction), group (General)
+#: kerfuffle/ark.kcfg:13
+#, kde-format
+msgid "Default action when opening archive entries."
+msgstr "காப்பகத்திலுள்ளவற்றை திறக்கும்போது மேற்கொள்ள வேண்டிய இயல்பிருப்பு செயல்."
+
+#. i18n: ectx: label, entry (Version), group (General)
+#: kerfuffle/ark.kcfg:21
+#, kde-format
+msgid ""
+"Internal config version of Ark, mainly used to determine whether an updated "
+"version of Ark is running, so as to migrate config entries that were removed/"
+"renamed ...etc"
+msgstr ""
+
+#. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
+#: kerfuffle/ark.kcfg:31
+#, kde-format
+msgid "Close Ark after extraction."
+msgstr "பிரித்தெடுத்த பின் ஆர்க்கை மூடு."
+
+#. i18n: ectx: label, entry (preservePaths), group (Extraction)
+#: kerfuffle/ark.kcfg:35
+#, kde-format
+msgid "Preserve paths when extracting."
+msgstr "பிரித்தெடுக்கும்போது பாதைகளை மாற்றாதே."
+
+#. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
+#: kerfuffle/ark.kcfg:39
+#, kde-format
+msgid ""
+"Extract to a subfolder if the archive has more than one top-level entry."
+msgstr ""
+"காப்பகத்தின் முதல் மட்டத்தில் பல அடைவுகள் இருந்தால், அக்காப்பகத்தை ஓர் புதிய அடைவிற்குள் "
+"பிரித்தெடு."
+
+#. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
+#: kerfuffle/ark.kcfg:45
+#, kde-format
+msgid "How the main window is divided."
+msgstr "பிரதான சாளரம் எவ்வாறு பிரிக்கப்படும்."
+
+#. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
+#: kerfuffle/ark.kcfg:49
+#, kde-format
+msgid "Whether to show the information panel."
+msgstr "விவரப் பலகையைக் காட்ட வேண்டுமா."
+
+#. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
+#: kerfuffle/ark.kcfg:59
+#, kde-format
+msgid "Whether to limit the preview according to file size."
+msgstr "மிகப்பெரிய கோப்புகளுக்கு முன்தோற்றத்தைக் காட்டாதிருக்க வேண்டுமா."
+
+#. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
+#: kerfuffle/ark.kcfg:63
+#, kde-format
+msgid "Preview file size limit in megabytes."
+msgstr "முன்தோற்றத்திற்கான கோப்பளவு வரம்பு, மெகாபைட்டுகளில்"
+
+#: kerfuffle/cliinterface.cpp:245
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Failed to locate program <filename>%1</filename> on disk."
+msgstr "<filename>%1</filename> என்ற நிரலை வட்டில் கண்டுபிடிக்க முடியவில்லை."
+
+#: kerfuffle/cliinterface.cpp:355
+#, kde-format
+msgid "Extraction failed. Make sure that enough space is available."
+msgstr ""
+"பிரித்தெடுப்பது தோல்வியடைந்த‍து. போதுமான அளவில் காலியிடம் உள்ளதா என்பதை உறுதி "
+"செய்யுங்கள்."
+
+#: kerfuffle/cliinterface.cpp:358
+#, kde-format
+msgid ""
+"Extraction failed. Make sure you provided the correct password and that "
+"enough space is available."
+msgstr ""
+"பிரித்தெடுப்பது தோல்வியடைந்த‍து. சரியான கடவுச்சொல்லை உள்ளிட்டீர்களா என்பதையும், போதுமான "
+"அளவில் காலியிடம் உள்ளதா என்பதையும் உறுதி செய்யுங்கள்."
+
+#: kerfuffle/cliinterface.cpp:369 kerfuffle/cliinterface.cpp:494
+#, kde-format
+msgctxt "@info"
+msgid "Could not move the extracted file to the destination directory."
+msgid_plural "Could not move the extracted files to the destination directory."
+msgstr[0] "பிரித்தெடுத்த கோப்பை சேருமிட அடைவிற்கு நகர்த்த முடியவில்லை."
+msgstr[1] "பிரித்தெடுத்த கோப்புகளை சேருமிட அடைவிற்கு நகர்த்த முடியவில்லை."
+
+#: kerfuffle/cliinterface.cpp:857
+#, kde-format
+msgctxt "@info"
+msgid "Extraction failed because the disk is full."
+msgstr "வட்டில் இடமில்லாத‍தால் பிரித்தெடுத்தல் தோல்வியடைந்த‍து."
+
+#: kerfuffle/cliinterface.cpp:864
+#, kde-format
+msgctxt "@info"
+msgid "Extraction failed: Incorrect password"
+msgstr "பிரித்தெடுப்பது தோல்வியடைந்த‍து: தவறான கடவுச்சொல்"
+
+#: kerfuffle/cliinterface.cpp:898
+#, kde-format
+msgid "Incorrect password."
+msgstr "தவறான கடவுச்சொல்"
+
+#: kerfuffle/cliinterface.cpp:921
+#, kde-format
+msgid "Ark does not currently support testing this archive."
+msgstr "இப்படிப்பட்ட காப்பகத்தை சோதிப்பதை ஆர்க் ஆதரிக்காது."
+
+#: kerfuffle/compressionoptionswidget.cpp:132
+#, kde-format
+msgid "Protection of the list of files is not possible with the %1 format."
+msgstr "%1 வடிவத்தை பயன்படுத்தும்போது கோப்புகளின் பட்டியலை மறைக்க முடியாது."
+
+#: kerfuffle/compressionoptionswidget.cpp:141
+#, kde-format
+msgid ""
+"Protection of the archive with password is not possible with the %1 format."
+msgstr "%1 வடிவத்தை பயன்படுத்தும்போது காப்பகத்திற்கு கடவுச்சொல்லை அமைக்க முடியாது."
+
+#: kerfuffle/compressionoptionswidget.cpp:156
+#, kde-format
+msgid "It is not possible to set compression level for the %1 format."
+msgstr "%1 வடிவத்தை பயன்படுத்தும்போது சுருக்க அளவை மாற்றியமைக்க முடியாது."
+
+#: kerfuffle/compressionoptionswidget.cpp:176
+#, kde-format
+msgid "It is not possible to set compression method for the %1 format."
+msgstr "%1 வடிவத்தை பயன்படுத்தும்போது சுருக்க முறையை மாற்றியமைக்க முடியாது."
+
+#: kerfuffle/compressionoptionswidget.cpp:199
+#, kde-format
+msgid "The %1 format does not support multi-volume archives."
+msgstr "பல பகுதிகளைக் கொண்ட காப்பகங்களை %1 ஆதரிக்காது."
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleCompression)
+#: kerfuffle/compressionoptionswidget.ui:20
+#, kde-format
+msgid "Compression"
+msgstr "சுருக்கம்"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel1)
+#: kerfuffle/compressionoptionswidget.ui:35
+#, kde-format
+msgid "Level:"
+msgstr "அளவு:"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel2)
+#: kerfuffle/compressionoptionswidget.ui:45
+#, kde-format
+msgid "Min"
+msgstr "பெரிய காப்பகம்"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompMethod)
+#: kerfuffle/compressionoptionswidget.ui:83
+#, kde-format
+msgid "Method:"
+msgstr "முறை:"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel3)
+#: kerfuffle/compressionoptionswidget.ui:93
+#, kde-format
+msgid "Max"
+msgstr "சிறிய காப்பகம்"
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleEncryption)
+#: kerfuffle/compressionoptionswidget.ui:118
+#, kde-format
+msgid "Password Protection"
+msgstr "கடவுச்சொல்"
+
+#. i18n: ectx: property (text), widget (QLabel, lblEncMethod)
+#: kerfuffle/compressionoptionswidget.ui:130
+#, kde-format
+msgid "Encryption method:"
+msgstr "மறையாக்க முறை:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, encryptHeaderCheckBox)
+#: kerfuffle/compressionoptionswidget.ui:160
+#, kde-format
+msgid "Ask for password before showing the list of files in the archive"
+msgstr "காப்பகத்திலுள்ள கோப்புகளின் பட்டியலை பார்ப்பதற்கு கடவுச்சொல்லை கட்டாயப்படுத்து"
+
+#. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
+#: kerfuffle/compressionoptionswidget.ui:170
+#, kde-format
+msgid ""
+"This encryption method may not be supported by older archiving software."
+msgstr "இந்த மறையாக்க முறை, பழைய நிரல்களால் ஆதரிக்கப்படாமல் இருக்கலாம்."
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleMultiVolume)
+#: kerfuffle/compressionoptionswidget.ui:183
+#, kde-format
+msgid "Multi-volume Archive"
+msgstr "பல பகுதிகளை கொண்ட காப்பகம்"
+
+#. i18n: ectx: property (text), widget (QCheckBox, multiVolumeCheckbox)
+#: kerfuffle/compressionoptionswidget.ui:192
+#, kde-format
+msgid "Create multi-volume archive"
+msgstr "பல பகுதிகளை கொண்ட காப்பகத்தை உருவாக்கும்"
+
+#. i18n: ectx: property (text), widget (QLabel, lblVolumeSize)
+#: kerfuffle/compressionoptionswidget.ui:210
+#, kde-format
+msgid "Volume size:"
+msgstr "பகுதியின் அளவு:"
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_previewFileSizeLimit)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, volumeSizeSpinbox)
+#: kerfuffle/compressionoptionswidget.ui:223
+#: kerfuffle/previewsettingspage.ui:32
+#, kde-format
+msgid " megabytes"
+msgstr ""
+
+#: kerfuffle/createdialog.cpp:111
+#, kde-format
+msgctxt "the argument is a file extension (the period is not a typo)"
+msgid "Automatically add .%1"
+msgstr ".%1 என்பதை தானாக சேர்"
+
+#: kerfuffle/createdialog.cpp:198
+#, kde-format
+msgid "The chosen password does not match the given verification password."
+msgstr "இருமுறையும் வெவ்வேறு கடவுச்சொற்களை உள்ளிட்டுள்ளீர்கள்."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/createdialog.ui:30
+#, kde-format
+msgid "Folder:"
+msgstr "அடைவு:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/createdialog.ui:47
+#, kde-format
+msgid "Filename:"
+msgstr "கோப்புப்பெயர்:"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
+#: kerfuffle/createdialog.ui:54
+#, kde-format
+msgid "Type archive name..."
+msgstr "காப்பகத்தின் பெயரை உள்ளிடுங்கள்..."
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
+#: kerfuffle/createdialog.ui:61 part/infopanel.ui:93
+#, kde-format
+msgid "Type:"
+msgstr "வகை:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/createdialog.ui:78
+#, kde-format
+msgid "Extension:"
+msgstr "வகைப்பெயர்"
+
+#: kerfuffle/extractiondialog.cpp:40
+#, kde-format
+msgctxt "@title:window"
+msgid "Extract"
+msgstr "பிரித்தெடுத்தல்"
+
+#: kerfuffle/extractiondialog.cpp:54
+#, kde-format
+msgid "Extract"
+msgstr "பிரித்தெடு"
+
+#: kerfuffle/extractiondialog.cpp:97
+#, kde-format
+msgid "The subfolder name may not contain the character '/'."
+msgstr "சார் அடைவின் பெயரில் '/' இருக்கக்கூடாது."
+
+#: kerfuffle/extractiondialog.cpp:107
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The folder <filename>%1</filename> already exists. Are you sure you want to "
+"extract here?"
+msgstr ""
+"<filename>%1</filename> என்ற அடைவு ஏற்கனவேயுள்ளது. உறுதியாக காப்பகத்தை அங்கு "
+"பிரித்தெடுக்க வேண்டுமா?"
+
+#: kerfuffle/extractiondialog.cpp:108
+#, kde-format
+msgid "Folder exists"
+msgstr "அடைவு ஏற்கனவேயுள்ளது"
+
+#: kerfuffle/extractiondialog.cpp:109
+#, kde-format
+msgid "Extract here"
+msgstr "இங்கு பிரித்தெடு"
+
+#: kerfuffle/extractiondialog.cpp:110
+#, kde-format
+msgid "Retry"
+msgstr "மீண்டும் முயற்சி"
+
+#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The folder <filename>%1</filename> could not be created."
+msgstr "<filename>%1</filename> என்ற அடைவை உருவாக்க முடியவில்லை."
+
+#: kerfuffle/extractiondialog.cpp:121
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<filename>%1</filename> already exists, but is not a folder."
+msgstr "<filename>%1</filename> ஏற்கனவேயுள்ளது, ஆனால் அது ஓர் அடைவு அல்ல."
+
+#: kerfuffle/extractiondialog.cpp:127
+#, kde-format
+msgid "Please check your permissions to create it."
+msgstr "அதை உருவாக்குவதற்கான் அனுமதி உள்ளதா என்பதை சரிபாருங்கள்."
+
+#: kerfuffle/extractiondialog.cpp:166
+#, kde-format
+msgid "Extract multiple archives"
+msgstr "பல காப்பகங்களை பிரித்தெடுப்பது"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ExtractionDialog)
+#: kerfuffle/extractiondialog.ui:21
+#, kde-format
+msgid "Extraction Dialog"
+msgstr "பிரித்தெடுப்பு சாளரம்"
+
+#. i18n: ectx: property (text), widget (QLabel, extractAllLabel)
+#: kerfuffle/extractiondialog.ui:70
+#, kde-format
+msgid "Extract All Files"
+msgstr "எல்லா கோப்புகளையும் பிரித்தெடு"
+
+#. i18n: ectx: property (title), widget (QGroupBox, singleFolderGroup)
+#: kerfuffle/extractiondialog.ui:79
+#, kde-format
+msgid "E&xtraction into subfolder:"
+msgstr "சார் அடைவிற்குள் &பிரித்தெடு:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: kerfuffle/extractiondialog.ui:113
+#, kde-format
+msgid "Options"
+msgstr "விருப்பங்கள்"
+
+#. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
+#: kerfuffle/extractiondialog.ui:132
+#, kde-format
+msgid "Open &destination folder after extraction"
+msgstr "&பிரித்தெடுத்தபின் சேருமிட அடைவைத் திற"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
+#: kerfuffle/extractiondialog.ui:139
+#, kde-format
+msgid "Close &Ark after extraction"
+msgstr "பிரித்தெடுத்தபின் &ஆர்க்கை மூடு"
+
+#. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
+#: kerfuffle/extractiondialog.ui:146
+#, kde-format
+msgid "&Preserve paths when extracting"
+msgstr "பிரித்தெடுக்கும்போது பாதைகளை &மாற்றாதே"
+
+#. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
+#: kerfuffle/extractiondialog.ui:153
+#, kde-format
+msgid "&Automatically create subfolders"
+msgstr "&சார் அடைவுகளை தானாக உருவாக்கு"
+
+#. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
+#: kerfuffle/extractiondialog.ui:169
+#, kde-format
+msgctxt "@title:group"
+msgid "Extract"
+msgstr "பிரித்தெடுப்பது"
+
+#. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
+#: kerfuffle/extractiondialog.ui:187
+#, kde-format
+msgid "Sele&cted files only"
+msgstr "&தேர்ந்தெடுக்கபட்ட கோப்புகள் மட்டும்"
+
+#. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
+#: kerfuffle/extractiondialog.ui:203
+#, kde-format
+msgid "All &files"
+msgstr "&அனைத்து கோப்புகளும்"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_openDestinationFolderAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:17
+#, kde-format
+msgid "Open destination folder after extraction"
+msgstr "பிரித்தெடுத்தபின் சேருமிட அடைவைத் திற"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_closeAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:24
+#, kde-format
+msgid "Close Ark after extraction"
+msgstr "பிரித்தெடுத்தபின் ஆர்க்கை மூடு"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_preservePaths)
+#: kerfuffle/extractionsettingspage.ui:31
+#, kde-format
+msgid "Preserve paths when extracting"
+msgstr "பிரித்தெடுக்கும்போது பாதைகளை மாற்றாதே"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:41
+#, kde-format
+msgid ""
+"Whether to check by default the extraction into subfolder checkbox in the "
+"Extraction Dialog, when the archive has more than one top-level entry."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:44
+#, kde-format
+msgid "Extract to a subfolder if the archive has more than one top-level entry"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/generalsettingspage.ui:17
+#, kde-format
+msgid "When clicking a file in an archive or pressing the Return key:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: kerfuffle/generalsettingspage.ui:33
+#, kde-format
+msgid "Pre&view the file with internal previewer"
+msgstr "&கோப்பின் முன்னோட்டத்தை உள்ளமை காட்டியில் காட்டு"
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: kerfuffle/generalsettingspage.ui:43
+#, kde-format
+msgid "Open the fi&le with associated application"
+msgstr "&உரிய செயலியில் கோப்பைத் திற"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
+#: kerfuffle/generalsettingspage.ui:60
+#, kde-format
+msgid "Show a warning when creating zip archives with AES encryption"
+msgstr "AES மறையாக்கத்துடன் zip காப்பகங்களை உருவாக்கும்போது எச்சரி"
+
+#: kerfuffle/jobs.cpp:99
+#, kde-format
+msgid "No suitable plugin found. Ark does not seem to support this file type."
+msgstr ""
+"உரிய செருகுநிரல் கண்டுபிடிக்கப்படவில்லை. இக்கோப்புவகையை ஆர்க் ஆதரிக்காத‍துபோல் தெரிகிறது."
+
+#: kerfuffle/jobs.cpp:103
+#, kde-format
+msgid ""
+"Failed to load a suitable plugin. Make sure any executables needed to handle "
+"the archive type are installed."
+msgstr ""
+"உரிய செருகுநிரலை இயக்க முடியவில்லை. இவ்வகையான காப்பகங்களை கையாள தேவையான நிரல்கள் "
+"நிறுவப்பட்டுள்ளனவா என்பதை சரிபாருங்கள்."
+
+#: kerfuffle/jobs.cpp:168
+#, kde-format
+msgid ""
+"Could not load the archive because it contains ill-formed entries and might "
+"be a malicious archive."
+msgstr ""
+"காப்பகத்தில் முறையற்ற பதிவுகள் உள்ளன. தீங்கு விளைவிக்கும் காப்பகமாக இருப்பதற்கு "
+"வாய்ப்புள்ளதால் இக்காப்பகம் ஏற்றப்படவில்லை."
+
+#: kerfuffle/jobs.cpp:253
+#, kde-format
+msgid "Loading archive"
+msgstr "காப்பகம் ஏற்றப்படுகிறது"
+
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:704
+#: kerfuffle/jobs.cpp:757 kerfuffle/jobs.cpp:795 kerfuffle/jobs.cpp:827
+#: kerfuffle/jobs.cpp:875
+#, kde-format
+msgid "Archive"
+msgstr "காப்பகம்"
+
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#, kde-kuit-format
+msgid "No space available on device <filename>%1</filename>"
+msgstr "<filename>%1</filename> என்பதில் இடம் இல்லை"
+
+#: kerfuffle/jobs.cpp:536
+#, kde-format
+msgid "Extracting all files"
+msgstr "எல்லா கோப்புகளையும் பிரித்தெடுப்பது"
+
+#. i18np on purpose so this translation may properly be reused.
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:630
+#, kde-format
+msgid "Extracting one file"
+msgid_plural "Extracting %1 files"
+msgstr[0] "ஒரு கோப்பை பிரித்தெடுப்பது"
+msgstr[1] "%1 கோப்புகளை பிரித்தெடுப்பது"
+
+#: kerfuffle/jobs.cpp:540
+#, kde-format
+msgctxt "extraction folder"
+msgid "Destination"
+msgstr "சேருமிடம்"
+
+#: kerfuffle/jobs.cpp:544
+#, kde-kuit-format
+msgid ""
+"Could not write to destination <filename>%1</filename>.<nl/>Check whether "
+"you have sufficient permissions."
+msgstr ""
+"<filename>%1</filename> என்ற சேருமிடத்திற்கு எழுத முடியவில்லை.<nl/>உங்களுக்கு "
+"போதுமான அனுமதி உள்ளதா என்பதை சரிபாருங்கள்."
+
+#: kerfuffle/jobs.cpp:703
+#, kde-format
+msgid "Compressing a file"
+msgid_plural "Compressing %1 files"
+msgstr[0] "ஒரு கோப்பு சுருக்கப்படுகிறது"
+msgstr[1] "%1 கோப்புகள் சுருக்கப்படுகின்றன"
+
+#: kerfuffle/jobs.cpp:756
+#, kde-format
+msgid "Moving a file"
+msgid_plural "Moving %1 files"
+msgstr[0] "ஒரு கோப்பு நகர்த்தப்படுகிறது"
+msgstr[1] "%1 கோப்புகள் நகர்த்தப்படுகின்றன"
+
+#: kerfuffle/jobs.cpp:794
+#, kde-format
+msgid "Copying a file"
+msgid_plural "Copying %1 files"
+msgstr[0] "ஒரு கோப்பு நகலெடுக்கப்படுகிறது"
+msgstr[1] "%1 கோப்புகள் நகலெடுக்கப்படுகின்றன"
+
+#: kerfuffle/jobs.cpp:826
+#, kde-format
+msgid "Deleting a file from the archive"
+msgid_plural "Deleting %1 files"
+msgstr[0] "காப்பகத்திலிருந்து ஒரு கோப்பு நீக்கப்படுகிறது"
+msgstr[1] "காப்பகத்திலிருந்து %1 கோப்புகள் நீக்கப்படுகின்றன"
+
+#: kerfuffle/jobs.cpp:850
+#, kde-format
+msgid "Adding comment"
+msgstr "குறிப்பு சேர்க்கப்படுகிறது"
+
+#: kerfuffle/jobs.cpp:875
+#, kde-format
+msgid "Testing archive"
+msgstr "காப்பகம் சோதிக்கப்படுகிறது"
+
+#: kerfuffle/pluginsettingspage.cpp:34
+#, kde-format
+msgid ""
+"The plugin cannot be used because one or more required executables are "
+"missing. Check your installation."
+msgstr ""
+"இச்செருகுநிரலுக்கு தேவையான சில நிரல்கள் நிறுவப்படாத‍தால் இதை பயன்படுத்த முடியாது. "
+"உங்கள் இயங்குதளத்தை சரிபாருங்கள்."
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:24
+#, kde-format
+msgid "Name"
+msgstr "பெயர்"
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:29
+#, kde-format
+msgid "Description"
+msgstr "விவரணம்"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_limitPreviewFileSize)
+#: kerfuffle/previewsettingspage.ui:22
+#, kde-format
+msgid "Disable preview for files larger than:"
+msgstr "இதைவிட பெரிய கோப்புகளின் முன்னோட்டத்தை காட்டாதே:"
+
+#: kerfuffle/propertiesdialog.cpp:40
+#, kde-format
+msgctxt "@title:window"
+msgid "Properties for %1"
+msgstr "%1-இன் பண்புகள்"
+
+#. i18n: ectx: property (text), widget (KSqueezedTextLabel, m_passwordValueLabel)
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:50
+#: part/infopanel.ui:195
+#, kde-format
+msgid "yes"
+msgstr "ஆம்"
+
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:49
+#: kerfuffle/propertiesdialog.cpp:50 kerfuffle/propertiesdialog.cpp:63
+#, kde-format
+msgid "no"
+msgstr "இல்லை"
+
+#: kerfuffle/propertiesdialog.cpp:49
+#, kde-format
+msgid "yes (%1 volumes)"
+msgstr "ஆம் (%1 பகுதிகள்)"
+
+#: kerfuffle/propertiesdialog.cpp:51
+#, kde-format
+msgid "%1 file"
+msgid_plural "%1 files"
+msgstr[0] "%1 கோப்பு"
+msgstr[1] "%1 கோப்புகள்"
+
+#: kerfuffle/propertiesdialog.cpp:52
+#, kde-format
+msgid ", %1 folder"
+msgid_plural ", %1 folders"
+msgstr[0] ", %1 அடைவு"
+msgstr[1] ", %1 அடைவுகள்"
+
+#: kerfuffle/propertiesdialog.cpp:66
+#, kde-format
+msgid "only file contents (%1)"
+msgstr "கோப்புகளின் உள்ளடக்கம் மட்டும் (%1)"
+
+#: kerfuffle/propertiesdialog.cpp:69
+#, kde-format
+msgid "yes (%1)"
+msgstr "ஆம் (%1)"
+
+#: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
+#: kerfuffle/propertiesdialog.cpp:88
+#, kde-format
+msgid "Calculating..."
+msgstr "கணிக்கப்படுகிறது..."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/propertiesdialog.ui:37
+#, kde-format
+msgid "Archive name:"
+msgstr "காப்பகத்தின் பெயர்:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/propertiesdialog.ui:54
+#, kde-format
+msgid "Archive type:"
+msgstr "காப்பகத்தின் வகை:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: kerfuffle/propertiesdialog.ui:71
+#, kde-format
+msgid "Mime-type:"
+msgstr "மைம் வகை:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: kerfuffle/propertiesdialog.ui:88
+#, kde-format
+msgid "Opened read-only:"
+msgstr "படிக்க-மட்டும் திறக்கப்பட்டள்ளதா:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_passwordLabel)
+#: kerfuffle/propertiesdialog.ui:105 part/infopanel.ui:179
+#, kde-format
+msgid "Password-protected:"
+msgstr "கடவுச்சொல் உள்ளதா:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_10)
+#: kerfuffle/propertiesdialog.ui:122
+#, kde-format
+msgid "Has comment:"
+msgstr "குறிப்பு உள்ளதா:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/propertiesdialog.ui:139
+#, kde-format
+msgid "Number of entries:"
+msgstr "பதிவுகளின் எண்ணிக்கை:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: kerfuffle/propertiesdialog.ui:156
+#, kde-format
+msgid "Unpacked size:"
+msgstr "பிரித்தெடுத்தபின் அளவு:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: kerfuffle/propertiesdialog.ui:173
+#, kde-format
+msgid "Packed size:"
+msgstr "சுருக்கியதன் அளவு:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: kerfuffle/propertiesdialog.ui:190
+#, kde-format
+msgid "Compression ratio:"
+msgstr "சுருக்க விகிதம்:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: kerfuffle/propertiesdialog.ui:207
+#, kde-format
+msgid "Last modified:"
+msgstr "கடைசியாக மாற்றப்பட்டது:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: kerfuffle/propertiesdialog.ui:224
+#, kde-format
+msgid "MD5 hash:"
+msgstr "MD5 சரிகாண்தொகை:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_13)
+#: kerfuffle/propertiesdialog.ui:244
+#, kde-format
+msgid "SHA-1 hash:"
+msgstr "SHA-1 சரிகாண்தொகை:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_14)
+#: kerfuffle/propertiesdialog.ui:261
+#, kde-format
+msgid "SHA-256 hash:"
+msgstr "SHA-256 சரிகாண்தொகை:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_15)
+#: kerfuffle/propertiesdialog.ui:278
+#, kde-format
+msgid "Multi-volume:"
+msgstr "பல பகுதிகளுடையது:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#: kerfuffle/propertiesdialog.ui:295
+#, kde-format
+msgid "Compression method(s):"
+msgstr "சுருக்க முறை:"
+
+#: kerfuffle/queries.cpp:73
+#, kde-format
+msgctxt "@title:window"
+msgid "File Already Exists"
+msgstr "கோப்பு ஏற்கனவே உள்ளது"
+
+#: kerfuffle/queries.cpp:156
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> is password protected. Please enter the "
+"password."
+msgstr ""
+"<filename>%1</filename> என்ற காப்பகத்திற்கு கடவுச்சொல் தேவை. கடவுச்சொல்லை உள்ளிடுங்கள்."
+
+#: kerfuffle/queries.cpp:160
+#, kde-format
+msgid "Incorrect password, please try again."
+msgstr "தவறான கடவுச்சொல். மீண்டும் முயற்சியுங்கள்."
+
+#: kerfuffle/queries.cpp:195
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive you're trying to open is corrupt.<nl/>Some files may be missing "
+"or damaged."
+msgstr ""
+"நீங்கள் திறக்க முயற்சிக்கும் காப்பகம் சேதமடைந்துள்ளது.<nl/>அதிலுள்ள சில கோப்புகள் இல்லாமலோ "
+"சேதமடைந்தோ இருக்கலாம்."
+
+#: kerfuffle/queries.cpp:197
+#, kde-format
+msgctxt "@title:window"
+msgid "Corrupt archive"
+msgstr "சேதமடைந்த காப்பகம்"
+
+#: kerfuffle/queries.cpp:198
+#, kde-format
+msgctxt "@action:button"
+msgid "Open as Read-Only"
+msgstr "படிக்க மட்டும் திற"
+
+#: kerfuffle/queries.cpp:199
+#, kde-format
+msgctxt "@action:button"
+msgid "Don't Open"
+msgstr "திறக்காதே"
+
+#: kerfuffle/queries.cpp:208
+#, kde-format
+msgid "Don't ask again."
+msgstr "மீண்டும் கேட்காதே."
+
+#: kerfuffle/queries.cpp:220
+#, kde-format
+msgid "Error during extraction"
+msgstr "பிரித்தெடுக்கும்போது சிக்கல்"
+
+#: kerfuffle/queries.cpp:221
+#, kde-kuit-format
+msgid ""
+"Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
+"error message:<nl/>    %2<nl/><nl/>Do you want to continue extraction?<nl/>"
+msgstr ""
+"இப்பதிவு:<nl/>    <filename>%1</filename><nl/>இச்சிக்கலால் தோல்வியடைந்த‍து:<nl/>    "
+"%2<nl/><nl/>பிரித்தெடுப்பதை தொடர வேண்டுமா?<nl/>"
+
+#: part/archivemodel.cpp:155
+#, kde-format
+msgctxt "Name of a file inside an archive"
+msgid "Name"
+msgstr "பெயர்"
+
+#: part/archivemodel.cpp:157
+#, kde-format
+msgctxt "Uncompressed size of a file inside an archive"
+msgid "Original Size"
+msgstr "உண்மையான அளவு"
+
+#: part/archivemodel.cpp:159
+#, kde-format
+msgctxt "Compressed size of a file inside an archive"
+msgid "Compressed Size"
+msgstr "சுருக்கப்பட்ட அளவு"
+
+#: part/archivemodel.cpp:161
+#, kde-format
+msgctxt "Compression rate of file"
+msgid "Rate"
+msgstr "வீதம்"
+
+#: part/archivemodel.cpp:163
+#, kde-format
+msgctxt "File's owner username"
+msgid "Owner"
+msgstr "உரிமையாளர்"
+
+#: part/archivemodel.cpp:165
+#, kde-format
+msgctxt "File's group"
+msgid "Group"
+msgstr "குழு"
+
+#: part/archivemodel.cpp:167
+#, kde-format
+msgctxt "File permissions"
+msgid "Mode"
+msgstr "அனுமதிகள்"
+
+#: part/archivemodel.cpp:169
+#, kde-format
+msgctxt "CRC hash code"
+msgid "CRC checksum"
+msgstr "CRC சரிகாண்தொகை"
+
+#: part/archivemodel.cpp:171
+#, kde-format
+msgctxt "BLAKE2 hash code"
+msgid "BLAKE2 checksum"
+msgstr "BLAKE2 சரிகாண்தொகை"
+
+#: part/archivemodel.cpp:173
+#, kde-format
+msgctxt "Compression method"
+msgid "Method"
+msgstr "முறை"
+
+#: part/archivemodel.cpp:176
+#, kde-format
+msgctxt "File version"
+msgid "Version"
+msgstr "பதிப்பு"
+
+#: part/archivemodel.cpp:178
+#, kde-format
+msgctxt "Timestamp"
+msgid "Date"
+msgstr "தேதி"
+
+#: part/archivemodel.cpp:180
+#, kde-format
+msgctxt "Unnamed column"
+msgid "??"
+msgstr "??"
+
+#: part/archivemodel.cpp:291
+#, kde-format
+msgid "Adding files is not supported for this archive."
+msgstr "இக்காப்பத்தில் கோப்புகளை சேர்ப்பது ஆதரிக்கப்படாத‍து."
+
+#: part/archivemodel.cpp:299
+#, kde-format
+msgid "You can only add local files to an archive."
+msgstr "இக்கணினியிலுள்ள கோப்புகளையே காப்பகத்தில் சேர்க்க முடியும்."
+
+#. i18n: ectx: Menu (archive)
+#: part/ark_part.rc:5
+#, kde-format
+msgid "&Archive"
+msgstr "காப்பகப்படுத்து"
+
+#. i18n: ectx: Menu (ark_file)
+#: part/ark_part.rc:15
+#, kde-format
+msgid "&File"
+msgstr "&கோப்பு"
+
+#. i18n: ectx: Menu (settings)
+#: part/ark_part.rc:29
+#, kde-format
+msgid "&Settings"
+msgstr "&அமைப்புகள்"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: part/ark_part.rc:34
+#, kde-format
+msgid "Main Toolbar"
+msgstr "பிரதான கருவிப்பட்டை"
+
+#. i18n: ectx: Menu (help)
+#: part/ark_viewer.rc:5
+#, kde-format
+msgid "&Help"
+msgstr "&உதவி"
+
+#: part/arkviewer.cpp:52
+#, kde-format
+msgid "Closing preview"
+msgstr "முன்னோட்டம் மூடப்படுகிறது"
+
+#: part/arkviewer.cpp:53
+#, kde-format
+msgid "Please wait while the preview is being closed..."
+msgstr "முன்னோட்டத்தை மூடும்வரை காத்திருங்கள்..."
+
+#: part/arkviewer.cpp:100
+#, kde-format
+msgid "The internal viewer cannot preview this file."
+msgstr "இக்கோப்பை உள்ளமை காட்டியில் பார்க்க முடியாது."
+
+#: part/arkviewer.cpp:116
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+"இவ்வகையான கோப்பை உள்ளமை காட்டியில் பார்க்க முடியாது<nl/>(%1).<nl/><nl/> அதை சாதாரண "
+"உரைக்கோப்பாக பார்க்க முயற்சிக்கலாமா?"
+
+#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#, kde-format
+msgctxt "@title:window"
+msgid "Cannot Preview File"
+msgstr "கோப்பின் முன்னோட்டத்தை காட்ட முடியாது"
+
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#, kde-format
+msgctxt "@action:button"
+msgid "Preview as Text"
+msgstr "உரையாக காட்டு"
+
+#: part/arkviewer.cpp:128
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+"தெரியாத வகையான இக்கோப்பை உள்ளமை காட்டியில் பார்க்க முடியாது.<nl/><nl/> அதை சாதாரண "
+"உரைக்கோப்பாக பார்க்க முயற்சிக்கலாமா?"
+
+#: part/arkviewer.cpp:192
+#, kde-format
+msgctxt "@action"
+msgid "About Viewer Component"
+msgstr "காட்டி கூறை பற்றி"
+
+#: part/infopanel.cpp:52
+#, kde-format
+msgid "No archive loaded"
+msgstr "எந்த காப்பகமும் ஏற்றப்படவில்லை"
+
+#: part/infopanel.cpp:103
+#, kde-format
+msgid "Symbolic Link"
+msgstr "குறியிணைப்பு"
+
+#: part/infopanel.cpp:108
+#, kde-format
+msgid "Unknown size"
+msgstr "தெரியாத அளவு"
+
+#: part/infopanel.cpp:129
+#, kde-format
+msgid "One file selected"
+msgid_plural "%1 files selected"
+msgstr[0] "ஒரு கோப்பு தேர்ந்தெடுக்கப்பட்டுள்ளது"
+msgstr[1] "%1 கோப்புகள் தேர்ந்தெடுக்கப்பட்டுள்ளன"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, InformationPanel)
+#: part/infopanel.ui:20
+#, kde-format
+msgid "Information Panel"
+msgstr "விவர பலகை"
+
+#. i18n: ectx: property (text), widget (QLabel, additionalInfo)
+#: part/infopanel.ui:64
+#, kde-format
+msgid "Unknown file type"
+msgstr "தெரியாத கோப்புவகை"
+
+#. i18n: ectx: property (text), widget (QLabel, m_ownerLabel)
+#: part/infopanel.ui:113
+#, kde-format
+msgid "Owner:"
+msgstr "உரிமையாளர்:"
+
+#. i18n: ectx: property (text), widget (QLabel, m_groupLabel)
+#: part/infopanel.ui:133
+#, kde-format
+msgid "Group:"
+msgstr "குழு:"
+
+#. i18n: ectx: property (text), widget (QLabel, m_targetLabel)
+#: part/infopanel.ui:153
+#, kde-format
+msgid "Target:"
+msgstr "இலக்கு:"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, JobTrackerWidget)
+#: part/jobtracker.ui:13
+#, kde-format
+msgid "Job Tracker"
+msgstr "பணி கண்காணிப்பி"
+
+#. i18n: ectx: property (text), widget (QLabel, descriptionLabel)
+#: part/jobtracker.ui:43
+#, kde-format
+msgid "<b>Job Description</b>"
+msgstr "<b>பணியின் விவரணம்</b>"
+
+#. i18n: ectx: property (text), widget (QLabel, informationLabel)
+#: part/jobtracker.ui:62
+#, kde-format
+msgid "Some Information about the job"
+msgstr "பணியை பற்றிய சில விவரங்கள்"
+
+#: part/overwritedialog.cpp:26
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Remove them if you really want "
+"to overwrite."
+msgstr ""
+"இப்பாதைகளைக்கொண்ட கோப்புகள் ஏற்கனவேயுள்ளன. அவற்றை மேலெழுத விரும்பினால், அவற்றை அகற்றுங்கள்."
+
+#: part/overwritedialog.cpp:28
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Do you want to continue "
+"overwriting them?"
+msgstr "இப்பாதைகளைக்கொண்ட கோப்புகள் ஏற்கனவேயுள்ளன. அவற்றை மேலெழுத வேண்டுமா?"
+
+#: part/part.cpp:111
+#, kde-format
+msgid "Comment"
+msgstr "குறிப்பு"
+
+#: part/part.cpp:122
+#, kde-format
+msgid "Comment has been modified."
+msgstr "குறிப்பு மாற்றப்பட்டுள்ளது."
+
+#: part/part.cpp:127
+#, kde-format
+msgid "Save"
+msgstr "சேமி"
+
+#: part/part.cpp:150
+#, kde-format
+msgid "Type to search..."
+msgstr "தேட தட்டச்சிடவும்..."
+
+#: part/part.cpp:308
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark can extract archives to local destinations only."
+msgstr "ஆர்க்கால் உள்ளமை இடங்களுக்கு மட்டும்தான் காப்பகங்களை பிரித்தெடுக்க முடியும்."
+
+#: part/part.cpp:363
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Show Information Panel"
+msgstr "விவர பலகையை காட்டு"
+
+#: part/part.cpp:370
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Save Copy As..."
+msgstr "நகலெடுத்து இவ்வாறு சேமி..."
+
+#: part/part.cpp:374
+#, kde-format
+msgctxt "open a file with external program"
+msgid "&Open in External Application"
+msgstr "&வெளி செயலியில் திற"
+
+#: part/part.cpp:379
+#, kde-format
+msgctxt "open a file with external program"
+msgid "Open &With..."
+msgstr "&இதனால் திற..."
+
+#: part/part.cpp:381
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to open the selected file with an external program"
+msgstr "தேர்ந்தெடுத்துள்ள கோப்பை இன்னொரு செயலியில் திறக்க கிளிக் செய்யுங்கள்"
+
+#: part/part.cpp:385
+#, kde-format
+msgctxt "to preview a file inside an archive"
+msgid "Pre&view"
+msgstr "&முன்னோட்டம்"
+
+#: part/part.cpp:387
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to preview the selected file"
+msgstr "தேர்ந்தெடுத்துள்ள கோப்பின் முன்னோட்டத்தை காண கிளிக் செய்யுங்கள்"
+
+#: part/part.cpp:392
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "E&xtract All"
+msgstr "&அனைத்தையும் பிரித்தெடு"
+
+#: part/part.cpp:394
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose how to extract all "
+"the files in the archive"
+msgstr ""
+"காப்பகத்திலுள்ள அனைத்து கோப்புகளையும் எவ்வாறு பிரித்தெடுக்க வேண்டுமென்பதை அமைக்க உதவும் "
+"சாளரத்தை திறக்க இதை கிளிக் செய்யுங்கள்"
+
+#: part/part.cpp:399
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Extract"
+msgstr "&பிரித்தெடு"
+
+#: part/part.cpp:402
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose to extract either "
+"all files or just the selected ones"
+msgstr ""
+"காப்பகத்திலுள்ள அனைத்து கோப்புகளையோ, சில கோப்புகளையோ பிரித்தெடுக்க விடும் சாளரத்தை "
+"திறக்க இதை கிளிக் செய்யுங்கள்"
+
+#: part/part.cpp:407
+#, kde-format
+msgid "Add &Files..."
+msgstr "&கோப்புகளைச் சேர்..."
+
+#: part/part.cpp:408 part/part.cpp:471
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to add files to the archive"
+msgstr "காப்பகத்தில் கோப்புகளை சேர்க்க இதை கிளிக் செய்யுங்கள்"
+
+#: part/part.cpp:415
+#, kde-format
+msgctxt "@action"
+msgid "Remove from Archive"
+msgstr "காப்பகத்திலிருந்து நீக்கு"
+
+#: part/part.cpp:425
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Properties"
+msgstr "ப&ண்புகள்"
+
+#: part/part.cpp:427
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to see properties for archive"
+msgstr "காப்பகத்தின் பண்புகளை பார்க்க இதை கிளிக் செய்யுங்கள்"
+
+#: part/part.cpp:433
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to add or edit comment"
+msgstr "குறிப்பை சேர்க்கவோ திருத்தவோ இதை கிளிக் செய்யுங்கள்"
+
+#: part/part.cpp:438
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Test Integrity"
+msgstr "&ஒழுங்கை சரிபார்"
+
+#: part/part.cpp:440 part/part.cpp:472
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Click to test the archive for integrity"
+msgstr "காப்பகம் சேதமடைந்துள்ளதா என்பதை சோதிக்க இதை கிளிக் செய்யுங்கள்"
+
+#: part/part.cpp:466
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Adding files to existing password-protected archives with no header-"
+"encryption is currently not supported.<nl/><nl/>Extract the files and create "
+"a new archive if you want to add files."
+msgstr ""
+
+#: part/part.cpp:469
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Testing password-protected archives with no header-encryption is currently "
+"not supported."
+msgstr ""
+
+#: part/part.cpp:537
+#, kde-format
+msgctxt "@action:inmenu mutually exclusive with Add &Comment"
+msgid "Edit &Comment"
+msgstr "கு&றிப்பை திருத்து"
+
+#: part/part.cpp:538 part/part.cpp:546
+#, kde-format
+msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
+msgid "Add &Comment"
+msgstr "கு&றிப்பைச் சேர்"
+
+#: part/part.cpp:647
+#, kde-format
+msgid "The archive passed the integrity test."
+msgstr "காப்பகம் ஒழுங்காக உள்ளது."
+
+#: part/part.cpp:647 part/part.cpp:649
+#, kde-format
+msgid "Test Results"
+msgstr "சோதனையின் முடிவுகள்"
+
+#: part/part.cpp:649
+#, kde-format
+msgid "The archive failed the integrity test."
+msgstr "காப்பகம் ஒழுங்காக இல்லை."
+
+#: part/part.cpp:670
+#, kde-format
+msgid "Extract To..."
+msgstr "இதற்கு பிரித்தெடு..."
+
+#: part/part.cpp:684
+#, kde-format
+msgid "Quick Extract To..."
+msgstr "இதற்கு எளிதில் பிரித்தெடு..."
+
+#: part/part.cpp:814
+#, kde-format
+msgctxt "@title:tab"
+msgid "General"
+msgstr "பொதுவானவை"
+
+#: part/part.cpp:815
+#, kde-format
+msgctxt "@title:tab"
+msgid "Extraction"
+msgstr "பிரித்தெடுப்பது"
+
+#: part/part.cpp:816
+#, kde-format
+msgctxt "@title:tab"
+msgid "Plugins"
+msgstr "செருகுநிரல்கள்"
+
+#: part/part.cpp:817
+#, kde-format
+msgctxt "@title:tab"
+msgid "Previews"
+msgstr "முன்தோற்றங்கள்"
+
+#: part/part.cpp:829
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<filename>%1</filename> is a directory."
+msgstr "<filename>%1</filename> அடைவாகும்."
+
+#: part/part.cpp:838
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"Could not overwrite <filename>%1</filename>. Check whether you have write "
+"permission."
+msgstr ""
+"<filename>%1</filename> என்பதை மேலெழுத முடியவில்லை. அதற்கு எழுதுவதற்கான அனுமதி "
+"உங்களிடம் உள்ளதா என பாருங்கள்."
+
+#: part/part.cpp:844
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> will be created as soon as you add a "
+"file."
+msgstr ""
+"நீங்கள் ஒரு கோப்பை சேர்த்தால், <filename>%1</filename> என்ற காப்பகம் உருவாக்கப்படும்."
+
+#: part/part.cpp:847
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The archive <filename>%1</filename> was not found."
+msgstr "<filename>%1</filename> என்ற காப்பகம் கண்டுபிடிக்கப்படவில்லை."
+
+#: part/part.cpp:852
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> could not be loaded, as it was not "
+"possible to read from it."
+msgstr "<filename>%1</filename> என்ற காப்பகத்தை படிக்க முடியாத‍தால் அது ஏற்றப்படவில்லை."
+
+#: part/part.cpp:865
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "<filename>%1</filename> என்ற காப்பகம் ஏற்கனவேயுள்ளது. அதனை மேலெழுத வேண்டுமா?"
+
+#: part/part.cpp:867
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "கோப்பு ஏற்கனவே உள்ளது"
+
+#: part/part.cpp:904
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The archive is empty or Ark could not open its content."
+msgstr "காப்பகத்தில் ஏதுமில்லை, அல்லது ஆர்க்கால் அதை திறக்க முடியவில்லை."
+
+#: part/part.cpp:909
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark does not currently support ISO files with UDF filesystem."
+msgstr "UDF கோப்பு முறைமையைக் கொண்ட ISO கோப்புகளை ஆர்க் ஆதரிக்காது."
+
+#: part/part.cpp:939
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"Loading the archive <filename>%1</filename> failed with the following error:"
+"<nl/><message>%2</message>"
+msgstr ""
+"<filename>%1</filename> என்ற காப்பகத்தை ஏற்றுவது, இச்சிக்கலால் தோல்வியடைந்த‍து:<nl/"
+"><message>%2</message>"
+
+#: part/part.cpp:999
+#, kde-format
+msgid "Ark cannot open symlinks."
+msgstr "ஆர்க்கால் குறியிணைப்புகளை (symlink-களை) திறக்க முடியாது."
+
+#: part/part.cpp:1121
+#, kde-kuit-format
+msgid ""
+"The file <filename>%1</filename> was modified. Do you want to update the "
+"archive?"
+msgstr ""
+"<filename>%1</filename> என்ற கோப்பு மாற்றப்பட்டுள்ளது. காப்பகத்தை புதுப்பிக்க வேண்டுமா?"
+
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@title:window"
+msgid "File Modified"
+msgstr "கோப்பு மாற்றப்பட்டுள்ளது"
+
+#: part/part.cpp:1403
+#, kde-format
+msgctxt "@title:window"
+msgid "Add Files"
+msgstr "கோப்புகளை சேர்த்தல்"
+
+#: part/part.cpp:1408
+#, kde-format
+msgctxt "@title:window"
+msgid "Add Files to %1"
+msgstr "%1 என்பதில் கோப்புகளை சேர்த்தல்"
+
+#: part/part.cpp:1472
+#, kde-format
+msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
+msgstr ""
+"கோப்பின் பெயரில் சாய்கோடுகள் (/) இருக்கக்கூடாது. மேலும், அது \".\" அல்லது \"..\" ஆக "
+"இருக்கக்கூடாது."
+
+#: part/part.cpp:1516
+#, kde-format
+msgid "Folders can't be moved into themselves."
+msgstr "அடைவை தனக்குள் நகர்த்த முடியாது."
+
+#: part/part.cpp:1517
+#, kde-format
+msgid "Moving a folder into itself"
+msgstr "அடைவை தனக்குள் நகர்த்துவது"
+
+#: part/part.cpp:1545
+#, kde-format
+msgid "Entries with the same names can't be pasted to the same destination."
+msgstr "ஒரே பெயரைக்கொண்டவற்றை ஒரே இடத்தில் ஒட்ட முடியாது."
+
+#: part/part.cpp:1646
+#, kde-format
+msgctxt "@info"
+msgid "Deleting this file is not undoable. Are you sure you want to do this?"
+msgid_plural ""
+"Deleting these files is not undoable. Are you sure you want to do this?"
+msgstr[0] "இக்கோப்பை நீக்குவதை திரும்பப்பெற முடியாது. உறுதியாக தொடர வேண்டுமா?"
+msgstr[1] "இக்கோப்புகளை நீக்குவதை திரும்பப்பெற முடியாது. உறுதியாக தொடர வேண்டுமா?"
+
+#: part/part.cpp:1649
+#, kde-format
+msgctxt "@title:window"
+msgid "Delete File"
+msgid_plural "Delete Files"
+msgstr[0] "கோப்பை நீக்குதல்"
+msgstr[1] "கோப்புகளை நீக்குதல்"
+
+#: part/part.cpp:1692
+#, kde-format
+msgctxt "@title:window"
+msgid "Save Copy As"
+msgstr "நகலை இவ்வாறு சேமிப்பது"
+
+#: part/part.cpp:1707
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive could not be saved as <filename>%1</filename>. Try saving it to "
+"another location."
+msgstr ""
+"காப்பகத்தை <filename>%1</filename> என்று சேமிக்க முடியவில்லை. வேறிடத்தில் சேமித்து "
+"பாருங்கள்."
+
+#: part/part.cpp:1711
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> does not exist anymore, therefore it "
+"cannot be copied to the specified location."
+msgstr ""
+"<filename>%1</filename> என்ற காப்பகம் இப்போது இல்லாத‍தால், அதை குறிப்பிட்ட இடத்திற்கு "
+"நகலெடுக்க முடியாது."
+
+#: plugins/cli7zplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:85
+#, kde-format
+msgid "Listing the archive failed."
+msgstr "காப்பகத்திலுள்ளவற்றை பட்டியலிடுவது தோல்வியடைந்த‍து."
+
+#: plugins/cli7zplugin/cliplugin.cpp:309
+#, kde-format
+msgid "Extraction failed due to an unknown error."
+msgstr "பிரித்தெடுப்பது, தெரியாத சிக்கலால் தோல்வியடைந்தது."
+
+#: plugins/cli7zplugin/cliplugin.cpp:315 plugins/clizipplugin/cliplugin.cpp:188
+#, kde-format
+msgid ""
+"Extraction failed due to one or more corrupt files. Any extracted files may "
+"be damaged."
+msgstr ""
+"ஒழுங்கற்ற கோப்புகளால் பிரித்தெடுப்பது தோல்வியடைந்த‍து. பிரித்தெடுக்கப்பட்டுள்ள கோப்புகள் "
+"சேதமடைந்தவையாக இருக்கலாம்."
+
+#: plugins/cli7zplugin/cliplugin.cpp:326
+#, kde-format
+msgid ""
+"Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
+"configuration dialog."
+msgstr ""
+"நீக்குவது தோல்வியடைந்த‍து. 7z-ஐ புதுப்பியுங்கள், அல்லது அமைப்புகளில் 7z செருகுநிரலை "
+"முடக்குங்கள்."
+
+#: plugins/clirarplugin/cliplugin.cpp:157
+#: plugins/clirarplugin/cliplugin.cpp:300
+#: plugins/clirarplugin/cliplugin.cpp:553
+#, kde-format
+msgid "Failed to find all archive volumes."
+msgstr "காப்பகத்தின் சில பகுதிகளை (volume-களை) கண்டுபிடிக்க முடியவில்லை."
+
+#: plugins/clirarplugin/cliplugin.cpp:321
+#, kde-format
+msgid ""
+"Your unrar executable is version %1, which is too old to handle this "
+"archive. Please update to a more recent version."
+msgstr ""
+"உங்கள் unrar நிரலின் பதிப்பு %1 ஆகும். அப்பதிப்பு, இக்காப்பகத்தை கையாளக்கூடிய "
+"பதிப்புகளைவிட பழையது. சமீபத்திய பதிப்பை பயன்படுத்துங்கள்."
+
+#: plugins/clirarplugin/cliplugin.cpp:328
+#, kde-format
+msgid ""
+"Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
+"Try updating your unrar."
+msgstr ""
+"இது RAR காப்பகமே இல்லையென unrar கூறுகிறது. நிறுவப்பட்டுள்ள unrar பதிப்பு (%1) "
+"பழையதாக இருந்தால் இவ்வாறு ஆகும். unrar-ஐ புதுப்பித்து பாருங்கள்."
+
+#: plugins/clirarplugin/cliplugin.cpp:548
+#, kde-format
+msgid "One or more wrong checksums"
+msgstr "தவறான சரிகாண்தொகை(கள்)"
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:97
+#, kde-format
+msgid "Extraction failed."
+msgstr "பிரித்தெடுப்பது தோல்வியடைந்தது."
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:131
+#, kde-format
+msgid "Not enough memory for loading the archive."
+msgstr "காப்பகத்தை ஏற்ற போதிய நினைவிடம் இல்லை."
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Wrong password."
+msgstr "தவறான கடவுச்சொல்."
+
+#: plugins/clizipplugin/cliplugin.cpp:178
+#, kde-format
+msgid "Extraction failed due to unsupported compression method (%1)."
+msgstr ""
+"ஆதரிக்கப்படாத சுருக்க முறை (%1) பயன்படுத்தப்பட்டதால் பிரித்தெடுப்பது தோல்வியடைந்த‍து."
+
+#: plugins/clizipplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Extraction failed due to unsupported encryption method."
+msgstr "ஆதரிக்கப்படாத மறையாக்க முறை பயன்படுத்தப்பட்டதால் பிரித்தெடுப்பது தோல்வியடைந்த‍து."
+
+#: plugins/clizipplugin/cliplugin.cpp:311
+#, kde-format
+msgctxt "referred to compression method"
+msgid "unknown"
+msgstr "தெரியாதது"
+
+#: plugins/libarchive/libarchiveplugin.cpp:392
+#, kde-format
+msgctxt "@info"
+msgid "Fatal error, extraction aborted."
+msgstr "முறிவுண்டாக்கும் சிக்கல், பிரித்தெடுப்பது நிறுத்தப்பட்டது."
+
+#: plugins/libarchive/libarchiveplugin.cpp:426
+#, kde-format
+msgid "The archive reader could not be initialized."
+msgstr "காப்பக படிப்பியை துவக்க முடியவில்லை."
+
+#: plugins/libarchive/libarchiveplugin.cpp:440
+#, kde-format
+msgctxt "@info"
+msgid "Archive corrupted or insufficient permissions."
+msgstr "காப்பகம் சேதமடைந்துள்ளது, அல்லது போதிய அனுமதி இல்லை."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:209
+#, kde-format
+msgctxt "@info"
+msgid "Failed to create a temporary file for writing data."
+msgstr "தரவுகளை எழுத தற்காலிக கோப்பை உருவாக்குவது தோல்வியடைந்த‍து."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:215
+#, kde-format
+msgid "The archive writer could not be initialized."
+msgstr "காப்பக எழுதியை துவக்க முடியவில்லை."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:233
+#, kde-format
+msgctxt "@info"
+msgid "Could not open the archive for writing entries."
+msgstr "காப்பகத்தில் எழுதுமாறு அதை திறக்க முடியவில்லை."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:280
+#, kde-format
+msgid "The compression type '%1' is not supported by Ark."
+msgstr "'%1' என்ற சுருக்க முறை, ஆர்க்கால் ஆதரிக்கப்படாத‍து."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:289
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:343
+#, kde-format
+msgctxt "@info"
+msgid "Could not set the compression method."
+msgstr "சுருக்க முறையை அமைக்க முடியவில்லை."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:353
+#, kde-format
+msgctxt "@info"
+msgid "Could not set the compression level."
+msgstr "சுருக்க அளவை அமைக்க முடியவில்லை."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:472
+#, kde-format
+msgctxt "@info"
+msgid "Could not compress entry, operation aborted."
+msgstr "உருப்படியை சுருக்க முடியவில்லை, பணி கைவிடப்பட்டது."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:513
+#, kde-format
+msgctxt "@info Error in a message box"
+msgid "Could not compress entry."
+msgstr "உருப்படியை சுருக்க முடியவில்லை."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:49
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark could not extract <filename>%1</filename>."
+msgstr "<filename>%1</filename> என்பதை ஆர்க்கால் பிரித்தெடுக்க முடியவில்லை."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:57
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark could not open <filename>%1</filename> for extraction."
+msgstr ""
+"பிரித்தெடுப்பதற்காக <filename>%1</filename> என்பதை ஆர்க்கால் திறக்க முடியவில்லை."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:71
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while reading <filename>%1</filename> during extraction."
+msgstr ""
+"பிரித்தெடுக்கும்போது <filename>%1</filename> என்பதை படிப்பதில் சிக்கல் ஏற்பட்டது."
+
+#: plugins/libzipplugin/libzipplugin.cpp:76
+#: plugins/libzipplugin/libzipplugin.cpp:118
+#: plugins/libzipplugin/libzipplugin.cpp:415
+#: plugins/libzipplugin/libzipplugin.cpp:464
+#: plugins/libzipplugin/libzipplugin.cpp:555
+#: plugins/libzipplugin/libzipplugin.cpp:826
+#: plugins/libzipplugin/libzipplugin.cpp:881
+#, kde-kuit-format
+msgid "Failed to open archive: %1"
+msgstr "காப்பகத்தை திறக்க முடியவில்லை: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:176
+#: plugins/libzipplugin/libzipplugin.cpp:448
+#: plugins/libzipplugin/libzipplugin.cpp:480
+#: plugins/libzipplugin/libzipplugin.cpp:861
+#: plugins/libzipplugin/libzipplugin.cpp:951
+#, kde-kuit-format
+msgid "Failed to write archive."
+msgstr "காப்பகத்தை எழுத முடியவில்லை."
+
+#: plugins/libzipplugin/libzipplugin.cpp:225
+#: plugins/libzipplugin/libzipplugin.cpp:918
+#, kde-kuit-format
+msgid "Failed to add entry: %1"
+msgstr "பதிவை சேர்க்க முடியவில்லை: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:280
+#, kde-kuit-format
+msgid "Failed to set compression options for entry: %1"
+msgstr "பதிவிற்கான சுருக்க விருப்பங்களை அமைக்க முடியவில்லை: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:385
+#: plugins/libzipplugin/libzipplugin.cpp:776
+#: plugins/libzipplugin/libzipplugin.cpp:927
+#, kde-kuit-format
+msgid "Failed to read metadata for entry: %1"
+msgstr "பதிவிற்கான மேனிலைத் தரவை (metadata-வை) படிக்க முடியவில்லை: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:429
+#: plugins/libzipplugin/libzipplugin.cpp:434
+#, kde-kuit-format
+msgid "Failed to delete entry: %1"
+msgstr "பதிவை நீக்க முடியவில்லை: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:659
+#, kde-kuit-format
+msgid "Failed to create directory: %1"
+msgstr "அடைவை உருவாக்க முடியவில்லை: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:732
+#, kde-kuit-format
+msgid "Failed to open '%1':<nl/>%2"
+msgstr "'%1' என்பதை திறக்க முடியவில்லை:<nl/>%2"
+
+#: plugins/libzipplugin/libzipplugin.cpp:740
+#, kde-kuit-format
+msgid "Failed to open file for writing: %1"
+msgstr "எழுதவதற்காக கோப்பை திறப்பது தோல்வியடைந்த‍து: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:753
+#, kde-kuit-format
+msgid "Failed to read data for entry: %1"
+msgstr "பதிவிற்கான தரவை படிப்பது தோல்வியடைந்த‍து: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:758
+#, kde-kuit-format
+msgid "Failed to write data for entry: %1"
+msgstr "பதிவிற்கான தரவை எழுதுவது தோல்வியடைந்த‍து: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:768
+#, kde-kuit-format
+msgid "Failed to locate entry: %1"
+msgstr "பதிவை கண்டுபிடிக்க முடியவில்லை: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:840
+#: plugins/libzipplugin/libzipplugin.cpp:846
+#, kde-kuit-format
+msgid "Failed to move entry: %1"
+msgstr "பதிவை நகர்த்த முடியவில்லை: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:904
+#, kde-kuit-format
+msgid "Failed to copy entry: %1"
+msgstr "பதிவை நகலெடுக்க முடியவில்லை: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:934
+#, kde-kuit-format
+msgid "Failed to set metadata for entry: %1"
+msgstr "பதிவின் மேனிலைத் தரவை (metadata-வை) அமைக்க முடியவில்லை: %1"
+
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open"
+#~ msgstr "&திற"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to open the selected file with the associated application"
+#~ msgstr "தேர்ந்தெடுத்துள்ள கோப்பை உரிய செயலியில் திறக்க கிளிக் செய்யுங்கள்"
+
+#~ msgctxt "Uncompressed size of a file inside an archive"
+#~ msgid "Size"
+#~ msgstr "அளவு"
+
+#~ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#~ msgid "Here (as TAR.GZ)"
+#~ msgstr "இங்கு (TAR.GZ-ஆக)"
+
+#~ msgctxt ""
+#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
+#~ "filename"
+#~ msgid "Here (to \"%1.tar.gz\")"
+#~ msgstr "இங்கு (\"%1.tar.gz\"-ஆக)"
+
+#~ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#~ msgid "Here (as ZIP)"
+#~ msgstr "இங்கு (ZIP-ஆக)"
+
+#, fuzzy
+#~ msgctxt "action, to open an archive"
+#~ msgid "Open"
+#~ msgstr "திற"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "Open an archive"
+#~ msgstr "'காப்பகத்தை' திறக்கவும்"
+
+#, fuzzy
+#~| msgid "Ark"
+#~ msgid "ArkPart"
+#~ msgstr "உள்ளமை &வீல்"
+
+#, fuzzy
+#~| msgid "Save Archive As"
+#~ msgctxt "@title:window"
+#~ msgid "Save Archive As"
+#~ msgstr "காப்பகத்தை இப்படிச் சேமிக்கவும்"
+
+#, fuzzy
+#~| msgid "Archive already exists. Do you wish to overwrite it?"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "An archive named <filename>%1</filename> already exists. Are you sure you "
+#~ "want to overwrite it?"
+#~ msgstr "காப்பகம் ஏற்கனவே உள்ளது. மேல் எழுத வேண்டுமா?"
+
+#, fuzzy
+#~| msgid "General Settings"
+#~ msgctxt "@title:tab"
+#~ msgid "General Settings"
+#~ msgstr "பொது அமைப்புகள் "
+
+#, fuzzy
+#~| msgid "Extract Settings"
+#~ msgctxt "@title:tab"
+#~ msgid "Extraction Settings"
+#~ msgstr "அமைப்புகளைப் பிரித்திடு"
+
+#, fuzzy
+#~| msgctxt "to view something"
+#~| msgid "&View"
+#~ msgctxt "@title:tab"
+#~ msgid "Preview Settings"
+#~ msgstr "&காட்சி"
+
+#, fuzzy
+#~| msgctxt "acronym for Cyclic Redundancy Check"
+#~| msgid " CRC "
+#~ msgctxt "CRC hash code"
+#~ msgid "CRC"
+#~ msgstr " CRC "
+
+#, fuzzy
+#~| msgid " Filename "
+#~ msgid "&Rename"
+#~ msgstr " கோப்புபெயர் "
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to rename the selected file"
+#~ msgstr "தேர்ந்தெடுக்கப்பட்ட உருப்படிகளை உண்மையாகவே நீக்க விரும்புகிறீர்களா?"
+
+#~ msgid "De&lete"
+#~ msgstr "நீ&க்கு"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to delete the selected files"
+#~ msgstr "தேர்ந்தெடுக்கப்பட்ட உருப்படிகளை உண்மையாகவே நீக்க விரும்புகிறீர்களா?"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to cut the selected files"
+#~ msgstr "தேர்ந்தெடுக்கப்பட்ட உருப்படிகளை உண்மையாகவே நீக்க விரும்புகிறீர்களா?"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to copy the selected files"
+#~ msgstr "தேர்ந்தெடுக்கப்பட்ட உருப்படிகளை உண்மையாகவே நீக்க விரும்புகிறீர்களா?"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to paste the files here"
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgid "All Files"
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Find Files"
+#~ msgstr "அனைத்து கோப்புகள்"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to search in archive"
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgid "Adding files..."
+#~ msgid "Adding a file"
+#~ msgid_plural "Adding %1 files"
+#~ msgstr[0] "கோப்பைச் சேர்"
+#~ msgstr[1] "கோப்பைச் சேர்"
+
+#, fuzzy
+#~| msgid "Folder to extract to"
+#~ msgctxt "@info"
+#~ msgid "Extraction failed at:<nl/><filename>%1</filename>"
+#~ msgstr "கோப்புறை   பிரித்தெடுப்பதில் "
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>.<nl/>Check whether you "
+#~ "have sufficient permissions."
+#~ msgstr "பிடித்தமான அடைவு %1"
+
+#, fuzzy
+#~| msgid "Folder to extract to"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Failed to create a temporary file to compress <filename>%1</filename>."
+#~ msgstr "கோப்புறை   பிரித்தெடுப்பதில் "
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not read until the end of the archive"
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgid "Add Folde&r..."
+#~ msgid "Add Fo&lder..."
+#~ msgstr "&அடைவைச் சேர்"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to add a folder to the archive"
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgid "Add Folde&r..."
+#~ msgctxt "@title:window"
+#~ msgid "Add Folder"
+#~ msgstr "&அடைவைச் சேர்"
+
+#, fuzzy
+#~| msgid "&Action"
+#~ msgid "ActionsLabel"
+#~ msgstr "&செயல்"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Please select a filename for the archive."
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgid "0 files selected"
+#~ msgid "No file selected"
+#~ msgstr "0 கோப்புகள் தேர்ந்து எடுக்கப்பட்டது"
+
+#, fuzzy
+#~| msgid "Open with:"
+#~ msgid "Open File"
+#~ msgstr " வைத்துத் திறக்கவும்:"
+
+#, fuzzy
+#~| msgid "Extract"
+#~ msgctxt "@action:intoolbar"
+#~ msgid "E&xtract"
+#~ msgstr "பிரித்தெடு"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgctxt "@title:window"
+#~ msgid "Error Opening Archive"
+#~ msgstr "'காப்பகத்தை' திறக்கவும்"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "lblArchiveNamed"
+#~ msgstr "'காப்பகத்தை' திறக்கவும்"
+
+#, fuzzy
+#~| msgid "All Valid Archives\n"
+#~ msgid "lblArchiveType"
+#~ msgstr "எல்லாம் காப்புக்  செல்லுபடி  \n"
+
+#, fuzzy
+#~| msgid "Compressing..."
+#~ msgid "lblCompressionRatio"
+#~ msgstr "சுருக்குகிறது..."
+
+#, fuzzy
+#~| msgid "Files to be added"
+#~ msgid "lblModified"
+#~ msgstr " சேர்த்து எழத வேண்டிய கோப்புகள்"
+
+#, fuzzy
+#~| msgid "Icons"
+#~ msgid "lblIcon"
+#~ msgstr "சின்னங்கள்"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for reading"
+#~ msgstr "பிடித்தமான அடைவு %1"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid "File <filename>%1</filename> not found in the archive"
+#~ msgstr "பிடித்தமான அடைவு %1"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for writing."
+#~ msgstr "பிடித்தமான அடைவு %1"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not add the directory <filename>%1</filename> to the archive"
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename> after adding file."
+#~ msgstr "பிடித்தமான அடைவு %1"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not add the file <filename>%1</filename> to the archive."
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#~ msgid "&Action"
+#~ msgstr "&செயல்"
+
+#, fuzzy
+#~| msgid "Open with:"
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open File"
+#~ msgstr " வைத்துத் திறக்கவும்:"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>, libarchive cannot "
+#~ "handle it."
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgid "Open destination folder after extraction"
+#~ msgid "Options for batch extraction:"
+#~ msgstr "பிரித்தப்பிறகு சேரும் அடைவை திற"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Found program <filename>%1</filename>, but failed to initialize the "
+#~ "process."
+#~ msgstr "பிடித்தமான அடைவு %1"
+
+#, fuzzy
+#~ msgid "Delete files"
+#~ msgstr "தேர்ந்தெடுக்கபட்ட கோப்புகள்"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Unable to open the file '%1', libarchive cannot handle it."
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgctxt "folder for opening files (used as part of a sentence)"
+#~| msgid "open folder"
+#~ msgid "Recent folders"
+#~ msgstr "திறக்கும் அடைவு"
+
+#, fuzzy
+#~| msgid "Open extract dialog, quit when finished"
+#~ msgid "Operation finished."
+#~ msgstr "பிரித்தெடுக்கும் உரையாடலைத் திறத்தல், முடிந்ததும் மூடுதல்"
+
+#, fuzzy
+#~| msgid "Folder to extract to"
+#~ msgid "Could not extract '%1'"
+#~ msgstr "கோப்புறை   பிரித்தெடுப்பதில் "
+
+#, fuzzy
+#~ msgid "Missing Folder"
+#~ msgstr "நிலையான அடைவு!."
+
+#, fuzzy
+#~ msgid "Create Folder"
+#~ msgstr "பிடித்தமான அடைவு%1"
+
+#~ msgid "The folder could not be created. Please check permissions."
+#~ msgstr "உறையை  உருவாக்க முடியாது. தயவு செய்து அனுமதிகள்"
+
+#, fuzzy
+#~| msgid "An error occurred while opening the archive %1."
+#~ msgid "An error occurred while performing the operation."
+#~ msgstr "காப்பகத்திற்கு ¾¢ÈôÀ¾¢ø சிக்கல் %1."
+
+#, fuzzy
+#~| msgid "An error occurred while extracting the archive."
+#~ msgid "Unknown error when extracting files"
+#~ msgstr "நாள்காட்டியை உருவாக்கும்போது பிழை நேர்ந்துள்ளது."
+
+#, fuzzy
+#~| msgid "An error occurred while trying to create the archive."
+#~ msgid "An error occurred while trying to read entry #%1 of the archive"
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgid "Could not create path"
+#~ msgstr "பிடித்தமான அடைவு %1"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Could not locate file '%1' in the archive"
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgid "Could not read from the input file '%1'"
+#~ msgstr "பிடித்தமான அடைவு %1"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Could not find a file named %1 in the archive."
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Couldn't open the file '%1', libarchive can't handle it."
+#~ msgstr "காப்பகத்தில்  கோப்புகளை சேக்ககும் பொழ்து சிக்கல் "
+
+#, fuzzy
+#~| msgid "Extracting file to view"
+#~ msgid "Extracting all files from the archive '%1'"
+#~ msgstr "ஏற்ற வேண்டிய வடிவமைப்புக் கோப்பு"
+
+#, fuzzy
+#~| msgid "Extracting file to view"
+#~ msgid "Extracting one file from the archive %2"
+#~ msgid_plural "Extracting %1 files from the archive '%2'"
+#~ msgstr[0] "ஏற்ற வேண்டிய வடிவமைப்புக் கோப்பு"
+#~ msgstr[1] "ஏற்ற வேண்டிய வடிவமைப்புக் கோப்பு"
+
+#~ msgid "Could not start a subprocess."
+#~ msgstr "துணை நிகழ்வைத் தொடக்க முடியவில்லை"
+
+#~ msgid "The deletion operation failed."
+#~ msgstr "நீக்க முடியவில்லை.`"
+
+#~ msgid "The extraction operation failed."
+#~ msgstr "விரிவாக்க முடியவில்லை."
+
+#~ msgid "The addition operation failed."
+#~ msgstr "சேர்க்க முடியவில்லை."
+
+#~ msgid "Choose Archive Format"
+#~ msgstr "காப்பக வடிவத்தை தேர்ந்தெடு"
+
+#~ msgid ""
+#~ "This file appears to be of type %1,\n"
+#~ "which is not a supported archive format.\n"
+#~ "In order to proceed, please choose the format\n"
+#~ "of the file."
+#~ msgstr ""
+#~ "இந்த கோப்பு தெரிகிறது வகை %1\n"
+#~ "அது  காப்பகத் வடிவம்.\n"
+#~ "நீங்கள் கோப்புபின் வடிவத்தை\n"
+#~ "தேர்ந்தெடுங்கள்"
+
+#~ msgid ""
+#~ "You are about to open a file that has a non-standard extension.\n"
+#~ "Ark has detected the format: %1\n"
+#~ "If this is not correct, please choose the appropriate format."
+#~ msgstr ""
+#~ "நீங்கள் திறக்கபட வேண்டிய கோப்பு   சாராதரவரையறை விரிவாக்கம்.\n"
+#~ "அர்க்கு வடிவம் விசரிக்கபட்டாது %1\n"
+#~ "இது தவறு என்றால் தயவுசெய்து சரியான வடிவத்னத தேர்ந்தெடுக்கவும்."
+
+#~ msgid "ark"
+#~ msgstr "ஆர்க்"
+
+#~ msgid "Edit &With..."
+#~ msgstr "தொகுப்பு&உடன்"
+
+#, fuzzy
+#~ msgid "&Unselect All"
+#~ msgstr "&அனைத்தையும் விட்டு விடு"
+
+#~ msgid "&Invert Selection"
+#~ msgstr "&தேர்வை எதிர்மறை ஆக்கவும்"
+
+#~ msgid "Configure &Ark..."
+#~ msgstr "உள்ளமை &வீல்"
+
+#~ msgid "Show Search Bar"
+#~ msgstr "ஆராய்தல் பட்டையை வெளிப்படுத்து"
+
+#~ msgid "Hide Search Bar"
+#~ msgstr "தேடுதல் பட்டையை மறை"
+
+#~ msgid ""
+#~ "The archive \"%1\" has been modified.\n"
+#~ "Do you want to save it?"
+#~ msgstr "காப்பகக்\"%1\"அனத  திருத்தப்பட்டது. சேமிக்கவேண்டுமா?"
+
+#~ msgid "Total: 0 files"
+#~ msgstr "மொத்தம் : 0 கோப்பு"
+
+#~ msgid "Wrong number of arguments specified"
+#~ msgstr "  தவறான எண்  தருமதிப்பு தறப்பட்டது"
+
+#~ msgid "You need to specify at least one file to be added to the archive."
+#~ msgstr "நீங்கள் ஒரு முனற கோப்பை  உள்ளமை"
+
+#~ msgid "You have run out of disk space."
+#~ msgstr "வட்டில் போதுமான இடம் இல்லை."
+
+#, fuzzy
+#~| msgid ""
+#~| "The file you're trying to view may be an executable. Running untrusted "
+#~| "executables may compromise your system's security.\n"
+#~| "Are you sure you want to run that file?"
+#~ msgid ""
+#~ "The file you are trying to view may be an executable. Running untrusted "
+#~ "executables may compromise your system's security.\n"
+#~ "Are you sure you want to run that file?"
+#~ msgstr " நீங்கள் பற்க்கும் கோப்புகள் நிறைவேற்பட்டுள்ளது"
+
+#~ msgid "&Search:"
+#~ msgstr "&ஆராய்தல்"
+
+#~ msgid ""
+#~ "Please save your archive in the same format as the original.\n"
+#~ "Hint: Use one of the suggested extensions."
+#~ msgstr ""
+#~ "உங்கள் காப்பகத்தை முதலில் இருந்த அதே வடிவில் சேமிக்கவும். \n"
+#~ " குறிப்பு: அதே ஒட்டை பயன்படுத்தவும்"
+
+#~ msgid "You do not have permission to access that archive."
+#~ msgstr "அந்த ஆவணக் காப்பகத்தை அணுக உங்களுக்கு அனுமதி இல்லை."
+
+#~ msgid "You do not have permission to write to the directory %1"
+#~ msgstr "%1 என்ற ஆவணக் காப்பகத்தை எழுத உங்களுக்கு அனுமதி இல்லை"
+
+#~ msgid ""
+#~ "You are currently working with a simple compressed file.\n"
+#~ "Would you like to make it into an archive so that it can contain multiple "
+#~ "files?\n"
+#~ "If so, you must choose a name for your new archive."
+#~ msgstr ""
+#~ "இப்போது நீங்கள் எளிய ஒரு அமுக்கப்பட்ட கோப்பின் மீது வேலை செய்கிறீர்கள். \n"
+#~ "இதை ஒரு காப்பகமாக மாற்றி ஒன்றுக்கு மேற்பட்ட கோப்புகளை சேமிக்க வகை செய்ய "
+#~ "வேண்டுகிறீர்களா? \n"
+#~ "அப்படியானால், புதிய காப்பகத்திற்கு ஒரு பெயரைத் தேர்ந்தெடுக்கவும்."
+
+#, fuzzy
+#~ msgid "Make Into Archive"
+#~ msgstr " காப்பகத்னத் சேமி?"
+
+#~ msgid "Select Files to Add"
+#~ msgstr "சேர்க்க வேண்டிய கோப்புகளை தேர்ந்தெடுக்கவும்:"
+
+#~ msgid "Select Folder to Add"
+#~ msgstr "தேர்ந்து எடுத்த் காப்பகத்னத  கோப்புகளை தேர்ந்தெடுக்கவும்:"
+
+#~ msgid "Removing..."
+#~ msgstr " நீக்கத்தில் "
+
+#~ msgid "The archive to extract from no longer exists."
+#~ msgstr "ஆவணக் காப்பகம் இல்லை"
+
+#~ msgid "Edit with:"
+#~ msgstr " வைத்து தொகுக்கவும்:"
+
+#~ msgid "Trouble editing the file..."
+#~ msgstr "கோப்பை தொகுப்பதில் சிக்கல்..."
+
+#~ msgid "Readding edited file..."
+#~ msgstr "வெற்றுக் கோப்புப் பெயர்."
+
+#~ msgid ""
+#~ "The internal viewer is not able to display this file. Would you like to "
+#~ "view it using an external program?"
+#~ msgstr ""
+#~ "உள்ளமைப்பு காட்சியாளனால் இந்த கோப்பை காட்ட முடியவில்லை. ஒரு வெளியமைப்பு நிரல் மூலம் "
+#~ "இதனை பார்க்க வேண்டுமா?"
+
+#, fuzzy
+#~ msgctxt "%2 is the total size of selected files"
+#~ msgid "1 files selected  %2"
+#~ msgid_plural "%1 files selected  %2"
+#~ msgstr[0] "%1 கோப்புகள் தேர்ந்தெடுக்பப்ட்டன%2"
+#~ msgstr[1] "%1 கோப்புகள் தேர்ந்தெடுக்பப்ட்டன%2"
+
+#~ msgid ""
+#~ "Do you wish to add this to the current archive or open it as a new "
+#~ "archive?"
+#~ msgstr ""
+#~ "இதை இந்த காப்பகத்திலேயே சேர்க்க விரும்புகிறீர்களா, அல்லது ஒரு புதிய காப்பகமாக "
+#~ "ஆரம்பிக்கவா?"
+
+#~ msgid ""
+#~ "There is no archive currently open. Do you wish to create one now for "
+#~ "these files?"
+#~ msgstr ""
+#~ "தற்போது எந்த காப்பகமும் திறந்திருக்கவில்லை. இந்தக் கோப்புகளுக்காக ஒரு புதிய காப்பகத்தை "
+#~ "திறக்க விரும்புகிறீர்களா?"
+
+#~ msgid ""
+#~ "There is no archive currently open. Do you wish to create one now for "
+#~ "this file?"
+#~ msgstr ""
+#~ "தற்போது எந்த காப்பகமும் திறந்திருக்கவில்லை. இந்தக் கோப்புக்காக ஒரு புதிய காப்பகத்தை "
+#~ "திறக்க விரும்புகிறீர்களா?"
+
+#, fuzzy
+#~ msgid "Create Archive"
+#~ msgstr "புதிய அடைவவை உருவாக்கு"
+
+#~ msgid "Unknown archive format or corrupted archive"
+#~ msgstr "தெரியாத ஆவணக் காப்பக வடிவம் அல்லது சிதைந்த ஆவணக் காப்பகம்"
+
+#~ msgid ""
+#~ "The utility %1 is not in your PATH.\n"
+#~ "Please install it or contact your system administrator."
+#~ msgstr ""
+#~ "பயன்பாடு %1 உங்கள் பாதையில் இல்லை.\n"
+#~ "தயவு செய்து அதை நிறுவவும் அல்லது உங்கள் கணினி நிர்வாகியை தொடர்பு கொள்ளவும்."
+
+#~ msgid ""
+#~ "This archive is read-only. If you want to save it under a new name, go to "
+#~ "the File menu and select Save As."
+#~ msgstr ""
+#~ "இந்த ஆவணக் காப்பகம் வாசிப்பதற்கு-மட்டும். அதை வேறு ஒரு புதிய பெயரில்,\n"
+#~ "சேமிக்க, கோப்பு பட்டிக்குப் போய் இப்படி சேமிக்கவும் என்பதை தேர்ந்தெடுக்கவும்."
+
+#~ msgid "An error occurred while trying to open the archive %1"
+#~ msgstr "காப்பகத்திற்கு  திறக்கும் பொழது பினழ எற்ப்பட்டது %1."
+
+#~ msgid ""
+#~ "You are creating a simple compressed archive which contains only one "
+#~ "input file.\n"
+#~ "When uncompressed, the file name will be based on the name of the archive "
+#~ "file.\n"
+#~ "If you add more files you will be prompted to convert it to a real "
+#~ "archive."
+#~ msgstr ""
+#~ "நீங்கள் உருவக்கபடும் இறுக்கக் கோப்பில்  உள்கொண்ட ஒரு உள்ளீடு கோப்பு.\n"
+#~ "இல்னல ஏன்னில் கோப்பின் பெயர் காப்பகக் கோப்புனப் சார்ந்து வ்ரும்\n"
+#~ "நீங்கள் கோப்புக்கனள குட்டினால் காப்பகம் வ்ரும்"
+
+#~ msgid "Trouble writing to the archive..."
+#~ msgstr "காப்பகத்திற்கு எழுதுவதில் சிக்கல் ..."
+
+#~ msgid "Extract Files From %1"
+#~ msgstr "%1ல் இருந்து கோப்புகளை பிரித்தெடு"
+
+#, fuzzy
+#~ msgid "Extract:"
+#~ msgstr "பிரித்தெடு"
+
+#~ msgid ""
+#~ "You do not have write permission to this folder. Please provide another "
+#~ "folder."
+#~ msgstr " கோப்புறையில் எழதுவத்ற்க்கு உங்களுக்கு அனுமதி இல்லை."
+
+#~ msgctxt "Packed Ratio"
+#~ msgid "%1 %"
+#~ msgstr "%1 %."
+
+#, fuzzy
+#~ msgid "(c) 1997-2005, The Various Ark Developers"
+#~ msgstr "(c) 1997-2003, ஆர்க் உருவாக்குநர்கள்"
+
+#~ msgid ""
+#~ "Extract 'archive' to 'folder'. Quit when finished.\n"
+#~ "'folder' will be created if it does not exist."
+#~ msgstr ""
+#~ "சாரம் \"காப்பகக்\" \"கோப்புறை \".நீங்கள் முடிததும் முடுங்கள்.\n"
+#~ "கோப்புறை இல்னல் என்றால் உருவாக்கபடும்"
+
+#~ msgid ""
+#~ "Add 'files' to 'archive'. Quit when finished.\n"
+#~ "'archive' will be created if it does not exist."
+#~ msgstr " \"கோப்பு\"  \"காப்பகக்\".முடித்ததும் முடவும்காப்பகக் "
+
+#~ msgid ""
+#~ "Used with '--extract-to'. When specified, 'archive'\n"
+#~ "will be extracted to a subfolder of 'folder'\n"
+#~ "whose name will be the name of 'archive' without the filename extension."
+#~ msgstr "சாரம் தொகுப்பின் துணை தொகுப்பு"
+
+#~ msgid "New &Window"
+#~ msgstr "புதிய &சாளரம்"
+
+#~ msgid "Re&load"
+#~ msgstr "மறு&ஏற்றம்"
+
+#~ msgid ""
+#~ "The archive %1 is already open and has been raised.\n"
+#~ "Note: if the filename does not match, it only means that one of the two "
+#~ "is a symbolic link."
+#~ msgstr ""
+#~ "%1 என்ற காப்பகம் ஏற்கனவே திறக்கப்பட்டு உயர்த்தப்பட்டுள்ளது.\n"
+#~ "குறிப்பு: கோப்புப்பெயர் பொருந்தவில்லை என்றால், இரண்டில் ஒன்று ஒரு அடையாள இணைப்பாக "
+#~ "இருக்கிறது என்பதுதான் காரணம்."
+
+#~ msgid "Open &as:"
+#~ msgstr "திற"
+
+#~ msgid "Autodetect (default)"
+#~ msgstr "தானாக் கண்டறி(முன்னிருப்பு)"
+
+#~ msgid "Select Archive to Add Files To"
+#~ msgstr "தேர்ந்து எடுத்த் காப்பகத்னத  கோப்புகளை தேர்ந்தெடுக்கவும்:"
+
+#~ msgid "Please Wait"
+#~ msgstr "தயவுசெய்து காத்திருக்கவும்"
+
+#~ msgid "Replace old files only &with newer files"
+#~ msgstr "பழைய கோப்புகளை புதிய கோப்புகளினால் இடம் மாற்றவும்"
+
+#~ msgid "Force &MS-DOS short filenames (Zip)"
+#~ msgstr "&MS-DOS குறு கோப்புப்பெயர்களை வலிந்தமை (Zip)"
+
+#~ msgid "Translate &LF to DOS CRLF (Zip)"
+#~ msgstr "மொழிபெயர் LF இனை DOS &CRLF இற்கு மாற்று (Zip)"
+
+#~ msgid "&Store symlinks as links (Zip, Rar)"
+#~ msgstr "&குறியீட்டு இணைப்புகளை இணைப்புகளாக சேமி (Zip, Rar)"
+
+#~ msgid "&Recursively add subfolders (Zip, Rar)"
+#~ msgstr "&எல்லாத் துணை கோப்புறை  சேர் (Zip, Rar)"
+
+#~ msgid "Replace old files only with newer files"
+#~ msgstr "பழைய கோப்புகளை புதிய கோப்புகளினால் இடமாற்றவும்"
+
+#~ msgid ""
+#~ "If this option is enabled and you add filenames that already exist in an "
+#~ "archive, only replace the old files if the added files are newer than them"
+#~ msgstr ""
+#~ "இந்த தேர்வு செயலில் இருந்து நீங்கள் காப்பகத்தில் ஏற்கெனவே உள்ள கோப்பு பெயர்களை சேர்த்தால், "
+#~ "சேர்க்கப்படும் கோப்புகள் பழைய கோப்புகளை விட புதியதா இருந்தால் மட்டுமே அவை "
+#~ "சேர்க்கப்படும்."
+
+#~ msgid "Overwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "கோப்புக்களை மேலெழுது (Zip, Tar, Zoo, Rar)"
+
+#~ msgid ""
+#~ "Overwrite any files that have matching names on disk with the one from "
+#~ "the archive"
+#~ msgstr ""
+#~ "காப்பகத்தில் இருக்கும் கோப்புகளுடன் பொருந்தும் பெயர்களை உடைய எந்த கோப்புகளையும் "
+#~ "மேலெழுதும்."
+
+#~ msgid "Preserve permissions"
+#~ msgstr "அனுமதிகளை பாதுகாக்கவும்"
+
+#~ msgid ""
+#~ "Save the user, group, and permission settings on files. Use with care, as "
+#~ "this may result in files being extracted that do not belong to any valid "
+#~ "user on your computer"
+#~ msgstr ""
+#~ "பயனர், குழு மற்றும் அனுமதி அமைப்புகளை கோப்புகளில் சேமி. இந்த கோப்புகள் "
+#~ "பிரிக்கும்போது அவை எந்தவொரு சரியான பயனரை சார்ந்திருக்கக்கூடாது."
+
+#~ msgid "Force MS-DOS short filenames (Zip)"
+#~ msgstr "&MS-DOS குறு கோப்புப்பெயர்களை வலிந்தமை (Zip)"
+
+#~ msgid "Force names of files in Zip archives to the DOS 8.3 format"
+#~ msgstr "Zip காப்பகங்களை DOS 8.3 வடிவமைப்பிற்கு மாற்று"
+
+#~ msgid "Translate LF to DOS CRLF"
+#~ msgstr "மொழிபெயர் LF இனை DOS CRLF இற்கு மாற்று"
+
+#~ msgid "Ignore folder names (Zip)"
+#~ msgstr "அடைவுப் பெயர்களைப் புறக்கணி (Zip)"
+
+#~ msgid ""
+#~ "Extract all the files into the extraction folder, ignoring any folder "
+#~ "structure in the archive."
+#~ msgstr "எல்லா கோப்புகளையும் பிரிக்கப்பட்ட அடைவுக்கும் பிரிக்கவும். "
+
+#~ msgid "Store symlinks as links (Zip, Rar)"
+#~ msgstr "குறியீட்டு இணைப்புகளை இணைப்புகளாக சேமி (Zip, Rar)"
+
+#~ msgid "Recursively add subfolders (Zip, Rar)"
+#~ msgstr "எல்லாத் துணை கோப்புறை சேர் (Zip, Rar)"
+
+#~ msgid "Convert filenames to lowercase (Zip, Rar)"
+#~ msgstr "கோப்புப்பெயர்களை சிற்றெழுத்திற்கு மாற்று (Zip, Rar)"
+
+#~ msgid "Convert filenames to uppercase"
+#~ msgstr "கோப்புப்பெயர்களை பேரேழுத்துக்களாக மாற்று"
+
+#~ msgid "Show search bar"
+#~ msgstr "ஆராய்தல் பட்டையை வெளிப்படுத்து"
+
+#~ msgid "Enable Konqueror integration"
+#~ msgstr "செயல்படுத்த கான்கியுர் ஒருமைபாடு"
+
+#~ msgid ""
+#~ "Enables integration with Konqueror's context menus, letting you easily "
+#~ "archive or unarchive files. This option will only work if you have the "
+#~ "kdeaddons package installed."
+#~ msgstr ""
+#~ "கான்கொரர் உரை பட்டியல்களுடன் ஒருங்கிணைப்பை செயல்படுத்துகிறது. இது கோப்புகளை சுலபமாக "
+#~ "காப்பு எடுக்கவும் அல்லது காப்பு நீக்கவும் பயன்படுகிறது. kdeaddons தொகுப்பு "
+#~ "நிறுவப்பட்டிருந்தால் மட்டுமே இந்த தேர்வை செயல்படுத்த இயலும்."
+
+#~ msgid "Use integrated viewer"
+#~ msgstr "ஒருங்கிணைக்கப்பட்ட காட்சியாளனை பயன்படுத்தவும்"
+
+#~ msgid "Tar Command"
+#~ msgstr "Tar ¸ð¼¨Ç"
+
+#~ msgid "O&verwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "கோப்புக்களை &மேலெழுது (Zip, Tar, Zoo, Rar)"
+
+#~ msgid "&Preserve permissions (Tar)"
+#~ msgstr "அனுமதிகளை &பாதுகாக்கவும் (Tar)"
+
+#~ msgid "&Ignore folder names (Zip)"
+#~ msgstr "&அடைவுப் பெயர்களைப் &புறக்கணி (Zip)"
+
+#~ msgid "Convert file names to &lowercase (Zip, Rar)"
+#~ msgstr "கோப்புப்பெயர்களை &சிற்றெழுத்திற்கு மாற்று (Zip, Rar)"
+
+#~ msgid "Convert file names to &uppercase (Rar)"
+#~ msgstr "கோப்புப்பெயர்களை &பேரேழுத்துக்களாக மாற்று (Rar)"
+
+#~ msgid "&Use integrated viewer"
+#~ msgstr "&ஒருங்கிணைக்கப்பட்ட காட்சியாளனை பயன்படுத்து"
+
+#~ msgid "&Enable Konqueror integration"
+#~ msgstr "Konqueror ´Õ¨ÁôÀ¡ð¨¼ ¦ºÂøÀÎòÐ"
+
+#, fuzzy
+#~ msgid ""
+#~ "<font size=\"-1\"><i>Konqueror integration is only available<br> if you "
+#~ "install the Konqueror integration<br> plugin from the kdeaddons package.</"
+#~ "i></font>"
+#~ msgstr ""
+#~ "<font size=\"-1\"><i>kdeaddons தொகுப்பில் இருந்து கான்கொரர் ஒருங்கிணைப்பு "
+#~ "சொருகுப்பொருளை நிறுவினால் மட்டுமே கான்கொரர் ஒருங்கிணைப்பு கிடைக்கும்.</i></font>"
+
+#~ msgid "Unable to fork a decompressor"
+#~ msgstr "அமுக்கநீக்கி ஒன்றை கவட்ட முடியாது."
+
+#~ msgid "Trouble writing to the tempfile..."
+#~ msgstr "tempfile க்கு எழுதுவதில் சிக்கல்"
+
+#~ msgid " Permissions "
+#~ msgstr " அனுமதிகள் "
+
+#~ msgid " Owner/Group "
+#~ msgstr " உரிமையாளர்/அணி "
+
+#~ msgid " Timestamp "
+#~ msgstr " காலமுத்திரை "
+
+#~ msgid " Link "
+#~ msgstr " இணைப்பு "
+
+#~ msgid " Size Now "
+#~ msgstr " இப்போது அளவிடு "
+
+#~ msgid " Ratio "
+#~ msgstr " தகவு "
+
+#~ msgctxt "(used as part of a sentence)"
+#~ msgid "start-up folder"
+#~ msgstr "ஆரம்ப -அடைவு"
+
+#~ msgctxt "folder for extracting files (used as part of a sentence)"
+#~ msgid "extract folder"
+#~ msgstr "பிரித்தெடுக்கும் அடைவு"
+
+#~ msgid "Settings"
+#~ msgstr "அமைப்புகள்"
+
+#~ msgid "&Adding"
+#~ msgstr "&சேர்த்தல்"
+
+#~ msgid "Add Settings"
+#~ msgstr "அமைப்புகளைச் சேர்"
+
+#~ msgid "Replace &old files only with newer files"
+#~ msgstr "பழைய கோப்புகளை புதிய கோப்புகளினால் இட&மாற்றவும்"
+
+#~ msgid "Keep entries &generic (Lha)"
+#~ msgstr "நுழைவுகளை &பொதுப்படையாக வைத்திருக்கவும் (Lha)"
+
+#~ msgid "Translate LF to DOS &CRLF (Zip)"
+#~ msgstr "LF  DOS &CRLF இற்கு மாற்று (Zip)"
+
+#~ msgid "Convert filenames to &lowercase (Zip, Rar)"
+#~ msgstr "கோப்புப்பெயர்களை &சிற்றெழுத்திற்கு மாற்று (Zip, Rar)"
+
+#~ msgid "Convert filenames to &uppercase (Rar)"
+#~ msgstr "கோப்புப்பெயர்களை &பேரேழுத்துக்களாக மாற்று (Rar)"
+
+#~ msgid "1 file selected  %2"
+#~ msgstr "1தேர்ந்தெடுக்கப்பட்ட கோப்பு  %2"
+
+#~ msgid "Addition"
+#~ msgstr "சேர்த்தல்"
+
+#~ msgid "File Addition Settings"
+#~ msgstr "  கோப்பு அமைப்புகளைச் "
+
+#~ msgid ""
+#~ "This area is for displaying information about the files contained within "
+#~ "an archive."
+#~ msgstr "ஒரு ஆவணக் காப்பகத்திலுள்ள கோப்புகளைப் பற்றிய தகவல்களை காட்டுவதற்கான இடம் இது."
+
+#, fuzzy
+#~ msgid "(c) 1997-2006, The Various Ark Developers"
+#~ msgstr "(c) 1997-2005, பலவித ஆர்க் உருவாக்குநர்கள்"
+
+#~ msgid "Reset Search"
+#~ msgstr "மீட்பியக்கு ஆராய்தல்"
+
+#~ msgid ""
+#~ "Reset Search\n"
+#~ "Resets the search bar, so that all archive entries are shown again."
+#~ msgstr ""
+#~ "மீட்பியக்கு ஆராய்தல்\n"
+#~ "மீட்பியக்கு ஆராய்தல் பட்டை,"

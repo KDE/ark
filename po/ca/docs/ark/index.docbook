@@ -1,0 +1,795 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Catalan  "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY Ragnar.Thomsen '<personname
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+></personname
+>'>
+  <!ENTITY Ragnar.Thomsen.mail '<email
+>rthomsen6@gmail.com</email
+>'>
+  <!ENTITY Henrique.Pinto '<personname
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+></personname
+>'>
+  <!ENTITY Henrique.Pinto.mail '<email
+>henrique.pinto@kdemail.net</email
+>'>
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>El manual de l'&ark;</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+<author
+>&Henrique.Pinto; &Henrique.Pinto.mail; </author>
+<author
+>&Ragnar.Thomsen; &Ragnar.Thomsen.mail; </author>
+
+&traductor.JosepMa.Ferrer; 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>&Henrique.Pinto;</holder>
+</copyright>
+
+<copyright>
+<year
+>2015, 2016</year>
+<holder
+>&Ragnar.Thomsen;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>10 de setembre de 2016</date>
+<releaseinfo
+>Aplicacions 16.12</releaseinfo>
+
+<abstract>
+<para
+>L'&ark; és un gestor d'arxius, creat per la comunitat &kde;.</para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>arxiu</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>compressió</keyword>
+<keyword
+>7z</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Introducció</title>
+<para
+>L'&ark; és un programa per a visualitzar, extreure, crear i modificar arxius. L'&ark; pot gestionar diversos formats d'arxiu com el <command
+>tar</command
+>, <command
+>gzip</command
+>, <command
+>bzip2</command
+>, <command
+>zip</command
+>, <command
+>rar</command
+>, <command
+>7zip</command
+>, <command
+>xz</command
+>, <command
+>rpm</command
+>, <command
+>cab</command
+>, <command
+>deb</command
+>, <command
+>xar</command
+> i <command
+>AppImage</command
+> (el suport per a determinats formats d'arxiu depèn de la instal·lació dels programes apropiats de línia d'ordres).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Finestra principal de l'&ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Per tal d'usar amb èxit l'&ark;, necessiteu els Frameworks 5 de KDE. La versió 3.1 o superior de la biblioteca «libarchive» és necessària per gestionar la majoria dels tipus d'arxius, incloent-hi els arxius «tar», els «tar» comprimits, els «rpm», els «deb» i els «cab». Per gestionar altres formats de fitxer, calen els programes de línia d'ordres apropiats, com <command
+>zipinfo</command
+>, <command
+>unzip</command
+>, <command
+>rar</command
+>, <command
+>unrar</command
+>, <command
+>7z</command
+>, <command
+>lsar</command
+>, <command
+>unar</command
+> i <command
+>lrzip</command
+>.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>Ús de l'&ark;</title>
+
+<sect1 id="ark-open">
+<title
+>Obertura d'arxius</title>
+
+<para
+>Per obrir un arxiu a l'&ark;, trieu <guimenuitem
+>Obre...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>) des del menú <guimenu
+>Arxiu</guimenu
+>. També podeu obrir fitxers d'arxiu arrossegant i deixant anar des del &dolphin;. Els fitxers d'arxiu s'haurien d'associar amb l'&ark;, de manera que també podreu fer clic <mousebutton
+>dret</mousebutton
+> a un fitxer del &dolphin; i seleccionar <guimenuitem
+>Obre amb l'&ark;</guimenuitem
+> per obrir-lo o seleccionar una acció d'extracció per a aquest fitxer.</para>
+
+<para
+>Si heu habilitat el plafó d'informació en el menú <guimenu
+>Arranjament</guimenu
+> es mostrarà informació addicional sobre les carpetes o fitxers seleccionats de l'arxiu.</para>
+
+<sect2 id="ark-archive-operations">
+<title
+>Operacions d'arxiu</title>
+
+<para
+>Es poden realitzar diverses operacions per a un arxiu obert utilitzant el menú <guimenu
+>Arxiu</guimenu
+>. Per exemple, es pot desar l'arxiu amb un nom diferent utilitzant <guimenuitem
+>Desa com a...</guimenuitem
+>. Les propietats de l'arxiu com el tipus, la mida i el resum MD5 es poden veure utilitzant l'element <guimenuitem
+>Propietats</guimenuitem
+>.</para>
+
+<para
+>L'&ark; té la capacitat de comprovar la integritat dels arxius. Aquesta funcionalitat està disponible actualment per als arxius <command
+>zip</command
+>, <command
+>rar</command
+> i <command
+>7z</command
+>. L'acció de comprovació es pot trobar al menú <guimenu
+>Arxiu</guimenu
+>.</para>
+
+</sect2>
+
+<sect2 id="ark-archive-comments">
+<title
+>Comentaris de l'arxiu</title>
+
+<para
+>L'&ark; pot gestionar els comentaris incrustats en els arxius <literal role="extension"
+>zip</literal
+> i <literal role="extension"
+>rar</literal
+>.</para>
+
+<para
+>Els comentaris incrustats en els arxius <literal role="extension"
+>zip</literal
+> es mostren automàticament.</para>
+
+<para
+>En usar arxius <literal role="extension"
+>rar</literal
+> podreu modificar un comentari amb les accions <guimenuitem
+>Afegeix un comentari</guimenuitem
+> o <guimenuitem
+>Edita el comentari</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>C</keycap
+></keycombo
+>) des del menú <guimenu
+>Arxiu</guimenu
+>
+>. </para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Edició d'un comentari</phrase>
+</textobject>
+</mediaobject>
+
+<note
+><para
+>L'element del menú de comentaris només està habilitat per als arxius <literal role="extension"
+>rar</literal
+>. </para
+></note>
+
+<para
+>Per eliminar un comentari d'un arxiu <literal role="extension"
+>rar</literal
+> suprimiu el text a la finestra de comentaris.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Treballar amb fitxers</title>
+
+<para
+>Un cop s'ha obert un arxiu, es poden realitzar diverses operacions amb els fitxers dins de l'arxiu. Seleccionant un fitxer i utilitzant el menú <guimenu
+>Fitxer</guimenu
+>, es poden escollir diferents operacions per realitzar:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Previsualització</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+>) obrirà el fitxer amb el visualitzador intern de l'&ark;. Es tracta d'un visualitzador ràpid de només lectura, però no accepta tots els tipus de fitxers.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Obre</guimenuitem
+> obrirà el fitxer a l'aplicació associada per a aquest tipus de fitxer.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Obre amb...</guimenuitem
+> permet triar amb quina aplicació obrir el fitxer.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Reanomena</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>F2</keycap
+></keycombo
+>) Aquesta acció permet canviar els noms dels fitxers i carpetes. Com en el gestor d'arxius Dolphin, aquesta acció es pot cridar a través d'una drecera i el canvi de nom es fa mitjançant edició en línia. També s'han proporcionat comprovacions de noms de fitxer, que eviten l'ús de caràcters no vàlids com <userinput
+>/</userinput
+>, <userinput
+>.</userinput
+> i <userinput
+>..</userinput
+> en els noms dels fitxers.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Suprimeix</guimenuitem
+> (<keycap
+>Supr</keycap
+>) eliminarà el/s fitxer/s actualment seleccionat/s de l'arxiu. Tingueu en compte que aquesta acció no es pot desfer.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Extreu</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>) obre un submenú amb les carpetes a les quals s'ha accedit anteriorment, i podeu triar extreure ràpidament a qualsevol d'aquestes o navegar a una carpeta no llistada. Vegeu la secció següent per a més detalls sobre l'extracció.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Retalla</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+>) / <guimenuitem
+>Copia</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>) / <guimenuitem
+>Enganxa</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+>): Com en els típics gestors de fitxers, es proporciona moure, enganxar i copiar. Els usuaris poden moure o copiar fitxers de diferents carpetes (les quals es poden expandir a la vista en arbre) i enganxar-los a la mateixa destinació alhora. Una carpeta es pot copiar en si mateixa, però no es pot moure. També hi ha comprovacions de noms de fitxer conflictius: no podreu copiar o moure fitxers a una carpeta que tingui entrades amb els mateixos noms, que podria provocar la pèrdua de dades.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Afegeix fitxers</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>A</keycap
+></keycombo
+>) Aquesta acció es pot utilitzar per afegir fitxers en qualsevol ubicació dins de l'arxiu. Si seleccioneu una carpeta i utilitzeu aquesta acció, els fitxers s'afegiran a la carpeta seleccionada. En cas contrari, els fitxers nous s'afegiran a l'arrel de l'arxiu. </para>
+</listitem>
+</itemizedlist>
+
+<sect2 id="ark-editing-files">
+<title
+>Edició de fitxers</title>
+<para
+>Si editeu i deseu un fitxer que heu obert utilitzant <guimenuitem
+>Obre</guimenuitem
+> o <guimenuitem
+>Obre amb...</guimenuitem
+>, l'Ark us demanarà si voleu actualitzar el fitxer a l'arxiu. Si responeu Sí, l'arxiu s'actualitzarà amb el fitxer desat.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>Extracció de fitxers</title>
+
+<para
+>Un cop s'ha obert un arxiu a l'&ark;, es pot extreure. Això es pot fer seleccionant <guisubmenu
+>Extreu</guisubmenu
+> des del menú <guimenu
+>Fitxer</guimenu
+>. Això obre un submenú amb carpetes accedides anteriorment, i podeu optar per extreure ràpidament qualsevol d'aquestes. Alternativament, seleccioneu l'element de submenú <guisubmenu
+>Extreu a...</guisubmenu
+> per obrir el diàleg <guilabel
+>Extreu</guilabel
+>, on podeu establir diverses opcions que afecten l'extracció. Vegeu a continuació per obtenir informació sobre les opcions disponibles al diàleg Extreu.</para>
+
+<para
+>També podeu utilitzar el botó <guibutton
+>Extreu</guibutton
+> de la barra d'eines per accedir a les mateixes opcions d'extracció.</para>
+
+<para
+>Per extreure tot l'arxiu, podeu seleccionar <guisubmenu
+>Extreu-ho tot</guisubmenu
+> del menú <guimenu
+>Arxiu</guimenu
+>. Aquesta acció extreu incondicionalment tots els fitxers de l'arxiu.</para>
+
+<para
+>És possible extreure fitxers i carpetes simplement arrossegant-los amb el ratolí a una carpeta en el &dolphin;.</para>
+
+<para
+>Nota: L'extracció de fitxers d'un arxiu no canvia l'arxiu i el seu contingut.</para>
+
+<sect2 id="ark-extract-dialog">
+<title
+>El diàleg Extreu</title>
+
+<para
+>El diàleg <guilabel
+>Extreu</guilabel
+> permet triar on s'extrauran els fitxers. La ubicació predeterminada és la carpeta on es troba l'arxiu. El diàleg també es pot obrir prement <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="extract-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>El diàleg Extreu de l'&ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Podeu especificar extreure els fitxers en una subcarpeta. El nom predeterminat d'aquesta subcarpeta és el nom de l'arxiu sense l'extensió del nom de fitxer, però podeu editar-lo segons les vostres necessitats. Si voleu preservar els camins en extreure, seleccioneu l'opció <guilabel
+>Conserva els camins en fer l'extracció</guilabel
+>. També podeu triar obrir la carpeta de destinació al &dolphin; o tancar l'&ark; una vegada que l'extracció hagi finalitzat.</para>
+
+<para
+>Si es ressalta un o més fitxers de la llista d'arxius, també es pot seleccionar quins fitxers s'han d'extreure:</para>
+<itemizedlist>
+<listitem>
+<para
+><guilabel
+>Només els fitxers seleccionats</guilabel
+> extreu només els fitxers que s'han seleccionat.</para>
+</listitem>
+<listitem>
+<para
+><guilabel
+>Tots els fitxers</guilabel
+> extreu tot el contingut de l'arxiu.</para>
+</listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Crear arxius i afegir fitxers</title>
+
+<para
+>Per crear un arxiu nou a l'&ark;, trieu <guimenuitem
+>Nou</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+>) des del menú <guimenu
+>Arxiu</guimenu
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Crear un arxiu</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Podeu escriure el nom de l'arxiu, amb l'extensió apropiada (<literal role="extension"
+>tar.gz</literal
+>,<literal role="extension"
+>zip</literal
+>,<literal role="extension"
+>7z</literal
+>, &etc;) o seleccionar un format compatible en el quadre combinat <guilabel
+>Filtre</guilabel
+> i activar l'opció <guilabel
+>Afegeix automàticament l'<replaceable
+>extensió de fitxer</replaceable
+></guilabel
+>.</para>
+
+<para
+>Per afegir fitxers o carpetes a l'arxiu nou, trieu <guimenuitem
+>Afegeix fitxers...</guimenuitem
+> del menú <guimenu
+>Arxiu</guimenu
+>.</para>
+
+<para
+>Una manera alternativa d'afegir fitxers a un arxiu és arrossegar un o més fitxers des de, per exemple, el &dolphin; a la finestra principal de l'&ark;, i s'afegirà a l'arxiu actual. Tingueu en compte que els fitxers afegits d'aquesta manera sempre s'afegiran al directori arrel de l'arxiu.</para>
+
+<para
+>Les opcions addicionals es presenten en grups plegables a la part inferior del diàleg. </para>
+
+<sect2 id="ark-compression">
+<title
+>Compressió</title>
+<para
+>Un valor més alt genera arxius més petits, però resulta en temps de compressió i descompressió més llargs. El nivell de compressió per defecte proposat per l'&ark; sol ser un bon compromís entre la mida i la velocitat de descompressió. Per a la majoria de formats el nivell mínim de compressió és equivalent a simplement emmagatzemar els fitxers, &ead;, no aplicar cap compressió. </para>
+<para
+>Per als arxius <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7z</literal
+> i <literal role="extension"
+>zip</literal
+> es poden seleccionar entre diferents mètodes de compressió. </para>
+<para
+>Tingueu en compte que l'ús de mètodes de compressió diferents dels predeterminats preseleccionats poden limitar la compatibilitat amb els arxivadors de fitxers. Per exemple, l'obertura d'arxius <literal role="extension"
+>zip</literal
+> amb mètodes de compressió diferents de <quote
+>Desinflat</quote
+> requereix un programari d'arxivament més nou.</para>
+</sect2>
+
+<sect2 id="ark-password-protection">
+<title
+>Protecció amb contrasenya</title>
+<para
+>Si creeu un arxiu <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7zip</literal
+> o <literal role="extension"
+>jar</literal
+> podeu protegir-lo amb una contrasenya. Actualment, només el format <literal role="extension"
+>zip</literal
+> admet múltiples mètodes d'encriptatge. Per a altres formats que només permeten un mètode d'encriptatge, el mètode es mostra a la llista desplegable.</para>
+<para
+>Els mètodes d'encriptatge diferents del <guilabel
+>ZipCrypto</guilabel
+> predeterminat podrien no ser compatibles amb tots els arxivadors de fitxers.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Crear un arxiu protegit amb contrasenya</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Trieu si cal la contrasenya abans de mostrar la llista de fitxers. Això s'anomena xifratge de capçalera i només està disponible amb els formats <literal role="extension"
+>rar</literal
+> i <literal role="extension"
+>7zip</literal
+>. L'encriptatge de la capçalera està habilitat de manera predeterminada (quan està disponible), per tal d'oferir la màxima protecció als usuaris novells.</para>
+</sect2>
+
+<sect2 id="ark-multi-volume">
+<title
+>Arxiu multivolum</title>
+<para
+>Amb els formats <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+> i <literal role="extension"
+>7z</literal
+> es poden crear arxius multivolum, també coneguts com a arxius multipart o dividits.</para>
+<para
+>Un arxiu multivolum és un arxiu comprimit gran dividit en diversos fitxers. Aquesta característica és útil si la mida màxima del fitxer és limitada, &pex;, per la capacitat d'un mitjà d'emmagatzematge o la mida màxima d'un correu electrònic amb adjunts.</para>
+<para
+>Per crear un arxiu multivolum, activeu la casella de selecció <guilabel
+>Crea un arxiu multivolum</guilabel
+> i establiu la <guilabel
+>Mida del volum</guilabel
+> màxima en el diàleg. A continuació afegiu tots els fitxers a l'arxiu i l'&ark; generarà automàticament el nombre necessari de volums d'arxiu. Depenent del format seleccionat els fitxers tenen una extensió amb un esquema de numeració consecutiva, &pex;, <filename
+>xxx.7z.001</filename
+>, <filename
+>xxx.7z.002</filename
+> o <filename
+>xxx.zip.001</filename
+>, <filename
+>xxx.zip.002</filename
+> o <filename
+>xxx.part1.rar</filename
+>, <filename
+>xxx.part2.rar </filename
+> &etc;.</para>
+<para
+>Per extreure un arxiu multivolum, poseu tots els fitxers d'arxiu en una carpeta i obriu el fitxer amb el número d'extensió més baix a l'&ark; i totes les altres parts de l'arxiu dividit s'obriran automàticament.</para>
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>Ús de l'&ark; al gestor de fitxers</title>
+
+<para
+>En fer clic amb el &BDR; sobre un arxiu en un gestor de fitxers com el &dolphin; es mostra un menú contextual amb un element <guimenuitem
+>Obre amb l'Ark</guimenuitem
+>. El menú té aquests elements addicionals per extreure un arxiu utilitzant l'&ark;: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Extreu l'arxiu aquí, detecta automàticament la subcarpeta</guimenuitem
+> crea una subcarpeta a la carpeta amb l'arxiu i hi extreu les carpetes i els arxius.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Extreu l'arxiu a...</guimenuitem
+> obre el diàleg Extreu on podreu triar la carpeta de destinació i diverses opcions d'extracció.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Extreu l'arxiu aquí</guimenuitem
+> extreu el contingut de l'arxiu a la mateixa carpeta.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>El menú contextual del &dolphin; per a una selecció de fitxers i/o carpetes mostra aquestes accions en el submenú <guimenu
+>Comprimeix</guimenu
+>: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Aquí (com a «tar.gz»)</guimenuitem
+> o <guimenuitem
+>Aquí (com a «zip»)</guimenuitem
+> crea aquests tipus d'arxiu a la carpeta actual.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Comprimeix a...</guimenuitem
+> obre un diàleg on podeu seleccionar la carpeta, el nom i el tipus d'arxiu.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>Mode avançat per lots</title>
+<para
+>L'&ark; té un mode avançat per lots per gestionar arxius sense llançar una interfície gràfica d'usuari. Aquest mode permet extreure o crear arxius i afegir-hi fitxers.</para>
+
+<para
+>El mode per lots està documentat a la pàgina «man» de l'<ulink url="man:/ark"
+>&ark;</ulink
+>. </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Crèdits i llicència</title>
+
+<para
+>Copyright de l'&ark; &copy; 1997-2016, l'equip de desenvolupament de l'&ark;.</para>
+
+<itemizedlist>
+<title
+>Autors:</title>
+<listitem
+><para
+>Elvis Angelaccio <email
+>elvis.angelaccio@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Ragnar Thomsen <email
+>rthomsen6@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Raphael Kubo da Costa <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+>Harald Hvaal <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autor: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autor: Michael Jarrett) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Copyright de la documentació &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
+
+<para
+>Documentació actualitzada per al &kde; 3.3 per &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
+
+<para
+>Documentació actualitzada per a les Aplicacions de KDE 16.04 per &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
+
+<para
+>Traductor de la documentació: &credits.JosepMa.Ferrer;</para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

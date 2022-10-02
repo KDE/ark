@@ -1,0 +1,427 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Catalan  "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Manual d'usuari de l'&ark;</title>
+
+<author
+><firstname
+>Lauri</firstname
+><surname
+>Watts</surname
+> <contrib
+>Versió inicial el 2005 de la pàgina de manual de l'&ark;.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Raphael</firstname
+><surname
+>Kubo da Costa</surname
+> <contrib
+>Actualitza el 2009 la pàgina de manual de l'&ark;.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+> <contrib
+>Actualitza el 2015 i 2016 la pàgina de manual de l'&ark;.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>8 d'agost de 2018</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>18.12</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>Aplicacions del KDE</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>Eina d'arxivament pel &kde;</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+> sufix</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+> fitxer</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-m</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+> directori</replaceable
+></group
+> <arg choice="opt"
+>Opcions genèriques dels &kf5;</arg
+> <arg choice="opt"
+>Opcions genèriques de les &Qt; Generic Options</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Descripció</title>
+<para
+>L'&ark; és un programa per a gestionar diversos formats de fitxer comprimits. Els arxius es poden visualitzar, extreure, crear i modificar amb l'&ark;. El programa pot manejar diversos formats, com <application
+>tar</application
+>, <application
+>gzip</application
+>, <application
+>bzip2</application
+>, <application
+>zip</application
+> i <application
+>rar</application
+> (sempre que estiguin instal·lats els programes o biblioteques corresponents).</para>
+</refsect1>
+
+<refsect1>
+<title
+>Modes d'operació</title>
+<para
+>L'&ark; es pot utilitzar com una &IGU; independent o com un programa de la línia d'ordres per a realitzar algunes tasques específiques.</para>
+<para
+>Si es crida sense les opcions «-b (--batch)» o «-c (-add)», l'&ark; s'inicia com un programa &IGU; normal.</para>
+<para
+>Quan s'utilitza l'opció «-b (--batch)», &ark; es pot utilitzar per extreure el contingut d'un o més fitxers directament des de la línia d'ordres, sense llançar la seva &IGU;.</para>
+<para
+>Quan s'utilitza l'opció «-c (-add)», l'&ark; demana pels fitxers que s'afegiran a un arxiu comprimit nou o ja existent.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Opcions</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>Mostra un diàleg per especificar les opcions d'una operació per lots o d'afegir.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-m, --mimetypes</option
+></term>
+<listitem>
+<para
+>Llista els tipus &MIME; admesos.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>directori</replaceable
+></option
+></term>
+<listitem
+><para
+>Especifica el <replaceable
+>directori</replaceable
+> d'extracció per omissió. De no indicar-lo s'utilitzarà el camí actual.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>Opcions per afegir fitxers</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>Demana a l'usuari pel nom de fitxer de l'arxiu i hi afegeix els fitxers especificats. Surt quan finalitza.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>nom_fitxer</replaceable
+></option
+></term>
+<listitem>
+<para
+>Afegeix els fitxers especificats al <replaceable
+>nom_fitxer</replaceable
+>. Crea l'arxiu si no existeix. Surt quan finalitza.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>Canvia el directori actual a la primera entrada i afegeix totes les altres entrades relatives a aquesta.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>sufix</replaceable
+></option
+></term>
+<listitem>
+<para
+>Selecciona automàticament un nom de fitxer, amb el <replaceable
+>sufix</replaceable
+> indicat (per exemple rar, tar.gz, zip o qualsevol altre tipus implementat).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Opcions per a l'extracció per lots</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>Utilitza la interfície per lots en lloc del diàleg habitual. Aquesta opció és implícita si s'indica més d'un URL.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --autodestination</option
+></term>
+<listitem>
+<para
+>L'argument de destinació s'establirà com el camí del primer dels fitxers subministrats.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>Es llegirà el contingut de l'arxiu, i si es detecta que no és un arxiu d'una única carpeta, es crearà una subcarpeta amb el nom de l'arxiu.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>Obre la carpeta de destinació després de l'extracció.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Vegeu també</title>
+<simplelist>
+<member
+>Hi ha disponible documentació d'usuari més detallada des de <ulink url="help:/ark"
+>help:/ark</ulink
+> (podeu emprar aquest &URL; al &konqueror; o bé executar <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Exemples</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>arxiu.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Extraurà <replaceable
+>arxiu.tar.bz2</replaceable
+> en el directori actual sense mostrar cap &IGU;. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>arxiu.tar.bz2</replaceable
+> <replaceable
+>arxiu_2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Primer mostrarà un diàleg amb opcions d'extracció i després extraurà <replaceable
+>arxiu.tar.bz2</replaceable
+> i <replaceable
+>arxiu_2.zip</replaceable
+> en el directori escollit en el diàleg.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>arxiu.zip</replaceable
+> <replaceable
+>foto_1.jpg</replaceable
+> <replaceable
+>text.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Crearà <replaceable
+>arxiu.zip</replaceable
+> si no existeix i després se li afegiran <replaceable
+>foto_1.jpg</replaceable
+> i <replaceable
+>text.txt</replaceable
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>El manteniment</title>
+<para
+>L'&ark; actualment és mantinguda per <emphasis role="bold"
+>Elvis Angelaccio</emphasis
+> i <emphasis role="bold"
+>Ragnar Thomsen</emphasis
+>.</para>
+</refsect1>
+
+</refentry>

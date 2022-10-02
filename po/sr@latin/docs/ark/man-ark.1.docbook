@@ -1,0 +1,445 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Serbian-Latin "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Korisnički priručnik <application
+>Arka</application
+></title>
+
+<author
+><firstname
+>Lori</firstname
+> <surname
+>Vots</surname
+> <contrib
+>prvobitna verzija uputne stranice Arka, 2005.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Rafael</firstname
+> <surname
+>Kuba da Kosta</surname
+> <contrib
+>ažurirao uputnu stranicu Arka 2009.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Ragnar</firstname
+> <surname
+>Tomsen</surname
+> <contrib
+>ažurirao uputnu stranicu Arka 2015. i 2016.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>28.9.2016.</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>16.08</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>Programi KDE-a</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>KDE alatka za arhiviranje</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+> sufiks</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+> fajl</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+> fascikla</replaceable
+></group
+> <arg choice="opt"
+>generičke KF5 opcije</arg
+> <arg choice="opt"
+>generičke Qt opcije</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Opis</title>
+<para
+><application
+>Ark</application
+> je program za upravljanje raznim formatima arhiva iz okruženja KDE-a. Arhive se mogu pregledati, raspakivati, stvarati i menjati unutar <application
+>Arka</application
+>. Ume da rukuje raznim formatima, kao što su tar, gzip, bzip2, ZIP, RAR i LHA (ako su instalirani neophodni programi komandne linije).</para>
+</refsect1>
+
+<refsect1>
+<title
+>Režimi rada</title>
+<para
+><application
+>Ark</application
+> se može koristiti i kao samostalni GUI program i iz komandne linije, za izvođenje nekih specijalnih zadataka.</para>
+<para
+>Ako se pozove bez opcija <option
+>-b</option
+> (<option
+>--batch</option
+>) ili <option
+>-c</option
+> (<option
+>-add</option
+>), <application
+>Ark</application
+> se pokreće kao normalan GUI program.</para>
+<para
+>Pomoću opcije <option
+>-b</option
+> (<option
+>--batch</option
+>), <application
+>Ark</application
+> se može upotrebiti za raspakivanje jednog ili više fajlova neposredno iz komandne linije, bez pokretanja GUI-ja.</para>
+<para
+>Kada se izda opcija <option
+>-c</option
+> (<option
+>--add</option
+>), <application
+>Ark</application
+> će pitati za fajlove koje treba dodati u novu ili postojeću arhivu.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Opcije</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>Prikazuje dijalog za zadavanje opcija za paketnu obradu ili dodavanje.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>fascikla</replaceable
+></option
+></term>
+<listitem
+><para
+>Neka je <replaceable
+>Fascikla</replaceable
+> podrazumevana lokacija za raspakivanje. Ako se ne zada, uzima se tekuća putanja.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>Opcije za dodavanje fajlova</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>Korisniku se traži ime fajla arhive u koju treba dodati navedene fajlove. Napušta po završetku.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>ime-fajla</replaceable
+></option
+></term>
+<listitem>
+<para
+>Dodaje navedene fajlove u <replaceable
+>ime-fajla</replaceable
+>. Stvara arhivu ako ne postoji. Napušta po završetku.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>Menja tekuću fasciklu na prvi unos i dodaje sve ostale unose relativno prema ovome.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>sufiks</replaceable
+></option
+></term>
+<listitem>
+<para
+>Automatski bira ime fajla, sa zadatim <replaceable
+>sufiksom</replaceable
+> (na primer: <literal
+>rar</literal
+>, <literal
+>tar.gz</literal
+>, <literal
+>zip</literal
+>, ili bilo koji drugi podržani tip).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Opcije za paketno raspakivanje</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>Paketno sučelje umesto uobičajenog dijaloga. Ova opcija se podrazumeva ako se zada više od jednog URL-a.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --autodestination</option
+></term>
+<listitem>
+<para
+>Argument odredišta postavlja se na putanju prvog navedenog fajla.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>Sadržaj arhive se čita, i ako se otkrije da se ne radi o arhivi s jednom fasciklom, stvara se potfascikla imenovana kao arhiva.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>Otvara odredišnu fasciklu pošto se raspakivanje završi.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Više detalja</title>
+<simplelist>
+<member
+>Detaljnija korisnička dokumentacija dostupna je na <ulink url="help:/ark"
+><literal
+>help:/ark</literal
+></ulink
+> (ili unesite ovaj URL u <application
+>K-osvajač</application
+>, ili izvršite <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Primeri</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>arhiva.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Raspakuje <replaceable
+>arhiva.tar.bz2</replaceable
+> u tekuću fasciklu bez pozivanja GUI-ja. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>arhiva.tar.bz2</replaceable
+> <replaceable
+>arhiva2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Prvo poziva dijalog za opcije raspakivanja, a onda raspakuje i <replaceable
+>arhiva.tar.bz2</replaceable
+> i <replaceable
+>arhiva2.zip</replaceable
+> u fasciklu izabranu u dijalogu.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>moja-arhiva.zip</replaceable
+> <replaceable
+>slika1.jpg</replaceable
+> <replaceable
+>tekst.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Stvara <replaceable
+>moja-arhiva.zip</replaceable
+> ako ne postoji, a zatim dodaje <replaceable
+>slika1.jpg</replaceable
+> i <replaceable
+>tekst.txt</replaceable
+> u nju. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>Održavanje</title>
+<para
+><application
+>Ark</application
+> trenutno održavaju <emphasis role="bold"
+>Elvis Angelačo</emphasis
+> i <emphasis role="bold"
+>Ragnar Tomsen</emphasis
+>.</para>
+</refsect1>
+
+</refentry>

@@ -1,0 +1,445 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Serbian "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Кориснички приручник <application
+>Арка</application
+></title>
+
+<author
+><firstname
+>Лори</firstname
+> <surname
+>Вотс</surname
+> <contrib
+>првобитна верзија упутне странице Арка, 2005.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Рафаел</firstname
+> <surname
+>Куба да Коста</surname
+> <contrib
+>ажурирао упутну страницу Арка 2009.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Рагнар</firstname
+> <surname
+>Томсен</surname
+> <contrib
+>ажурирао упутну страницу Арка 2015. и 2016.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>28.9.2016.</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>16.08</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>Програми КДЕ-а</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>КДЕ алатка за архивирање</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+> суфикс</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+> фајл</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+> фасцикла</replaceable
+></group
+> <arg choice="opt"
+>генеричке КФ5 опције</arg
+> <arg choice="opt"
+>генеричке КуТ опције</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Опис</title>
+<para
+><application
+>Арк</application
+> је програм за управљање разним форматима архива из окружења КДЕ-а. Архиве се могу прегледати, распакивати, стварати и мењати унутар <application
+>Арка</application
+>. Уме да рукује разним форматима, као што су тар, гзип, бзип2, ЗИП, РАР и ЛХА (ако су инсталирани неопходни програми командне линије).</para>
+</refsect1>
+
+<refsect1>
+<title
+>Режими рада</title>
+<para
+><application
+>Арк</application
+> се може користити и као самостални ГУИ програм и из командне линије, за извођење неких специјалних задатака.</para>
+<para
+>Ако се позове без опција <option
+>-b</option
+> (<option
+>--batch</option
+>) или <option
+>-c</option
+> (<option
+>-add</option
+>), <application
+>Арк</application
+> се покреће као нормалан ГУИ програм.</para>
+<para
+>Помоћу опције <option
+>-b</option
+> (<option
+>--batch</option
+>), <application
+>Арк</application
+> се може употребити за распакивање једног или више фајлова непосредно из командне линије, без покретања ГУИ-ја.</para>
+<para
+>Када се изда опција <option
+>-c</option
+> (<option
+>--add</option
+>), <application
+>Арк</application
+> ће питати за фајлове које треба додати у нову или постојећу архиву.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Опције</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>Приказује дијалог за задавање опција за пакетну обраду или додавање.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>фасцикла</replaceable
+></option
+></term>
+<listitem
+><para
+>Нека је <replaceable
+>Фасцикла</replaceable
+> подразумевана локација за распакивање. Ако се не зада, узима се текућа путања.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>Опције за додавање фајлова</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>Кориснику се тражи име фајла архиве у коју треба додати наведене фајлове. Напушта по завршетку.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>име-фајла</replaceable
+></option
+></term>
+<listitem>
+<para
+>Додаје наведене фајлове у <replaceable
+>име-фајла</replaceable
+>. Ствара архиву ако не постоји. Напушта по завршетку.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>Мења текућу фасциклу на први унос и додаје све остале уносе релативно према овоме.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>суфикс</replaceable
+></option
+></term>
+<listitem>
+<para
+>Аутоматски бира име фајла, са задатим <replaceable
+>суфиксом</replaceable
+> (на пример: <literal
+>rar</literal
+>, <literal
+>tar.gz</literal
+>, <literal
+>zip</literal
+>, или било који други подржани тип).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Опције за пакетно распакивање</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>Пакетно сучеље уместо уобичајеног дијалога. Ова опција се подразумева ако се зада више од једног УРЛ-а.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --autodestination</option
+></term>
+<listitem>
+<para
+>Аргумент одредишта поставља се на путању првог наведеног фајла.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>Садржај архиве се чита, и ако се открије да се не ради о архиви с једном фасциклом, ствара се потфасцикла именована као архива.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>Отвара одредишну фасциклу пошто се распакивање заврши.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Више детаља</title>
+<simplelist>
+<member
+>Детаљнија корисничка документација доступна је на <ulink url="help:/ark"
+><literal
+>help:/ark</literal
+></ulink
+> (или унесите овај УРЛ у <application
+>К-освајач</application
+>, или извршите <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Примери</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>архива.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Распакује <replaceable
+>архива.tar.bz2</replaceable
+> у текућу фасциклу без позивања ГУИ-ја. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>архива.tar.bz2</replaceable
+> <replaceable
+>архива2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Прво позива дијалог за опције распакивања, а онда распакује и <replaceable
+>архива.tar.bz2</replaceable
+> и <replaceable
+>архива2.zip</replaceable
+> у фасциклу изабрану у дијалогу.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>моја-архива.zip</replaceable
+> <replaceable
+>слика1.jpg</replaceable
+> <replaceable
+>текст.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Ствара <replaceable
+>моја-архива.zip</replaceable
+> ако не постоји, а затим додаје <replaceable
+>слика1.jpg</replaceable
+> и <replaceable
+>текст.txt</replaceable
+> у њу. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>Одржавање</title>
+<para
+><application
+>Арк</application
+> тренутно одржавају <emphasis role="bold"
+>Елвис Ангелачо</emphasis
+> и <emphasis role="bold"
+>Рагнар Томсен</emphasis
+>.</para>
+</refsect1>
+
+</refentry>

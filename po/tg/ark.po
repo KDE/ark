@@ -1,0 +1,3168 @@
+# translation of ark.po to Tajik
+# translation of ark.po to Тоҷикӣ
+# Copyright (C) 2004, 2005 Free Software Foundation, Inc.
+# 2004, infoDev, a World Bank organization
+# 2004, Khujand Computer Technologies, Inc.
+# 2004, Youth Opportunities NGO
+# 2004, KCT1, NGO
+# Dilshod Marupov <dma165@hotmail.com>, 2004.
+# Victor Ibragimov <youth_opportunities@tajikngo.org>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ark\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"PO-Revision-Date: 2005-09-23 17:40+0500\n"
+"Last-Translator: Victor Ibragimov <youth_opportunities@tajikngo.org>\n"
+"Language-Team: Tajik\n"
+"Language: tg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.10\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+"НПО \"Имкониятҳои ҷавонон\" ва Khujand Computer Technologies, Inc. USA, "
+"Роҷер Ковакс, Виктор Ибрагимов, Марина Колючева"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+"youth_opportunities@tajikngo.org,,rkovacs@khujand.org,,MarinaKL@tajikngo.org"
+
+#. i18n: ectx: Menu (archive)
+#: app/arkui.rc:5
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
+msgid "&Archive"
+msgstr "Кушодани 'архив'"
+
+#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#, fuzzy, kde-format
+msgid "Extracting Files"
+msgstr "Берункунии файлҳо аз %1"
+
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#, fuzzy, kde-format
+#| msgid "Save Archive?"
+msgid "Source archive"
+msgstr "Бойгонӣ Захира Карда шавад?"
+
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#, fuzzy, kde-format
+msgid "Destination"
+msgstr "Берункуни феҳрист"
+
+#: app/batchextract.cpp:117
+#, fuzzy, kde-format
+#| msgid ""
+#| "The following files will not be extracted\n"
+#| "because they already exist:"
+msgid "The following files could not be extracted:"
+msgstr ""
+"Файлҳои зерин бароварда намешаванд\n"
+"зеро онҳо аллакай мавҷуданд:"
+
+#: app/batchextract.cpp:136
+#, fuzzy, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>. Any further "
+"archive will not be extracted."
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#: app/batchextract.cpp:137
+#, fuzzy, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message><nl/>Any further archive will not be extracted."
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#: app/batchextract.cpp:141
+#, fuzzy, kde-kuit-format
+msgctxt "@info"
+msgid "There was an error while extracting <filename>%1</filename>."
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#: app/batchextract.cpp:142
+#, fuzzy, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message>"
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#: app/batchextract.cpp:293
+#, fuzzy, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive could not be extracted to <filename>%1</filename> because Ark "
+"can only extract to local destinations."
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#: app/compressfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
+msgid "Compress"
+msgstr "Файли Фишурда"
+
+#: app/compressfileitemaction.cpp:90
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+msgid "Compress to..."
+msgstr "Файли Фишурда"
+
+#: app/compressfileitemaction.cpp:97
+#, kde-format
+msgctxt ""
+"@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
+msgid "Here as \"%1\""
+msgstr ""
+
+#: app/extractfileitemaction.cpp:63
+#, fuzzy, kde-format
+#| msgid "E&xtract..."
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive to..."
+msgstr "&Баровардан..."
+
+#: app/extractfileitemaction.cpp:75
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here"
+msgstr "Берункунӣ"
+
+#: app/extractfileitemaction.cpp:83
+#, fuzzy, kde-format
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here, autodetect subfolder"
+msgstr "Берункунии файлҳо аз %1"
+
+#: app/extractfileitemaction.cpp:89
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
+msgid "Extract"
+msgstr "Берункунӣ"
+
+#: app/extractHereDndPlugin.cpp:55
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt ""
+"@action:inmenu Context menu shown when an archive is being drag'n'dropped"
+msgid "Extract here"
+msgstr "Берункунӣ"
+
+#: app/main.cpp:84
+#, kde-format
+msgid "Ark"
+msgstr "Архиватор"
+
+#: app/main.cpp:86
+#, kde-format
+msgid "KDE Archiving tool"
+msgstr "KDE Асбоби архивкунӣ"
+
+#: app/main.cpp:88
+#, fuzzy, kde-format
+#| msgid "(c) 1997-2003, The Various Ark Developers"
+msgid "(c) 1997-2019, The Ark Developers"
+msgstr "(c) 1997-2003, Коргардонони Мухталифи Бойгонигар"
+
+#: app/main.cpp:93
+#, kde-format
+msgid "Elvis Angelaccio"
+msgstr ""
+
+#: app/main.cpp:94
+#, fuzzy, kde-format
+msgid "Maintainer"
+msgstr "Ташкилкунандаи ҷараён"
+
+#: app/main.cpp:96
+#, kde-format
+msgid "Ragnar Thomsen"
+msgstr ""
+
+#: app/main.cpp:97
+#, fuzzy, kde-format
+msgid "Maintainer, KF5 port"
+msgstr "Ташкилкунандаи ҷараён"
+
+#: app/main.cpp:99
+#, kde-format
+msgid "Raphael Kubo da Costa"
+msgstr ""
+
+#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#, fuzzy, kde-format
+msgid "Former Maintainer"
+msgstr "Ташкилкунандаи ҷараён"
+
+#: app/main.cpp:102
+#, kde-format
+msgid "Harald Hvaal"
+msgstr ""
+
+#: app/main.cpp:105
+#, kde-format
+msgid "Henrique Pinto"
+msgstr ""
+
+#: app/main.cpp:108
+#, kde-format
+msgid "Helio Chissini de Castro"
+msgstr ""
+
+#: app/main.cpp:109
+#, fuzzy, kde-format
+msgid "Former maintainer"
+msgstr "Ташкилкунандаи ҷараён"
+
+#: app/main.cpp:111
+#, kde-format
+msgid "Georg Robbers"
+msgstr ""
+
+#: app/main.cpp:114
+#, kde-format
+msgid "Roberto Selbach Teixeira"
+msgstr ""
+
+#: app/main.cpp:117
+#, kde-format
+msgid "Francois-Xavier Duranceau"
+msgstr ""
+
+#: app/main.cpp:120
+#, kde-format
+msgid "Emily Ezust (Corel Corporation)"
+msgstr ""
+
+#: app/main.cpp:123
+#, kde-format
+msgid "Michael Jarrett (Corel Corporation)"
+msgstr ""
+
+#: app/main.cpp:126
+#, kde-format
+msgid "Robert Palmbos"
+msgstr ""
+
+#: app/main.cpp:130
+#, kde-format
+msgid "Vladyslav Batyrenko"
+msgstr ""
+
+#: app/main.cpp:131
+#, kde-format
+msgid "Advanced editing functionalities"
+msgstr ""
+
+#: app/main.cpp:134
+#, kde-format
+msgid "Bryce Corkins"
+msgstr ""
+
+#: app/main.cpp:135
+#, kde-format
+msgid "Icons"
+msgstr "Нақшҳо"
+
+#: app/main.cpp:137
+#, kde-format
+msgid "Liam Smit"
+msgstr ""
+
+#: app/main.cpp:138
+#, kde-format
+msgid "Ideas, help with the icons"
+msgstr "Ақидаҳо, бо нақшҳо роҳнамоӣ мекунанд"
+
+#: app/main.cpp:140
+#, kde-format
+msgid "Andrew Smith"
+msgstr ""
+
+#: app/main.cpp:141
+#, kde-format
+msgid "bkisofs code"
+msgstr ""
+
+#: app/main.cpp:151
+#, kde-format
+msgid "URLs to open."
+msgstr ""
+
+#: app/main.cpp:154
+#, kde-format
+msgid ""
+"Show a dialog for specifying the options for the operation (extract/add)"
+msgstr ""
+
+#: app/main.cpp:157
+#, kde-format
+msgid ""
+"Destination folder to extract to. Defaults to current path if not specified."
+msgstr ""
+
+#. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
+#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Open destination folder after extraction."
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#: app/main.cpp:164
+#, fuzzy, kde-format
+#| msgid ""
+#| "Ask for the name of the archive to add 'files' to. Quit when finished."
+msgid ""
+"Query the user for an archive filename and add specified files to it. Quit "
+"when finished."
+msgstr ""
+"Пурсидани номи архив барои иловаи 'файлҳо' ба. Бекор кардан вақти анҷом "
+"расонидан."
+
+#: app/main.cpp:167
+#, fuzzy, kde-format
+#| msgid ""
+#| "Ask for the name of the archive to add 'files' to. Quit when finished."
+msgid ""
+"Add the specified files to 'filename'. Create archive if it does not exist. "
+"Quit when finished."
+msgstr ""
+"Пурсидани номи архив барои иловаи 'файлҳо' ба. Бекор кардан вақти анҷом "
+"расонидан."
+
+#: app/main.cpp:171
+#, kde-format
+msgid ""
+"Change the current dir to the first entry and add all other entries relative "
+"to this one."
+msgstr ""
+
+#: app/main.cpp:174
+#, kde-format
+msgid ""
+"Automatically choose a filename, with the selected suffix (for example rar, "
+"tar.gz, zip or any other supported types)"
+msgstr ""
+
+#: app/main.cpp:178
+#, kde-format
+msgid ""
+"Use the batch interface instead of the usual dialog. This option is implied "
+"if more than one url is specified."
+msgstr ""
+
+#: app/main.cpp:181
+#, kde-format
+msgid ""
+"The destination argument will be set to the path of the first file supplied."
+msgstr ""
+
+#: app/main.cpp:184
+#, kde-format
+msgid ""
+"Archive contents will be read, and if detected to not be a single folder or "
+"a single file archive, a subfolder with the name of the archive will be "
+"created."
+msgstr ""
+
+#: app/main.cpp:187
+#, kde-format
+msgid "List supported MIME types."
+msgstr ""
+
+#: app/mainwindow.cpp:126
+#, kde-format
+msgid "Unable to find Ark's KPart component, please check your installation."
+msgstr ""
+
+#: app/mainwindow.cpp:201
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches between having a <emphasis>Menubar</emphasis> and having a "
+"<interface>Hamburger Menu</interface> button. Both contain mostly the same "
+"commands and configuration options."
+msgstr ""
+
+#: app/mainwindow.cpp:260
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "to open an archive"
+msgid "Open Archive"
+msgstr "Кушодани 'архив'"
+
+#: app/mainwindow.cpp:371
+#, fuzzy, kde-format
+#| msgid "Create New Archive"
+msgid "Create New Archive"
+msgstr "Офаридани Бойгонии Нав"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
+#: app/welcomescreen.ui:18
+#, kde-format
+msgid "Form"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: app/welcomescreen.ui:53
+#, kde-format
+msgid "Welcome to Ark"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, openButton)
+#: app/welcomescreen.ui:97
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "to open an archive"
+msgid "Open Archive..."
+msgstr "Кушодани 'архив'"
+
+#. i18n: ectx: property (text), widget (QPushButton, newButton)
+#: app/welcomescreen.ui:107
+#, fuzzy, kde-format
+#| msgid "Create New Archive"
+msgid "Create New Archive..."
+msgstr "Офаридани Бойгонии Нав"
+
+#: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
+#, kde-format
+msgid "Advanced Options"
+msgstr ""
+
+#: kerfuffle/adddialog.cpp:47
+#, fuzzy, kde-format
+msgctxt "@action:button"
+msgid "Add"
+msgstr "&Иловакунӣ"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupCompressFiles)
+#: kerfuffle/adddialog.ui:35
+#, kde-format
+msgid "Files/Folders to Compress"
+msgstr ""
+
+#: kerfuffle/addtoarchive.cpp:79
+#, fuzzy, kde-format
+#| msgid "Simple Compressed Archive"
+msgid "Compress to Archive"
+msgstr "Архиви оддии фишурдашуда"
+
+#: kerfuffle/addtoarchive.cpp:133
+#, kde-format
+msgid "No input files were given."
+msgstr ""
+
+#: kerfuffle/addtoarchive.cpp:140
+#, kde-kuit-format
+msgid ""
+"You need to either supply a filename for the archive or a suffix (such as "
+"rar, tar.gz) with the <command>--autofilename</command> argument."
+msgstr ""
+
+#: kerfuffle/addtoarchive.cpp:236
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "Кушодани 'архив'"
+
+#. i18n: ectx: label, entry (showEncryptionWarning), group (General)
+#: kerfuffle/ark.kcfg:9
+#, kde-format
+msgid ""
+"Whether to show a warning when creating zip archives with AES encryption."
+msgstr ""
+
+#. i18n: ectx: label, entry (defaultOpenAction), group (General)
+#: kerfuffle/ark.kcfg:13
+#, kde-format
+msgid "Default action when opening archive entries."
+msgstr ""
+
+#. i18n: ectx: label, entry (Version), group (General)
+#: kerfuffle/ark.kcfg:21
+#, kde-format
+msgid ""
+"Internal config version of Ark, mainly used to determine whether an updated "
+"version of Ark is running, so as to migrate config entries that were removed/"
+"renamed ...etc"
+msgstr ""
+
+#. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
+#: kerfuffle/ark.kcfg:31
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Close Ark after extraction."
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#. i18n: ectx: label, entry (preservePaths), group (Extraction)
+#: kerfuffle/ark.kcfg:35
+#, kde-format
+msgid "Preserve paths when extracting."
+msgstr ""
+
+#. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
+#: kerfuffle/ark.kcfg:39
+#, kde-format
+msgid ""
+"Extract to a subfolder if the archive has more than one top-level entry."
+msgstr ""
+
+#. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
+#: kerfuffle/ark.kcfg:45
+#, kde-format
+msgid "How the main window is divided."
+msgstr ""
+
+#. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
+#: kerfuffle/ark.kcfg:49
+#, kde-format
+msgid "Whether to show the information panel."
+msgstr ""
+
+#. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
+#: kerfuffle/ark.kcfg:59
+#, kde-format
+msgid "Whether to limit the preview according to file size."
+msgstr ""
+
+#. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
+#: kerfuffle/ark.kcfg:63
+#, kde-format
+msgid "Preview file size limit in megabytes."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:245
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgctxt "@info"
+msgid "Failed to locate program <filename>%1</filename> on disk."
+msgstr "Феҳрист берункунӣ ба"
+
+#: kerfuffle/cliinterface.cpp:355
+#, kde-format
+msgid "Extraction failed. Make sure that enough space is available."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:358
+#, kde-format
+msgid ""
+"Extraction failed. Make sure you provided the correct password and that "
+"enough space is available."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:369 kerfuffle/cliinterface.cpp:494
+#, fuzzy, kde-format
+#| msgid "Could not create the folder %1"
+msgctxt "@info"
+msgid "Could not move the extracted file to the destination directory."
+msgid_plural "Could not move the extracted files to the destination directory."
+msgstr[0] "Офаридани феҳристи %1 ғайри имкон аст"
+msgstr[1] "Офаридани феҳристи %1 ғайри имкон аст"
+
+#: kerfuffle/cliinterface.cpp:857
+#, kde-format
+msgctxt "@info"
+msgid "Extraction failed because the disk is full."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:864
+#, kde-format
+msgctxt "@info"
+msgid "Extraction failed: Incorrect password"
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:898
+#, kde-format
+msgid "Incorrect password."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:921
+#, kde-format
+msgid "Ark does not currently support testing this archive."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:132
+#, kde-format
+msgid "Protection of the list of files is not possible with the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:141
+#, kde-format
+msgid ""
+"Protection of the archive with password is not possible with the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:156
+#, kde-format
+msgid "It is not possible to set compression level for the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:176
+#, kde-format
+msgid "It is not possible to set compression method for the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:199
+#, kde-format
+msgid "The %1 format does not support multi-volume archives."
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleCompression)
+#: kerfuffle/compressionoptionswidget.ui:20
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgid "Compression"
+msgstr "Файли Фишурда"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel1)
+#: kerfuffle/compressionoptionswidget.ui:35
+#, kde-format
+msgid "Level:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel2)
+#: kerfuffle/compressionoptionswidget.ui:45
+#, kde-format
+msgid "Min"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompMethod)
+#: kerfuffle/compressionoptionswidget.ui:83
+#, fuzzy, kde-format
+#| msgid " Method "
+msgid "Method:"
+msgstr " Усул "
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel3)
+#: kerfuffle/compressionoptionswidget.ui:93
+#, kde-format
+msgid "Max"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleEncryption)
+#: kerfuffle/compressionoptionswidget.ui:118
+#, kde-format
+msgid "Password Protection"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, lblEncMethod)
+#: kerfuffle/compressionoptionswidget.ui:130
+#, fuzzy, kde-format
+#| msgid "Extraction Settings"
+msgid "Encryption method:"
+msgstr "Гузоришҳои Берункунӣ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, encryptHeaderCheckBox)
+#: kerfuffle/compressionoptionswidget.ui:160
+#, kde-format
+msgid "Ask for password before showing the list of files in the archive"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
+#: kerfuffle/compressionoptionswidget.ui:170
+#, kde-format
+msgid ""
+"This encryption method may not be supported by older archiving software."
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleMultiVolume)
+#: kerfuffle/compressionoptionswidget.ui:183
+#, kde-format
+msgid "Multi-volume Archive"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, multiVolumeCheckbox)
+#: kerfuffle/compressionoptionswidget.ui:192
+#, fuzzy, kde-format
+msgid "Create multi-volume archive"
+msgstr "Берункунии файлҳо аз %1"
+
+#. i18n: ectx: property (text), widget (QLabel, lblVolumeSize)
+#: kerfuffle/compressionoptionswidget.ui:210
+#, kde-format
+msgid "Volume size:"
+msgstr ""
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_previewFileSizeLimit)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, volumeSizeSpinbox)
+#: kerfuffle/compressionoptionswidget.ui:223
+#: kerfuffle/previewsettingspage.ui:32
+#, kde-format
+msgid " megabytes"
+msgstr ""
+
+#: kerfuffle/createdialog.cpp:111
+#, kde-format
+msgctxt "the argument is a file extension (the period is not a typo)"
+msgid "Automatically add .%1"
+msgstr ""
+
+#: kerfuffle/createdialog.cpp:198
+#, kde-format
+msgid "The chosen password does not match the given verification password."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/createdialog.ui:30
+#, fuzzy, kde-format
+#| msgid "&Folders"
+msgid "Folder:"
+msgstr "&Феҳристҳо"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/createdialog.ui:47
+#, fuzzy, kde-format
+#| msgid " Filename "
+msgid "Filename:"
+msgstr " Номи файл "
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
+#: kerfuffle/createdialog.ui:54
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Type archive name..."
+msgstr "Кушодани 'архив'"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
+#: kerfuffle/createdialog.ui:61 part/infopanel.ui:93
+#, kde-format
+msgid "Type:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/createdialog.ui:78
+#, kde-format
+msgid "Extension:"
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:40
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@title:window"
+msgid "Extract"
+msgstr "Берункунӣ"
+
+#: kerfuffle/extractiondialog.cpp:54
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgid "Extract"
+msgstr "Берункунӣ"
+
+#: kerfuffle/extractiondialog.cpp:97
+#, kde-format
+msgid "The subfolder name may not contain the character '/'."
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:107
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The folder <filename>%1</filename> already exists. Are you sure you want to "
+"extract here?"
+msgstr "Бойгонӣ аллакай мавҷуд аст. Оё мехоҳед, ки онро рӯиҳам нависед?"
+
+#: kerfuffle/extractiondialog.cpp:108
+#, fuzzy, kde-format
+#| msgid "Archive Already Exists"
+msgid "Folder exists"
+msgstr "Бойгонӣ Аллакай Мавҷуд аст"
+
+#: kerfuffle/extractiondialog.cpp:109
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgid "Extract here"
+msgstr "Берункунӣ"
+
+#: kerfuffle/extractiondialog.cpp:110
+#, kde-format
+msgid "Retry"
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#, fuzzy, kde-kuit-format
+#| msgid "The folder could not be created. Please check permissions."
+msgctxt "@info"
+msgid "The folder <filename>%1</filename> could not be created."
+msgstr "Феҳрист эҷод карда намешавад. Рухсатҳоро тафтиш кунед."
+
+#: kerfuffle/extractiondialog.cpp:121
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid "<filename>%1</filename> already exists, but is not a folder."
+msgstr "Бойгонӣ аллакай мавҷуд аст. Оё мехоҳед, ки онро рӯиҳам нависед?"
+
+#: kerfuffle/extractiondialog.cpp:127
+#, kde-format
+msgid "Please check your permissions to create it."
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:166
+#, fuzzy, kde-format
+msgid "Extract multiple archives"
+msgstr "Берункунии файлҳо аз %1"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ExtractionDialog)
+#: kerfuffle/extractiondialog.ui:21
+#, fuzzy, kde-format
+#| msgid "Extraction"
+msgid "Extraction Dialog"
+msgstr "Берункунӣ"
+
+#. i18n: ectx: property (text), widget (QLabel, extractAllLabel)
+#: kerfuffle/extractiondialog.ui:70
+#, fuzzy, kde-format
+msgid "Extract All Files"
+msgstr "Берункунии файлҳо аз %1"
+
+#. i18n: ectx: property (title), widget (QGroupBox, singleFolderGroup)
+#: kerfuffle/extractiondialog.ui:79
+#, fuzzy, kde-format
+msgid "E&xtraction into subfolder:"
+msgstr "Берункунии файлҳо аз %1"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: kerfuffle/extractiondialog.ui:113
+#, kde-format
+msgid "Options"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
+#: kerfuffle/extractiondialog.ui:132
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Open &destination folder after extraction"
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
+#: kerfuffle/extractiondialog.ui:139
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Close &Ark after extraction"
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
+#: kerfuffle/extractiondialog.ui:146
+#, kde-format
+msgid "&Preserve paths when extracting"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
+#: kerfuffle/extractiondialog.ui:153
+#, kde-format
+msgid "&Automatically create subfolders"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
+#: kerfuffle/extractiondialog.ui:169
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@title:group"
+msgid "Extract"
+msgstr "Берункунӣ"
+
+#. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
+#: kerfuffle/extractiondialog.ui:187
+#, fuzzy, kde-format
+msgid "Sele&cted files only"
+msgstr "Файлҳои интихобшуда"
+
+#. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
+#: kerfuffle/extractiondialog.ui:203
+#, fuzzy, kde-format
+msgid "All &files"
+msgstr "Ҳамаи Файлҳо"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_openDestinationFolderAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:17
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Open destination folder after extraction"
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_closeAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:24
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Close Ark after extraction"
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_preservePaths)
+#: kerfuffle/extractionsettingspage.ui:31
+#, kde-format
+msgid "Preserve paths when extracting"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:41
+#, kde-format
+msgid ""
+"Whether to check by default the extraction into subfolder checkbox in the "
+"Extraction Dialog, when the archive has more than one top-level entry."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:44
+#, kde-format
+msgid "Extract to a subfolder if the archive has more than one top-level entry"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/generalsettingspage.ui:17
+#, kde-format
+msgid "When clicking a file in an archive or pressing the Return key:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: kerfuffle/generalsettingspage.ui:33
+#, kde-format
+msgid "Pre&view the file with internal previewer"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: kerfuffle/generalsettingspage.ui:43
+#, fuzzy, kde-format
+#| msgid "Do you really want to delete the selected items?"
+msgid "Open the fi&le with associated application"
+msgstr "Дар ҳақиқат мехоҳед, ки пунктҳои интихобшударо нобуд созед?"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
+#: kerfuffle/generalsettingspage.ui:60
+#, kde-format
+msgid "Show a warning when creating zip archives with AES encryption"
+msgstr ""
+
+#: kerfuffle/jobs.cpp:99
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "No suitable plugin found. Ark does not seem to support this file type."
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: kerfuffle/jobs.cpp:103
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid ""
+"Failed to load a suitable plugin. Make sure any executables needed to handle "
+"the archive type are installed."
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: kerfuffle/jobs.cpp:168
+#, kde-format
+msgid ""
+"Could not load the archive because it contains ill-formed entries and might "
+"be a malicious archive."
+msgstr ""
+
+#: kerfuffle/jobs.cpp:253
+#, fuzzy, kde-format
+#| msgid "Creating archive..."
+msgid "Loading archive"
+msgstr "Офариданӣ бойгонӣ..."
+
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:704
+#: kerfuffle/jobs.cpp:757 kerfuffle/jobs.cpp:795 kerfuffle/jobs.cpp:827
+#: kerfuffle/jobs.cpp:875
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Archive"
+msgstr "Кушодани 'архив'"
+
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "No space available on device <filename>%1</filename>"
+msgstr "Феҳрист берункунӣ ба"
+
+#: kerfuffle/jobs.cpp:536
+#, fuzzy, kde-format
+msgid "Extracting all files"
+msgstr "Берункунии файлҳо аз %1"
+
+#. i18np on purpose so this translation may properly be reused.
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:630
+#, fuzzy, kde-format
+msgid "Extracting one file"
+msgid_plural "Extracting %1 files"
+msgstr[0] "Берункунии файлҳо аз %1"
+msgstr[1] "Берункунии файлҳо аз %1"
+
+#: kerfuffle/jobs.cpp:540
+#, fuzzy, kde-format
+msgctxt "extraction folder"
+msgid "Destination"
+msgstr "Берункуни феҳрист"
+
+#: kerfuffle/jobs.cpp:544
+#, kde-kuit-format
+msgid ""
+"Could not write to destination <filename>%1</filename>.<nl/>Check whether "
+"you have sufficient permissions."
+msgstr ""
+
+#: kerfuffle/jobs.cpp:703
+#, fuzzy, kde-format
+#| msgid "Adding files..."
+msgid "Compressing a file"
+msgid_plural "Compressing %1 files"
+msgstr[0] "Иловакунии файлҳо..."
+msgstr[1] "Иловакунии файлҳо..."
+
+#: kerfuffle/jobs.cpp:756
+#, fuzzy, kde-format
+#| msgid "Adding files..."
+msgid "Moving a file"
+msgid_plural "Moving %1 files"
+msgstr[0] "Иловакунии файлҳо..."
+msgstr[1] "Иловакунии файлҳо..."
+
+#: kerfuffle/jobs.cpp:794
+#, fuzzy, kde-format
+#| msgid "Adding files..."
+msgid "Copying a file"
+msgid_plural "Copying %1 files"
+msgstr[0] "Иловакунии файлҳо..."
+msgstr[1] "Иловакунии файлҳо..."
+
+#: kerfuffle/jobs.cpp:826
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Deleting a file from the archive"
+msgid_plural "Deleting %1 files"
+msgstr[0] "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+msgstr[1] "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: kerfuffle/jobs.cpp:850
+#, fuzzy, kde-format
+#| msgid "Adding folder..."
+msgid "Adding comment"
+msgstr "Иловакунии феҳрист..."
+
+#: kerfuffle/jobs.cpp:875
+#, fuzzy, kde-format
+#| msgid "Creating archive..."
+msgid "Testing archive"
+msgstr "Офариданӣ бойгонӣ..."
+
+#: kerfuffle/pluginsettingspage.cpp:34
+#, kde-format
+msgid ""
+"The plugin cannot be used because one or more required executables are "
+"missing. Check your installation."
+msgstr ""
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:24
+#, kde-format
+msgid "Name"
+msgstr ""
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:29
+#, fuzzy, kde-format
+msgid "Description"
+msgstr "Берункуни феҳрист"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_limitPreviewFileSize)
+#: kerfuffle/previewsettingspage.ui:22
+#, kde-format
+msgid "Disable preview for files larger than:"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:40
+#, fuzzy, kde-format
+#| msgid "Create folder %1?"
+msgctxt "@title:window"
+msgid "Properties for %1"
+msgstr "Эҷод кардани феҳрист %1?"
+
+#. i18n: ectx: property (text), widget (KSqueezedTextLabel, m_passwordValueLabel)
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:50
+#: part/infopanel.ui:195
+#, kde-format
+msgid "yes"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:49
+#: kerfuffle/propertiesdialog.cpp:50 kerfuffle/propertiesdialog.cpp:63
+#, kde-format
+msgid "no"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:49
+#, kde-format
+msgid "yes (%1 volumes)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:51
+#, fuzzy, kde-format
+#| msgid "%1 file  %2"
+#| msgid_plural "%1 files  %2"
+msgid "%1 file"
+msgid_plural "%1 files"
+msgstr[0] "%1 файл  %2"
+msgstr[1] "%1 файлҳо  %2"
+
+#: kerfuffle/propertiesdialog.cpp:52
+#, fuzzy, kde-format
+#| msgctxt "folder for adding files (used as part of a sentence)"
+#| msgid "add folder"
+msgid ", %1 folder"
+msgid_plural ", %1 folders"
+msgstr[0] "иловакунии феҳрист"
+msgstr[1] "иловакунии феҳрист"
+
+#: kerfuffle/propertiesdialog.cpp:66
+#, kde-format
+msgid "only file contents (%1)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:69
+#, kde-format
+msgid "yes (%1)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
+#: kerfuffle/propertiesdialog.cpp:88
+#, fuzzy, kde-format
+#| msgid "Saving..."
+msgid "Calculating..."
+msgstr "Захиракунӣ..."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/propertiesdialog.ui:37
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Archive name:"
+msgstr "Кушодани 'архив'"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/propertiesdialog.ui:54
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Archive type:"
+msgstr "Кушодани 'архив'"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: kerfuffle/propertiesdialog.ui:71
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Mime-type:"
+msgstr "Кушодани 'архив'"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: kerfuffle/propertiesdialog.ui:88
+#, kde-format
+msgid "Opened read-only:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_passwordLabel)
+#: kerfuffle/propertiesdialog.ui:105 part/infopanel.ui:179
+#, kde-format
+msgid "Password-protected:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_10)
+#: kerfuffle/propertiesdialog.ui:122
+#, kde-format
+msgid "Has comment:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/propertiesdialog.ui:139
+#, kde-format
+msgid "Number of entries:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: kerfuffle/propertiesdialog.ui:156
+#, kde-format
+msgid "Unpacked size:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: kerfuffle/propertiesdialog.ui:173
+#, kde-format
+msgid "Packed size:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: kerfuffle/propertiesdialog.ui:190
+#, fuzzy, kde-format
+#| msgid "Simple Compressed Archive"
+msgid "Compression ratio:"
+msgstr "Архиви оддии фишурдашуда"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: kerfuffle/propertiesdialog.ui:207
+#, kde-format
+msgid "Last modified:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: kerfuffle/propertiesdialog.ui:224
+#, kde-format
+msgid "MD5 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_13)
+#: kerfuffle/propertiesdialog.ui:244
+#, kde-format
+msgid "SHA-1 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_14)
+#: kerfuffle/propertiesdialog.ui:261
+#, kde-format
+msgid "SHA-256 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_15)
+#: kerfuffle/propertiesdialog.ui:278
+#, kde-format
+msgid "Multi-volume:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#: kerfuffle/propertiesdialog.ui:295
+#, fuzzy, kde-format
+#| msgid "Simple Compressed Archive"
+msgid "Compression method(s):"
+msgstr "Архиви оддии фишурдашуда"
+
+#: kerfuffle/queries.cpp:73
+#, fuzzy, kde-format
+#| msgid "Archive Already Exists"
+msgctxt "@title:window"
+msgid "File Already Exists"
+msgstr "Бойгонӣ Аллакай Мавҷуд аст"
+
+#: kerfuffle/queries.cpp:156
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> is password protected. Please enter the "
+"password."
+msgstr "Бойгонӣ аллакай мавҷуд аст. Оё мехоҳед, ки онро рӯиҳам нависед?"
+
+#: kerfuffle/queries.cpp:160
+#, kde-format
+msgid "Incorrect password, please try again."
+msgstr ""
+
+#: kerfuffle/queries.cpp:195
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive you're trying to open is corrupt.<nl/>Some files may be missing "
+"or damaged."
+msgstr ""
+
+#: kerfuffle/queries.cpp:197
+#, fuzzy, kde-format
+#| msgid "Save Archive?"
+msgctxt "@title:window"
+msgid "Corrupt archive"
+msgstr "Бойгонӣ Захира Карда шавад?"
+
+#: kerfuffle/queries.cpp:198
+#, kde-format
+msgctxt "@action:button"
+msgid "Open as Read-Only"
+msgstr ""
+
+#: kerfuffle/queries.cpp:199
+#, kde-format
+msgctxt "@action:button"
+msgid "Don't Open"
+msgstr ""
+
+#: kerfuffle/queries.cpp:208
+#, kde-format
+msgid "Don't ask again."
+msgstr ""
+
+#: kerfuffle/queries.cpp:220
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Error during extraction"
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#: kerfuffle/queries.cpp:221
+#, kde-kuit-format
+msgid ""
+"Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
+"error message:<nl/>    %2<nl/><nl/>Do you want to continue extraction?<nl/>"
+msgstr ""
+
+#: part/archivemodel.cpp:155
+#, kde-format
+msgctxt "Name of a file inside an archive"
+msgid "Name"
+msgstr ""
+
+#: part/archivemodel.cpp:157
+#, kde-format
+msgctxt "Uncompressed size of a file inside an archive"
+msgid "Original Size"
+msgstr ""
+
+#: part/archivemodel.cpp:159
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgctxt "Compressed size of a file inside an archive"
+msgid "Compressed Size"
+msgstr "Файли Фишурда"
+
+#: part/archivemodel.cpp:161
+#, kde-format
+msgctxt "Compression rate of file"
+msgid "Rate"
+msgstr ""
+
+#: part/archivemodel.cpp:163
+#, fuzzy, kde-format
+#| msgid " Owner "
+msgctxt "File's owner username"
+msgid "Owner"
+msgstr " Соҳиб "
+
+#: part/archivemodel.cpp:165
+#, fuzzy, kde-format
+#| msgid " Group "
+msgctxt "File's group"
+msgid "Group"
+msgstr " Гурӯҳ "
+
+#: part/archivemodel.cpp:167
+#, kde-format
+msgctxt "File permissions"
+msgid "Mode"
+msgstr ""
+
+#: part/archivemodel.cpp:169
+#, kde-format
+msgctxt "CRC hash code"
+msgid "CRC checksum"
+msgstr ""
+
+#: part/archivemodel.cpp:171
+#, kde-format
+msgctxt "BLAKE2 hash code"
+msgid "BLAKE2 checksum"
+msgstr ""
+
+#: part/archivemodel.cpp:173
+#, fuzzy, kde-format
+#| msgid " Method "
+msgctxt "Compression method"
+msgid "Method"
+msgstr " Усул "
+
+#: part/archivemodel.cpp:176
+#, fuzzy, kde-format
+#| msgid " Version "
+msgctxt "File version"
+msgid "Version"
+msgstr " Нусха "
+
+#: part/archivemodel.cpp:178
+#, kde-format
+msgctxt "Timestamp"
+msgid "Date"
+msgstr ""
+
+#: part/archivemodel.cpp:180
+#, kde-format
+msgctxt "Unnamed column"
+msgid "??"
+msgstr ""
+
+#: part/archivemodel.cpp:291
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Adding files is not supported for this archive."
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: part/archivemodel.cpp:299
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "You can only add local files to an archive."
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#. i18n: ectx: Menu (archive)
+#: part/ark_part.rc:5
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "&Archive"
+msgstr "Кушодани 'архив'"
+
+#. i18n: ectx: Menu (ark_file)
+#: part/ark_part.rc:15
+#, fuzzy, kde-format
+msgid "&File"
+msgstr "&Феҳристҳо"
+
+#. i18n: ectx: Menu (settings)
+#: part/ark_part.rc:29
+#, fuzzy, kde-format
+msgid "&Settings"
+msgstr "Гузоришҳо"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: part/ark_part.rc:34
+#, kde-format
+msgid "Main Toolbar"
+msgstr ""
+
+#. i18n: ectx: Menu (help)
+#: part/ark_viewer.rc:5
+#, kde-format
+msgid "&Help"
+msgstr ""
+
+#: part/arkviewer.cpp:52
+#, kde-format
+msgid "Closing preview"
+msgstr ""
+
+#: part/arkviewer.cpp:53
+#, kde-format
+msgid "Please wait while the preview is being closed..."
+msgstr ""
+
+#: part/arkviewer.cpp:100
+#, kde-format
+msgid "The internal viewer cannot preview this file."
+msgstr ""
+
+#: part/arkviewer.cpp:116
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+
+#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#, kde-format
+msgctxt "@title:window"
+msgid "Cannot Preview File"
+msgstr ""
+
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "@action:button"
+msgid "Preview as Text"
+msgstr "&Азназаргузаронӣ"
+
+#: part/arkviewer.cpp:128
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+
+#: part/arkviewer.cpp:192
+#, fuzzy, kde-format
+#| msgid "Ark KParts Component"
+msgctxt "@action"
+msgid "About Viewer Component"
+msgstr "Ҷузъҳои Бойгонигари KParts"
+
+#: part/infopanel.cpp:52
+#, kde-format
+msgid "No archive loaded"
+msgstr ""
+
+#: part/infopanel.cpp:103
+#, kde-format
+msgid "Symbolic Link"
+msgstr ""
+
+#: part/infopanel.cpp:108
+#, kde-format
+msgid "Unknown size"
+msgstr ""
+
+#: part/infopanel.cpp:129
+#, fuzzy, kde-format
+#| msgid "0 files selected"
+msgid "One file selected"
+msgid_plural "%1 files selected"
+msgstr[0] "0 файлҳои интихобшуда"
+msgstr[1] "0 файлҳои интихобшуда"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, InformationPanel)
+#: part/infopanel.ui:20
+#, kde-format
+msgid "Information Panel"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, additionalInfo)
+#: part/infopanel.ui:64
+#, kde-format
+msgid "Unknown file type"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, m_ownerLabel)
+#: part/infopanel.ui:113
+#, fuzzy, kde-format
+#| msgid " Owner "
+msgid "Owner:"
+msgstr " Соҳиб "
+
+#. i18n: ectx: property (text), widget (QLabel, m_groupLabel)
+#: part/infopanel.ui:133
+#, fuzzy, kde-format
+#| msgid " Group "
+msgid "Group:"
+msgstr " Гурӯҳ "
+
+#. i18n: ectx: property (text), widget (QLabel, m_targetLabel)
+#: part/infopanel.ui:153
+#, kde-format
+msgid "Target:"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, JobTrackerWidget)
+#: part/jobtracker.ui:13
+#, kde-format
+msgid "Job Tracker"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, descriptionLabel)
+#: part/jobtracker.ui:43
+#, kde-format
+msgid "<b>Job Description</b>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, informationLabel)
+#: part/jobtracker.ui:62
+#, kde-format
+msgid "Some Information about the job"
+msgstr ""
+
+#: part/overwritedialog.cpp:26
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Remove them if you really want "
+"to overwrite."
+msgstr ""
+
+#: part/overwritedialog.cpp:28
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Do you want to continue "
+"overwriting them?"
+msgstr ""
+
+#: part/part.cpp:111
+#, kde-format
+msgid "Comment"
+msgstr ""
+
+#: part/part.cpp:122
+#, kde-format
+msgid "Comment has been modified."
+msgstr ""
+
+#: part/part.cpp:127
+#, kde-format
+msgid "Save"
+msgstr ""
+
+#: part/part.cpp:150
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Type to search..."
+msgstr "Кушодани 'архив'"
+
+#: part/part.cpp:308
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark can extract archives to local destinations only."
+msgstr ""
+
+#: part/part.cpp:363
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Show Information Panel"
+msgstr ""
+
+#: part/part.cpp:370
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Save Copy As..."
+msgstr ""
+
+#: part/part.cpp:374
+#, kde-format
+msgctxt "open a file with external program"
+msgid "&Open in External Application"
+msgstr ""
+
+#: part/part.cpp:379
+#, fuzzy, kde-format
+#| msgid "&Open With..."
+msgctxt "open a file with external program"
+msgid "Open &With..."
+msgstr "&Кушодан Бо..."
+
+#: part/part.cpp:381
+#, fuzzy, kde-format
+#| msgid "Do you really want to delete the selected items?"
+msgctxt "@info:tooltip"
+msgid "Click to open the selected file with an external program"
+msgstr "Дар ҳақиқат мехоҳед, ки пунктҳои интихобшударо нобуд созед?"
+
+#: part/part.cpp:385
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "to preview a file inside an archive"
+msgid "Pre&view"
+msgstr "&Азназаргузаронӣ"
+
+#: part/part.cpp:387
+#, fuzzy, kde-format
+#| msgid "Do you really want to delete the selected items?"
+msgctxt "@info:tooltip"
+msgid "Click to preview the selected file"
+msgstr "Дар ҳақиқат мехоҳед, ки пунктҳои интихобшударо нобуд созед?"
+
+#: part/part.cpp:392
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu"
+msgid "E&xtract All"
+msgstr "Берункунӣ"
+
+#: part/part.cpp:394
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose how to extract all "
+"the files in the archive"
+msgstr ""
+
+#: part/part.cpp:399
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu"
+msgid "&Extract"
+msgstr "Берункунӣ"
+
+#: part/part.cpp:402
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose to extract either "
+"all files or just the selected ones"
+msgstr ""
+
+#: part/part.cpp:407
+#, fuzzy, kde-format
+#| msgid "Add &File..."
+msgid "Add &Files..."
+msgstr "Иловакунии &Файл..."
+
+#: part/part.cpp:408 part/part.cpp:471
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to add files to the archive"
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: part/part.cpp:415
+#, fuzzy, kde-format
+#| msgid "Simple Compressed Archive"
+msgctxt "@action"
+msgid "Remove from Archive"
+msgstr "Архиви оддии фишурдашуда"
+
+#: part/part.cpp:425
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Properties"
+msgstr ""
+
+#: part/part.cpp:427
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to see properties for archive"
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: part/part.cpp:433
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to add or edit comment"
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: part/part.cpp:438
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Test Integrity"
+msgstr ""
+
+#: part/part.cpp:440 part/part.cpp:472
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to test the archive for integrity"
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: part/part.cpp:466
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Adding files to existing password-protected archives with no header-"
+"encryption is currently not supported.<nl/><nl/>Extract the files and create "
+"a new archive if you want to add files."
+msgstr ""
+
+#: part/part.cpp:469
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Testing password-protected archives with no header-encryption is currently "
+"not supported."
+msgstr ""
+
+#: part/part.cpp:537
+#, fuzzy, kde-format
+#| msgid "Adding folder..."
+msgctxt "@action:inmenu mutually exclusive with Add &Comment"
+msgid "Edit &Comment"
+msgstr "Иловакунии феҳрист..."
+
+#: part/part.cpp:538 part/part.cpp:546
+#, fuzzy, kde-format
+#| msgid "Adding folder..."
+msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
+msgid "Add &Comment"
+msgstr "Иловакунии феҳрист..."
+
+#: part/part.cpp:647
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive passed the integrity test."
+msgstr "Бойгонии %1 мавҷуд нест."
+
+#: part/part.cpp:647 part/part.cpp:649
+#, kde-format
+msgid "Test Results"
+msgstr ""
+
+#: part/part.cpp:649
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive failed the integrity test."
+msgstr "Бойгонии %1 мавҷуд нест."
+
+#: part/part.cpp:670
+#, fuzzy, kde-format
+#| msgid "E&xtract..."
+msgid "Extract To..."
+msgstr "&Баровардан..."
+
+#: part/part.cpp:684
+#, fuzzy, kde-format
+#| msgid "E&xtract..."
+msgid "Quick Extract To..."
+msgstr "&Баровардан..."
+
+#: part/part.cpp:814
+#, fuzzy, kde-format
+#| msgid "General"
+msgctxt "@title:tab"
+msgid "General"
+msgstr "Умумӣ"
+
+#: part/part.cpp:815
+#, fuzzy, kde-format
+#| msgid "&Extracting"
+msgctxt "@title:tab"
+msgid "Extraction"
+msgstr "&Баровардан"
+
+#: part/part.cpp:816
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "@title:tab"
+msgid "Plugins"
+msgstr "&Азназаргузаронӣ"
+
+#: part/part.cpp:817
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "@title:tab"
+msgid "Previews"
+msgstr "&Азназаргузаронӣ"
+
+#: part/part.cpp:829
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<filename>%1</filename> is a directory."
+msgstr ""
+
+#: part/part.cpp:838
+#, fuzzy, kde-kuit-format
+#| msgid "Could not create the folder %1"
+msgctxt "@info"
+msgid ""
+"Could not overwrite <filename>%1</filename>. Check whether you have write "
+"permission."
+msgstr "Офаридани феҳристи %1 ғайри имкон аст"
+
+#: part/part.cpp:844
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> will be created as soon as you add a "
+"file."
+msgstr "Бойгонӣ аллакай мавҷуд аст. Оё мехоҳед, ки онро рӯиҳам нависед?"
+
+#: part/part.cpp:847
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The archive <filename>%1</filename> was not found."
+msgstr ""
+
+#: part/part.cpp:852
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> could not be loaded, as it was not "
+"possible to read from it."
+msgstr "Бойгонӣ аллакай мавҷуд аст. Оё мехоҳед, ки онро рӯиҳам нависед?"
+
+#: part/part.cpp:865
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "Бойгонӣ аллакай мавҷуд аст. Оё мехоҳед, ки онро рӯиҳам нависед?"
+
+#: part/part.cpp:867
+#, fuzzy, kde-format
+#| msgid "Archive Already Exists"
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "Бойгонӣ Аллакай Мавҷуд аст"
+
+#: part/part.cpp:904
+#, fuzzy, kde-kuit-format
+#| msgid "The archive %1 does not exist."
+msgctxt "@info"
+msgid "The archive is empty or Ark could not open its content."
+msgstr "Бойгонии %1 мавҷуд нест."
+
+#: part/part.cpp:909
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark does not currently support ISO files with UDF filesystem."
+msgstr ""
+
+#: part/part.cpp:939
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"Loading the archive <filename>%1</filename> failed with the following error:"
+"<nl/><message>%2</message>"
+msgstr ""
+
+#: part/part.cpp:999
+#, kde-format
+msgid "Ark cannot open symlinks."
+msgstr ""
+
+#: part/part.cpp:1121
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgid ""
+"The file <filename>%1</filename> was modified. Do you want to update the "
+"archive?"
+msgstr "Бойгонӣ аллакай мавҷуд аст. Оё мехоҳед, ки онро рӯиҳам нависед?"
+
+#: part/part.cpp:1123
+#, fuzzy, kde-format
+#| msgid "Files to be added"
+msgctxt "@title:window"
+msgid "File Modified"
+msgstr "Файлҳо илова мешаванд"
+
+#: part/part.cpp:1403
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgctxt "@title:window"
+msgid "Add Files"
+msgstr "Ҳамаи Файлҳо"
+
+#: part/part.cpp:1408
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgctxt "@title:window"
+msgid "Add Files to %1"
+msgstr "Ҳамаи Файлҳо"
+
+#: part/part.cpp:1472
+#, kde-format
+msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
+msgstr ""
+
+#: part/part.cpp:1516
+#, kde-format
+msgid "Folders can't be moved into themselves."
+msgstr ""
+
+#: part/part.cpp:1517
+#, kde-format
+msgid "Moving a folder into itself"
+msgstr ""
+
+#: part/part.cpp:1545
+#, kde-format
+msgid "Entries with the same names can't be pasted to the same destination."
+msgstr ""
+
+#: part/part.cpp:1646
+#, kde-format
+msgctxt "@info"
+msgid "Deleting this file is not undoable. Are you sure you want to do this?"
+msgid_plural ""
+"Deleting these files is not undoable. Are you sure you want to do this?"
+msgstr[0] ""
+msgstr[1] ""
+
+#: part/part.cpp:1649
+#, fuzzy, kde-format
+msgctxt "@title:window"
+msgid "Delete File"
+msgid_plural "Delete Files"
+msgstr[0] "Файлҳои интихобшуда"
+msgstr[1] "Файлҳои интихобшуда"
+
+#: part/part.cpp:1692
+#, kde-format
+msgctxt "@title:window"
+msgid "Save Copy As"
+msgstr ""
+
+#: part/part.cpp:1707
+#, fuzzy, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive could not be saved as <filename>%1</filename>. Try saving it to "
+"another location."
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#: part/part.cpp:1711
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> does not exist anymore, therefore it "
+"cannot be copied to the specified location."
+msgstr "Бойгонӣ аллакай мавҷуд аст. Оё мехоҳед, ки онро рӯиҳам нависед?"
+
+#: plugins/cli7zplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:85
+#, fuzzy, kde-format
+#| msgid "Opening the archive..."
+msgid "Listing the archive failed."
+msgstr "Кушодани бойгонӣ..."
+
+#: plugins/cli7zplugin/cliplugin.cpp:309
+#, fuzzy, kde-format
+#| msgid "Extracting..."
+msgid "Extraction failed due to an unknown error."
+msgstr "Барориш..."
+
+#: plugins/cli7zplugin/cliplugin.cpp:315 plugins/clizipplugin/cliplugin.cpp:188
+#, kde-format
+msgid ""
+"Extraction failed due to one or more corrupt files. Any extracted files may "
+"be damaged."
+msgstr ""
+
+#: plugins/cli7zplugin/cliplugin.cpp:326
+#, kde-format
+msgid ""
+"Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
+"configuration dialog."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:157
+#: plugins/clirarplugin/cliplugin.cpp:300
+#: plugins/clirarplugin/cliplugin.cpp:553
+#, kde-format
+msgid "Failed to find all archive volumes."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:321
+#, kde-format
+msgid ""
+"Your unrar executable is version %1, which is too old to handle this "
+"archive. Please update to a more recent version."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:328
+#, kde-format
+msgid ""
+"Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
+"Try updating your unrar."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:548
+#, kde-format
+msgid "One or more wrong checksums"
+msgstr ""
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:97
+#, fuzzy, kde-format
+#| msgid "Extracting..."
+msgid "Extraction failed."
+msgstr "Барориш..."
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:131
+#, fuzzy, kde-format
+#| msgid "Not enough free disc space to extract the archive."
+msgid "Not enough memory for loading the archive."
+msgstr "Барои баровардани бойгонӣ фазои холӣ дар диск мавҷуд нест."
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Wrong password."
+msgstr ""
+
+#: plugins/clizipplugin/cliplugin.cpp:178
+#, kde-format
+msgid "Extraction failed due to unsupported compression method (%1)."
+msgstr ""
+
+#: plugins/clizipplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Extraction failed due to unsupported encryption method."
+msgstr ""
+
+#: plugins/clizipplugin/cliplugin.cpp:311
+#, kde-format
+msgctxt "referred to compression method"
+msgid "unknown"
+msgstr ""
+
+#: plugins/libarchive/libarchiveplugin.cpp:392
+#, kde-format
+msgctxt "@info"
+msgid "Fatal error, extraction aborted."
+msgstr ""
+
+#: plugins/libarchive/libarchiveplugin.cpp:426
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive reader could not be initialized."
+msgstr "Бойгонии %1 мавҷуд нест."
+
+#: plugins/libarchive/libarchiveplugin.cpp:440
+#, kde-format
+msgctxt "@info"
+msgid "Archive corrupted or insufficient permissions."
+msgstr ""
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:209
+#, fuzzy, kde-format
+#| msgid "Folder to extract to"
+msgctxt "@info"
+msgid "Failed to create a temporary file for writing data."
+msgstr "Феҳрист берункунӣ ба"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:215
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive writer could not be initialized."
+msgstr "Бойгонии %1 мавҷуд нест."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:233
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Could not open the archive for writing entries."
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:280
+#, kde-format
+msgid "The compression type '%1' is not supported by Ark."
+msgstr ""
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:289
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:343
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Could not set the compression method."
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:353
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Could not set the compression level."
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:472
+#, kde-format
+msgctxt "@info"
+msgid "Could not compress entry, operation aborted."
+msgstr ""
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:513
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info Error in a message box"
+msgid "Could not compress entry."
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:49
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgctxt "@info"
+msgid "Ark could not extract <filename>%1</filename>."
+msgstr "Феҳрист берункунӣ ба"
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:57
+#, fuzzy, kde-kuit-format
+msgctxt "@info"
+msgid "Ark could not open <filename>%1</filename> for extraction."
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:71
+#, fuzzy, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while reading <filename>%1</filename> during extraction."
+msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#: plugins/libzipplugin/libzipplugin.cpp:76
+#: plugins/libzipplugin/libzipplugin.cpp:118
+#: plugins/libzipplugin/libzipplugin.cpp:415
+#: plugins/libzipplugin/libzipplugin.cpp:464
+#: plugins/libzipplugin/libzipplugin.cpp:555
+#: plugins/libzipplugin/libzipplugin.cpp:826
+#: plugins/libzipplugin/libzipplugin.cpp:881
+#, kde-kuit-format
+msgid "Failed to open archive: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:176
+#: plugins/libzipplugin/libzipplugin.cpp:448
+#: plugins/libzipplugin/libzipplugin.cpp:480
+#: plugins/libzipplugin/libzipplugin.cpp:861
+#: plugins/libzipplugin/libzipplugin.cpp:951
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Failed to write archive."
+msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#: plugins/libzipplugin/libzipplugin.cpp:225
+#: plugins/libzipplugin/libzipplugin.cpp:918
+#, kde-kuit-format
+msgid "Failed to add entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:280
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "Failed to set compression options for entry: %1"
+msgstr "Феҳрист берункунӣ ба"
+
+#: plugins/libzipplugin/libzipplugin.cpp:385
+#: plugins/libzipplugin/libzipplugin.cpp:776
+#: plugins/libzipplugin/libzipplugin.cpp:927
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "Failed to read metadata for entry: %1"
+msgstr "Феҳрист берункунӣ ба"
+
+#: plugins/libzipplugin/libzipplugin.cpp:429
+#: plugins/libzipplugin/libzipplugin.cpp:434
+#, kde-kuit-format
+msgid "Failed to delete entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:659
+#, kde-kuit-format
+msgid "Failed to create directory: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:732
+#, kde-kuit-format
+msgid "Failed to open '%1':<nl/>%2"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:740
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "Failed to open file for writing: %1"
+msgstr "Феҳрист берункунӣ ба"
+
+#: plugins/libzipplugin/libzipplugin.cpp:753
+#, kde-kuit-format
+msgid "Failed to read data for entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:758
+#, kde-kuit-format
+msgid "Failed to write data for entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:768
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "Failed to locate entry: %1"
+msgstr "Феҳрист берункунӣ ба"
+
+#: plugins/libzipplugin/libzipplugin.cpp:840
+#: plugins/libzipplugin/libzipplugin.cpp:846
+#, kde-kuit-format
+msgid "Failed to move entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:904
+#, kde-kuit-format
+msgid "Failed to copy entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:934
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "Failed to set metadata for entry: %1"
+msgstr "Феҳрист берункунӣ ба"
+
+#, fuzzy
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open"
+#~ msgstr "Кушодан &ҳамчун:"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to open the selected file with the associated application"
+#~ msgstr "Дар ҳақиқат мехоҳед, ки пунктҳои интихобшударо нобуд созед?"
+
+#, fuzzy
+#~| msgid " Size "
+#~ msgctxt "Uncompressed size of a file inside an archive"
+#~ msgid "Size"
+#~ msgstr " Андоза "
+
+#, fuzzy
+#~ msgctxt "action, to open an archive"
+#~ msgid "Open"
+#~ msgstr "Кушодан &ҳамчун:"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "Open an archive"
+#~ msgstr "Кушодани 'архив'"
+
+#, fuzzy
+#~| msgid "Ark"
+#~ msgid "ArkPart"
+#~ msgstr "Архиватор"
+
+#, fuzzy
+#~| msgid "Save Archive As"
+#~ msgctxt "@title:window"
+#~ msgid "Save Archive As"
+#~ msgstr "Захиракунии Бойгонӣ Ҳамчун"
+
+#, fuzzy
+#~| msgid "Archive already exists. Do you wish to overwrite it?"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "An archive named <filename>%1</filename> already exists. Are you sure you "
+#~ "want to overwrite it?"
+#~ msgstr "Бойгонӣ аллакай мавҷуд аст. Оё мехоҳед, ки онро рӯиҳам нависед?"
+
+#, fuzzy
+#~| msgid "General Settings"
+#~ msgctxt "@title:tab"
+#~ msgid "General Settings"
+#~ msgstr "Гузоришҳои Умумӣ"
+
+#, fuzzy
+#~| msgid "Extract Settings"
+#~ msgctxt "@title:tab"
+#~ msgid "Extraction Settings"
+#~ msgstr "Гузоришҳои Барориш"
+
+#, fuzzy
+#~| msgctxt "to view something"
+#~| msgid "&View"
+#~ msgctxt "@title:tab"
+#~ msgid "Preview Settings"
+#~ msgstr "&Азназаргузаронӣ"
+
+#, fuzzy
+#~| msgctxt "acronym for Cyclic Redundancy Check"
+#~| msgid " CRC "
+#~ msgctxt "CRC hash code"
+#~ msgid "CRC"
+#~ msgstr " CRC "
+
+#, fuzzy
+#~| msgid " Filename "
+#~ msgid "&Rename"
+#~ msgstr " Номи файл "
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to rename the selected file"
+#~ msgstr "Дар ҳақиқат мехоҳед, ки пунктҳои интихобшударо нобуд созед?"
+
+#~ msgid "De&lete"
+#~ msgstr "&Нобуд кардан"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to delete the selected files"
+#~ msgstr "Дар ҳақиқат мехоҳед, ки пунктҳои интихобшударо нобуд созед?"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to cut the selected files"
+#~ msgstr "Дар ҳақиқат мехоҳед, ки пунктҳои интихобшударо нобуд созед?"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to copy the selected files"
+#~ msgstr "Дар ҳақиқат мехоҳед, ки пунктҳои интихобшударо нобуд созед?"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to paste the files here"
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "All Files"
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Find Files"
+#~ msgstr "Ҳамаи Файлҳо"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to search in archive"
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "Adding files..."
+#~ msgid "Adding a file"
+#~ msgid_plural "Adding %1 files"
+#~ msgstr[0] "Иловакунии файлҳо..."
+#~ msgstr[1] "Иловакунии файлҳо..."
+
+#, fuzzy
+#~| msgid "Folder to extract to"
+#~ msgctxt "@info"
+#~ msgid "Extraction failed at:<nl/><filename>%1</filename>"
+#~ msgstr "Феҳрист берункунӣ ба"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>.<nl/>Check whether you "
+#~ "have sufficient permissions."
+#~ msgstr "Офаридани феҳристи %1 ғайри имкон аст"
+
+#, fuzzy
+#~| msgid "Folder to extract to"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Failed to create a temporary file to compress <filename>%1</filename>."
+#~ msgstr "Феҳрист берункунӣ ба"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not read until the end of the archive"
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "Add Folde&r..."
+#~ msgid "Add Fo&lder..."
+#~ msgstr "Иловакунии &Феҳрист..."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to add a folder to the archive"
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "Add Folde&r..."
+#~ msgctxt "@title:window"
+#~ msgid "Add Folder"
+#~ msgstr "Иловакунии &Феҳрист..."
+
+#, fuzzy
+#~| msgid "&Action"
+#~ msgid "ActionsLabel"
+#~ msgstr "&Амал"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Please select a filename for the archive."
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "0 files selected"
+#~ msgid "No file selected"
+#~ msgstr "0 файлҳои интихобшуда"
+
+#, fuzzy
+#~| msgid "Open with:"
+#~ msgid "Open File"
+#~ msgstr "Кушодан бо:"
+
+#, fuzzy
+#~| msgid "Extract"
+#~ msgctxt "@action:intoolbar"
+#~ msgid "E&xtract"
+#~ msgstr "Берункунӣ"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgctxt "@title:window"
+#~ msgid "Error Opening Archive"
+#~ msgstr "Кушодани 'архив'"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "lblArchiveNamed"
+#~ msgstr "Кушодани 'архив'"
+
+#, fuzzy
+#~| msgid "All Valid Archives\n"
+#~ msgid "lblArchiveType"
+#~ msgstr "Ҳамаи Бойгониҳои Дуруст\n"
+
+#, fuzzy
+#~| msgid "Compressing..."
+#~ msgid "lblCompressionRatio"
+#~ msgstr "Фишурдан..."
+
+#, fuzzy
+#~| msgid "Files to be added"
+#~ msgid "lblModified"
+#~ msgstr "Файлҳо илова мешаванд"
+
+#, fuzzy
+#~| msgid "Icons"
+#~ msgid "lblIcon"
+#~ msgstr "Нақшҳо"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for reading"
+#~ msgstr "Офаридани феҳристи %1 ғайри имкон аст"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid "File <filename>%1</filename> not found in the archive"
+#~ msgstr "Офаридани феҳристи %1 ғайри имкон аст"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for writing."
+#~ msgstr "Офаридани феҳристи %1 ғайри имкон аст"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not add the directory <filename>%1</filename> to the archive"
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename> after adding file."
+#~ msgstr "Офаридани феҳристи %1 ғайри имкон аст"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not add the file <filename>%1</filename> to the archive."
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#~ msgid "&Action"
+#~ msgstr "&Амал"
+
+#, fuzzy
+#~| msgid "Open with:"
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open File"
+#~ msgstr "Кушодан бо:"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>, libarchive cannot "
+#~ "handle it."
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "Open destination folder after extraction"
+#~ msgid "Options for batch extraction:"
+#~ msgstr "Кушодани ҷойгузории феҳрист баъди берункунӣ"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Found program <filename>%1</filename>, but failed to initialize the "
+#~ "process."
+#~ msgstr "Офаридани феҳристи %1 ғайри имкон аст"
+
+#, fuzzy
+#~ msgid "Delete files"
+#~ msgstr "Файлҳои интихобшуда"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Unable to open the file '%1', libarchive cannot handle it."
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgctxt "folder for opening files (used as part of a sentence)"
+#~| msgid "open folder"
+#~ msgid "Recent folders"
+#~ msgstr "кушодани феҳрист"
+
+#, fuzzy
+#~| msgid "Open extract dialog, quit when finished"
+#~ msgid "Operation finished."
+#~ msgstr "Кушодани диалоги берункунӣ, бекор кардан вақти ба анҷом расидан"
+
+#, fuzzy
+#~| msgid "Folder to extract to"
+#~ msgid "Could not extract '%1'"
+#~ msgstr "Феҳрист берункунӣ ба"
+
+#, fuzzy
+#~ msgid "Missing Folder"
+#~ msgstr "Ғоиби феҳрист."
+
+#, fuzzy
+#~ msgid "Create Folder"
+#~ msgstr "Эҷод кардани феҳрист %1?"
+
+#~ msgid "The folder could not be created. Please check permissions."
+#~ msgstr "Феҳрист эҷод карда намешавад. Рухсатҳоро тафтиш кунед."
+
+#, fuzzy
+#~| msgid "An error occurred while opening the archive %1."
+#~ msgid "An error occurred while performing the operation."
+#~ msgstr "Ҳангоми кушодани бойгонии %1 хатогӣ рух додааст."
+
+#, fuzzy
+#~| msgid "An error occurred while extracting the archive."
+#~ msgid "Unknown error when extracting files"
+#~ msgstr "Ҳангоми баровардани бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "An error occurred while trying to create the archive."
+#~ msgid "An error occurred while trying to read entry #%1 of the archive"
+#~ msgstr "Ҳангоми кӯшиши офаридани бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgid "Could not create path"
+#~ msgstr "Офаридани феҳристи %1 ғайри имкон аст"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Could not locate file '%1' in the archive"
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgid "Could not read from the input file '%1'"
+#~ msgstr "Офаридани феҳристи %1 ғайри имкон аст"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Could not find a file named %1 in the archive."
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Couldn't open the file '%1', libarchive can't handle it."
+#~ msgstr "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
+
+#, fuzzy
+#~| msgid "Extracting file to view"
+#~ msgid "Extracting all files from the archive '%1'"
+#~ msgstr "Барориши файл барои азназаргузаронӣ"
+
+#, fuzzy
+#~| msgid "Extracting file to view"
+#~ msgid "Extracting one file from the archive %2"
+#~ msgid_plural "Extracting %1 files from the archive '%2'"
+#~ msgstr[0] "Барориши файл барои азназаргузаронӣ"
+#~ msgstr[1] "Барориши файл барои азназаргузаронӣ"
+
+#~ msgid "Could not start a subprocess."
+#~ msgstr "Зерамалиётро оғоз карда намешавад."
+
+#, fuzzy
+#~ msgid "The deletion operation failed."
+#~ msgstr "Нобудсозӣ бо нокомӣ анҷомид."
+
+#, fuzzy
+#~ msgid "The extraction operation failed."
+#~ msgstr "Нобудсозӣ бо нокомӣ анҷомид."
+
+#, fuzzy
+#~ msgid "The addition operation failed."
+#~ msgstr "Нобудсозӣ бо нокомӣ анҷомид."
+
+#~ msgid "Choose Archive Format"
+#~ msgstr "Интихоби Шаклбандии Бойгонӣ"
+
+#~ msgid ""
+#~ "This file appears to be of type %1,\n"
+#~ "which is not a supported archive format.\n"
+#~ "In order to proceed, please choose the format\n"
+#~ "of the file."
+#~ msgstr ""
+#~ "Эҳтимолан ин файл навъи %1-ро дорад,\n"
+#~ "ки шаклбандии бойгониро пуштибонӣ намекунад.\n"
+#~ "Барои коркарди ин бойгонӣ шаклбандии файлро\n"
+#~ "интихоб кунед."
+
+#~ msgid ""
+#~ "You are about to open a file that has a non-standard extension.\n"
+#~ "Ark has detected the format: %1\n"
+#~ "If this is not correct, please choose the appropriate format."
+#~ msgstr ""
+#~ "Шумо кӯшиши кушодани файли бо паҳншавии ғайринизомиро карда истодаед.\n"
+#~ "Бойгонигар шаклбандиро муайян мекунад: %1\n"
+#~ "Агар он нодуруст бошад, марҳамат карда шаклбандии мувофиқро интихоб кунед."
+
+#~ msgid "ark"
+#~ msgstr "бойгонигар"
+
+#~ msgid "Edit &With..."
+#~ msgstr "Таҳриркунӣ &Бо..."
+
+#, fuzzy
+#~ msgid "&Unselect All"
+#~ msgstr "&Бекоркунии Интихоби Ҳама"
+
+#~ msgid "&Invert Selection"
+#~ msgstr "&Акснамоии Интихоб"
+
+#~ msgid "Configure &Ark..."
+#~ msgstr "Танзими &Бойгонигар..."
+
+#~ msgid "Show Search Bar"
+#~ msgstr "Намоиши Панели Ҷустуҷӯӣ"
+
+#~ msgid "Hide Search Bar"
+#~ msgstr "Пинҳонкунии Панели Ҷустуҷӯӣ"
+
+#~ msgid ""
+#~ "The archive \"%1\" has been modified.\n"
+#~ "Do you want to save it?"
+#~ msgstr ""
+#~ "Бойгонӣ \"%1\" тағир дода шуд.\n"
+#~ "Онро захира кардан мехоҳед?"
+
+#~ msgid "Total: 0 files"
+#~ msgstr "Ҳамагӣ: 0 файлҳо"
+
+#~ msgid "Wrong number of arguments specified"
+#~ msgstr "Шумораи нодурусти нишонвандҳо таъин шудааст"
+
+#~ msgid "You need to specify at least one file to be added to the archive."
+#~ msgstr ""
+#~ "Шумо бояд ақалан як файлро барои иловакунӣ ба бойгонӣ интихоб кунед."
+
+#~ msgid "You have run out of disk space."
+#~ msgstr "Шумо берун аз фазои диск корандозӣ намудаед."
+
+#, fuzzy
+#~| msgid ""
+#~| "The file you're trying to view may be an executable. Running untrusted "
+#~| "executables may compromise your system's security.\n"
+#~| "Are you sure you want to run that file?"
+#~ msgid ""
+#~ "The file you are trying to view may be an executable. Running untrusted "
+#~ "executables may compromise your system's security.\n"
+#~ "Are you sure you want to run that file?"
+#~ msgstr ""
+#~ "Файле, ки шумо кӯшиши азназаргузаронии онро карда истодаед, иҷрошаванда "
+#~ "аст. Корандозии файлҳои нобовариноки иҷрошаванда боиси харобшавии "
+#~ "системаи бехатарии шумо шуда метавонад.\n"
+#~ "Дар ҳақиқат мехоҳед, ки ин файлро азназар гузаронед?"
+
+#~ msgid "&Search:"
+#~ msgstr "&Ҷустуҷӯ:"
+
+#~ msgid ""
+#~ "Please save your archive in the same format as the original.\n"
+#~ "Hint: Use one of the suggested extensions."
+#~ msgstr ""
+#~ "Марҳамат карда бойгонии худро дар ҳамаи шаклбандие, ки файли ибтидоӣ "
+#~ "борад, захира кунед.\n"
+#~ "Маслиҳат: Ҳамон як паҳншавиро истифода баред."
+
+#~ msgid "You do not have permission to access that archive."
+#~ msgstr "Шумо рухсатҳои дастрасии ин бойгониро надоред."
+
+#~ msgid "You do not have permission to write to the directory %1"
+#~ msgstr "Шумо рухсатҳоро барои навиштан дар феҳристи %1 надоред"
+
+#~ msgid ""
+#~ "You are currently working with a simple compressed file.\n"
+#~ "Would you like to make it into an archive so that it can contain multiple "
+#~ "files?\n"
+#~ "If so, you must choose a name for your new archive."
+#~ msgstr ""
+#~ "Дар айни замон шумо бо файли оддии фишурда кор карда истодаед.\n"
+#~ "Оё мехоҳед, ки онро ба бойгонӣ тавре, ки он файлҳои бисёрро дар бар "
+#~ "гирад, созед?\n"
+#~ "Агар хоҳед, пас барои бойгонии нави худ номро интихоб кунед."
+
+#, fuzzy
+#~ msgid "Make Into Archive"
+#~ msgstr "Бойгонӣ Захира Карда шавад?"
+
+#~ msgid "Select Files to Add"
+#~ msgstr "Интихоби Файлҳо барои Иловакунӣ"
+
+#~ msgid "Select Folder to Add"
+#~ msgstr "Интихоби Феҳрист барои Иловакунӣ"
+
+#~ msgid "Removing..."
+#~ msgstr "Хориҷкунӣ..."
+
+#~ msgid "The archive to extract from no longer exists."
+#~ msgstr "Бойгонӣ барои баровардан дигар мавҷуд нест."
+
+#~ msgid "Edit with:"
+#~ msgstr "Таҳрир бо:"
+
+#~ msgid "Trouble editing the file..."
+#~ msgstr "Мушкилии таҳриркунии файл..."
+
+#~ msgid "Readding edited file..."
+#~ msgstr "Хондани файли мавҷуда..."
+
+#~ msgid ""
+#~ "The internal viewer is not able to display this file. Would you like to "
+#~ "view it using an external program?"
+#~ msgstr ""
+#~ "Азназаргузарони дохилӣ ба намоиши ин файл имконият надорад. Оё мехоҳед, "
+#~ "ки онро ба воситаи барномаи беруна азназар гузаронед?"
+
+#, fuzzy
+#~ msgctxt "%2 is the total size of selected files"
+#~ msgid "1 files selected  %2"
+#~ msgid_plural "%1 files selected  %2"
+#~ msgstr[0] "%1 файлҳо интихоб шудаанд  %2"
+#~ msgstr[1] "%1 файлҳо интихоб шудаанд  %2"
+
+#~ msgid ""
+#~ "Do you wish to add this to the current archive or open it as a new "
+#~ "archive?"
+#~ msgstr ""
+#~ "Оё мехоҳед, ки онро ба бойгонии ҷорӣ илова кунед, ё онро ҳамчун бойгонии "
+#~ "нав кушоед?"
+
+#~ msgid ""
+#~ "There is no archive currently open. Do you wish to create one now for "
+#~ "these files?"
+#~ msgstr ""
+#~ "Дар айни замон ягон бойгонӣ кушода нашуд. Оё мехоҳед, ки якеро барои ин "
+#~ "файлҳо офаред?"
+
+#~ msgid ""
+#~ "There is no archive currently open. Do you wish to create one now for "
+#~ "this file?"
+#~ msgstr ""
+#~ "Дар айни замон ягон бойгонӣ кушода нашуд. Оё мехоҳед, ки якеро барои ин "
+#~ "файл офаред?"
+
+#, fuzzy
+#~ msgid "Create Archive"
+#~ msgstr "Офаридани Бойгонии Нав"
+
+#~ msgid "Unknown archive format or corrupted archive"
+#~ msgstr "Шаклбандии номаълуми бойгонӣ ё бойгонии харобгашта"
+
+#~ msgid ""
+#~ "The utility %1 is not in your PATH.\n"
+#~ "Please install it or contact your system administrator."
+#~ msgstr ""
+#~ "Барномаи пуштибонии %1 дар РОҲ-и шумо нест.\n"
+#~ "Марҳамат карда онро коргузорӣ кунед ё бо идоракунандаи системавии худ "
+#~ "алоқа кунед."
+
+#~ msgid ""
+#~ "This archive is read-only. If you want to save it under a new name, go to "
+#~ "the File menu and select Save As."
+#~ msgstr ""
+#~ "Ин бойгонӣ танҳо барои хониш аст. Агар хоҳед, ки онро дар зери номи нав "
+#~ "захира кунед, ба менюи Файл гузаред ва Захиракунӣ Ҳамчун-ро интихоб кунед."
+
+#~ msgid "An error occurred while trying to open the archive %1"
+#~ msgstr "Ҳангоми кӯшиши офаридани бойгонии %1 хатогӣ рух дод"
+
+#~ msgid ""
+#~ "You are creating a simple compressed archive which contains only one "
+#~ "input file.\n"
+#~ "When uncompressed, the file name will be based on the name of the archive "
+#~ "file.\n"
+#~ "If you add more files you will be prompted to convert it to a real "
+#~ "archive."
+#~ msgstr ""
+#~ "Шумо архиви оддии фишурдаро эҷод мекунед, ки фақат якто файли воридро "
+#~ "дорад.\n"
+#~ "Дар вақти фишурда нашуданаш, номи файл дар номи архиви файл асос меёбад.\n"
+#~ "Агар шумо бисёр файлҳо илова кунед шумо ба архиви аслӣ гузаштан водор "
+#~ "мешавед."
+
+#~ msgid "Trouble writing to the archive..."
+#~ msgstr "Масъалаи навиштан ба архив..."
+
+#~ msgid "Extract Files From %1"
+#~ msgstr "Берункунии файлҳо аз %1"
+
+#, fuzzy
+#~ msgid "Extract:"
+#~ msgstr "Берункунӣ"
+
+#~ msgid ""
+#~ "You do not have write permission to this folder. Please provide another "
+#~ "folder."
+#~ msgstr ""
+#~ "Шумо рухсати навиштани ба ин феҳристро надоред. Дигар феҳристро таъмин "
+#~ "кунед."
+
+#~ msgctxt "Packed Ratio"
+#~ msgid "%1 %"
+#~ msgstr "%1 %"
+
+#, fuzzy
+#~ msgid "(c) 1997-2005, The Various Ark Developers"
+#~ msgstr "(c) 1997-2003, Коргардонони Мухталифи Бойгонигар"
+
+#~ msgid ""
+#~ "Extract 'archive' to 'folder'. Quit when finished.\n"
+#~ "'folder' will be created if it does not exist."
+#~ msgstr ""
+#~ "Берункунии 'архив' ба 'феҳрист'. Бекор кардан вақти ба анҷом расидан.\n"
+#~ "агар ин вуҷуд дошта набошад 'феҳрист' эҷод карда мешавад."
+
+#~ msgid ""
+#~ "Add 'files' to 'archive'. Quit when finished.\n"
+#~ "'archive' will be created if it does not exist."
+#~ msgstr ""
+#~ "Иловаи 'файлҳо' ба 'архив'. Бекор кардан вақти анҷом расонидан.\n"
+#~ "агар ин вуҷуд дошта набошад 'архив' эҷод карда мешавад."
+
+#~ msgid ""
+#~ "Used with '--extract-to'. When specified, 'archive'\n"
+#~ "will be extracted to a subfolder of 'folder'\n"
+#~ "whose name will be the name of 'archive' without the filename extension."
+#~ msgstr ""
+#~ "Истифода шудааст бо '--берункунӣ-ба'. Дар вақти муқаррар кардан, 'архив'\n"
+#~ "ба зерфеҳристи 'феҳрист' берун карда мешавад\n"
+#~ "номи онҳо номи 'архив' бе номи файли вусъатшавӣ мешавад."
+
+#~ msgid "New &Window"
+#~ msgstr "&Тирезаи Нав"
+
+#~ msgid "Re&load"
+#~ msgstr "&Бозборкунӣ"
+
+#~ msgid ""
+#~ "The archive %1 is already open and has been raised.\n"
+#~ "Note: if the filename does not match, it only means that one of the two "
+#~ "is a symbolic link."
+#~ msgstr ""
+#~ "Бойгонии %1 аллакай кушода аст ва пайдо гардидааст.\n"
+#~ "Эзоҳ: агар номи файл мувофиқат накунад, ин маънои онро дорад, ки яке аз "
+#~ "ин ду файлҳо пайвандҳои аломатии ба дигаре аст."
+
+#~ msgid "Open &as:"
+#~ msgstr "Кушодан &ҳамчун:"
+
+#~ msgid "Autodetect (default)"
+#~ msgstr "Худмуайянкунӣ (бо нобаёнӣ)"
+
+#~ msgid "Select Archive to Add Files To"
+#~ msgstr "Интихоби Бойгонӣ барои Иловакунии Файл Ба"
+
+#~ msgid "Please Wait"
+#~ msgstr "Лутфан, интизор шавед"
+
+#~ msgid "Replace old files only &with newer files"
+#~ msgstr "Ҷойивазкунии файлҳои кӯҳна &бо файлҳои нав"
+
+#~ msgid "Force &MS-DOS short filenames (Zip)"
+#~ msgstr "Истифодаи маҷбурии номи кӯтоҳи файлҳои &MS-DOS (Zip)"
+
+#~ msgid "Translate &LF to DOS CRLF (Zip)"
+#~ msgstr "Тарҷумаи &LF ба DOS CRLF (Zip)"
+
+#~ msgid "&Store symlinks as links (Zip, Rar)"
+#~ msgstr "&Захира кардани пайвандҳои алоқаавӣ ҳамчун алоқаҳои (Zip, Rar)"
+
+#~ msgid "&Recursively add subfolders (Zip, Rar)"
+#~ msgstr "Иловакунии &курсивии зерфеҳристҳо (Zip, Rar)"
+
+#~ msgid "Replace old files only with newer files"
+#~ msgstr "Ҷойивазкунии файлҳои кӯҳна танҳо бо файлҳои нав"
+
+#~ msgid ""
+#~ "If this option is enabled and you add filenames that already exist in an "
+#~ "archive, only replace the old files if the added files are newer than them"
+#~ msgstr ""
+#~ "Агар ин параметр имкон шавад ва шумо номи файлҳоро илова кунед, ки "
+#~ "аллакай дар архив вуҷуд аст, фақат файлҳои кӯҳна ҷойиваз мешаванд агао "
+#~ "файлҳои иловашуда аз онҳо навтаран ҳастанд"
+
+#~ msgid "Overwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "Кучондани файлҳои (Zip, Tar, Zoo, Rar)"
+
+#~ msgid ""
+#~ "Overwrite any files that have matching names on disk with the one from "
+#~ "the archive"
+#~ msgstr ""
+#~ "Кучондани ягон файл, ки номҳои аломат дар диск бо яке аз архив дорад"
+
+#~ msgid "Preserve permissions"
+#~ msgstr "Рухсатҳои захиракунӣ"
+
+#~ msgid ""
+#~ "Save the user, group, and permission settings on files. Use with care, as "
+#~ "this may result in files being extracted that do not belong to any valid "
+#~ "user on your computer"
+#~ msgstr ""
+#~ "Нигоҳ доштани истифодабаранда, гурӯҳ ва рухсати танзимот ба файлҳо. "
+#~ "Оҳиста истифода баред, зеро дар натиҷа ин метавонад берункунӣ дар файлҳо "
+#~ "кунад ва ба ягон истифодабарандаи дар компютер дастрас таалуқ надорад"
+
+#~ msgid "Force MS-DOS short filenames (Zip)"
+#~ msgstr "Қувваи MS-DOS номи файлҳои кӯтоҳ (Zip)"
+
+#~ msgid "Force names of files in Zip archives to the DOS 8.3 format"
+#~ msgstr "Қувваи номҳои файлҳо дар архиви Zip ба формати DOS 8.3 "
+
+#~ msgid "Translate LF to DOS CRLF"
+#~ msgstr "Тарҷумаи LF ба DOS CRLF "
+
+#~ msgid "Ignore folder names (Zip)"
+#~ msgstr "Рад кардани номхои феҳрист (Zip)"
+
+#~ msgid ""
+#~ "Extract all the files into the extraction folder, ignoring any folder "
+#~ "structure in the archive."
+#~ msgstr ""
+#~ "Берункунии ҳамаи файлҳо ба феҳристи берункунӣ, радкунии ягон сохти "
+#~ "феҳрист дар архив."
+
+#~ msgid "Store symlinks as links (Zip, Rar)"
+#~ msgstr "Захира кардани пайвандҳои алоқа ҳамчун алоқаҳо (Zip, Rar)"
+
+#~ msgid "Recursively add subfolders (Zip, Rar)"
+#~ msgstr "Рекурсиви илова кардани зерфеҳристҳо (Zip, Rar)"
+
+#~ msgid "Convert filenames to lowercase (Zip, Rar)"
+#~ msgstr "Гузаронидани номи файлҳо ба зинаи поёнӣ (Zip, Rar)"
+
+#~ msgid "Convert filenames to uppercase"
+#~ msgstr "Гузаронидани номи файлҳо ба зинаи болоӣ"
+
+#~ msgid "Show search bar"
+#~ msgstr "Намоиши панели ҷустуҷӯӣ"
+
+#~ msgid "Enable Konqueror integration"
+#~ msgstr "Имкон додани интегратсияи Konqueror"
+
+#~ msgid ""
+#~ "Enables integration with Konqueror's context menus, letting you easily "
+#~ "archive or unarchive files. This option will only work if you have the "
+#~ "kdeaddons package installed."
+#~ msgstr ""
+#~ "Имкон додани интегратсия бо матни менюҳои Konqueror, ба шумо архиви осон "
+#~ "ё файлҳои беархив иҷозат медиҳад. Ин параметр вақте кор мекунад, ки шумо "
+#~ "пакети kdeaddons барқарор кардаед."
+
+#~ msgid "Use integrated viewer"
+#~ msgstr "Истифода бурдани намоиши интегратсия"
+
+#~ msgid "Tar Command"
+#~ msgstr "Фармони Tar"
+
+#~ msgid "O&verwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "Кучон&дани файлҳои (Zip, Tar, Zoo, Rar)"
+
+#~ msgid "&Preserve permissions (Tar)"
+#~ msgstr "&Рухсатҳои захиракунӣ (Tar)"
+
+#~ msgid "&Ignore folder names (Zip)"
+#~ msgstr "&Рад кардани номҳои феҳрист (Zip)"
+
+#~ msgid "Convert file names to &lowercase (Zip, Rar)"
+#~ msgstr "Гузаронидани номи файлҳо ба &зинаи поёнӣ (Zip, Rar)"
+
+#~ msgid "Convert file names to &uppercase (Rar)"
+#~ msgstr "Гузаронидани номи файлҳо ба &зинаи болоӣ (Rar)"
+
+#~ msgid "&Use integrated viewer"
+#~ msgstr "&Истифода бурдани намоиши интеграстсияшуда"
+
+#~ msgid "&Enable Konqueror integration"
+#~ msgstr "&Имкон додани интегратсияи Konqueror"
+
+#, fuzzy
+#~ msgid ""
+#~ "<font size=\"-1\"><i>Konqueror integration is only available<br> if you "
+#~ "install the Konqueror integration<br> plugin from the kdeaddons package.</"
+#~ "i></font>"
+#~ msgstr ""
+#~ "<font size=\"-1\"><i>Интегратсияи Konqueror фақат дастрас аст агар шумо "
+#~ "интегратсияи вориди Konqueror аз пакети kdeaddons барқарор кунед.</i></"
+#~ "font>"
+
+#~ msgid "Unable to fork a decompressor"
+#~ msgstr "Шоха кардани бахш фишурдан номумкин аст"
+
+#~ msgid "Trouble writing to the tempfile..."
+#~ msgstr "Хатогии навишти ба файли яквақта..."
+
+#~ msgid " Permissions "
+#~ msgstr " Рухсатҳо "
+
+#~ msgid " Owner/Group "
+#~ msgstr " Соҳиб/Гурӯҳ "
+
+#~ msgid " Timestamp "
+#~ msgstr " Нишонаи вақт "
+
+#~ msgid " Link "
+#~ msgstr " Пайванд "
+
+#~ msgid " Size Now "
+#~ msgstr " Андоза Ҳозир "
+
+#~ msgid " Ratio "
+#~ msgstr " Нисбат "
+
+#~ msgctxt "(used as part of a sentence)"
+#~ msgid "start-up folder"
+#~ msgstr "феҳристи оғозёбӣ"
+
+#~ msgctxt "folder for extracting files (used as part of a sentence)"
+#~ msgid "extract folder"
+#~ msgstr "барориши феҳрист"
+
+#~ msgid "Settings"
+#~ msgstr "Гузоришҳо"
+
+#~ msgid "&Adding"
+#~ msgstr "&Иловакунӣ"
+
+#~ msgid "Add Settings"
+#~ msgstr "Гузоришҳои Иловакунӣ"
+
+#~ msgid "Replace &old files only with newer files"
+#~ msgstr "Ҷойивазкунии феҳристҳои &кӯҳна танҳо бо файлҳои нав"
+
+#~ msgid "Keep entries &generic (Lha)"
+#~ msgstr "Нигаҳдории элементҳои &умум (Lha)"
+
+#~ msgid "Translate LF to DOS &CRLF (Zip)"
+#~ msgstr "Тарҷумаи LF ба DOS &CRLF (Zip)"
+
+#~ msgid "Convert filenames to &lowercase (Zip, Rar)"
+#~ msgstr "Гузаронидани номҳои файлҳо ба &зинаи поёнӣ (Zip, Rar)"
+
+#~ msgid "Convert filenames to &uppercase (Rar)"
+#~ msgstr "Гузаронидани номҳои файлҳо ба &зинаи болоӣ (Rar)"
+
+#~ msgid "1 file selected  %2"
+#~ msgstr "1 файл интихоб шудааст  %2"
+
+#~ msgid "Addition"
+#~ msgstr "Иловагӣ"
+
+#~ msgid "File Addition Settings"
+#~ msgstr "Гузоришҳои Иловагии Файл"
+
+#~ msgid ""
+#~ "This area is for displaying information about the files contained within "
+#~ "an archive."
+#~ msgstr ""
+#~ "Ин фосила барои нишон додани ахборот дар бораи файлҳо, ки дар архив вуҷуд "
+#~ "ҳастанд."
+
+#, fuzzy
+#~ msgid "(c) 1997-2006, The Various Ark Developers"
+#~ msgstr "(c) 1997-2004, Ташкилкунандагони ҳархелаи архиватор"
+
+#~ msgid "Reset Search"
+#~ msgstr "Барқарор кардани ҷустуҷӯ"
+
+#~ msgid ""
+#~ "Reset Search\n"
+#~ "Resets the search bar, so that all archive entries are shown again."
+#~ msgstr ""
+#~ "Барқарор кардани ҷустуҷӯ\n"
+#~ "Пайраҳаи ҷустуҷӯ ро барқарор кунед, ки ҳамаи воридотҳои архив бори дигар "
+#~ "нишон дода шаванд."

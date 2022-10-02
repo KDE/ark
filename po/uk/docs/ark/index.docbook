@@ -1,0 +1,829 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Ukrainian "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY Ragnar.Thomsen '<personname
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+></personname
+>'>
+  <!ENTITY Ragnar.Thomsen.mail '<email
+>rthomsen6@gmail.com</email
+>'>
+  <!ENTITY Henrique.Pinto '<personname
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+></personname
+>'>
+  <!ENTITY Henrique.Pinto.mail '<email
+>henrique.pinto@kdemail.net</email
+>'>
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>Підручник з &ark;</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+<author
+>&Henrique.Pinto; &Henrique.Pinto.mail; </author>
+<author
+>&Ragnar.Thomsen; &Ragnar.Thomsen.mail; </author>
+
+<othercredit role="translator"
+><firstname
+>Андрій</firstname
+><surname
+>Балагута</surname
+> <affiliation
+><address
+><email
+>uj2@mail.ru</email
+></address
+></affiliation
+><contrib
+> Переклад українською</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>Юрій</firstname
+><surname
+>Чорноіван</surname
+><affiliation
+><address
+><email
+>yurchor@ukr.net</email
+></address
+></affiliation
+><contrib
+>Доповнення і уточнення перекладу</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>&Henrique.Pinto;</holder>
+</copyright>
+
+<copyright>
+<year
+>2015, 2016</year>
+<holder
+>&Ragnar.Thomsen;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>10 вересня 2016 року</date>
+<releaseinfo
+>Програми 16.12</releaseinfo>
+
+<abstract>
+<para
+>&ark; - це менеджер архівів у &kde;.</para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>архів</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>стиснення</keyword>
+<keyword
+>7z</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Вступ</title>
+<para
+>Програма &ark; призначена для роботи з архівами різних форматів у середовищі &kde;. За допомогою &ark; ви можете створювати, переглядати, розпаковувати, а також змінювати архіви. &ark; підтримує безліч різних архівів: <command
+>tar</command
+>, <command
+>gzip</command
+>, <command
+>bzip2</command
+>, <command
+>zip</command
+>, <command
+>rar</command
+>, <command
+>7zip</command
+>, <command
+>xz</command
+>, <command
+>rpm</command
+>, <command
+>cab</command
+>, <command
+>deb</command
+>, <command
+>xar</command
+> та <command
+>AppImage</command
+> (за умови, що було встановлено відповідні консольні програми).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Головне вікно &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Для належного використання &ark; вам знадобляться &kde; Frameworks 5. Бібліотека libarchive версії 3.1 або новішої потрібна, якщо ви бажаєте використовувати &ark; для обробки більшості типів архівів, зокрема tar, стисненого tar, rpm, deb та cab. Для роботи з іншими форматами архівів вам будуть потрібні програми, які керуються командним рядком, зокрема  <command
+>zipinfo</command
+>, <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>rar</command
+>, <command
+>unrar</command
+>, <command
+>7z</command
+>, <command
+>lsar</command
+>, <command
+>unar</command
+> та <command
+>lrzip</command
+>.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>Використання &ark;</title>
+
+<sect1 id="ark-open">
+<title
+>Відкривання архівів</title>
+
+<para
+>Для того, щоб відкрити архів у &ark;, виберіть пункт <guimenuitem
+>Відкрити...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>) у меню <guimenu
+>Архів</guimenu
+>. Можна відкрити архівний файл простим перетягуванням його з &dolphin;. Файли архівів мають бути пов’язані з &ark; так, щоб ви могли виділити файл і клацнути <mousebutton
+>правою</mousebutton
+> кнопкою миші на файлі у &dolphin;, а потім обрати з контекстного меню <guimenuitem
+>&ark;</guimenuitem
+> для його відкриття або вибору дії з видобування для цього файла.</para>
+
+<para
+>Якщо ви увімкнули показ інформаційної панелі у меню <guimenu
+>Параметри</guimenu
+>, на ній буде показано додаткові відомості щодо позначених тек або файлів у архіві.</para>
+
+<sect2 id="ark-archive-operations">
+<title
+>Дії з архівами</title>
+
+<para
+>Дії з відкритим архівом можна виконувати за допомогою меню <guimenu
+>Архів</guimenu
+>. Наприклад, можна зберегти архів із іншою назвою за допомогою пункту <guimenuitem
+>Зберегти як...</guimenuitem
+>. Переглянути властивості архіву, зокрема тип, розмір, суму MD5, можна за допомогою пункту <guimenuitem
+>Властивості</guimenuitem
+>.</para>
+
+<para
+>У &ark; передбачено можливість перевірки цілісності архівів. У поточній версії цією можливістю можна скористатися для архівів <command
+>zip</command
+>, <command
+>rar</command
+> і <command
+>7z</command
+>. Пункт засобу перевірки знаходиться у меню <guimenu
+>Архів</guimenu
+>.</para>
+
+</sect2>
+
+<sect2 id="ark-archive-comments">
+<title
+>Коментарі до архівів</title>
+
+<para
+>&ark; може працювати із коментарями, вбудованими до архівів <literal role="extension"
+>zip</literal
+> і <literal role="extension"
+>rar</literal
+>.</para>
+
+<para
+>Коментарі, вбудовані до архівів <literal role="extension"
+>zip</literal
+>, буде показано автоматично.</para>
+
+<para
+>Коментарі до архівів <literal role="extension"
+>rar</literal
+> можна змінювати за допомогою пунктів <guimenuitem
+>Додати коментар</guimenuitem
+> та <guimenuitem
+>Змінити коментар</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>C</keycap
+></keycombo
+>) меню <guimenu
+>Архів</guimenu
+>. </para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Редагування коментарів</phrase>
+</textobject>
+</mediaobject>
+
+<note
+><para
+>Пункт коментарів у меню буде увімкнено лише для архівів <literal role="extension"
+>rar</literal
+>. </para
+></note>
+
+<para
+>Щоб вилучити, коментар із архіву <literal role="extension"
+>rar</literal
+>, просто спорожніть поле тексту у вікні коментаря.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Робота з файлами</title>
+
+<para
+>Після того, як Ви відкриєте архів, Ви маєте змогу виконувати різні операції над файлами, що містяться у ньому. Щоб виконати над файлом деяку операцію, виберіть його і скористайтеся меню <guimenu
+>Файл</guimenu
+>. Ви можете наказати програмі виконати різні дії:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Переглянути</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+>) — відкрити файл у вбудованому переглядачі &ark;. Це швидкісний засіб, призначений лише для перегляду. Втім, у ньому не передбачено підтримки усіх можливих типів файлів.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Відкрити</guimenuitem
+> — відкрити файл у програмі, пов’язаній із відповідним типом файлів.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Відкрити за допомогою...</guimenuitem
+> надає змогу вибрати, за допомогою якої програми слід відкрити певний файл.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Перейменувати</guimenuitem
+> (<keycombo action="simul"
+>&Alt; <keycap
+>F2</keycap
+></keycombo
+>) За допомогою цієї дії можна змінити назви файлів та тек. Як і у програмі для керування файлами Dolphin, цю дію можна викликати за допомогою клавіатурного скорочення, а саме перейменування виконується у вбудованому рядку редагування. Також передбачено перевірку назв файлів на некоректні символи, зокрема <userinput
+>/</userinput
+>, <userinput
+>.</userinput
+> та <userinput
+>..</userinput
+>.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Вилучити</guimenuitem
+> (<keycap
+>Del</keycap
+>) — вилучити обраний файл (чи обрані файли) з архіву. Зауважте, що наслідки виконання цієї дії можна скасувати.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Видобути...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>) відкриває підменю з попередніми використаними теками, ви можете обрати одну з них для видобування даних до неї або вибрати теку, якої немає у списку. Див. наступний розділ, щоб дізнатися більше про видобування.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Вирізати</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+>) / <guimenuitem
+>Копіювати</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>) / <guimenuitem
+>Вставити</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+>): як і у типових програмах для керування файлами, передбачено можливості пересування, вставляння та копіювання файлів. Користувач може пересунути або скопіювати файли з якоїсь теки (розкрити список вмісту теки можна на панелі ієрархічної структури тек) і вставити їх до якогось іншого місця архіву. Теку можна скопіювати до самої себе, але не можна пересунути. Також передбачено перевірку конфліктів назв файлів: ви не зможете скопіювати або пересунути файли до теки, у якій зберігаються файли або теки з такою самою назвою, оскільки таке пересування призведе до втратид даних.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Додати файли</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>A</keycap
+></keycombo
+>) Цією дією можна скористатися для додавання файлів до будь-якої частини ієрархії архіву. Якщо ви виберете теку і цю дію, файли буде додано до вибраної теки. Якщо ж теку не буде вибрано, нові файли буде додано до кореневої теки архіву. </para>
+</listitem>
+</itemizedlist>
+
+<sect2 id="ark-editing-files">
+<title
+>Редагування файлів</title>
+<para
+>Якщо ви виконаєте редагування і збережете файл, який було відкрито за допомогою пунктів <guimenuitem
+>Відкрити</guimenuitem
+> або <guimenuitem
+>Відкрити за допомогою...</guimenuitem
+>, &ark; запитає у вас, чи хочете ви оновити файл у архіві. Якщо ви натиснете кнопку «Так», файл у архіві буде замінено на оновлений.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>Видобування файлів</title>
+
+<para
+>Після того, як архів було відкрито в &ark;, його можна розпакувати. Розпакувати файли із архіву можна вибравши пункт <guisubmenu
+>Видобути</guisubmenu
+> з меню <guimenu
+>Файл</guimenu
+>. Цей пункт меню відкриває підменю з попередніми використаними теками, ви можете обрати одну з них для видобування даних до неї. Крім того, ви можете вибрати пункт підменю <guisubmenu
+>Видобути до...</guisubmenu
+>, щоб відкрити діалогове вікно <guilabel
+>Видобування</guilabel
+>, за допомогою якого ви зможете керувати різноманітними параметрами видобування. Нижче наведено опис параметрів, доступних з діалогового вікна «Видобування».</para>
+
+<para
+>Ви також можете скористатися кнопкою <guibutton
+>Видобути</guibutton
+> на панелі інструментів, щоб отримати доступ до тих самих варіантів видобування.</para>
+
+<para
+>Щоб видобути увесь вміст архіву, виберіть пункт <guisubmenu
+>Видобути усе</guisubmenu
+> у меню <guimenu
+>Архів</guimenu
+>. У відповідь програма виконає безумовне видобування усіх файлів з архіву.</para>
+
+<para
+>Файли і теки можна видобувати простим перетягуванням їхніх пунктів за допомогою миші до теки у &dolphin;.</para>
+
+<para
+>Зауваження: видобування файла з архіву не змінить вмісту архіву.</para>
+
+<sect2 id="ark-extract-dialog">
+<title
+>Діалогове вікно «Видобування»</title>
+
+<para
+>За допомогою діалогового вікна <guilabel
+>Видобування</guilabel
+> можна визначити, куди буде видобуто файли. Типовим місцем є тека, у якій зберігається архів. Це діалогове вікно можна відкрити за допомогою натискання комбінації клавіш <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="extract-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Діалогове вікно «Видобування» &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Ви можете наказати програмі видобути файли до підтеки. Типовою назвою цієї підтеки буде назва архіву без суфікса назви файла, але ви можете змінити цю назву відповідно до ваших потреб. Якщо ви бажаєте зберігати відносні шляхи під час видобування, позначте пункт <guilabel
+>Зберігати шляхи під час видобування</guilabel
+>. Ви також можете наказати програмі відкрити теку, куди ви розпаковуєте файли, у &dolphin;, чи закрити вікно &ark; відразу після завершення видобування.</para>
+
+<para
+>Якщо файл або декілька файлів у списку архівів підсвічено, ви можете обрати, які з файлів слід видобути:</para>
+<itemizedlist>
+<listitem>
+<para
+><guilabel
+>Лише вибрані файли</guilabel
+> — розпакувати з архіву лише вибрані файли.</para>
+</listitem>
+<listitem>
+<para
+><guilabel
+>Всі файли</guilabel
+> — розпакувати з архіву всі файли.</para>
+</listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Створення архівів та додавання файлів</title>
+
+<para
+>Щоб створити новий архів у &ark;, у меню <guimenu
+>Архів</guimenu
+> виберіть пункт <guimenuitem
+>Створити</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+>).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Створення архіву</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Далі, ви можете ввести назву архіву з відповідним суфіксом (<literal role="extension"
+>tar.gz</literal
+>, <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>7z</literal
+> тощо) або вибрати один з підтримуваних форматів у спадному списку <guilabel
+>Фільтр</guilabel
+> і позначити пункт <guilabel
+>Автоматично додати <replaceable
+>суфікс назви файла</replaceable
+></guilabel
+>.</para>
+
+<para
+>Щоб додати файли або теки до нового архіву, скористайтеся пунктом <guimenuitem
+>Додати файли...</guimenuitem
+> з меню <guimenu
+>Архів</guimenu
+>.</para>
+
+<para
+>Альтернативним способом додавання файлів до архіву є перетягування одного або декількох файлів із вікна програми для керування файлами, наприклад &dolphin;, до вікна &ark;. Файли буде додано до поточного архіву. Зауважте, що файли, додані у цей спосіб, завжди опинятимуться у кореневій теці архіву.</para>
+
+<para
+>Доступ до додаткових пунктів дій можна отримати за допомогою придатних до згортання груп у нижній частині діалогового вікна. </para>
+
+<sect2 id="ark-compression">
+<title
+>Стиснення</title>
+<para
+>Вибір вищого рівня стиснення надасть змогу отримати архів меншого розміру, але час пакування та розпаковування архіву при цьому збільшиться. Типовий рівень стиснення, який пропонується &ark;, зазвичай є непоганим балансом між розміром і швидкістю пакування-розпаковування. Для більшості форматів архівів вибір мінімального рівня стиснення призведе до простого об’єднання файлів без будь-якого стискання даних. </para>
+<para
+>Для архівів <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7z</literal
+> та <literal role="extension"
+>zip</literal
+> користувач може вибрати один із передбачених форматом способів стискання. </para>
+<para
+>Зауважте, що використання методів стискання, відмінних від типових, може обмежити сумісність архівів із програмами для їхньої обробки. Наприклад, відкриття архівів <literal role="extension"
+>zip</literal
+> зі методами стискання, відмінними від «Deflate», потребуватиме новіших версій програмного забезпечення для роботи з архівами.</para>
+</sect2>
+
+<sect2 id="ark-password-protection">
+<title
+>Захист паролем</title>
+<para
+>Якщо ви створюєте архів <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7zip</literal
+> або <literal role="extension"
+>jar</literal
+>, ви можете захистити його паролем. У поточній версії підтримку декількох способів шифрування передбачено лише для архівів <literal role="extension"
+>zip</literal
+>. Для інших форматів архівів, для яких передбачено лише один спосіб шифрування, назву способу буде показано у спадному списку.</para>
+<para
+>Підтримку інших способів шифрування, окрім типового <guilabel
+>ZipCrypto</guilabel
+>, передбачено не для усіх засобів роботи з файловими архівами.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Створення архіву, захищеного паролем</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Вкажіть, чи слід вимагати введення пароля перед показом списку файлів. Захист списку файлів називається шифруванням заголовка. Він доступний лише для форматів архівів <literal role="extension"
+>rar</literal
+> та <literal role="extension"
+>7zip</literal
+>. Типово, шифрування заголовків увімкнено (якщо ним можна скористатися), для максимального захисту даних недосвідчених користувачів.</para>
+</sect2>
+
+<sect2 id="ark-multi-volume">
+<title
+>Багатотомові архіви</title>
+<para
+>Передбачено можливість створення багатотомових архівів форматів <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+> і <literal role="extension"
+>7z</literal
+>. Такі архіви ще називають частинними архівами або розділеними архівами.</para>
+<para
+>Багатотомовий архів — один великий архів, поділений на декілька файлів. Можливість поділу корисна, якщо обмежено максимальний розмір файлів. Такі обмеження можуть виникати через обмежену місткість носіїв для перенесення даних або обмеження на максимальний розмір долучення до повідомлення електронної пошти.</para>
+<para
+>Щоб створити багатотомовий архів, позначте у діалоговому вікні створення архіву пункт <guilabel
+>Створити багатотомовий архів</guilabel
+> і встановіть максимальний <guilabel
+>Розмір тому</guilabel
+>. Далі, додайте усі файли до архіву, і &ark; автоматично створити потрібну кількість томів архіву. Залежно від вибраного формату, файли матимуть суфікси із послідовними номерами томів, наприклад <filename
+>xxx.7z.001</filename
+>, <filename
+>xxx.7z.002</filename
+>, або <filename
+>xxx.zip.001</filename
+>, <filename
+>xxx.zip.002</filename
+>, або <filename
+>xxx.part1.rar</filename
+>, <filename
+>xxx.part2.rar</filename
+> тощо.</para>
+<para
+>Щоб видобути дані з багатотомового архіву, зберіть усі файли архіву у одній теці і відкрийте файл із найменшим номером у суфіксі назви у &ark;. Усі інші частини розділеного архіву буде відкрито автоматично.</para>
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>Використання &ark; у програмі для керування файлами</title>
+
+<para
+>Якщо ви наведете вказівник миші на пункт архіву у програмі для керування файлами, зокрема &dolphin;, буде показано контекстне меню з пунктом <guimenuitem
+>Відкрити за допомогою Ark</guimenuitem
+>. У цьому меню будуть додаткові пункти, призначені для видобування архіву за допомогою &ark;: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Видобути архів сюди, автоматично визначити підтеку</guimenuitem
+> створює підтеку у теці з архівом і видобуває теки і файли до визначеної підтеки.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Видобути архів до...</guimenuitem
+> відкриває діалогове вікно видобування, за допомогою якого ви зможете вибрати теку призначення та параметри видобування.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Видобути архів сюди</guimenuitem
+> — розпакувати з архіву до поточної теки.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>У контекстних меню &dolphin; для позначених пунктів файлів і/або тек відповідні пункти дій буде показано у підменю <guimenu
+>Стиснути</guimenu
+>: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Сюди (як TAR.GZ)</guimenuitem
+> або <guimenuitem
+>Сюди (як ZIP)</guimenuitem
+> створює відповідні типи архівів у поточній теці.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Стиснути...</guimenuitem
+> відкриває діалогове вікно, у якому ви можете вибрати теку, назву та тип архіву.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>Розширений пакетний режим</title>
+<para
+>У &ark; передбачено розширений пакетний режим керування архівами без відкриття графічного інтерфейсу. У цьому режимі ви можете видобувати файли, створювати архіви та додавати до них файли.</para>
+
+<para
+>Документацію щодо пакетного режиму можна знайти на <ulink url="man:/ark"
+>сторінці довідки з &ark;</ulink
+>. </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Подяки та ліцензія</title>
+
+<para
+>Авторські права на програму &ark; належать команді розробників &ark;, 2007–2016.</para>
+
+<itemizedlist>
+<title
+>Автори:</title>
+<listitem
+><para
+>Elvis Angelaccio <email
+>elvis.angelaccio@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Ragnar Thomsen <email
+>rthomsen6@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Raphael Kubo da Costa <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+>Harald Hvaal <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Корпорація Corel (автор: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>Корпорація Corel (автор: Michael Jarrett) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Авторські права на документацію &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
+
+<para
+>Документацію оновлено для &kde; 3.3 &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
+
+<para
+>Документацію оновлено до версії набору програм KDE 16.04 &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
+
+<para
+>Переклад українською: Андрій Балагута<email
+>uj2@mail.ru</email
+></para
+><para
+>Доповнення перекладу українською: Юрій Чорноіван <email
+>yurchor@ukr.net</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

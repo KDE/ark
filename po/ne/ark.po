@@ -1,0 +1,3159 @@
+# translation of ark.po to Nepali
+# Kapil Timilsina <lipak21@gmail.com>, 2006.
+# shyam krishna bal <shyamkrishna_bal@yahoo.com>, 2007.
+# Nabin Gautam <nabin@mpp.org.np>, 2007.
+# Narayan Kumar Magar <narayan@mpp.org.np>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: ark\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"PO-Revision-Date: 2007-08-26 13:40+0545\n"
+"Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
+"Language-Team: Nepali <info@mpp.org.np>\n"
+"Language: ne\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n !=1\n"
+"\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Kapil Timilsina, श्यामकृष्ण बल, नारायण कुमार मगर"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "lipak21@gmail.com, shyamkrishna_bal@yahoo.com, narayan@mpp.org.np"
+
+#. i18n: ectx: Menu (archive)
+#: app/arkui.rc:5
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
+msgid "&Archive"
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Extracting Files"
+msgstr "सबै फाइल झिक्नुहोस्"
+
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#, fuzzy, kde-format
+#| msgid "Save Archive?"
+msgid "Source archive"
+msgstr "सङ्ग्रह बचत गर्नुहुन्छ?"
+
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#, fuzzy, kde-format
+#| msgid "Destination folder: "
+msgid "Destination"
+msgstr "गन्तव्य फोल्डर: "
+
+#: app/batchextract.cpp:117
+#, fuzzy, kde-format
+#| msgid ""
+#| "The following files will not be extracted\n"
+#| "because they already exist:"
+msgid "The following files could not be extracted:"
+msgstr ""
+"निम्न फाइल उद्धरण गरिँदैन\n"
+"किनभने त्यो पहिले नै अवस्थित भइसक्यो:"
+
+#: app/batchextract.cpp:136
+#, fuzzy, kde-kuit-format
+#| msgid "Last folders used for extraction"
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>. Any further "
+"archive will not be extracted."
+msgstr "उद्धरणका लागि प्रयोग गरिएको अन्तिम फोल्डर"
+
+#: app/batchextract.cpp:137
+#, fuzzy, kde-kuit-format
+#| msgid "Last folders used for extraction"
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message><nl/>Any further archive will not be extracted."
+msgstr "उद्धरणका लागि प्रयोग गरिएको अन्तिम फोल्डर"
+
+#: app/batchextract.cpp:141
+#, fuzzy, kde-kuit-format
+#| msgid "Last folders used for extraction"
+msgctxt "@info"
+msgid "There was an error while extracting <filename>%1</filename>."
+msgstr "उद्धरणका लागि प्रयोग गरिएको अन्तिम फोल्डर"
+
+#: app/batchextract.cpp:142
+#, fuzzy, kde-kuit-format
+#| msgid "Last folders used for extraction"
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message>"
+msgstr "उद्धरणका लागि प्रयोग गरिएको अन्तिम फोल्डर"
+
+#: app/batchextract.cpp:293
+#, fuzzy, kde-kuit-format
+#| msgid "Last folders used for extraction"
+msgctxt "@info"
+msgid ""
+"The archive could not be extracted to <filename>%1</filename> because Ark "
+"can only extract to local destinations."
+msgstr "उद्धरणका लागि प्रयोग गरिएको अन्तिम फोल्डर"
+
+#: app/compressfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
+msgid "Compress"
+msgstr "सङ्कुचित फाइल"
+
+#: app/compressfileitemaction.cpp:90
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+msgid "Compress to..."
+msgstr "सङ्कुचित फाइल"
+
+#: app/compressfileitemaction.cpp:97
+#, kde-format
+msgctxt ""
+"@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
+msgid "Here as \"%1\""
+msgstr ""
+
+#: app/extractfileitemaction.cpp:63
+#, fuzzy, kde-format
+#| msgid "E&xtract..."
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive to..."
+msgstr "उद्धरण..."
+
+#: app/extractfileitemaction.cpp:75
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here"
+msgstr "उद्धरण गर्नुहोस्"
+
+#: app/extractfileitemaction.cpp:83
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here, autodetect subfolder"
+msgstr "सबै फाइल झिक्नुहोस्"
+
+#: app/extractfileitemaction.cpp:89
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
+msgid "Extract"
+msgstr "उद्धरण गर्नुहोस्"
+
+#: app/extractHereDndPlugin.cpp:55
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt ""
+"@action:inmenu Context menu shown when an archive is being drag'n'dropped"
+msgid "Extract here"
+msgstr "उद्धरण गर्नुहोस्"
+
+#: app/main.cpp:84
+#, kde-format
+msgid "Ark"
+msgstr "आर्क"
+
+#: app/main.cpp:86
+#, kde-format
+msgid "KDE Archiving tool"
+msgstr "KDE सङ्ग्रहण उपकरण"
+
+#: app/main.cpp:88
+#, fuzzy, kde-format
+#| msgid "(c) 1997-2003, The Various Ark Developers"
+msgid "(c) 1997-2019, The Ark Developers"
+msgstr "(c) 1997-2003; विभिन्न आर्क विकासकर्ता"
+
+#: app/main.cpp:93
+#, kde-format
+msgid "Elvis Angelaccio"
+msgstr ""
+
+#: app/main.cpp:94
+#, kde-format
+msgid "Maintainer"
+msgstr "मर्मतकर्ता"
+
+#: app/main.cpp:96
+#, kde-format
+msgid "Ragnar Thomsen"
+msgstr ""
+
+#: app/main.cpp:97
+#, fuzzy, kde-format
+#| msgid "Maintainer"
+msgid "Maintainer, KF5 port"
+msgstr "मर्मतकर्ता"
+
+#: app/main.cpp:99
+#, kde-format
+msgid "Raphael Kubo da Costa"
+msgstr ""
+
+#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#, fuzzy, kde-format
+#| msgid "Former maintainer"
+msgid "Former Maintainer"
+msgstr "अघिल्लो मर्मतकर्ता"
+
+#: app/main.cpp:102
+#, kde-format
+msgid "Harald Hvaal"
+msgstr ""
+
+#: app/main.cpp:105
+#, kde-format
+msgid "Henrique Pinto"
+msgstr "हेन्रिक पिन्टो"
+
+#: app/main.cpp:108
+#, kde-format
+msgid "Helio Chissini de Castro"
+msgstr "हेलिओ चिसिनि डि क्यास्ट्रो"
+
+#: app/main.cpp:109
+#, kde-format
+msgid "Former maintainer"
+msgstr "अघिल्लो मर्मतकर्ता"
+
+#: app/main.cpp:111
+#, kde-format
+msgid "Georg Robbers"
+msgstr "जर्ज रोबर्स"
+
+#: app/main.cpp:114
+#, kde-format
+msgid "Roberto Selbach Teixeira"
+msgstr "रोबेर्टो सेल्बाच ताइक्सेरा"
+
+#: app/main.cpp:117
+#, kde-format
+msgid "Francois-Xavier Duranceau"
+msgstr "फ्राङ्कोइस-जेभियर दुरानसियु"
+
+#: app/main.cpp:120
+#, kde-format
+msgid "Emily Ezust (Corel Corporation)"
+msgstr "एमिली एजस्ट (कोरेल कर्पोरेसन)"
+
+#: app/main.cpp:123
+#, kde-format
+msgid "Michael Jarrett (Corel Corporation)"
+msgstr "माइकल ज्यारेट (कोरेल कर्पोरेसन)"
+
+#: app/main.cpp:126
+#, kde-format
+msgid "Robert Palmbos"
+msgstr "रोबर्ट पालम्बोस"
+
+#: app/main.cpp:130
+#, kde-format
+msgid "Vladyslav Batyrenko"
+msgstr ""
+
+#: app/main.cpp:131
+#, kde-format
+msgid "Advanced editing functionalities"
+msgstr ""
+
+#: app/main.cpp:134
+#, kde-format
+msgid "Bryce Corkins"
+msgstr "ब्रायिस कोर्किन्स"
+
+#: app/main.cpp:135
+#, kde-format
+msgid "Icons"
+msgstr "प्रतिमा"
+
+#: app/main.cpp:137
+#, kde-format
+msgid "Liam Smit"
+msgstr "लिआम स्मित"
+
+#: app/main.cpp:138
+#, kde-format
+msgid "Ideas, help with the icons"
+msgstr "प्रतिमासँग विचार, मद्दत"
+
+#: app/main.cpp:140
+#, kde-format
+msgid "Andrew Smith"
+msgstr ""
+
+#: app/main.cpp:141
+#, kde-format
+msgid "bkisofs code"
+msgstr ""
+
+#: app/main.cpp:151
+#, kde-format
+msgid "URLs to open."
+msgstr ""
+
+#: app/main.cpp:154
+#, kde-format
+msgid ""
+"Show a dialog for specifying the options for the operation (extract/add)"
+msgstr ""
+
+#: app/main.cpp:157
+#, kde-format
+msgid ""
+"Destination folder to extract to. Defaults to current path if not specified."
+msgstr ""
+
+#. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
+#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Open destination folder after extraction."
+msgstr "उद्धरण पछि गन्तव्य फोल्डर खोल्नुहोस्"
+
+#: app/main.cpp:164
+#, fuzzy, kde-format
+#| msgid ""
+#| "Ask for the name of the archive to add 'files' to. Quit when finished."
+msgid ""
+"Query the user for an archive filename and add specified files to it. Quit "
+"when finished."
+msgstr "'फाइल' थप्नका लागि सङ्ग्रहको लागि नाम सोध्नुहोस् । सकिएपछि अन्त्य गर्नुहोस् ।"
+
+#: app/main.cpp:167
+#, fuzzy, kde-format
+#| msgid ""
+#| "Ask for the name of the archive to add 'files' to. Quit when finished."
+msgid ""
+"Add the specified files to 'filename'. Create archive if it does not exist. "
+"Quit when finished."
+msgstr "'फाइल' थप्नका लागि सङ्ग्रहको लागि नाम सोध्नुहोस् । सकिएपछि अन्त्य गर्नुहोस् ।"
+
+#: app/main.cpp:171
+#, kde-format
+msgid ""
+"Change the current dir to the first entry and add all other entries relative "
+"to this one."
+msgstr ""
+
+#: app/main.cpp:174
+#, kde-format
+msgid ""
+"Automatically choose a filename, with the selected suffix (for example rar, "
+"tar.gz, zip or any other supported types)"
+msgstr ""
+
+#: app/main.cpp:178
+#, kde-format
+msgid ""
+"Use the batch interface instead of the usual dialog. This option is implied "
+"if more than one url is specified."
+msgstr ""
+
+#: app/main.cpp:181
+#, kde-format
+msgid ""
+"The destination argument will be set to the path of the first file supplied."
+msgstr ""
+
+#: app/main.cpp:184
+#, kde-format
+msgid ""
+"Archive contents will be read, and if detected to not be a single folder or "
+"a single file archive, a subfolder with the name of the archive will be "
+"created."
+msgstr ""
+
+#: app/main.cpp:187
+#, kde-format
+msgid "List supported MIME types."
+msgstr ""
+
+#: app/mainwindow.cpp:126
+#, kde-format
+msgid "Unable to find Ark's KPart component, please check your installation."
+msgstr ""
+
+#: app/mainwindow.cpp:201
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches between having a <emphasis>Menubar</emphasis> and having a "
+"<interface>Hamburger Menu</interface> button. Both contain mostly the same "
+"commands and configuration options."
+msgstr ""
+
+#: app/mainwindow.cpp:260
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "to open an archive"
+msgid "Open Archive"
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#: app/mainwindow.cpp:371
+#, fuzzy, kde-format
+#| msgid "Create New Archive"
+msgid "Create New Archive"
+msgstr "नयाँ सङ्ग्रह सिर्जना गर्नुहोस्"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
+#: app/welcomescreen.ui:18
+#, kde-format
+msgid "Form"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: app/welcomescreen.ui:53
+#, kde-format
+msgid "Welcome to Ark"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, openButton)
+#: app/welcomescreen.ui:97
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "to open an archive"
+msgid "Open Archive..."
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QPushButton, newButton)
+#: app/welcomescreen.ui:107
+#, fuzzy, kde-format
+#| msgid "Create New Archive"
+msgid "Create New Archive..."
+msgstr "नयाँ सङ्ग्रह सिर्जना गर्नुहोस्"
+
+#: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
+#, kde-format
+msgid "Advanced Options"
+msgstr ""
+
+#: kerfuffle/adddialog.cpp:47
+#, fuzzy, kde-format
+#| msgid "&Add"
+msgctxt "@action:button"
+msgid "Add"
+msgstr "थप्नुहोस्"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupCompressFiles)
+#: kerfuffle/adddialog.ui:35
+#, kde-format
+msgid "Files/Folders to Compress"
+msgstr ""
+
+#: kerfuffle/addtoarchive.cpp:79
+#, fuzzy, kde-format
+#| msgid "Simple Compressed Archive"
+msgid "Compress to Archive"
+msgstr "सामान्य सङ्कुचित सङ्ग्रह"
+
+#: kerfuffle/addtoarchive.cpp:133
+#, kde-format
+msgid "No input files were given."
+msgstr ""
+
+#: kerfuffle/addtoarchive.cpp:140
+#, kde-kuit-format
+msgid ""
+"You need to either supply a filename for the archive or a suffix (such as "
+"rar, tar.gz) with the <command>--autofilename</command> argument."
+msgstr ""
+
+#: kerfuffle/addtoarchive.cpp:236
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#. i18n: ectx: label, entry (showEncryptionWarning), group (General)
+#: kerfuffle/ark.kcfg:9
+#, kde-format
+msgid ""
+"Whether to show a warning when creating zip archives with AES encryption."
+msgstr ""
+
+#. i18n: ectx: label, entry (defaultOpenAction), group (General)
+#: kerfuffle/ark.kcfg:13
+#, kde-format
+msgid "Default action when opening archive entries."
+msgstr ""
+
+#. i18n: ectx: label, entry (Version), group (General)
+#: kerfuffle/ark.kcfg:21
+#, kde-format
+msgid ""
+"Internal config version of Ark, mainly used to determine whether an updated "
+"version of Ark is running, so as to migrate config entries that were removed/"
+"renamed ...etc"
+msgstr ""
+
+#. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
+#: kerfuffle/ark.kcfg:31
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Close Ark after extraction."
+msgstr "उद्धरण पछि गन्तव्य फोल्डर खोल्नुहोस्"
+
+#. i18n: ectx: label, entry (preservePaths), group (Extraction)
+#: kerfuffle/ark.kcfg:35
+#, kde-format
+msgid "Preserve paths when extracting."
+msgstr ""
+
+#. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
+#: kerfuffle/ark.kcfg:39
+#, kde-format
+msgid ""
+"Extract to a subfolder if the archive has more than one top-level entry."
+msgstr ""
+
+#. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
+#: kerfuffle/ark.kcfg:45
+#, kde-format
+msgid "How the main window is divided."
+msgstr ""
+
+#. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
+#: kerfuffle/ark.kcfg:49
+#, fuzzy, kde-format
+#| msgid "Information"
+msgid "Whether to show the information panel."
+msgstr "सूचना"
+
+#. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
+#: kerfuffle/ark.kcfg:59
+#, kde-format
+msgid "Whether to limit the preview according to file size."
+msgstr ""
+
+#. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
+#: kerfuffle/ark.kcfg:63
+#, kde-format
+msgid "Preview file size limit in megabytes."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:245
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgctxt "@info"
+msgid "Failed to locate program <filename>%1</filename> on disk."
+msgstr "उद्धरणका लागि फोल्डर"
+
+#: kerfuffle/cliinterface.cpp:355
+#, fuzzy, kde-format
+#| msgid "Extracting file to view"
+msgid "Extraction failed. Make sure that enough space is available."
+msgstr "हेर्नका लागि फाइल उद्धरण गर्दै"
+
+#: kerfuffle/cliinterface.cpp:358
+#, kde-format
+msgid ""
+"Extraction failed. Make sure you provided the correct password and that "
+"enough space is available."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:369 kerfuffle/cliinterface.cpp:494
+#, fuzzy, kde-format
+#| msgid "Could not create the folder %1"
+msgctxt "@info"
+msgid "Could not move the extracted file to the destination directory."
+msgid_plural "Could not move the extracted files to the destination directory."
+msgstr[0] "फोल्डर %1 सिर्जना गर्न सकेन"
+msgstr[1] "फोल्डर %1 सिर्जना गर्न सकेन"
+
+#: kerfuffle/cliinterface.cpp:857
+#, fuzzy, kde-format
+#| msgid "Extracting file to view"
+msgctxt "@info"
+msgid "Extraction failed because the disk is full."
+msgstr "हेर्नका लागि फाइल उद्धरण गर्दै"
+
+#: kerfuffle/cliinterface.cpp:864
+#, fuzzy, kde-format
+#| msgid "Extracting file to view"
+msgctxt "@info"
+msgid "Extraction failed: Incorrect password"
+msgstr "हेर्नका लागि फाइल उद्धरण गर्दै"
+
+#: kerfuffle/cliinterface.cpp:898
+#, kde-format
+msgid "Incorrect password."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:921
+#, kde-format
+msgid "Ark does not currently support testing this archive."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:132
+#, kde-format
+msgid "Protection of the list of files is not possible with the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:141
+#, kde-format
+msgid ""
+"Protection of the archive with password is not possible with the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:156
+#, kde-format
+msgid "It is not possible to set compression level for the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:176
+#, kde-format
+msgid "It is not possible to set compression method for the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:199
+#, kde-format
+msgid "The %1 format does not support multi-volume archives."
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleCompression)
+#: kerfuffle/compressionoptionswidget.ui:20
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgid "Compression"
+msgstr "सङ्कुचित फाइल"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel1)
+#: kerfuffle/compressionoptionswidget.ui:35
+#, kde-format
+msgid "Level:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel2)
+#: kerfuffle/compressionoptionswidget.ui:45
+#, kde-format
+msgid "Min"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompMethod)
+#: kerfuffle/compressionoptionswidget.ui:83
+#, fuzzy, kde-format
+#| msgid " Method "
+msgid "Method:"
+msgstr "विधि"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel3)
+#: kerfuffle/compressionoptionswidget.ui:93
+#, kde-format
+msgid "Max"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleEncryption)
+#: kerfuffle/compressionoptionswidget.ui:118
+#, kde-format
+msgid "Password Protection"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, lblEncMethod)
+#: kerfuffle/compressionoptionswidget.ui:130
+#, fuzzy, kde-format
+#| msgid "Simple Compressed Archive"
+msgid "Encryption method:"
+msgstr "सामान्य सङ्कुचित सङ्ग्रह"
+
+#. i18n: ectx: property (text), widget (QCheckBox, encryptHeaderCheckBox)
+#: kerfuffle/compressionoptionswidget.ui:160
+#, kde-format
+msgid "Ask for password before showing the list of files in the archive"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
+#: kerfuffle/compressionoptionswidget.ui:170
+#, kde-format
+msgid ""
+"This encryption method may not be supported by older archiving software."
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleMultiVolume)
+#: kerfuffle/compressionoptionswidget.ui:183
+#, kde-format
+msgid "Multi-volume Archive"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, multiVolumeCheckbox)
+#: kerfuffle/compressionoptionswidget.ui:192
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Create multi-volume archive"
+msgstr "सबै फाइल झिक्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QLabel, lblVolumeSize)
+#: kerfuffle/compressionoptionswidget.ui:210
+#, kde-format
+msgid "Volume size:"
+msgstr ""
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_previewFileSizeLimit)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, volumeSizeSpinbox)
+#: kerfuffle/compressionoptionswidget.ui:223
+#: kerfuffle/previewsettingspage.ui:32
+#, kde-format
+msgid " megabytes"
+msgstr ""
+
+#: kerfuffle/createdialog.cpp:111
+#, kde-format
+msgctxt "the argument is a file extension (the period is not a typo)"
+msgid "Automatically add .%1"
+msgstr ""
+
+#: kerfuffle/createdialog.cpp:198
+#, kde-format
+msgid "The chosen password does not match the given verification password."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/createdialog.ui:30
+#, fuzzy, kde-format
+#| msgid "Add Folde&r..."
+msgid "Folder:"
+msgstr "फोल्डर थप्नुहोस्..."
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/createdialog.ui:47
+#, fuzzy, kde-format
+#| msgid " Filename "
+msgid "Filename:"
+msgstr "फाइलनाम"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
+#: kerfuffle/createdialog.ui:54
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Type archive name..."
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
+#: kerfuffle/createdialog.ui:61 part/infopanel.ui:93
+#, kde-format
+msgid "Type:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/createdialog.ui:78
+#, kde-format
+msgid "Extension:"
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:40
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@title:window"
+msgid "Extract"
+msgstr "उद्धरण गर्नुहोस्"
+
+#: kerfuffle/extractiondialog.cpp:54
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgid "Extract"
+msgstr "उद्धरण गर्नुहोस्"
+
+#: kerfuffle/extractiondialog.cpp:97
+#, kde-format
+msgid "The subfolder name may not contain the character '/'."
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:107
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The folder <filename>%1</filename> already exists. Are you sure you want to "
+"extract here?"
+msgstr "सङ्ग्रह पहिले नै अवस्थित छ । तपाईं यसमा अधिलेखन गर्न चाहनुहुन्छ?"
+
+#: kerfuffle/extractiondialog.cpp:108
+#, fuzzy, kde-format
+#| msgid "Archive Already Exists"
+msgid "Folder exists"
+msgstr "सङ्ग्रह पहिले नै अवस्थित छ"
+
+#: kerfuffle/extractiondialog.cpp:109
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgid "Extract here"
+msgstr "उद्धरण गर्नुहोस्"
+
+#: kerfuffle/extractiondialog.cpp:110
+#, kde-format
+msgid "Retry"
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#, fuzzy, kde-kuit-format
+#| msgid "The folder could not be created. Please check permissions."
+msgctxt "@info"
+msgid "The folder <filename>%1</filename> could not be created."
+msgstr "फोल्डर सिर्जना गर्न सकेन । कृपया अनुमति जाँच गर्नुहोस् ।"
+
+#: kerfuffle/extractiondialog.cpp:121
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid "<filename>%1</filename> already exists, but is not a folder."
+msgstr "सङ्ग्रह पहिले नै अवस्थित छ । तपाईं यसमा अधिलेखन गर्न चाहनुहुन्छ?"
+
+#: kerfuffle/extractiondialog.cpp:127
+#, kde-format
+msgid "Please check your permissions to create it."
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:166
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Extract multiple archives"
+msgstr "सबै फाइल झिक्नुहोस्"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ExtractionDialog)
+#: kerfuffle/extractiondialog.ui:21
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Extraction Dialog"
+msgstr "सबै फाइल झिक्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QLabel, extractAllLabel)
+#: kerfuffle/extractiondialog.ui:70
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Extract All Files"
+msgstr "सबै फाइल झिक्नुहोस्"
+
+#. i18n: ectx: property (title), widget (QGroupBox, singleFolderGroup)
+#: kerfuffle/extractiondialog.ui:79
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "E&xtraction into subfolder:"
+msgstr "सबै फाइल झिक्नुहोस्"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: kerfuffle/extractiondialog.ui:113
+#, kde-format
+msgid "Options"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
+#: kerfuffle/extractiondialog.ui:132
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Open &destination folder after extraction"
+msgstr "उद्धरण पछि गन्तव्य फोल्डर खोल्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
+#: kerfuffle/extractiondialog.ui:139
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Close &Ark after extraction"
+msgstr "उद्धरण पछि गन्तव्य फोल्डर खोल्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
+#: kerfuffle/extractiondialog.ui:146
+#, kde-format
+msgid "&Preserve paths when extracting"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
+#: kerfuffle/extractiondialog.ui:153
+#, kde-format
+msgid "&Automatically create subfolders"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
+#: kerfuffle/extractiondialog.ui:169
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@title:group"
+msgid "Extract"
+msgstr "उद्धरण गर्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
+#: kerfuffle/extractiondialog.ui:187
+#, fuzzy, kde-format
+#| msgid "Selected files only"
+msgid "Sele&cted files only"
+msgstr "चयन गरिएको फाइलहरू मात्र"
+
+#. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
+#: kerfuffle/extractiondialog.ui:203
+#, fuzzy, kde-format
+#| msgid "All files"
+msgid "All &files"
+msgstr "सबै फाइल"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_openDestinationFolderAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:17
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Open destination folder after extraction"
+msgstr "उद्धरण पछि गन्तव्य फोल्डर खोल्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_closeAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:24
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Close Ark after extraction"
+msgstr "उद्धरण पछि गन्तव्य फोल्डर खोल्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_preservePaths)
+#: kerfuffle/extractionsettingspage.ui:31
+#, kde-format
+msgid "Preserve paths when extracting"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:41
+#, kde-format
+msgid ""
+"Whether to check by default the extraction into subfolder checkbox in the "
+"Extraction Dialog, when the archive has more than one top-level entry."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:44
+#, kde-format
+msgid "Extract to a subfolder if the archive has more than one top-level entry"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/generalsettingspage.ui:17
+#, kde-format
+msgid "When clicking a file in an archive or pressing the Return key:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: kerfuffle/generalsettingspage.ui:33
+#, kde-format
+msgid "Pre&view the file with internal previewer"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: kerfuffle/generalsettingspage.ui:43
+#, fuzzy, kde-format
+#| msgid "Do you really want to delete the selected items?"
+msgid "Open the fi&le with associated application"
+msgstr "तपाईं चयन गरिएका वस्तुहरू साँच्चै मेट्न चाहनुहुन्छ ?"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
+#: kerfuffle/generalsettingspage.ui:60
+#, kde-format
+msgid "Show a warning when creating zip archives with AES encryption"
+msgstr ""
+
+#: kerfuffle/jobs.cpp:99
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "No suitable plugin found. Ark does not seem to support this file type."
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#: kerfuffle/jobs.cpp:103
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid ""
+"Failed to load a suitable plugin. Make sure any executables needed to handle "
+"the archive type are installed."
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#: kerfuffle/jobs.cpp:168
+#, kde-format
+msgid ""
+"Could not load the archive because it contains ill-formed entries and might "
+"be a malicious archive."
+msgstr ""
+
+#: kerfuffle/jobs.cpp:253
+#, fuzzy, kde-format
+#| msgid "Creating archive..."
+msgid "Loading archive"
+msgstr "सङ्ग्रह सिर्जना गरिँदैछ..."
+
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:704
+#: kerfuffle/jobs.cpp:757 kerfuffle/jobs.cpp:795 kerfuffle/jobs.cpp:827
+#: kerfuffle/jobs.cpp:875
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Archive"
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "No space available on device <filename>%1</filename>"
+msgstr "उद्धरणका लागि फोल्डर"
+
+#: kerfuffle/jobs.cpp:536
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Extracting all files"
+msgstr "सबै फाइल झिक्नुहोस्"
+
+#. i18np on purpose so this translation may properly be reused.
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:630
+#, fuzzy, kde-format
+#| msgid "Extract all files"
+msgid "Extracting one file"
+msgid_plural "Extracting %1 files"
+msgstr[0] "सबै फाइल झिक्नुहोस्"
+msgstr[1] "सबै फाइल झिक्नुहोस्"
+
+#: kerfuffle/jobs.cpp:540
+#, fuzzy, kde-format
+#| msgid "Destination folder: "
+msgctxt "extraction folder"
+msgid "Destination"
+msgstr "गन्तव्य फोल्डर: "
+
+#: kerfuffle/jobs.cpp:544
+#, kde-kuit-format
+msgid ""
+"Could not write to destination <filename>%1</filename>.<nl/>Check whether "
+"you have sufficient permissions."
+msgstr ""
+
+#: kerfuffle/jobs.cpp:703
+#, fuzzy, kde-format
+#| msgid "Adding files..."
+msgid "Compressing a file"
+msgid_plural "Compressing %1 files"
+msgstr[0] "फाइलहरू थपिँदैछ..."
+msgstr[1] "फाइलहरू थपिँदैछ..."
+
+#: kerfuffle/jobs.cpp:756
+#, fuzzy, kde-format
+#| msgid "Adding files..."
+msgid "Moving a file"
+msgid_plural "Moving %1 files"
+msgstr[0] "फाइलहरू थपिँदैछ..."
+msgstr[1] "फाइलहरू थपिँदैछ..."
+
+#: kerfuffle/jobs.cpp:794
+#, fuzzy, kde-format
+#| msgid "Adding files..."
+msgid "Copying a file"
+msgid_plural "Copying %1 files"
+msgstr[0] "फाइलहरू थपिँदैछ..."
+msgstr[1] "फाइलहरू थपिँदैछ..."
+
+#: kerfuffle/jobs.cpp:826
+#, fuzzy, kde-format
+#| msgid "Trouble writing to the archive..."
+msgid "Deleting a file from the archive"
+msgid_plural "Deleting %1 files"
+msgstr[0] "सङ्ग्रहमा लेख्दा समस्या..."
+msgstr[1] "सङ्ग्रहमा लेख्दा समस्या..."
+
+#: kerfuffle/jobs.cpp:850
+#, fuzzy, kde-format
+#| msgid "Adding folder..."
+msgid "Adding comment"
+msgstr "फोल्डर थपिँदैछ..."
+
+#: kerfuffle/jobs.cpp:875
+#, fuzzy, kde-format
+#| msgid "Creating archive..."
+msgid "Testing archive"
+msgstr "सङ्ग्रह सिर्जना गरिँदैछ..."
+
+#: kerfuffle/pluginsettingspage.cpp:34
+#, kde-format
+msgid ""
+"The plugin cannot be used because one or more required executables are "
+"missing. Check your installation."
+msgstr ""
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:24
+#, kde-format
+msgid "Name"
+msgstr ""
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:29
+#, fuzzy, kde-format
+#| msgid "Destination folder: "
+msgid "Description"
+msgstr "गन्तव्य फोल्डर: "
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_limitPreviewFileSize)
+#: kerfuffle/previewsettingspage.ui:22
+#, kde-format
+msgid "Disable preview for files larger than:"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:40
+#, fuzzy, kde-format
+#| msgid "Create folder %1?"
+msgctxt "@title:window"
+msgid "Properties for %1"
+msgstr "फोल्डर %1 सिर्जना गर्नुहुन्छ?"
+
+#. i18n: ectx: property (text), widget (KSqueezedTextLabel, m_passwordValueLabel)
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:50
+#: part/infopanel.ui:195
+#, kde-format
+msgid "yes"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:49
+#: kerfuffle/propertiesdialog.cpp:50 kerfuffle/propertiesdialog.cpp:63
+#, kde-format
+msgid "no"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:49
+#, kde-format
+msgid "yes (%1 volumes)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:51
+#, fuzzy, kde-format
+#| msgid "%1 file  %2"
+#| msgid_plural "%1 files  %2"
+msgid "%1 file"
+msgid_plural "%1 files"
+msgstr[0] "%1 फाइल  %2"
+msgstr[1] "%1 फाइल  %2"
+
+#: kerfuffle/propertiesdialog.cpp:52
+#, kde-format
+msgid ", %1 folder"
+msgid_plural ", %1 folders"
+msgstr[0] ""
+msgstr[1] ""
+
+#: kerfuffle/propertiesdialog.cpp:66
+#, kde-format
+msgid "only file contents (%1)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:69
+#, kde-format
+msgid "yes (%1)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
+#: kerfuffle/propertiesdialog.cpp:88
+#, fuzzy, kde-format
+#| msgid "Saving..."
+msgid "Calculating..."
+msgstr "बचत गरिँदैछ..."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/propertiesdialog.ui:37
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Archive name:"
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/propertiesdialog.ui:54
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Archive type:"
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: kerfuffle/propertiesdialog.ui:71
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Mime-type:"
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: kerfuffle/propertiesdialog.ui:88
+#, kde-format
+msgid "Opened read-only:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_passwordLabel)
+#: kerfuffle/propertiesdialog.ui:105 part/infopanel.ui:179
+#, kde-format
+msgid "Password-protected:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_10)
+#: kerfuffle/propertiesdialog.ui:122
+#, kde-format
+msgid "Has comment:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/propertiesdialog.ui:139
+#, kde-format
+msgid "Number of entries:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: kerfuffle/propertiesdialog.ui:156
+#, kde-format
+msgid "Unpacked size:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: kerfuffle/propertiesdialog.ui:173
+#, kde-format
+msgid "Packed size:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: kerfuffle/propertiesdialog.ui:190
+#, fuzzy, kde-format
+#| msgid "Simple Compressed Archive"
+msgid "Compression ratio:"
+msgstr "सामान्य सङ्कुचित सङ्ग्रह"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: kerfuffle/propertiesdialog.ui:207
+#, kde-format
+msgid "Last modified:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: kerfuffle/propertiesdialog.ui:224
+#, kde-format
+msgid "MD5 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_13)
+#: kerfuffle/propertiesdialog.ui:244
+#, kde-format
+msgid "SHA-1 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_14)
+#: kerfuffle/propertiesdialog.ui:261
+#, kde-format
+msgid "SHA-256 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_15)
+#: kerfuffle/propertiesdialog.ui:278
+#, kde-format
+msgid "Multi-volume:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#: kerfuffle/propertiesdialog.ui:295
+#, fuzzy, kde-format
+#| msgid "Simple Compressed Archive"
+msgid "Compression method(s):"
+msgstr "सामान्य सङ्कुचित सङ्ग्रह"
+
+#: kerfuffle/queries.cpp:73
+#, fuzzy, kde-format
+#| msgid "Archive Already Exists"
+msgctxt "@title:window"
+msgid "File Already Exists"
+msgstr "सङ्ग्रह पहिले नै अवस्थित छ"
+
+#: kerfuffle/queries.cpp:156
+#, fuzzy, kde-kuit-format
+#| msgid "You must enter a password to extract the file:"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> is password protected. Please enter the "
+"password."
+msgstr "तपाईंले फाइल उद्धरण गर्न पासवर्ड प्रविष्ट गर्नुपर्छ:"
+
+#: kerfuffle/queries.cpp:160
+#, kde-format
+msgid "Incorrect password, please try again."
+msgstr ""
+
+#: kerfuffle/queries.cpp:195
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive you're trying to open is corrupt.<nl/>Some files may be missing "
+"or damaged."
+msgstr ""
+
+#: kerfuffle/queries.cpp:197
+#, fuzzy, kde-format
+#| msgid "Save Archive?"
+msgctxt "@title:window"
+msgid "Corrupt archive"
+msgstr "सङ्ग्रह बचत गर्नुहुन्छ?"
+
+#: kerfuffle/queries.cpp:198
+#, kde-format
+msgctxt "@action:button"
+msgid "Open as Read-Only"
+msgstr ""
+
+#: kerfuffle/queries.cpp:199
+#, kde-format
+msgctxt "@action:button"
+msgid "Don't Open"
+msgstr ""
+
+#: kerfuffle/queries.cpp:208
+#, kde-format
+msgid "Don't ask again."
+msgstr ""
+
+#: kerfuffle/queries.cpp:220
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Error during extraction"
+msgstr "उद्धरण पछि गन्तव्य फोल्डर खोल्नुहोस्"
+
+#: kerfuffle/queries.cpp:221
+#, kde-kuit-format
+msgid ""
+"Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
+"error message:<nl/>    %2<nl/><nl/>Do you want to continue extraction?<nl/>"
+msgstr ""
+
+#: part/archivemodel.cpp:155
+#, kde-format
+msgctxt "Name of a file inside an archive"
+msgid "Name"
+msgstr ""
+
+#: part/archivemodel.cpp:157
+#, kde-format
+msgctxt "Uncompressed size of a file inside an archive"
+msgid "Original Size"
+msgstr ""
+
+#: part/archivemodel.cpp:159
+#, fuzzy, kde-format
+#| msgid "Compressed File"
+msgctxt "Compressed size of a file inside an archive"
+msgid "Compressed Size"
+msgstr "सङ्कुचित फाइल"
+
+#: part/archivemodel.cpp:161
+#, kde-format
+msgctxt "Compression rate of file"
+msgid "Rate"
+msgstr ""
+
+#: part/archivemodel.cpp:163
+#, fuzzy, kde-format
+#| msgid " Owner "
+msgctxt "File's owner username"
+msgid "Owner"
+msgstr " मालिक "
+
+#: part/archivemodel.cpp:165
+#, fuzzy, kde-format
+#| msgid " Group "
+msgctxt "File's group"
+msgid "Group"
+msgstr " समूह "
+
+#: part/archivemodel.cpp:167
+#, kde-format
+msgctxt "File permissions"
+msgid "Mode"
+msgstr ""
+
+#: part/archivemodel.cpp:169
+#, kde-format
+msgctxt "CRC hash code"
+msgid "CRC checksum"
+msgstr ""
+
+#: part/archivemodel.cpp:171
+#, kde-format
+msgctxt "BLAKE2 hash code"
+msgid "BLAKE2 checksum"
+msgstr ""
+
+#: part/archivemodel.cpp:173
+#, fuzzy, kde-format
+#| msgid " Method "
+msgctxt "Compression method"
+msgid "Method"
+msgstr "विधि"
+
+#: part/archivemodel.cpp:176
+#, fuzzy, kde-format
+#| msgid " Version "
+msgctxt "File version"
+msgid "Version"
+msgstr " संस्करण"
+
+#: part/archivemodel.cpp:178
+#, kde-format
+msgctxt "Timestamp"
+msgid "Date"
+msgstr ""
+
+#: part/archivemodel.cpp:180
+#, kde-format
+msgctxt "Unnamed column"
+msgid "??"
+msgstr ""
+
+#: part/archivemodel.cpp:291
+#, kde-format
+msgid "Adding files is not supported for this archive."
+msgstr ""
+
+#: part/archivemodel.cpp:299
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "You can only add local files to an archive."
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#. i18n: ectx: Menu (archive)
+#: part/ark_part.rc:5
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "&Archive"
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#. i18n: ectx: Menu (ark_file)
+#: part/ark_part.rc:15
+#, kde-format
+msgid "&File"
+msgstr "फाइल"
+
+#. i18n: ectx: Menu (settings)
+#: part/ark_part.rc:29
+#, kde-format
+msgid "&Settings"
+msgstr "सेटिङ"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: part/ark_part.rc:34
+#, kde-format
+msgid "Main Toolbar"
+msgstr ""
+
+#. i18n: ectx: Menu (help)
+#: part/ark_viewer.rc:5
+#, kde-format
+msgid "&Help"
+msgstr ""
+
+#: part/arkviewer.cpp:52
+#, kde-format
+msgid "Closing preview"
+msgstr ""
+
+#: part/arkviewer.cpp:53
+#, kde-format
+msgid "Please wait while the preview is being closed..."
+msgstr ""
+
+#: part/arkviewer.cpp:100
+#, kde-format
+msgid "The internal viewer cannot preview this file."
+msgstr ""
+
+#: part/arkviewer.cpp:116
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+
+#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#, kde-format
+msgctxt "@title:window"
+msgid "Cannot Preview File"
+msgstr ""
+
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "@action:button"
+msgid "Preview as Text"
+msgstr "दृश्य"
+
+#: part/arkviewer.cpp:128
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+
+#: part/arkviewer.cpp:192
+#, fuzzy, kde-format
+#| msgid "Ark KParts Component"
+msgctxt "@action"
+msgid "About Viewer Component"
+msgstr "आर्क केडीई भाग अवयव"
+
+#: part/infopanel.cpp:52
+#, kde-format
+msgid "No archive loaded"
+msgstr ""
+
+#: part/infopanel.cpp:103
+#, kde-format
+msgid "Symbolic Link"
+msgstr ""
+
+#: part/infopanel.cpp:108
+#, kde-format
+msgid "Unknown size"
+msgstr ""
+
+#: part/infopanel.cpp:129
+#, fuzzy, kde-format
+#| msgid "0 files selected"
+msgid "One file selected"
+msgid_plural "%1 files selected"
+msgstr[0] "० फाइल चयन गरियो"
+msgstr[1] "० फाइल चयन गरियो"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, InformationPanel)
+#: part/infopanel.ui:20
+#, fuzzy, kde-format
+#| msgid "Information"
+msgid "Information Panel"
+msgstr "सूचना"
+
+#. i18n: ectx: property (text), widget (QLabel, additionalInfo)
+#: part/infopanel.ui:64
+#, kde-format
+msgid "Unknown file type"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, m_ownerLabel)
+#: part/infopanel.ui:113
+#, fuzzy, kde-format
+#| msgid " Owner "
+msgid "Owner:"
+msgstr " मालिक "
+
+#. i18n: ectx: property (text), widget (QLabel, m_groupLabel)
+#: part/infopanel.ui:133
+#, fuzzy, kde-format
+#| msgid " Group "
+msgid "Group:"
+msgstr " समूह "
+
+#. i18n: ectx: property (text), widget (QLabel, m_targetLabel)
+#: part/infopanel.ui:153
+#, kde-format
+msgid "Target:"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, JobTrackerWidget)
+#: part/jobtracker.ui:13
+#, kde-format
+msgid "Job Tracker"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, descriptionLabel)
+#: part/jobtracker.ui:43
+#, kde-format
+msgid "<b>Job Description</b>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, informationLabel)
+#: part/jobtracker.ui:62
+#, kde-format
+msgid "Some Information about the job"
+msgstr ""
+
+#: part/overwritedialog.cpp:26
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Remove them if you really want "
+"to overwrite."
+msgstr ""
+
+#: part/overwritedialog.cpp:28
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Do you want to continue "
+"overwriting them?"
+msgstr ""
+
+#: part/part.cpp:111
+#, kde-format
+msgid "Comment"
+msgstr ""
+
+#: part/part.cpp:122
+#, kde-format
+msgid "Comment has been modified."
+msgstr ""
+
+#: part/part.cpp:127
+#, kde-format
+msgid "Save"
+msgstr ""
+
+#: part/part.cpp:150
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgid "Type to search..."
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#: part/part.cpp:308
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark can extract archives to local destinations only."
+msgstr ""
+
+#: part/part.cpp:363
+#, fuzzy, kde-format
+#| msgid "Information"
+msgctxt "@action:inmenu"
+msgid "Show Information Panel"
+msgstr "सूचना"
+
+#: part/part.cpp:370
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Save Copy As..."
+msgstr ""
+
+#: part/part.cpp:374
+#, kde-format
+msgctxt "open a file with external program"
+msgid "&Open in External Application"
+msgstr ""
+
+#: part/part.cpp:379
+#, fuzzy, kde-format
+#| msgid "&Open With..."
+msgctxt "open a file with external program"
+msgid "Open &With..."
+msgstr "यससँग खोल्नुहोस्..."
+
+#: part/part.cpp:381
+#, fuzzy, kde-format
+#| msgid "Do you really want to delete the selected items?"
+msgctxt "@info:tooltip"
+msgid "Click to open the selected file with an external program"
+msgstr "तपाईं चयन गरिएका वस्तुहरू साँच्चै मेट्न चाहनुहुन्छ ?"
+
+#: part/part.cpp:385
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "to preview a file inside an archive"
+msgid "Pre&view"
+msgstr "दृश्य"
+
+#: part/part.cpp:387
+#, fuzzy, kde-format
+#| msgid "Do you really want to delete the selected items?"
+msgctxt "@info:tooltip"
+msgid "Click to preview the selected file"
+msgstr "तपाईं चयन गरिएका वस्तुहरू साँच्चै मेट्न चाहनुहुन्छ ?"
+
+#: part/part.cpp:392
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu"
+msgid "E&xtract All"
+msgstr "उद्धरण गर्नुहोस्"
+
+#: part/part.cpp:394
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose how to extract all "
+"the files in the archive"
+msgstr ""
+
+#: part/part.cpp:399
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu"
+msgid "&Extract"
+msgstr "उद्धरण गर्नुहोस्"
+
+#: part/part.cpp:402
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose to extract either "
+"all files or just the selected ones"
+msgstr ""
+
+#: part/part.cpp:407
+#, fuzzy, kde-format
+#| msgid "Add &File..."
+msgid "Add &Files..."
+msgstr "फाइल थप्नुहोस्..."
+
+#: part/part.cpp:408 part/part.cpp:471
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to add files to the archive"
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#: part/part.cpp:415
+#, fuzzy, kde-format
+#| msgid "Simple Compressed Archive"
+msgctxt "@action"
+msgid "Remove from Archive"
+msgstr "सामान्य सङ्कुचित सङ्ग्रह"
+
+#: part/part.cpp:425
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Properties"
+msgstr ""
+
+#: part/part.cpp:427
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to see properties for archive"
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#: part/part.cpp:433
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to add or edit comment"
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#: part/part.cpp:438
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Test Integrity"
+msgstr ""
+
+#: part/part.cpp:440 part/part.cpp:472
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info:tooltip"
+msgid "Click to test the archive for integrity"
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#: part/part.cpp:466
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Adding files to existing password-protected archives with no header-"
+"encryption is currently not supported.<nl/><nl/>Extract the files and create "
+"a new archive if you want to add files."
+msgstr ""
+
+#: part/part.cpp:469
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Testing password-protected archives with no header-encryption is currently "
+"not supported."
+msgstr ""
+
+#: part/part.cpp:537
+#, fuzzy, kde-format
+#| msgid "Adding folder..."
+msgctxt "@action:inmenu mutually exclusive with Add &Comment"
+msgid "Edit &Comment"
+msgstr "फोल्डर थपिँदैछ..."
+
+#: part/part.cpp:538 part/part.cpp:546
+#, fuzzy, kde-format
+#| msgid "Adding folder..."
+msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
+msgid "Add &Comment"
+msgstr "फोल्डर थपिँदैछ..."
+
+#: part/part.cpp:647
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive passed the integrity test."
+msgstr "सङ्ग्रह %1 अवस्थित हुँदैन ।"
+
+#: part/part.cpp:647 part/part.cpp:649
+#, kde-format
+msgid "Test Results"
+msgstr ""
+
+#: part/part.cpp:649
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive failed the integrity test."
+msgstr "सङ्ग्रह %1 अवस्थित हुँदैन ।"
+
+#: part/part.cpp:670
+#, fuzzy, kde-format
+#| msgid "E&xtract..."
+msgid "Extract To..."
+msgstr "उद्धरण..."
+
+#: part/part.cpp:684
+#, fuzzy, kde-format
+#| msgid "E&xtract..."
+msgid "Quick Extract To..."
+msgstr "उद्धरण..."
+
+#: part/part.cpp:814
+#, fuzzy, kde-format
+#| msgid "General"
+msgctxt "@title:tab"
+msgid "General"
+msgstr "सामान्य"
+
+#: part/part.cpp:815
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@title:tab"
+msgid "Extraction"
+msgstr "उद्धरण गर्नुहोस्"
+
+#: part/part.cpp:816
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "@title:tab"
+msgid "Plugins"
+msgstr "दृश्य"
+
+#: part/part.cpp:817
+#, fuzzy, kde-format
+#| msgctxt "to view something"
+#| msgid "&View"
+msgctxt "@title:tab"
+msgid "Previews"
+msgstr "दृश्य"
+
+#: part/part.cpp:829
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<filename>%1</filename> is a directory."
+msgstr ""
+
+#: part/part.cpp:838
+#, fuzzy, kde-kuit-format
+#| msgid "Could not create the folder %1"
+msgctxt "@info"
+msgid ""
+"Could not overwrite <filename>%1</filename>. Check whether you have write "
+"permission."
+msgstr "फोल्डर %1 सिर्जना गर्न सकेन"
+
+#: part/part.cpp:844
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> will be created as soon as you add a "
+"file."
+msgstr "सङ्ग्रह पहिले नै अवस्थित छ । तपाईं यसमा अधिलेखन गर्न चाहनुहुन्छ?"
+
+#: part/part.cpp:847
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The archive <filename>%1</filename> was not found."
+msgstr ""
+
+#: part/part.cpp:852
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> could not be loaded, as it was not "
+"possible to read from it."
+msgstr "सङ्ग्रह पहिले नै अवस्थित छ । तपाईं यसमा अधिलेखन गर्न चाहनुहुन्छ?"
+
+#: part/part.cpp:865
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "सङ्ग्रह पहिले नै अवस्थित छ । तपाईं यसमा अधिलेखन गर्न चाहनुहुन्छ?"
+
+#: part/part.cpp:867
+#, fuzzy, kde-format
+#| msgid "Archive Already Exists"
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "सङ्ग्रह पहिले नै अवस्थित छ"
+
+#: part/part.cpp:904
+#, fuzzy, kde-kuit-format
+#| msgid "The archive %1 does not exist."
+msgctxt "@info"
+msgid "The archive is empty or Ark could not open its content."
+msgstr "सङ्ग्रह %1 अवस्थित हुँदैन ।"
+
+#: part/part.cpp:909
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark does not currently support ISO files with UDF filesystem."
+msgstr ""
+
+#: part/part.cpp:939
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"Loading the archive <filename>%1</filename> failed with the following error:"
+"<nl/><message>%2</message>"
+msgstr ""
+
+#: part/part.cpp:999
+#, kde-format
+msgid "Ark cannot open symlinks."
+msgstr ""
+
+#: part/part.cpp:1121
+#, fuzzy, kde-kuit-format
+#| msgid "Archive already exists. Do you wish to overwrite it?"
+msgid ""
+"The file <filename>%1</filename> was modified. Do you want to update the "
+"archive?"
+msgstr "सङ्ग्रह पहिले नै अवस्थित छ । तपाईं यसमा अधिलेखन गर्न चाहनुहुन्छ?"
+
+#: part/part.cpp:1123
+#, fuzzy, kde-format
+#| msgid "Files to be added"
+msgctxt "@title:window"
+msgid "File Modified"
+msgstr "थप गरिनुपर्ने फाइल"
+
+#: part/part.cpp:1403
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgctxt "@title:window"
+msgid "Add Files"
+msgstr "सबै फाइल"
+
+#: part/part.cpp:1408
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgctxt "@title:window"
+msgid "Add Files to %1"
+msgstr "सबै फाइल"
+
+#: part/part.cpp:1472
+#, kde-format
+msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
+msgstr ""
+
+#: part/part.cpp:1516
+#, kde-format
+msgid "Folders can't be moved into themselves."
+msgstr ""
+
+#: part/part.cpp:1517
+#, kde-format
+msgid "Moving a folder into itself"
+msgstr ""
+
+#: part/part.cpp:1545
+#, kde-format
+msgid "Entries with the same names can't be pasted to the same destination."
+msgstr ""
+
+#: part/part.cpp:1646
+#, kde-format
+msgctxt "@info"
+msgid "Deleting this file is not undoable. Are you sure you want to do this?"
+msgid_plural ""
+"Deleting these files is not undoable. Are you sure you want to do this?"
+msgstr[0] ""
+msgstr[1] ""
+
+#: part/part.cpp:1649
+#, fuzzy, kde-format
+#| msgid "Selected files only"
+msgctxt "@title:window"
+msgid "Delete File"
+msgid_plural "Delete Files"
+msgstr[0] "चयन गरिएको फाइलहरू मात्र"
+msgstr[1] "चयन गरिएको फाइलहरू मात्र"
+
+#: part/part.cpp:1692
+#, kde-format
+msgctxt "@title:window"
+msgid "Save Copy As"
+msgstr ""
+
+#: part/part.cpp:1707
+#, fuzzy, kde-kuit-format
+#| msgid "Last folders used for extraction"
+msgctxt "@info"
+msgid ""
+"The archive could not be saved as <filename>%1</filename>. Try saving it to "
+"another location."
+msgstr "उद्धरणका लागि प्रयोग गरिएको अन्तिम फोल्डर"
+
+#: part/part.cpp:1711
+#, fuzzy, kde-kuit-format
+#| msgid "You must enter a password to extract the file:"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> does not exist anymore, therefore it "
+"cannot be copied to the specified location."
+msgstr "तपाईंले फाइल उद्धरण गर्न पासवर्ड प्रविष्ट गर्नुपर्छ:"
+
+#: plugins/cli7zplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:85
+#, fuzzy, kde-format
+#| msgid "Opening the archive..."
+msgid "Listing the archive failed."
+msgstr "सङ्ग्रह खोलिदैछ..."
+
+#: plugins/cli7zplugin/cliplugin.cpp:309
+#, fuzzy, kde-format
+#| msgid "Extracting file to view"
+msgid "Extraction failed due to an unknown error."
+msgstr "हेर्नका लागि फाइल उद्धरण गर्दै"
+
+#: plugins/cli7zplugin/cliplugin.cpp:315 plugins/clizipplugin/cliplugin.cpp:188
+#, kde-format
+msgid ""
+"Extraction failed due to one or more corrupt files. Any extracted files may "
+"be damaged."
+msgstr ""
+
+#: plugins/cli7zplugin/cliplugin.cpp:326
+#, kde-format
+msgid ""
+"Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
+"configuration dialog."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:157
+#: plugins/clirarplugin/cliplugin.cpp:300
+#: plugins/clirarplugin/cliplugin.cpp:553
+#, kde-format
+msgid "Failed to find all archive volumes."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:321
+#, kde-format
+msgid ""
+"Your unrar executable is version %1, which is too old to handle this "
+"archive. Please update to a more recent version."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:328
+#, kde-format
+msgid ""
+"Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
+"Try updating your unrar."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:548
+#, kde-format
+msgid "One or more wrong checksums"
+msgstr ""
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:97
+#, fuzzy, kde-format
+#| msgid "Extracting..."
+msgid "Extraction failed."
+msgstr "उद्धरण गर्दै..."
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:131
+#, fuzzy, kde-format
+#| msgid "Not enough free disc space to extract the archive."
+msgid "Not enough memory for loading the archive."
+msgstr "सङ्ग्रह उद्धरण गर्न डिस्कमा पर्याप्त खाली स्थान छैन ।"
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Wrong password."
+msgstr ""
+
+#: plugins/clizipplugin/cliplugin.cpp:178
+#, kde-format
+msgid "Extraction failed due to unsupported compression method (%1)."
+msgstr ""
+
+#: plugins/clizipplugin/cliplugin.cpp:183
+#, kde-format
+msgid "Extraction failed due to unsupported encryption method."
+msgstr ""
+
+#: plugins/clizipplugin/cliplugin.cpp:311
+#, kde-format
+msgctxt "referred to compression method"
+msgid "unknown"
+msgstr ""
+
+#: plugins/libarchive/libarchiveplugin.cpp:392
+#, kde-format
+msgctxt "@info"
+msgid "Fatal error, extraction aborted."
+msgstr ""
+
+#: plugins/libarchive/libarchiveplugin.cpp:426
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive reader could not be initialized."
+msgstr "सङ्ग्रह %1 अवस्थित हुँदैन ।"
+
+#: plugins/libarchive/libarchiveplugin.cpp:440
+#, kde-format
+msgctxt "@info"
+msgid "Archive corrupted or insufficient permissions."
+msgstr ""
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:209
+#, fuzzy, kde-format
+#| msgid "Folder to extract to"
+msgctxt "@info"
+msgid "Failed to create a temporary file for writing data."
+msgstr "उद्धरणका लागि फोल्डर"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:215
+#, fuzzy, kde-format
+#| msgid "The archive %1 does not exist."
+msgid "The archive writer could not be initialized."
+msgstr "सङ्ग्रह %1 अवस्थित हुँदैन ।"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:233
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Could not open the archive for writing entries."
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:280
+#, kde-format
+msgid "The compression type '%1' is not supported by Ark."
+msgstr ""
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:289
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:343
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Could not set the compression method."
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:353
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info"
+msgid "Could not set the compression level."
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:472
+#, kde-format
+msgctxt "@info"
+msgid "Could not compress entry, operation aborted."
+msgstr ""
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:513
+#, fuzzy, kde-format
+#| msgid "An error occurred while adding the files to the archive."
+msgctxt "@info Error in a message box"
+msgid "Could not compress entry."
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:49
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgctxt "@info"
+msgid "Ark could not extract <filename>%1</filename>."
+msgstr "उद्धरणका लागि फोल्डर"
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:57
+#, fuzzy, kde-kuit-format
+#| msgid "Last folders used for extraction"
+msgctxt "@info"
+msgid "Ark could not open <filename>%1</filename> for extraction."
+msgstr "उद्धरणका लागि प्रयोग गरिएको अन्तिम फोल्डर"
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:71
+#, fuzzy, kde-kuit-format
+#| msgid "Last folders used for extraction"
+msgctxt "@info"
+msgid ""
+"There was an error while reading <filename>%1</filename> during extraction."
+msgstr "उद्धरणका लागि प्रयोग गरिएको अन्तिम फोल्डर"
+
+#: plugins/libzipplugin/libzipplugin.cpp:76
+#: plugins/libzipplugin/libzipplugin.cpp:118
+#: plugins/libzipplugin/libzipplugin.cpp:415
+#: plugins/libzipplugin/libzipplugin.cpp:464
+#: plugins/libzipplugin/libzipplugin.cpp:555
+#: plugins/libzipplugin/libzipplugin.cpp:826
+#: plugins/libzipplugin/libzipplugin.cpp:881
+#, kde-kuit-format
+msgid "Failed to open archive: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:176
+#: plugins/libzipplugin/libzipplugin.cpp:448
+#: plugins/libzipplugin/libzipplugin.cpp:480
+#: plugins/libzipplugin/libzipplugin.cpp:861
+#: plugins/libzipplugin/libzipplugin.cpp:951
+#, fuzzy, kde-kuit-format
+#| msgid "An error occurred while adding the files to the archive."
+msgid "Failed to write archive."
+msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#: plugins/libzipplugin/libzipplugin.cpp:225
+#: plugins/libzipplugin/libzipplugin.cpp:918
+#, kde-kuit-format
+msgid "Failed to add entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:280
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "Failed to set compression options for entry: %1"
+msgstr "उद्धरणका लागि फोल्डर"
+
+#: plugins/libzipplugin/libzipplugin.cpp:385
+#: plugins/libzipplugin/libzipplugin.cpp:776
+#: plugins/libzipplugin/libzipplugin.cpp:927
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "Failed to read metadata for entry: %1"
+msgstr "उद्धरणका लागि फोल्डर"
+
+#: plugins/libzipplugin/libzipplugin.cpp:429
+#: plugins/libzipplugin/libzipplugin.cpp:434
+#, kde-kuit-format
+msgid "Failed to delete entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:659
+#, kde-kuit-format
+msgid "Failed to create directory: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:732
+#, kde-kuit-format
+msgid "Failed to open '%1':<nl/>%2"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:740
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "Failed to open file for writing: %1"
+msgstr "उद्धरणका लागि फोल्डर"
+
+#: plugins/libzipplugin/libzipplugin.cpp:753
+#, kde-kuit-format
+msgid "Failed to read data for entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:758
+#, kde-kuit-format
+msgid "Failed to write data for entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:768
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "Failed to locate entry: %1"
+msgstr "उद्धरणका लागि फोल्डर"
+
+#: plugins/libzipplugin/libzipplugin.cpp:840
+#: plugins/libzipplugin/libzipplugin.cpp:846
+#, kde-kuit-format
+msgid "Failed to move entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:904
+#, kde-kuit-format
+msgid "Failed to copy entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:934
+#, fuzzy, kde-kuit-format
+#| msgid "Folder to extract to"
+msgid "Failed to set metadata for entry: %1"
+msgstr "उद्धरणका लागि फोल्डर"
+
+#, fuzzy
+#~| msgid "&Open"
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open"
+#~ msgstr "खोल्नुहोस्"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to open the selected file with the associated application"
+#~ msgstr "तपाईं चयन गरिएका वस्तुहरू साँच्चै मेट्न चाहनुहुन्छ ?"
+
+#, fuzzy
+#~| msgid " Size "
+#~ msgctxt "Uncompressed size of a file inside an archive"
+#~ msgid "Size"
+#~ msgstr " साइज "
+
+#, fuzzy
+#~| msgid "Open"
+#~ msgctxt "action, to open an archive"
+#~ msgid "Open"
+#~ msgstr "खोल्नुहोस्"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "Open an archive"
+#~ msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#, fuzzy
+#~| msgid "Ark"
+#~ msgid "ArkPart"
+#~ msgstr "आर्क"
+
+#, fuzzy
+#~| msgid "Save Archive As"
+#~ msgctxt "@title:window"
+#~ msgid "Save Archive As"
+#~ msgstr "यस रूपमा सङ्ग्रह बचत गर्नुहोस्"
+
+#, fuzzy
+#~| msgid "Archive already exists. Do you wish to overwrite it?"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "An archive named <filename>%1</filename> already exists. Are you sure you "
+#~ "want to overwrite it?"
+#~ msgstr "सङ्ग्रह पहिले नै अवस्थित छ । तपाईं यसमा अधिलेखन गर्न चाहनुहुन्छ?"
+
+#, fuzzy
+#~| msgid "General Settings"
+#~ msgctxt "@title:tab"
+#~ msgid "General Settings"
+#~ msgstr "सामान्य सेटिङ"
+
+#, fuzzy
+#~| msgid "Extract all files"
+#~ msgctxt "@title:tab"
+#~ msgid "Extraction Settings"
+#~ msgstr "सबै फाइल झिक्नुहोस्"
+
+#, fuzzy
+#~| msgctxt "to view something"
+#~| msgid "&View"
+#~ msgctxt "@title:tab"
+#~ msgid "Preview Settings"
+#~ msgstr "दृश्य"
+
+#, fuzzy
+#~| msgctxt "Cyclic Redundancy Check"
+#~| msgid " CRC "
+#~ msgctxt "CRC hash code"
+#~ msgid "CRC"
+#~ msgstr " CRC "
+
+#, fuzzy
+#~| msgid " Filename "
+#~ msgid "&Rename"
+#~ msgstr "फाइलनाम"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to rename the selected file"
+#~ msgstr "तपाईं चयन गरिएका वस्तुहरू साँच्चै मेट्न चाहनुहुन्छ ?"
+
+#~ msgid "De&lete"
+#~ msgstr "मेट्नुहोस्"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to delete the selected files"
+#~ msgstr "तपाईं चयन गरिएका वस्तुहरू साँच्चै मेट्न चाहनुहुन्छ ?"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to cut the selected files"
+#~ msgstr "तपाईं चयन गरिएका वस्तुहरू साँच्चै मेट्न चाहनुहुन्छ ?"
+
+#, fuzzy
+#~| msgid "Do you really want to delete the selected items?"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to copy the selected files"
+#~ msgstr "तपाईं चयन गरिएका वस्तुहरू साँच्चै मेट्न चाहनुहुन्छ ?"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to paste the files here"
+#~ msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#, fuzzy
+#~| msgid "All Files"
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Find Files"
+#~ msgstr "सबै फाइल"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to search in archive"
+#~ msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#, fuzzy
+#~| msgid "Adding files..."
+#~ msgid "Adding a file"
+#~ msgid_plural "Adding %1 files"
+#~ msgstr[0] "फाइलहरू थपिँदैछ..."
+#~ msgstr[1] "फाइलहरू थपिँदैछ..."
+
+#, fuzzy
+#~| msgid "Do Not Overwrite"
+#~ msgctxt "@action:button"
+#~ msgid "Overwrite"
+#~ msgstr "अधिलेखन नगर्नुहोस्"
+
+#, fuzzy
+#~| msgid "Folder to extract to"
+#~ msgctxt "@info"
+#~ msgid "Extraction failed at:<nl/><filename>%1</filename>"
+#~ msgstr "उद्धरणका लागि फोल्डर"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>.<nl/>Check whether you "
+#~ "have sufficient permissions."
+#~ msgstr "फोल्डर %1 सिर्जना गर्न सकेन"
+
+#, fuzzy
+#~| msgid "Folder to extract to"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Failed to create a temporary file to compress <filename>%1</filename>."
+#~ msgstr "उद्धरणका लागि फोल्डर"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not read until the end of the archive"
+#~ msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#, fuzzy
+#~| msgid "Add Folde&r..."
+#~ msgid "Add Fo&lder..."
+#~ msgstr "फोल्डर थप्नुहोस्..."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to add a folder to the archive"
+#~ msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#, fuzzy
+#~| msgid "Add Folde&r..."
+#~ msgctxt "@title:window"
+#~ msgid "Add Folder"
+#~ msgstr "फोल्डर थप्नुहोस्..."
+
+#, fuzzy
+#~| msgid "&Action"
+#~ msgid "ActionsLabel"
+#~ msgstr "कार्य"
+
+#, fuzzy
+#~| msgid "The password was incorrect. "
+#~ msgid "The password cannot be empty."
+#~ msgstr "पासवर्ड गलत थियो । "
+
+#, fuzzy
+#~| msgid "Trouble writing to the archive..."
+#~ msgid "Please select a filename for the archive."
+#~ msgstr "सङ्ग्रहमा लेख्दा समस्या..."
+
+#, fuzzy
+#~| msgid "0 files selected"
+#~ msgid "No file selected"
+#~ msgstr "० फाइल चयन गरियो"
+
+#, fuzzy
+#~| msgid "Open with:"
+#~ msgid "Open File"
+#~ msgstr "यससँग खोल्नुहोस्:"
+
+#, fuzzy
+#~| msgid "Extract"
+#~ msgctxt "@action:intoolbar"
+#~ msgid "E&xtract"
+#~ msgstr "उद्धरण गर्नुहोस्"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgctxt "@title:window"
+#~ msgid "Error Opening Archive"
+#~ msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "lblArchiveNamed"
+#~ msgstr "'सङ्ग्रह' खोल्नुहोस्"
+
+#, fuzzy
+#~| msgid "All Valid Archives\n"
+#~ msgid "lblArchiveType"
+#~ msgstr "सबै वैध सङ्ग्रहहरू\n"
+
+#, fuzzy
+#~| msgid "Compressing..."
+#~ msgid "lblCompressionRatio"
+#~ msgstr "सङ्कुचन गर्दै..."
+
+#, fuzzy
+#~| msgid "Files to be added"
+#~ msgid "lblModified"
+#~ msgstr "थप गरिनुपर्ने फाइल"
+
+#, fuzzy
+#~| msgid "Icons"
+#~ msgid "lblIcon"
+#~ msgstr "प्रतिमा"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for reading"
+#~ msgstr "फोल्डर %1 सिर्जना गर्न सकेन"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid "File <filename>%1</filename> not found in the archive"
+#~ msgstr "फोल्डर %1 सिर्जना गर्न सकेन"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for writing."
+#~ msgstr "फोल्डर %1 सिर्जना गर्न सकेन"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not add the directory <filename>%1</filename> to the archive"
+#~ msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename> after adding file."
+#~ msgstr "फोल्डर %1 सिर्जना गर्न सकेन"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Could not add the file <filename>%1</filename> to the archive."
+#~ msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#~ msgid "&Action"
+#~ msgstr "कार्य"
+
+#, fuzzy
+#~| msgid "Open with:"
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open File"
+#~ msgstr "यससँग खोल्नुहोस्:"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>, libarchive cannot "
+#~ "handle it."
+#~ msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#, fuzzy
+#~| msgid "Open destination folder after extraction"
+#~ msgid "Options for batch extraction:"
+#~ msgstr "उद्धरण पछि गन्तव्य फोल्डर खोल्नुहोस्"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Found program <filename>%1</filename>, but failed to initialize the "
+#~ "process."
+#~ msgstr "फोल्डर %1 सिर्जना गर्न सकेन"
+
+#, fuzzy
+#~| msgid "Selected files only"
+#~ msgid "Delete files"
+#~ msgstr "चयन गरिएको फाइलहरू मात्र"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Unable to open the file '%1', libarchive cannot handle it."
+#~ msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#, fuzzy
+#~| msgid "Open extract dialog, quit when finished"
+#~ msgid "Operation finished."
+#~ msgstr "उद्धरण संवाद खोल्नुहोस्, सकिए पछि अन्त्य गर्नुहोस्"
+
+#, fuzzy
+#~| msgid "Folder to extract to"
+#~ msgid "Could not extract '%1'"
+#~ msgstr "उद्धरणका लागि फोल्डर"
+
+#~ msgid "Missing Folder"
+#~ msgstr "हराएको फोल्डर"
+
+#~ msgid "Create Folder"
+#~ msgstr "फोल्डर सिर्जना गर्नुहोस्"
+
+#~ msgid "Do Not Create"
+#~ msgstr "सिर्जना नगर्नुहोस्"
+
+#~ msgid "The folder could not be created. Please check permissions."
+#~ msgstr "फोल्डर सिर्जना गर्न सकेन । कृपया अनुमति जाँच गर्नुहोस् ।"
+
+#, fuzzy
+#~| msgid "An error occurred while opening the archive %1."
+#~ msgid "An error occurred while performing the operation."
+#~ msgstr "सङ्ग्रह %1 खोल्दा एउटा त्रुटि देखापर्यो ।"
+
+#, fuzzy
+#~| msgid "An error occurred while extracting the archive."
+#~ msgid "Unknown error when extracting files"
+#~ msgstr "सङ्ग्रह उद्धरण गर्दा त्रुटि देखापर्यो ।"
+
+#, fuzzy
+#~| msgid "An error occurred while trying to create the archive."
+#~ msgid "An error occurred while trying to read entry #%1 of the archive"
+#~ msgstr "सङ्ग्रह सिर्जना गर्न प्रयास गर्दा त्रुटि देखा पर्यो ।"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgid "Could not create path"
+#~ msgstr "फोल्डर %1 सिर्जना गर्न सकेन"
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Could not locate file '%1' in the archive"
+#~ msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#, fuzzy
+#~| msgid "Could not create the folder %1"
+#~ msgid "Could not read from the input file '%1'"
+#~ msgstr "फोल्डर %1 सिर्जना गर्न सकेन"
+
+#, fuzzy
+#~| msgid "Trouble writing to the archive..."
+#~ msgid "Could not find a file named %1 in the archive."
+#~ msgstr "सङ्ग्रहमा लेख्दा समस्या..."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgid "Couldn't open the file '%1', libarchive can't handle it."
+#~ msgstr "सङ्ग्रहमा फाइल थप्दा त्रुटि देखापर्यो ।"
+
+#~ msgid "Could not start a subprocess."
+#~ msgstr "उप प्रक्रिया सुरु गर्न सकेन ।"
+
+#~ msgid "The deletion operation failed."
+#~ msgstr "मेटाइ सञ्चालन असफल भयो ।"
+
+#~ msgid ""
+#~ "\n"
+#~ "Use \"Details\" to view the last shell output."
+#~ msgstr ""
+#~ "\n"
+#~ "अन्तिम शेल निर्गत हेर्न \"विवरण\"प्रयोग गर्नुहोस् ।"
+
+#~ msgid "The extraction operation failed."
+#~ msgstr "उद्धरण सञ्चालन असफल भयो ।"
+
+#~ msgid "The addition operation failed."
+#~ msgstr "थप सञ्चालन असफल भयो ।"
+
+#~ msgid "Choose Archive Format"
+#~ msgstr "सङ्ग्रह ढाँचा छनोट गर्नुहोस्"
+
+#~ msgid ""
+#~ "This file appears to be of type %1,\n"
+#~ "which is not a supported archive format.\n"
+#~ "In order to proceed, please choose the format\n"
+#~ "of the file."
+#~ msgstr ""
+#~ "यी फाइल %1 प्रकारको जस्तो देखिन्छ,\n"
+#~ "जुन समर्थित सङ्ग्रह ढाँचा होइन ।\n"
+#~ "अगाडि बढ्नका लागि, कृपया फाइलको ढाँचा\n"
+#~ "रोज्नुहोस् ।"
+
+#~ msgid ""
+#~ "You are about to open a file that has a non-standard extension.\n"
+#~ "Ark has detected the format: %1\n"
+#~ "If this is not correct, please choose the appropriate format."
+#~ msgstr ""
+#~ "तपाईं फाइल खोल्दै हुनुहुन्छ जोसँग मानक विस्तार छैन ।\n"
+#~ "आर्केले ढाँचा पत्ता लगाएको छ: %1\n"
+#~ "यदि यो सही छैन भने, कृपया उपयुक्त ढाँचा छनोट गर्नुहोस् ।"
+
+#~ msgid "ark"
+#~ msgstr "आर्क"
+
+#~ msgid "Corel Corporation (author: Emily Ezust)"
+#~ msgstr "कोरेल-कर्पोरेसन (लेखक: एमिलि एजस्ट)"
+
+#~ msgid "Corel Corporation (author: Michael Jarrett)"
+#~ msgstr "कोरेल-कर्पोरेसन (लेखक: माइकल ज्यारेट)"
+
+#~ msgid "Jian Huang"
+#~ msgstr "जियान हुआङ"
+
+#~ msgid "Roberto Teixeira"
+#~ msgstr "रोबेर्टो तेइक्सेरा"
+
+#~ msgid "Edit &With..."
+#~ msgstr "यससँग सम्पादन गर्नुहोस् ..."
+
+#~ msgid "&Unselect All"
+#~ msgstr "सबै चयनबाट हटाउनुहोस्"
+
+#~ msgid "&Invert Selection"
+#~ msgstr "चयनलाई उल्टाउनुहोस्"
+
+#~ msgid "Configure &Ark..."
+#~ msgstr "आर्क कन्फिगर गर्नुहोस्..."
+
+#~ msgid "Show Search Bar"
+#~ msgstr "खोजी पट्टी देखाउनुहोस्"
+
+#~ msgid "Hide Search Bar"
+#~ msgstr "खोजी पट्टी लुकाउनुहोस्"
+
+#~ msgid ""
+#~ "The archive \"%1\" has been modified.\n"
+#~ "Do you want to save it?"
+#~ msgstr ""
+#~ "सङ्ग्रह \"%1\" परिमार्जित गरियो ।\n"
+#~ "तपाईं बचत गर्न चाहनुहुन्छ?"
+
+#~ msgid "Downloading %1..."
+#~ msgstr "%1 डाउनलोड हुँदैछ..."
+
+#~ msgid "Total: 0 files"
+#~ msgstr "जम्मा: ० फाइल"
+
+#~ msgid "Wrong number of arguments specified"
+#~ msgstr "तर्कको गलत सङ्ख्या निर्दिष्ट गरियो"
+
+#~ msgid "You need to specify at least one file to be added to the archive."
+#~ msgstr "तपाईंले सङ्ग्रहमा थप्नका लागि कम्तिमा पनि एउटा फाइल निर्दिष्ट गर्नु पर्दछ ।"
+
+#~ msgid "You have run out of disk space."
+#~ msgstr "तपाईंले डिस्कको खाली स्थान भन्दा बढ्ता चलाउनुभयो ।"
+
+#~ msgid ""
+#~ "The file you are trying to view may be an executable. Running untrusted "
+#~ "executables may compromise your system's security.\n"
+#~ "Are you sure you want to run that file?"
+#~ msgstr ""
+#~ "तपाईँले हेर्न प्रयास गरिरहनुभएको फाइल कार्यान्वयनयोग्य हुना सक्छ । अविश्वासिलो "
+#~ "कार्यान्वयनयोग्य चालु गर्दा तपाईंको प्रणाली सुरक्षासँग समझदारी गर्न सक्दछ ।\n"
+#~ " तपाईं साँच्चिकै त्यो फाइल चालु गर्न चाहनुहुन्छ?"
+
+#~ msgid "Run Nevertheless"
+#~ msgstr "तथापि चलाउनुहोस्"
+
+#~ msgid "&Search:"
+#~ msgstr "खोजी गर्नुहोस्:"
+
+#~ msgid ""
+#~ "Please save your archive in the same format as the original.\n"
+#~ "Hint: Use one of the suggested extensions."
+#~ msgstr ""
+#~ "कृपया तपाईंको सङ्ग्रह मौलिक रूपमा उही ढाँचामा बचत गर्नुहोस् ।\n"
+#~ "सङ्केत: सुझाव दिइएको एउटा विस्तार प्रयोग गर्नुहोस् ।"
+
+#~ msgid ""
+#~ "None of the files in the archive have been\n"
+#~ "extracted since all of them already exist."
+#~ msgstr ""
+#~ "सङ्ग्रहमा सबै फाइल पहिले अवस्थित भएकोले\n"
+#~ " किनै पनि फाइल उद्धरण भएको छैन ।"
+
+#~ msgid "You do not have permission to access that archive."
+#~ msgstr "त्यो सङ्ग्रहमा पहुँच गर्न तपाईंसँग अनुमति छैन ।"
+
+#~ msgid "You do not have permission to write to the directory %1"
+#~ msgstr "डाइरेक्टरी %1 मा लेख्न तपाईंसँग अनुमति छैन"
+
+#~ msgid ""
+#~ "You are currently working with a simple compressed file.\n"
+#~ "Would you like to make it into an archive so that it can contain multiple "
+#~ "files?\n"
+#~ "If so, you must choose a name for your new archive."
+#~ msgstr ""
+#~ "हाल तपाईं साधारण सङ्कुचित फाइलसँग कार्य गर्दै हुनुहुन्छ ।\n"
+#~ "तपाईं यसलाई सङ्ग्रहमा बनाउन चाहनुहुन्छ ताकि यसले बहु फाइल समावेश गर्न सक्दछ?\n"
+#~ "यदि त्यसो हो भने, तपाईंले तपाईंको नयाँ सङ्ग्रहका लागि नाम छनोट गर्नुपर्छ ।"
+
+#~ msgid "Warning"
+#~ msgstr "चेतावनी"
+
+#~ msgid "Make Into Archive"
+#~ msgstr "सङ्ग्रहमा बनाउनुहोस्"
+
+#~ msgid "Do Not Make"
+#~ msgstr "नबनाउनुहोस्"
+
+#~ msgid "Select Files to Add"
+#~ msgstr "थप्नका लागि फाइल चयन गर्नुहोस्"
+
+#~ msgid "Select Folder to Add"
+#~ msgstr "थप्नका लागि फोल्डर चयन गर्नुहोस्"
+
+#~ msgid "Removing..."
+#~ msgstr "हटाउँदैछ..."
+
+#~ msgid ""
+#~ "%1 will not be extracted because it will overwrite an existing file.\n"
+#~ "Go back to the Extraction Dialog?"
+#~ msgstr ""
+#~ "%1 उद्धरण हुने छैन किनभने यसले अवस्थित फाइललाई अधिलेखन गर्नेछ ।\n"
+#~ " उद्धरण संवादमा पछाडि जानुहुन्छ?"
+
+#~ msgid ""
+#~ "Some files will not be extracted, because they would overwrite existing "
+#~ "files.\n"
+#~ "Would you like to go back to the extraction dialog?\n"
+#~ "\n"
+#~ "The following files will not be extracted if you choose to continue:"
+#~ msgstr ""
+#~ "केही फाइल उद्धरण हुने छैन, किनभने तिनीहरूले अवस्थित फाइललाई अधिलेखन गर्नेछ ।\n"
+#~ " तपाईँ उद्धरण संवादमा पछाडि जानुहुन्छ?\n"
+#~ " यदि तपाईँले जारी राख्नुहोस् रोज्नु भएमा निम्न फाइलहरू उद्धरण हुनेछैन:"
+
+#~ msgid "The archive to extract from no longer exists."
+#~ msgstr "लामो समयसम्म अवस्थित नरहनेबाट झिक्नका लागि सङ्ग्रह ।"
+
+#~ msgid "Edit with:"
+#~ msgstr "यससँग सम्पादन गर्नुहोस्:"
+
+#~ msgid "Trouble editing the file..."
+#~ msgstr "फाइल सम्पादन गर्दा समस्या..."
+
+#~ msgid "Readding edited file..."
+#~ msgstr "सम्पादित फाइल पुन: थपिँदैछ..."
+
+#~ msgid ""
+#~ "The internal viewer is not able to display this file. Would you like to "
+#~ "view it using an external program?"
+#~ msgstr ""
+#~ "आन्तरिक दृश्यकर्ता यो फाइल प्रदर्शन गर्नका लागि सक्षम छैन । तपाईं बाह्य कार्यक्रम "
+#~ "प्रयोग गरेर यो हेर्न चाहनुहुन्छ?"
+
+#~ msgid "View Externally"
+#~ msgstr "बाह्य तरिकाले हेर्नुहोस्"
+
+#~ msgid "Do Not View"
+#~ msgstr "नहेर्नुहोस्"
+
+#~ msgctxt "%2 is the total size of selected files"
+#~ msgid "1 files selected  %2"
+#~ msgid_plural "%1 files selected  %2"
+#~ msgstr[0] "1 फाइल चयन गरियो  %2"
+#~ msgstr[1] "1 फाइल चयन गरियो  %2"
+
+#~ msgid ""
+#~ "Do you wish to add this to the current archive or open it as a new "
+#~ "archive?"
+#~ msgstr ""
+#~ "तपाईँ यसलाई हालको सङ्ग्रहमा थप्न चाहनुहुन्छ वा यसलाई नयाँ सङ्ग्रहको रूपमा खोल्न "
+#~ "चाहनुहुन्छ?"
+
+#~ msgid ""
+#~ "There is no archive currently open. Do you wish to create one now for "
+#~ "these files?"
+#~ msgstr ""
+#~ "त्यहाँ हालै कुनै सङ्ग्रह खोलिएको छैन । तपाईँ अब एउटा यी फाइलहरूका लागि सिर्जना गर्न "
+#~ "चाहनुहुन्छ?"
+
+#~ msgid ""
+#~ "There is no archive currently open. Do you wish to create one now for "
+#~ "this file?"
+#~ msgstr ""
+#~ "त्यहाँ हालै कुनै सङ्ग्रह खोलिएको छैन । तपाईँ यी फाइलका लागि एउटा अब सिर्जना गर्न "
+#~ "चाहनुहुन्छ?"
+
+#~ msgid "Create Archive"
+#~ msgstr "सङ्ग्रह सिर्जना गर्नुहोस्"
+
+#~ msgid "Unknown archive format or corrupted archive"
+#~ msgstr "अज्ञात सङ्ग्रह ढाँचा वा अनुपयोगी सङ्ग्रह"
+
+#~ msgid ""
+#~ "The utility %1 is not in your PATH.\n"
+#~ "Please install it or contact your system administrator."
+#~ msgstr ""
+#~ "उपयोगिता %1 तपाईंको मार्गमा छैन ।\n"
+#~ "कृपया यसलाई स्थापना गर्नुहोस् वा तपाईंको प्रणाली प्रशासकलाई सम्पर्क गर्नुहोस् ।"
+
+#~ msgid ""
+#~ "This archive is read-only. If you want to save it under a new name, go to "
+#~ "the File menu and select Save As."
+#~ msgstr ""
+#~ "यो सङ्ग्रह पढ्ने-मात्र हो । यदि तपाईं यसलाई नयाँ नाम अन्तर्गत बचत गर्न चाहनुहुन्छ भने, "
+#~ "फाइल मेनुमा र 'यस रूपमा बचत गर्नुहोस्'मा जानुहोस् ।"
+
+#~ msgid "An error occurred while trying to open the archive %1"
+#~ msgstr "सङ्ग्रह %1 खोल्न प्रयास गर्दा त्रुटि देखा पर्यो"
+
+#~ msgid ""
+#~ "You are creating a simple compressed archive which contains only one "
+#~ "input file.\n"
+#~ "When uncompressed, the file name will be based on the name of the archive "
+#~ "file.\n"
+#~ "If you add more files you will be prompted to convert it to a real "
+#~ "archive."
+#~ msgstr ""
+#~ "तपाईँ साधारण सङ्कुचित सङ्ग्रह सिर्जना गर्दै हुनुहुन्छ जसले एउटा मात्र आगत फाइल समावेश "
+#~ "गर्दछ ।\n"
+#~ "सङ्कुचनबाट हटाउँदा, फाइलको नाम सङ्ग्रह फाइलको नाममा आधारित हुनेछ ।\n"
+#~ "यदि तपाईंले अरु फाइल थप्नु भयो भने तपाईंलाई यो वास्तविक सङ्ग्रहमा रूपान्तरण गर्न "
+#~ "प्रवर्द्धन गरिनेछ ।"
+
+#~ msgid "Extract Files From %1"
+#~ msgstr "%1 बाट फाइल उद्धरण गर्नुहोस्"
+
+#~ msgid "Extract:"
+#~ msgstr "उद्धरण गर्नुहोस्:"
+
+#~ msgid ""
+#~ "You do not have write permission to this folder. Please provide another "
+#~ "folder."
+#~ msgstr "यो फोल्डरमा तपाईंलाई लेख्न अनुमति छैन । कृपया अर्को फोल्डर प्रदान गर्नुहोस् ।"
+
+#~ msgctxt "Packed Ratio"
+#~ msgid "%1 %"
+#~ msgstr "%1 %"
+
+#~ msgid "(c) 1997-2005, The Various Ark Developers"
+#~ msgstr "(c) 1997-2003; विभिन्न आर्क विकासकर्ता"
+
+#~ msgid ""
+#~ "Extract 'archive' to 'folder'. Quit when finished.\n"
+#~ "'folder' will be created if it does not exist."
+#~ msgstr ""
+#~ "'सङ्ग्रह' लाई 'फोल्डर' मा उद्धरण गर्नुहोस् । सकिएपछि अन्त्य गर्नुहोस् ।\n"
+#~ "यदि यो अवस्थित छैन भने 'फोल्डर' सिर्जना गरिनेछ ।"
+
+#~ msgid ""
+#~ "Add 'files' to 'archive'. Quit when finished.\n"
+#~ "'archive' will be created if it does not exist."
+#~ msgstr ""
+#~ "'सङ्ग्रह' मा 'फाइल' थप्नुहोस् । सकिएपछि अन्त्य गर्नुहोस् ।\n"
+#~ "यदि यो अवस्थित छैन भने 'सङ्ग्रह' सिर्जना गरिनेछ ।"
+
+#~ msgid ""
+#~ "Used with '--extract-to'. When specified, 'archive'\n"
+#~ "will be extracted to a subfolder of 'folder'\n"
+#~ "whose name will be the name of 'archive' without the filename extension."
+#~ msgstr ""
+#~ "'--मा-उद्धरण' सँग प्रयोग गरियो । जब निर्दिष्ट गर्दा, 'सङ्ग्रह'\n"
+#~ "'फोल्डर' को उपफोल्डरसँग उद्धरण गरिनेछ\n"
+#~ "जसको नाम फाइलनाम विस्तार बिनाको 'सङ्ग्रह' हुनेछ ।"
+
+#~ msgid "New &Window"
+#~ msgstr "नयाँ सञ्झ्याल"
+
+#~ msgid "Re&load"
+#~ msgstr "पुन: लोड गर्नुहोस्"
+
+#~ msgid ""
+#~ "The archive %1 is already open and has been raised.\n"
+#~ "Note: if the filename does not match, it only means that one of the two "
+#~ "is a symbolic link."
+#~ msgstr ""
+#~ "सङ्ग्रह %1 पहिले नै खोलिसक्यो र यो बढेको छ ।\n"
+#~ "द्रष्टव्य: यदि फाइलनाम मिलेन भने, यसको मतलब मात्र यो हो कि दुई मध्येको एउटा सांकेतिक "
+#~ "लिङ्क हो ।"
+
+#~ msgid "Open &as:"
+#~ msgstr "यसरूपमा खोल्नुहोस्:"
+
+#~ msgid "Autodetect (default)"
+#~ msgstr "स्वत: पत्ता लागेको (पूर्वनिर्धारित)"
+
+#~ msgid "Select Archive to Add Files To"
+#~ msgstr "यसमा फाइलहरू थप्नका लागि सङ्ग्रह चयन गर्नुहोस्"
+
+#~ msgid "Please Wait"
+#~ msgstr "कृपया प्रतिक्षा गर्नुहोस्"
+
+#~ msgid "Replace old files only &with newer files"
+#~ msgstr "नयाँ फाइलहरूसँग मात्र पुरानो फाइलहरू बदल्नुहोस्"
+
+#~ msgid "Force &MS-DOS short filenames (Zip)"
+#~ msgstr "MS-DOS को छोटो फाइलनामलाई बल गर्नुहोस् (Zip)"
+
+#~ msgid "Translate &LF to DOS CRLF (Zip)"
+#~ msgstr "LF लाई DOS CRLF(Zip)मा अनुवाद गर्नुहोस्"
+
+#~ msgid "&Store symlinks as links (Zip, Rar)"
+#~ msgstr "लिङ्क (Zip, Rar) को रूपमा सिमलिङ्क भण्डारण गर्नुहोस्"
+
+#~ msgid "&Recursively add subfolders (Zip, Rar)"
+#~ msgstr "उप फोल्डरहरू (जीप, रार) पुनरावृर्ती तरिकाले थप्नुहोस्"
+
+#~ msgid "Replace old files only with newer files"
+#~ msgstr "पुरानो फाइलहरूलाई नयाँ फाइलहरूसँग मात्र बदल्नुहोस्"
+
+#~ msgid ""
+#~ "If this option is enabled and you add filenames that already exist in an "
+#~ "archive, only replace the old files if the added files are newer than them"
+#~ msgstr ""
+#~ "यदि यो विकल्प सक्षम छ र तपाईंले एउटा सङ्ग्रहमा पहिले नै अवस्थित रहेको फाइलनाम "
+#~ "थप्नुभयो भने, यदि थपिएको फाइल पुराना फाइलहरू भन्दा नयाँ रहेछ भने मात्र पुरानो फाइल "
+#~ "बदल्नुहोस्"
+
+#~ msgid "Overwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "फाइल (Zip, Tar, Zoo, Rar) अधिलेखन गर्नुहोस्"
+
+#~ msgid ""
+#~ "Overwrite any files that have matching names on disk with the one from "
+#~ "the archive"
+#~ msgstr "कुनै फाइल अधिलेखन गर्नुहोस् जसको सङ्ग्रहबाट एउटा डिस्कमा मिल्दो नाम छ"
+
+#~ msgid "Preserve permissions"
+#~ msgstr "अनुमतिलाई संरक्षण गर्नुहोस्"
+
+#~ msgid ""
+#~ "Save the user, group, and permission settings on files. Use with care, as "
+#~ "this may result in files being extracted that do not belong to any valid "
+#~ "user on your computer"
+#~ msgstr ""
+#~ "फाइलमा प्रयोगकर्ता, समूह र अनुमति सेटिङ बचत गर्नुहोस् । सावधानीपूर्वक प्रयोग गर्नुहोस्, "
+#~ "ताकि यसले तपाईँको कम्प्युटरमा कुनै वैध प्रयोगकर्तामा सम्बन्धित नभई फाइल झिकिने छ"
+
+#~ msgid "Force MS-DOS short filenames (Zip)"
+#~ msgstr "MS-DOS छोटो फाइलनाम (Zip) लाई बल गर्नुहोस्"
+
+#~ msgid "Force names of files in Zip archives to the DOS 8.3 format"
+#~ msgstr "DOS 8.3 ढाँचामा जीप सङ्ग्रह भित्र फाइलको नामलाई बल गर्नुहोस्"
+
+#~ msgid "Translate LF to DOS CRLF"
+#~ msgstr "LF लाई DOS CRLF मा अनुवाद गर्नुहोस्"
+
+#~ msgid "Ignore folder names (Zip)"
+#~ msgstr "फोल्डर नाम (Zip) उपेक्षा गर्नुहोस्"
+
+#~ msgid ""
+#~ "Extract all the files into the extraction folder, ignoring any folder "
+#~ "structure in the archive."
+#~ msgstr ""
+#~ "सबै फाइललाई उद्धरण फोल्डरमा उद्धरण गर्नुहोस्, सङ्ग्रहमा कुनै फोल्डरको संरचना उपेक्षा "
+#~ "गरिँदैछ ।"
+
+#~ msgid "Store symlinks as links (Zip, Rar)"
+#~ msgstr "सिमलिङ्कलाई लिङ्क (Zip, Rar) को रूपमा भण्डारण गर्नुहोस्"
+
+#~ msgid "Recursively add subfolders (Zip, Rar)"
+#~ msgstr "उप फोल्डर (Zip, Rar) पुनरावृर्ती तरिकाले थप्नुहोस्"
+
+#~ msgid "Convert filenames to lowercase (Zip, Rar)"
+#~ msgstr "सानो अक्षर (Zip, Rar) मा फाइलनाम रूपान्तरण गर्नुहोस्"
+
+#~ msgid "Convert filenames to uppercase"
+#~ msgstr "फाइलनाम ठूलो अक्षरमा रूपान्तरण गर्नुहोस्"
+
+#~ msgid "Show search bar"
+#~ msgstr "खोजी पट्टी देखाउनुहोस्"
+
+#~ msgid "Enable Konqueror integration"
+#~ msgstr "कन्क्वेरर इन्टिग्रेसन सक्षम पार्नुहोस्"
+
+#~ msgid ""
+#~ "Enables integration with Konqueror's context menus, letting you easily "
+#~ "archive or unarchive files. This option will only work if you have the "
+#~ "kdeaddons package installed."
+#~ msgstr ""
+#~ "कन्क्वेररको प्रसङ्ग मेनुसँग एकिकरण सक्षम पार्दछ, जसले तपाईंलाई सजिलैसँग फाइललाई सङ्ग्रह "
+#~ "गर्न वा नगर्न अनुमति दिन्छ । यदि तपाईँसँग केडीई एडअन प्याकेज स्थापना गरिएको छ भने "
+#~ "मात्र यो विकल्पले काम गर्नेछ ।"
+
+#~ msgid "Use integrated viewer"
+#~ msgstr "एकीकृत दर्शक प्रयोग गर्नुहोस्"
+
+#~ msgid "Tar Command"
+#~ msgstr "Tar आदेश"
+
+#~ msgid "Enable experimental support for loading ACE files"
+#~ msgstr "ACE फाइल लोड गर्न प्रयोगात्मक समर्थन सक्षम पार्नुहोस्"
+
+#~ msgid "&Edit"
+#~ msgstr "सम्पादन गर्नुहोस्"
+
+#~ msgid "O&verwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "फाइलहरू (Zip, Tar, Zoo, Rar) अधिलेखन गर्नुहोस्"
+
+#~ msgid "&Preserve permissions (Tar)"
+#~ msgstr "अनुमति (Tar) संरक्षण गर्नुहोस्"
+
+#~ msgid "&Ignore folder names (Zip)"
+#~ msgstr "फोल्डर नामहरू (Zip) उपेक्षा गर्नुहोस्"
+
+#~ msgid "Convert file names to &lowercase (Zip, Rar)"
+#~ msgstr "फाइल नामलाई सानो अक्षर (Zip, Rar) मा रूपान्तरण गर्नुहोस्"
+
+#~ msgid "Convert file names to &uppercase (Rar)"
+#~ msgstr "फाइल नामलाई ठूलो अक्षर (Rar) मा रूपान्तरण गर्नुहोस्"
+
+#~ msgid "&Use integrated viewer"
+#~ msgstr "एकीकृत दर्शक प्रयोग गर्नुहोस्"
+
+#~ msgid "&Enable Konqueror integration"
+#~ msgstr "कन्क्वेरर इन्टिग्रेसन सक्षम पार्नुहोस्"
+
+#~ msgid ""
+#~ "<font size=\"-1\"><i>Konqueror integration is only available<br> if you "
+#~ "install the Konqueror integration<br> plugin from the kdeaddons package.</"
+#~ "i></font>"
+#~ msgstr ""
+#~ "<font size=\"-1\"><i>यदि तपाईँले केडीई एडअन प्याकेजबाट <br> कन्क्वेरर इन्टिग्रेसन "
+#~ "प्लगइन स्थापना गर्नुभए मात्र <br> कन्क्वेरर इन्टिग्रेसन उपलब्ध हुन्छ ।</i></font>"
+
+#~ msgid "Unable to fork a decompressor"
+#~ msgstr "डिकम्प्रेसरलाई काँटा लगाउन अक्षम"
+
+#~ msgid "Trouble writing to the tempfile..."
+#~ msgstr "टेम्पफाइलमा लेख्न समस्या..."
+
+#~ msgid " Permissions "
+#~ msgstr " अनुमति "
+
+#~ msgid " Owner/Group "
+#~ msgstr " मालिक/समूह "
+
+#~ msgid " Timestamp "
+#~ msgstr " टाइमस्ट्याम्प "
+
+#~ msgid " Link "
+#~ msgstr " लिङ्क "
+
+#~ msgid " Size Now "
+#~ msgstr " अहिलेको साइज "
+
+#~ msgid " Ratio "
+#~ msgstr " अनुपात "

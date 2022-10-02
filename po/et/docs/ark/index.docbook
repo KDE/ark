@@ -1,0 +1,530 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kappname "&ark;">
+  <!ENTITY package "kdeutils">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Estonian  "INCLUDE"
+> <!-- change language only here -->
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>&ark;i käsiraamat</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+
+<othercredit role="translator"
+><firstname
+>Marek</firstname
+><surname
+>Laane</surname
+><affiliation
+><address
+><email
+>bald@smail.ee</email
+></address
+></affiliation
+><contrib
+>Tõlge eesti keelde</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>Henrique Pinto</holder>
+</copyright>
+
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2013-06-21</date>
+<releaseinfo
+>2.19 &kde; (4.11)</releaseinfo>
+
+<abstract>
+<para
+>&ark; on &kde; arhiivihaldur.</para
+></abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>arhiiv</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>tihendamine</keyword>
+<keyword
+>7z</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Sissejuhatus</title>
+
+<para
+>&ark; on rakendus mitmesuguste arhiivivormingute vaatamiseks. lahtipakkimiseks, loomiseks ja muutmiseks. Rakendus suudab toime tulla erinevate vormingutega, näiteks <command
+>tar</command
+>, <command
+>gzip</command
+>, <command
+>bzip2</command
+>, <command
+>zip</command
+>, <command
+>rar</command
+>, <command
+>7zip</command
+>, <command
+>xz</command
+>, <command
+>rpm</command
+>, <command
+>cab</command
+> ja <command
+>deb</command
+> (kui paigaldatud on vastavad käsureaprogrammid).</para>
+
+<screenshot>
+<screeninfo
+>&ark;i peaaken</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>&ark;i peaaken</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>&ark;i kasutamine</title>
+
+<sect1 id="ark-open">
+<title
+>Arhiivide avamine</title>
+
+<para
+>Arhiivi avamiseks &ark;is vali menüüst <guimenu
+>Fail</guimenu
+> käsk <guimenuitem
+>Ava...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>). Arhiivi saab avada ka seda &konqueror;ist või &dolphin;ist kohale lohistades. Arhiivifaile saab seostada &ark;iga, mille järel on võimalik neil &konqueror;is või &dolphin;is hiire <mousebutton
+>parema</mousebutton
+> nupuga klõpsata ja valida nende <guimenuitem
+>avamine &ark;</guimenuitem
+>is või lahtipakkimine.</para>
+
+<para
+>Kui oled <guimenu
+>seadistuste</guimenu
+>menüüs sisse lülitanud teabepaneelide näitamise, siis näidatakse lisateavet arhiivi valitud kataloogide või failide kohta.</para>
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Töö failidega</title>
+
+<para
+>Kui arhiiv on avatud, võib selles leiduvate failidega ette võtta mitmesuguseid asju. Faili valides ja kasutades menüüd <guimenu
+>Toimingud</guimenu
+> saab ette võtta järgmist:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Lisa fail...</guimenuitem
+> lisab arhiivi kettal leiduvaid faile.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Lisa kataloog...</guimenuitem
+> lisab arhiivi kettal leiduvaid katalooge.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Kustuta</guimenuitem
+> (<keycap
+>Del</keycap
+>) eemaldab arhiivist parajasti valitud faili(d).</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Paki lahti...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>) avab alammenüü varem kasutatud kataloogidega, mille seast saab valida selle, kuhu lahti pakkida.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Eelvaatlus</guimenuitem
+> avab faili määratud näitajas.</para>
+<!-- File Associations Embedding first item in Service Preference Order for a file type-->
+</listitem>
+</itemizedlist>
+
+</sect1>
+<sect1 id="ark-extract">
+<title
+>Arhiivide lahtipakkimine ja failide eemaldamine</title>
+
+<para
+>Kui arhiiv on &ark;is avatud, saab selle ka lahti pakkida. Failide lahtipakkimiseks vali menüüst <guimenu
+>Toimingud</guimenu
+> käsk <guisubmenu
+>Paki lahti...</guisubmenu
+> See avab varem kasutatud kataloogide nimekirja, kus saab valida, kuhu lahtipakkimine ette võtta. Sama efekti annab märkeruudu tähistamine tööriistaribal paremal pool nuppu <guibutton
+>Paki lahti</guibutton
+>. </para>
+<para
+>Dialoogi <guilabel
+>Lahtipakkimine</guilabel
+> avamiseks klõpsa tööriistaribal nupule <guibutton
+>Paki lahti</guibutton
+> või kasuta kiirklahvi <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>. Dialoog võimaldab valida, kuhu failid lahti pakkida. Vaikimisi pakitakse need lahti kataloogi, kus arhiiv asub.</para>
+<para
+>Failid võib lahti pakkida ka alamkataloogi. Vaikimisi antakse alamkataloogile nimeks, arhiivinime esimene osa, kuid seda võib loomulikult muuta. Kui soovid säilitada lahtipakkimisel asukohad, tuleks just see võimalus valida. Samuti saab määrata, et kataloog, kuhu failid lahti pakitakse, avatakse pärast lahtipakkimise lõpetamist &konqueror;is või &dolphin;is, või lasta sulgeda &ark;i, kui lahtipakkimine on tehtud.</para>
+
+<para
+>Kui arhiivi nimekirjas on mõni fail esile tõstetud, saab ka valida, millised failid lahti pakkida:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Ainult valitud failid</guimenuitem
+> pakib lahti ainult valitud failid.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Kõik failid</guimenuitem
+> pakib lahti kogu arhiivi sisu.</para>
+</listitem>
+</itemizedlist>
+<para
+>Ühe faili lahtipakkimiseks arhiivist, klõpsa failinimel ja lohista see sihtkataloogi. </para>
+<!--FIXME extract several files by drag + drop? - only in basyskom branch-->
+<para
+>Failide lahtipakkimine arhiivist ei muuda arhiivi ega selle sisu. Selleks tuleb kasutada käsku <menuchoice
+><guimenu
+>Toiming</guimenu
+><guimenuitem
+>Kustuta</guimenuitem
+></menuchoice
+> (<keysym
+>Del</keysym
+>). </para>
+
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Arhiivide loomine ja failide lisamine</title>
+
+<para
+>Uue arhiivi loomiseks &ark;is vali menüüst <guimenu
+>Fail</guimenu
+> käsk <guimenuitem
+>Uus</guimenuitem
+>.</para>
+
+<para
+>Seejärel saad kirjutada arhiivi nime koos sobiva laiendiga (<literal role="extension"
+>tar.gz</literal
+>, <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>bz2</literal
+> &etc;) või valida mõne toetatud vormingu liitkastis <guilabel
+>Filter</guilabel
+> ja märkida ära ruudukese <guilabel
+>Failinime laiendi automaatne valik</guilabel
+>. Failide lisamiseks arhiivi vali menüüst <guimenu
+>Toimingud</guimenu
+> käsk <guimenuitem
+>Lisa fail...</guimenuitem
+>. Kui soovid lisada arhiivi terve kataloogi, vali menüüst <guimenu
+>Toimingud</guimenu
+> käsk <guimenuitem
+>Lisa kataloog...</guimenuitem
+></para>
+
+<para
+>Teine viis faile lisada on lohistada fail või failid &konqueror;ist, &dolphin;ist või töölaualt &ark;i peaaknasse ning need lisataksegi parajasti avatud arhiivi.</para>
+
+</sect1>
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>&ark;i kasutamine failihalduris</title>
+
+<para
+>Mõnes failihalduris, näiteks &dolphin; või &konqueror;, &HPNga; arhiivile klõpsates avaneb kontekstimenüü kirjega <guimenuitem
+>Ava Arkis</guimenuitem
+>. Menüüs on järgmised lisakirjed arhiivi lahtipakkimiseks &ark;i abil: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Paki arhiiv siia lahti, tuvasta automaatselt alamkataloog</guimenuitem
+> loob kataloogis alamkataloogi arhiiviga ning pakib kataloogid ja failid sinna lahti.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Paki arhiiv lahti...</guimenuitem
+> toimib nagu &ark;is.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Paki arhiiv siia lahti</guimenuitem
+> pakib arhiivi sisu lahti samasse kataloogi.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>&dolphin;i või &konqueror;i valitud elemendi või elementide kontekstimenüüs leiab alammenüüs <guimenu
+>Tihendamine</guimenu
+> järgmised toimingud: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Siia</guimenuitem
+> loob (gzip-tihendusega) tar-arhiivi aktiivses kataloogis, andes sellele laiendiks <filename class="extension"
+>.tar.gz</filename
+>.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>ZIP-arhiivina</guimenuitem
+>, <guimenuitem
+>RAR-arhiivina</guimenuitem
+> või <guimenuitem
+>ZIP/TAR-arhiivina</guimenuitem
+> loob valitud arhiivitüübi aktiivsesse kataloogi.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Paki...</guimenuitem
+> avab dialoogi, kus saab valida kataloogi, nime ja arhiivi tüübi.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>Täiustatud hulgirežiim</title>
+<para
+>&ark; pakub täiustatud hulgirežiimi arhiivide haldamiseks ilma graafilist kasutajaliidest käivitamatagi. Selles režiimis on võimalik arhiive lahti pakkida või luua ning neisse faile lisada.</para>
+
+<para
+>Hulgirežiimi kirjeldab lähemalt <ulink url="man:/ark"
+>&ark;i manuaalilehekülg</ulink
+>. </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Autorid ja litsents</title>
+
+<para
+>&ark;i autoriõigus &copy; 1997-2008: erinevad &ark;i arendajad</para>
+
+<itemizedlist>
+<title
+>Autorid:</title>
+<listitem
+><para
+>Raphael Kubo da Costa <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+>Harald Hvaal <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autor: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autor: Michael Jarrett) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Dokumentatsiooni autoriõigus &copy; 2000: &Matt.Johnston; &Matt.Johnston.mail;</para>
+
+<para
+>Dokumentatsiooni uuendas &kde; 3.3 tarbeks: Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+>.</para>
+
+<para
+>Tõlge eesti keelde: Marek Laane <email
+>bald@starman.ee</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+<appendix id="installation">
+<title
+>Paigaldamine</title>
+
+<sect1 id="getting-ark">
+<title
+>&ark;i hankimine</title>
+&install.intro.documentation; </sect1>
+
+<sect1 id="requirements">
+<title
+>Nõuded</title>
+
+<para
+>&ark;i edukaks kasutamiseks on vajalik &kde; 4. &ark;i kasutamiseks on vajalikud ka &GNU; <command
+>tar</command
+> ja uusim <command
+>gzip</command
+>. Muude failivormingute tarbeks läheb vaja vastavaid käsurearakendusi, näiteks <command
+>bzip2</command
+>, <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>ar</command
+>, <command
+>rar</command
+>, <command
+>7zip</command
+>, <command
+>xz</command
+>, <command
+>rpm</command
+>, <command
+>cab</command
+> ja <command
+>deb</command
+>.</para>
+
+</sect1>
+
+<sect1 id="compilation">
+<title
+>Kompileerimine ja paigaldamine</title>
+&install.compile.documentation; </sect1>
+
+</appendix>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

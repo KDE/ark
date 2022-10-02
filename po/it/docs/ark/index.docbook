@@ -1,0 +1,826 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Italian "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY Ragnar.Thomsen '<personname
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+></personname
+>'>
+  <!ENTITY Ragnar.Thomsen.mail '<email
+>rthomsen6@gmail.com</email
+>'>
+  <!ENTITY Henrique.Pinto '<personname
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+></personname
+>'>
+  <!ENTITY Henrique.Pinto.mail '<email
+>henrique.pinto@kdemail.net</email
+>'>
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>Manuale di &ark;</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+<author
+>&Henrique.Pinto; &Henrique.Pinto.mail; </author>
+<author
+>&Ragnar.Thomsen; &Ragnar.Thomsen.mail; </author>
+
+<othercredit role="translator"
+><firstname
+>Simone</firstname
+><surname
+>Zaccarin</surname
+><affiliation
+><address
+><email
+>simozack@yahoo.it</email
+></address
+></affiliation
+><contrib
+>Traduzione del documento</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>Paolo</firstname
+><surname
+>Zamponi</surname
+><affiliation
+><address
+><email
+>zapaolo@email.it</email
+></address
+></affiliation
+><contrib
+>Traduzione del documento</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>&Henrique.Pinto;</holder>
+</copyright>
+
+<copyright>
+<year
+>2015, 2016</year>
+<holder
+>&Ragnar.Thomsen;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>10/09/2016</date>
+<releaseinfo
+>Applications 16.12</releaseinfo>
+
+<abstract>
+<para
+>&ark; è il gestore degli archivi della comunità &kde;.</para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>archivio</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>compressione</keyword>
+<keyword
+>7z</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Introduzione</title>
+<para
+>&ark; è un programma per visualizzare, estrarre, creare e modificare archivi. &ark; può trattare numerosi formati d'archiviazione, come <command
+>tar</command
+>, <command
+>gzip</command
+>, <command
+>bzip2</command
+>, <command
+>zip</command
+>, <command
+>rar</command
+>, <command
+>7zip</command
+>, <command
+>xz</command
+>, <command
+>rpm</command
+>, <command
+>cab</command
+>, <command
+>deb</command
+>, <command
+>xar</command
+> e <command
+>AppImage</command
+> (il supporto a certi formati d'archiviazione dipende dall'installazione degli appropriati programmi a riga di comando).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Finestra principale di &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Per poter usare correttamente &ark; hai bisogno di KDE Frameworks 5. Per la maggior parte dei tipi di archivio, inclusi gli archivi tar, tar compressi, rpm, deb e cab serve libarchive 3.1 o superiore. Per gestire altri formati di file hai bisogno dei corrispondenti programmi a riga di comando, come <command
+>zipinfo</command
+>, <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>rar</command
+>, <command
+>unrar</command
+>, <command
+>7z</command
+>, <command
+>lsar</command
+>, <command
+>unar</command
+> e <command
+>lrzip</command
+>.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>Uso di &ark;</title>
+
+<sect1 id="ark-open">
+<title
+>Aprire gli archivi</title>
+
+<para
+>Per aprire un archivio con &ark;, scegli <guimenuitem
+>Apri...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>) dal menu <guimenu
+>File</guimenu
+>. Puoi anche aprire gli archivi trascinandoli da &dolphin;. I file archivio dovrebbero essere associati ad &ark;; se così fosse per aprirli puoi fare clic con il tasto <mousebutton
+>destro</mousebutton
+> su un file in &dolphin; e selezionare <guimenuitem
+>Apri con &ark;</guimenuitem
+>, oppure selezionare l'azione di estrazione.</para>
+
+<para
+>Se hai abilitato il pannello informativo nel menu <guimenu
+>Impostazioni</guimenu
+> vengono qui visualizzate delle informazioni aggiuntive sulle cartelle o sui file dell'archivio selezionati.</para>
+
+<sect2 id="ark-archive-operations">
+<title
+>Operazioni sugli archivi</title>
+
+<para
+>Molte operazioni su un archivio aperto possono essere eseguite usando il menu <guimenu
+>Archivio</guimenu
+>: per esempio è possibile salvarlo con un nome diverso usando <guimenuitem
+>Salva come...</guimenuitem
+>. Le proprietà degli archivi, come il tipo, la dimensione e l'hash MD5 possono essere visualizzate usando la voce <guimenuitem
+>Proprietà</guimenuitem
+>.</para>
+
+<para
+>&ark; riesce a testare l'integrità degli archivi. Questa funzionalità è attualmente disponibile per i file <command
+>zip</command
+>, <command
+>rar</command
+> e <command
+>7z</command
+>, ed è disponibile nel menu <guimenu
+>Archivio</guimenu
+>.</para>
+
+</sect2>
+
+<sect2 id="ark-archive-comments">
+<title
+>Commenti sugli archivi</title>
+
+<para
+>&ark; può gestire i commenti incorporati negli archivi <literal role="extension"
+>zip</literal
+> e <literal role="extension"
+>rar</literal
+>.</para>
+
+<para
+>I commenti incorporati negli archivi <literal role="extension"
+>zip</literal
+> sono visualizzati automaticamente.</para>
+
+<para
+>Usando archivi <literal role="extension"
+>rar</literal
+> puoi modificare un commento con l'azione <guimenuitem
+>Aggiungi commento</guimenuitem
+> oppure con <guimenuitem
+>Modifica commento</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>C</keycap
+></keycombo
+>), che è presente nel menu <guimenu
+>Archivio</guimenu
+>. </para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Modifica di un commento</phrase>
+</textobject>
+</mediaobject>
+
+<note
+><para
+>L'elemento del menu commento viene abilitato solo per gli archivi <literal role="extension"
+>rar</literal
+>. </para
+></note>
+
+<para
+>Cancella il testo nella finestra commento per rimuovere un commento da un archivio <literal role="extension"
+>rar</literal
+>.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Lavorare coi file</title>
+
+<para
+>Una volta aperto un archivio puoi eseguire varie operazioni sui file al suo interno. Selezionando un file ed usando il menu <guimenu
+>File</guimenu
+> puoi scegliere che cosa intendi fare:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Anteprima</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+>) apre il file con il visualizzatore interno di &ark;. Si tratta di un veloce visualizzatore a sola lettura, ma non supporta tutti i tipi di file.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Apri</guimenuitem
+> aprirà il file nell'applicazione associata a quel tipo di file.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Apri con...</guimenuitem
+> ti permetterà di scegliere quale applicazione usare per aprire il file.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Rinomina</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>F2</keycap
+></keycombo
+>) permette di cambiare il nome di file e cartelle. Come nel file manager Dolphin, questa azione può essere invocata attraverso un collegamento, e il processo di rinomina viene fatto attraverso una modifica in linea. Viene anche effettuato un controllo sul nome del file, in modo che non contenga caratteri illegali come <userinput
+>/</userinput
+>, <userinput
+>.</userinput
+> e <userinput
+>..</userinput
+>.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Elimina</guimenuitem
+> (<keycap
+>Canc</keycap
+>) rimuoverà i file attualmente selezionati dall'archivio. È necessario sapere che non è possibile annullare questa azione.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Estrai</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>) apre un sottomenu con le cartelle precedentemente aperte; puoi scegliere di estrarre rapidamente i file in una di queste, oppure sfogliare tra altre cartelle qui non elencate. Consulta la prossima sezione per avere maggiori dettagli sull'estrazione.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Taglia</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+>) / <guimenuitem
+>Copia</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>) / <guimenuitem
+>Incolla</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+>): vengono fornite, come in un tipico file manager, le azioni di spostamento, di incollaggio e di copia. Gli utenti possono spostare o copiare i file da cartelle diverse (che sono espandibili in una vista ad albero), ed incollarli contemporaneamente nella stessa destinazione. Una cartella può essere copiata in se stessa, ma non spostata. Esistono anche dei controlli sui conflitti dei nomi dei file: non potrai copiare o spostare i file in cartelle che contengono già elementi con lo stesso nome - questo potrebbe causare perdite di dati.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Aggiungi file</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>A</keycap
+></keycombo
+>) può essere usato per aggiungere all'interno dell'archivio i file da qualsiasi posto. Se selezioni una cartella ed usi quest'azione i file saranno aggiunti alla cartella selezionata, altrimenti saranno aggiunti nella radice dell'archivio. </para>
+</listitem>
+</itemizedlist>
+
+<sect2 id="ark-editing-files">
+<title
+>Modificare i file</title>
+<para
+>Se modifichi e salvi un file che hai aperto usando <guimenuitem
+>Apri</guimenuitem
+> o <guimenuitem
+>Apri con...</guimenuitem
+>, Ark ti chiederà se intendi aggiornare il file contenuto nell'archivio. Se rispondi di sì l'archivio sarà aggiornato con il file salvato.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>Estrarre i file</title>
+
+<para
+>Una volta che un archivio è stato aperto con &ark; può essere estratto. Questo può essere fatto selezionando <guisubmenu
+>Estrai</guisubmenu
+> dal menu <guimenu
+>File</guimenu
+>: si aprirà un sottomenu con le cartelle precedentemente utilizzate, e potrai scegliere di estrarre velocemente in qualcuna di queste. In alternativa puoi selezionare l'elemento del sottomenu <guisubmenu
+>Estrai in...</guisubmenu
+> per aprire la finestra <guilabel
+>Estrai</guilabel
+>, nella quale potrai impostare numerose opzioni che influenzano l'estrazione. Consulta le informazioni più avanti per conoscere le opzioni disponibili nella finestra Estrai.</para>
+
+<para
+>Puoi anche usare il pulsante <guibutton
+>Estrai</guibutton
+> nella barra degli strumenti per aver accesso alle stesse operazioni di estrazione.</para>
+
+<para
+>Per estrarre l'intero archivio puoi selezionare <guisubmenu
+>Estrai tutto</guisubmenu
+> dal menu <guimenu
+>Archivio</guimenu
+>. Questa azione estrae incondizionatamente tutti i file dell'archivio.</para>
+
+<para
+>È possibile estrarre i file e le cartelle semplicemente trascinandoli con il mouse in una cartella di &dolphin;.</para>
+
+<para
+>Nota: l'estrazione di file da un archivio non cambia l'archivio e il suo contenuto.</para>
+
+<sect2 id="ark-extract-dialog">
+<title
+>La finestra di estrazione</title>
+
+<para
+>La finestra <guilabel
+>Estrai</guilabel
+> ti permette di scegliere dove saranno estratti i file. La posizione predefinita è la cartella in cui è contenuto l'archivio. Questa finestra può anche essere aperta premendo <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="extract-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>La finestra Estrai di &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Puoi specificare di estrarre i file in una sottocartella, il cui nome preimpostato è quello dell'archivio senza l'estensione, ma puoi cambiarlo se lo desideri. Se vuoi mantenere inalterati i percorsi durante l'estrazione seleziona l'opzione <guilabel
+>Mantieni inalterati i percorsi durante l'estrazione</guilabel
+>. Una volta completata l'estrazione puoi anche scegliere di aprire la cartella di destinazione con &dolphin;, o di chiudere &ark;.</para>
+
+<para
+>Se uno o più file nell'archivio sono evidenziati, puoi anche selezionare quali file estrarre:</para>
+<itemizedlist>
+<listitem>
+<para
+><guilabel
+>Solo file selezionati</guilabel
+> estrae solo i file che hai selezionato.</para>
+</listitem>
+<listitem>
+<para
+><guilabel
+>Tutti i file</guilabel
+> estrae l'intero contenuto dell'archivio.</para>
+</listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Creare archivi e aggiungere file</title>
+
+<para
+>Per creare un nuovo archivio in &ark; seleziona <guimenuitem
+>Nuovo</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+>) dal menu <guimenu
+>Archivio</guimenu
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Creare un archivio</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Puoi ora digitare il nome dell'archivio con l'estensione appropriata (<literal role="extension"
+>tar.gz</literal
+>, <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>7z</literal
+>, &etc;), oppure selezionare un formato supportato dalla casella combinata <guilabel
+>Filtro</guilabel
+> e attivare l'opzione <guilabel
+>Aggiungi automaticamente <replaceable
+>estensione del file</replaceable
+></guilabel
+>.</para>
+
+<para
+>Per aggiungere file o cartelle al nuovo archivio scegli <guimenuitem
+>Aggiungi file...</guimenuitem
+> dal menu <guimenu
+>Archivio</guimenu
+>.</para>
+
+<para
+>Un modo alternativo per aggiungere i file all'archivio è quello di trascinare uno o più file da &dolphin; all'interno della finestra principale di &ark;: in questo modo verranno aggiunti all'archivio attuale. È da notare che i file aggiunti in questo modo andranno nella cartella radice dell'archivio.</para>
+
+<para
+>Opzioni aggiuntive sono presenti nei gruppi pieghevoli in basso nella finestra. </para>
+
+<sect2 id="ark-compression">
+<title
+>Compressione</title>
+<para
+>Un valore più alto genera archivi più piccoli, ma allunga i tempi di compressione e decompressione. Il livello di compressione predefinito da &ark; è in genere un buon compromesso tra dimensione e velocità di (de)compressione. Per la maggior parte dei formati il livello minimo di compressione è equivalente alla sola archiviazione del file, &ie; senza compressione. </para>
+<para
+>Per gli archivi <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7z</literal
+> e <literal role="extension"
+>zip</literal
+> puoi selezionare diversi metodi di compressione. </para>
+<para
+>Nota che l'uso di metodi di compressione diversi da quelli pre-selezionati può limitare la compatibilità con i vari software di archiviazione. Per esempio, è richiesto un software più recente per l'apertura di archivi <literal role="extension"
+>zip</literal
+> con metodo di compressione diverso da <quote
+>Deflate</quote
+>.</para>
+</sect2>
+
+<sect2 id="ark-password-protection">
+<title
+>Protezione con password</title>
+<para
+>Se crei un archivio <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7zip</literal
+> o <literal role="extension"
+>jar</literal
+> puoi proteggerlo con una password. Al momento solo il formato <literal role="extension"
+>zip</literal
+> supporta metodi di cifratura multipli; per gli altri che supportano un solo metodo, questo viene mostrato nel menu a discesa.</para>
+<para
+>Altri metodi di cifratura diversi dal predefinito <guilabel
+>ZipCrypto</guilabel
+> possono non essere supportati da tutti i software di archiviazione.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Creare un archivio protetto da password</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Scegli se richiedere la password prima di mostrare l'elenco dei file. Questa è nota come cifratura delle intestazioni, ed è disponibile solo con i formati <literal role="extension"
+>rar</literal
+> e <literal role="extension"
+>7zip</literal
+>. La cifratura delle intestazioni viene abilitata come predefinita (se disponibile), in modo da offrire la massima protezione agli utenti inesperti.</para>
+</sect2>
+
+<sect2 id="ark-multi-volume">
+<title
+>Archivio multi-volume</title>
+<para
+>Con i formati <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+> e <literal role="extension"
+>7zip</literal
+> puoi creare archivi multi-volume, conosciuti anche come multi-parte o archivi divisi.</para>
+<para
+>Un archivio multi-volume è un grosso archivio compresso diviso in molti file. Questa caratteristica è utile quando la dimensione massima del file è limitata, &eg; dalla capacità del supporto di memorizzazione oppure dalla dimensione massima di un messaggio di posta elettronica con degli allegati.</para>
+<para
+>Per creare un archivio multi-volume spunta la casella <guilabel
+>Creare archivio multi-volume</guilabel
+>, quindi imposta la massima<guilabel
+>Dimensioni volume</guilabel
+> nella finestra. Aggiungi quindi i file all'archivio, e &ark; genererà automaticamente il numero richiesto di volumi di archiviazione. A seconda del formato selezionato i file avranno un'estensione seguita da uno schema di numerazione &eg; <filename
+>xxx.7z.001</filename
+>, <filename
+>xxx.7z.002</filename
+> oppure <filename
+>xxx.zip.001</filename
+>, <filename
+>xxx.zip.002</filename
+> o anche <filename
+>xxx.part1.rar</filename
+>, <filename
+>xxx.part2.rar</filename
+> &etc;.</para>
+<para
+>Per estrarre un archivio multi volume metti tutti i suoi file in una cartella, e apri con &ark; quello con il numero più piccolo nell'estensione: in questo modo tutte le altre parti dell'archivio diviso verranno aperte automaticamente.</para>
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>Usare &ark; nel gestore dei file</title>
+
+<para
+>Se fai clic con il &RMB; su un archivio in un gestore di file come &dolphin; ti verrà mostrato un menu contestuale con l'elemento <guimenuitem
+>Apri con Ark</guimenuitem
+>. Il menu ha questi elementi aggiuntivi: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Estrai l'archivio qui, autorileva la sottocartella</guimenuitem
+> crea una sottocartella nella cartella con l'archivio e ci estrae le cartelle e i file.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Estrai archivio in...</guimenuitem
+> apre la finestra Estrazione, che ti permette di scegliere la cartella di destinazione, oltre a varie opzioni di estrazione.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Estrai l'archivio qui</guimenuitem
+> estrae il contenuto dell'archivio nella stessa cartella.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>Il menu contestuale di &dolphin; per una selezione di file o di cartelle mostra queste azioni nel sottomenu <guimenu
+>Comprimi</guimenu
+>: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Qui (come TAR.GZ)</guimenuitem
+> o <guimenuitem
+>Qui (come ZIP)</guimenuitem
+> crea questi tipi di archivio nella cartella attuale.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Comprimi in</guimenuitem
+> apre una finestra in cui puoi selezionare la cartella, il nome ed il tipo di archivio.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>Modalità avanzata in serie</title>
+<para
+>&ark; ha una modalità avanzata in serie, per gestire gli archivi senza dover avviare l'interfaccia utente. Questa modalità ti permette di estrarre o di creare archivi, e di aggiungerci dei file.</para>
+
+<para
+>La modalità in serie è documentata nella <ulink url="man:/ark"
+>pagina man di &ark;</ulink
+>. </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Riconoscimenti e licenza</title>
+
+<para
+>&ark;, Copyright &copy; 1997-2016, i vari sviluppatori di &ark;</para>
+
+<itemizedlist>
+<title
+>Autori:</title>
+<listitem
+><para
+>Elvis Angelaccio <email
+>elvis.angelaccio@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Ragnar Thomsen <email
+>rthomsen6@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Raphael Kubo da Costa <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+>Harald Hvaal <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autore: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autore: Michael Jarrett) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Documentazione Copyright &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
+
+<para
+>La documentazione è stata aggiornata a &kde; 3.3 da &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
+
+<para
+>La documentazione è stata aggiornata a KDE Applications 16.04 da &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
+
+<para
+>Traduzione italiana di Paolo Zamponi <email
+>zapaolo@email.it</email
+>, Federico Zenith e Simone Zaccarin</para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

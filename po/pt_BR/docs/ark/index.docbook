@@ -1,0 +1,636 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kappname "&ark;">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Brazilian-Portuguese "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY Ragnar.Thomsen '<personname
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+></personname
+>'>
+  <!ENTITY Ragnar.Thomsen.mail '<email
+>rthomsen6@gmail.com</email
+>'>
+  <!ENTITY Henrique.Pinto '<personname
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+></personname
+>'>
+  <!ENTITY Henrique.Pinto.mail '<email
+>henrique.pinto@kdemail.net</email
+>'>
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>Manual do &ark;</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+<author
+>&Henrique.Pinto; &Henrique.Pinto.mail; </author>
+<author
+>&Ragnar.Thomsen; &Ragnar.Thomsen.mail; </author>
+
+<othercredit role="translator"
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+><affiliation
+><address
+><email
+>henrique.pinto@kdemail.net</email
+></address
+></affiliation
+><contrib
+>Tradução</contrib
+></othercredit
+> <othercredit role="translator"
+><firstname
+>André Marcelo</firstname
+><surname
+>Alvarenga</surname
+><affiliation
+><address
+><email
+>alvarenga@kde.org</email
+></address
+></affiliation
+><contrib
+>Tradução</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>&Henrique.Pinto;</holder>
+</copyright>
+
+<copyright>
+<year
+>2015, 2016</year>
+<holder
+>&Ragnar.Thomsen;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>19/03/2016</date>
+<releaseinfo
+>Applications 16.04</releaseinfo>
+
+<abstract>
+<para
+>&ark; é um gerenciador de arquivos compactados para o &kde;.</para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>arquivo</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>compressão</keyword>
+<keyword
+>7z</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Introdução</title>
+<para
+>&ark; é um programa para exibição, extração, criação e modificação de arquivos compactados. O programa pode trabalhar com vários formatos, tais como: <command
+>tar</command
+>, <command
+>gzip</command
+>, <command
+>bzip2</command
+>, <command
+>zip</command
+>, <command
+>rar</command
+>, <command
+>7zip</command
+>, <command
+>xz</command
+>, <command
+>rpm</command
+>, <command
+>cab</command
+> e <command
+>deb</command
+> (o suporte a certos formatos de arquivos compactados dependem da instalação de programas de linha de comando apropriados).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Janela principal do &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Para poder usar o &ark; com sucesso, você precisa do KDE Frameworks 5. É necessário também a versão 3 ou posterior da biblioteca libarchive, que é responsável pelo tratamento dos diversos tipos de arquivos, incluindo o tar, tar compactado, rpm, deb e cab. Para trabalhar com outros tipos, você precisa dos programas em linha de comando apropriados, como: <command
+>zipinfo</command
+>, <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>rar</command
+>, <command
+>unrar</command
+>, <command
+>7z</command
+> e <command
+>lha</command
+>.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>Usando o &ark;</title>
+
+<sect1 id="ark-open">
+<title
+>Abrindo arquivos</title>
+
+<para
+>Para abrir um arquivo no &ark;, escolha o item <guimenuitem
+>Abrir...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>) do menu <guimenu
+>Arquivo compactado</guimenu
+>. Você também pode abrir arquivos arrastando-os de uma janela do &dolphin; e soltando-os no &ark;. Os arquivos devem estar associados ao &ark; para que seja possível clicar sobre um arquivo com o botão <mousebutton
+>direito</mousebutton
+> do mouse e abri-lo no &dolphin;, usando a opção <guimenuitem
+>Abrir com &ark;</guimenuitem
+>. Com isso, também será possível selecionar uma ação de extração para este arquivo.Os arquivos devem estar associados ao &ark;, para que você também possa abri-los clicando com o botão <mousebutton
+>direito</mousebutton
+> do mouse em um arquivo no &dolphin; e selecionar a opção <guimenuitem
+>Abrir com &ark;</guimenuitem
+> para abri-lo ou então selecionar uma ação de extração para este arquivo.</para>
+
+<para
+>Se você ativou o painel de informações no menu <guimenu
+>Configurações</guimenu
+>, serão apresentadas informações adicionais sobre as pastas ou arquivos selecionados no arquivo compactado.</para>
+
+<sect2 id="ark-archive-operations">
+<title
+>Operações com arquivos compactados</title>
+
+<para
+>Várias operações podem ser efetuadas sobre um arquivo aberto se usar o menu <guimenu
+>Arquivo compactado</guimenu
+>. Por exemplo, você pode salvar o arquivo com um nome diferente se usar a opção <guimenuitem
+>Salvar como...</guimenuitem
+>. As propriedades do arquivo, como tipo, tamanho e código de validação MD5, usando o item <guimenuitem
+>Propriedades</guimenuitem
+>.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Trabalhando com arquivos</title>
+
+<para
+>Com o arquivo compactado aberto, você pode realizar várias operações com os arquivos nele contidos. Selecione um arquivo e use menu <guimenu
+>Arquivo</guimenu
+> para escolher o que deseja fazer:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>A opção <guimenuitem
+>Visualizar</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+>) irá abrir o arquivo com o visualizador interno do &ark;. Esse visualizador é rápido, mas serve apenas para leitura e não tem suporte a todos os tipos de arquivo.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Abrir</guimenuitem
+> irá abrir o arquivo no aplicativo associado a esse tipo de arquivo.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Abrir com...</guimenuitem
+> permite-lhe escolher o aplicativo que será usado para abrir o arquivo.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Excluir</guimenuitem
+> (<keycap
+>Del</keycap
+>) irá excluir o(s) arquivo(s) selecionado(s) do arquivo compactado. Lembre-se de que esta ação não poderá ser desfeita.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Extrair</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>) abre um submenu com as pastas acessadas anteriormente, de onde você poderá optar por extrair rapidamente para uma delas ou escolher uma pasta que não está listada. Leia a próxima seção para obter mais detalhes sobre extração de arquivos.</para>
+</listitem>
+</itemizedlist>
+
+<sect2 id="ark-editing-files">
+<title
+>Edição de arquivos</title>
+<para
+>Se editar e salvar um arquivo que foi aberto com as opções <guimenuitem
+>Abrir</guimenuitem
+> ou <guimenuitem
+>Abrir com...</guimenuitem
+>, o Ark irá perguntar se o arquivo deve ser atualizado no arquivo compactado. Se responder 'Sim', o arquivo compactado será atualizado com o arquivo salvo.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>Extração de arquivos</title>
+
+<para
+>Assim que um arquivo compactado for aberto no &ark;, será possível extrair o seu conteúdo. Isso pode ser feito selecionando o item <guisubmenu
+>Extrair</guisubmenu
+> no menu <guimenu
+>Arquivo</guimenu
+>. Será aberto um submenu com as pastas acessadas anteriormente, onde poderá extrair rapidamente para qualquer uma delas. Alternativamente, selecione o item do submenu <guisubmenu
+>Extrair para...</guisubmenu
+> para abrir a caixa de diálogo de <guilabel
+>Extração</guilabel
+>, onde poderá definir várias opções que afetam a extração. Leia adiante mais informações sobre as opções disponíveis na caixa de diálogo de extração.</para>
+
+<para
+>Você pode usar o botão <guibutton
+>Extrair</guibutton
+> na barra de ferramentas para acessar as mesmas opções de extração.</para>
+
+<para
+>Para extrair o todo o conteúdo do arquivo compactado, selecione o item <guisubmenu
+>Extrair tudo</guisubmenu
+> do menu <guimenu
+>Arquivo compactado</guimenu
+>. Essa ação irá extrair, de forma incondicional, todos os arquivos e pastas existentes no arquivo compactado.</para>
+
+<para
+>É possível extrair facilmente os arquivos e pastas, arrastando-os com o mouse para uma pasta no &dolphin;.</para>
+
+<para
+>Observação: A extração de arquivos não altera o arquivo compactado, nem o seu conteúdo.</para>
+
+<sect2 id="ark-extract-dialog">
+<title
+>A caixa de diálogo de extração</title>
+
+<para
+>A caixa de diálogo <guilabel
+>Extração</guilabel
+> permite-lhe escolher para onde os arquivos serão extraídos. O local padrão é a pasta onde se encontra o arquivo compactado. A caixa de diálogo também poderá ser aberta com a combinação de teclas <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="extract-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Caixa de diálogo Extração do &ark;</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Você pode indicar uma subpasta para extração dos arquivos. O nome padrão dessa subpasta será o nome do arquivo sem a sua extensão, mas pode ser alterado conforme a necessidade. Se quiser manter os caminhos na extração, selecione a opção <guilabel
+>Preservar os caminhos na extração</guilabel
+>. Você pode optar por abrir a pasta de destino no &dolphin; ou fechar o &ark; assim que concluir a extração.</para>
+
+<para
+>Se um ou mais arquivos da lista estiverem selecionados, você também poderá escolher quais arquivos extrair:</para>
+<itemizedlist>
+<listitem>
+<para
+><guilabel
+>Somente os arquivos selecionados</guilabel
+> extrai apenas os arquivos que foram selecionados.</para>
+</listitem>
+<listitem>
+<para
+><guilabel
+>Todos os arquivos</guilabel
+> extrai todo o conteúdo do arquivo compactado.</para>
+</listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Criando arquivos compactados e adicionando arquivos</title>
+
+<para
+>Para criar um arquivo compactado no &ark;, escolha a opção <guimenuitem
+>Novo</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+>) no menu <guimenu
+>Arquivo compactado</guimenu
+>.</para>
+
+<para
+>Você poderá então digitar o nome do arquivo compactado com a extensão apropriada (<literal role="extension"
+>tar.gz</literal
+>, <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>7z</literal
+>, &etc;) ou selecionar um formato suportado no campo <guilabel
+>Filtro</guilabel
+> e assinalar a opção <guilabel
+>Selecionar automaticamente a extensão do nome do arquivo</guilabel
+>.</para>
+
+<para
+>Para adicionar arquivos ou pastas ao novo arquivo compactado, escolha a opção <guimenuitem
+>Adicionar arquivo...</guimenuitem
+> ou <guimenuitem
+>Adicionar pasta...</guimenuitem
+>, respectivamente, a partir do menu <guimenu
+>Arquivo compactado</guimenu
+>.</para>
+
+<para
+>Uma forma alternativa de adicionar arquivos ao arquivo compactado é arrastar um ou mais arquivos do &dolphin; para a janela principal do &ark;, para que seja adicionado ao arquivo compactado atual. Lembre-se de que os arquivos adicionados dessa forma serão sempre adicionados à pasta principal do arquivo compactado.</para>
+
+<sect2 id="ark-password-protection">
+<title
+>Proteção com senha</title>
+<para
+>Se criar um arquivo <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7zip</literal
+> ou <literal role="extension"
+>jar</literal
+>, poderá proteger o seu conteúdo com uma senha.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Criar uma senha para proteger o conteúdo do arquivo</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Escolha se quer que a senha seja solicitada antes de mostrar a lista de arquivos. Isto é chamado de criptografia de cabeçalho e só está disponível nos formatos <literal role="extension"
+>rar</literal
+> e <literal role="extension"
+>7zip</literal
+>. A criptografia de cabeçalho está ativa por padrão (quando disponível), para poder oferecer o máximo de proteção para os usuários menos experientes.</para>
+
+</sect2>
+</sect1>
+
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>Usando o &ark; no Gerenciador de Arquivos</title>
+
+<para
+>Clicar com o &RMB; sobre um arquivo compactado, em um gerenciador de arquivos como o &dolphin;, irá mostrar um menu de contexto com um item <guimenuitem
+>Abrir com Ark</guimenuitem
+>. O menu possui estes itens adicionais para extrair um arquivo com o &ark;: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Extrair aqui detectando subpasta</guimenuitem
+> cria uma subpasta da atual com o pacote e extrai as pastas e arquivos para dentro desta.</para>
+</listitem>
+<listitem>
+<para
+>O item <guimenuitem
+>Extrair arquivo para...</guimenuitem
+> abre uma caixa de diálogo onde poderá escolher a pasta de destino e outras opções diversas de extração.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Extrair arquivo aqui</guimenuitem
+> extrai o conteúdo do arquivo para a mesma pasta.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>O menu de contexto do &dolphin; para seleção de arquivos ou pastas mostra estas ações no submenu <guimenu
+>Compactar</guimenu
+>: </para>
+
+<itemizedlist>
+<listitem>
+<para
+>As ações <guimenuitem
+>Aqui (como TAR.GZ)</guimenuitem
+> ou <guimenuitem
+>Aqui (como ZIP)</guimenuitem
+> criam esses tipos de arquivo na pasta atual.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Compactar para...</guimenuitem
+> abre uma caixa de diálogo onde poderá ser selecionada a pasta, o nome e o tipo de arquivo.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>Modo avançado em lote</title>
+<para
+>O &ark; possui um modo avançado para gerenciar os arquivos em lote sem carregar uma interface de usuário. Este modo permite-lhe extrair ou criar arquivos, ou ainda adicionar os arquivos aos mesmos.</para>
+
+<para
+>O modo para gerenciamento em lote está documentado na <ulink url="man:/ark"
+>man page do &ark;</ulink
+>. </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Créditos e licença</title>
+
+<para
+>O &ark; tem direitos autorais &copy; 1997-20165, da equipe de desenvolvimento do &ark;.</para>
+
+<itemizedlist>
+<title
+>Autores:</title>
+<listitem
+><para
+>Elvis Angelaccio <email
+>elvis.angelaccio@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Ragnar Thomsen <email
+>rthomsen6@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Raphael Kubo da Costa <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+>Harald Hvaal <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autor: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (autor: Michael Jarrett) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Direitos autorais da documentação &copy; 2000 de &Matt.Johnston; &Matt.Johnston.mail;</para>
+
+<para
+>Documentação atualizada para o &kde; 3.3 por &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
+
+<para
+>Documentação atualizada para o KDE Applications 16.04 por &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
+
+<para
+>Tradução de Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+> e André Marcelo Alvarenga <email
+>alvarenga@kde.org</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

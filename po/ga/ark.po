@@ -1,0 +1,3277 @@
+# Irish translation of ark
+# Copyright (C) 2009 This_file_is_part_of_KDE
+# This file is distributed under the same license as the ark package.
+# Kevin Scannell <kscanne@gmail.com>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdeutils/ark.po\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"PO-Revision-Date: 2004-12-03 14:52-0500\n"
+"Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
+"Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
+"Language: ga\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
+"3 : 4\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Séamus Ó Ciardhuáin,Kevin Scannell"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "seoc@iolfree.ie,kscanne@gmail.com"
+
+#. i18n: ectx: Menu (archive)
+#: app/arkui.rc:5
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
+msgid "&Archive"
+msgstr "Oscail cartlann"
+
+#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#, fuzzy, kde-format
+#| msgid "Extracting all files"
+msgid "Extracting Files"
+msgstr "Gach comhad á bhaint amach"
+
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#, kde-format
+msgid "Source archive"
+msgstr "Cartlann fhoinse"
+
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#, kde-format
+msgid "Destination"
+msgstr "Sprioc"
+
+#: app/batchextract.cpp:117
+#, kde-format
+msgid "The following files could not be extracted:"
+msgstr "Níorbh fhéidir na comhaid seo a leanas a bhaint amach:"
+
+#: app/batchextract.cpp:136
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "There was an error while reading <filename>%1</filename> during "
+#| "extraction."
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>. Any further "
+"archive will not be extracted."
+msgstr ""
+"Tharla earráid agus <filename>%1</filename> á léamh le linn bainte amach."
+
+#: app/batchextract.cpp:137
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "There was an error while reading <filename>%1</filename> during "
+#| "extraction."
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message><nl/>Any further archive will not be extracted."
+msgstr ""
+"Tharla earráid agus <filename>%1</filename> á léamh le linn bainte amach."
+
+#: app/batchextract.cpp:141
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "There was an error while reading <filename>%1</filename> during "
+#| "extraction."
+msgctxt "@info"
+msgid "There was an error while extracting <filename>%1</filename>."
+msgstr ""
+"Tharla earráid agus <filename>%1</filename> á léamh le linn bainte amach."
+
+#: app/batchextract.cpp:142
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "There was an error while reading <filename>%1</filename> during "
+#| "extraction."
+msgctxt "@info"
+msgid ""
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message>"
+msgstr ""
+"Tharla earráid agus <filename>%1</filename> á léamh le linn bainte amach."
+
+#: app/batchextract.cpp:293
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "The archive could not be saved as <filename>%1</filename>. Try saving it "
+#| "to another location."
+msgctxt "@info"
+msgid ""
+"The archive could not be extracted to <filename>%1</filename> because Ark "
+"can only extract to local destinations."
+msgstr ""
+"Níorbh fhéidir an chartlann a shábháil mar <filename>%1</filename>. Bain "
+"triail as suíomh eile."
+
+#: app/compressfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgctxt "Compressed size of a file inside an archive"
+#| msgid "Compressed"
+msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
+msgid "Compress"
+msgstr "Comhbhrúite"
+
+#: app/compressfileitemaction.cpp:90
+#, fuzzy, kde-format
+#| msgctxt "Compressed size of a file inside an archive"
+#| msgid "Compressed"
+msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+msgid "Compress to..."
+msgstr "Comhbhrúite"
+
+#: app/compressfileitemaction.cpp:97
+#, kde-format
+msgctxt ""
+"@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
+msgid "Here as \"%1\""
+msgstr ""
+
+#: app/extractfileitemaction.cpp:63
+#, fuzzy, kde-format
+#| msgid "Extract To..."
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive to..."
+msgstr "Bain Amach Go..."
+
+#: app/extractfileitemaction.cpp:75
+#, fuzzy, kde-format
+#| msgid "Extract here"
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here"
+msgstr "Bain amach anseo"
+
+#: app/extractfileitemaction.cpp:83
+#, fuzzy, kde-format
+#| msgid "&Extraction into subfolder:"
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract archive here, autodetect subfolder"
+msgstr "&Baint amach i bhfofhillteán:"
+
+#: app/extractfileitemaction.cpp:89
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Extract"
+msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
+msgid "Extract"
+msgstr "Bain Amach"
+
+#: app/extractHereDndPlugin.cpp:55
+#, kde-format
+msgctxt ""
+"@action:inmenu Context menu shown when an archive is being drag'n'dropped"
+msgid "Extract here"
+msgstr "Bain amach anseo"
+
+#: app/main.cpp:84
+#, kde-format
+msgid "Ark"
+msgstr "Ark"
+
+#: app/main.cpp:86
+#, kde-format
+msgid "KDE Archiving tool"
+msgstr "Uirlis Chartlannaithe KDE"
+
+#: app/main.cpp:88
+#, fuzzy, kde-format
+#| msgid "(c) 1997-2011, The Various Ark Developers"
+msgid "(c) 1997-2019, The Ark Developers"
+msgstr "© 1997-2011, Forbróirí Ark"
+
+#: app/main.cpp:93
+#, kde-format
+msgid "Elvis Angelaccio"
+msgstr ""
+
+#: app/main.cpp:94
+#, kde-format
+msgid "Maintainer"
+msgstr "Cothaitheoir"
+
+#: app/main.cpp:96
+#, kde-format
+msgid "Ragnar Thomsen"
+msgstr ""
+
+#: app/main.cpp:97
+#, fuzzy, kde-format
+#| msgid "Maintainer"
+msgid "Maintainer, KF5 port"
+msgstr "Cothaitheoir"
+
+#: app/main.cpp:99
+#, kde-format
+msgid "Raphael Kubo da Costa"
+msgstr "Raphael Kubo da Costa"
+
+#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#, kde-format
+msgid "Former Maintainer"
+msgstr "Iarchothaitheoir"
+
+#: app/main.cpp:102
+#, kde-format
+msgid "Harald Hvaal"
+msgstr "Harald Hvaal"
+
+#: app/main.cpp:105
+#, kde-format
+msgid "Henrique Pinto"
+msgstr "Henrique Pinto"
+
+#: app/main.cpp:108
+#, kde-format
+msgid "Helio Chissini de Castro"
+msgstr "Helio Chissini de Castro"
+
+#: app/main.cpp:109
+#, kde-format
+msgid "Former maintainer"
+msgstr "Iarchothaitheoir"
+
+#: app/main.cpp:111
+#, kde-format
+msgid "Georg Robbers"
+msgstr "Georg Robbers"
+
+#: app/main.cpp:114
+#, kde-format
+msgid "Roberto Selbach Teixeira"
+msgstr "Roberto Selbach Teixeira"
+
+#: app/main.cpp:117
+#, kde-format
+msgid "Francois-Xavier Duranceau"
+msgstr "Francois-Xavier Duranceau"
+
+#: app/main.cpp:120
+#, kde-format
+msgid "Emily Ezust (Corel Corporation)"
+msgstr "Emily Ezust (Corel Corporation)"
+
+#: app/main.cpp:123
+#, kde-format
+msgid "Michael Jarrett (Corel Corporation)"
+msgstr "Michael Jarrett (Corel Corporation)"
+
+#: app/main.cpp:126
+#, kde-format
+msgid "Robert Palmbos"
+msgstr "Robert Palmbos"
+
+#: app/main.cpp:130
+#, kde-format
+msgid "Vladyslav Batyrenko"
+msgstr ""
+
+#: app/main.cpp:131
+#, kde-format
+msgid "Advanced editing functionalities"
+msgstr ""
+
+#: app/main.cpp:134
+#, kde-format
+msgid "Bryce Corkins"
+msgstr "Bryce Corkins"
+
+#: app/main.cpp:135
+#, kde-format
+msgid "Icons"
+msgstr "Deilbhíní"
+
+#: app/main.cpp:137
+#, kde-format
+msgid "Liam Smit"
+msgstr "Liam Smit"
+
+#: app/main.cpp:138
+#, kde-format
+msgid "Ideas, help with the icons"
+msgstr "Smaointe, cabhair leis na deilbhíní"
+
+#: app/main.cpp:140
+#, kde-format
+msgid "Andrew Smith"
+msgstr "Andrew Smith"
+
+#: app/main.cpp:141
+#, kde-format
+msgid "bkisofs code"
+msgstr "Cód bkisofs"
+
+#: app/main.cpp:151
+#, kde-format
+msgid "URLs to open."
+msgstr ""
+
+#: app/main.cpp:154
+#, kde-format
+msgid ""
+"Show a dialog for specifying the options for the operation (extract/add)"
+msgstr ""
+"Taispeáin dialóg a mbeidh tú in ann roghanna na hoibríochta a shocrú ann "
+"(baint amach/cur leis)"
+
+#: app/main.cpp:157
+#, kde-format
+msgid ""
+"Destination folder to extract to. Defaults to current path if not specified."
+msgstr ""
+"Spriocfhillteán a mbainfear amach ann. Is é an chonair reatha de réir "
+"réamhshocraithe mura bhfuil ceann roghnaithe agat."
+
+#. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
+#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Open destination folder after extraction."
+msgstr "Oscail an spriocfhillteán tar éis gach rud a bhaint amach"
+
+#: app/main.cpp:164
+#, kde-format
+msgid ""
+"Query the user for an archive filename and add specified files to it. Quit "
+"when finished."
+msgstr ""
+"Faigh ainm na cartlainne ón úsáideoir agus cuir na comhaid shonraithe leis. "
+"Scoir nuair a bheidh sé críochnaithe."
+
+#: app/main.cpp:167
+#, kde-format
+msgid ""
+"Add the specified files to 'filename'. Create archive if it does not exist. "
+"Quit when finished."
+msgstr ""
+"Cuir na comhaid shonraithe le 'ainm comhaid'. Cruthaigh an chartlann mura "
+"bhfuil sé ann cheana. Scoir nuair a bheidh sé críochnaithe."
+
+#: app/main.cpp:171
+#, kde-format
+msgid ""
+"Change the current dir to the first entry and add all other entries relative "
+"to this one."
+msgstr ""
+"Athraigh an chomhadlann reatha go dtí an chéad iontráil agus cuir na "
+"hiontrálacha eile leis i gcoibhneas don cheann seo."
+
+#: app/main.cpp:174
+#, kde-format
+msgid ""
+"Automatically choose a filename, with the selected suffix (for example rar, "
+"tar.gz, zip or any other supported types)"
+msgstr ""
+"Roghnaigh ainm comhaid go huathoibríoch, leis an iarmhír roghnaithe (mar "
+"shampla, rar, tar.gz, zip nó aon chineál eile a dtacaítear leis)"
+
+#: app/main.cpp:178
+#, kde-format
+msgid ""
+"Use the batch interface instead of the usual dialog. This option is implied "
+"if more than one url is specified."
+msgstr ""
+"Úsáid an baisc-chomhéadan in ionad na gnáthdhialóige. Úsáidfear an rogha seo "
+"má tá níos mó ná URL amháin sonraithe."
+
+#: app/main.cpp:181
+#, kde-format
+msgid ""
+"The destination argument will be set to the path of the first file supplied."
+msgstr "Úsáidfear conair an chéad chomhaid shonraithe mar spriocfhillteán."
+
+#: app/main.cpp:184
+#, fuzzy, kde-format
+#| msgid ""
+#| "Archive contents will be read, and if detected to not be a single folder "
+#| "archive, a subfolder with the name of the archive will be created."
+msgid ""
+"Archive contents will be read, and if detected to not be a single folder or "
+"a single file archive, a subfolder with the name of the archive will be "
+"created."
+msgstr ""
+"Léifear inneachar na cartlainne, agus má bhraitear nach cartlann le fillteán "
+"amháin atá ann, cruthófar fofhillteán a mbeidh ainm na cartlainne air."
+
+#: app/main.cpp:187
+#, kde-format
+msgid "List supported MIME types."
+msgstr ""
+
+#: app/mainwindow.cpp:126
+#, kde-format
+msgid "Unable to find Ark's KPart component, please check your installation."
+msgstr "Ní féidir comhpháirt KPart Ark a aimsiú, déan seiceáil ar do chóras."
+
+#: app/mainwindow.cpp:201
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches between having a <emphasis>Menubar</emphasis> and having a "
+"<interface>Hamburger Menu</interface> button. Both contain mostly the same "
+"commands and configuration options."
+msgstr ""
+
+#: app/mainwindow.cpp:260
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgctxt "to open an archive"
+msgid "Open Archive"
+msgstr "Oscail cartlann"
+
+#: app/mainwindow.cpp:371
+#, fuzzy, kde-format
+#| msgid "Create New Archive"
+msgid "Create New Archive"
+msgstr "Cruthaigh Cartlann Nua"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
+#: app/welcomescreen.ui:18
+#, kde-format
+msgid "Form"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: app/welcomescreen.ui:53
+#, kde-format
+msgid "Welcome to Ark"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, openButton)
+#: app/welcomescreen.ui:97
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgctxt "to open an archive"
+msgid "Open Archive..."
+msgstr "Oscail cartlann"
+
+#. i18n: ectx: property (text), widget (QPushButton, newButton)
+#: app/welcomescreen.ui:107
+#, fuzzy, kde-format
+#| msgid "Create New Archive"
+msgid "Create New Archive..."
+msgstr "Cruthaigh Cartlann Nua"
+
+#: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
+#, fuzzy, kde-format
+#| msgid "Options"
+msgid "Advanced Options"
+msgstr "Roghanna"
+
+#: kerfuffle/adddialog.cpp:47
+#, fuzzy, kde-format
+#| msgid "&Add"
+msgctxt "@action:button"
+msgid "Add"
+msgstr "C&uir Leis"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupCompressFiles)
+#: kerfuffle/adddialog.ui:35
+#, kde-format
+msgid "Files/Folders to Compress"
+msgstr "Comhaid/Fillteáin le Comhbhrú"
+
+#: kerfuffle/addtoarchive.cpp:79
+#, kde-format
+msgid "Compress to Archive"
+msgstr "Comhbhrúigh i gCartlann"
+
+#: kerfuffle/addtoarchive.cpp:133
+#, kde-format
+msgid "No input files were given."
+msgstr "Níor tugadh aon inchomhaid."
+
+#: kerfuffle/addtoarchive.cpp:140
+#, kde-kuit-format
+msgid ""
+"You need to either supply a filename for the archive or a suffix (such as "
+"rar, tar.gz) with the <command>--autofilename</command> argument."
+msgstr ""
+"Ní mór duit ainm chomhad na cartlainne nó iarmhír a thabhairt (mar shampla, "
+"rar, tar.tz) leis an argóint <command>--autofilename</command>."
+
+#: kerfuffle/addtoarchive.cpp:236
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "Oscail cartlann"
+
+#. i18n: ectx: label, entry (showEncryptionWarning), group (General)
+#: kerfuffle/ark.kcfg:9
+#, kde-format
+msgid ""
+"Whether to show a warning when creating zip archives with AES encryption."
+msgstr ""
+
+#. i18n: ectx: label, entry (defaultOpenAction), group (General)
+#: kerfuffle/ark.kcfg:13
+#, kde-format
+msgid "Default action when opening archive entries."
+msgstr ""
+
+#. i18n: ectx: label, entry (Version), group (General)
+#: kerfuffle/ark.kcfg:21
+#, kde-format
+msgid ""
+"Internal config version of Ark, mainly used to determine whether an updated "
+"version of Ark is running, so as to migrate config entries that were removed/"
+"renamed ...etc"
+msgstr ""
+
+#. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
+#: kerfuffle/ark.kcfg:31
+#, fuzzy, kde-format
+#| msgid "Close Ark after extraction"
+msgid "Close Ark after extraction."
+msgstr "Dún Ark tar éis bainte amach"
+
+#. i18n: ectx: label, entry (preservePaths), group (Extraction)
+#: kerfuffle/ark.kcfg:35
+#, fuzzy, kde-format
+#| msgid "Preserve paths when extracting"
+msgid "Preserve paths when extracting."
+msgstr "Caomhnaigh conairí le linn bainte amach"
+
+#. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
+#: kerfuffle/ark.kcfg:39
+#, kde-format
+msgid ""
+"Extract to a subfolder if the archive has more than one top-level entry."
+msgstr ""
+
+#. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
+#: kerfuffle/ark.kcfg:45
+#, kde-format
+msgid "How the main window is divided."
+msgstr ""
+
+#. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
+#: kerfuffle/ark.kcfg:49
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Show information panel"
+msgid "Whether to show the information panel."
+msgstr "Taispeáin painéal eolais"
+
+#. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
+#: kerfuffle/ark.kcfg:59
+#, kde-format
+msgid "Whether to limit the preview according to file size."
+msgstr ""
+
+#. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
+#: kerfuffle/ark.kcfg:63
+#, kde-format
+msgid "Preview file size limit in megabytes."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:245
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "Failed to locate program <filename>%2</filename> on disk."
+#| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
+msgctxt "@info"
+msgid "Failed to locate program <filename>%1</filename> on disk."
+msgstr ""
+"Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
+
+#: kerfuffle/cliinterface.cpp:355
+#, fuzzy, kde-format
+#| msgid "Incorrect password."
+msgid "Extraction failed. Make sure that enough space is available."
+msgstr "Focal faire mícheart."
+
+#: kerfuffle/cliinterface.cpp:358
+#, kde-format
+msgid ""
+"Extraction failed. Make sure you provided the correct password and that "
+"enough space is available."
+msgstr ""
+
+#: kerfuffle/cliinterface.cpp:369 kerfuffle/cliinterface.cpp:494
+#, fuzzy, kde-format
+#| msgid "Could not write to the destination file %1, path %2"
+msgctxt "@info"
+msgid "Could not move the extracted file to the destination directory."
+msgid_plural "Could not move the extracted files to the destination directory."
+msgstr[0] "Níorbh fhéidir scríobh i gcomhad sprice %1, conair %2"
+msgstr[1] "Níorbh fhéidir scríobh i gcomhad sprice %1, conair %2"
+msgstr[2] "Níorbh fhéidir scríobh i gcomhad sprice %1, conair %2"
+msgstr[3] "Níorbh fhéidir scríobh i gcomhad sprice %1, conair %2"
+msgstr[4] "Níorbh fhéidir scríobh i gcomhad sprice %1, conair %2"
+
+#: kerfuffle/cliinterface.cpp:857
+#, fuzzy, kde-format
+#| msgid "Extraction failed because of an unexpected error."
+msgctxt "@info"
+msgid "Extraction failed because the disk is full."
+msgstr "Theip ar bhaint amach de bharr earráide gan súil léi."
+
+#: kerfuffle/cliinterface.cpp:864
+#, fuzzy, kde-format
+#| msgid "Incorrect password."
+msgctxt "@info"
+msgid "Extraction failed: Incorrect password"
+msgstr "Focal faire mícheart."
+
+#: kerfuffle/cliinterface.cpp:898
+#, kde-format
+msgid "Incorrect password."
+msgstr "Focal faire mícheart."
+
+#: kerfuffle/cliinterface.cpp:921
+#, kde-format
+msgid "Ark does not currently support testing this archive."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:132
+#, kde-format
+msgid "Protection of the list of files is not possible with the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:141
+#, kde-format
+msgid ""
+"Protection of the archive with password is not possible with the %1 format."
+msgstr ""
+
+#: kerfuffle/compressionoptionswidget.cpp:156
+#, fuzzy, kde-format
+#| msgid "It is not possible to create archives of this type."
+msgid "It is not possible to set compression level for the %1 format."
+msgstr "Ní féidir cartlanna den chineál seo a chruthú."
+
+#: kerfuffle/compressionoptionswidget.cpp:176
+#, fuzzy, kde-format
+#| msgid "It is not possible to create archives of this type."
+msgid "It is not possible to set compression method for the %1 format."
+msgstr "Ní féidir cartlanna den chineál seo a chruthú."
+
+#: kerfuffle/compressionoptionswidget.cpp:199
+#, kde-format
+msgid "The %1 format does not support multi-volume archives."
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleCompression)
+#: kerfuffle/compressionoptionswidget.ui:20
+#, fuzzy, kde-format
+#| msgctxt "Compressed size of a file inside an archive"
+#| msgid "Compressed"
+msgid "Compression"
+msgstr "Comhbhrúite"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel1)
+#: kerfuffle/compressionoptionswidget.ui:35
+#, kde-format
+msgid "Level:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel2)
+#: kerfuffle/compressionoptionswidget.ui:45
+#, kde-format
+msgid "Min"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompMethod)
+#: kerfuffle/compressionoptionswidget.ui:83
+#, fuzzy, kde-format
+#| msgctxt "Compression method"
+#| msgid "Method"
+msgid "Method:"
+msgstr "Comhbhrú"
+
+#. i18n: ectx: property (text), widget (QLabel, lblCompLevel3)
+#: kerfuffle/compressionoptionswidget.ui:93
+#, kde-format
+msgid "Max"
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleEncryption)
+#: kerfuffle/compressionoptionswidget.ui:118
+#, fuzzy, kde-format
+#| msgid "<b>Password protected:</b> Yes<br/>"
+msgid "Password Protection"
+msgstr "<b>Cosanta ag focal faire:</b> Tá<br/>"
+
+#. i18n: ectx: property (text), widget (QLabel, lblEncMethod)
+#: kerfuffle/compressionoptionswidget.ui:130
+#, fuzzy, kde-format
+#| msgid "Extra Compression Options"
+msgid "Encryption method:"
+msgstr "Roghanna Comhbhrúite sa Bhreis"
+
+#. i18n: ectx: property (text), widget (QCheckBox, encryptHeaderCheckBox)
+#: kerfuffle/compressionoptionswidget.ui:160
+#, kde-format
+msgid "Ask for password before showing the list of files in the archive"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
+#: kerfuffle/compressionoptionswidget.ui:170
+#, kde-format
+msgid ""
+"This encryption method may not be supported by older archiving software."
+msgstr ""
+
+#. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleMultiVolume)
+#: kerfuffle/compressionoptionswidget.ui:183
+#, kde-format
+msgid "Multi-volume Archive"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, multiVolumeCheckbox)
+#: kerfuffle/compressionoptionswidget.ui:192
+#, fuzzy, kde-format
+#| msgid "Extract multiple archives"
+msgid "Create multi-volume archive"
+msgstr "Bain cartlanna éagsúla amach"
+
+#. i18n: ectx: property (text), widget (QLabel, lblVolumeSize)
+#: kerfuffle/compressionoptionswidget.ui:210
+#, kde-format
+msgid "Volume size:"
+msgstr ""
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_previewFileSizeLimit)
+#. i18n: ectx: property (suffix), widget (QDoubleSpinBox, volumeSizeSpinbox)
+#: kerfuffle/compressionoptionswidget.ui:223
+#: kerfuffle/previewsettingspage.ui:32
+#, kde-format
+msgid " megabytes"
+msgstr ""
+
+#: kerfuffle/createdialog.cpp:111
+#, fuzzy, kde-format
+#| msgid "&Automatically create subfolders"
+msgctxt "the argument is a file extension (the period is not a typo)"
+msgid "Automatically add .%1"
+msgstr "Cruth&aigh fofhillteáin go huathoibríoch"
+
+#: kerfuffle/createdialog.cpp:198
+#, kde-format
+msgid "The chosen password does not match the given verification password."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/createdialog.ui:30
+#, fuzzy, kde-format
+#| msgid "&Folders"
+msgid "Folder:"
+msgstr "&Fillteáin"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/createdialog.ui:47
+#, fuzzy, kde-format
+#| msgid " Filename "
+msgid "Filename:"
+msgstr " Ainm comhaid "
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
+#: kerfuffle/createdialog.ui:54
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgid "Type archive name..."
+msgstr "Oscail cartlann"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
+#: kerfuffle/createdialog.ui:61 part/infopanel.ui:93
+#, kde-format
+msgid "Type:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/createdialog.ui:78
+#, kde-format
+msgid "Extension:"
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:40
+#, kde-format
+msgctxt "@title:window"
+msgid "Extract"
+msgstr "Bain Amach"
+
+#: kerfuffle/extractiondialog.cpp:54
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Extract"
+msgid "Extract"
+msgstr "Bain Amach"
+
+#: kerfuffle/extractiondialog.cpp:97
+#, kde-format
+msgid "The subfolder name may not contain the character '/'."
+msgstr "Ní cheadaítear an carachtar '/' in ainm an fhofhillteáin."
+
+#: kerfuffle/extractiondialog.cpp:107
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The folder <filename>%1</filename> already exists. Are you sure you want to "
+"extract here?"
+msgstr ""
+"Tá fillteán <filename>%1</filename> ann cheana. An bhfuil tú cinnte gur mian "
+"leat baint amach anseo?"
+
+#: kerfuffle/extractiondialog.cpp:108
+#, kde-format
+msgid "Folder exists"
+msgstr "Tá an fillteán ann cheana"
+
+#: kerfuffle/extractiondialog.cpp:109
+#, kde-format
+msgid "Extract here"
+msgstr "Bain amach anseo"
+
+#: kerfuffle/extractiondialog.cpp:110
+#, kde-format
+msgid "Retry"
+msgstr ""
+
+#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The folder <filename>%1</filename> could not be created."
+msgstr "Níorbh fhéidir fillteán <filename>%1</filename> a chruthú."
+
+#: kerfuffle/extractiondialog.cpp:121
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<filename>%1</filename> already exists, but is not a folder."
+msgstr "Tá <filename>%1</filename> ann cheana, ach ní fillteán é."
+
+#: kerfuffle/extractiondialog.cpp:127
+#, kde-format
+msgid "Please check your permissions to create it."
+msgstr "Dearbhaigh go bhfuil cead agat é a chruthú."
+
+#: kerfuffle/extractiondialog.cpp:166
+#, kde-format
+msgid "Extract multiple archives"
+msgstr "Bain cartlanna éagsúla amach"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ExtractionDialog)
+#: kerfuffle/extractiondialog.ui:21
+#, kde-format
+msgid "Extraction Dialog"
+msgstr "Dialóg Bainte Amach"
+
+#. i18n: ectx: property (text), widget (QLabel, extractAllLabel)
+#: kerfuffle/extractiondialog.ui:70
+#, kde-format
+msgid "Extract All Files"
+msgstr "Bain Gach Comhad Amach"
+
+#. i18n: ectx: property (title), widget (QGroupBox, singleFolderGroup)
+#: kerfuffle/extractiondialog.ui:79
+#, fuzzy, kde-format
+#| msgid "&Extraction into subfolder:"
+msgid "E&xtraction into subfolder:"
+msgstr "&Baint amach i bhfofhillteán:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: kerfuffle/extractiondialog.ui:113
+#, kde-format
+msgid "Options"
+msgstr "Roghanna"
+
+#. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
+#: kerfuffle/extractiondialog.ui:132
+#, kde-format
+msgid "Open &destination folder after extraction"
+msgstr "Oscail an &spriocfhillteán tar éis gach rud a bhaint amach"
+
+#. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
+#: kerfuffle/extractiondialog.ui:139
+#, kde-format
+msgid "Close &Ark after extraction"
+msgstr "Dún &Ark tar éis bainte amach"
+
+#. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
+#: kerfuffle/extractiondialog.ui:146
+#, kde-format
+msgid "&Preserve paths when extracting"
+msgstr "&Caomhnaigh conairí le linn bainte amach"
+
+#. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
+#: kerfuffle/extractiondialog.ui:153
+#, kde-format
+msgid "&Automatically create subfolders"
+msgstr "Cruth&aigh fofhillteáin go huathoibríoch"
+
+#. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
+#: kerfuffle/extractiondialog.ui:169
+#, kde-format
+msgctxt "@title:group"
+msgid "Extract"
+msgstr "Bain Amach"
+
+#. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
+#: kerfuffle/extractiondialog.ui:187
+#, fuzzy, kde-format
+#| msgid "&Selected files only"
+msgid "Sele&cted files only"
+msgstr "Comhaid &roghnaithe amháin"
+
+#. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
+#: kerfuffle/extractiondialog.ui:203
+#, kde-format
+msgid "All &files"
+msgstr "&Gach comhad"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_openDestinationFolderAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:17
+#, fuzzy, kde-format
+#| msgid "Open destination folder after extraction"
+msgid "Open destination folder after extraction"
+msgstr "Oscail an spriocfhillteán tar éis gach rud a bhaint amach"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_closeAfterExtraction)
+#: kerfuffle/extractionsettingspage.ui:24
+#, fuzzy, kde-format
+#| msgid "Close Ark after extraction"
+msgid "Close Ark after extraction"
+msgstr "Dún Ark tar éis bainte amach"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_preservePaths)
+#: kerfuffle/extractionsettingspage.ui:31
+#, fuzzy, kde-format
+#| msgid "Preserve paths when extracting"
+msgid "Preserve paths when extracting"
+msgstr "Caomhnaigh conairí le linn bainte amach"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:41
+#, kde-format
+msgid ""
+"Whether to check by default the extraction into subfolder checkbox in the "
+"Extraction Dialog, when the archive has more than one top-level entry."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
+#: kerfuffle/extractionsettingspage.ui:44
+#, kde-format
+msgid "Extract to a subfolder if the archive has more than one top-level entry"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/generalsettingspage.ui:17
+#, kde-format
+msgid "When clicking a file in an archive or pressing the Return key:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton)
+#: kerfuffle/generalsettingspage.ui:33
+#, kde-format
+msgid "Pre&view the file with internal previewer"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
+#: kerfuffle/generalsettingspage.ui:43
+#, fuzzy, kde-format
+#| msgid "Click to preview the selected file"
+msgid "Open the fi&le with associated application"
+msgstr "Cliceáil chun réamhamharc a dhéanamh ar an gcomhad roghnaithe"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
+#: kerfuffle/generalsettingspage.ui:60
+#, kde-format
+msgid "Show a warning when creating zip archives with AES encryption"
+msgstr ""
+
+#: kerfuffle/jobs.cpp:99
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Ark was not able to open the archive <filename>%1</filename>. No plugin "
+#| "capable of handling the file was found."
+msgid "No suitable plugin found. Ark does not seem to support this file type."
+msgstr ""
+"Níorbh fhéidir le hArk cartlann <filename>%1</filename> a oscailt. Níor "
+"aimsíodh aon bhreiseán atá ábalta an comhad seo a láimhseáil."
+
+#: kerfuffle/jobs.cpp:103
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Ark was not able to open the archive <filename>%1</filename>. No plugin "
+#| "capable of handling the file was found."
+msgid ""
+"Failed to load a suitable plugin. Make sure any executables needed to handle "
+"the archive type are installed."
+msgstr ""
+"Níorbh fhéidir le hArk cartlann <filename>%1</filename> a oscailt. Níor "
+"aimsíodh aon bhreiseán atá ábalta an comhad seo a láimhseáil."
+
+#: kerfuffle/jobs.cpp:168
+#, kde-format
+msgid ""
+"Could not load the archive because it contains ill-formed entries and might "
+"be a malicious archive."
+msgstr ""
+
+#: kerfuffle/jobs.cpp:253
+#, fuzzy, kde-format
+#| msgid "Loading archive..."
+msgid "Loading archive"
+msgstr "Cartlann á luchtú..."
+
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:704
+#: kerfuffle/jobs.cpp:757 kerfuffle/jobs.cpp:795 kerfuffle/jobs.cpp:827
+#: kerfuffle/jobs.cpp:875
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgid "Archive"
+msgstr "Oscail cartlann"
+
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "Error creating directory <filename>%1</filename>"
+msgid "No space available on device <filename>%1</filename>"
+msgstr "Níorbh fhéidir comhadlann <filename>%1</filename> a chruthú"
+
+#: kerfuffle/jobs.cpp:536
+#, kde-format
+msgid "Extracting all files"
+msgstr "Gach comhad á bhaint amach"
+
+#. i18np on purpose so this translation may properly be reused.
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:630
+#, kde-format
+msgid "Extracting one file"
+msgid_plural "Extracting %1 files"
+msgstr[0] "%1 chomhad á bhaint amach"
+msgstr[1] "%1 chomhad á mbaint amach"
+msgstr[2] "%1 chomhad á mbaint amach"
+msgstr[3] "%1 gcomhad á mbaint amach"
+msgstr[4] "%1 comhad á mbaint amach"
+
+#: kerfuffle/jobs.cpp:540
+#, fuzzy, kde-format
+#| msgid "Destination"
+msgctxt "extraction folder"
+msgid "Destination"
+msgstr "Sprioc"
+
+#: kerfuffle/jobs.cpp:544
+#, kde-kuit-format
+msgid ""
+"Could not write to destination <filename>%1</filename>.<nl/>Check whether "
+"you have sufficient permissions."
+msgstr ""
+
+#: kerfuffle/jobs.cpp:703
+#, fuzzy, kde-format
+#| msgid "Adding a file"
+#| msgid_plural "Adding %1 files"
+msgid "Compressing a file"
+msgid_plural "Compressing %1 files"
+msgstr[0] "%1 chomhad á chur leis..."
+msgstr[1] "%1 chomhad á gcur leis..."
+msgstr[2] "%1 chomhad á gcur leis..."
+msgstr[3] "%1 gcomhad á gcur leis..."
+msgstr[4] "%1 comhad á gcur leis..."
+
+#: kerfuffle/jobs.cpp:756
+#, fuzzy, kde-format
+#| msgid "Adding a file"
+#| msgid_plural "Adding %1 files"
+msgid "Moving a file"
+msgid_plural "Moving %1 files"
+msgstr[0] "%1 chomhad á chur leis..."
+msgstr[1] "%1 chomhad á gcur leis..."
+msgstr[2] "%1 chomhad á gcur leis..."
+msgstr[3] "%1 gcomhad á gcur leis..."
+msgstr[4] "%1 comhad á gcur leis..."
+
+#: kerfuffle/jobs.cpp:794
+#, fuzzy, kde-format
+#| msgid "Adding a file"
+#| msgid_plural "Adding %1 files"
+msgid "Copying a file"
+msgid_plural "Copying %1 files"
+msgstr[0] "%1 chomhad á chur leis..."
+msgstr[1] "%1 chomhad á gcur leis..."
+msgstr[2] "%1 chomhad á gcur leis..."
+msgstr[3] "%1 gcomhad á gcur leis..."
+msgstr[4] "%1 comhad á gcur leis..."
+
+#: kerfuffle/jobs.cpp:826
+#, kde-format
+msgid "Deleting a file from the archive"
+msgid_plural "Deleting %1 files"
+msgstr[0] "Comhad á scriosadh ón chartlann"
+msgstr[1] "%1 chomhad á scriosadh ón chartlann"
+msgstr[2] "%1 chomhad á scriosadh ón chartlann"
+msgstr[3] "%1 gcomhad á scriosadh ón chartlann"
+msgstr[4] "%1 comhad á scriosadh ón chartlann"
+
+#: kerfuffle/jobs.cpp:850
+#, fuzzy, kde-format
+#| msgctxt "File comment"
+#| msgid "Comment"
+msgid "Adding comment"
+msgstr "Nóta"
+
+#: kerfuffle/jobs.cpp:875
+#, fuzzy, kde-format
+#| msgid "Loading archive..."
+msgid "Testing archive"
+msgstr "Cartlann á luchtú..."
+
+#: kerfuffle/pluginsettingspage.cpp:34
+#, kde-format
+msgid ""
+"The plugin cannot be used because one or more required executables are "
+"missing. Check your installation."
+msgstr ""
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:24
+#, fuzzy, kde-format
+#| msgctxt "Name of a file inside an archive"
+#| msgid "Name"
+msgid "Name"
+msgstr "Ainm"
+
+#. i18n: @title:column
+#. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
+#: kerfuffle/pluginsettingspage.ui:29
+#, fuzzy, kde-format
+#| msgid "Destination"
+msgid "Description"
+msgstr "Sprioc"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_limitPreviewFileSize)
+#: kerfuffle/previewsettingspage.ui:22
+#, kde-format
+msgid "Disable preview for files larger than:"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:40
+#, fuzzy, kde-format
+#| msgid "Create folder %1?"
+msgctxt "@title:window"
+msgid "Properties for %1"
+msgstr "Cruthaigh fillteán %1?"
+
+#. i18n: ectx: property (text), widget (KSqueezedTextLabel, m_passwordValueLabel)
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:50
+#: part/infopanel.ui:195
+#, kde-format
+msgid "yes"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:49
+#: kerfuffle/propertiesdialog.cpp:50 kerfuffle/propertiesdialog.cpp:63
+#, kde-format
+msgid "no"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:49
+#, kde-format
+msgid "yes (%1 volumes)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:51
+#, kde-format
+msgid "%1 file"
+msgid_plural "%1 files"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+
+#: kerfuffle/propertiesdialog.cpp:52
+#, fuzzy, kde-format
+#| msgctxt "folder for adding files (used as part of a sentence)"
+#| msgid "add folder"
+msgid ", %1 folder"
+msgid_plural ", %1 folders"
+msgstr[0] "cuir fillteán leis"
+msgstr[1] "cuir fillteán leis"
+msgstr[2] "cuir fillteán leis"
+msgstr[3] "cuir fillteán leis"
+msgstr[4] "cuir fillteán leis"
+
+#: kerfuffle/propertiesdialog.cpp:66
+#, kde-format
+msgid "only file contents (%1)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:69
+#, kde-format
+msgid "yes (%1)"
+msgstr ""
+
+#: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
+#: kerfuffle/propertiesdialog.cpp:88
+#, fuzzy, kde-format
+#| msgid "Saving..."
+msgid "Calculating..."
+msgstr "Á Shábháil..."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: kerfuffle/propertiesdialog.ui:37
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgid "Archive name:"
+msgstr "Oscail cartlann"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: kerfuffle/propertiesdialog.ui:54
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgid "Archive type:"
+msgstr "Oscail cartlann"
+
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: kerfuffle/propertiesdialog.ui:71
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgid "Mime-type:"
+msgstr "Oscail cartlann"
+
+#. i18n: ectx: property (text), widget (QLabel, label_8)
+#: kerfuffle/propertiesdialog.ui:88
+#, kde-format
+msgid "Opened read-only:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#. i18n: ectx: property (text), widget (QLabel, m_passwordLabel)
+#: kerfuffle/propertiesdialog.ui:105 part/infopanel.ui:179
+#, fuzzy, kde-format
+#| msgid "<b>Password protected:</b> Yes<br/>"
+msgid "Password-protected:"
+msgstr "<b>Cosanta ag focal faire:</b> Tá<br/>"
+
+#. i18n: ectx: property (text), widget (QLabel, label_10)
+#: kerfuffle/propertiesdialog.ui:122
+#, fuzzy, kde-format
+#| msgctxt "File comment"
+#| msgid "Comment"
+msgid "Has comment:"
+msgstr "Nóta"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: kerfuffle/propertiesdialog.ui:139
+#, kde-format
+msgid "Number of entries:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_5)
+#: kerfuffle/propertiesdialog.ui:156
+#, fuzzy, kde-format
+#| msgid "Unknown size"
+msgid "Unpacked size:"
+msgstr "Méid anaithnid"
+
+#. i18n: ectx: property (text), widget (QLabel, label_7)
+#: kerfuffle/propertiesdialog.ui:173
+#, kde-format
+msgid "Packed size:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_9)
+#: kerfuffle/propertiesdialog.ui:190
+#, fuzzy, kde-format
+#| msgid "Compress to Archive"
+msgid "Compression ratio:"
+msgstr "Comhbhrúigh i gCartlann"
+
+#. i18n: ectx: property (text), widget (QLabel, label_6)
+#: kerfuffle/propertiesdialog.ui:207
+#, kde-format
+msgid "Last modified:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_12)
+#: kerfuffle/propertiesdialog.ui:224
+#, kde-format
+msgid "MD5 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_13)
+#: kerfuffle/propertiesdialog.ui:244
+#, kde-format
+msgid "SHA-1 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_14)
+#: kerfuffle/propertiesdialog.ui:261
+#, kde-format
+msgid "SHA-256 hash:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_15)
+#: kerfuffle/propertiesdialog.ui:278
+#, kde-format
+msgid "Multi-volume:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_16)
+#: kerfuffle/propertiesdialog.ui:295
+#, fuzzy, kde-format
+#| msgid "Compress to Archive"
+msgid "Compression method(s):"
+msgstr "Comhbhrúigh i gCartlann"
+
+#: kerfuffle/queries.cpp:73
+#, fuzzy, kde-format
+#| msgid "File already exists"
+msgctxt "@title:window"
+msgid "File Already Exists"
+msgstr "Tá an comhad ann cheana"
+
+#: kerfuffle/queries.cpp:156
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "The archive <filename>%1</filename> is password protected. Please enter "
+#| "the password to extract the file."
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> is password protected. Please enter the "
+"password."
+msgstr ""
+"Tá cartlann <filename>%1</filename> cosanta ag focal faire. Cuir an focal "
+"faire isteach chun an comhad a bhaint amach."
+
+#: kerfuffle/queries.cpp:160
+#, kde-format
+msgid "Incorrect password, please try again."
+msgstr "Focal faire mícheart, bain triail eile as."
+
+#: kerfuffle/queries.cpp:195
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive you're trying to open is corrupt.<nl/>Some files may be missing "
+"or damaged."
+msgstr ""
+
+#: kerfuffle/queries.cpp:197
+#, fuzzy, kde-format
+#| msgid "Source archive"
+msgctxt "@title:window"
+msgid "Corrupt archive"
+msgstr "Cartlann fhoinse"
+
+#: kerfuffle/queries.cpp:198
+#, kde-format
+msgctxt "@action:button"
+msgid "Open as Read-Only"
+msgstr ""
+
+#: kerfuffle/queries.cpp:199
+#, kde-format
+msgctxt "@action:button"
+msgid "Don't Open"
+msgstr ""
+
+#: kerfuffle/queries.cpp:208
+#, kde-format
+msgid "Don't ask again."
+msgstr ""
+
+#: kerfuffle/queries.cpp:220
+#, fuzzy, kde-format
+#| msgid "There was an error during extraction."
+msgid "Error during extraction"
+msgstr "Tharla earráid le linn bainte amach."
+
+#: kerfuffle/queries.cpp:221
+#, kde-kuit-format
+msgid ""
+"Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
+"error message:<nl/>    %2<nl/><nl/>Do you want to continue extraction?<nl/>"
+msgstr ""
+
+#: part/archivemodel.cpp:155
+#, kde-format
+msgctxt "Name of a file inside an archive"
+msgid "Name"
+msgstr "Ainm"
+
+#: part/archivemodel.cpp:157
+#, kde-format
+msgctxt "Uncompressed size of a file inside an archive"
+msgid "Original Size"
+msgstr ""
+
+#: part/archivemodel.cpp:159
+#, fuzzy, kde-format
+#| msgctxt "Compressed size of a file inside an archive"
+#| msgid "Compressed"
+msgctxt "Compressed size of a file inside an archive"
+msgid "Compressed Size"
+msgstr "Comhbhrúite"
+
+#: part/archivemodel.cpp:161
+#, kde-format
+msgctxt "Compression rate of file"
+msgid "Rate"
+msgstr "Ráta"
+
+#: part/archivemodel.cpp:163
+#, kde-format
+msgctxt "File's owner username"
+msgid "Owner"
+msgstr "Úinéir"
+
+#: part/archivemodel.cpp:165
+#, kde-format
+msgctxt "File's group"
+msgid "Group"
+msgstr "Grúpa"
+
+#: part/archivemodel.cpp:167
+#, kde-format
+msgctxt "File permissions"
+msgid "Mode"
+msgstr "Ceadanna"
+
+#: part/archivemodel.cpp:169
+#, kde-format
+msgctxt "CRC hash code"
+msgid "CRC checksum"
+msgstr ""
+
+#: part/archivemodel.cpp:171
+#, kde-format
+msgctxt "BLAKE2 hash code"
+msgid "BLAKE2 checksum"
+msgstr ""
+
+#: part/archivemodel.cpp:173
+#, kde-format
+msgctxt "Compression method"
+msgid "Method"
+msgstr "Comhbhrú"
+
+#: part/archivemodel.cpp:176
+#, kde-format
+msgctxt "File version"
+msgid "Version"
+msgstr "Leagan"
+
+#: part/archivemodel.cpp:178
+#, kde-format
+msgctxt "Timestamp"
+msgid "Date"
+msgstr "Dáta"
+
+#: part/archivemodel.cpp:180
+#, kde-format
+msgctxt "Unnamed column"
+msgid "??"
+msgstr "??"
+
+#: part/archivemodel.cpp:291
+#, fuzzy, kde-format
+#| msgid "Adding directories is not supported yet, sorry."
+msgid "Adding files is not supported for this archive."
+msgstr "Ní féidir comhadlanna a chur leis sa leagan seo, tá brón orm."
+
+#: part/archivemodel.cpp:299
+#, fuzzy, kde-format
+#| msgid "Click to add files to the archive"
+msgid "You can only add local files to an archive."
+msgstr "Cliceáil chun comhaid a chur leis an gcartlann"
+
+#. i18n: ectx: Menu (archive)
+#: part/ark_part.rc:5
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgid "&Archive"
+msgstr "Oscail cartlann"
+
+#. i18n: ectx: Menu (ark_file)
+#: part/ark_part.rc:15
+#, kde-format
+msgid "&File"
+msgstr "&Comhad"
+
+#. i18n: ectx: Menu (settings)
+#: part/ark_part.rc:29
+#, kde-format
+msgid "&Settings"
+msgstr "&Socruithe"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: part/ark_part.rc:34
+#, kde-format
+msgid "Main Toolbar"
+msgstr "Príomhbharra Uirlisí"
+
+#. i18n: ectx: Menu (help)
+#: part/ark_viewer.rc:5
+#, kde-format
+msgid "&Help"
+msgstr ""
+
+#: part/arkviewer.cpp:52
+#, kde-format
+msgid "Closing preview"
+msgstr "Réamhamharc á dhúnadh"
+
+#: part/arkviewer.cpp:53
+#, kde-format
+msgid "Please wait while the preview is being closed..."
+msgstr "Fan go fóill agus an réamhamharc á dhúnadh..."
+
+#: part/arkviewer.cpp:100
+#, kde-format
+msgid "The internal viewer cannot preview this file."
+msgstr ""
+"Ní féidir leis an amharcán inmheánach réamhamharc a dhéanamh ar an gcomhad "
+"seo."
+
+#: part/arkviewer.cpp:116
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+
+#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#, kde-format
+msgctxt "@title:window"
+msgid "Cannot Preview File"
+msgstr ""
+
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#, kde-format
+msgctxt "@action:button"
+msgid "Preview as Text"
+msgstr "Réamhamharc mar Théacs"
+
+#: part/arkviewer.cpp:128
+#, kde-kuit-format
+msgid ""
+"The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
+"you want to try to view it as plain text?"
+msgstr ""
+
+#: part/arkviewer.cpp:192
+#, kde-format
+msgctxt "@action"
+msgid "About Viewer Component"
+msgstr ""
+
+#: part/infopanel.cpp:52
+#, kde-format
+msgid "No archive loaded"
+msgstr "Níl aon chartlann luchtaithe"
+
+#: part/infopanel.cpp:103
+#, kde-format
+msgid "Symbolic Link"
+msgstr "Nasc Siombalach"
+
+#: part/infopanel.cpp:108
+#, kde-format
+msgid "Unknown size"
+msgstr "Méid anaithnid"
+
+#: part/infopanel.cpp:129
+#, kde-format
+msgid "One file selected"
+msgid_plural "%1 files selected"
+msgstr[0] "Aon chomhad roghnaithe"
+msgstr[1] "%1 chomhad roghnaithe"
+msgstr[2] "%1 chomhad roghnaithe"
+msgstr[3] "%1 gcomhad roghnaithe"
+msgstr[4] "%1 comhad roghnaithe"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, InformationPanel)
+#: part/infopanel.ui:20
+#, kde-format
+msgid "Information Panel"
+msgstr "Painéal Eolais"
+
+#. i18n: ectx: property (text), widget (QLabel, additionalInfo)
+#: part/infopanel.ui:64
+#, kde-format
+msgid "Unknown file type"
+msgstr "Cineál anaithnid comhaid"
+
+#. i18n: ectx: property (text), widget (QLabel, m_ownerLabel)
+#: part/infopanel.ui:113
+#, fuzzy, kde-format
+#| msgctxt "File's owner username"
+#| msgid "Owner"
+msgid "Owner:"
+msgstr "Úinéir"
+
+#. i18n: ectx: property (text), widget (QLabel, m_groupLabel)
+#: part/infopanel.ui:133
+#, fuzzy, kde-format
+#| msgctxt "File's group"
+#| msgid "Group"
+msgid "Group:"
+msgstr "Grúpa"
+
+#. i18n: ectx: property (text), widget (QLabel, m_targetLabel)
+#: part/infopanel.ui:153
+#, kde-format
+msgid "Target:"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, JobTrackerWidget)
+#: part/jobtracker.ui:13
+#, kde-format
+msgid "Job Tracker"
+msgstr "Lorgaire Jabanna"
+
+#. i18n: ectx: property (text), widget (QLabel, descriptionLabel)
+#: part/jobtracker.ui:43
+#, kde-format
+msgid "<b>Job Description</b>"
+msgstr "<b>Cur Síos ar an Jab</b>"
+
+#. i18n: ectx: property (text), widget (QLabel, informationLabel)
+#: part/jobtracker.ui:62
+#, kde-format
+msgid "Some Information about the job"
+msgstr "Roinnt Eolais faoin jab"
+
+#: part/overwritedialog.cpp:26
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Remove them if you really want "
+"to overwrite."
+msgstr ""
+
+#: part/overwritedialog.cpp:28
+#, kde-format
+msgid ""
+"Files with the following paths already exist. Do you want to continue "
+"overwriting them?"
+msgstr ""
+
+#: part/part.cpp:111
+#, fuzzy, kde-format
+#| msgctxt "File comment"
+#| msgid "Comment"
+msgid "Comment"
+msgstr "Nóta"
+
+#: part/part.cpp:122
+#, kde-format
+msgid "Comment has been modified."
+msgstr ""
+
+#: part/part.cpp:127
+#, kde-format
+msgid "Save"
+msgstr ""
+
+#: part/part.cpp:150
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgid "Type to search..."
+msgstr "Oscail cartlann"
+
+#: part/part.cpp:308
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark can extract archives to local destinations only."
+msgstr ""
+
+#: part/part.cpp:363
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Show information panel"
+msgctxt "@action:inmenu"
+msgid "Show Information Panel"
+msgstr "Taispeáin painéal eolais"
+
+#: part/part.cpp:370
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Save Copy As..."
+msgstr ""
+
+#: part/part.cpp:374
+#, kde-format
+msgctxt "open a file with external program"
+msgid "&Open in External Application"
+msgstr ""
+
+#: part/part.cpp:379
+#, fuzzy, kde-format
+#| msgid "&Open With..."
+msgctxt "open a file with external program"
+msgid "Open &With..."
+msgstr "&Oscail Le..."
+
+#: part/part.cpp:381
+#, fuzzy, kde-format
+#| msgid "Click to preview the selected file"
+msgctxt "@info:tooltip"
+msgid "Click to open the selected file with an external program"
+msgstr "Cliceáil chun réamhamharc a dhéanamh ar an gcomhad roghnaithe"
+
+#: part/part.cpp:385
+#, kde-format
+msgctxt "to preview a file inside an archive"
+msgid "Pre&view"
+msgstr "&Réamhamharc"
+
+#: part/part.cpp:387
+#, fuzzy, kde-format
+#| msgid "Click to preview the selected file"
+msgctxt "@info:tooltip"
+msgid "Click to preview the selected file"
+msgstr "Cliceáil chun réamhamharc a dhéanamh ar an gcomhad roghnaithe"
+
+#: part/part.cpp:392
+#, fuzzy, kde-format
+#| msgid "E&xtract"
+msgctxt "@action:inmenu"
+msgid "E&xtract All"
+msgstr "B&ain Amach"
+
+#: part/part.cpp:394
+#, fuzzy, kde-format
+#| msgid ""
+#| "Click to open an extraction dialog, where you can choose to extract "
+#| "either all files or just the selected ones"
+msgid ""
+"Click to open an extraction dialog, where you can choose how to extract all "
+"the files in the archive"
+msgstr ""
+"Cliceáil chun dialóg a oscailt; sa dialóg seo, is féidir leat gach comhad a "
+"bhaint as an gcartlann nó na comhaid roghnaithe amháin"
+
+#: part/part.cpp:399
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Extract"
+msgctxt "@action:inmenu"
+msgid "&Extract"
+msgstr "Bain Amach"
+
+#: part/part.cpp:402
+#, kde-format
+msgid ""
+"Click to open an extraction dialog, where you can choose to extract either "
+"all files or just the selected ones"
+msgstr ""
+"Cliceáil chun dialóg a oscailt; sa dialóg seo, is féidir leat gach comhad a "
+"bhaint as an gcartlann nó na comhaid roghnaithe amháin"
+
+#: part/part.cpp:407
+#, fuzzy, kde-format
+#| msgid "Add &File..."
+msgid "Add &Files..."
+msgstr "Cuir &Comhad leis..."
+
+#: part/part.cpp:408 part/part.cpp:471
+#, fuzzy, kde-format
+#| msgid "Click to add files to the archive"
+msgctxt "@info:tooltip"
+msgid "Click to add files to the archive"
+msgstr "Cliceáil chun comhaid a chur leis an gcartlann"
+
+#: part/part.cpp:415
+#, fuzzy, kde-format
+#| msgid "Compress to Archive"
+msgctxt "@action"
+msgid "Remove from Archive"
+msgstr "Comhbhrúigh i gCartlann"
+
+#: part/part.cpp:425
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Properties"
+msgstr ""
+
+#: part/part.cpp:427
+#, fuzzy, kde-format
+#| msgid "Click to add files to the archive"
+msgctxt "@info:tooltip"
+msgid "Click to see properties for archive"
+msgstr "Cliceáil chun comhaid a chur leis an gcartlann"
+
+#: part/part.cpp:433
+#, fuzzy, kde-format
+#| msgid "Click to add a folder to the archive"
+msgctxt "@info:tooltip"
+msgid "Click to add or edit comment"
+msgstr "Cliceáil chun fillteán a chur leis an gcartlann"
+
+#: part/part.cpp:438
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "&Test Integrity"
+msgstr ""
+
+#: part/part.cpp:440 part/part.cpp:472
+#, fuzzy, kde-format
+#| msgid "Click to add files to the archive"
+msgctxt "@info:tooltip"
+msgid "Click to test the archive for integrity"
+msgstr "Cliceáil chun comhaid a chur leis an gcartlann"
+
+#: part/part.cpp:466
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Adding files to existing password-protected archives with no header-"
+"encryption is currently not supported.<nl/><nl/>Extract the files and create "
+"a new archive if you want to add files."
+msgstr ""
+
+#: part/part.cpp:469
+#, kde-kuit-format
+msgctxt "@info:tooltip"
+msgid ""
+"Testing password-protected archives with no header-encryption is currently "
+"not supported."
+msgstr ""
+
+#: part/part.cpp:537
+#, fuzzy, kde-format
+#| msgctxt "File comment"
+#| msgid "Comment"
+msgctxt "@action:inmenu mutually exclusive with Add &Comment"
+msgid "Edit &Comment"
+msgstr "Nóta"
+
+#: part/part.cpp:538 part/part.cpp:546
+#, fuzzy, kde-format
+#| msgctxt "File comment"
+#| msgid "Comment"
+msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
+msgid "Add &Comment"
+msgstr "Nóta"
+
+#: part/part.cpp:647
+#, fuzzy, kde-format
+#| msgid "The archive reader could not be initialized."
+msgid "The archive passed the integrity test."
+msgstr "Níorbh fhéidir an léitheoir cartlainne a thúsú."
+
+#: part/part.cpp:647 part/part.cpp:649
+#, kde-format
+msgid "Test Results"
+msgstr ""
+
+#: part/part.cpp:649
+#, fuzzy, kde-format
+#| msgid "The archive reader could not be initialized."
+msgid "The archive failed the integrity test."
+msgstr "Níorbh fhéidir an léitheoir cartlainne a thúsú."
+
+#: part/part.cpp:670
+#, kde-format
+msgid "Extract To..."
+msgstr "Bain Amach Go..."
+
+#: part/part.cpp:684
+#, kde-format
+msgid "Quick Extract To..."
+msgstr "Bain amach go tapa i..."
+
+#: part/part.cpp:814
+#, fuzzy, kde-format
+#| msgid "General"
+msgctxt "@title:tab"
+msgid "General"
+msgstr "Ginearálta"
+
+#: part/part.cpp:815
+#, fuzzy, kde-format
+#| msgid "&Extracting"
+msgctxt "@title:tab"
+msgid "Extraction"
+msgstr "&Baint Amach"
+
+#: part/part.cpp:816
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Preview as Text"
+msgctxt "@title:tab"
+msgid "Plugins"
+msgstr "Réamhamharc mar Théacs"
+
+#: part/part.cpp:817
+#, fuzzy, kde-format
+#| msgctxt "to preview a file inside an archive"
+#| msgid "Pre&view"
+msgctxt "@title:tab"
+msgid "Previews"
+msgstr "&Réamhamharc"
+
+#: part/part.cpp:829
+#, kde-kuit-format
+msgctxt "@info"
+msgid "<filename>%1</filename> is a directory."
+msgstr "Is comhadlann é <filename>%1</filename>."
+
+#: part/part.cpp:838
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "Could not open the archive <filename>%1</filename> for reading"
+msgctxt "@info"
+msgid ""
+"Could not overwrite <filename>%1</filename>. Check whether you have write "
+"permission."
+msgstr ""
+"Níorbh fhéidir cartlann <filename>%1</filename> a oscailt chun é a léamh"
+
+#: part/part.cpp:844
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "The archive <filename>%1</filename> was not found."
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> will be created as soon as you add a "
+"file."
+msgstr "Níor aimsíodh cartlann <filename>%1</filename>."
+
+#: part/part.cpp:847
+#, kde-kuit-format
+msgctxt "@info"
+msgid "The archive <filename>%1</filename> was not found."
+msgstr "Níor aimsíodh cartlann <filename>%1</filename>."
+
+#: part/part.cpp:852
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "The archive <filename>%1</filename> already exists. Would you like to "
+#| "open it instead?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> could not be loaded, as it was not "
+"possible to read from it."
+msgstr ""
+"Tá cartlann <filename>%1</filename> ann cheana. An bhfuil fonn ort é a "
+"oscailt?"
+
+#: part/part.cpp:865
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "The archive <filename>%1</filename> already exists. Would you like to "
+#| "open it instead?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr ""
+"Tá cartlann <filename>%1</filename> ann cheana. An bhfuil fonn ort é a "
+"oscailt?"
+
+#: part/part.cpp:867
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "Tá an comhad ann cheana"
+
+#: part/part.cpp:904
+#, fuzzy, kde-kuit-format
+#| msgid "The archive writer could not be initialized."
+msgctxt "@info"
+msgid "The archive is empty or Ark could not open its content."
+msgstr "Níorbh fhéidir an scríbhneoir cartlainne a thúsú."
+
+#: part/part.cpp:909
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark does not currently support ISO files with UDF filesystem."
+msgstr ""
+
+#: part/part.cpp:939
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Loading the archive <filename>%1</filename> failed with the following "
+#| "error: <message>%2</message>"
+msgctxt "@info"
+msgid ""
+"Loading the archive <filename>%1</filename> failed with the following error:"
+"<nl/><message>%2</message>"
+msgstr ""
+"Níorbh fhéidir cartlann <filename>%1</filename> a luchtú. Fuarthas an "
+"earráid seo: <message>%2</message>"
+
+#: part/part.cpp:999
+#, kde-format
+msgid "Ark cannot open symlinks."
+msgstr ""
+
+#: part/part.cpp:1121
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "The folder <filename>%1</filename> already exists. Are you sure you want "
+#| "to extract here?"
+msgid ""
+"The file <filename>%1</filename> was modified. Do you want to update the "
+"archive?"
+msgstr ""
+"Tá fillteán <filename>%1</filename> ann cheana. An bhfuil tú cinnte gur mian "
+"leat baint amach anseo?"
+
+#: part/part.cpp:1123
+#, fuzzy, kde-format
+#| msgid "Files to be added"
+msgctxt "@title:window"
+msgid "File Modified"
+msgstr "Comhaid le cur leis"
+
+#: part/part.cpp:1403
+#, kde-format
+msgctxt "@title:window"
+msgid "Add Files"
+msgstr "Cuir Comhaid Leis"
+
+#: part/part.cpp:1408
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Add Files"
+msgctxt "@title:window"
+msgid "Add Files to %1"
+msgstr "Cuir Comhaid Leis"
+
+#: part/part.cpp:1472
+#, kde-format
+msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
+msgstr ""
+
+#: part/part.cpp:1516
+#, kde-format
+msgid "Folders can't be moved into themselves."
+msgstr ""
+
+#: part/part.cpp:1517
+#, kde-format
+msgid "Moving a folder into itself"
+msgstr ""
+
+#: part/part.cpp:1545
+#, kde-format
+msgid "Entries with the same names can't be pasted to the same destination."
+msgstr ""
+
+#: part/part.cpp:1646
+#, fuzzy, kde-format
+#| msgid ""
+#| "Deleting these files is not undoable. Are you sure you want to do this?"
+msgctxt "@info"
+msgid "Deleting this file is not undoable. Are you sure you want to do this?"
+msgid_plural ""
+"Deleting these files is not undoable. Are you sure you want to do this?"
+msgstr[0] ""
+"Ní féidir na comhaid seo a fháil ar ais tar éis iad a scriosadh.  An bhfuil "
+"tú cinnte?"
+msgstr[1] ""
+"Ní féidir na comhaid seo a fháil ar ais tar éis iad a scriosadh.  An bhfuil "
+"tú cinnte?"
+msgstr[2] ""
+"Ní féidir na comhaid seo a fháil ar ais tar éis iad a scriosadh.  An bhfuil "
+"tú cinnte?"
+msgstr[3] ""
+"Ní féidir na comhaid seo a fháil ar ais tar éis iad a scriosadh.  An bhfuil "
+"tú cinnte?"
+msgstr[4] ""
+"Ní féidir na comhaid seo a fháil ar ais tar éis iad a scriosadh.  An bhfuil "
+"tú cinnte?"
+
+#: part/part.cpp:1649
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Delete files"
+msgctxt "@title:window"
+msgid "Delete File"
+msgid_plural "Delete Files"
+msgstr[0] "Scrios comhaid"
+msgstr[1] "Scrios comhaid"
+msgstr[2] "Scrios comhaid"
+msgstr[3] "Scrios comhaid"
+msgstr[4] "Scrios comhaid"
+
+#: part/part.cpp:1692
+#, kde-format
+msgctxt "@title:window"
+msgid "Save Copy As"
+msgstr ""
+
+#: part/part.cpp:1707
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive could not be saved as <filename>%1</filename>. Try saving it to "
+"another location."
+msgstr ""
+"Níorbh fhéidir an chartlann a shábháil mar <filename>%1</filename>. Bain "
+"triail as suíomh eile."
+
+#: part/part.cpp:1711
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "The archive <filename>%1</filename> cannot be copied to the specified "
+#| "location. The archive does not exist anymore."
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> does not exist anymore, therefore it "
+"cannot be copied to the specified location."
+msgstr ""
+"Ní féidir cartlann <filename>%1</filename> a chóipeáil go dtí an suíomh "
+"roghnaithe. Níl an chartlann ann níos mó."
+
+#: plugins/cli7zplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:85
+#, fuzzy, kde-format
+#| msgid "Loading archive..."
+msgid "Listing the archive failed."
+msgstr "Cartlann á luchtú..."
+
+#: plugins/cli7zplugin/cliplugin.cpp:309
+#, fuzzy, kde-format
+#| msgid "Extraction failed because of an unexpected error."
+msgid "Extraction failed due to an unknown error."
+msgstr "Theip ar bhaint amach de bharr earráide gan súil léi."
+
+#: plugins/cli7zplugin/cliplugin.cpp:315 plugins/clizipplugin/cliplugin.cpp:188
+#, kde-format
+msgid ""
+"Extraction failed due to one or more corrupt files. Any extracted files may "
+"be damaged."
+msgstr ""
+
+#: plugins/cli7zplugin/cliplugin.cpp:326
+#, kde-format
+msgid ""
+"Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
+"configuration dialog."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:157
+#: plugins/clirarplugin/cliplugin.cpp:300
+#: plugins/clirarplugin/cliplugin.cpp:553
+#, kde-format
+msgid "Failed to find all archive volumes."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:321
+#, kde-format
+msgid ""
+"Your unrar executable is version %1, which is too old to handle this "
+"archive. Please update to a more recent version."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:328
+#, kde-format
+msgid ""
+"Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
+"Try updating your unrar."
+msgstr ""
+
+#: plugins/clirarplugin/cliplugin.cpp:548
+#, kde-format
+msgid "One or more wrong checksums"
+msgstr ""
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:97
+#, fuzzy, kde-format
+#| msgid "Extracting file..."
+msgid "Extraction failed."
+msgstr "Comhad á bhaint amach..."
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:131
+#, fuzzy, kde-format
+#| msgid "Not enough free disc space to extract the archive."
+msgid "Not enough memory for loading the archive."
+msgstr "Níl go leor spás diosca saor agat chun an chartlann a bhaint amach."
+
+#: plugins/cliunarchiverplugin/cliplugin.cpp:183
+#, fuzzy, kde-format
+#| msgid "Incorrect password."
+msgid "Wrong password."
+msgstr "Focal faire mícheart."
+
+#: plugins/clizipplugin/cliplugin.cpp:178
+#, fuzzy, kde-format
+#| msgid "Extraction failed because of an unexpected error."
+msgid "Extraction failed due to unsupported compression method (%1)."
+msgstr "Theip ar bhaint amach de bharr earráide gan súil léi."
+
+#: plugins/clizipplugin/cliplugin.cpp:183
+#, fuzzy, kde-format
+#| msgid "Extraction failed because of an unexpected error."
+msgid "Extraction failed due to unsupported encryption method."
+msgstr "Theip ar bhaint amach de bharr earráide gan súil léi."
+
+#: plugins/clizipplugin/cliplugin.cpp:311
+#, fuzzy, kde-format
+#| msgid "Unknown size"
+msgctxt "referred to compression method"
+msgid "unknown"
+msgstr "Méid anaithnid"
+
+#: plugins/libarchive/libarchiveplugin.cpp:392
+#, kde-format
+msgctxt "@info"
+msgid "Fatal error, extraction aborted."
+msgstr ""
+
+#: plugins/libarchive/libarchiveplugin.cpp:426
+#, kde-format
+msgid "The archive reader could not be initialized."
+msgstr "Níorbh fhéidir an léitheoir cartlainne a thúsú."
+
+#: plugins/libarchive/libarchiveplugin.cpp:440
+#, kde-format
+msgctxt "@info"
+msgid "Archive corrupted or insufficient permissions."
+msgstr ""
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:209
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Failed to locate program <filename>%2</filename> on disk."
+#| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
+msgctxt "@info"
+msgid "Failed to create a temporary file for writing data."
+msgstr ""
+"Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:215
+#, kde-format
+msgid "The archive writer could not be initialized."
+msgstr "Níorbh fhéidir an scríbhneoir cartlainne a thúsú."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:233
+#, fuzzy, kde-format
+#| msgid "Could not locate file #%1 in the archive"
+msgctxt "@info"
+msgid "Could not open the archive for writing entries."
+msgstr "Níorbh fhéidir comhad #%1 a aimsiú sa chartlann"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:280
+#, kde-format
+msgid "The compression type '%1' is not supported by Ark."
+msgstr "Ní thacaíonn Ark leis an gcineál comhbhrúite '%1'."
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:289
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:343
+#, fuzzy, kde-format
+#| msgid "Could not locate file #%1 in the archive"
+msgctxt "@info"
+msgid "Could not set the compression method."
+msgstr "Níorbh fhéidir comhad #%1 a aimsiú sa chartlann"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:353
+#, fuzzy, kde-format
+#| msgid "Could not locate file #%1 in the archive"
+msgctxt "@info"
+msgid "Could not set the compression level."
+msgstr "Níorbh fhéidir comhad #%1 a aimsiú sa chartlann"
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:472
+#, kde-format
+msgctxt "@info"
+msgid "Could not compress entry, operation aborted."
+msgstr ""
+
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:513
+#, fuzzy, kde-format
+#| msgid "Could not locate file #%1 in the archive"
+msgctxt "@info Error in a message box"
+msgid "Could not compress entry."
+msgstr "Níorbh fhéidir comhad #%1 a aimsiú sa chartlann"
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:49
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark could not extract <filename>%1</filename>."
+msgstr "Níorbh fhéidir le hArk <filename>%1</filename> a bhaint amach."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:57
+#, kde-kuit-format
+msgctxt "@info"
+msgid "Ark could not open <filename>%1</filename> for extraction."
+msgstr ""
+"Níorbh fhéidir le hArk <filename>%1</filename> a oscailt chun baint amach."
+
+#: plugins/libsinglefileplugin/singlefileplugin.cpp:71
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"There was an error while reading <filename>%1</filename> during extraction."
+msgstr ""
+"Tharla earráid agus <filename>%1</filename> á léamh le linn bainte amach."
+
+#: plugins/libzipplugin/libzipplugin.cpp:76
+#: plugins/libzipplugin/libzipplugin.cpp:118
+#: plugins/libzipplugin/libzipplugin.cpp:415
+#: plugins/libzipplugin/libzipplugin.cpp:464
+#: plugins/libzipplugin/libzipplugin.cpp:555
+#: plugins/libzipplugin/libzipplugin.cpp:826
+#: plugins/libzipplugin/libzipplugin.cpp:881
+#, kde-kuit-format
+msgid "Failed to open archive: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:176
+#: plugins/libzipplugin/libzipplugin.cpp:448
+#: plugins/libzipplugin/libzipplugin.cpp:480
+#: plugins/libzipplugin/libzipplugin.cpp:861
+#: plugins/libzipplugin/libzipplugin.cpp:951
+#, fuzzy, kde-kuit-format
+#| msgid "Click to add files to the archive"
+msgid "Failed to write archive."
+msgstr "Cliceáil chun comhaid a chur leis an gcartlann"
+
+#: plugins/libzipplugin/libzipplugin.cpp:225
+#: plugins/libzipplugin/libzipplugin.cpp:918
+#, kde-kuit-format
+msgid "Failed to add entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:280
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "Failed to locate program <filename>%2</filename> on disk."
+#| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
+msgid "Failed to set compression options for entry: %1"
+msgstr ""
+"Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
+
+#: plugins/libzipplugin/libzipplugin.cpp:385
+#: plugins/libzipplugin/libzipplugin.cpp:776
+#: plugins/libzipplugin/libzipplugin.cpp:927
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "Failed to locate program <filename>%2</filename> on disk."
+#| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
+msgid "Failed to read metadata for entry: %1"
+msgstr ""
+"Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
+
+#: plugins/libzipplugin/libzipplugin.cpp:429
+#: plugins/libzipplugin/libzipplugin.cpp:434
+#, kde-kuit-format
+msgid "Failed to delete entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:659
+#, kde-kuit-format
+msgid "Failed to create directory: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:732
+#, kde-kuit-format
+msgid "Failed to open '%1':<nl/>%2"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:740
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "Failed to locate program <filename>%2</filename> on disk."
+#| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
+msgid "Failed to open file for writing: %1"
+msgstr ""
+"Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
+
+#: plugins/libzipplugin/libzipplugin.cpp:753
+#, kde-kuit-format
+msgid "Failed to read data for entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:758
+#, kde-kuit-format
+msgid "Failed to write data for entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:768
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "Failed to locate program <filename>%2</filename> on disk."
+#| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
+msgid "Failed to locate entry: %1"
+msgstr ""
+"Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
+
+#: plugins/libzipplugin/libzipplugin.cpp:840
+#: plugins/libzipplugin/libzipplugin.cpp:846
+#, kde-kuit-format
+msgid "Failed to move entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:904
+#, kde-kuit-format
+msgid "Failed to copy entry: %1"
+msgstr ""
+
+#: plugins/libzipplugin/libzipplugin.cpp:934
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid "Failed to locate program <filename>%2</filename> on disk."
+#| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
+msgid "Failed to set metadata for entry: %1"
+msgstr ""
+"Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
+
+#, fuzzy
+#~| msgid "&Open"
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open"
+#~ msgstr "&Oscail"
+
+#, fuzzy
+#~| msgid "Click to preview the selected file"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to open the selected file with the associated application"
+#~ msgstr "Cliceáil chun réamhamharc a dhéanamh ar an gcomhad roghnaithe"
+
+#~ msgctxt "Uncompressed size of a file inside an archive"
+#~ msgid "Size"
+#~ msgstr "Méid"
+
+#, fuzzy
+#~| msgid ""
+#~| "This archive contains archive entries with absolute paths, which are not "
+#~| "yet supported by ark."
+#~ msgid ""
+#~ "This archive contains archive entries with absolute paths, which are not "
+#~ "supported by Ark."
+#~ msgstr ""
+#~ "Tá iontrálacha sa chartlann seo le dearbhchonairí, agus ní thacaíonn ark "
+#~ "leo."
+
+#~ msgctxt "action, to open an archive"
+#~ msgid "Open"
+#~ msgstr "Oscail"
+
+#~ msgid "Open an archive"
+#~ msgstr "Oscail cartlann"
+
+#~ msgid "ArkPart"
+#~ msgstr "ArkPart"
+
+#, fuzzy
+#~| msgid "Save Archive As"
+#~ msgctxt "@title:window"
+#~ msgid "Save Archive As"
+#~ msgstr "Sábháil an Chartlann Mar"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "An archive named <filename>%1</filename> already exists. Are you sure you "
+#~ "want to overwrite it?"
+#~ msgstr ""
+#~ "Tá cartlann darb ainm <filename>%1</filename> ann cheana. An bhfuil tú "
+#~ "cinnte gur mian leat é a fhorscríobh?"
+
+#, fuzzy
+#~| msgid "General Settings"
+#~ msgctxt "@title:tab"
+#~ msgid "General Settings"
+#~ msgstr "Socruithe Ginearálta"
+
+#, fuzzy
+#~| msgid "Extraction Dialog"
+#~ msgctxt "@title:tab"
+#~ msgid "Extraction Settings"
+#~ msgstr "Dialóg Bainte Amach"
+
+#, fuzzy
+#~| msgctxt "@action:button"
+#~| msgid "Preview as Text"
+#~ msgctxt "@title:tab"
+#~ msgid "Preview Settings"
+#~ msgstr "Réamhamharc mar Théacs"
+
+#~ msgctxt "CRC hash code"
+#~ msgid "CRC"
+#~ msgstr "CRC"
+
+#~ msgid "There was an error during extraction."
+#~ msgstr "Tharla earráid le linn bainte amach."
+
+#, fuzzy
+#~| msgid " Filename "
+#~ msgid "&Rename"
+#~ msgstr " Ainm comhaid "
+
+#, fuzzy
+#~| msgid "Click to preview the selected file"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to rename the selected file"
+#~ msgstr "Cliceáil chun réamhamharc a dhéanamh ar an gcomhad roghnaithe"
+
+#~ msgid "De&lete"
+#~ msgstr "Sc&rios"
+
+#, fuzzy
+#~| msgid "Click to delete the selected files"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to delete the selected files"
+#~ msgstr "Cliceáil chun na comhaid roghnaithe a scriosadh"
+
+#, fuzzy
+#~| msgid "Click to delete the selected files"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to cut the selected files"
+#~ msgstr "Cliceáil chun na comhaid roghnaithe a scriosadh"
+
+#, fuzzy
+#~| msgid "Click to delete the selected files"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to copy the selected files"
+#~ msgstr "Cliceáil chun na comhaid roghnaithe a scriosadh"
+
+#, fuzzy
+#~| msgid "Click to add files to the archive"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to paste the files here"
+#~ msgstr "Cliceáil chun comhaid a chur leis an gcartlann"
+
+#, fuzzy
+#~| msgctxt "@title:window"
+#~| msgid "Add Files"
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Find Files"
+#~ msgstr "Cuir Comhaid Leis"
+
+#, fuzzy
+#~| msgid "Click to add files to the archive"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to search in archive"
+#~ msgstr "Cliceáil chun comhaid a chur leis an gcartlann"
+
+#~ msgid "Adding a file"
+#~ msgid_plural "Adding %1 files"
+#~ msgstr[0] "%1 chomhad á chur leis..."
+#~ msgstr[1] "%1 chomhad á gcur leis..."
+#~ msgstr[2] "%1 chomhad á gcur leis..."
+#~ msgstr[3] "%1 gcomhad á gcur leis..."
+#~ msgstr[4] "%1 comhad á gcur leis..."
+
+#, fuzzy
+#~| msgid "<b>Type:</b> %1<br/>"
+#~ msgid "<b>Type:</b> %1"
+#~ msgstr "<b>Cineál:</b> %1<br/>"
+
+#, fuzzy
+#~| msgid "<b>Owner:</b> %1<br/>"
+#~ msgid "<b>Owner:</b> %1"
+#~ msgstr "<b>Úinéir:</b> %1<br/>"
+
+#, fuzzy
+#~| msgid "<b>Group:</b> %1<br/>"
+#~ msgid "<b>Group:</b> %1"
+#~ msgstr "<b>Grúpa:</b> %1<br/>"
+
+#, fuzzy
+#~| msgid "<b>Target:</b> %1<br/>"
+#~ msgid "<b>Target:</b> %1"
+#~ msgstr "<b>Sprioc:</b> %1<br/>"
+
+#, fuzzy
+#~| msgid "<b>Password protected:</b> Yes<br/>"
+#~ msgid "<b>Password protected:</b> Yes"
+#~ msgstr "<b>Cosanta ag focal faire:</b> Tá<br/>"
+
+#~ msgid "Cancel"
+#~ msgstr "Cealaigh"
+
+#, fuzzy
+#~| msgid "Overwrite"
+#~ msgctxt "@action:button"
+#~ msgid "Overwrite"
+#~ msgstr "Forscríobh"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid "Error creating directory <filename>%1</filename>"
+#~ msgctxt "@info"
+#~ msgid "Extraction failed at:<nl/><filename>%1</filename>"
+#~ msgstr "Níorbh fhéidir comhadlann <filename>%1</filename> a chruthú"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid "Could not open the archive <filename>%1</filename> for reading"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>.<nl/>Check whether you "
+#~ "have sufficient permissions."
+#~ msgstr ""
+#~ "Níorbh fhéidir cartlann <filename>%1</filename> a oscailt chun é a léamh"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid "Failed to locate program <filename>%2</filename> on disk."
+#~| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Failed to create a temporary file to compress <filename>%1</filename>."
+#~ msgstr ""
+#~ "Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid ""
+#~| "Opening the archive for writing failed with the following error: "
+#~| "<message>%1</message>"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Opening the archive for writing failed with the following error:<nl/"
+#~ "><message>%1</message>"
+#~ msgstr ""
+#~ "Earráid agus an chartlann á hoscailt chun é a scríobh, leis an earráid "
+#~ "seo: <message>%1</message>"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid ""
+#~| "Setting the compression method failed with the following error: <message>"
+#~| "%1</message>"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Setting the compression method failed with the following error:<nl/"
+#~ "><message>%1</message>"
+#~ msgstr ""
+#~ "Níorbh fhéidir an modh comhbhrúite a shocrú, leis an earráid seo: "
+#~ "<message>%1</message>"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid ""
+#~| "Setting the compression method failed with the following error: <message>"
+#~| "%1</message>"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Setting the compression level failed with the following error:<nl/"
+#~ "><message>%1</message>"
+#~ msgstr ""
+#~ "Níorbh fhéidir an modh comhbhrúite a shocrú, leis an earráid seo: "
+#~ "<message>%1</message>"
+
+#~ msgctxt "@info Error in a message box"
+#~ msgid "Ark could not compress <filename>%1</filename>:<nl/>%2"
+#~ msgstr "Ní raibh Ark ábalta <filename>%1</filename> a chomhbhrú:<nl/>%2"
+
+#, fuzzy
+#~| msgid ""
+#~| "Failed to create the new archive. Permissions might not be sufficient."
+#~ msgid "Failed to create the new archive. No suitable plugin found."
+#~ msgstr ""
+#~ "Níorbh fhéidir an chartlann nua a chruthú. Seans nach bhfuil go leor "
+#~ "ceadanna agat."
+
+#, fuzzy
+#~| msgid ""
+#~| "Failed to create the new archive. Permissions might not be sufficient."
+#~ msgid "Failed to create the new archive. Could not load a suitable plugin."
+#~ msgstr ""
+#~ "Níorbh fhéidir an chartlann nua a chruthú. Seans nach bhfuil go leor "
+#~ "ceadanna agat."
+
+#~ msgid "It is not possible to create archives of this type."
+#~ msgstr "Ní féidir cartlanna den chineál seo a chruthú."
+
+#~ msgctxt "File comment"
+#~ msgid "Comment"
+#~ msgstr "Nóta"
+
+#, fuzzy
+#~| msgid "Could not add the file %1 to the archive"
+#~ msgctxt "@info"
+#~ msgid "Could not read until the end of the archive"
+#~ msgstr "Níorbh fhéidir comhad %1 a chur leis an gcartlann"
+
+#~ msgid "The source file could not be read."
+#~ msgstr "Níorbh fhéidir an comhad foinse a léamh."
+
+#~ msgid "Add Fo&lder..."
+#~ msgstr "Cuir Fi&llteán Leis..."
+
+#, fuzzy
+#~| msgid "Click to add a folder to the archive"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to add a folder to the archive"
+#~ msgstr "Cliceáil chun fillteán a chur leis an gcartlann"
+
+#~ msgctxt "@title:window"
+#~ msgid "Add Folder"
+#~ msgstr "Cuir Fillteán Leis"
+
+#~ msgid "Metadata Label"
+#~ msgstr "Lipéad Meiteashonraí"
+
+#~ msgid "ActionsLabel"
+#~ msgstr "Lipéad Gníomhartha"
+
+#, fuzzy
+#~| msgctxt "File comment"
+#~| msgid "Comment"
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Edit Comment"
+#~ msgstr "Nóta"
+
+#, fuzzy
+#~| msgid "Deleting a file from the archive"
+#~| msgid_plural "Deleting %1 files"
+#~ msgid "Please select a filename for the archive."
+#~ msgstr "Comhad á scriosadh ón chartlann"
+
+#, fuzzy
+#~| msgid "One file selected"
+#~| msgid_plural "%1 files selected"
+#~ msgid "No file selected"
+#~ msgstr "Aon chomhad roghnaithe"
+
+#~ msgid "Open File"
+#~ msgstr "Oscail Comhad"
+
+#, fuzzy
+#~| msgid ""
+#~| "Click to open an extraction dialog, where you can choose to extract "
+#~| "either all files or just the selected ones"
+#~ msgid ""
+#~ "Click to open an extraction dialog, where you can choose how to extract "
+#~ "the selected files"
+#~ msgstr ""
+#~ "Cliceáil chun dialóg a oscailt; sa dialóg seo, is féidir leat gach comhad "
+#~ "a bhaint as an gcartlann nó na comhaid roghnaithe amháin"
+
+#, fuzzy
+#~| msgid "E&xtract"
+#~ msgctxt "@action:intoolbar"
+#~ msgid "E&xtract"
+#~ msgstr "B&ain Amach"
+
+#~ msgctxt "@title:window"
+#~ msgid "Error Opening Archive"
+#~ msgstr "Earráid agus an chartlann á hoscailt"
+
+#, fuzzy
+#~| msgid "All Valid Archives\n"
+#~ msgid "All supported archives ("
+#~ msgstr "Gach Cartlann Bhailí\n"
+
+#, fuzzy
+#~| msgid "Open an archive"
+#~ msgid "lblArchiveNamed"
+#~ msgstr "Oscail cartlann"
+
+#, fuzzy
+#~| msgctxt "@title:window"
+#~| msgid "Invalid Archive Type"
+#~ msgid "lblArchiveType"
+#~ msgstr "Cineál Neamhbhailí Cartlainne"
+
+#, fuzzy
+#~| msgctxt "File comment"
+#~| msgid "Comment"
+#~ msgid "lblHasComment"
+#~ msgstr "Nóta"
+
+#, fuzzy
+#~| msgid "Compressing..."
+#~ msgid "lblCompressionRatio"
+#~ msgstr "Á Chomhbhrú..."
+
+#, fuzzy
+#~| msgid "Files to be added"
+#~ msgid "lblModified"
+#~ msgstr "Comhaid le cur leis"
+
+#, fuzzy
+#~| msgid "Icons"
+#~ msgid "lblIcon"
+#~ msgstr "Deilbhíní"
+
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for reading"
+#~ msgstr ""
+#~ "Níorbh fhéidir cartlann <filename>%1</filename> a oscailt chun é a léamh"
+
+#~ msgctxt "@info"
+#~ msgid "File <filename>%1</filename> not found in the archive"
+#~ msgstr "Níor aimsíodh comhad <filename>%1</filename> sa chartlann"
+
+#~ msgctxt "@info"
+#~ msgid "Could not open the archive <filename>%1</filename> for writing."
+#~ msgstr ""
+#~ "Níorbh fhéidir cartlann <filename>%1</filename> a oscailt chun é a "
+#~ "scríobh."
+
+#~ msgctxt "@info"
+#~ msgid "Could not add the directory <filename>%1</filename> to the archive"
+#~ msgstr ""
+#~ "Níorbh fhéidir comhadlann <filename>%1</filename> a chur leis an gcartlann"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid "Could not open the archive <filename>%1</filename> for reading"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename> after adding file."
+#~ msgstr ""
+#~ "Níorbh fhéidir cartlann <filename>%1</filename> a oscailt chun é a léamh"
+
+#~ msgctxt "@info"
+#~ msgid "Could not add the file <filename>%1</filename> to the archive."
+#~ msgstr ""
+#~ "Níorbh fhéidir comhad <filename>%1</filename> a chur leis an gcartlann."
+
+#~ msgid ""
+#~ "Click to open an archive, click and hold to open a recently-opened archive"
+#~ msgstr ""
+#~ "Cliceáil chun cartlann a oscailt; cliceáil agus coinnigh an cnaipe síos "
+#~ "chun cartlann a oscailt a bhí oscailte le déanaí"
+
+#, fuzzy
+#~| msgid "Incorrect password."
+#~ msgid "Confirm password:"
+#~ msgstr "Focal faire mícheart."
+
+#~ msgid "&Action"
+#~ msgstr "&Gníomh"
+
+#, fuzzy
+#~| msgid "Open File"
+#~ msgctxt "open a file with external program"
+#~ msgid "&Open File"
+#~ msgstr "Oscail Comhad"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Could not open the archive <filename>%1</filename>, libarchive cannot "
+#~ "handle it."
+#~ msgstr ""
+#~ "Níorbh fhéidir cartlann <filename>%1</filename> a oscailt; ní raibh "
+#~ "libarchive in ann é a láimhseáil."
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "The archive reading failed with the following error: <message>%1</message>"
+#~ msgstr ""
+#~ "Theip ar léamh na cartlainne agus fuarthas an earráid seo: <message>%1</"
+#~ "message>"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid ""
+#~| "Ark cannot create archives of the type you have chosen.<nl/><nl/>Please "
+#~| "choose another archive type below."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Ark cannot create archives of the type you have chosen.<br />Please "
+#~ "choose another archive type below."
+#~ msgstr ""
+#~ "Níl Ark ábalta cartlann den chineál seo a chruthú.<nl/><nl/>Roghnaigh "
+#~ "cineál eile thíos."
+
+#~ msgctxt "@title:window"
+#~ msgid "Unable to Determine Archive Type"
+#~ msgstr "Ní féidir cineál na cartlainne a dhéanamh amach"
+
+#, fuzzy
+#~| msgctxt "@info"
+#~| msgid ""
+#~| "Ark was unable to determine the archive type of the filename.<nl/><nl/"
+#~| ">Please choose the correct archive type below."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Ark was unable to determine the archive type of the filename.<br />Please "
+#~ "choose the correct archive type below."
+#~ msgstr ""
+#~ "Níorbh fhéidir le hArk cineál na cartlainne a dhéanamh amach.<nl/><nl/"
+#~ ">Roghnaigh an cineál ceart thíos."
+
+#~ msgid ""
+#~ "Easter egg for the developers:\n"
+#~ "This is where future versions will have extra compression options for the "
+#~ "various compression interfaces."
+#~ msgstr ""
+#~ "Ubh Chásca ar son na bhforbróirí:\n"
+#~ "Seo é an áit a gcuirfear roghanna comhbhrúite sa bhreis le haghaidh na "
+#~ "gcomhéadan éagsúil comhbhrúite sna leaganacha amach anseo."
+
+#~ msgid "URL of an archive to be opened"
+#~ msgstr "URL na cartlainne le hoscailt"
+
+#~ msgid "Options for adding files"
+#~ msgstr "Roghanna le comhaid a chur leis"
+
+#~ msgid "Options for batch extraction:"
+#~ msgstr "Roghanna le comhaid a bhaint amach i mbaisc:"
+
+#~ msgid "One item"
+#~ msgid_plural "%1 items"
+#~ msgstr[0] "Mír amháin"
+#~ msgstr[1] "%1 mhír"
+#~ msgstr[2] "%1 mhír"
+#~ msgstr[3] "%1 mír"
+#~ msgstr[4] "%1 mír"
+
+#~ msgid "Delete files"
+#~ msgstr "Scrios comhaid"
+
+#~ msgid "Unable to open the file '%1', libarchive cannot handle it."
+#~ msgstr ""
+#~ "Ní féidir comhad '%1' a oscailt, ní raibh libarchive in ann é a "
+#~ "láimhseáil."
+
+#~ msgid "Recent folders"
+#~ msgstr "Fillteáin le déanaí"
+
+#~ msgid "Operation finished."
+#~ msgstr "Críochnaíodh an oibríocht."
+
+#~ msgid "Setting format failed with the error '%1'"
+#~ msgstr "Níorbh fhéidir an fhormáid a shocrú, earráid '%1'"
+
+#~ msgid "<font size=\"+2\"><b>Filename</b></font>"
+#~ msgstr "<font size=\"+2\"><b>Ainm Comhaid</b></font>"
+
+#~ msgid "Missing Folder"
+#~ msgstr "Fillteán Ar Iarraidh"
+
+#~ msgid "Create Folder"
+#~ msgstr "Cruthaigh Fillteán"
+
+#~ msgid "Do Not Create"
+#~ msgstr "Ná Cruthaigh"
+
+#~ msgid "The folder could not be created. Please check permissions."
+#~ msgstr ""
+#~ "Níorbh fhéidir an fillteán a chruthú. Bí cinnte go bhfuil cead agat."
+
+#~ msgid "The folder '%1' could not be created. Please check permissions."
+#~ msgstr ""
+#~ "Níorbh fhéidir fillteán '%1' a chruthú. Bí cinnte go bhfuil cead agat."
+
+#~ msgid "Create a subfolder under the destination directory and extract here."
+#~ msgstr "Cruthaigh fofhillteán faoin spriocfhillteán agus bain amach anseo."
+
+#~ msgid "Unable to find 7zr, 7za or 7z"
+#~ msgstr "Ní féidir 7zr, 7za nó 7z a aimsiú"
+
+#~ msgid "Unknown error when extracting files"
+#~ msgstr "Earráid anaithnid agus comhaid á mbaint amach"
+
+#~ msgid "An error occurred while trying to read entry #%1 of the archive"
+#~ msgstr "Tharla earráid agus iontráil #%1 den chartlann á léamh"
+
+#~ msgid "Could not create path"
+#~ msgstr "Níorbh fhéidir conair a chruthú"
+
+#~ msgid "Could not locate file '%1' in the archive"
+#~ msgstr "Níorbh fhéidir comhad '%1' a aimsiú sa chartlann"
+
+#~ msgid "Could not read from the input file '%1'"
+#~ msgstr "Níorbh fhéidir léamh ó inchomhad '%1'"
+
+#~ msgid "Could not find a file named %1 in the archive."
+#~ msgstr "Níorbh fhéidir comhad '%1' a aimsiú sa chartlann."
+
+#~ msgid "Neither rar or unrar are available in your PATH."
+#~ msgstr "Níl rar ná unrar ar fáil i do PATH."
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Bitstream Vera Sans'; font-"
+#~ "size:10pt; font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Note: the archive has "
+#~ "been detected as a <span style=\" font-weight:600;\">single-folder "
+#~ "archive</span>, so this option has been automatically unchecked...</p></"
+#~ "body></html>"
+#~ msgstr ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'Bitstream Vera Sans'; font-"
+#~ "size:10pt; font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Nóta: braitheadh gur "
+#~ "<span style=\" font-weight:600;\">cartlann le fillteán amháin</span> é "
+#~ "seo, agus mar sin baineadh an tic ón rogha seo go huathoibríoch...</p></"
+#~ "body></html>"
+
+#~ msgid "Unexpected output from the unace process."
+#~ msgstr "Aschur gan súil leis ón phróiseas 'unace'."
+
+#~ msgid ""
+#~ "Unable to launch <tt>unace</tt>. Make sure you have that tool installed "
+#~ "and available."
+#~ msgstr ""
+#~ "Ní féidir <tt>unace</tt> a thosú. Bí cinnte go bhfuil an uirlis seo "
+#~ "suiteáilte agat agus go bhfuil sé ar fáil."
+
+#~ msgid "Only extracting full archive is currently supported."
+#~ msgstr "Ní féidir ach cartlann iomlán a bhaint amach faoi láthair."
+
+#~ msgid "Only extracting while preserving paths is currently supported."
+#~ msgstr ""
+#~ "Ní féidir comhaid a bhaint amach gan a gconairí a chaomhnú faoi láthair."
+
+#~ msgid ""
+#~ "Extracting with root node other than default is not currently supported."
+#~ msgstr ""
+#~ "Ní féidir comhaid a bhaint amach le fréamhnód seachas an réamhshocrú faoi "
+#~ "láthair."
+
+#~ msgid "<tt>unace</tt> crashed unexpectedly."
+#~ msgstr "Thuairteáil <tt>unace</tt> gan súil leis."
+
+#~ msgid "<tt>unace</tt> has encountered error when extracting:<pre>%1</pre>"
+#~ msgstr "Fuair <tt>unace</tt> earráid le linn bainte amach:<pre>%1</pre>"
+
+#~ msgid ""
+#~ "Ark was unable to automatically determine the archive type of the "
+#~ "filename. Please use a standard file extension (such as zip, rar or tar."
+#~ "gz), or manually choose one from the following mimetypes."
+#~ msgstr ""
+#~ "Níorbh fhéidir le hArk cineál na cartlainne a dhéanamh amach go "
+#~ "huathoibríoch. Ba chóir duit iarmhír chaighdeánach a úsáid (mar shampla, "
+#~ "zip, rar, nó tar.gz), nó ceann de na cineálacha MIME seo a leanas a "
+#~ "roghnú."
+
+#~ msgctxt "Timestamp"
+#~ msgid "Time"
+#~ msgstr "Am"
+
+#~ msgid "Couldn't open the file '%1', libarchive can't handle it."
+#~ msgstr ""
+#~ "Níorbh fhéidir comhad '%1' a oscailt, níl libarchive in ann é a "
+#~ "láimhseáil."
+
+#~ msgid "Listing entries"
+#~ msgstr "Iontrálacha á dtaispeáint"
+
+#~ msgid "Done!"
+#~ msgstr "Críochnaithe!"
+
+#~ msgid "Could not start a subprocess."
+#~ msgstr "Ní féidir tús a chur le fophróiseas."
+
+#~ msgid "The deletion operation failed."
+#~ msgstr "Theip ar scriosadh."
+
+#~ msgid "Choose Archive Format"
+#~ msgstr "Roghnaigh Formáid na Cartlainne"
+
+#~ msgid "ark"
+#~ msgstr "ark"
+
+#~ msgid "&Invert Selection"
+#~ msgstr "&Inbhéartaigh an Rogha"
+
+#~ msgid "Configure &Ark..."
+#~ msgstr "Cumraigh &Ark..."
+
+#~ msgid "Show Search Bar"
+#~ msgstr "Taispeáin an Barra Cuardaigh"
+
+#~ msgid "Hide Search Bar"
+#~ msgstr "Folaigh an Barra Cuardaigh"
+
+#~ msgid ""
+#~ "The archive \"%1\" has been modified.\n"
+#~ "Do you want to save it?"
+#~ msgstr ""
+#~ "Athraíodh an chartlann \"%1\".\n"
+#~ "An bhfuil fonn ort í a shábháil?"
+
+#~ msgid "Downloading %1..."
+#~ msgstr "%1 á íosluchtú..."
+
+#~ msgid "Total: 0 files"
+#~ msgstr "Iomlán: 0 comhad"
+
+#~ msgid "Run Nevertheless"
+#~ msgstr "Rith Mar Sin Féin"
+
+#~ msgid "&Search:"
+#~ msgstr "&Cuardach:"
+
+#~ msgid "You do not have permission to access that archive."
+#~ msgstr "Níl cead agat an chartlann sin a rochtain."
+
+#~ msgid "Do Not Overwrite"
+#~ msgstr "Ná Forscríobh"
+
+#~ msgid "You do not have permission to write to the directory %1"
+#~ msgstr "Níl cead agat scríobh i gcomhadlann %1"
+
+#~ msgid "Removing..."
+#~ msgstr "Á Bhaint..."
+
+#~ msgctxt "%2 is the total size of selected files"
+#~ msgid "1 files selected  %2"
+#~ msgid_plural "%1 files selected  %2"
+#~ msgstr[0] "%1 chomhad roghnaithe  %2"
+#~ msgstr[1] "%1 chomhad roghnaithe  %2"
+#~ msgstr[2] "%1 chomhad roghnaithe  %2"
+#~ msgstr[3] "%1 gcomhad roghnaithe  %2"
+#~ msgstr[4] "%1 comhad roghnaithe  %2"
+
+#~ msgid "Create Archive"
+#~ msgstr "Cruthaigh Cartlann"
+
+#~ msgid "Unknown archive format or corrupted archive"
+#~ msgstr "Formáid chartlainne anaithnid, nó cartlann truaillithe"
+
+#~ msgid "Extract:"
+#~ msgstr "Bain Amach:"
+
+#~ msgid ""
+#~ "You do not have write permission to this folder. Please provide another "
+#~ "folder."
+#~ msgstr ""
+#~ "Níl cead scríofa agat ar an fhillteán seo. Tabhair fillteán eile, le do "
+#~ "thoil."
+
+#~ msgctxt "Packed Ratio"
+#~ msgid "%1 %"
+#~ msgstr "%1 %"
+
+#~ msgid "(c) 1997-2005, The Various Ark Developers"
+#~ msgstr "© 1997-2005, Na Forbróirí Éagsúla Ark"
+
+#~ msgid "New &Window"
+#~ msgstr "&Fuinneog Nua"
+
+#~ msgid "Re&load"
+#~ msgstr "At&hluchtaigh"
+
+#~ msgid "Open &as:"
+#~ msgstr "Oscail &mar:"
+
+#~ msgid "Autodetect (default)"
+#~ msgstr "Braith go huathoibríoch (réamhshocrú)"
+
+#~ msgid "Please Wait"
+#~ msgstr "Fan go fóill, le do thoil"
+
+#~ msgid "Translate &LF to DOS CRLF (Zip)"
+#~ msgstr "Tiontaigh &LF go CRLF DOS (Zip)"
+
+#~ msgid "&Store symlinks as links (Zip, Rar)"
+#~ msgstr "&Stóráil naisc shiombalacha mar naisc (Zip, Rar)"
+
+#~ msgid "&Recursively add subfolders (Zip, Rar)"
+#~ msgstr "Cuir fofhillteáin leis go h&athchúrsach (Zip, Rar)"
+
+#~ msgid "Overwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "Forscríobh comhaid (Zip, Tar, Zoo, Rar)"
+
+#~ msgid "Preserve permissions"
+#~ msgstr "Caomhnaigh ceadanna"
+
+#~ msgid "Translate LF to DOS CRLF"
+#~ msgstr "Tiontaigh LF go CRLF DOS"
+
+#~ msgid "Store symlinks as links (Zip, Rar)"
+#~ msgstr "Stóráil naisc shiombalacha mar naisc (Zip, Rar)"
+
+#~ msgid "Recursively add subfolders (Zip, Rar)"
+#~ msgstr "Cuir fofhillteáin leis go hathchúrsach (Zip, Rar)"
+
+#~ msgid "Convert filenames to lowercase (Zip, Rar)"
+#~ msgstr "Tiontaigh ainmneacha comhaid go dtí an cás íochtair (Zip, Rar)"
+
+#~ msgid "Convert filenames to uppercase"
+#~ msgstr "Tiontaigh ainmneacha comhaid go dtí an cás uachtair"
+
+#~ msgid "Show search bar"
+#~ msgstr "Taispeáin an barra cuardaigh"
+
+#~ msgid "Enable Konqueror integration"
+#~ msgstr "Cumasaigh comhtháthú Konqueror"
+
+#~ msgid "Use integrated viewer"
+#~ msgstr "Úsáid amharcán comhtháite"
+
+#~ msgid "Tar Command"
+#~ msgstr "Ordú Tar"
+
+#~ msgid "&Edit"
+#~ msgstr "&Eagar"
+
+#~ msgid "O&verwrite files (Zip, Tar, Zoo, Rar)"
+#~ msgstr "Forscríobh co&mhaid (Zip, Tar, Zoo, Rar)"
+
+#~ msgid "&Preserve permissions (Tar)"
+#~ msgstr "&Caomhnaigh ceadanna (Tar)"
+
+#~ msgid "Convert file names to &lowercase (Zip, Rar)"
+#~ msgstr "Tiontaigh ainmneacha comhaid go dtí an cás í&ochtair (Zip, Rar)"
+
+#~ msgid "Convert file names to &uppercase (Rar)"
+#~ msgstr "Tiontaigh ainmneacha comhaid go dtí an cás &uachtair (Rar)"
+
+#~ msgid "&Use integrated viewer"
+#~ msgstr "Ú&sáid amharcán comhtháite"
+
+#~ msgid "&Enable Konqueror integration"
+#~ msgstr "&Cumasaigh comhtháthú Konqueror"
+
+#~ msgid " Permissions "
+#~ msgstr " Ceadanna "
+
+#~ msgid " Owner/Group "
+#~ msgstr " Úinéir/Grúpa "
+
+#~ msgid " Timestamp "
+#~ msgstr " Stampa Ama "
+
+#~ msgid " Link "
+#~ msgstr " Nasc "
+
+#~ msgid " Size Now "
+#~ msgstr " Méid Anois "
+
+#~ msgid " Ratio "
+#~ msgstr " Cóimheas "
+
+#~ msgid "Settings"
+#~ msgstr "Socruithe"
+
+#~ msgid "Translate LF to DOS &CRLF (Zip)"
+#~ msgstr "Tiontaigh LF go &CRLF DOS (Zip)"
+
+#~ msgid "Addition"
+#~ msgstr "Suimiú"
+
+#~ msgid "(c) 1997-2006, The Various Ark Developers"
+#~ msgstr "© 1997-2006, Na Forbróirí Éagsúla Ark"

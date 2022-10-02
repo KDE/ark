@@ -1,0 +1,1179 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kappname "&ark;">
+  <!ENTITY package "kdeutils">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Russian "INCLUDE"
+> <!-- change language only here -->
+]>
+
+<book lang="&language;">
+
+<bookinfo>
+<title
+>Руководство &ark;</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+
+<othercredit role="translator"
+><firstname
+>Олег</firstname
+> <surname
+>Баталов</surname
+> <affiliation
+><address
+><email
+>batalov@twiga.kz</email
+></address
+></affiliation
+><contrib
+>Перевод на русский</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>Henrique Pinto</holder>
+</copyright>
+
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2009-01-24</date>
+<releaseinfo
+>2.12</releaseinfo>
+
+<abstract>
+<para
+>&ark; архиватор для &kde;.</para
+></abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>archive</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>compression</keyword>
+<keyword
+>lha</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Введение</title>
+
+<para
+>&ark; - программа для работы с архивами различных форматов в среде &kde;. С помощью &ark; архивы можно просматривать, извлекать, создавать и изменять. Программа может обрабатывать различные форматы, как-то: <command
+>tar</command
+>, <command
+>gzip</command
+>, <command
+>bzip2</command
+>, <command
+>rar</command
+>, <command
+>zip</command
+> и <command
+>lha</command
+> (если установлены соответствующие утилиты командной строки).</para>
+</chapter>
+
+<chapter id="using-ark">
+<title
+>Использование &ark;</title>
+
+<sect1 id="ark-open">
+<title
+>Открытие архивов</title>
+
+<para
+>Для открытия архива в &ark; выберите в меню <guimenu
+>Файл</guimenu
+> пункт <guimenuitem
+>Открыть</guimenuitem
+>. Вы можете открыть файл архива, перенеся его из &konqueror; или &dolphin;. Файл архива должен быть связан с &ark;, так что вы можете щёлкнуть <mousebutton
+>правой</mousebutton
+> кнопкой мыши на имени файла в &konqueror; или &dolphin;и выбрать в контекстном меню <guimenuitem
+>Открыть с помощью &ark;</guimenuitem
+>, чтобы открыть его или распаковать.</para>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Работа с файлами</title>
+
+<para
+>Как только архив открыт, вы можете выполнять различные операции с файлами в нём. Щёлкая <mousebutton
+>правой</mousebutton
+> кнопкой мыши на имени файла в архиве, либо выбирая файл и используя меню <guimenu
+>Действие</guimenu
+>, вы можете выбрать необходимое действие над этим файлом.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Добавить файл...</guimenuitem
+> - добавляет файлы с диска в архив.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Добавить директорию...</guimenuitem
+> - добавляет директории с диска в архив.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Удалить</guimenuitem
+> - удаляет выбранные файлы из архива.</para>
+</listitem
+> 
+<listitem>
+<para
+><guimenuitem
+>Извлечь...</guimenuitem
+> - извлекает всё содержимое архива в указанное расположение на диске.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Предпросмотр</guimenuitem
+> - позволяет открыть файл в соответствующей программе.</para>
+</listitem>
+</itemizedlist>
+
+</sect1>
+<sect1 id="ark-extract">
+<title
+>Извлечение из архива</title>
+
+<para
+>Как только архив был открыт в &ark;, его содержимое может быть извлечено. Чтобы быстро извлечь файлы из архива выберите в меню <guimenu
+>Действие</guimenu
+> пункт <guimenuitem
+>Распаковать...</guimenuitem
+>. Это откроет подменю с ранее используемыми директориями, и вы можете быстро извлечь архив в одну из них. Установка отметки справа от кнопки <guibutton
+>Извлечь</guibutton
+> производит такое же действие. </para>
+<para
+>Для того чтобы открыть окно <guilabel
+>Распаковать</guilabel
+>, нажмите на кнопку <guibutton
+>Распаковать</guibutton
+> на панели инструментов или воспользуйтесь сочетанием клавиш <keycombo action="simul"
+>&Ctrl; <keycap
+>E</keycap
+></keycombo
+>. Этот диалог позволяет выбрать куда распаковывать файлы из архива. По умолчанию, это директория с архивом.</para>
+<para
+>Можно указать, чтобы файлы извлекались в поддиректорию. По умолчанию, имя этой поддиректория состоит из первой части имени архива, но в случае необходимости его можно отредактировать. Если необходимо сохранять папки при извлечении, выберите эту опцию. Можно также указать, что по завершении извлечения файла папка должна быть открыта в &konqueror; или &dolphin;.</para>
+
+<para
+>Выделяя файлы в списке, можно точно выбирать файлы для извлечения:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Выбранные файлы</guimenuitem
+> извлекает все выделенные файлы.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Все</guimenuitem
+> извлекает всё содержимое архива.</para>
+</listitem
+> 
+</itemizedlist>
+
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Создание архивов и добавление файлов</title>
+
+<para
+>Для создания нового архива в &ark; выберите <guimenuitem
+>Создать</guimenuitem
+> в меню <guimenu
+>Файл</guimenu
+>.</para>
+
+<para
+>Здесь вы можете указать имя архива и его расширение  (<literal role="extension"
+>tar.gz</literal
+>, <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>bz2</literal
+> и пр.) или выбрать поддерживаемый формат в меню <guilabel
+>Фильтр</guilabel
+> и отметить галочкой пункт <guilabel
+>Автоматически выбирать расширение</guilabel
+>. Для добавления файлов в архив выберите в меню <guimenu
+>Действие</guimenu
+> пункт <guimenuitem
+>Добавить файл...</guimenuitem
+>. Если вы хотите добавить в архив всю папку, выберите в меню <guimenu
+>Действие</guimenu
+> пункт <guimenuitem
+>Добавить папку...</guimenuitem
+>.</para>
+
+<para
+>Другой способ добавления файлов в архив состоит в переносе файлов из &konqueror;, &dolphin; или рабочего стола в главное окно &ark;, при этом перенесённый файл будет добавлен в текущий архив.</para>
+
+</sect1>
+
+</chapter>
+<!-- no configuration in 4.2
+<chapter id="configuration">
+<title
+>Configuring &ark;</title>
+
+<sect1 id="generalsettings">
+<title
+>General Settings</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><guilabel
+>Use integrated viewer</guilabel
+></term>
+<listitem>
+<para
+>Use the integrated viewer to view files, if possible.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Enable &konqueror; integration</guilabel
+></term>
+<listitem>
+<para
+>Enable the plugin for extracting or adding files to archives through &konqueror; context menus.</para>
+<para
+>This option only works if the &konqueror; integration plugin from kdeaddons is installed on your system.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="addition">
+<title
+>File Addition Settings</title>
+
+<para
+>Many of these options are only configurable for specific archive
+formats.  Other formats may behave either way and are not
+configurable.</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Replace old files only with newer
+files</guilabel
+></term>
+<listitem>
+<para
+>If you add filenames that already exist in an archive, only
+replace them if the added files are newer than the ones already
+present in the archive.</para>
+</listitem>
+</varlistentry>
+-->
+<!-- TODO: Entry seems to have disappeared, confirm that it's not just 
+hidden because I don't have lha installed
+<varlistentry>
+<term
+><guilabel
+>Keep entries generic (Lha)</guilabel
+></term>
+<listitem>
+<para
+> FIXME: Find out what this is</para>
+<para
+>Affects only Lha archives</para>
+</listitem>
+</varlistentry>
+ -->
+<!--
+<varlistentry>
+<term
+><guilabel
+>Force MS-DOS short filenames (Zip)</guilabel
+></term>
+<listitem>
+<para
+>Force names to the DOS 8.3 format.</para>
+<para
+>Affects only zip files</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Translate LF to DOS CRLF (Zip)</guilabel
+></term>
+<listitem>
+<para
+>Convert the line endings in text files to DOS format from &UNIX; 
+format.</para>
+<para
+>Affects only zip files</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Store symlinks as links (Zip, Rar)</guilabel
+></term>
+<listitem>
+<para
+>Save links inside the archive, instead of following them and
+including the files being linked to.</para>
+<para
+>Affects zip and rar archives.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Recursively add subfolders (Zip,
+Rar)</guilabel
+></term>
+<listitem>
+<para
+>If you add a folder to an archive, also add any
+subfolders inside.  Affects zip and rar archives</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="extraction">
+<title
+>Extraction Settings</title>
+
+<para
+>Many of these options are only configurable for specific archive
+formats.  Other formats may behave either way and are not
+configurable.</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Overwrite files (Zip, Tar, Zoo, Rar)</guilabel
+></term>
+<listitem>
+<para
+>Overwrite any files that have matching names on disk with the
+one from the archive.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Preserve permissions (Tar)</guilabel
+></term>
+<listitem>
+<para
+>Save the user, group, and permission settings on files.  Use
+with care, as this may result in files being extracted that do not
+belong to any valid user on your computer.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Ignore folder names (Zip)</guilabel
+></term>
+<listitem>
+<para
+>Extract all the files into the extraction folder, ignoring
+any folder structure in the archive.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Convert filenames to lowercase (Zip, Rar)</guilabel
+></term>
+<term
+><guilabel
+>Convert filenames to uppercase (Rar)</guilabel
+></term>
+<listitem>
+<para
+>Extract all files with all lowercase (or uppercase) names.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="folders">
+<title
+>Folders</title>
+
+<variablelist>
+<varlistentry>
+<term
+><guilabel
+>Folders</guilabel
+></term>
+<listitem>
+<para
+>This shows the <guilabel
+>Folders</guilabel
+> dialog box, so you
+	can <action
+>choose the default folders</action
+>. You can configure a <guilabel
+>Common folder</guilabel
+> that will be used for all options, use the last used folder, or a custom folder.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect1>
+
+</chapter>
+-->
+<chapter id="commands">
+<title
+>Описание команд</title>
+
+<sect1 id="filemenu">
+<title
+>Меню <guimenu
+>Файл</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Создать</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Создание нового архива</action
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Открыть...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Открытие архива</action
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+> <guisubmenu
+>Открыть недавние</guisubmenu
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Отображает список недавно открытых архивов.</action
+>.</para>
+</listitem>
+</varlistentry>
+
+<!-- varlistentry>
+<term
+><menuchoice>
+<guimenu
+>File</guimenu>
+<guimenuitem
+>New Window</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Opens a new &ark; window</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice>
+<shortcut
+><keycap
+>F5</keycap
+></shortcut>
+<guimenu
+>File</guimenu>
+<guimenuitem
+>Reload</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Loads the current archive again from disk. This will
+refresh &ark;'s view if another program has made changes to the
+archive.</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice>
+<guimenu
+>File</guimenu>
+<guimenuitem
+>Save As</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Allows you to save the current archive under a new file
+name</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice>
+<shortcut>
+<keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap>
+</keycombo>
+</shortcut>
+<guimenu
+>File</guimenu>
+<guimenuitem
+>Close</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Closes the current archive</action
+></para>
+</listitem>
+</varlistentry-->
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl; <keycap
+>Q</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Выход</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Закрывает &ark;</action
+>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<!-- no edit in 4.2 
+<sect1 id="editmenu">
+<title
+>The <guimenu
+>Edit</guimenu
+> Menu</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice>
+<guimenu
+>Edit</guimenu>
+<guimenuitem
+>Select...</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Lets you select files according to their
+filename</action
+>. For example, you could use <literal
+role="extension"
+>*.txt</literal
+> to select all text files. Note that you
+can't use more than one filter at a time.</para>
+</listitem
+> 
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice>
+<shortcut
+><keycombo action="simul"
+>&Ctrl;
+<keycap
+>A</keycap
+></keycombo
+></shortcut>
+<guimenu
+>Edit</guimenu>
+<guimenuitem
+>Select All</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Selects all the files in the archive</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice>
+<guimenu
+>Edit</guimenu>
+<guimenuitem
+>Deselect All</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Unselects all the files in the archive</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice>
+<guimenu
+>Edit</guimenu>
+<guimenuitem
+>Invert Selection</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Reverses which files are selected. Selected files become
+unselected, and unselected files are selected.</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice>
+<guimenu
+>Edit</guimenu>
+<guimenuitem
+>View Shell Output</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+>Displays the <guilabel
+>Shell Output</guilabel
+> box, which
+<action
+>shows you the output of the most recent command(s)</action
+> run
+by &ark;. This is sometimes useful if you are having problems and want
+to troubleshoot.</para>
+</listitem
+> 
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+-->
+<sect1 id="actionmenu">
+<title
+>Меню <guimenu
+>Действие</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Действие</guimenu
+> <guimenuitem
+>Добавить файл...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Открывает окно <guilabel
+>Добавить файлы</guilabel
+>, где можно выбрать файлы. Чтобы выбрать несколько файлов, зажмите &Ctrl;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Действие</guimenu
+> <guimenuitem
+>Добавить папку...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Открывает окно <guilabel
+>Добавить папку</guilabel
+>. Просто выберите папку и нажмите кнопку <guibutton
+>ОК</guibutton
+>.</para>
+</listitem
+> 
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Действие</guimenu
+> <guimenuitem
+>Удалить</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Удалить выбранные файлы из архива.</action
+></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Действие</guimenu
+> <guisubmenu
+>Извлечь...</guisubmenu
+> <guimenuitem
+>Быстро извлечь в...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Это действие откроет подменю с ранее используемыми директориями, и вы можете быстро распаковать файлы в одну из них.</para>
+</listitem
+> 
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Действие</guimenu
+> <guimenuitem
+>Предпросмотр</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Открывает текущий выбранный файл в связанной программе просмотра.</action
+></para>
+</listitem
+> 
+</varlistentry>
+
+<!--varlistentry>
+<term
+><menuchoice>
+<guimenu
+>Action</guimenu>
+<guimenuitem
+>Open With...</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Opens the currently selected file in a program you
+choose.</action
+> The <guilabel
+>Open With...</guilabel
+> dialog box lets
+you choose which program to use. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice>
+<guimenu
+>Action</guimenu>
+<guimenuitem
+>Edit With...</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Opens the currently selected file in a program you
+choose.</action
+> Any changes you make in the editor program will be
+reflected in the archive, as it will be updated. </para>
+</listitem
+> 
+</varlistentry-->
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="settingsmenu">
+<title
+>Меню <guimenu
+>Настройка</guimenu
+></title>
+
+<variablelist>
+
+<!--varlistentry>
+<term
+><menuchoice>
+<guimenu
+>Settings</guimenu>
+<guimenuitem
+>Show Toolbar</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Toggles whether the toolbar is displayed. </action
+></para>
+</listitem>
+</varlistentry-->
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Параметры</guimenu
+> <guimenuitem
+>Показать строку состояния</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+><action
+>Переключает отображение строки состояния. </action
+></para>
+</listitem>
+</varlistentry>
+
+<!--varlistentry>
+<term
+><menuchoice>
+<guimenu
+>Settings</guimenu>
+<guimenuitem
+>Show/Hide Search Bar</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para
+><action
+>Toggles whether the search bar is
+displayed. </action
+></para>
+</listitem>
+</varlistentry-->
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Настройка</guimenu
+> <guimenuitem
+>Настроить быстрые клавиши...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Вызывает диалог <guilabel
+>Настройка быстрых клавиш</guilabel
+>. Здесь вы можете <action
+>настроить быстрые клавиши для большинства пунктов меню</action
+>. Для смены быстрой клавиши выберите из списка действие и выберите комбинацию клавиш, которую нужно использовать. </para>
+</listitem
+> 
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Настройка</guimenu
+> <guimenuitem
+>Настроить панели инструментов...</guimenuitem
+> </menuchoice
+></term>
+<listitem>
+<para
+>Отображает стандартный диалог &kde;, где вы можете настроить панели инструментов.</para>
+</listitem>
+</varlistentry>
+
+<!--varlistentry>
+<term
+><menuchoice>
+<guimenu
+>Settings</guimenu>
+<guimenuitem
+>Configure Ark...</guimenuitem>
+</menuchoice
+></term>
+<listitem>
+<para>
+This opens the &ark; configuration dialog.  The dialog contains four
+modules (General, Addition, Extraction and Folders).  Configuring &ark; is covered in the section <link
+linkend="configuration"
+>Configuration</link
+></para>
+</listitem>
+</varlistentry-->
+</variablelist>
+
+</sect1>
+
+<sect1 id="help-menu">
+<title
+>Меню <guimenu
+>Справка</guimenu
+></title>
+&help.menu.documentation; </sect1>
+
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Авторы и лицензия</title>
+
+<para
+>&ark; &copy; 1997-2008, Разные разработчики &ark;</para>
+
+<itemizedlist>
+<title
+>Авторы:</title>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Корпорация Corel (автор: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Документация &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
+
+<para
+>Обновление документации для &kde; 3.3 - Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+>.</para>
+
+  
+&underFDL; &underGPL; </chapter>
+
+<appendix id="installation">
+<title
+>Установка</title>
+
+<sect1 id="getting-ark">
+<title
+>Как получить &ark;</title>
+&install.intro.documentation; </sect1>
+
+<sect1 id="requirements">
+<title
+>Требования</title>
+
+<para
+>Для успешного использования &ark;, необходим &kde; версии не ниже 4.1, <command
+>Tar</command
+> и свежая версия <command
+>gzip</command
+>. Для успешной обработки архивов других форматов вам необходимы соответствующие утилиты командной строки, такие как <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>rar</command
+>, <command
+>ar</command
+> и <command
+>lha</command
+>. </para>
+
+</sect1>
+
+<sect1 id="compilation">
+<title
+>Компиляция и установка</title>
+&install.compile.documentation; </sect1>
+
+</appendix>
+
+&documentation.index; 
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+
