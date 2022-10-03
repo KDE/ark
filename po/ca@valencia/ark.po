@@ -1597,7 +1597,7 @@ msgstr "Mostra el quadro d'informació"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
-msgstr "Guarda una còpia com a..."
+msgstr "Anomena i guarda una còpia..."
 
 #: part/part.cpp:374
 #, kde-format
