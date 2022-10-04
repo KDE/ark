@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-09-13 00:48+0000\n"
-"PO-Revision-Date: 2022-07-13 15:34+0200\n"
+"PO-Revision-Date: 2022-10-03 14:19+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
-"Language-Team: Korean <kde-kr@kde.org>\n"
+"Language-Team: Korean <kde-i18n-doc@kde.org>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -385,6 +385,9 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"<emphasis>메뉴 표시줄</emphasis>과 <interface>햄버거 메뉴</interface> 단추 사"
+"용을 전환합니다. 두 인터페이스에는 비슷한 명령과 설정 옵션이 포함되어 있습니"
+"다."
 
 #: app/mainwindow.cpp:260
 #, kde-format
@@ -485,6 +488,8 @@ msgid ""
 "version of Ark is running, so as to migrate config entries that were removed/"
 "renamed ...etc"
 msgstr ""
+"Ark의 내부 설정 버전입니다. 업데이트된 Ark 버전이 실행 중인지 확인할 때 사용"
+"하며 버전 업그레이드에 따라서 조정된 설정 항목을 이전하는 등에 사용합니다"
 
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
 #: kerfuffle/ark.kcfg:31
@@ -1558,7 +1563,7 @@ msgstr "복사본을 다른 이름으로 저장..."
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr ""
+msgstr "외부 프로그램으로 열기(&O)"
 
 #: part/part.cpp:379
 #, kde-format
@@ -1626,11 +1631,10 @@ msgid "Click to add files to the archive"
 msgstr "압축 파일에 파일을 추가하려면 클릭하십시오"
 
 #: part/part.cpp:415
-#, fuzzy, kde-format
-#| msgid "Compress to Archive"
+#, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
-msgstr "다음 파일로 압축하기"
+msgstr "압축 파일에서 삭제"
 
 #: part/part.cpp:425
 #, kde-format
