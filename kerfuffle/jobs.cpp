@@ -554,13 +554,13 @@ void ExtractJob::doWork()
              << "Options:" << m_options;
 
     qulonglong totalUncompressedSize = 0;
-    for (Archive::Entry *entry : m_entries) {
+    for (Archive::Entry *entry : qAsConst(m_entries)) {
         totalUncompressedSize += entry->size();
     }
 
     QStorageInfo destinationStorage(m_destinationDir);
 
-    if (totalUncompressedSize > destinationStorage.bytesAvailable()) {
+    if (totalUncompressedSize > static_cast<qulonglong>(destinationStorage.bytesAvailable())) {
         onError(xi18n("No space available on device <filename>%1</filename>", m_destinationDir), QString(), Kerfuffle::DestinationNotWritableError);
         onFinished(false);
         return;
