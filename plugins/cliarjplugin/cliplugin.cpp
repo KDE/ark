@@ -27,7 +27,7 @@ struct ArjFileEntry
         EncryptedMethodGost256 = 2,
         EncryptedMethodGost256L = 3,
         EncryptedMethodGost40bit = 4,
-        EncryptedMethodUnkown = 16
+        EncryptedMethodUnknown = 16
     };
 
     QString fileName() const {
@@ -49,7 +49,7 @@ struct ArjFileEntry
     QDateTime m_timeStamp;
     QString m_attributes;
     bool m_encrypted = false;
-    EncryptedMethod m_encryptedMethod = EncryptedMethodUnkown;
+    EncryptedMethod m_encryptedMethod = EncryptedMethodUnknown;
 };
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
@@ -285,7 +285,7 @@ bool CliPlugin::tryAddCurFileProperties(const QString &line)
     if (garble != QLatin1Char(' ')) {
         m_currentParsedFile->m_encrypted = true;
         m_currentParsedFile->m_encryptedMethod = garble.isDigit() ? static_cast <ArjFileEntry::EncryptedMethod> (garble.digitValue())
-                                                             : ArjFileEntry::EncryptedMethodUnkown;
+                                                             : ArjFileEntry::EncryptedMethodUnknown;
     }
     return true;
 }
@@ -335,7 +335,7 @@ void CliPlugin::sendCurFileEntry()
             { ArjFileEntry::EncryptedMethodGost256L, i18n("GOST256L") },
             { ArjFileEntry::EncryptedMethodGost40bit, i18n("GOST 40-bit") }
         };
-        e->setProperty("method", methods.value(m_currentParsedFile->m_encryptedMethod, i18n("unkown")));
+        e->setProperty("method", methods.value(m_currentParsedFile->m_encryptedMethod, i18n("unknown")));
     }
 
     Q_EMIT entry(e);
