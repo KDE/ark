@@ -19,11 +19,11 @@
     "application/arj": {
         "CompressionMethodDefault": "Good (default)",
         "CompressionMethods": {
-            "Store (no compression)": "0",
+            "FAST! less comp.": "3",
+            "FASTEST! least comp.": "4",
             "Good (default)": "1",
             "Less mem. and comp.": "2",
-            "FAST! less comp.": "3",
-            "FASTEST! least comp.": "4"
+            "Store (no compression)": "0"
         },
         "Encryption": true,
         "EncryptionMethodDefault": "Standard",
@@ -39,11 +39,11 @@
     "application/x-arj": {
         "CompressionMethodDefault": "Good (default)",
         "CompressionMethods": {
-            "Store (no compression)": "0",
+            "FAST! less comp.": "3",
+            "FASTEST! least comp.": "4",
             "Good (default)": "1",
             "Less mem. and comp.": "2",
-            "FAST! less comp.": "3",
-            "FASTEST! least comp.": "4"
+            "Store (no compression)": "0"
         },
         "Encryption": true,
         "EncryptionMethodDefault": "Standard",
