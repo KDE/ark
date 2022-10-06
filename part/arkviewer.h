@@ -13,6 +13,7 @@
 
 #include <KParts/MainWindow>
 #include <KParts/ReadOnlyPart>
+#include <KPluginMetaData>
 #include <KService>
 
 #include <QMimeType>
@@ -31,14 +32,14 @@ private:
     explicit ArkViewer();
 
     static KService::Ptr getExternalViewer(const QString& mimeType);
-    static KService::Ptr getInternalViewer(const QString& mimeType);
+    static KPluginMetaData getInternalViewer(const QString &mimeType);
 
     static void openExternalViewer(const KService::Ptr viewer, const QString& fileName);
-    static void openInternalViewer(const KService::Ptr viewer, const QString& fileName, const QString& entryPath, const QMimeType& mimeType);
+    static void openInternalViewer(const KPluginMetaData &viewer, const QString &fileName, const QString &entryPath, const QMimeType &mimeType);
 
     static bool askViewAsPlainText(const QMimeType& mimeType);
 
-    bool viewInInternalViewer(const KService::Ptr viewer, const QString& fileName, const QString &entryPath, const QMimeType& mimeType);
+    bool viewInInternalViewer(const KPluginMetaData &viewer, const QString &fileName, const QString &entryPath, const QMimeType &mimeType);
 
 private Q_SLOTS:
     void aboutKPart();
