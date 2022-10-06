@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"POT-Creation-Date: 2022-10-06 00:48+0000\n"
 "PO-Revision-Date: 2022-07-10 17:54+0800\n"
 "Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
@@ -557,7 +557,7 @@ msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "解開失敗，因為磁碟已滿。"
 
-#: kerfuffle/cliinterface.cpp:864
+#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:143
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
@@ -1898,6 +1898,36 @@ msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
 "configuration dialog."
 msgstr "刪除操作失敗。請嘗試更新 7z 或在設定中停用 7z 外掛程式。"
+
+#: plugins/cliarjplugin/cliplugin.cpp:319
+#, kde-format
+msgid "ARJ old"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:320
+#, kde-format
+msgid "ARJ"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:321
+#, kde-format
+msgid "GOST256"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:322
+#, kde-format
+msgid "GOST256L"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:323
+#, kde-format
+msgid "GOST 40-bit"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:325
+#, kde-format
+msgid "unkown"
+msgstr ""
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300

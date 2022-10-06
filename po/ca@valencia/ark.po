@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"POT-Creation-Date: 2022-10-06 00:48+0000\n"
 "PO-Revision-Date: 2022-09-13 11:14+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -589,7 +589,7 @@ msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "No s'ha pogut fer l'extracció perquè el disc està ple."
 
-#: kerfuffle/cliinterface.cpp:864
+#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:143
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
@@ -886,7 +886,7 @@ msgstr "Només els fitxers sele&ccionats"
 #: kerfuffle/extractiondialog.ui:203
 #, kde-format
 msgid "All &files"
-msgstr "Tots els &fitxers"
+msgstr "Tots els fi&txers"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openDestinationFolderAfterExtraction)
 #: kerfuffle/extractionsettingspage.ui:17
@@ -1402,7 +1402,7 @@ msgstr "&Arxiva"
 #: part/ark_part.rc:15
 #, kde-format
 msgid "&File"
-msgstr "&Fitxer"
+msgstr "Fi&txer"
 
 #. i18n: ectx: Menu (settings)
 #: part/ark_part.rc:29
@@ -1603,7 +1603,7 @@ msgstr "Anomena i guarda una còpia..."
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr "&Obri en una aplicació externa"
+msgstr "O&bri en una aplicació externa"
 
 #: part/part.cpp:379
 #, kde-format
@@ -1648,7 +1648,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
-msgstr "&Extrau"
+msgstr "E&xtrau"
 
 #: part/part.cpp:402
 #, kde-format
@@ -1662,7 +1662,7 @@ msgstr ""
 #: part/part.cpp:407
 #, kde-format
 msgid "Add &Files..."
-msgstr "Afig &fitxers..."
+msgstr "Afig fi&txers..."
 
 #: part/part.cpp:408 part/part.cpp:471
 #, kde-format
@@ -1919,7 +1919,7 @@ msgstr "S'està movent la carpeta en si mateixa"
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
-"Les entrades amb els mateixos noms no es poden apegar en la mateixa "
+"Les entrades amb els mateixos noms no es poden apegar a la mateixa "
 "destinació."
 
 #: part/part.cpp:1646
@@ -1995,6 +1995,36 @@ msgid ""
 msgstr ""
 "No s'ha pogut fer l'operació de supressió. Intenteu actualitzar «7z» o "
 "desactiveu el connector «7z» en el diàleg de configuració."
+
+#: plugins/cliarjplugin/cliplugin.cpp:319
+#, kde-format
+msgid "ARJ old"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:320
+#, kde-format
+msgid "ARJ"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:321
+#, kde-format
+msgid "GOST256"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:322
+#, kde-format
+msgid "GOST256L"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:323
+#, kde-format
+msgid "GOST 40-bit"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:325
+#, kde-format
+msgid "unkown"
+msgstr ""
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300

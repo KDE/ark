@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"POT-Creation-Date: 2022-10-06 00:48+0000\n"
 "PO-Revision-Date: 2022-06-01 15:37+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -576,7 +576,7 @@ msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "Extragerea a eșuat din cauză că discul e plin."
 
-#: kerfuffle/cliinterface.cpp:864
+#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:143
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
@@ -1994,6 +1994,36 @@ msgid ""
 msgstr ""
 "Operația de ștergere a eșuat. Încercați să înnoiți 7z sau să dezactivați "
 "extensia 7z în dialogul de configurare."
+
+#: plugins/cliarjplugin/cliplugin.cpp:319
+#, kde-format
+msgid "ARJ old"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:320
+#, kde-format
+msgid "ARJ"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:321
+#, kde-format
+msgid "GOST256"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:322
+#, kde-format
+msgid "GOST256L"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:323
+#, kde-format
+msgid "GOST 40-bit"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:325
+#, kde-format
+msgid "unkown"
+msgstr ""
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"POT-Creation-Date: 2022-10-06 00:48+0000\n"
 "PO-Revision-Date: 2022-08-31 22:29+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -578,7 +578,7 @@ msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "Extraction falleva per le disco dur plen."
 
-#: kerfuffle/cliinterface.cpp:864
+#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:143
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
@@ -1985,6 +1985,36 @@ msgid ""
 msgstr ""
 "Operation de deler falleva. Essaya actualisar 7z o deactiva le plugin de 7z "
 "in le dialogo de configuration."
+
+#: plugins/cliarjplugin/cliplugin.cpp:319
+#, kde-format
+msgid "ARJ old"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:320
+#, kde-format
+msgid "ARJ"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:321
+#, kde-format
+msgid "GOST256"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:322
+#, kde-format
+msgid "GOST256L"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:323
+#, kde-format
+msgid "GOST 40-bit"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:325
+#, kde-format
+msgid "unkown"
+msgstr ""
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
