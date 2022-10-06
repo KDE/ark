@@ -14,6 +14,7 @@
 #include <KApplicationTrader>
 #include <KIO/ApplicationLauncherJob>
 #include <KIO/JobUiDelegate>
+#include <KIO/JobUiDelegateFactory>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KMimeTypeTrader>
@@ -78,7 +79,7 @@ void ArkViewer::openExternalViewer(const KService::Ptr viewer, const QString& fi
     const QList<QUrl> fileUrlList = {QUrl::fromLocalFile(fileName)};
     KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(viewer);
     job->setUrls(fileUrlList);
-    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, nullptr));
+    job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, nullptr));
     // The temporary file will be removed when the viewer application exits.
     job->setRunFlags(KIO::ApplicationLauncherJob::DeleteTemporaryFiles);
     job->start();

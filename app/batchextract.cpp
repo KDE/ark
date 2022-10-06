@@ -14,6 +14,7 @@
 #include <KIO/JobTracker>
 #include <KIO/JobUiDelegate>
 #include <KIO/OpenUrlJob>
+#include <KIO/JobUiDelegateFactory>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KWidgetJobTracker>
@@ -154,7 +155,7 @@ void BatchExtract::slotResult(KJob *job)
             const QString path = QDir::cleanPath(destinationFolder());
             const QUrl destination(QUrl::fromLocalFile(path));
             KIO::OpenUrlJob *job = new KIO::OpenUrlJob(destination, QStringLiteral("inode/directory"));
-            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, nullptr));
+            job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, nullptr));
             job->start();
         }
 

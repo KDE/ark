@@ -37,6 +37,7 @@
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
 #include <KIO/OpenUrlJob>
+#include <KIO/JobUiDelegateFactory>
 #include <KJobWidgets>
 #include <KIO/StatJob>
 #include <KMessageBox>
@@ -1048,11 +1049,11 @@ void Part::slotOpenExtractedEntry(KJob *job)
             // trigger the openWith dialog
             KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob();
             job->setUrls({url});
-            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
+            job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
             job->start();
         } else {
             KIO::OpenUrlJob *job = new KIO::OpenUrlJob(url);
-            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
+            job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
             job->start();
         }
     } else if (job->error() != KJob::KilledJobError) {
@@ -1296,7 +1297,7 @@ void Part::slotExtractionDone(KJob* job)
             qCDebug(ARK) << "Shall open URL" << destinationDirectory;
 
             KIO::OpenUrlJob *job = new KIO::OpenUrlJob(destinationDirectory, QStringLiteral("inode/directory"));
-            job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
+            job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
             job->start();
         }
 
