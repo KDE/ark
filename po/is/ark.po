@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-06 00:48+0000\n"
+"POT-Creation-Date: 2022-10-07 00:50+0000\n"
 "PO-Revision-Date: 2022-09-10 13:24+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -584,7 +584,7 @@ msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "Afþjöppun mistókst vegna þess að diskurinn er fullur."
 
-#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:143
+#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:144
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
@@ -1956,35 +1956,37 @@ msgid ""
 "configuration dialog."
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:319
+#: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:320
+#: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:321
+#: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:322
+#: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:323
+#: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:325
-#, kde-format
-msgid "unkown"
-msgstr ""
+#: plugins/cliarjplugin/cliplugin.cpp:338
+#, fuzzy, kde-format
+#| msgctxt "referred to compression method"
+#| msgid "unknown"
+msgid "unknown"
+msgstr "óþekkt"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300

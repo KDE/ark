@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-06 00:48+0000\n"
-"PO-Revision-Date: 2022-09-13 11:14+0200\n"
+"POT-Creation-Date: 2022-10-07 00:50+0000\n"
+"PO-Revision-Date: 2022-10-06 12:08+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -589,7 +589,7 @@ msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "No s'ha pogut fer l'extracció perquè el disc està ple."
 
-#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:143
+#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:144
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
@@ -1996,35 +1996,37 @@ msgstr ""
 "No s'ha pogut fer l'operació de supressió. Intenteu actualitzar «7z» o "
 "desactiveu el connector «7z» en el diàleg de configuració."
 
-#: plugins/cliarjplugin/cliplugin.cpp:319
+#: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ antic"
 
-#: plugins/cliarjplugin/cliplugin.cpp:320
+#: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
-#: plugins/cliarjplugin/cliplugin.cpp:321
+#: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
-#: plugins/cliarjplugin/cliplugin.cpp:322
+#: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
-#: plugins/cliarjplugin/cliplugin.cpp:323
+#: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST de 40 bits"
 
-#: plugins/cliarjplugin/cliplugin.cpp:325
-#, kde-format
-msgid "unkown"
-msgstr ""
+#: plugins/cliarjplugin/cliplugin.cpp:338
+#, fuzzy, kde-format
+#| msgctxt "referred to compression method"
+#| msgid "unknown"
+msgid "unknown"
+msgstr "desconegut"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
@@ -2263,3 +2265,6 @@ msgstr "No s'ha pogut copiar l'entrada: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "No s'han pogut establir les metadades de l'entrada: %1"
+
+#~ msgid "unkown"
+#~ msgstr "desconegut"

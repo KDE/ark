@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-06 00:48+0000\n"
-"PO-Revision-Date: 2022-09-13 11:19+0100\n"
+"POT-Creation-Date: 2022-10-07 00:50+0000\n"
+"PO-Revision-Date: 2022-10-06 09:07+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -25,7 +25,7 @@ msgstr ""
 "X-POFile-SpellExtra: lblArchiveNamed lblIcon lblNumberOfFiles lblModified\n"
 "X-POFile-SpellExtra: lblHasComment lblArchiveType lblPasswordProtected\n"
 "X-POFile-SpellExtra: lblUnpackedSize MD SHA Mín Máx GZ TAR unrar Unrar\n"
-"X-POFile-SpellExtra: AES Batyrenko Vladyslav BLAKE\n"
+"X-POFile-SpellExtra: AES Batyrenko Vladyslav BLAKE ARJ GOST\n"
 "X-POFile-IgnoreConsistency: Comment\n"
 "X-POFile-IgnoreConsistency: Name\n"
 
@@ -594,7 +594,7 @@ msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "A extracção foi mal-sucedida porque o disco está cheio."
 
-#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:143
+#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:144
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
@@ -2002,35 +2002,37 @@ msgstr ""
 "A operação de remoção foi mal-sucedida. Tente actualizar o 7z ou desactivar "
 "o 'plugin' do 7z na janela de configuração."
 
-#: plugins/cliarjplugin/cliplugin.cpp:319
+#: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ antigo"
 
-#: plugins/cliarjplugin/cliplugin.cpp:320
+#: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
-#: plugins/cliarjplugin/cliplugin.cpp:321
+#: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
-#: plugins/cliarjplugin/cliplugin.cpp:322
+#: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
-#: plugins/cliarjplugin/cliplugin.cpp:323
+#: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST a 40-bits"
 
-#: plugins/cliarjplugin/cliplugin.cpp:325
-#, kde-format
-msgid "unkown"
-msgstr ""
+#: plugins/cliarjplugin/cliplugin.cpp:338
+#, fuzzy, kde-format
+#| msgctxt "referred to compression method"
+#| msgid "unknown"
+msgid "unknown"
+msgstr "desconhecido"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
@@ -2270,3 +2272,6 @@ msgstr "Não foi possível copiar o elemento: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Não foi possível definir os meta-dados do elemento: %1"
+
+#~ msgid "unkown"
+#~ msgstr "desconhecido"

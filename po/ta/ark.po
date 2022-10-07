@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-06 00:48+0000\n"
-"PO-Revision-Date: 2022-09-13 20:57+0530\n"
+"POT-Creation-Date: 2022-10-07 00:50+0000\n"
+"PO-Revision-Date: 2022-10-06 21:44+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -376,6 +376,8 @@ msgid ""
 "a single file archive, a subfolder with the name of the archive will be "
 "created."
 msgstr ""
+"காப்பகத்தின் உள்ளடக்கம் படிக்கப்பட்டு, ஒரே கோப்பாகவோ ஒரே அடைவாகவோ அது கண்டறியப்படாத "
+"பட்சத்தில், காப்பகத்தின் பெயரில் ஓர் புதிய சார்-அடைவு உருவாக்கப்படும்."
 
 #: app/main.cpp:187
 #, kde-format
@@ -395,6 +397,9 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"<emphasis>பட்டிப் பட்டைக்கு</emphasis> பதிலாக <interface>ஹாம்பர்கர் பட்டியையோ</"
+"interface> மாறாகவோ அமைக்க இது உதவும். பெரும்பாலும் இரண்டிலும் ஒரே கட்டளைகளும் "
+"விருப்பத்தேர்வுகளும் இருக்கும்."
 
 #: app/mainwindow.cpp:260
 #, kde-format
@@ -577,7 +582,7 @@ msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "வட்டில் இடமில்லாத‍தால் பிரித்தெடுத்தல் தோல்வியடைந்த‍து."
 
-#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:143
+#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:144
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
@@ -698,7 +703,7 @@ msgstr "பகுதியின் அளவு:"
 #: kerfuffle/previewsettingspage.ui:32
 #, kde-format
 msgid " megabytes"
-msgstr ""
+msgstr " மெகாபைட்டுகள்"
 
 #: kerfuffle/createdialog.cpp:111
 #, kde-format
@@ -897,18 +902,20 @@ msgid ""
 "Whether to check by default the extraction into subfolder checkbox in the "
 "Extraction Dialog, when the archive has more than one top-level entry."
 msgstr ""
+"பிரித்தெடுப்பு சாளரத்தில், 'சார்-அடைவுக்குள் பிரித்தெடு' எனும் தேர்வுப்பெட்டி இயல்பாக "
+"குறிக்கப்பட்டிருக்க வேண்டுமா."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
 #: kerfuffle/extractionsettingspage.ui:44
 #, kde-format
 msgid "Extract to a subfolder if the archive has more than one top-level entry"
-msgstr ""
+msgstr "காப்பகத்தினுள் பல மேனிலைப் உருப்படிகள் இருந்தால் சார்-அடைவுக்கு பிரித்தெடு"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/generalsettingspage.ui:17
 #, kde-format
 msgid "When clicking a file in an archive or pressing the Return key:"
-msgstr ""
+msgstr "காப்பகத்திலுள்ள கோப்பை கிளிக் செய்யும்போதோ Enter விசையை அழுத்தும்போதோ:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: kerfuffle/generalsettingspage.ui:33
@@ -1959,35 +1966,37 @@ msgstr ""
 "நீக்குவது தோல்வியடைந்த‍து. 7z-ஐ புதுப்பியுங்கள், அல்லது அமைப்புகளில் 7z செருகுநிரலை "
 "முடக்குங்கள்."
 
-#: plugins/cliarjplugin/cliplugin.cpp:319
+#: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:320
+#: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:321
+#: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:322
+#: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:323
+#: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:325
-#, kde-format
-msgid "unkown"
-msgstr ""
+#: plugins/cliarjplugin/cliplugin.cpp:338
+#, fuzzy, kde-format
+#| msgctxt "referred to compression method"
+#| msgid "unknown"
+msgid "unknown"
+msgstr "தெரியாதது"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
@@ -2225,6 +2234,9 @@ msgstr "பதிவை நகலெடுக்க முடியவில்�
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "பதிவின் மேனிலைத் தரவை (metadata-வை) அமைக்க முடியவில்லை: %1"
+
+#~ msgid "unkown"
+#~ msgstr "தெரியாத‍து"
 
 #~ msgctxt "open a file with external program"
 #~ msgid "&Open"

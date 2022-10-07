@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-06 00:48+0000\n"
+"POT-Creation-Date: 2022-10-07 00:50+0000\n"
 "PO-Revision-Date: 2021-05-02 20:49-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -605,7 +605,7 @@ msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "空き容量がないため展開に失敗しました。"
 
-#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:143
+#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:144
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
@@ -2025,35 +2025,37 @@ msgstr ""
 "削除に失敗しました。p7zip のアップグレードまたは設定ダイアログからプラグイン"
 "を無効にしてください。"
 
-#: plugins/cliarjplugin/cliplugin.cpp:319
+#: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:320
+#: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:321
+#: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:322
+#: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:323
+#: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
 msgstr ""
 
-#: plugins/cliarjplugin/cliplugin.cpp:325
-#, kde-format
-msgid "unkown"
-msgstr ""
+#: plugins/cliarjplugin/cliplugin.cpp:338
+#, fuzzy, kde-format
+#| msgctxt "referred to compression method"
+#| msgid "unknown"
+msgid "unknown"
+msgstr "不明"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
@@ -2286,26 +2288,3 @@ msgstr "エントリをコピーできません: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "エントリにメタデータを設定できません: %1"
-
-#~ msgctxt "open a file with external program"
-#~ msgid "&Open"
-#~ msgstr "開く(&O)"
-
-#~ msgctxt "@info:tooltip"
-#~ msgid "Click to open the selected file with the associated application"
-#~ msgstr "クリックして選択したファイルを関連付けされたアプリケーションで開く"
-
-#~ msgctxt "Uncompressed size of a file inside an archive"
-#~ msgid "Size"
-#~ msgstr "サイズ"
-
-#~ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#~ msgid "Here (as TAR.GZ)"
-#~ msgstr "ここに (TAR.GZ として)"
-
-#~ msgid ""
-#~ "This archive contains archive entries with absolute paths, which are not "
-#~ "supported by Ark."
-#~ msgstr ""
-#~ "このアーカイブには Ark がサポートしていない絶対パスのエントリが含まれてい"
-#~ "ます。"
