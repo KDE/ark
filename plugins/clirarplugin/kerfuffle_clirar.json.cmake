@@ -14,7 +14,7 @@
         "Description[en_GB]": "Full support for the RAR archive format",
         "Description[es]": "Uso total del formato de archivo comprimido RAR",
         "Description[et]": "RAR-arhiivi vormingu täielik toetus",
-        "Description[eu]": "RAR artxibo formatuarentzako euskarri osoa",
+        "Description[eu]": "RAR artxibo formatuaren euskarri osoa",
         "Description[fi]": "Täysi RAR-tiedostomuodon tuki",
         "Description[fr]": "Prise en charge complète du format d'archive RAR",
         "Description[gl]": "Compatibilidade total co formato de arquivo RAR.",
