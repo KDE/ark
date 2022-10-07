@@ -14,7 +14,7 @@
         "Description[en_GB]": "Full support for the zip and 7z archive formats",
         "Description[es]": "Uso total de los formatos de archivos comprimidos zip y 7z",
         "Description[et]": "Zip ja 7z arhiivivormingu täielik toetus",
-        "Description[eu]": "zip eta 7z artxibo fitxategientzako euskarri osoa",
+        "Description[eu]": "zip eta 7z artxibo fitxategien euskarri osoa",
         "Description[fi]": "Täysi Zip- ja 7z-tiedostomuotojen tuki",
         "Description[fr]": "Prise en charge complète des formats d'archive zip et 7z",
         "Description[gl]": "Compatibilidade total cos formatos de arquivo zip and 7z.",
