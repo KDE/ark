@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-07 00:50+0000\n"
+"POT-Creation-Date: 2022-10-08 00:51+0000\n"
 "PO-Revision-Date: 2020-10-23 11:22+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -41,27 +41,27 @@ msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr "Ar&hiiv"
 
-#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
 #, kde-format
 msgid "Extracting Files"
 msgstr "Failide lahtipakkimine"
 
-#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
 #, kde-format
 msgid "Source archive"
 msgstr "Lähtearhiiv"
 
-#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#: app/batchextract.cpp:105 app/batchextract.cpp:169
 #, kde-format
 msgid "Destination"
 msgstr "Sihtkoht"
 
-#: app/batchextract.cpp:117
+#: app/batchextract.cpp:118
 #, kde-format
 msgid "The following files could not be extracted:"
 msgstr "Järgmisi faile ei saa lahti pakkida:"
 
-#: app/batchextract.cpp:136
+#: app/batchextract.cpp:137
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -71,7 +71,7 @@ msgstr ""
 "Tekkis tõrge <filename>%1</filename> lahtipakkimisel. Rohkem arhiive lahti "
 "ei pakita."
 
-#: app/batchextract.cpp:137
+#: app/batchextract.cpp:138
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -81,13 +81,13 @@ msgstr ""
 "Tekkis tõrge <filename>%1</filename> lahtipakkimisel:<nl/><message>%2</"
 "message><nl/>Rohkem arhiive lahti ei pakita."
 
-#: app/batchextract.cpp:141
+#: app/batchextract.cpp:142
 #, kde-kuit-format
 msgctxt "@info"
 msgid "There was an error while extracting <filename>%1</filename>."
 msgstr "Tekkis tõrge <filename>%1</filename> lahtipakkimisel."
 
-#: app/batchextract.cpp:142
+#: app/batchextract.cpp:143
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -97,7 +97,7 @@ msgstr ""
 "Tekkis tõrge <filename>%1</filename> lahtipakkimisel:<nl/><message>%2</"
 "message>"
 
-#: app/batchextract.cpp:293
+#: app/batchextract.cpp:294
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1410,22 +1410,22 @@ msgstr "Peamine tööriistariba"
 msgid "&Help"
 msgstr ""
 
-#: part/arkviewer.cpp:52
+#: part/arkviewer.cpp:53
 #, kde-format
 msgid "Closing preview"
 msgstr "Eelvaatluse sulgemine"
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:54
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Palun oota, kuni eelvaatlus suletakse..."
 
-#: part/arkviewer.cpp:100
+#: part/arkviewer.cpp:101
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "Sisemine näitaja ei saa seda faili näidata."
 
-#: part/arkviewer.cpp:116
+#: part/arkviewer.cpp:117
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1434,19 +1434,19 @@ msgstr ""
 "Sisemine näitaja ei saa seda tüüpi faili eelvaatlust näidata<nl/>(%1).<nl/"
 "><nl/>Kas proovida näidata seda klaartekstina?"
 
-#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "Faili eelvaatlus pole võimalik"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "Eelvaatlus tekstina"
 
-#: part/arkviewer.cpp:128
+#: part/arkviewer.cpp:129
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1455,7 +1455,7 @@ msgstr ""
 "Sisemine näitaja ei saa tundmatut tüüpi faili eelvaatlust näidata<nl/>().<nl/"
 "><nl/>Kas proovida näidata seda klaartekstina?"
 
-#: part/arkviewer.cpp:192
+#: part/arkviewer.cpp:193
 #, fuzzy, kde-format
 #| msgid "Ark KParts Component"
 msgctxt "@action"
@@ -1550,81 +1550,81 @@ msgstr ""
 "Järgmiste asukohtadega failid on juba olemas. Kas jätkata ja kirjutada need "
 "üle?"
 
-#: part/part.cpp:111
+#: part/part.cpp:112
 #, kde-format
 msgid "Comment"
 msgstr "Kommentaar"
 
-#: part/part.cpp:122
+#: part/part.cpp:123
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Kommentaari on muudetud"
 
-#: part/part.cpp:127
+#: part/part.cpp:128
 #, kde-format
 msgid "Save"
 msgstr "Salvesta"
 
-#: part/part.cpp:150
+#: part/part.cpp:151
 #, kde-format
 msgid "Type to search..."
 msgstr "Kirjuta otsimiseks ..."
 
-#: part/part.cpp:308
+#: part/part.cpp:309
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark saab arhiive lahti pakkida ainult kohalikesse asukohtadesse."
 
-#: part/part.cpp:363
+#: part/part.cpp:364
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Infopaneeli näitamine"
 
-#: part/part.cpp:370
+#: part/part.cpp:371
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Salvesta koopia kui ..."
 
-#: part/part.cpp:374
+#: part/part.cpp:375
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr ""
 
-#: part/part.cpp:379
+#: part/part.cpp:380
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Ava &rakendusega..."
 
-#: part/part.cpp:381
+#: part/part.cpp:382
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Klõpsa valitud faili avamiseks välises rakenduses"
 
-#: part/part.cpp:385
+#: part/part.cpp:386
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&Eelvaatlus"
 
-#: part/part.cpp:387
+#: part/part.cpp:388
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Klõpsa valitud faili vaatamiseks"
 
-#: part/part.cpp:392
+#: part/part.cpp:393
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "&Paki kõik lahti"
 
-#: part/part.cpp:394
+#: part/part.cpp:395
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1633,13 +1633,13 @@ msgstr ""
 "Klõpsa lahtipakkimisdialoogi avamiseks, kus saab valida, kuidas pakkida "
 "lahti kõik arhiivi failid"
 
-#: part/part.cpp:399
+#: part/part.cpp:400
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "Paki la&hti"
 
-#: part/part.cpp:402
+#: part/part.cpp:403
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1648,55 +1648,55 @@ msgstr ""
 "Klõpsa lahtipakkimisdialoogi avamiseks, kus saab valida kas kõigi või ainult "
 "valitud failide lahtipakkimise"
 
-#: part/part.cpp:407
+#: part/part.cpp:408
 #, kde-format
 msgid "Add &Files..."
 msgstr "Lisa &faile..."
 
-#: part/part.cpp:408 part/part.cpp:471
+#: part/part.cpp:409 part/part.cpp:472
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Klõpsa failide lisamiseks arhiivi"
 
-#: part/part.cpp:415
+#: part/part.cpp:416
 #, fuzzy, kde-format
 #| msgid "Compress to Archive"
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Pakkimine arhiivi"
 
-#: part/part.cpp:425
+#: part/part.cpp:426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Omadused"
 
-#: part/part.cpp:427
+#: part/part.cpp:428
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Klõpsa arhiivi omaduste vaatamiseks"
 
-#: part/part.cpp:433
+#: part/part.cpp:434
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Klõpsa kommentaari lisamiseks või muutmiseks"
 
-#: part/part.cpp:438
+#: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "&Terviklikkuse kontroll"
 
-#: part/part.cpp:440 part/part.cpp:472
+#: part/part.cpp:441 part/part.cpp:473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Klõpsa arhiivi terviklikkuse kontrollimiseks"
 
-#: part/part.cpp:466
+#: part/part.cpp:467
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1708,7 +1708,7 @@ msgstr ""
 "toetatud.<nl/><nl/>Paki failid lahti ja loo uus arhiiv, kui soovid faile "
 "ikkagi lisada."
 
-#: part/part.cpp:469
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1718,74 +1718,74 @@ msgstr ""
 "Parooliga kaitstud krüptimata päisega arhiivide terviklikkuse kontroll ei "
 "ole veel toetatud."
 
-#: part/part.cpp:537
+#: part/part.cpp:538
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Muuda kommentaari"
 
-#: part/part.cpp:538 part/part.cpp:546
+#: part/part.cpp:539 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Lisa &kommentaar"
 
-#: part/part.cpp:647
+#: part/part.cpp:648
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Arhiiv läbi terviklikkuse kontrolli edukalt."
 
-#: part/part.cpp:647 part/part.cpp:649
+#: part/part.cpp:648 part/part.cpp:650
 #, kde-format
 msgid "Test Results"
 msgstr "Testi tulemused"
 
-#: part/part.cpp:649
+#: part/part.cpp:650
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Arhiiv ei läbinud terviklikkuse kontrolli."
 
-#: part/part.cpp:670
+#: part/part.cpp:671
 #, kde-format
 msgid "Extract To..."
 msgstr "Paki lahti..."
 
-#: part/part.cpp:684
+#: part/part.cpp:685
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Kiire lahtipakkimine..."
 
-#: part/part.cpp:814
+#: part/part.cpp:815
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Üldine"
 
-#: part/part.cpp:815
+#: part/part.cpp:816
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Lahtipakkimine"
 
-#: part/part.cpp:816
+#: part/part.cpp:817
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Pluginad"
 
-#: part/part.cpp:817
+#: part/part.cpp:818
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Eelvaatlused"
 
-#: part/part.cpp:829
+#: part/part.cpp:830
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> on kataloog."
 
-#: part/part.cpp:838
+#: part/part.cpp:839
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1795,7 +1795,7 @@ msgstr ""
 "<filename>%1</filename> ülekirjutamine nurjus. Kontrolli, kas sul on selleks "
 "piisavalt õigusi."
 
-#: part/part.cpp:844
+#: part/part.cpp:845
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1803,13 +1803,13 @@ msgid ""
 "file."
 msgstr "Arhiivi <filename>%1</filename> luuakse niipea, kui lisad mõne faili."
 
-#: part/part.cpp:847
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Arhiivi <filename>%1</filename> ei leitud."
 
-#: part/part.cpp:852
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1819,7 +1819,7 @@ msgstr ""
 "Arhiivi <filename>%1</filename> laadimine nurjus, sest seda ei olnud "
 "võimalik lugeda."
 
-#: part/part.cpp:865
+#: part/part.cpp:866
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1827,25 +1827,25 @@ msgid ""
 "it?"
 msgstr "Arhiiv <filename>%1</filename> on juba olemas. Kas kirjutada see üle?"
 
-#: part/part.cpp:867
+#: part/part.cpp:868
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Fail on olemas"
 
-#: part/part.cpp:904
+#: part/part.cpp:905
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Arhiiv on tühi või ei suutnud Ark selle sisu avada."
 
-#: part/part.cpp:909
+#: part/part.cpp:910
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark ei toeta veel UDF-failisüsteemiga ISO-faile."
 
-#: part/part.cpp:939
+#: part/part.cpp:940
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1855,12 +1855,12 @@ msgstr ""
 "Arhiivi <filename>%1</filename> laadimine nurjus järgmise tõrke tõttu:<nl/"
 "><message>%2</message>"
 
-#: part/part.cpp:999
+#: part/part.cpp:1000
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark ei suuda avada nimeviitu."
 
-#: part/part.cpp:1121
+#: part/part.cpp:1122
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1868,46 +1868,46 @@ msgid ""
 msgstr ""
 "Faili <filename>%1</filename> on muudetud. Kas soovid arhiivi värskendada?"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1124
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Faili on muudetud"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1404
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Failide lisamine"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1409
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Failide lisamine arhiivi %1"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1473
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Failinimi ei tohi sisaldada kaldkriipse ega olla kõigest \".\" või \"..\""
 
-#: part/part.cpp:1516
+#: part/part.cpp:1517
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Katalooge ei saa iseendasse liigutada"
 
-#: part/part.cpp:1517
+#: part/part.cpp:1518
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Kataloogi liigutamine iseendasse"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1546
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Sama nimega kirjeid ei saa ühte ja samasse sihtkohta asetada."
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1917,7 +1917,7 @@ msgstr[0] "Selle faili kustutamist ei saa tagasi võtta. Kas tõesti seda teha?"
 msgstr[1] ""
 "Nende failide kustutamist ei saa tagasi võtta. Kas tõesti seda teha?"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1925,13 +1925,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Faili kustutamine"
 msgstr[1] "Failide kustutamine"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Koopia salvestamine"
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1941,7 +1941,7 @@ msgstr ""
 "Arhiivi salvestamine asukohta <filename>%1</filename> nurjus. Proovi mõnda "
 "muud asukohta."
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-07 00:50+0000\n"
+"POT-Creation-Date: 2022-10-08 00:51+0000\n"
 "PO-Revision-Date: 2022-09-13 17:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -47,27 +47,27 @@ msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr "أر&شيف"
 
-#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
 #, kde-format
 msgid "Extracting Files"
 msgstr "يستخرج الملفات"
 
-#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
 #, kde-format
 msgid "Source archive"
 msgstr "أرشيف المصدر"
 
-#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#: app/batchextract.cpp:105 app/batchextract.cpp:169
 #, kde-format
 msgid "Destination"
 msgstr "المقصد"
 
-#: app/batchextract.cpp:117
+#: app/batchextract.cpp:118
 #, kde-format
 msgid "The following files could not be extracted:"
 msgstr "الملفات التالية لا يمكن استخراجها:"
 
-#: app/batchextract.cpp:136
+#: app/batchextract.cpp:137
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -75,7 +75,7 @@ msgid ""
 "archive will not be extracted."
 msgstr "حدث خطأ عند استخراج <filename>%1</filename>لن يستخرج أي أرشيف آخر."
 
-#: app/batchextract.cpp:137
+#: app/batchextract.cpp:138
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -85,13 +85,13 @@ msgstr ""
 "حدث خطأ عند استخراج <filename>%1</filename>: <message>%2</message><nl/> لن "
 "يستخرج أي أرشيف آخر."
 
-#: app/batchextract.cpp:141
+#: app/batchextract.cpp:142
 #, kde-kuit-format
 msgctxt "@info"
 msgid "There was an error while extracting <filename>%1</filename>."
 msgstr "حدث خطأ أثناء استخراج <filename>%1</filename>."
 
-#: app/batchextract.cpp:142
+#: app/batchextract.cpp:143
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -100,7 +100,7 @@ msgid ""
 msgstr ""
 "حدث خطأ أثناء استخراج <filename>%1</filename>:<nl/><message>%2</message>"
 
-#: app/batchextract.cpp:293
+#: app/batchextract.cpp:294
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1432,22 +1432,22 @@ msgstr "شريط الأدوات الرئيسي"
 msgid "&Help"
 msgstr "م&ساعدة"
 
-#: part/arkviewer.cpp:52
+#: part/arkviewer.cpp:53
 #, kde-format
 msgid "Closing preview"
 msgstr "يغلق المعاينة"
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:54
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "الرجاء الانتظار حالما يتم غلق المعاينة..."
 
-#: part/arkviewer.cpp:100
+#: part/arkviewer.cpp:101
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "العارض الداخلي لا يمكنه معاينة هذا الملف."
 
-#: part/arkviewer.cpp:116
+#: part/arkviewer.cpp:117
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1456,19 +1456,19 @@ msgstr ""
 "لا يمكن للعرض الداخلي أن يعرض هذا النوع من الملفات<nl/>(%1).<nl/><nl/>هل "
 "تريد محاولة فتحه كملف نصيّ صَرِف؟"
 
-#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "تعذّر عرض الملف"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "&عاين كنَصّ"
 
-#: part/arkviewer.cpp:128
+#: part/arkviewer.cpp:129
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1477,7 +1477,7 @@ msgstr ""
 "لا يمكن للعارض الداخلي أن يعرض هذا النوع غير المعروف من الملفات.<nl/><nl/>هل "
 "تريد محاولة فتحه كملف نصيّ صَرِف؟"
 
-#: part/arkviewer.cpp:192
+#: part/arkviewer.cpp:193
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1575,81 +1575,81 @@ msgstr ""
 "الملفات ذات المسارات التالية موجودة بالفعل. هل تريد الاستمرار في الكتابة "
 "فوقها؟"
 
-#: part/part.cpp:111
+#: part/part.cpp:112
 #, kde-format
 msgid "Comment"
 msgstr "الملاحظة"
 
-#: part/part.cpp:122
+#: part/part.cpp:123
 #, kde-format
 msgid "Comment has been modified."
 msgstr "عُدلj الملاحظة"
 
-#: part/part.cpp:127
+#: part/part.cpp:128
 #, kde-format
 msgid "Save"
 msgstr "احفظ"
 
-#: part/part.cpp:150
+#: part/part.cpp:151
 #, kde-format
 msgid "Type to search..."
 msgstr "اكتب لتبحث…"
 
-#: part/part.cpp:308
+#: part/part.cpp:309
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "يمكن لأرك استخراج الأرشيفات إلى الوجهات المحلية فقط."
 
-#: part/part.cpp:363
+#: part/part.cpp:364
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "أظهر لوحة المعلومات"
 
-#: part/part.cpp:370
+#: part/part.cpp:371
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "احفظ نسخة ك‍..."
 
-#: part/part.cpp:374
+#: part/part.cpp:375
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "ا&فتح في تطبيق خارجي"
 
-#: part/part.cpp:379
+#: part/part.cpp:380
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "افتح ف&ي..."
 
-#: part/part.cpp:381
+#: part/part.cpp:382
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "انقر لفتح الملف المحدد بتطبيق خارجي"
 
-#: part/part.cpp:385
+#: part/part.cpp:386
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&عاين"
 
-#: part/part.cpp:387
+#: part/part.cpp:388
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "انقر لمعاينة الملف المحدد"
 
-#: part/part.cpp:392
+#: part/part.cpp:393
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "ا&ستخراج الكل"
 
-#: part/part.cpp:394
+#: part/part.cpp:395
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1658,13 +1658,13 @@ msgstr ""
 "انقر لفتح الحوار استخراج، حيث يمكنك اختيار كيفية استخراج كافة الملفات في "
 "الأرشيف"
 
-#: part/part.cpp:399
+#: part/part.cpp:400
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&استخراج"
 
-#: part/part.cpp:402
+#: part/part.cpp:403
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1672,54 +1672,54 @@ msgid ""
 msgstr ""
 "انقر لفتح حوار استخراج، حيث يمكنك اختيار لاستخراج كل الملفات أو المحددة فقط"
 
-#: part/part.cpp:407
+#: part/part.cpp:408
 #, kde-format
 msgid "Add &Files..."
 msgstr "أ&ضف ملفّات..."
 
-#: part/part.cpp:408 part/part.cpp:471
+#: part/part.cpp:409 part/part.cpp:472
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "انقر لإضافة ملفات إلى الأرشيف"
 
-#: part/part.cpp:415
+#: part/part.cpp:416
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "أزل من الأرشيف"
 
-#: part/part.cpp:425
+#: part/part.cpp:426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&خصائص"
 
-#: part/part.cpp:427
+#: part/part.cpp:428
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "انقر لرؤية خصائص الأرشيف"
 
-#: part/part.cpp:433
+#: part/part.cpp:434
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "انقر لإضافة أو تحرير ملاحظة"
 
-#: part/part.cpp:438
+#: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "ا&ختبر السلامة"
 
-#: part/part.cpp:440 part/part.cpp:472
+#: part/part.cpp:441 part/part.cpp:473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "انقر لاختبار سلامة الأرشيف"
 
-#: part/part.cpp:466
+#: part/part.cpp:467
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1731,7 +1731,7 @@ msgstr ""
 "مدعومة حاليًا. <nl/><nl/>استخراج الملفات وإنشاء أرشيف جديد إذا كنت تريد إضافة "
 "ملفات."
 
-#: part/part.cpp:469
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1739,74 +1739,74 @@ msgid ""
 "not supported."
 msgstr "اختبار الأرشيفات المحمية بكلمة مرور بدون تشفير الرأس غير مدعوم حاليًا."
 
-#: part/part.cpp:537
+#: part/part.cpp:538
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "&حرر التعليق"
 
-#: part/part.cpp:538 part/part.cpp:546
+#: part/part.cpp:539 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "أ&ضف تعليقًا"
 
-#: part/part.cpp:647
+#: part/part.cpp:648
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "اجتاز الأرشيف اختبار السلامة"
 
-#: part/part.cpp:647 part/part.cpp:649
+#: part/part.cpp:648 part/part.cpp:650
 #, kde-format
 msgid "Test Results"
 msgstr "نتائج الاختبار"
 
-#: part/part.cpp:649
+#: part/part.cpp:650
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "فشل الأرشيف في اختبار السلامة"
 
-#: part/part.cpp:670
+#: part/part.cpp:671
 #, kde-format
 msgid "Extract To..."
 msgstr "ا&ستخرج إلى..."
 
-#: part/part.cpp:684
+#: part/part.cpp:685
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "استخرج سريع إلى..."
 
-#: part/part.cpp:814
+#: part/part.cpp:815
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "عامّ"
 
-#: part/part.cpp:815
+#: part/part.cpp:816
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "استخلاص"
 
-#: part/part.cpp:816
+#: part/part.cpp:817
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "الملحقات"
 
-#: part/part.cpp:817
+#: part/part.cpp:818
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "المعاينات"
 
-#: part/part.cpp:829
+#: part/part.cpp:830
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> مجلَّد"
 
-#: part/part.cpp:838
+#: part/part.cpp:839
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1815,7 +1815,7 @@ msgid ""
 msgstr ""
 "تعذرت الكتابة فوق <filename>%1</filename>. تحقق مما إذا كان لديك إذن الكتابة."
 
-#: part/part.cpp:844
+#: part/part.cpp:845
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1823,13 +1823,13 @@ msgid ""
 "file."
 msgstr "سينشأ الأرشيف <filename>%1</filename> بمجرد إضافة ملف."
 
-#: part/part.cpp:847
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "تعذر إيجاد الأرشيف <filename>%1</filename>."
 
-#: part/part.cpp:852
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1837,7 +1837,7 @@ msgid ""
 "possible to read from it."
 msgstr "تعذّر تحميل الأرشيف <filename>%1</filename> ، إذ لم يكن ممكنًا قراءته."
 
-#: part/part.cpp:865
+#: part/part.cpp:866
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1845,25 +1845,25 @@ msgid ""
 "it?"
 msgstr "الأرشيف <filename>%1</filename> موجود. هل تريد فتحه عوضا عن ذلك؟"
 
-#: part/part.cpp:867
+#: part/part.cpp:868
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "الملف موجود"
 
-#: part/part.cpp:904
+#: part/part.cpp:905
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "الأرشيف فارغ أو تعذر على أرك فتح محتواه."
 
-#: part/part.cpp:909
+#: part/part.cpp:910
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "لا يدعم أرك حاليًا ملفات ISO مع نظام ملفات UDF."
 
-#: part/part.cpp:939
+#: part/part.cpp:940
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1873,59 +1873,59 @@ msgstr ""
 "فشل تحميل الأرشيف <filename>%1</filename>، معطياً الخطأ التالي:<nl/><message>"
 "%2</message>"
 
-#: part/part.cpp:999
+#: part/part.cpp:1000
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "لا يستطيع أرك فتح روابط النظام."
 
-#: part/part.cpp:1121
+#: part/part.cpp:1122
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
 "archive?"
 msgstr "الملف <filename>%1</filename> عُدل. هل تريد تحديثه؟"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1124
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "عُدل الملف"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1404
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "أضف ملفات"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1409
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "أضف ملفات إلى %1"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1473
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "لا يمكن أن يحتوي اسم الملف على شرطات ولا يمكن أن يكون مساويًا لـ \".\" أو \".."
 "\""
 
-#: part/part.cpp:1516
+#: part/part.cpp:1517
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "لا يمكن نقل المجلدات إلى نفسها."
 
-#: part/part.cpp:1517
+#: part/part.cpp:1518
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "ينقل مجلد إلى نفسه"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1546
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "لا يمكن لصق إدخالات بنفس الأسماء في نفس المقصد."
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1938,7 +1938,7 @@ msgstr[3] "لا يمكن حذف هذه الملفات ، هل أنت متأكد 
 msgstr[4] "لا يمكن حذف هذه الملفات ، هل أنت متأكد أنك تريد فعل هذا؟"
 msgstr[5] "لا يمكن حذف هذه الملفات ، هل أنت متأكد أنك تريد فعل هذا؟"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1950,13 +1950,13 @@ msgstr[3] "احذف الملفات"
 msgstr[4] "احذف الملفات"
 msgstr[5] "احذف الملفات"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "احفظ نسخة ك‍..."
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1965,7 +1965,7 @@ msgid ""
 msgstr ""
 "تعذر حفظ الأرشيف بالاسم <filename>%1</filename>. حاول أن تحفظه في مكان أخر."
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

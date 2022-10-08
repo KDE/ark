@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-07 00:50+0000\n"
-"PO-Revision-Date: 2022-09-14 20:22+0200\n"
+"POT-Creation-Date: 2022-10-08 00:51+0000\n"
+"PO-Revision-Date: 2022-10-07 11:10+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
 "Language: fr\n"
@@ -49,27 +49,27 @@ msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr "&Archiver"
 
-#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
 #, kde-format
 msgid "Extracting Files"
 msgstr "Extraction des fichiers"
 
-#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
 #, kde-format
 msgid "Source archive"
 msgstr "Archive source"
 
-#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#: app/batchextract.cpp:105 app/batchextract.cpp:169
 #, kde-format
 msgid "Destination"
 msgstr "Destination"
 
-#: app/batchextract.cpp:117
+#: app/batchextract.cpp:118
 #, kde-format
 msgid "The following files could not be extracted:"
 msgstr "Impossible d'extraire les fichiers suivants :"
 
-#: app/batchextract.cpp:136
+#: app/batchextract.cpp:137
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -79,7 +79,7 @@ msgstr ""
 "Une erreur est survenue pendant l'extraction de <filename>%1</filename>. Les "
 "archives suivantes ne seront pas extraites."
 
-#: app/batchextract.cpp:137
+#: app/batchextract.cpp:138
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -89,14 +89,14 @@ msgstr ""
 "Une erreur est survenue pendant l'extraction de <filename>%1</filename> :<nl/"
 "> <message>%2</message><nl/> Les archives suivantes ne seront pas extraites."
 
-#: app/batchextract.cpp:141
+#: app/batchextract.cpp:142
 #, kde-kuit-format
 msgctxt "@info"
 msgid "There was an error while extracting <filename>%1</filename>."
 msgstr ""
 "Une erreur est survenue pendant l'extraction de <filename>%1</filename>."
 
-#: app/batchextract.cpp:142
+#: app/batchextract.cpp:143
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -106,7 +106,7 @@ msgstr ""
 "Une erreur est survenue pendant l'extraction de <filename>%1</filename> :<nl/"
 "> <message>%2</message>"
 
-#: app/batchextract.cpp:293
+#: app/batchextract.cpp:294
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1445,24 +1445,24 @@ msgstr "Barre principale d'outils"
 msgid "&Help"
 msgstr "&Aide"
 
-#: part/arkviewer.cpp:52
+#: part/arkviewer.cpp:53
 #, kde-format
 msgid "Closing preview"
 msgstr "Fermeture de l'aperçu"
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:54
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Veuillez patienter pendant la fermeture de l'aperçu..."
 
-#: part/arkviewer.cpp:100
+#: part/arkviewer.cpp:101
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr ""
 "Le programme d'affichage intégré ne peut pas afficher d'aperçu pour ce "
 "fichier."
 
-#: part/arkviewer.cpp:116
+#: part/arkviewer.cpp:117
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1472,19 +1472,19 @@ msgstr ""
 "fichier<nl/>(%1).<nl/><nl/> Voulez-vous essayer de l'afficher comme du texte "
 "brut ?"
 
-#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "Impossible de faire un aperçu pour le fichier"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "Afficher un aperçu en texte"
 
-#: part/arkviewer.cpp:128
+#: part/arkviewer.cpp:129
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1494,7 +1494,7 @@ msgstr ""
 "inconnu de fichier<nl/>().<nl/><nl/> Voulez-vous essayer de l'afficher comme "
 "du texte brut ?"
 
-#: part/arkviewer.cpp:192
+#: part/arkviewer.cpp:193
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1588,81 +1588,81 @@ msgstr ""
 "Des fichiers existent déjà à l'emplacement suivant. Voulez-vous vraiment "
 "écrire par-dessus ?"
 
-#: part/part.cpp:111
+#: part/part.cpp:112
 #, kde-format
 msgid "Comment"
 msgstr "Commentaire"
 
-#: part/part.cpp:122
+#: part/part.cpp:123
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Le commentaire a été modifié."
 
-#: part/part.cpp:127
+#: part/part.cpp:128
 #, kde-format
 msgid "Save"
 msgstr "Enregistrer"
 
-#: part/part.cpp:150
+#: part/part.cpp:151
 #, kde-format
 msgid "Type to search..."
 msgstr "Saisissez le texte à rechercher…"
 
-#: part/part.cpp:308
+#: part/part.cpp:309
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark ne peut extraire des archives que vers des emplacements locaux."
 
-#: part/part.cpp:363
+#: part/part.cpp:364
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Afficher le panneau d'informations"
 
-#: part/part.cpp:370
+#: part/part.cpp:371
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Enregistrer une copie sous..."
 
-#: part/part.cpp:374
+#: part/part.cpp:375
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "&Ouvrir dans une application externe"
 
-#: part/part.cpp:379
+#: part/part.cpp:380
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Ouvrir &avec…"
 
-#: part/part.cpp:381
+#: part/part.cpp:382
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Cliquez pour ouvrir le fichier sélectionné avec un programme externe"
 
-#: part/part.cpp:385
+#: part/part.cpp:386
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&Aperçu"
 
-#: part/part.cpp:387
+#: part/part.cpp:388
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Cliquez pour afficher un aperçu du fichier sélectionné"
 
-#: part/part.cpp:392
+#: part/part.cpp:393
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "E&xtraire tout"
 
-#: part/part.cpp:394
+#: part/part.cpp:395
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1671,13 +1671,13 @@ msgstr ""
 "Cliquez pour ouvrir une boîte de dialogue d'extraction, à partir de laquelle "
 "vous pourrez choisir d'extraire tous les fichiers de l'archive"
 
-#: part/part.cpp:399
+#: part/part.cpp:400
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&Extraire"
 
-#: part/part.cpp:402
+#: part/part.cpp:403
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1687,54 +1687,54 @@ msgstr ""
 "vous pourrez choisir d'extraire tous les fichiers ou seulement ceux "
 "sélectionnés"
 
-#: part/part.cpp:407
+#: part/part.cpp:408
 #, kde-format
 msgid "Add &Files..."
 msgstr "Ajouter des &fichiers…"
 
-#: part/part.cpp:408 part/part.cpp:471
+#: part/part.cpp:409 part/part.cpp:472
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Cliquez pour ajouter des fichiers à l'archive"
 
-#: part/part.cpp:415
+#: part/part.cpp:416
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Supprimer de l'archive"
 
-#: part/part.cpp:425
+#: part/part.cpp:426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Propriétés"
 
-#: part/part.cpp:427
+#: part/part.cpp:428
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Cliquez pour voir les propriétés de l'archive"
 
-#: part/part.cpp:433
+#: part/part.cpp:434
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Cliquez pour ajouter ou éditer un commentaire"
 
-#: part/part.cpp:438
+#: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "&Tester l'intégrité"
 
-#: part/part.cpp:440 part/part.cpp:472
+#: part/part.cpp:441 part/part.cpp:473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Cliquez pour tester l'intégrité de l'archive"
 
-#: part/part.cpp:466
+#: part/part.cpp:467
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1747,7 +1747,7 @@ msgstr ""
 "Veuillez extraire les fichiers et créer une nouvelle archive si vous voulez "
 "ajouter des fichiers."
 
-#: part/part.cpp:469
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1757,74 +1757,74 @@ msgstr ""
 "Le test des archives protégées par mot de passe sans chiffrage d'en-tête "
 "n'est pas pris en charge pour le moment."
 
-#: part/part.cpp:537
+#: part/part.cpp:538
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Éditer le &commentaire"
 
-#: part/part.cpp:538 part/part.cpp:546
+#: part/part.cpp:539 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Ajouter un &commentaire"
 
-#: part/part.cpp:647
+#: part/part.cpp:648
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Le test d'intégrité a réussi."
 
-#: part/part.cpp:647 part/part.cpp:649
+#: part/part.cpp:648 part/part.cpp:650
 #, kde-format
 msgid "Test Results"
 msgstr "Résultats du test"
 
-#: part/part.cpp:649
+#: part/part.cpp:650
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Le test d'intégrité a échoué."
 
-#: part/part.cpp:670
+#: part/part.cpp:671
 #, kde-format
 msgid "Extract To..."
 msgstr "Extraire vers..."
 
-#: part/part.cpp:684
+#: part/part.cpp:685
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Extraction rapide vers..."
 
-#: part/part.cpp:814
+#: part/part.cpp:815
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Général"
 
-#: part/part.cpp:815
+#: part/part.cpp:816
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Extraction"
 
-#: part/part.cpp:816
+#: part/part.cpp:817
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Modules externes"
 
-#: part/part.cpp:817
+#: part/part.cpp:818
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Aperçus"
 
-#: part/part.cpp:829
+#: part/part.cpp:830
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> est un dossier."
 
-#: part/part.cpp:838
+#: part/part.cpp:839
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1834,7 +1834,7 @@ msgstr ""
 "Impossible d'écraser <filename>%1</filename>. Assurez-vous que vous avez les "
 "droits d'écriture."
 
-#: part/part.cpp:844
+#: part/part.cpp:845
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1844,13 +1844,13 @@ msgstr ""
 "L'archive <filename>%1</filename> sera créée dès que vous ajouterez un "
 "fichier."
 
-#: part/part.cpp:847
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Impossible de trouver l'archive <filename>%1</filename>."
 
-#: part/part.cpp:852
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1860,7 +1860,7 @@ msgstr ""
 "L'archive <filename>%1</filename> n'a pas pu être chargée, car il est "
 "impossible de la lire."
 
-#: part/part.cpp:865
+#: part/part.cpp:866
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1868,19 +1868,19 @@ msgid ""
 "it?"
 msgstr "L'archive <filename>%1</filename> existe déjà. Voulez-vous l'écraser ?"
 
-#: part/part.cpp:867
+#: part/part.cpp:868
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Le fichier existe"
 
-#: part/part.cpp:904
+#: part/part.cpp:905
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "L'archive est vide ou Ark ne peut pas ouvrir son contenu."
 
-#: part/part.cpp:909
+#: part/part.cpp:910
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
@@ -1888,7 +1888,7 @@ msgstr ""
 "Ark ne prend pas encore en charge les fichiers ISO avec le système de "
 "fichiers UDF."
 
-#: part/part.cpp:939
+#: part/part.cpp:940
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1898,12 +1898,12 @@ msgstr ""
 "Le chargement de l'archive <filename>%1</filename> a échoué avec l'erreur "
 "suivante :<nl/><message>%2</message>"
 
-#: part/part.cpp:999
+#: part/part.cpp:1000
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark ne peut pas ouvrir les liens symboliques."
 
-#: part/part.cpp:1121
+#: part/part.cpp:1122
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1912,45 +1912,45 @@ msgstr ""
 "Le fichier <filename>%1</filename> a été modifié. Voulez-vous mettre "
 "l'archive à jour ?"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1124
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fichier modifié"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1404
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Ajouter des fichiers"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1409
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Ajouter des fichiers à %1"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1473
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "Un nom de fichier ne peut pas contenir « / », « . » ou « .. »"
 
-#: part/part.cpp:1516
+#: part/part.cpp:1517
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Impossible de déplacer un dossier dans lui-même."
 
-#: part/part.cpp:1517
+#: part/part.cpp:1518
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Déplacement d'un dossier dans lui-même"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1546
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Des éléments homonymes ne peuvent pas être collés au même endroit."
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1963,7 +1963,7 @@ msgstr[1] ""
 "Impossible d'annuler la suppression de ces fichiers. Voulez-vous vraiment "
 "effectuer ceci ?"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1971,13 +1971,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Supprimer le fichier"
 msgstr[1] "Supprimer les fichiers"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Enregistrer une copie sous"
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1987,7 +1987,7 @@ msgstr ""
 "Impossible d'enregistrer l'archive en tant que <filename>%1</filename>. "
 "Veuillez essayer de l'enregistrer à un autre emplacement."
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2030,27 +2030,27 @@ msgstr ""
 #: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "Ancien format « ARJ »"
 
 #: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40-bits"
 
 #: plugins/cliarjplugin/cliplugin.cpp:338
 #, fuzzy, kde-format

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-07 00:50+0000\n"
+"POT-Creation-Date: 2022-10-08 00:51+0000\n"
 "PO-Revision-Date: 2014-02-20 11:36+0100\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-doc@kde.org>\n"
@@ -36,28 +36,28 @@ msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr "En Archiev opmaken"
 
-#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
 #, fuzzy, kde-format
 #| msgid "Extracting all files"
 msgid "Extracting Files"
 msgstr "All Dateien warrt utpackt"
 
-#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
 #, kde-format
 msgid "Source archive"
 msgstr "Bornarchiev"
 
-#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#: app/batchextract.cpp:105 app/batchextract.cpp:169
 #, kde-format
 msgid "Destination"
 msgstr "Teel"
 
-#: app/batchextract.cpp:117
+#: app/batchextract.cpp:118
 #, kde-format
 msgid "The following files could not be extracted:"
 msgstr "Disse Dateien laat sik nich ruttrecken:"
 
-#: app/batchextract.cpp:136
+#: app/batchextract.cpp:137
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -70,7 +70,7 @@ msgid ""
 msgstr ""
 "Dat geev bi't Ruttrecken en Fehler, bides <filename>%1</filename> leest wöör."
 
-#: app/batchextract.cpp:137
+#: app/batchextract.cpp:138
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -83,7 +83,7 @@ msgid ""
 msgstr ""
 "Dat geev bi't Ruttrecken en Fehler, bides <filename>%1</filename> leest wöör."
 
-#: app/batchextract.cpp:141
+#: app/batchextract.cpp:142
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -94,7 +94,7 @@ msgid "There was an error while extracting <filename>%1</filename>."
 msgstr ""
 "Dat geev bi't Ruttrecken en Fehler, bides <filename>%1</filename> leest wöör."
 
-#: app/batchextract.cpp:142
+#: app/batchextract.cpp:143
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -107,7 +107,7 @@ msgid ""
 msgstr ""
 "Dat geev bi't Ruttrecken en Fehler, bides <filename>%1</filename> leest wöör."
 
-#: app/batchextract.cpp:293
+#: app/batchextract.cpp:294
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -1508,22 +1508,22 @@ msgstr "Hööft-Warktüüchbalken"
 msgid "&Help"
 msgstr ""
 
-#: part/arkviewer.cpp:52
+#: part/arkviewer.cpp:53
 #, kde-format
 msgid "Closing preview"
 msgstr "Vöransicht warrt tomaakt"
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:54
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Tööv bitte, bides de Vöransicht tomaakt warrt..."
 
-#: part/arkviewer.cpp:100
+#: part/arkviewer.cpp:101
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "De interne Kieker kann disse Datei nich vörweg wiesen."
 
-#: part/arkviewer.cpp:116
+#: part/arkviewer.cpp:117
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1532,19 +1532,19 @@ msgstr ""
 "De interne Kieker kann dissen Dateityp nich vörweg wiesen<nl/>(%1).<nl/><nl/"
 ">Wullt Du em as eenfach Text ankieken?"
 
-#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "Datei lett sik nich vörweg wiesen"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "As Text ankieken"
 
-#: part/arkviewer.cpp:128
+#: part/arkviewer.cpp:129
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1553,7 +1553,7 @@ msgstr ""
 "De interne Kieker kann dissen Dateityp nich vörweg wiesen, he is nich begäng."
 "<nl/><nl/>Wullt Du em as eenfach Text ankieken?"
 
-#: part/arkviewer.cpp:192
+#: part/arkviewer.cpp:193
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1647,36 +1647,36 @@ msgid ""
 "overwriting them?"
 msgstr ""
 
-#: part/part.cpp:111
+#: part/part.cpp:112
 #, fuzzy, kde-format
 #| msgctxt "File comment"
 #| msgid "Comment"
 msgid "Comment"
 msgstr "Kommentar"
 
-#: part/part.cpp:122
+#: part/part.cpp:123
 #, kde-format
 msgid "Comment has been modified."
 msgstr ""
 
-#: part/part.cpp:127
+#: part/part.cpp:128
 #, kde-format
 msgid "Save"
 msgstr ""
 
-#: part/part.cpp:150
+#: part/part.cpp:151
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgid "Type to search..."
 msgstr "En Archiev opmaken"
 
-#: part/part.cpp:308
+#: part/part.cpp:309
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr ""
 
-#: part/part.cpp:363
+#: part/part.cpp:364
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Show information panel"
@@ -1684,53 +1684,53 @@ msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Infopaneel wiesen"
 
-#: part/part.cpp:370
+#: part/part.cpp:371
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr ""
 
-#: part/part.cpp:374
+#: part/part.cpp:375
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr ""
 
-#: part/part.cpp:379
+#: part/part.cpp:380
 #, fuzzy, kde-format
 #| msgid "Open File"
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Datei opmaken"
 
-#: part/part.cpp:381
+#: part/part.cpp:382
 #, fuzzy, kde-format
 #| msgid "Click to preview the selected file"
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Klick hier, wenn Du de utsöchte Datei vörweg ankieken wullt"
 
-#: part/part.cpp:385
+#: part/part.cpp:386
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&Ankieken"
 
-#: part/part.cpp:387
+#: part/part.cpp:388
 #, fuzzy, kde-format
 #| msgid "Click to preview the selected file"
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Klick hier, wenn Du de utsöchte Datei vörweg ankieken wullt"
 
-#: part/part.cpp:392
+#: part/part.cpp:393
 #, fuzzy, kde-format
 #| msgid "E&xtract"
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "&Utpacken"
 
-#: part/part.cpp:394
+#: part/part.cpp:395
 #, fuzzy, kde-format
 #| msgid ""
 #| "Click to open an extraction dialog, where you can choose to extract "
@@ -1742,7 +1742,7 @@ msgstr ""
 "Klick hier, wenn Du den Utpackdialoog opropen wullt. Dor binnen kannst Du "
 "angeven, wat Du all oder bloots de utsöchten Dateien utpacken wullt."
 
-#: part/part.cpp:399
+#: part/part.cpp:400
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Extract"
@@ -1750,7 +1750,7 @@ msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "Utpacken"
 
-#: part/part.cpp:402
+#: part/part.cpp:403
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1759,60 +1759,60 @@ msgstr ""
 "Klick hier, wenn Du den Utpackdialoog opropen wullt. Dor binnen kannst Du "
 "angeven, wat Du all oder bloots de utsöchten Dateien utpacken wullt."
 
-#: part/part.cpp:407
+#: part/part.cpp:408
 #, fuzzy, kde-format
 #| msgid "Add &File..."
 msgid "Add &Files..."
 msgstr "&Datei tofögen..."
 
-#: part/part.cpp:408 part/part.cpp:471
+#: part/part.cpp:409 part/part.cpp:472
 #, fuzzy, kde-format
 #| msgid "Click to add files to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Klick hier, wenn Du Dateien na't Archiev tofögen wullt"
 
-#: part/part.cpp:415
+#: part/part.cpp:416
 #, fuzzy, kde-format
 #| msgid "Compress to Archive"
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "To Archiev komprimeren"
 
-#: part/part.cpp:425
+#: part/part.cpp:426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr ""
 
-#: part/part.cpp:427
+#: part/part.cpp:428
 #, fuzzy, kde-format
 #| msgid "Click to add files to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Klick hier, wenn Du Dateien na't Archiev tofögen wullt"
 
-#: part/part.cpp:433
+#: part/part.cpp:434
 #, fuzzy, kde-format
 #| msgid "Click to add a folder to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Klick hier, wenn Du en Orner na't Archiev tofögen wullt"
 
-#: part/part.cpp:438
+#: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr ""
 
-#: part/part.cpp:440 part/part.cpp:472
+#: part/part.cpp:441 part/part.cpp:473
 #, fuzzy, kde-format
 #| msgid "Click to add files to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Klick hier, wenn Du Dateien na't Archiev tofögen wullt"
 
-#: part/part.cpp:466
+#: part/part.cpp:467
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1821,7 +1821,7 @@ msgid ""
 "a new archive if you want to add files."
 msgstr ""
 
-#: part/part.cpp:469
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1829,7 +1829,7 @@ msgid ""
 "not supported."
 msgstr ""
 
-#: part/part.cpp:537
+#: part/part.cpp:538
 #, fuzzy, kde-format
 #| msgctxt "File comment"
 #| msgid "Comment"
@@ -1837,7 +1837,7 @@ msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Kommentar"
 
-#: part/part.cpp:538 part/part.cpp:546
+#: part/part.cpp:539 part/part.cpp:547
 #, fuzzy, kde-format
 #| msgctxt "File comment"
 #| msgid "Comment"
@@ -1845,34 +1845,34 @@ msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Kommentar"
 
-#: part/part.cpp:647
+#: part/part.cpp:648
 #, fuzzy, kde-format
 #| msgid "The archive reader could not be initialized."
 msgid "The archive passed the integrity test."
 msgstr "De Archievleser lett sik nich torechtmaken."
 
-#: part/part.cpp:647 part/part.cpp:649
+#: part/part.cpp:648 part/part.cpp:650
 #, kde-format
 msgid "Test Results"
 msgstr ""
 
-#: part/part.cpp:649
+#: part/part.cpp:650
 #, fuzzy, kde-format
 #| msgid "The archive reader could not be initialized."
 msgid "The archive failed the integrity test."
 msgstr "De Archievleser lett sik nich torechtmaken."
 
-#: part/part.cpp:670
+#: part/part.cpp:671
 #, kde-format
 msgid "Extract To..."
 msgstr "Utpacken na..."
 
-#: part/part.cpp:684
+#: part/part.cpp:685
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Gau utpacken binnen..."
 
-#: part/part.cpp:814
+#: part/part.cpp:815
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Preview as Text"
@@ -1880,7 +1880,7 @@ msgctxt "@title:tab"
 msgid "General"
 msgstr "As Text ankieken"
 
-#: part/part.cpp:815
+#: part/part.cpp:816
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Extract"
@@ -1888,7 +1888,7 @@ msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Utpacken"
 
-#: part/part.cpp:816
+#: part/part.cpp:817
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Preview as Text"
@@ -1896,7 +1896,7 @@ msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "As Text ankieken"
 
-#: part/part.cpp:817
+#: part/part.cpp:818
 #, fuzzy, kde-format
 #| msgctxt "to preview a file inside an archive"
 #| msgid "Pre&view"
@@ -1904,13 +1904,13 @@ msgctxt "@title:tab"
 msgid "Previews"
 msgstr "&Ankieken"
 
-#: part/part.cpp:829
+#: part/part.cpp:830
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> is en Orner."
 
-#: part/part.cpp:838
+#: part/part.cpp:839
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Could not open the archive <filename>%1</filename> for reading"
@@ -1920,7 +1920,7 @@ msgid ""
 "permission."
 msgstr "Dat Archiev <filename>%1</filename> lett sik nich lesen."
 
-#: part/part.cpp:844
+#: part/part.cpp:845
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "The archive <filename>%1</filename> was not found."
@@ -1930,13 +1930,13 @@ msgid ""
 "file."
 msgstr "Dat Archiev <filename>%1</filename> lett sik nich finnen."
 
-#: part/part.cpp:847
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Dat Archiev <filename>%1</filename> lett sik nich finnen."
 
-#: part/part.cpp:852
+#: part/part.cpp:853
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -1949,7 +1949,7 @@ msgid ""
 msgstr ""
 "Dat gifft dat Archiev <filename>%1</filename> al. Wullt Du dat opmaken?"
 
-#: part/part.cpp:865
+#: part/part.cpp:866
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -1962,26 +1962,26 @@ msgid ""
 msgstr ""
 "Dat gifft dat Archiev <filename>%1</filename> al. Wullt Du dat opmaken?"
 
-#: part/part.cpp:867
+#: part/part.cpp:868
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Gifft Datei al"
 
-#: part/part.cpp:904
+#: part/part.cpp:905
 #, fuzzy, kde-kuit-format
 #| msgid "The archive writer could not be initialized."
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "De Archievschriever lett sik nich torechtmaken."
 
-#: part/part.cpp:909
+#: part/part.cpp:910
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 
-#: part/part.cpp:939
+#: part/part.cpp:940
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -1995,12 +1995,12 @@ msgstr ""
 "Dat Laden vun Archiev <filename>%1</filename> is mit dissen Fehler "
 "fehlslaan: <message>%2</message>"
 
-#: part/part.cpp:999
+#: part/part.cpp:1000
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr ""
 
-#: part/part.cpp:1121
+#: part/part.cpp:1122
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -2013,19 +2013,19 @@ msgstr ""
 "Dat gifft al en Orner mit den Naam <filename>%1</filename>. Wullt Du em "
 "redig hier ruttrecken?"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1124
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr ""
 
-#: part/part.cpp:1403
+#: part/part.cpp:1404
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Dateien tofögen"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1409
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Add Files"
@@ -2033,27 +2033,27 @@ msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Dateien tofögen"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1473
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1516
+#: part/part.cpp:1517
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr ""
 
-#: part/part.cpp:1517
+#: part/part.cpp:1518
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr ""
 
-#: part/part.cpp:1545
+#: part/part.cpp:1546
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, fuzzy, kde-format
 #| msgid ""
 #| "Deleting these files is not undoable. Are you sure you want to do this?"
@@ -2068,7 +2068,7 @@ msgstr[1] ""
 "Dat Wegdoon vun disse Dateien lett sik nich torüchnehmen. Wullt Du dat redig "
 "doon?"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Delete files"
@@ -2078,13 +2078,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Dateien wegdoon"
 msgstr[1] "Dateien wegdoon"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2094,7 +2094,7 @@ msgstr ""
 "Dat Archiev lett sik nich as <filename>%1</filename> sekern. Versöök dat "
 "Sekern an en anner Steed."
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""

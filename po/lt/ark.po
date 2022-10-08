@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-07 00:50+0000\n"
+"POT-Creation-Date: 2022-10-08 00:51+0000\n"
 "PO-Revision-Date: 2021-06-16 00:52+0300\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -39,27 +39,27 @@ msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr "&Archyvas"
 
-#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
 #, kde-format
 msgid "Extracting Files"
 msgstr "Išpakuojama"
 
-#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
 #, kde-format
 msgid "Source archive"
 msgstr "Šaltinių archyvas"
 
-#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#: app/batchextract.cpp:105 app/batchextract.cpp:169
 #, kde-format
 msgid "Destination"
 msgstr "Paskirties vieta"
 
-#: app/batchextract.cpp:117
+#: app/batchextract.cpp:118
 #, kde-format
 msgid "The following files could not be extracted:"
 msgstr "Nepavyko išpakuoti šių failų:"
 
-#: app/batchextract.cpp:136
+#: app/batchextract.cpp:137
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -71,7 +71,7 @@ msgid ""
 "archive will not be extracted."
 msgstr "Įvyko klaida skaitant <filename>%1</filename> išpakavimo metu."
 
-#: app/batchextract.cpp:137
+#: app/batchextract.cpp:138
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -83,7 +83,7 @@ msgid ""
 "%2</message><nl/>Any further archive will not be extracted."
 msgstr "Įvyko klaida skaitant <filename>%1</filename> išpakavimo metu."
 
-#: app/batchextract.cpp:141
+#: app/batchextract.cpp:142
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -93,7 +93,7 @@ msgctxt "@info"
 msgid "There was an error while extracting <filename>%1</filename>."
 msgstr "Įvyko klaida skaitant <filename>%1</filename> išpakavimo metu."
 
-#: app/batchextract.cpp:142
+#: app/batchextract.cpp:143
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -105,7 +105,7 @@ msgid ""
 "%2</message>"
 msgstr "Įvyko klaida skaitant <filename>%1</filename> išpakavimo metu."
 
-#: app/batchextract.cpp:293
+#: app/batchextract.cpp:294
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -1448,22 +1448,22 @@ msgstr "Pagrindinė įrankinė"
 msgid "&Help"
 msgstr ""
 
-#: part/arkviewer.cpp:52
+#: part/arkviewer.cpp:53
 #, kde-format
 msgid "Closing preview"
 msgstr "Uždaroma peržiūra"
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:54
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Palaukite, kol uždarinėjama peržiūra..."
 
-#: part/arkviewer.cpp:100
+#: part/arkviewer.cpp:101
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "Vidiniu žiūrikliu failo peržiūrėti nepavyko."
 
-#: part/arkviewer.cpp:116
+#: part/arkviewer.cpp:117
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1472,19 +1472,19 @@ msgstr ""
 "Vidinė žiūryklė negali peržiūrėti šio failo tipo<nl/>(%1).<nl/><nl/>Ar "
 "norite pabandyti peržiūrėti ji kaip paprastą tekstą?"
 
-#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "Nepavyksta peržiūrėti failo"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "Peržiūrėti kaip tekstą"
 
-#: part/arkviewer.cpp:128
+#: part/arkviewer.cpp:129
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1493,7 +1493,7 @@ msgstr ""
 "Vidinė žiūryklė negali peržiūrėti šio nežinomo failo tipo.<nl/><nl/>Ar "
 "norite pabandyti peržiūrėti ji kaip paprastą tekstą?"
 
-#: part/arkviewer.cpp:192
+#: part/arkviewer.cpp:193
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1587,27 +1587,27 @@ msgid ""
 "overwriting them?"
 msgstr "Failas nurodytoje vietoje jau yra. Ar norėtumėte jį perrašyti?"
 
-#: part/part.cpp:111
+#: part/part.cpp:112
 #, kde-format
 msgid "Comment"
 msgstr "Komentaras"
 
-#: part/part.cpp:122
+#: part/part.cpp:123
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Komentaras pakeistas."
 
-#: part/part.cpp:127
+#: part/part.cpp:128
 #, kde-format
 msgid "Save"
 msgstr "Įrašyti"
 
-#: part/part.cpp:150
+#: part/part.cpp:151
 #, kde-format
 msgid "Type to search..."
 msgstr "Įveskite užklausą..."
 
-#: part/part.cpp:308
+#: part/part.cpp:309
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Ark can only extract to local destinations."
@@ -1615,57 +1615,57 @@ msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark gali išpakuoti tik į vietinius katalogus."
 
-#: part/part.cpp:363
+#: part/part.cpp:364
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Rodyti informacinį skydelį"
 
-#: part/part.cpp:370
+#: part/part.cpp:371
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr ""
 
-#: part/part.cpp:374
+#: part/part.cpp:375
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr ""
 
-#: part/part.cpp:379
+#: part/part.cpp:380
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "&Atverti su..."
 
-#: part/part.cpp:381
+#: part/part.cpp:382
 #, fuzzy, kde-format
 #| msgid "Click to preview the selected file"
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Spragtelėkite norėdami peržiūrėti pažymėtą failą"
 
-#: part/part.cpp:385
+#: part/part.cpp:386
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "Perž&iūra"
 
-#: part/part.cpp:387
+#: part/part.cpp:388
 #, fuzzy, kde-format
 #| msgid "Click to preview the selected file"
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Spragtelėkite norėdami peržiūrėti pažymėtą failą"
 
-#: part/part.cpp:392
+#: part/part.cpp:393
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "Išpakuoti &viską"
 
-#: part/part.cpp:394
+#: part/part.cpp:395
 #, fuzzy, kde-format
 #| msgid ""
 #| "Click to open an extraction dialog, where you can choose to extract "
@@ -1677,13 +1677,13 @@ msgstr ""
 "Spragtelėjus bus atvertas išpakavimo dialogas, kuriame galėsite nurodyti "
 "išpakuoti visus failus, arba tik pažymėtus failus"
 
-#: part/part.cpp:399
+#: part/part.cpp:400
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&Išpakuoti"
 
-#: part/part.cpp:402
+#: part/part.cpp:403
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1692,59 +1692,59 @@ msgstr ""
 "Spragtelėjus bus atvertas išpakavimo dialogas, kuriame galėsite nurodyti "
 "išpakuoti visus failus, arba tik pažymėtus failus"
 
-#: part/part.cpp:407
+#: part/part.cpp:408
 #, kde-format
 msgid "Add &Files..."
 msgstr "Įdėti &failų..."
 
-#: part/part.cpp:408 part/part.cpp:471
+#: part/part.cpp:409 part/part.cpp:472
 #, fuzzy, kde-format
 #| msgid "Click to add files to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Spragtelėkite norėdami įdėti failus į archyvą"
 
-#: part/part.cpp:415
+#: part/part.cpp:416
 #, fuzzy, kde-format
 #| msgid "Compress to Archive"
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Suspausti į archyvą"
 
-#: part/part.cpp:425
+#: part/part.cpp:426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Savybės"
 
-#: part/part.cpp:427
+#: part/part.cpp:428
 #, fuzzy, kde-format
 #| msgid "Click to add files to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Spragtelėkite norėdami įdėti failus į archyvą"
 
-#: part/part.cpp:433
+#: part/part.cpp:434
 #, fuzzy, kde-format
 #| msgid "Click to add a folder to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Spragtelėkite norėdami įdėti aplanką į archyvą"
 
-#: part/part.cpp:438
+#: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "&Tikrinti vientisumą"
 
-#: part/part.cpp:440 part/part.cpp:472
+#: part/part.cpp:441 part/part.cpp:473
 #, fuzzy, kde-format
 #| msgid "Click to add files to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Spragtelėkite norėdami įdėti failus į archyvą"
 
-#: part/part.cpp:466
+#: part/part.cpp:467
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1753,7 +1753,7 @@ msgid ""
 "a new archive if you want to add files."
 msgstr ""
 
-#: part/part.cpp:469
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1761,46 +1761,46 @@ msgid ""
 "not supported."
 msgstr ""
 
-#: part/part.cpp:537
+#: part/part.cpp:538
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "&Keisti komentarą"
 
-#: part/part.cpp:538 part/part.cpp:546
+#: part/part.cpp:539 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "&Pridėti komentarą"
 
-#: part/part.cpp:647
+#: part/part.cpp:648
 #, fuzzy, kde-format
 #| msgid "The archive reader could not be initialized."
 msgid "The archive passed the integrity test."
 msgstr "Nepavyko inicializuoti archyvo skaitytuvas."
 
-#: part/part.cpp:647 part/part.cpp:649
+#: part/part.cpp:648 part/part.cpp:650
 #, kde-format
 msgid "Test Results"
 msgstr "Bandymo rezultatai"
 
-#: part/part.cpp:649
+#: part/part.cpp:650
 #, fuzzy, kde-format
 #| msgid "The archive reader could not be initialized."
 msgid "The archive failed the integrity test."
 msgstr "Nepavyko inicializuoti archyvo skaitytuvas."
 
-#: part/part.cpp:670
+#: part/part.cpp:671
 #, kde-format
 msgid "Extract To..."
 msgstr "Išpakuoti į..."
 
-#: part/part.cpp:684
+#: part/part.cpp:685
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Greitai išpakuoti į..."
 
-#: part/part.cpp:814
+#: part/part.cpp:815
 #, fuzzy, kde-format
 #| msgctxt "@title:tab"
 #| msgid "General Settings"
@@ -1808,14 +1808,14 @@ msgctxt "@title:tab"
 msgid "General"
 msgstr "Bendros nuostatos"
 
-#: part/part.cpp:815
+#: part/part.cpp:816
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Išpakuoti"
 
-#: part/part.cpp:816
+#: part/part.cpp:817
 #, fuzzy, kde-format
 #| msgctxt "@title:tab"
 #| msgid "Plugin Settings"
@@ -1823,7 +1823,7 @@ msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Papildinio nuostatos"
 
-#: part/part.cpp:817
+#: part/part.cpp:818
 #, fuzzy, kde-format
 #| msgctxt "to preview a file inside an archive"
 #| msgid "Pre&view"
@@ -1831,13 +1831,13 @@ msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Perž&iūra"
 
-#: part/part.cpp:829
+#: part/part.cpp:830
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> yra katalogas."
 
-#: part/part.cpp:838
+#: part/part.cpp:839
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1847,7 +1847,7 @@ msgstr ""
 "Nepavyksta perrašyti <filename>%1</filename>. Pasitikrinkite, ar turite "
 "reikiamus leidimus."
 
-#: part/part.cpp:844
+#: part/part.cpp:845
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1855,13 +1855,13 @@ msgid ""
 "file."
 msgstr "Archyvas <filename>%1</filename> atsiras po to, kai pridėsite failų."
 
-#: part/part.cpp:847
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Nerastas archyvas <filename>%1</filename>."
 
-#: part/part.cpp:852
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1871,7 +1871,7 @@ msgstr ""
 "Nepavyko įkelti <filename>%1</filename> archyvo, nes nepavyksta skaityti iš "
 "failo."
 
-#: part/part.cpp:865
+#: part/part.cpp:866
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1879,26 +1879,26 @@ msgid ""
 "it?"
 msgstr "Archyvas <filename>%1</filename> jau yra. Norite jį perrašyti?"
 
-#: part/part.cpp:867
+#: part/part.cpp:868
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Failas jau yra"
 
-#: part/part.cpp:904
+#: part/part.cpp:905
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Archyvas yra tuščias arba Ark negali atverti jo turinio."
 
-#: part/part.cpp:909
+#: part/part.cpp:910
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 "Ark šiuo metu nepalaiko tų ISO atvaizdžių, kurių failų sistema yra UDF."
 
-#: part/part.cpp:939
+#: part/part.cpp:940
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1908,12 +1908,12 @@ msgstr ""
 "Archyvo <filename>%1</filename> įkelti nepavyko; klaidos pranešimas: <nl/"
 "><message>%2</message>"
 
-#: part/part.cpp:999
+#: part/part.cpp:1000
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark negali atverti simbolinių nuorodų."
 
-#: part/part.cpp:1121
+#: part/part.cpp:1122
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1921,47 +1921,47 @@ msgid ""
 msgstr ""
 "Failas <filename>%1</filename> pakeistas. Ar norėtumėte atnaujinti archyvą?"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1124
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Failas pakeistas"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1404
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Pridėti failų"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1409
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Pridėti failų prie %1"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1473
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Failo varde negali būti pasvirųjų brūkšnių, jis negali būti „.“ ir „..“"
 
-#: part/part.cpp:1516
+#: part/part.cpp:1517
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Aplanko negalima perkelti į jį patį."
 
-#: part/part.cpp:1517
+#: part/part.cpp:1518
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Aplankas perkeliamas į jį patį"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1546
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Įrašai su  tokiais pačiais vardais negali būti dedami į tą pačią paskirtį."
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1972,7 +1972,7 @@ msgstr[1] "Pašalinus failus, nebus galima jų atstatyti. Ar tikrai to norite?"
 msgstr[2] "Pašalinus failus, nebus galima jų atstatyti. Ar tikrai to norite?"
 msgstr[3] "Pašalinus failus, nebus galima jų atstatyti. Ar tikrai to norite?"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1982,13 +1982,13 @@ msgstr[1] "Trinti failus"
 msgstr[2] "Trinti failus"
 msgstr[3] "Trinti failą"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1998,7 +1998,7 @@ msgstr ""
 "Archyvas negali būti išsaugotas kaip <filename>%1</filename>. Bandykite "
 "saugoti į kitą vietą."
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""

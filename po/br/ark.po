@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:ark-1.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-07 00:50+0000\n"
+"POT-Creation-Date: 2022-10-08 00:51+0000\n"
 "PO-Revision-Date: 2004-05-19 11:54+0200\n"
 "Last-Translator: Jañ-Mai Drapier <jdrapier@club-internet.fr>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -35,30 +35,30 @@ msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr "Digeriñ an 'diell'"
 
-#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
 #, fuzzy, kde-format
 #| msgid "Extract all files"
 msgid "Extracting Files"
 msgstr "Eztennañ an holl restroù"
 
-#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
 #, fuzzy, kde-format
 #| msgid "Save Archive?"
 msgid "Source archive"
 msgstr "Enrollañ an diell ?"
 
-#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#: app/batchextract.cpp:105 app/batchextract.cpp:169
 #, fuzzy, kde-format
 #| msgid "Destination folder: "
 msgid "Destination"
 msgstr "Renkell an dehaezadur :"
 
-#: app/batchextract.cpp:117
+#: app/batchextract.cpp:118
 #, kde-format
 msgid "The following files could not be extracted:"
 msgstr ""
 
-#: app/batchextract.cpp:136
+#: app/batchextract.cpp:137
 #, fuzzy, kde-kuit-format
 #| msgid "The folder could not be created. Please check permissions."
 msgctxt "@info"
@@ -67,7 +67,7 @@ msgid ""
 "archive will not be extracted."
 msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
 
-#: app/batchextract.cpp:137
+#: app/batchextract.cpp:138
 #, fuzzy, kde-kuit-format
 #| msgid "The folder could not be created. Please check permissions."
 msgctxt "@info"
@@ -76,14 +76,14 @@ msgid ""
 "%2</message><nl/>Any further archive will not be extracted."
 msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
 
-#: app/batchextract.cpp:141
+#: app/batchextract.cpp:142
 #, fuzzy, kde-kuit-format
 #| msgid "The folder could not be created. Please check permissions."
 msgctxt "@info"
 msgid "There was an error while extracting <filename>%1</filename>."
 msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
 
-#: app/batchextract.cpp:142
+#: app/batchextract.cpp:143
 #, fuzzy, kde-kuit-format
 #| msgid "The folder could not be created. Please check permissions."
 msgctxt "@info"
@@ -92,7 +92,7 @@ msgid ""
 "%2</message>"
 msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
 
-#: app/batchextract.cpp:293
+#: app/batchextract.cpp:294
 #, fuzzy, kde-kuit-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info"
@@ -1433,35 +1433,35 @@ msgstr ""
 msgid "&Help"
 msgstr ""
 
-#: part/arkviewer.cpp:52
+#: part/arkviewer.cpp:53
 #, kde-format
 msgid "Closing preview"
 msgstr ""
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:54
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr ""
 
-#: part/arkviewer.cpp:100
+#: part/arkviewer.cpp:101
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr ""
 
-#: part/arkviewer.cpp:116
+#: part/arkviewer.cpp:117
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
 
-#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr ""
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
 #, fuzzy, kde-format
 #| msgctxt "to view something"
 #| msgid "&View"
@@ -1469,14 +1469,14 @@ msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "&Gwel"
 
-#: part/arkviewer.cpp:128
+#: part/arkviewer.cpp:129
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
 
-#: part/arkviewer.cpp:192
+#: part/arkviewer.cpp:193
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1570,67 +1570,67 @@ msgid ""
 "overwriting them?"
 msgstr ""
 
-#: part/part.cpp:111
+#: part/part.cpp:112
 #, kde-format
 msgid "Comment"
 msgstr ""
 
-#: part/part.cpp:122
+#: part/part.cpp:123
 #, kde-format
 msgid "Comment has been modified."
 msgstr ""
 
-#: part/part.cpp:127
+#: part/part.cpp:128
 #, kde-format
 msgid "Save"
 msgstr ""
 
-#: part/part.cpp:150
+#: part/part.cpp:151
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
 msgid "Type to search..."
 msgstr "Digeriñ an 'diell'"
 
-#: part/part.cpp:308
+#: part/part.cpp:309
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr ""
 
-#: part/part.cpp:363
+#: part/part.cpp:364
 #, fuzzy, kde-format
 #| msgid "Information"
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Titouroù"
 
-#: part/part.cpp:370
+#: part/part.cpp:371
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr ""
 
-#: part/part.cpp:374
+#: part/part.cpp:375
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr ""
 
-#: part/part.cpp:379
+#: part/part.cpp:380
 #, fuzzy, kde-format
 #| msgid "&Open With..."
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "&Digeriñ gant ..."
 
-#: part/part.cpp:381
+#: part/part.cpp:382
 #, fuzzy, kde-format
 #| msgid "Do you really want to delete the selected items?"
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Ha fellout a ra deoc'h da vat lemel an traoù dibabet ?"
 
-#: part/part.cpp:385
+#: part/part.cpp:386
 #, fuzzy, kde-format
 #| msgctxt "to view something"
 #| msgid "&View"
@@ -1638,94 +1638,94 @@ msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&Gwel"
 
-#: part/part.cpp:387
+#: part/part.cpp:388
 #, fuzzy, kde-format
 #| msgid "Do you really want to delete the selected items?"
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Ha fellout a ra deoc'h da vat lemel an traoù dibabet ?"
 
-#: part/part.cpp:392
+#: part/part.cpp:393
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "Eztennañ"
 
-#: part/part.cpp:394
+#: part/part.cpp:395
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
 "the files in the archive"
 msgstr ""
 
-#: part/part.cpp:399
+#: part/part.cpp:400
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "Eztennañ"
 
-#: part/part.cpp:402
+#: part/part.cpp:403
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
 "all files or just the selected ones"
 msgstr ""
 
-#: part/part.cpp:407
+#: part/part.cpp:408
 #, fuzzy, kde-format
 #| msgid "Add &File..."
 msgid "Add &Files..."
 msgstr "Ouzhpennañ ur restr ..."
 
-#: part/part.cpp:408 part/part.cpp:471
+#: part/part.cpp:409 part/part.cpp:472
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
 
-#: part/part.cpp:415
+#: part/part.cpp:416
 #, fuzzy, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Renkell diell"
 
-#: part/part.cpp:425
+#: part/part.cpp:426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr ""
 
-#: part/part.cpp:427
+#: part/part.cpp:428
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
 
-#: part/part.cpp:433
+#: part/part.cpp:434
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
 
-#: part/part.cpp:438
+#: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr ""
 
-#: part/part.cpp:440 part/part.cpp:472
+#: part/part.cpp:441 part/part.cpp:473
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
 
-#: part/part.cpp:466
+#: part/part.cpp:467
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1734,7 +1734,7 @@ msgid ""
 "a new archive if you want to add files."
 msgstr ""
 
-#: part/part.cpp:469
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1742,64 +1742,64 @@ msgid ""
 "not supported."
 msgstr ""
 
-#: part/part.cpp:537
+#: part/part.cpp:538
 #, fuzzy, kde-format
 #| msgid "Adding folder..."
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Emaon oc'h ouzhpennañ ar renkell ..."
 
-#: part/part.cpp:538 part/part.cpp:546
+#: part/part.cpp:539 part/part.cpp:547
 #, fuzzy, kde-format
 #| msgid "Adding folder..."
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Emaon oc'h ouzhpennañ ar renkell ..."
 
-#: part/part.cpp:647
+#: part/part.cpp:648
 #, fuzzy, kde-format
 #| msgid "The archive %1 does not exist."
 msgid "The archive passed the integrity test."
 msgstr "N'eo ket un diell %1."
 
-#: part/part.cpp:647 part/part.cpp:649
+#: part/part.cpp:648 part/part.cpp:650
 #, kde-format
 msgid "Test Results"
 msgstr ""
 
-#: part/part.cpp:649
+#: part/part.cpp:650
 #, fuzzy, kde-format
 #| msgid "The archive %1 does not exist."
 msgid "The archive failed the integrity test."
 msgstr "N'eo ket un diell %1."
 
-#: part/part.cpp:670
+#: part/part.cpp:671
 #, fuzzy, kde-format
 #| msgid "E&xtract..."
 msgid "Extract To..."
 msgstr "E&ztennañ ..."
 
-#: part/part.cpp:684
+#: part/part.cpp:685
 #, fuzzy, kde-format
 #| msgid "E&xtract..."
 msgid "Quick Extract To..."
 msgstr "E&ztennañ ..."
 
-#: part/part.cpp:814
+#: part/part.cpp:815
 #, fuzzy, kde-format
 #| msgid "General"
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Pennañ"
 
-#: part/part.cpp:815
+#: part/part.cpp:816
 #, fuzzy, kde-format
 #| msgid "&Extracting"
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "&Emaon oc'h eztennañ"
 
-#: part/part.cpp:816
+#: part/part.cpp:817
 #, fuzzy, kde-format
 #| msgctxt "to view something"
 #| msgid "&View"
@@ -1807,7 +1807,7 @@ msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "&Gwel"
 
-#: part/part.cpp:817
+#: part/part.cpp:818
 #, fuzzy, kde-format
 #| msgctxt "to view something"
 #| msgid "&View"
@@ -1815,13 +1815,13 @@ msgctxt "@title:tab"
 msgid "Previews"
 msgstr "&Gwel"
 
-#: part/part.cpp:829
+#: part/part.cpp:830
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr ""
 
-#: part/part.cpp:838
+#: part/part.cpp:839
 #, fuzzy, kde-kuit-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info"
@@ -1830,7 +1830,7 @@ msgid ""
 "permission."
 msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
 
-#: part/part.cpp:844
+#: part/part.cpp:845
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
@@ -1839,13 +1839,13 @@ msgid ""
 "file."
 msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
 
-#: part/part.cpp:847
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr ""
 
-#: part/part.cpp:852
+#: part/part.cpp:853
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
@@ -1854,7 +1854,7 @@ msgid ""
 "possible to read from it."
 msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
 
-#: part/part.cpp:865
+#: part/part.cpp:866
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
@@ -1863,27 +1863,27 @@ msgid ""
 "it?"
 msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
 
-#: part/part.cpp:867
+#: part/part.cpp:868
 #, fuzzy, kde-format
 #| msgid "Archive Already Exists"
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "An diel a zo endeo"
 
-#: part/part.cpp:904
+#: part/part.cpp:905
 #, fuzzy, kde-kuit-format
 #| msgid "The archive %1 does not exist."
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "N'eo ket un diell %1."
 
-#: part/part.cpp:909
+#: part/part.cpp:910
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 
-#: part/part.cpp:939
+#: part/part.cpp:940
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1891,12 +1891,12 @@ msgid ""
 "<nl/><message>%2</message>"
 msgstr ""
 
-#: part/part.cpp:999
+#: part/part.cpp:1000
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr ""
 
-#: part/part.cpp:1121
+#: part/part.cpp:1122
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgid ""
@@ -1904,48 +1904,48 @@ msgid ""
 "archive?"
 msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1124
 #, fuzzy, kde-format
 #| msgid "Files to be added"
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Restroù da ouzhpennañ"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1404
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "An holl Restroù"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1409
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "An holl Restroù"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1473
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1516
+#: part/part.cpp:1517
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr ""
 
-#: part/part.cpp:1517
+#: part/part.cpp:1518
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr ""
 
-#: part/part.cpp:1545
+#: part/part.cpp:1546
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1954,7 +1954,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, fuzzy, kde-format
 #| msgid "Selected files only"
 msgctxt "@title:window"
@@ -1963,13 +1963,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Restroù diuzet hepken"
 msgstr[1] ""
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, fuzzy, kde-kuit-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info"
@@ -1978,7 +1978,7 @@ msgid ""
 "another location."
 msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
