@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-08 00:51+0000\n"
-"PO-Revision-Date: 2022-09-12 19:36+0200\n"
+"PO-Revision-Date: 2022-10-08 06:24+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -353,7 +353,7 @@ msgstr ""
 #: app/main.cpp:187
 #, kde-format
 msgid "List supported MIME types."
-msgstr ""
+msgstr "მხარდაჭერილი MIME ტიპების სია."
 
 #: app/mainwindow.cpp:126
 #, kde-format
@@ -373,12 +373,12 @@ msgstr ""
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
-msgstr ""
+msgstr "არქივის გახსნა"
 
 #: app/mainwindow.cpp:371
 #, kde-format
 msgid "Create New Archive"
-msgstr ""
+msgstr "ახალი არქივის შექმნა"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
 #: app/welcomescreen.ui:18
@@ -618,13 +618,13 @@ msgstr "მაქს"
 #: kerfuffle/compressionoptionswidget.ui:118
 #, kde-format
 msgid "Password Protection"
-msgstr ""
+msgstr "პაროლით დაცვა"
 
 #. i18n: ectx: property (text), widget (QLabel, lblEncMethod)
 #: kerfuffle/compressionoptionswidget.ui:130
 #, kde-format
 msgid "Encryption method:"
-msgstr ""
+msgstr "დაშიფვრის მეთოდი:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, encryptHeaderCheckBox)
 #: kerfuffle/compressionoptionswidget.ui:160
@@ -643,13 +643,13 @@ msgstr ""
 #: kerfuffle/compressionoptionswidget.ui:183
 #, kde-format
 msgid "Multi-volume Archive"
-msgstr ""
+msgstr "მრავალტომიანი არქივი"
 
 #. i18n: ectx: property (text), widget (QCheckBox, multiVolumeCheckbox)
 #: kerfuffle/compressionoptionswidget.ui:192
 #, kde-format
 msgid "Create multi-volume archive"
-msgstr ""
+msgstr "მრავალტომიანი არქივის შექმნა"
 
 #. i18n: ectx: property (text), widget (QLabel, lblVolumeSize)
 #: kerfuffle/compressionoptionswidget.ui:210
@@ -1186,7 +1186,7 @@ msgstr ""
 #: kerfuffle/queries.cpp:160
 #, kde-format
 msgid "Incorrect password, please try again."
-msgstr ""
+msgstr "არასწორი პაროლი. თავიდან სცადეთ."
 
 #: kerfuffle/queries.cpp:195
 #, kde-kuit-format
@@ -1886,34 +1886,32 @@ msgstr ""
 #: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ძველი ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40-ბიტიანი"
 
 #: plugins/cliarjplugin/cliplugin.cpp:338
-#, fuzzy, kde-format
-#| msgctxt "referred to compression method"
-#| msgid "unknown"
+#, kde-format
 msgid "unknown"
-msgstr "unknown"
+msgstr "უცნობი"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
