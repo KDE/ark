@@ -251,17 +251,15 @@ QString AddToArchive::getFileNameForUrls(const QList<QUrl> &urls, const QString 
         base.chop(4);
     }
 
-    QString finalName = base + QLatin1Char('.') + suffix;
-
-    // if file already exists, append a number to the base until it doesn't
-    // exist
-    int appendNumber = 0;
     const QString path = fileInfo.absolutePath() + QStringLiteral("/");
-    while (QFileInfo::exists(path + finalName)) {
-        ++appendNumber;
-        finalName = KFileUtils::makeSuggestedName(finalName);
-    }
 
+    if (suffix.isEmpty()) {
+        return path + base;
+    }
+    QString finalName = base + QLatin1Char('.') + suffix;
+    if (QFileInfo::exists(path + finalName)) {
+        finalName = KFileUtils::suggestName(QUrl::fromLocalFile(path), finalName);
+    }
     return path + finalName;
 }
 
