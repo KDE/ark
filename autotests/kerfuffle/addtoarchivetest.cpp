@@ -75,6 +75,10 @@ void AddToArchiveTest::testCompressHere_data()
     QTest::newRow("compress here (as TAR) - files with same prefix")
         << QStringLiteral("tar.gz") << Archive::Unencrypted << QStringList{QFINDTESTDATA("data/textfile1.txt"), QFINDTESTDATA("data/textfile2.txt")}
         << QStringLiteral("textfile.tar.gz") << 2ULL;
+    
+    QTest::newRow("compress here (as TAR) - files with same base name")
+        << QStringLiteral("tar.gz") << Archive::Unencrypted << QStringList{QFINDTESTDATA("data/testfile.txt"), QFINDTESTDATA("data/testfile.md")}
+        << QStringLiteral("testfile.tar.gz") << 2ULL;
 
     QTest::newRow("compress here (as TAR) - files with same prefix too short")
         << QStringLiteral("tar.gz") << Archive::Unencrypted << QStringList{QFINDTESTDATA("data/testfile.txt"), QFINDTESTDATA("data/textfile2.txt")}
