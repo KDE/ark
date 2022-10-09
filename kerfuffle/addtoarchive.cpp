@@ -207,7 +207,13 @@ QString findCommonPrefixForUrls(const QList<QUrl> &list)
     Q_ASSERT(!list.isEmpty());
     QString prefix = list.front().fileName();
     for (QList<QUrl>::const_iterator it = list.begin(); it != list.end(); ++it) {
-        const auto fileName = it->fileName();
+        QString fileName = it->fileName();
+        // Strip filename of its extension, but only if present (see #362690).
+        // Use loops to handle cases like `*.tar.gz`.
+        while (!QMimeDatabase().mimeTypeForFile(fileName, QMimeDatabase::MatchExtension).isDefault()) {
+            fileName = QFileInfo(fileName).completeBaseName();
+        }
+
         if (prefix.length() > fileName.length()) {
             prefix.truncate(fileName.length());
         }
@@ -228,27 +234,9 @@ QString AddToArchive::getFileNameForUrls(const QList<QUrl> &urls, const QString 
     Q_ASSERT(!urls.isEmpty());
 
     const QFileInfo fileInfo = QFileInfo(urls.constFirst().toLocalFile());
-    QString base;
-
-    if (urls.size() > 1) {
-        QString prefix = findCommonPrefixForUrls(urls);
-        if (prefix.length() < 5) {
-            base = i18nc("Default name of a newly-created multi-file archive", "Archive");
-        } else {
-            base = prefix;
-        }
-    } else {
-        // Strip filename of its extension, but only if present (see #362690).
-        if (!QMimeDatabase().mimeTypeForFile(fileInfo.fileName(), QMimeDatabase::MatchExtension).isDefault()) {
-            base = fileInfo.completeBaseName();
-        } else {
-            base = fileInfo.fileName();
-        }
-    }
-
-    // Special case for compressed tar archives.
-    if (base.right(4).toUpper() == QLatin1String(".TAR")) {
-        base.chop(4);
+    QString base = findCommonPrefixForUrls(urls);
+    if (urls.size() > 1 && base.length() < 5) {
+        base = i18nc("Default name of a newly-created multi-file archive", "Archive");
     }
 
     const QString path = fileInfo.absolutePath() + QStringLiteral("/");
