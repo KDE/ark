@@ -40,6 +40,7 @@ class Archive::Entry : public QObject
     Q_PROPERTY(QString group MEMBER m_group)
     Q_PROPERTY(qulonglong size MEMBER m_size)
     Q_PROPERTY(qulonglong compressedSize MEMBER m_compressedSize)
+    Q_PROPERTY(qulonglong sparseSize MEMBER m_sparseSize)
     Q_PROPERTY(QString link MEMBER m_link)
     Q_PROPERTY(QString ratio MEMBER m_ratio)
     Q_PROPERTY(QString CRC MEMBER m_CRC)
@@ -78,6 +79,7 @@ public:
     Entry *findByPath(const QStringList & pieces, int index = 0) const;
     QIcon icon() const;
     qulonglong size() const;
+    qulonglong sparseSize() const;
 
     /**
      * Fills @p dirs and @p files with the number of directories and files
@@ -102,6 +104,7 @@ private:
     QString m_group;
     qulonglong m_size;
     qulonglong m_compressedSize;
+    qulonglong m_sparseSize;
     QString m_link;
     QString m_ratio;
     QString m_CRC;

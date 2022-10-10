@@ -555,7 +555,7 @@ void ExtractJob::doWork()
 
     qulonglong totalUncompressedSize = 0;
     for (Archive::Entry *entry : qAsConst(m_entries)) {
-        totalUncompressedSize += entry->size();
+        totalUncompressedSize += entry->sparseSize() > 0 ? entry->sparseSize() : entry->size();
     }
 
     QStorageInfo destinationStorage(m_destinationDir);

@@ -18,6 +18,7 @@ Archive::Entry::Entry(QObject *parent, const QString &fullPath, const QString &r
     , m_parent(qobject_cast<Entry*>(parent))
     , m_size(0)
     , m_compressedSize(0)
+    , m_sparseSize(0)
     , m_isDirectory(false)
     , m_isExecutable(false)
     , m_isPasswordProtected(false)
@@ -35,6 +36,11 @@ qulonglong Archive::Entry::size() const
     return m_size;
 }
 
+qulonglong Archive::Entry::sparseSize() const
+{
+    return m_sparseSize;
+}
+
 void Archive::Entry::copyMetaData(const Archive::Entry *sourceEntry)
 {
     setProperty("fullPath", sourceEntry->property("fullPath"));
@@ -43,6 +49,7 @@ void Archive::Entry::copyMetaData(const Archive::Entry *sourceEntry)
     setProperty("group", sourceEntry->property("group"));
     setProperty("size", sourceEntry->property("size"));
     setProperty("compressedSize", sourceEntry->property("compressedSize"));
+    setProperty("sparseSize", sourceEntry->property("sparseSize"));
     setProperty("link", sourceEntry->property("link"));
     setProperty("ratio", sourceEntry->property("ratio"));
     setProperty("CRC", sourceEntry->property("CRC"));

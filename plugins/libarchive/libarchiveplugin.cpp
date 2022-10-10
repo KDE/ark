@@ -188,8 +188,6 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
         return false;
     }
 
-    archive_write_disk_set_options(writer.data(), extractionFlags());
-
     int totalEntriesCount = 0;
     const bool extractAll = files.isEmpty();
     if (extractAll) {
@@ -356,6 +354,12 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
                 }
             }
 
+            int flags = extractionFlags();
+            if (archive_entry_sparse_count(entry) > 0) {
+                flags |= ARCHIVE_EXTRACT_SPARSE;
+            }
+            archive_write_disk_set_options(writer.data(), flags);
+
             // Write the entry header and check return value.
             const int returnCode = archive_write_header(writer.data(), entry);
             switch (returnCode) {
@@ -484,6 +488,15 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 
     auto time = static_cast<uint>(archive_entry_mtime(aentry));
     e->setProperty("timestamp", QDateTime::fromSecsSinceEpoch(time));
+
+    if (archive_entry_sparse_reset(aentry)) {
+        qulonglong sparseSize = 0;
+        la_int64_t offset, len;
+        while (archive_entry_sparse_next(aentry, &offset, &len) == ARCHIVE_OK) {
+            sparseSize += static_cast<qulonglong>(len);
+        }
+        e->setProperty("sparseSize", sparseSize);
+    }
 
     Q_EMIT entry(e);
     m_emittedEntries << e;
