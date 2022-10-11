@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-08 00:51+0000\n"
+"POT-Creation-Date: 2022-10-11 00:50+0000\n"
 "PO-Revision-Date: 2022-10-06 21:44+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -473,7 +473,7 @@ msgstr ""
 "உருவாக்க வேண்டிய காப்பகத்திற்கான பெயரையோ, <command>--autofilename</command> "
 "விருப்பத்துடன் பின்னொட்டையோ (rar, tar.gz போல) நீங்கள் குறிப்பிட வேண்டும்."
 
-#: kerfuffle/addtoarchive.cpp:236
+#: kerfuffle/addtoarchive.cpp:239
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -1543,81 +1543,81 @@ msgid ""
 "overwriting them?"
 msgstr "இப்பாதைகளைக்கொண்ட கோப்புகள் ஏற்கனவேயுள்ளன. அவற்றை மேலெழுத வேண்டுமா?"
 
-#: part/part.cpp:112
+#: part/part.cpp:111
 #, kde-format
 msgid "Comment"
 msgstr "குறிப்பு"
 
-#: part/part.cpp:123
+#: part/part.cpp:122
 #, kde-format
 msgid "Comment has been modified."
 msgstr "குறிப்பு மாற்றப்பட்டுள்ளது."
 
-#: part/part.cpp:128
+#: part/part.cpp:127
 #, kde-format
 msgid "Save"
 msgstr "சேமி"
 
-#: part/part.cpp:151
+#: part/part.cpp:150
 #, kde-format
 msgid "Type to search..."
 msgstr "தேட தட்டச்சிடவும்..."
 
-#: part/part.cpp:309
+#: part/part.cpp:308
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "ஆர்க்கால் உள்ளமை இடங்களுக்கு மட்டும்தான் காப்பகங்களை பிரித்தெடுக்க முடியும்."
 
-#: part/part.cpp:364
+#: part/part.cpp:363
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "விவர பலகையை காட்டு"
 
-#: part/part.cpp:371
+#: part/part.cpp:370
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "நகலெடுத்து இவ்வாறு சேமி..."
 
-#: part/part.cpp:375
+#: part/part.cpp:374
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "&வெளி செயலியில் திற"
 
-#: part/part.cpp:380
+#: part/part.cpp:379
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "&இதனால் திற..."
 
-#: part/part.cpp:382
+#: part/part.cpp:381
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "தேர்ந்தெடுத்துள்ள கோப்பை இன்னொரு செயலியில் திறக்க கிளிக் செய்யுங்கள்"
 
-#: part/part.cpp:386
+#: part/part.cpp:385
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&முன்னோட்டம்"
 
-#: part/part.cpp:388
+#: part/part.cpp:387
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "தேர்ந்தெடுத்துள்ள கோப்பின் முன்னோட்டத்தை காண கிளிக் செய்யுங்கள்"
 
-#: part/part.cpp:393
+#: part/part.cpp:392
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "&அனைத்தையும் பிரித்தெடு"
 
-#: part/part.cpp:395
+#: part/part.cpp:394
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1626,13 +1626,13 @@ msgstr ""
 "காப்பகத்திலுள்ள அனைத்து கோப்புகளையும் எவ்வாறு பிரித்தெடுக்க வேண்டுமென்பதை அமைக்க உதவும் "
 "சாளரத்தை திறக்க இதை கிளிக் செய்யுங்கள்"
 
-#: part/part.cpp:400
+#: part/part.cpp:399
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&பிரித்தெடு"
 
-#: part/part.cpp:403
+#: part/part.cpp:402
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1641,54 +1641,54 @@ msgstr ""
 "காப்பகத்திலுள்ள அனைத்து கோப்புகளையோ, சில கோப்புகளையோ பிரித்தெடுக்க விடும் சாளரத்தை "
 "திறக்க இதை கிளிக் செய்யுங்கள்"
 
-#: part/part.cpp:408
+#: part/part.cpp:407
 #, kde-format
 msgid "Add &Files..."
 msgstr "&கோப்புகளைச் சேர்..."
 
-#: part/part.cpp:409 part/part.cpp:472
+#: part/part.cpp:408 part/part.cpp:471
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "காப்பகத்தில் கோப்புகளை சேர்க்க இதை கிளிக் செய்யுங்கள்"
 
-#: part/part.cpp:416
+#: part/part.cpp:415
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "காப்பகத்திலிருந்து நீக்கு"
 
-#: part/part.cpp:426
+#: part/part.cpp:425
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "ப&ண்புகள்"
 
-#: part/part.cpp:428
+#: part/part.cpp:427
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "காப்பகத்தின் பண்புகளை பார்க்க இதை கிளிக் செய்யுங்கள்"
 
-#: part/part.cpp:434
+#: part/part.cpp:433
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "குறிப்பை சேர்க்கவோ திருத்தவோ இதை கிளிக் செய்யுங்கள்"
 
-#: part/part.cpp:439
+#: part/part.cpp:438
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "&ஒழுங்கை சரிபார்"
 
-#: part/part.cpp:441 part/part.cpp:473
+#: part/part.cpp:440 part/part.cpp:472
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "காப்பகம் சேதமடைந்துள்ளதா என்பதை சோதிக்க இதை கிளிக் செய்யுங்கள்"
 
-#: part/part.cpp:467
+#: part/part.cpp:466
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1697,7 +1697,7 @@ msgid ""
 "a new archive if you want to add files."
 msgstr ""
 
-#: part/part.cpp:470
+#: part/part.cpp:469
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1705,74 +1705,74 @@ msgid ""
 "not supported."
 msgstr ""
 
-#: part/part.cpp:538
+#: part/part.cpp:537
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "கு&றிப்பை திருத்து"
 
-#: part/part.cpp:539 part/part.cpp:547
+#: part/part.cpp:538 part/part.cpp:546
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "கு&றிப்பைச் சேர்"
 
-#: part/part.cpp:648
+#: part/part.cpp:647
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "காப்பகம் ஒழுங்காக உள்ளது."
 
-#: part/part.cpp:648 part/part.cpp:650
+#: part/part.cpp:647 part/part.cpp:649
 #, kde-format
 msgid "Test Results"
 msgstr "சோதனையின் முடிவுகள்"
 
-#: part/part.cpp:650
+#: part/part.cpp:649
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "காப்பகம் ஒழுங்காக இல்லை."
 
-#: part/part.cpp:671
+#: part/part.cpp:670
 #, kde-format
 msgid "Extract To..."
 msgstr "இதற்கு பிரித்தெடு..."
 
-#: part/part.cpp:685
+#: part/part.cpp:684
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "இதற்கு எளிதில் பிரித்தெடு..."
 
-#: part/part.cpp:815
+#: part/part.cpp:814
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "பொதுவானவை"
 
-#: part/part.cpp:816
+#: part/part.cpp:815
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "பிரித்தெடுப்பது"
 
-#: part/part.cpp:817
+#: part/part.cpp:816
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "செருகுநிரல்கள்"
 
-#: part/part.cpp:818
+#: part/part.cpp:817
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "முன்தோற்றங்கள்"
 
-#: part/part.cpp:830
+#: part/part.cpp:829
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> அடைவாகும்."
 
-#: part/part.cpp:839
+#: part/part.cpp:838
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1782,7 +1782,7 @@ msgstr ""
 "<filename>%1</filename> என்பதை மேலெழுத முடியவில்லை. அதற்கு எழுதுவதற்கான அனுமதி "
 "உங்களிடம் உள்ளதா என பாருங்கள்."
 
-#: part/part.cpp:845
+#: part/part.cpp:844
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1791,13 +1791,13 @@ msgid ""
 msgstr ""
 "நீங்கள் ஒரு கோப்பை சேர்த்தால், <filename>%1</filename> என்ற காப்பகம் உருவாக்கப்படும்."
 
-#: part/part.cpp:848
+#: part/part.cpp:847
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "<filename>%1</filename> என்ற காப்பகம் கண்டுபிடிக்கப்படவில்லை."
 
-#: part/part.cpp:853
+#: part/part.cpp:852
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1805,7 +1805,7 @@ msgid ""
 "possible to read from it."
 msgstr "<filename>%1</filename> என்ற காப்பகத்தை படிக்க முடியாத‍தால் அது ஏற்றப்படவில்லை."
 
-#: part/part.cpp:866
+#: part/part.cpp:865
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1813,25 +1813,25 @@ msgid ""
 "it?"
 msgstr "<filename>%1</filename> என்ற காப்பகம் ஏற்கனவேயுள்ளது. அதனை மேலெழுத வேண்டுமா?"
 
-#: part/part.cpp:868
+#: part/part.cpp:867
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "கோப்பு ஏற்கனவே உள்ளது"
 
-#: part/part.cpp:905
+#: part/part.cpp:904
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "காப்பகத்தில் ஏதுமில்லை, அல்லது ஆர்க்கால் அதை திறக்க முடியவில்லை."
 
-#: part/part.cpp:910
+#: part/part.cpp:909
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "UDF கோப்பு முறைமையைக் கொண்ட ISO கோப்புகளை ஆர்க் ஆதரிக்காது."
 
-#: part/part.cpp:940
+#: part/part.cpp:939
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1841,12 +1841,12 @@ msgstr ""
 "<filename>%1</filename> என்ற காப்பகத்தை ஏற்றுவது, இச்சிக்கலால் தோல்வியடைந்த‍து:<nl/"
 "><message>%2</message>"
 
-#: part/part.cpp:1000
+#: part/part.cpp:999
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "ஆர்க்கால் குறியிணைப்புகளை (symlink-களை) திறக்க முடியாது."
 
-#: part/part.cpp:1122
+#: part/part.cpp:1121
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1854,47 +1854,47 @@ msgid ""
 msgstr ""
 "<filename>%1</filename> என்ற கோப்பு மாற்றப்பட்டுள்ளது. காப்பகத்தை புதுப்பிக்க வேண்டுமா?"
 
-#: part/part.cpp:1124
+#: part/part.cpp:1123
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "கோப்பு மாற்றப்பட்டுள்ளது"
 
-#: part/part.cpp:1404
+#: part/part.cpp:1403
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "கோப்புகளை சேர்த்தல்"
 
-#: part/part.cpp:1409
+#: part/part.cpp:1408
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "%1 என்பதில் கோப்புகளை சேர்த்தல்"
 
-#: part/part.cpp:1473
+#: part/part.cpp:1472
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "கோப்பின் பெயரில் சாய்கோடுகள் (/) இருக்கக்கூடாது. மேலும், அது \".\" அல்லது \"..\" ஆக "
 "இருக்கக்கூடாது."
 
-#: part/part.cpp:1517
+#: part/part.cpp:1516
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "அடைவை தனக்குள் நகர்த்த முடியாது."
 
-#: part/part.cpp:1518
+#: part/part.cpp:1517
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "அடைவை தனக்குள் நகர்த்துவது"
 
-#: part/part.cpp:1546
+#: part/part.cpp:1545
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "ஒரே பெயரைக்கொண்டவற்றை ஒரே இடத்தில் ஒட்ட முடியாது."
 
-#: part/part.cpp:1647
+#: part/part.cpp:1646
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1903,7 +1903,7 @@ msgid_plural ""
 msgstr[0] "இக்கோப்பை நீக்குவதை திரும்பப்பெற முடியாது. உறுதியாக தொடர வேண்டுமா?"
 msgstr[1] "இக்கோப்புகளை நீக்குவதை திரும்பப்பெற முடியாது. உறுதியாக தொடர வேண்டுமா?"
 
-#: part/part.cpp:1650
+#: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1911,13 +1911,13 @@ msgid_plural "Delete Files"
 msgstr[0] "கோப்பை நீக்குதல்"
 msgstr[1] "கோப்புகளை நீக்குதல்"
 
-#: part/part.cpp:1693
+#: part/part.cpp:1692
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "நகலை இவ்வாறு சேமிப்பது"
 
-#: part/part.cpp:1708
+#: part/part.cpp:1707
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1927,7 +1927,7 @@ msgstr ""
 "காப்பகத்தை <filename>%1</filename> என்று சேமிக்க முடியவில்லை. வேறிடத்தில் சேமித்து "
 "பாருங்கள்."
 
-#: part/part.cpp:1712
+#: part/part.cpp:1711
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2060,18 +2060,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "தெரியாதது"
 
-#: plugins/libarchive/libarchiveplugin.cpp:392
+#: plugins/libarchive/libarchiveplugin.cpp:396
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "முறிவுண்டாக்கும் சிக்கல், பிரித்தெடுப்பது நிறுத்தப்பட்டது."
 
-#: plugins/libarchive/libarchiveplugin.cpp:426
+#: plugins/libarchive/libarchiveplugin.cpp:430
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "காப்பக படிப்பியை துவக்க முடியவில்லை."
 
-#: plugins/libarchive/libarchiveplugin.cpp:440
+#: plugins/libarchive/libarchiveplugin.cpp:444
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

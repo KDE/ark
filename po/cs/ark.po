@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-08 00:51+0000\n"
+"POT-Creation-Date: 2022-10-11 00:50+0000\n"
 "PO-Revision-Date: 2022-06-28 13:56+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -464,7 +464,7 @@ msgstr ""
 "S argumentem <command>--autofilename</command> potřebujete doplnit buď název "
 "archivu, nebo příponu (jako např. rar, tar.gz)."
 
-#: kerfuffle/addtoarchive.cpp:236
+#: kerfuffle/addtoarchive.cpp:239
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -1546,81 +1546,81 @@ msgid ""
 msgstr ""
 "Soubory v následujících cestách již existují. Chcete pokračovat a přepsat je?"
 
-#: part/part.cpp:112
+#: part/part.cpp:111
 #, kde-format
 msgid "Comment"
 msgstr "Komentář"
 
-#: part/part.cpp:123
+#: part/part.cpp:122
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Komentář byl změněn."
 
-#: part/part.cpp:128
+#: part/part.cpp:127
 #, kde-format
 msgid "Save"
 msgstr "Uložit"
 
-#: part/part.cpp:151
+#: part/part.cpp:150
 #, kde-format
 msgid "Type to search..."
 msgstr "Text k vyhledání..."
 
-#: part/part.cpp:309
+#: part/part.cpp:308
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark může archivy rozbalovat pouze lokálně."
 
-#: part/part.cpp:364
+#: part/part.cpp:363
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Zobrazit informační panel"
 
-#: part/part.cpp:371
+#: part/part.cpp:370
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Uložit kopii jako..."
 
-#: part/part.cpp:375
+#: part/part.cpp:374
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr ""
 
-#: part/part.cpp:380
+#: part/part.cpp:379
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Otevřít po&mocí..."
 
-#: part/part.cpp:382
+#: part/part.cpp:381
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Kliknutím otevřete vybraný soubor v externím programu"
 
-#: part/part.cpp:386
+#: part/part.cpp:385
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "Ná&hled"
 
-#: part/part.cpp:388
+#: part/part.cpp:387
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Kliknutí zobrazíte náhled souboru"
 
-#: part/part.cpp:393
+#: part/part.cpp:392
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "Roz&balit vše"
 
-#: part/part.cpp:395
+#: part/part.cpp:394
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1629,13 +1629,13 @@ msgstr ""
 "Kliknutím otevřete dialog pro rozbalení, kde můžete zvolit jak rozbalit "
 "všechny soubory v archivu"
 
-#: part/part.cpp:400
+#: part/part.cpp:399
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "Roz&balit"
 
-#: part/part.cpp:403
+#: part/part.cpp:402
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1644,54 +1644,54 @@ msgstr ""
 "Kliknutím otevřete dialog pro rozbalení, kde můžete zvolit, zda rozbalit "
 "všechny soubory nebo pouze označené"
 
-#: part/part.cpp:408
+#: part/part.cpp:407
 #, kde-format
 msgid "Add &Files..."
 msgstr "Přidat sou&bory..."
 
-#: part/part.cpp:409 part/part.cpp:472
+#: part/part.cpp:408 part/part.cpp:471
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Kliknutím přidáte soubory do archivu"
 
-#: part/part.cpp:416
+#: part/part.cpp:415
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr ""
 
-#: part/part.cpp:426
+#: part/part.cpp:425
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Vlastnosti"
 
-#: part/part.cpp:428
+#: part/part.cpp:427
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Kliknutím pro zobrazení vlastností archivu"
 
-#: part/part.cpp:434
+#: part/part.cpp:433
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Klikněte pro přidání nebo úpravu komentáře"
 
-#: part/part.cpp:439
+#: part/part.cpp:438
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "Ověři&t integritu"
 
-#: part/part.cpp:441 part/part.cpp:473
+#: part/part.cpp:440 part/part.cpp:472
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Kliknutím spustíte ověření integrity"
 
-#: part/part.cpp:467
+#: part/part.cpp:466
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1703,7 +1703,7 @@ msgstr ""
 "současnosti není podporováno.<nl/><nl/>Pokud chcete přidat nové soubory, "
 "rozbalte archiv a vytvořte nový."
 
-#: part/part.cpp:470
+#: part/part.cpp:469
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1713,74 +1713,74 @@ msgstr ""
 "Ověřování archivů chráněných heslem bez šifrování hlavičky v současnosti "
 "není podporováno."
 
-#: part/part.cpp:538
+#: part/part.cpp:537
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Upravit &komentář"
 
-#: part/part.cpp:539 part/part.cpp:547
+#: part/part.cpp:538 part/part.cpp:546
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Přidat &komentář"
 
-#: part/part.cpp:648
+#: part/part.cpp:647
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Archiv prošel ověřením integrity."
 
-#: part/part.cpp:648 part/part.cpp:650
+#: part/part.cpp:647 part/part.cpp:649
 #, kde-format
 msgid "Test Results"
 msgstr "Výsledky ověření"
 
-#: part/part.cpp:650
+#: part/part.cpp:649
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Archiv neprošel ověřením integrity."
 
-#: part/part.cpp:671
+#: part/part.cpp:670
 #, kde-format
 msgid "Extract To..."
 msgstr "Rozbalit do..."
 
-#: part/part.cpp:685
+#: part/part.cpp:684
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Rychle rozbalit do..."
 
-#: part/part.cpp:815
+#: part/part.cpp:814
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Obecné"
 
-#: part/part.cpp:816
+#: part/part.cpp:815
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Rozbalování"
 
-#: part/part.cpp:817
+#: part/part.cpp:816
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Moduly"
 
-#: part/part.cpp:818
+#: part/part.cpp:817
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Náhledy"
 
-#: part/part.cpp:830
+#: part/part.cpp:829
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> je adresář."
 
-#: part/part.cpp:839
+#: part/part.cpp:838
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1790,7 +1790,7 @@ msgstr ""
 "Nelze přepsat <filename>%1</filename>. Zkontrolujte zda máte dostatečná "
 "oprávnění."
 
-#: part/part.cpp:845
+#: part/part.cpp:844
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1798,13 +1798,13 @@ msgid ""
 "file."
 msgstr "Archiv <filename>%1</filename> bude vytvořen jakmile přidáte soubor."
 
-#: part/part.cpp:848
+#: part/part.cpp:847
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Archiv <filename>%1</filename> nebyl nalezen."
 
-#: part/part.cpp:853
+#: part/part.cpp:852
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1812,7 +1812,7 @@ msgid ""
 "possible to read from it."
 msgstr "Soubor <filename>%1</filename> nelze načíst jelikož z něj nejde číst."
 
-#: part/part.cpp:866
+#: part/part.cpp:865
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1820,25 +1820,25 @@ msgid ""
 "it?"
 msgstr "Archiv <filename>%1</filename> již existuje. Přejete si jej přepsat?"
 
-#: part/part.cpp:868
+#: part/part.cpp:867
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Soubor existuje"
 
-#: part/part.cpp:905
+#: part/part.cpp:904
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Archiv je prázdný nebo Ark nemohl přečíst jeho obsah."
 
-#: part/part.cpp:910
+#: part/part.cpp:909
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark momentálně nepodporuje soubory ISO se souborovým systémem UDF."
 
-#: part/part.cpp:940
+#: part/part.cpp:939
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1848,57 +1848,57 @@ msgstr ""
 "Načítání archivu <filename>%1</filename> selhalo s následující chybou:<nl/"
 "><message>%2</message>"
 
-#: part/part.cpp:1000
+#: part/part.cpp:999
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark nemůže otevírat symbolické odkazy."
 
-#: part/part.cpp:1122
+#: part/part.cpp:1121
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
 "archive?"
 msgstr "Soubor <filename>%1</filename> byl změněn. Chcete aktualizovat archiv?"
 
-#: part/part.cpp:1124
+#: part/part.cpp:1123
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Soubor byl změněn"
 
-#: part/part.cpp:1404
+#: part/part.cpp:1403
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Přidat soubory"
 
-#: part/part.cpp:1409
+#: part/part.cpp:1408
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Přidat soubory do %1"
 
-#: part/part.cpp:1473
+#: part/part.cpp:1472
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "Název souboru nesmí obsahovat lomítka a nemůže být \".\" nebo \"..\""
 
-#: part/part.cpp:1517
+#: part/part.cpp:1516
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Složky nelze přesunout samy do sebe"
 
-#: part/part.cpp:1518
+#: part/part.cpp:1517
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Přesunujete složku samu na sebe"
 
-#: part/part.cpp:1546
+#: part/part.cpp:1545
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Položky se stejnými názvy nelze vložit do stejného cíle."
 
-#: part/part.cpp:1647
+#: part/part.cpp:1646
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1911,7 +1911,7 @@ msgstr[1] ""
 msgstr[2] ""
 "Smazání těchto souborů nelze vrátit zpět. Opravdu si je přejete smazat?"
 
-#: part/part.cpp:1650
+#: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1920,13 +1920,13 @@ msgstr[0] "Smazat soubor"
 msgstr[1] "Smazat soubory"
 msgstr[2] "Smazat soubory"
 
-#: part/part.cpp:1693
+#: part/part.cpp:1692
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Uložit kopii jako"
 
-#: part/part.cpp:1708
+#: part/part.cpp:1707
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1936,7 +1936,7 @@ msgstr ""
 "Archiv nemohl být uložen jako <filename>%1</filename>. Zkuste jej uložit do "
 "jiného umístění."
 
-#: part/part.cpp:1712
+#: part/part.cpp:1711
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2065,18 +2065,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "neznámý"
 
-#: plugins/libarchive/libarchiveplugin.cpp:392
+#: plugins/libarchive/libarchiveplugin.cpp:396
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Kritická chyba. Rozbalování bylo přerušeno."
 
-#: plugins/libarchive/libarchiveplugin.cpp:426
+#: plugins/libarchive/libarchiveplugin.cpp:430
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Čtení archivu nemohlo být inicializováno."
 
-#: plugins/libarchive/libarchiveplugin.cpp:440
+#: plugins/libarchive/libarchiveplugin.cpp:444
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

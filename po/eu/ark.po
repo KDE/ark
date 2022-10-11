@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-08 00:51+0000\n"
+"POT-Creation-Date: 2022-10-11 00:50+0000\n"
 "PO-Revision-Date: 2022-10-07 05:27+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -476,7 +476,7 @@ msgstr ""
 "Artxiboarentzako fitxategi-izen bat edo atzizki bat (rar, tar.gz esaterako) "
 "hornitu behar duzu <command>--autofilename</command> argumentuarekin."
 
-#: kerfuffle/addtoarchive.cpp:236
+#: kerfuffle/addtoarchive.cpp:239
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -1559,81 +1559,81 @@ msgstr ""
 "Hurrengo bide-izena duten fitxategiak badaude dagoeneko. Haiek gainidazten "
 "jarraitu nahi duzu?"
 
-#: part/part.cpp:112
+#: part/part.cpp:111
 #, kde-format
 msgid "Comment"
 msgstr "Iruzkina"
 
-#: part/part.cpp:123
+#: part/part.cpp:122
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Iruzkina aldatu da."
 
-#: part/part.cpp:128
+#: part/part.cpp:127
 #, kde-format
 msgid "Save"
 msgstr "Gorde"
 
-#: part/part.cpp:151
+#: part/part.cpp:150
 #, kde-format
 msgid "Type to search..."
 msgstr "Idatzi bilatu beharrekoa..."
 
-#: part/part.cpp:309
+#: part/part.cpp:308
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark-ek helburu lokaletara baino ezin du erauzi."
 
-#: part/part.cpp:364
+#: part/part.cpp:363
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Erakutsi informazio-panela"
 
-#: part/part.cpp:371
+#: part/part.cpp:370
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Gorde kopia honela..."
 
-#: part/part.cpp:375
+#: part/part.cpp:374
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "&Ireki kanpoko aplikazioan"
 
-#: part/part.cpp:380
+#: part/part.cpp:379
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Ireki &honekin..."
 
-#: part/part.cpp:382
+#: part/part.cpp:381
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Klikatu hautatutako fitxategia kanpoko programa batekin irekitzeko"
 
-#: part/part.cpp:386
+#: part/part.cpp:385
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "Aurre&ikusi"
 
-#: part/part.cpp:388
+#: part/part.cpp:387
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Klikatu hautatutako fitxategia aurreikusteko"
 
-#: part/part.cpp:393
+#: part/part.cpp:392
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "Erau&zi guztia"
 
-#: part/part.cpp:395
+#: part/part.cpp:394
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1642,13 +1642,13 @@ msgstr ""
 "Klikatu erauzteko elkarrizketa-koadro bat irekitzeko, non artxiboko "
 "fitxategi guztiak nola erauzi hautatu dezakezun."
 
-#: part/part.cpp:400
+#: part/part.cpp:399
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&Erauzi"
 
-#: part/part.cpp:403
+#: part/part.cpp:402
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1657,54 +1657,54 @@ msgstr ""
 "klikatu erauzteko elkarrizketa-koadro bat irekitzeko, non fitxategi guztiak "
 "edo hautatutakoak soilik erauztea aukeratu dezakezun."
 
-#: part/part.cpp:408
+#: part/part.cpp:407
 #, kde-format
 msgid "Add &Files..."
 msgstr "Erantsi &fitxategiak..."
 
-#: part/part.cpp:409 part/part.cpp:472
+#: part/part.cpp:408 part/part.cpp:471
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Klikatu fitxategiak artxibora eransteko"
 
-#: part/part.cpp:416
+#: part/part.cpp:415
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Kendu artxibotik"
 
-#: part/part.cpp:426
+#: part/part.cpp:425
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Propietateak"
 
-#: part/part.cpp:428
+#: part/part.cpp:427
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Klikatu artxiboaren propietateak ikusteko"
 
-#: part/part.cpp:434
+#: part/part.cpp:433
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Klikatu iruzkina eransteko edo editatzeko"
 
-#: part/part.cpp:439
+#: part/part.cpp:438
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "Egiaz&tatu osotasuna"
 
-#: part/part.cpp:441 part/part.cpp:473
+#: part/part.cpp:440 part/part.cpp:472
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Klikatu fitxategiaren osotasuna egiaztatzeko"
 
-#: part/part.cpp:467
+#: part/part.cpp:466
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1716,7 +1716,7 @@ msgstr ""
 "eranstea ez da oraingoz onartzen.<nl/><nl/>Erauzi fitxategiak eta sortu "
 "artxibo berria fitxategiak erantsi nahi badituzu."
 
-#: part/part.cpp:470
+#: part/part.cpp:469
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1726,74 +1726,74 @@ msgstr ""
 "Pasahitz-babesa duten zifratze-goibururik gabeko artxiboak probatzea ez da "
 "oraingoz onartzen."
 
-#: part/part.cpp:538
+#: part/part.cpp:537
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Editatu iruz&kina"
 
-#: part/part.cpp:539 part/part.cpp:547
+#: part/part.cpp:538 part/part.cpp:546
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Erantsi iruz&kina"
 
-#: part/part.cpp:648
+#: part/part.cpp:647
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Artxiboak osotasun egiaztatzea gainditu du."
 
-#: part/part.cpp:648 part/part.cpp:650
+#: part/part.cpp:647 part/part.cpp:649
 #, kde-format
 msgid "Test Results"
 msgstr "Egiaztatzearen emaitzak"
 
-#: part/part.cpp:650
+#: part/part.cpp:649
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Artxiboak ez du gainditu osotasun egiaztatzea."
 
-#: part/part.cpp:671
+#: part/part.cpp:670
 #, kde-format
 msgid "Extract To..."
 msgstr "Erauzi hona..."
 
-#: part/part.cpp:685
+#: part/part.cpp:684
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Erauzte azkarra hona..."
 
-#: part/part.cpp:815
+#: part/part.cpp:814
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Orokorra"
 
-#: part/part.cpp:816
+#: part/part.cpp:815
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Erauztea"
 
-#: part/part.cpp:817
+#: part/part.cpp:816
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Pluginak"
 
-#: part/part.cpp:818
+#: part/part.cpp:817
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Aurreikuspegiak"
 
-#: part/part.cpp:830
+#: part/part.cpp:829
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> direktorio bat da."
 
-#: part/part.cpp:839
+#: part/part.cpp:838
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1803,7 +1803,7 @@ msgstr ""
 "Ezin izan da gainidatzi <filename>%1</filename>. Egiaztatu idazteko baimena "
 "duzun."
 
-#: part/part.cpp:845
+#: part/part.cpp:844
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1813,13 +1813,13 @@ msgstr ""
 "<filename>%1</filename> fitxategia sortuko da fitxategi bat eransten "
 "duzunean."
 
-#: part/part.cpp:848
+#: part/part.cpp:847
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "<filename>%1</filename> fitxategia ez da aurkitu."
 
-#: part/part.cpp:853
+#: part/part.cpp:852
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1829,7 +1829,7 @@ msgstr ""
 "<filename>%1</filename> artxiboa ezin izan da zamatu, ezin izan delako berau "
 "irakurri."
 
-#: part/part.cpp:866
+#: part/part.cpp:865
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1838,26 +1838,26 @@ msgid ""
 msgstr ""
 "<filename>%1</filename> artxiboa badago lehendik ere. Gainidatzi nahi duzu?"
 
-#: part/part.cpp:868
+#: part/part.cpp:867
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Fitxategia badago lehendik ere"
 
-#: part/part.cpp:905
+#: part/part.cpp:904
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Artxiboa hutsik dago edo Ark-ek ezin du bere edukia irakurri."
 
-#: part/part.cpp:910
+#: part/part.cpp:909
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 "Ark-ek ez du oraingoz UDF fitxategi-sistemako ISO fitxategirik onartzen."
 
-#: part/part.cpp:940
+#: part/part.cpp:939
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1867,12 +1867,12 @@ msgstr ""
 "<filename>%1</filename> artxiboa zamatzeak huts egin du ondoko errorearekin:"
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:1000
+#: part/part.cpp:999
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark-ek ezin du esteka sinbolikorik ireki."
 
-#: part/part.cpp:1122
+#: part/part.cpp:1121
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1881,47 +1881,47 @@ msgstr ""
 "<filename>%1</filename> fitxategia aldatu egin da. Artxiboa eguneratu nahi "
 "duzu?"
 
-#: part/part.cpp:1124
+#: part/part.cpp:1123
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fitxategia aldatuta"
 
-#: part/part.cpp:1404
+#: part/part.cpp:1403
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Erantsi fitxategiak"
 
-#: part/part.cpp:1409
+#: part/part.cpp:1408
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Erantsi fitxategiak %1-(e)ra"
 
-#: part/part.cpp:1473
+#: part/part.cpp:1472
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Fitxategi-izenak ezin du eduki barra zeiharrik eta ezin da izan \".\" edo "
 "\"..\""
 
-#: part/part.cpp:1517
+#: part/part.cpp:1516
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Karpetak ezin dira mugitu beraien barnera."
 
-#: part/part.cpp:1518
+#: part/part.cpp:1517
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Karpeta bat bere barnera mugitzen"
 
-#: part/part.cpp:1546
+#: part/part.cpp:1545
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Izen bereko sarrerak ezin dira kokapen berean itsatsi."
 
-#: part/part.cpp:1647
+#: part/part.cpp:1646
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1932,7 +1932,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Fitxategi hauen ezabatzea ezin da desegin. Ziur zaude hau egin nahi duzula?"
 
-#: part/part.cpp:1650
+#: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1940,13 +1940,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Ezabatu fitxategia"
 msgstr[1] "Ezabatu fitxategiak"
 
-#: part/part.cpp:1693
+#: part/part.cpp:1692
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Gorde kopia honela"
 
-#: part/part.cpp:1708
+#: part/part.cpp:1707
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1956,7 +1956,7 @@ msgstr ""
 "Artxiboa ezin izan da <filename>%1</filename> izenarekin gorde. Saiatu beste "
 "kokaleku batean gordetzen."
 
-#: part/part.cpp:1712
+#: part/part.cpp:1711
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2086,18 +2086,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "ezezaguna"
 
-#: plugins/libarchive/libarchiveplugin.cpp:392
+#: plugins/libarchive/libarchiveplugin.cpp:396
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Errore larria, erauztea bertan behera."
 
-#: plugins/libarchive/libarchiveplugin.cpp:426
+#: plugins/libarchive/libarchiveplugin.cpp:430
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Artxibo-irakurlea ezin izan da hasieratu."
 
-#: plugins/libarchive/libarchiveplugin.cpp:440
+#: plugins/libarchive/libarchiveplugin.cpp:444
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
