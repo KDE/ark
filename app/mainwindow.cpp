@@ -10,13 +10,11 @@
 
 #include "mainwindow.h"
 #include "ark_debug.h"
-#include "archive_kerfuffle.h"
 #include "createdialog.h"
 #include "settingsdialog.h"
 #include "settingspage.h"
 #include "pluginmanager.h"
 #include "interface.h"
-#include "settings.h"
 
 #include <KParts/ReadWritePart>
 #include <KPluginFactory>
@@ -30,12 +28,12 @@
 #include <KXMLGUIFactory>
 #include <KConfigSkeleton>
 #include <KToolBar>
-#include <QMenuBar>
 
 #include <QApplication>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QFileDialog>
+#include <QMenuBar>
 #include <QMimeData>
 #include <QPointer>
 #include <QStatusBar>
@@ -133,11 +131,6 @@ bool MainWindow::loadPart()
 
     // needs to be above createGUI()
     KHamburgerMenu * const hamburgerMenu = KStandardAction::hamburgerMenu(nullptr, nullptr, m_part->actionCollection());
-
-    setXMLFile(QStringLiteral("arkui.rc"));
-    setupGUI(ToolBar | Keys | Save);
-    createGUI(m_part);
-
     connect(hamburgerMenu, &KHamburgerMenu::aboutToShowMenu,
             this, &MainWindow::updateHamburgerMenu);
     hamburgerMenu->setMenuBar(menuBar());
@@ -145,9 +138,11 @@ bool MainWindow::loadPart()
     QAction * const showMenuBarAction = actionCollection()->action(
                                     QLatin1String(KStandardAction::name(KStandardAction::ShowMenubar)));
     hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
-    if (ArkSettings::version() < 1) {
-        menuBar()->hide();
-    }
+
+    setXMLFile(QStringLiteral("arkui.rc"));
+    setupGUI(ToolBar | Keys | Save);
+    createGUI(m_part);
+
     // FIXME: workaround for BUG 171080
     showMenuBarAction->setChecked(!menuBar()->isHidden());
 
@@ -302,9 +297,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
             widget->close();
         }
     }
-
-    ArkSettings::setVersion(1);
-    ArkSettings::self()->save();
 
     KParts::MainWindow::closeEvent(event);
 }
