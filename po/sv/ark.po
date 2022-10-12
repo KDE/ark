@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-11 00:50+0000\n"
+"POT-Creation-Date: 2022-10-12 00:50+0000\n"
 "PO-Revision-Date: 2022-09-24 14:56+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -312,7 +312,7 @@ msgstr ""
 "inte anges."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#: app/main.cpp:161 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "Öppna målkatalog efter uppackning."
@@ -384,12 +384,12 @@ msgstr ""
 msgid "List supported MIME types."
 msgstr "Lista Mime-typer som stöds."
 
-#: app/mainwindow.cpp:126
+#: app/mainwindow.cpp:124
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "Kunde inte hitta Arks KPart-komponent. Kontrollera installationen."
 
-#: app/mainwindow.cpp:201
+#: app/mainwindow.cpp:196
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -401,13 +401,13 @@ msgstr ""
 "<interface>hamburgermeny</interface>. Båda innehåller i huvudsak samma "
 "kommandon och inställningsalternativ."
 
-#: app/mainwindow.cpp:260
+#: app/mainwindow.cpp:255
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Öppna arkiv"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:363
 #, kde-format
 msgid "Create New Archive"
 msgstr "Skapa nytt arkiv"
@@ -492,57 +492,45 @@ msgstr "Om en varning ska visas när zip-arkiv med AES-kryptering skapas."
 msgid "Default action when opening archive entries."
 msgstr "Standardåtgärd när arkivposter öppnas."
 
-#. i18n: ectx: label, entry (Version), group (General)
-#: kerfuffle/ark.kcfg:21
-#, kde-format
-msgid ""
-"Internal config version of Ark, mainly used to determine whether an updated "
-"version of Ark is running, so as to migrate config entries that were removed/"
-"renamed ...etc"
-msgstr ""
-"Arks interna inställningsversion, i huvudsak använd för att bestämma om en "
-"uppdaterad version av Ark kör, för att kunna överföra inställningsposter som "
-"har tagits bort, bytt namn, ... etc."
-
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
-#: kerfuffle/ark.kcfg:31
+#: kerfuffle/ark.kcfg:27
 #, kde-format
 msgid "Close Ark after extraction."
 msgstr "Stäng Ark efter uppackning."
 
 #. i18n: ectx: label, entry (preservePaths), group (Extraction)
-#: kerfuffle/ark.kcfg:35
+#: kerfuffle/ark.kcfg:31
 #, kde-format
 msgid "Preserve paths when extracting."
 msgstr "Bevara sökvägar vid uppackning."
 
 #. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
-#: kerfuffle/ark.kcfg:39
+#: kerfuffle/ark.kcfg:35
 #, kde-format
 msgid ""
 "Extract to a subfolder if the archive has more than one top-level entry."
 msgstr "Packa upp i en underkatalog om arkivet har mer än en post på toppnivå."
 
 #. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
-#: kerfuffle/ark.kcfg:45
+#: kerfuffle/ark.kcfg:41
 #, kde-format
 msgid "How the main window is divided."
 msgstr "Hur huvudfönstret delas upp."
 
 #. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
-#: kerfuffle/ark.kcfg:49
+#: kerfuffle/ark.kcfg:45
 #, kde-format
 msgid "Whether to show the information panel."
 msgstr "Om informationsrutan ska visas."
 
 #. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
-#: kerfuffle/ark.kcfg:59
+#: kerfuffle/ark.kcfg:55
 #, kde-format
 msgid "Whether to limit the preview according to file size."
 msgstr "Om förhandsgranskningen ska begränsas enligt filstorlek."
 
 #. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
-#: kerfuffle/ark.kcfg:63
+#: kerfuffle/ark.kcfg:59
 #, kde-format
 msgid "Preview file size limit in megabytes."
 msgstr "Begränsning av filstorlek för förhandsgranskning i Mibyte."
@@ -2255,6 +2243,15 @@ msgstr "Misslyckades kopiera post: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Misslyckades ställa in metadata för post: %1"
+
+#~ msgid ""
+#~ "Internal config version of Ark, mainly used to determine whether an "
+#~ "updated version of Ark is running, so as to migrate config entries that "
+#~ "were removed/renamed ...etc"
+#~ msgstr ""
+#~ "Arks interna inställningsversion, i huvudsak använd för att bestämma om "
+#~ "en uppdaterad version av Ark kör, för att kunna överföra "
+#~ "inställningsposter som har tagits bort, bytt namn, ... etc."
 
 #~ msgctxt "open a file with external program"
 #~ msgid "&Open"

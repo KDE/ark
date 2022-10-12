@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-11 00:50+0000\n"
+"POT-Creation-Date: 2022-10-12 00:50+0000\n"
 "PO-Revision-Date: 2022-06-01 15:37+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -308,7 +308,7 @@ msgstr ""
 "specificat."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#: app/main.cpp:161 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "Deschide dosarul destinație după extragere."
@@ -381,12 +381,12 @@ msgstr ""
 msgid "List supported MIME types."
 msgstr "Enumeră tipurile MIME susținute"
 
-#: app/mainwindow.cpp:126
+#: app/mainwindow.cpp:124
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "Imposibil de găsit componenta KPart. Verificați instalare."
 
-#: app/mainwindow.cpp:201
+#: app/mainwindow.cpp:196
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -395,13 +395,13 @@ msgid ""
 "commands and configuration options."
 msgstr ""
 
-#: app/mainwindow.cpp:260
+#: app/mainwindow.cpp:255
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Deschide o arhivă"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:363
 #, kde-format
 msgid "Create New Archive"
 msgstr "Creează arhivă nouă"
@@ -487,29 +487,20 @@ msgstr ""
 msgid "Default action when opening archive entries."
 msgstr "Acțiunea implicită la deschiderea înregistrărilor de arhivă."
 
-#. i18n: ectx: label, entry (Version), group (General)
-#: kerfuffle/ark.kcfg:21
-#, kde-format
-msgid ""
-"Internal config version of Ark, mainly used to determine whether an updated "
-"version of Ark is running, so as to migrate config entries that were removed/"
-"renamed ...etc"
-msgstr ""
-
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
-#: kerfuffle/ark.kcfg:31
+#: kerfuffle/ark.kcfg:27
 #, kde-format
 msgid "Close Ark after extraction."
 msgstr "Închide Ark după extragere."
 
 #. i18n: ectx: label, entry (preservePaths), group (Extraction)
-#: kerfuffle/ark.kcfg:35
+#: kerfuffle/ark.kcfg:31
 #, kde-format
 msgid "Preserve paths when extracting."
 msgstr "Păstrează căile la extragere."
 
 #. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
-#: kerfuffle/ark.kcfg:39
+#: kerfuffle/ark.kcfg:35
 #, kde-format
 msgid ""
 "Extract to a subfolder if the archive has more than one top-level entry."
@@ -518,25 +509,25 @@ msgstr ""
 "superior."
 
 #. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
-#: kerfuffle/ark.kcfg:45
+#: kerfuffle/ark.kcfg:41
 #, kde-format
 msgid "How the main window is divided."
 msgstr "Cum este împărțită fereastra principală."
 
 #. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
-#: kerfuffle/ark.kcfg:49
+#: kerfuffle/ark.kcfg:45
 #, kde-format
 msgid "Whether to show the information panel."
 msgstr "Dacă să fie arătat panoul informativ."
 
 #. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
-#: kerfuffle/ark.kcfg:59
+#: kerfuffle/ark.kcfg:55
 #, kde-format
 msgid "Whether to limit the preview according to file size."
 msgstr "Dacă să fie limitată previzualizarea conform dimensiunii fișierelor."
 
 #. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
-#: kerfuffle/ark.kcfg:63
+#: kerfuffle/ark.kcfg:59
 #, kde-format
 msgid "Preview file size limit in megabytes."
 msgstr "Limită dimensiune fișier pentru previzualizare în megaocteți."

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-11 00:50+0000\n"
+"POT-Creation-Date: 2022-10-12 00:50+0000\n"
 "PO-Revision-Date: 2022-10-03 14:19+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-i18n-doc@kde.org>\n"
@@ -306,7 +306,7 @@ msgid ""
 msgstr "압축을 풀 대상 폴더입니다. 지정하지 않으면 현재 경로를 사용합니다."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#: app/main.cpp:161 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "압축을 푼 후 대상 폴더를 엽니다."
@@ -372,12 +372,12 @@ msgstr ""
 msgid "List supported MIME types."
 msgstr "지원하는 MIME 형식을 출력합니다."
 
-#: app/mainwindow.cpp:126
+#: app/mainwindow.cpp:124
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "Ark의 KPart 구성 요소를 찾을 수 없습니다. 설치 상태를 확인하십시오."
 
-#: app/mainwindow.cpp:201
+#: app/mainwindow.cpp:196
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -389,13 +389,13 @@ msgstr ""
 "용을 전환합니다. 두 인터페이스에는 비슷한 명령과 설정 옵션이 포함되어 있습니"
 "다."
 
-#: app/mainwindow.cpp:260
+#: app/mainwindow.cpp:255
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "압축 파일 열기"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:363
 #, kde-format
 msgid "Create New Archive"
 msgstr "새 압축 파일 만들기"
@@ -480,56 +480,45 @@ msgstr "AES 암호화를 사용하는 ZIP 압축 파일을 만들 때 경고 표
 msgid "Default action when opening archive entries."
 msgstr "압축된 항목을 열 때 기본 동작입니다."
 
-#. i18n: ectx: label, entry (Version), group (General)
-#: kerfuffle/ark.kcfg:21
-#, kde-format
-msgid ""
-"Internal config version of Ark, mainly used to determine whether an updated "
-"version of Ark is running, so as to migrate config entries that were removed/"
-"renamed ...etc"
-msgstr ""
-"Ark의 내부 설정 버전입니다. 업데이트된 Ark 버전이 실행 중인지 확인할 때 사용"
-"하며 버전 업그레이드에 따라서 조정된 설정 항목을 이전하는 등에 사용합니다"
-
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
-#: kerfuffle/ark.kcfg:31
+#: kerfuffle/ark.kcfg:27
 #, kde-format
 msgid "Close Ark after extraction."
 msgstr "압축 푼 후 Ark를 종료합니다."
 
 #. i18n: ectx: label, entry (preservePaths), group (Extraction)
-#: kerfuffle/ark.kcfg:35
+#: kerfuffle/ark.kcfg:31
 #, kde-format
 msgid "Preserve paths when extracting."
 msgstr "압축을 풀 때 경로를 유지합니다."
 
 #. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
-#: kerfuffle/ark.kcfg:39
+#: kerfuffle/ark.kcfg:35
 #, kde-format
 msgid ""
 "Extract to a subfolder if the archive has more than one top-level entry."
 msgstr "압축 파일에 하나 이상의 상위 단계가 있을 때 하위 폴더에 압축을 풉니다."
 
 #. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
-#: kerfuffle/ark.kcfg:45
+#: kerfuffle/ark.kcfg:41
 #, kde-format
 msgid "How the main window is divided."
 msgstr "주 창이 나뉘는 방법입니다."
 
 #. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
-#: kerfuffle/ark.kcfg:49
+#: kerfuffle/ark.kcfg:45
 #, kde-format
 msgid "Whether to show the information panel."
 msgstr "정보 패널을 표시할지 여부입니다."
 
 #. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
-#: kerfuffle/ark.kcfg:59
+#: kerfuffle/ark.kcfg:55
 #, kde-format
 msgid "Whether to limit the preview according to file size."
 msgstr "파일 크기에 따라서 미리 볼 지 결정합니다."
 
 #. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
-#: kerfuffle/ark.kcfg:63
+#: kerfuffle/ark.kcfg:59
 #, kde-format
 msgid "Preview file size limit in megabytes."
 msgstr "메가바이트 단위의 미리 보기 파일 크기 제한입니다."
@@ -2212,6 +2201,15 @@ msgstr "항목을 복사할 수 없음: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "항목의 메타데이터를 설정할 수 없음: %1"
+
+#~ msgid ""
+#~ "Internal config version of Ark, mainly used to determine whether an "
+#~ "updated version of Ark is running, so as to migrate config entries that "
+#~ "were removed/renamed ...etc"
+#~ msgstr ""
+#~ "Ark의 내부 설정 버전입니다. 업데이트된 Ark 버전이 실행 중인지 확인할 때 사"
+#~ "용하며 버전 업그레이드에 따라서 조정된 설정 항목을 이전하는 등에 사용합니"
+#~ "다"
 
 #~ msgctxt "open a file with external program"
 #~ msgid "&Open"

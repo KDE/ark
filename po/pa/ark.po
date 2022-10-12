@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-11 00:50+0000\n"
+"POT-Creation-Date: 2022-10-12 00:50+0000\n"
 "PO-Revision-Date: 2022-01-01 09:22-0800\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -307,7 +307,7 @@ msgid ""
 msgstr "ਖਿਲਾਰਨ ਲਈ ਟਿਕਾਣਾ ਫੋਲਡਰ। ਜੇ ਨਾ ਦਿੱਤਾ ਤਾਂ ਡਿਫਾਲਟ ਮੌਜੂਦਾ ਪਾਥ ਹੈ।"
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#: app/main.cpp:161 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "ਖਿਲਾਰਨ ਬਾਅਦ ਟਿਕਾਣਾ ਫੋਲਡਰ ਖੋਲ੍ਹੋ।"
@@ -375,12 +375,12 @@ msgstr ""
 msgid "List supported MIME types."
 msgstr "ਸਹਾਇਕ MIME ਕਿਸਮਾਂ ਦੀ ਸੂਚੀ।"
 
-#: app/mainwindow.cpp:126
+#: app/mainwindow.cpp:124
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "ਆਰਕ ਦਾ KPart ਭਾਗ ਲੱਭਣ ਲਈ ਅਸਮਰੱਥ ਹੈ, ਆਪਣੀ ਇੰਸਟਾਲੇਸ਼ਨ ਵੇਖੋ ਜੀ।"
 
-#: app/mainwindow.cpp:201
+#: app/mainwindow.cpp:196
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -389,13 +389,13 @@ msgid ""
 "commands and configuration options."
 msgstr ""
 
-#: app/mainwindow.cpp:260
+#: app/mainwindow.cpp:255
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "ਅਕਾਇਵ ਖੋਲ੍ਹੋ"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:363
 #, kde-format
 msgid "Create New Archive"
 msgstr "ਨਵਾਂ ਅਕਾਇਵ ਬਣਾਓ"
@@ -479,54 +479,45 @@ msgstr ""
 msgid "Default action when opening archive entries."
 msgstr ""
 
-#. i18n: ectx: label, entry (Version), group (General)
-#: kerfuffle/ark.kcfg:21
-#, kde-format
-msgid ""
-"Internal config version of Ark, mainly used to determine whether an updated "
-"version of Ark is running, so as to migrate config entries that were removed/"
-"renamed ...etc"
-msgstr ""
-
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
-#: kerfuffle/ark.kcfg:31
+#: kerfuffle/ark.kcfg:27
 #, kde-format
 msgid "Close Ark after extraction."
 msgstr "ਖਿਲਾਰਨ ਬਾਅਦ ਆਕ ਬੰਦ ਕਰੋ।"
 
 #. i18n: ectx: label, entry (preservePaths), group (Extraction)
-#: kerfuffle/ark.kcfg:35
+#: kerfuffle/ark.kcfg:31
 #, kde-format
 msgid "Preserve paths when extracting."
 msgstr "ਖਿਲਾਰਨ ਦੇ ਦੌਰਾਨ ਪਾਥ ਸੁਰੱਖਿਅਤ ਰੱਖੋ।"
 
 #. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
-#: kerfuffle/ark.kcfg:39
+#: kerfuffle/ark.kcfg:35
 #, kde-format
 msgid ""
 "Extract to a subfolder if the archive has more than one top-level entry."
 msgstr ""
 
 #. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
-#: kerfuffle/ark.kcfg:45
+#: kerfuffle/ark.kcfg:41
 #, kde-format
 msgid "How the main window is divided."
 msgstr ""
 
 #. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
-#: kerfuffle/ark.kcfg:49
+#: kerfuffle/ark.kcfg:45
 #, kde-format
 msgid "Whether to show the information panel."
 msgstr "ਕੀ ਜਾਣਕਾਰੀ ਪੈਨਲ ਨੂੰ ਵਿਖਾਉਣਾ ਹੈ।"
 
 #. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
-#: kerfuffle/ark.kcfg:59
+#: kerfuffle/ark.kcfg:55
 #, kde-format
 msgid "Whether to limit the preview according to file size."
 msgstr ""
 
 #. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
-#: kerfuffle/ark.kcfg:63
+#: kerfuffle/ark.kcfg:59
 #, kde-format
 msgid "Preview file size limit in megabytes."
 msgstr ""

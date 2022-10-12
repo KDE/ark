@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-11 00:50+0000\n"
+"POT-Creation-Date: 2022-10-12 00:50+0000\n"
 "PO-Revision-Date: 2022-10-07 07:22+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -314,7 +314,7 @@ msgstr ""
 "іншої."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#: app/main.cpp:161 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "Відкрити теку призначення після видобування."
@@ -387,14 +387,14 @@ msgstr ""
 msgid "List supported MIME types."
 msgstr "Вивести список підтримуваних типів MIME."
 
-#: app/mainwindow.cpp:126
+#: app/mainwindow.cpp:124
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr ""
 "Неможливо знайти компонент Ark, будь ласка, перевірте, чи належним чином "
 "встановлено програму."
 
-#: app/mainwindow.cpp:201
+#: app/mainwindow.cpp:196
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -407,13 +407,13 @@ msgstr ""
 "режимах можна скористатися тими самими пунктами меню та параметрами "
 "налаштовування."
 
-#: app/mainwindow.cpp:260
+#: app/mainwindow.cpp:255
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Відкрити архів"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:363
 #, kde-format
 msgid "Create New Archive"
 msgstr "Створити архів"
@@ -500,51 +500,39 @@ msgstr ""
 msgid "Default action when opening archive entries."
 msgstr "Типова дія під час відкриття записів вмісту архівів."
 
-#. i18n: ectx: label, entry (Version), group (General)
-#: kerfuffle/ark.kcfg:21
-#, kde-format
-msgid ""
-"Internal config version of Ark, mainly used to determine whether an updated "
-"version of Ark is running, so as to migrate config entries that were removed/"
-"renamed ...etc"
-msgstr ""
-"Внутрішня версія налаштувань Ark, в основному використовують для визначення, "
-"чи запущено оновлену версію Ark, для перенесення записів налаштувань, які "
-"було вилучено, перейменовано тощо."
-
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
-#: kerfuffle/ark.kcfg:31
+#: kerfuffle/ark.kcfg:27
 #, kde-format
 msgid "Close Ark after extraction."
 msgstr "Завершити роботу Ark після видобування."
 
 #. i18n: ectx: label, entry (preservePaths), group (Extraction)
-#: kerfuffle/ark.kcfg:35
+#: kerfuffle/ark.kcfg:31
 #, kde-format
 msgid "Preserve paths when extracting."
 msgstr "Зберігати шляхи під час видобування."
 
 #. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
-#: kerfuffle/ark.kcfg:39
+#: kerfuffle/ark.kcfg:35
 #, kde-format
 msgid ""
 "Extract to a subfolder if the archive has more than one top-level entry."
 msgstr "Видобути до підтеки, якщо у архіві декілька тек верхнього рівня."
 
 #. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
-#: kerfuffle/ark.kcfg:45
+#: kerfuffle/ark.kcfg:41
 #, kde-format
 msgid "How the main window is divided."
 msgstr "Спосіб поділу головного вікна."
 
 #. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
-#: kerfuffle/ark.kcfg:49
+#: kerfuffle/ark.kcfg:45
 #, kde-format
 msgid "Whether to show the information panel."
 msgstr "Визначає, чи слід показувати інформаційну панель."
 
 #. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
-#: kerfuffle/ark.kcfg:59
+#: kerfuffle/ark.kcfg:55
 #, kde-format
 msgid "Whether to limit the preview according to file size."
 msgstr ""
@@ -552,7 +540,7 @@ msgstr ""
 "файлів."
 
 #. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
-#: kerfuffle/ark.kcfg:63
+#: kerfuffle/ark.kcfg:59
 #, kde-format
 msgid "Preview file size limit in megabytes."
 msgstr "Обмеження розміру файла для попереднього перегляду у МБ."
@@ -2290,6 +2278,15 @@ msgstr "Не вдалося скопіювати запис: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Не вдалося встановити метадані для запису: %1"
+
+#~ msgid ""
+#~ "Internal config version of Ark, mainly used to determine whether an "
+#~ "updated version of Ark is running, so as to migrate config entries that "
+#~ "were removed/renamed ...etc"
+#~ msgstr ""
+#~ "Внутрішня версія налаштувань Ark, в основному використовують для "
+#~ "визначення, чи запущено оновлену версію Ark, для перенесення записів "
+#~ "налаштувань, які було вилучено, перейменовано тощо."
 
 #~ msgid "unkown"
 #~ msgstr "невідомий"
