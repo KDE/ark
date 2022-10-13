@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-12 00:50+0000\n"
-"PO-Revision-Date: 2022-09-13 14:30+0200\n"
+"PO-Revision-Date: 2022-10-08 01:09+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.08.0\n"
+"X-Generator: Lokalize 22.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1994,34 +1994,32 @@ msgstr ""
 #: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ vecchio"
 
 #: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40-bit"
 
 #: plugins/cliarjplugin/cliplugin.cpp:338
-#, fuzzy, kde-format
-#| msgctxt "referred to compression method"
-#| msgid "unknown"
+#, kde-format
 msgid "unknown"
-msgstr "sconosciuto"
+msgstr "sconosciuta"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
