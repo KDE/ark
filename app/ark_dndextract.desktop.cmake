@@ -29,6 +29,7 @@ Name[id]=Ark Ekstrak di Sini
 Name[is]=Ark afþjappa hingað
 Name[it]=Ark Estrai qui
 Name[ja]=Ark ここに展開
+Name[ka]=Ark აქ გაშლა
 Name[kk]=Мынаған тарқату
 Name[km]=ស្រង់ចេញ Ark នៅ​ទីនេះ
 Name[ko]=Ark 여기에 풀기
