@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-13 00:48+0000\n"
+"POT-Creation-Date: 2022-10-12 00:50+0000\n"
 "PO-Revision-Date: 2014-11-10 17:15+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -41,27 +41,27 @@ msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr ""
 
-#: app/batchextract.cpp:102 app/batchextract.cpp:166
+#: app/batchextract.cpp:103 app/batchextract.cpp:167
 #, kde-format
 msgid "Extracting Files"
 msgstr ""
 
-#: app/batchextract.cpp:103 app/batchextract.cpp:167
+#: app/batchextract.cpp:104 app/batchextract.cpp:168
 #, kde-format
 msgid "Source archive"
 msgstr "Kildearkiv"
 
-#: app/batchextract.cpp:104 app/batchextract.cpp:168
+#: app/batchextract.cpp:105 app/batchextract.cpp:169
 #, kde-format
 msgid "Destination"
 msgstr "Mål"
 
-#: app/batchextract.cpp:117
+#: app/batchextract.cpp:118
 #, kde-format
 msgid "The following files could not be extracted:"
 msgstr "Følgende filer kunne ikke pakkes ut:"
 
-#: app/batchextract.cpp:136
+#: app/batchextract.cpp:137
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -69,7 +69,7 @@ msgid ""
 "archive will not be extracted."
 msgstr ""
 
-#: app/batchextract.cpp:137
+#: app/batchextract.cpp:138
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -77,13 +77,13 @@ msgid ""
 "%2</message><nl/>Any further archive will not be extracted."
 msgstr ""
 
-#: app/batchextract.cpp:141
+#: app/batchextract.cpp:142
 #, kde-kuit-format
 msgctxt "@info"
 msgid "There was an error while extracting <filename>%1</filename>."
 msgstr ""
 
-#: app/batchextract.cpp:142
+#: app/batchextract.cpp:143
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -91,7 +91,7 @@ msgid ""
 "%2</message>"
 msgstr ""
 
-#: app/batchextract.cpp:293
+#: app/batchextract.cpp:294
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -303,7 +303,7 @@ msgstr ""
 "Målmappe det skal pakkes ut i. Standard er gjeldende sti hvis ikke oppgitt."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:161 kerfuffle/ark.kcfg:27
+#: app/main.cpp:161 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr ""
@@ -372,12 +372,12 @@ msgstr ""
 msgid "List supported MIME types."
 msgstr ""
 
-#: app/mainwindow.cpp:126
+#: app/mainwindow.cpp:124
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "Kan ikke finne Arks KPart-komponent, sjekk installasjonen,"
 
-#: app/mainwindow.cpp:201
+#: app/mainwindow.cpp:196
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -386,13 +386,13 @@ msgid ""
 "commands and configuration options."
 msgstr ""
 
-#: app/mainwindow.cpp:260
+#: app/mainwindow.cpp:255
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr ""
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:363
 #, kde-format
 msgid "Create New Archive"
 msgstr ""
@@ -458,7 +458,7 @@ msgstr ""
 "Du må enten oppgi et filnavn for arkivet eller et suffiks (slik som rar, tar."
 "gz) med argumentet <command>--autofilename</command>."
 
-#: kerfuffle/addtoarchive.cpp:236
+#: kerfuffle/addtoarchive.cpp:239
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -477,54 +477,45 @@ msgstr ""
 msgid "Default action when opening archive entries."
 msgstr ""
 
-#. i18n: ectx: label, entry (Version), group (General)
-#: kerfuffle/ark.kcfg:21
-#, kde-format
-msgid ""
-"Internal config version of Ark, mainly used to determine whether an updated "
-"version of Ark is running, so as to migrate config entries that were removed/"
-"renamed ...etc"
-msgstr ""
-
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
-#: kerfuffle/ark.kcfg:31
+#: kerfuffle/ark.kcfg:27
 #, kde-format
 msgid "Close Ark after extraction."
 msgstr ""
 
 #. i18n: ectx: label, entry (preservePaths), group (Extraction)
-#: kerfuffle/ark.kcfg:35
+#: kerfuffle/ark.kcfg:31
 #, kde-format
 msgid "Preserve paths when extracting."
 msgstr ""
 
 #. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
-#: kerfuffle/ark.kcfg:39
+#: kerfuffle/ark.kcfg:35
 #, kde-format
 msgid ""
 "Extract to a subfolder if the archive has more than one top-level entry."
 msgstr ""
 
 #. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
-#: kerfuffle/ark.kcfg:45
+#: kerfuffle/ark.kcfg:41
 #, kde-format
 msgid "How the main window is divided."
 msgstr "Hvordan hovedvinduet deles opp."
 
 #. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
-#: kerfuffle/ark.kcfg:49
+#: kerfuffle/ark.kcfg:45
 #, kde-format
 msgid "Whether to show the information panel."
 msgstr ""
 
 #. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
-#: kerfuffle/ark.kcfg:59
+#: kerfuffle/ark.kcfg:55
 #, kde-format
 msgid "Whether to limit the preview according to file size."
 msgstr ""
 
 #. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
-#: kerfuffle/ark.kcfg:63
+#: kerfuffle/ark.kcfg:59
 #, kde-format
 msgid "Preview file size limit in megabytes."
 msgstr ""
@@ -561,7 +552,7 @@ msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr ""
 
-#: kerfuffle/cliinterface.cpp:864
+#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:144
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
@@ -1370,22 +1361,22 @@ msgstr "Hovedverktøylinje"
 msgid "&Help"
 msgstr ""
 
-#: part/arkviewer.cpp:52
+#: part/arkviewer.cpp:53
 #, kde-format
 msgid "Closing preview"
 msgstr "Lukker forhåndsvisning"
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:54
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Vent mens forhåndsvisningen lukkes …"
 
-#: part/arkviewer.cpp:100
+#: part/arkviewer.cpp:101
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "Den interne  viseren kan ikke forhåndsvise denne fila."
 
-#: part/arkviewer.cpp:116
+#: part/arkviewer.cpp:117
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1394,19 +1385,19 @@ msgstr ""
 "Den interne fremviseren kan ikke forhåndsvise denne filtypen<nl/> (%1).<nl/> "
 "<nl/> Vil du forsøke å få se den som ren tekst?"
 
-#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "Kan ikke forhåndsvise fil"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "Forhåndsvis som tekst"
 
-#: part/arkviewer.cpp:128
+#: part/arkviewer.cpp:129
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1415,7 +1406,7 @@ msgstr ""
 "Den interne fremviseren kan ikke forhåndsvise denne ukjente filtypen.<nl/> "
 "<nl/> Vil du forsøke å få se den som ren tekst?"
 
-#: part/arkviewer.cpp:192
+#: part/arkviewer.cpp:193
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1912,6 +1903,36 @@ msgid ""
 "configuration dialog."
 msgstr ""
 
+#: plugins/cliarjplugin/cliplugin.cpp:332
+#, kde-format
+msgid "ARJ old"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:333
+#, kde-format
+msgid "ARJ"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:334
+#, kde-format
+msgid "GOST256"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:335
+#, kde-format
+msgid "GOST256L"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:336
+#, kde-format
+msgid "GOST 40-bit"
+msgstr ""
+
+#: plugins/cliarjplugin/cliplugin.cpp:338
+#, kde-format
+msgid "unknown"
+msgstr ""
+
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
 #: plugins/clirarplugin/cliplugin.cpp:553
@@ -1969,18 +1990,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:392
+#: plugins/libarchive/libarchiveplugin.cpp:396
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:426
+#: plugins/libarchive/libarchiveplugin.cpp:430
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Klarte ikke klargjøre arkivleseren."
 
-#: plugins/libarchive/libarchiveplugin.cpp:440
+#: plugins/libarchive/libarchiveplugin.cpp:444
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

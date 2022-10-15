@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-12 00:50+0000\n"
-"PO-Revision-Date: 2022-09-10 13:24+0000\n"
+"PO-Revision-Date: 2022-10-14 09:42+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -268,7 +268,7 @@ msgstr "Vladyslav Batyrenko"
 #: app/main.cpp:131
 #, kde-format
 msgid "Advanced editing functionalities"
-msgstr ""
+msgstr "Ítarlegir breytingaeiginleikar"
 
 #: app/main.cpp:134
 #, kde-format
@@ -1080,7 +1080,7 @@ msgstr "nei"
 #: kerfuffle/propertiesdialog.cpp:49
 #, kde-format
 msgid "yes (%1 volumes)"
-msgstr ""
+msgstr "já (%1 bindi)"
 
 #: kerfuffle/propertiesdialog.cpp:51
 #, kde-format
@@ -1099,7 +1099,7 @@ msgstr[1] ", %1 möppur"
 #: kerfuffle/propertiesdialog.cpp:66
 #, kde-format
 msgid "only file contents (%1)"
-msgstr ""
+msgstr "Einungis innihald skráar (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:69
 #, kde-format
@@ -1950,32 +1950,30 @@ msgstr ""
 #: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ eldra"
 
 #: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40-bita"
 
 #: plugins/cliarjplugin/cliplugin.cpp:338
-#, fuzzy, kde-format
-#| msgctxt "referred to compression method"
-#| msgid "unknown"
+#, kde-format
 msgid "unknown"
 msgstr "óþekkt"
 
@@ -1984,7 +1982,7 @@ msgstr "óþekkt"
 #: plugins/clirarplugin/cliplugin.cpp:553
 #, kde-format
 msgid "Failed to find all archive volumes."
-msgstr ""
+msgstr "Mistókst að finna öll bindi safnskrár ."
 
 #: plugins/clirarplugin/cliplugin.cpp:321
 #, kde-format
