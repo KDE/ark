@@ -167,6 +167,8 @@ public:
      */
     qulonglong unpackedSize() const;
 
+    static QString permissionsToString(mode_t perm);
+
 Q_SIGNALS:
 
     /**

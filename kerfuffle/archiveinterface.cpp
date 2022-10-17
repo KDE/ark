@@ -13,6 +13,7 @@
 
 #include <QDir>
 #include <QFileInfo>
+#include <qplatformdefs.h>
 
 namespace Kerfuffle
 {
@@ -151,6 +152,52 @@ void ReadOnlyArchiveInterface::setWaitForFinishedSignal(bool value)
 qulonglong ReadOnlyArchiveInterface::unpackedSize() const
 {
     return m_unpackedSize;
+}
+
+QString ReadOnlyArchiveInterface::permissionsToString(mode_t perm)
+{
+    QString modeval;
+    if ((perm & S_IFMT) == S_IFDIR) {
+        modeval.append(QLatin1Char('d'));
+    } else if ((perm & S_IFMT) == S_IFLNK) {
+        modeval.append(QLatin1Char('l'));
+    } else {
+        modeval.append(QLatin1Char('-'));
+    }
+    modeval.append((perm & S_IRUSR) ? QLatin1Char('r') : QLatin1Char('-'));
+    modeval.append((perm & S_IWUSR) ? QLatin1Char('w') : QLatin1Char('-'));
+    if ((perm & S_ISUID) && (perm & S_IXUSR)) {
+        modeval.append(QLatin1Char('s'));
+    } else if ((perm & S_ISUID)) {
+        modeval.append(QLatin1Char('S'));
+    } else if ((perm & S_IXUSR)) {
+        modeval.append(QLatin1Char('x'));
+    } else {
+        modeval.append(QLatin1Char('-'));
+    }
+    modeval.append((perm & S_IRGRP) ? QLatin1Char('r') : QLatin1Char('-'));
+    modeval.append((perm & S_IWGRP) ? QLatin1Char('w') : QLatin1Char('-'));
+    if ((perm & S_ISGID) && (perm & S_IXGRP)) {
+        modeval.append(QLatin1Char('s'));
+    } else if ((perm & S_ISGID)) {
+        modeval.append(QLatin1Char('S'));
+    } else if ((perm & S_IXGRP)) {
+        modeval.append(QLatin1Char('x'));
+    } else {
+        modeval.append(QLatin1Char('-'));
+    }
+    modeval.append((perm & S_IROTH) ? QLatin1Char('r') : QLatin1Char('-'));
+    modeval.append((perm & S_IWOTH) ? QLatin1Char('w') : QLatin1Char('-'));
+    if ((perm & S_ISVTX) && (perm & S_IXOTH)) {
+        modeval.append(QLatin1Char('t'));
+    } else if ((perm & S_ISVTX)) {
+        modeval.append(QLatin1Char('T'));
+    } else if ((perm & S_IXOTH)) {
+        modeval.append(QLatin1Char('x'));
+    } else {
+        modeval.append(QLatin1Char('-'));
+    }
+    return modeval;
 }
 
 QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entry*> &entries, PathFormat format)

@@ -39,7 +39,6 @@ private:
     bool writeEntry(zip_t *archive, const QString &entry, const Archive::Entry* destination, const CompressionOptions& options, bool isDir = false);
     bool emitEntryForIndex(zip_t *archive, qlonglong index);
     void emitProgress(double percentage);
-    QString permissionsToString(mode_t perm);
     QString fromUnixSeparator(const QString& path);
     QString toUnixSeparator(const QString& path);
     static void progressCallback(zip_t *, double progress, void *that);

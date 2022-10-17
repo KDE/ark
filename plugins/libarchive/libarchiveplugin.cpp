@@ -474,7 +474,7 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
 
     const mode_t mode = archive_entry_mode(aentry);
     if (mode != 0) {
-        e->setProperty("permissions", QString::number(mode, 8));
+        e->setProperty("permissions", permissionsToString(mode));
     }
     e->setProperty("isExecutable", mode & (S_IXUSR | S_IXGRP | S_IXOTH));
 
