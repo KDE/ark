@@ -2241,13 +2241,3 @@ msgstr "Грешка при копиране на запис: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Грешка при задаване метаданните за запис: %1"
-
-#~ msgid ""
-#~ "Internal config version of Ark, mainly used to determine whether an "
-#~ "updated version of Ark is running, so as to migrate config entries that "
-#~ "were removed/renamed ...etc"
-#~ msgstr ""
-#~ "Вътрешна версия на конфигурацията на Ark, използвана главно за определяне "
-#~ "на това, дали дадена актуализирана версия на Ark е стартирана, така че да "
-#~ "се мигрират записите в конфигурацията, които са били премахнати/"
-#~ "преименувани ...и т.н."
