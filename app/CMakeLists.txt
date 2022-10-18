@@ -9,7 +9,8 @@ target_sources(ark PRIVATE
     batchextract.cpp
     main.cpp
     mainwindow.cpp
-    welcomescreen.cpp
+    welcomeview/welcomeview.cpp
+    welcomeview/recentfilesmodel.cpp
     ark.qrc
    )
 
@@ -19,8 +20,7 @@ ecm_qt_declare_logging_category(ark
 				CATEGORY_NAME ark.main DESCRIPTION "Ark Main" EXPORT ARK)
 
 
-ki18n_wrap_ui(ark
-    welcomescreen.ui)
+ki18n_wrap_ui(ark welcomeview/welcomeview.ui)
 
 # For Mac and Windows.
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*-apps-ark.png")
@@ -34,7 +34,8 @@ target_link_libraries(ark
     KF5::Crash
     KF5::DBusAddons
     KF5::KIOFileWidgets
-    KF5::Parts)
+    KF5::Parts
+    KF5::IconThemes)
 
 # we provide our own Info.plist containing a simple "we open anything" instruction.
 if(APPLE)

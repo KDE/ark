@@ -1,5 +1,8 @@
 <RCC>
-<qresource prefix="/kxmlgui5/ark">
-<file>arkui.rc</file>
-</qresource>
+    <qresource prefix="/ark">
+        <file alias="ark.svgz">icons/sc-apps-ark.svgz</file>
+    </qresource>
+    <qresource prefix="/kxmlgui5/ark">
+        <file>arkui.rc</file>
+    </qresource>
 </RCC>

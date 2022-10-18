@@ -12,7 +12,7 @@
 #include <KParts/OpenUrlArguments>
 #include <QStackedWidget>
 
-#include "welcomescreen.h"
+#include "welcomeview/welcomeview.h"
 
 namespace KParts
 {
@@ -27,7 +27,9 @@ class MainWindow: public KParts::MainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
+
     bool loadPart();
+    KRecentFilesMenu* recentFilesMenu() const;
 
     void dragEnterEvent(class QDragEnterEvent * event) override;
     void dropEvent(class QDropEvent * event) override;
@@ -37,7 +39,7 @@ public Q_SLOTS:
     void openUrl(const QUrl &url);
     void setShowExtractDialog(bool);
 
-    void showWelcomeScreen();
+    void showWelcomeScreen(bool force = false);
     void hideWelcomeScreen();
 
 protected:
@@ -62,7 +64,7 @@ private:
     QAction               *m_openAction;
     QAction               *m_newAction;
     KParts::OpenUrlArguments m_openArgs;
-    WelcomeScreen         *m_welcomeScreen;
+    WelcomeView           *m_welcomeView;
     QStackedWidget        *m_windowContents;
 };
 
