@@ -45,7 +45,6 @@ static bool isValidArchiveDrag(const QMimeData *data)
 
 MainWindow::MainWindow(QWidget *)
         : KParts::MainWindow()
-        , m_welcomeScreen(new WelcomeScreen(this))
         , m_windowContents(new QStackedWidget(this))
 {
     setupActions();
@@ -54,8 +53,8 @@ MainWindow::MainWindow(QWidget *)
     setWindowFlags(windowFlags() & ~Qt::WindowFullscreenButtonHint);
 
     setCentralWidget(m_windowContents);
-    m_windowContents->addWidget(m_welcomeScreen);
-    showWelcomeScreen();
+    m_welcomeView = new WelcomeView(this);
+    m_windowContents->addWidget(m_welcomeView);
 }
 
 MainWindow::~MainWindow()
@@ -63,7 +62,7 @@ MainWindow::~MainWindow()
     guiFactory()->removeClient(m_part);
     delete m_part;
     m_part = nullptr;
-    m_welcomeScreen = nullptr;
+    m_welcomeView = nullptr;
 }
 
 void MainWindow::dragEnterEvent(QDragEnterEvent * event)
@@ -127,7 +126,9 @@ bool MainWindow::loadPart()
     }
 
     m_part->setObjectName(QStringLiteral("ArkPart"));
-    m_windowContents->addWidget(m_part->widget());
+    QWidget *partwidget = m_part->widget();
+    m_windowContents->addWidget(partwidget);
+    m_windowContents->setCurrentWidget(partwidget);
 
     // needs to be above createGUI()
     KHamburgerMenu * const hamburgerMenu = KStandardAction::hamburgerMenu(nullptr, nullptr, m_part->actionCollection());
@@ -157,13 +158,26 @@ bool MainWindow::loadPart()
     connect(m_part, QOverload<>::of(&KParts::ReadOnlyPart::completed), this, &MainWindow::addPartUrl);
 
     updateActions();
+    showWelcomeScreen();
 
     return true;
 }
 
-void MainWindow::showWelcomeScreen()
+KRecentFilesMenu *MainWindow::recentFilesMenu() const
 {
-    m_windowContents->setCurrentWidget(m_welcomeScreen);
+    return m_recentFilesMenu;
+}
+
+void MainWindow::showWelcomeScreen(bool force)
+{
+    if (!force) {
+        const KConfigGroup configGroup = KSharedConfig::openConfig()->group("General");
+        if (!configGroup.readEntry("ShowWelcomeScreenOnStartup", true)) {
+            return;
+        }
+    }
+
+    m_windowContents->setCurrentWidget(m_welcomeView);
 }
 
 void MainWindow::hideWelcomeScreen()
@@ -186,9 +200,13 @@ void MainWindow::setupActions()
 
     KStandardAction::preferences(this, &MainWindow::showSettings, actionCollection());
 
-    // Connect the welcome screen to actions created above
-    connect(m_welcomeScreen, &WelcomeScreen::newClicked, m_newAction, &QAction::trigger);
-    connect(m_welcomeScreen, &WelcomeScreen::openClicked, m_openAction, &QAction::trigger);
+    QAction *a = actionCollection()->addAction(QStringLiteral("help_welcome_page"));
+    a->setText(i18n("Welcome Page"));
+    a->setIcon(qApp->windowIcon());
+    a->setWhatsThis(i18n("Show the welcome page"));
+    connect(a, &QAction::triggered, this, [this]() {
+        showWelcomeScreen(true);
+    });
 
     // add Menubar toggle to 'Settings' menu
     KToggleAction* showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());

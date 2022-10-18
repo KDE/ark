@@ -45,7 +45,8 @@ find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Config
                                                         Service
                                                         Parts
                                                         Pty
-                                                        WidgetsAddons)
+                                                        WidgetsAddons
+                                                        IconThemes)
 
 find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG QUIET)
 set_package_properties(Qt${QT_MAJOR_VERSION}Test PROPERTIES

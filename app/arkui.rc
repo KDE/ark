@@ -1,5 +1,5 @@
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="ark" version="17">
+<gui name="ark" version="18">
 <MenuBar>
 	<Menu name="archive">
 		<text context="Noun, not a verb. Top level menu item, i.e. like File">&amp;Archive</text>
@@ -20,6 +20,9 @@
 	<Merge/>
 	<Menu name="settings">
 		<DefineGroup name="settings_show"/>
+	</Menu>
+	<Menu name="help">
+		<Action name="help_welcome_page"/>
 	</Menu>
 </MenuBar>
 </gui>

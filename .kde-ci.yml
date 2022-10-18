@@ -18,6 +18,7 @@ Dependencies:
     'frameworks/kparts': '@stable'
     'frameworks/kpty': '@stable'
     'frameworks/kwidgetsaddons': '@stable'
+    'frameworks/kiconthemes': '@stable'
 
 Options:
   require-passing-tests-on: [ 'Linux', 'FreeBSD' ]
