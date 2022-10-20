@@ -7,10 +7,11 @@
 #include "queries.h"
 #include "ark_debug.h"
 
+#include <KIO/RenameDialog>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KPasswordDialog>
-#include <KIO/RenameDialog>
+#include <kwidgetsaddons_version.h>
 
 #include <QApplication>
 #include <QDir>
@@ -191,17 +192,26 @@ void LoadCorruptQuery::execute()
     qCDebug(ARK) << "Executing prompt";
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+    setResponse(KMessageBox::warningTwoActions(nullptr,
+#else
     setResponse(KMessageBox::warningYesNo(nullptr,
-                                          xi18nc("@info", "The archive you're trying to open is corrupt.<nl/>"
-                                                 "Some files may be missing or damaged."),
-                                          i18nc("@title:window", "Corrupt archive"),
-                                          KGuiItem(i18nc("@action:button", "Open as Read-Only")),
-                                          KGuiItem(i18nc("@action:button", "Don't Open"))));
+#endif
+                                               xi18nc("@info",
+                                                      "The archive you're trying to open is corrupt.<nl/>"
+                                                      "Some files may be missing or damaged."),
+                                               i18nc("@title:window", "Corrupt archive"),
+                                               KGuiItem(i18nc("@action:button", "Open as Read-Only")),
+                                               KGuiItem(i18nc("@action:button", "Don't Open"))));
     QApplication::restoreOverrideCursor();
 }
 
 bool LoadCorruptQuery::responseYes() {
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+    return (m_data.value(QStringLiteral("response")).toInt() == KMessageBox::PrimaryAction);
+#else
     return (m_data.value(QStringLiteral("response")).toInt() == KMessageBox::Yes);
+#endif
 }
 
 ContinueExtractionQuery::ContinueExtractionQuery(const QString& error, const QString& archiveEntry)

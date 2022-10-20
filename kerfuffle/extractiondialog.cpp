@@ -13,6 +13,7 @@
 #include <KMessageBox>
 #include <KUrlComboBox>
 #include <KWindowConfig>
+#include <kwidgetsaddons_version.h>
 
 #include <QDir>
 #include <QPushButton>
@@ -103,13 +104,23 @@ void ExtractionDialog::slotAccepted()
         while (1) {
             if (QDir(pathWithSubfolder).exists()) {
                 if (QFileInfo(pathWithSubfolder).isDir()) {
-                    int overwrite = KMessageBox::questionYesNoCancel(this,
-                                                                     xi18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder),
-                                                                     i18n("Folder exists"),
-                                                                     KGuiItem(i18n("Extract here")),
-                                                                     KGuiItem(i18n("Retry")));
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+                    int overwrite = KMessageBox::questionTwoActionsCancel(
+                        this,
+#else
+                    int overwrite = KMessageBox::questionYesNoCancel(
+                        this,
+#endif
+                        xi18nc("@info", "The folder <filename>%1</filename> already exists. Are you sure you want to extract here?", pathWithSubfolder),
+                        i18n("Folder exists"),
+                        KGuiItem(i18n("Extract here")),
+                        KGuiItem(i18n("Retry")));
 
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+                    if (overwrite == KMessageBox::SecondaryAction) {
+#else
                     if (overwrite == KMessageBox::No) {
+#endif
                         // The user clicked Retry.
                         continue;
                     } else if (overwrite == KMessageBox::Cancel) {
