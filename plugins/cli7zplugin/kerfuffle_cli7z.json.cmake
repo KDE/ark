@@ -2,7 +2,6 @@
     "KPlugin": {
         "Description": "Full support for the zip and 7z archive formats",
         "Description[ar]": "دعم كامل لتنسيقات الأرشيف zip و 7z",
-        "Description[ast]": "Sofitu completu pa los formatos d'archivos zip y 7z",
         "Description[az]": "Zip və 7z formatlı arxivlərin tam dəstəklənməsi",
         "Description[bg]": "Пълна поддръжка на архивни формати zip и 7z",
         "Description[ca@valencia]": "Implementació completa dels formats d'arxiu «zip» i «7z»",

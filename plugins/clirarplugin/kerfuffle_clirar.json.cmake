@@ -2,7 +2,6 @@
     "KPlugin": {
         "Description": "Full support for the RAR archive format",
         "Description[ar]": "دعم كامل لتنسيقات الأرشيف RAR",
-        "Description[ast]": "Sofitu completu pal formatu de ficheros RAR",
         "Description[az]": "RAR formatlı arxivlərin tam dəstəklənməsi",
         "Description[bg]": "Пълна поддръжка на архивен формат RAR",
         "Description[ca@valencia]": "Implementació completa del format d'arxiu RAR",
@@ -51,7 +50,6 @@
         ],
         "Name": "RAR plugin",
         "Name[ar]": "ملحق RAR",
-        "Name[ast]": "plugin pa RAR",
         "Name[az]": "RAR qoşması",
         "Name[bg]": "Приставка RAR",
         "Name[ca@valencia]": "Connector de RAR",
