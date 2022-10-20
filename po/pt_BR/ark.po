@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-12 00:50+0000\n"
-"PO-Revision-Date: 2022-08-19 15:05-0300\n"
+"PO-Revision-Date: 2022-10-19 16:03-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -406,6 +406,9 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"Isto alterna entre ter uma <emphasis>barra de menu</emphasis> ou ter um "
+"botão de <interface>menu hambúrguer</interface>. Ambos contêm os mesmos "
+"comandos e opções de configuração."
 
 #: app/mainwindow.cpp:255
 #, kde-format
@@ -2006,32 +2009,30 @@ msgstr ""
 #: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ antigo"
 
 #: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40-bit"
 
 #: plugins/cliarjplugin/cliplugin.cpp:338
-#, fuzzy, kde-format
-#| msgctxt "referred to compression method"
-#| msgid "unknown"
+#, kde-format
 msgid "unknown"
 msgstr "desconhecido"
 
