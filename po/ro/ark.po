@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-12 00:50+0000\n"
+"POT-Creation-Date: 2022-10-21 00:50+0000\n"
 "PO-Revision-Date: 2022-06-01 15:37+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -1869,47 +1869,59 @@ msgstr ""
 "Fișierul <filename>%1</filename> a fost modificat. Doriți să actualizați "
 "arhiva?"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1122
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fișier modificat"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@action:button"
+msgid "Update"
+msgstr ""
+
+#: part/part.cpp:1124
+#, kde-format
+msgctxt "@action:button"
+msgid "Ignore"
+msgstr ""
+
+#: part/part.cpp:1405
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Adaugă fișiere"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1410
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Adaugă fișiere la %1"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1474
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Denumirile de fișiere nu pot conține „/” și nu pot fi egale cu „.” sau „..”"
 
-#: part/part.cpp:1516
+#: part/part.cpp:1518
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Dosarele nu pot fi mutate în ele însele."
 
-#: part/part.cpp:1517
+#: part/part.cpp:1519
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Mutare dosar în sine însuși"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1547
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Înregistrări cu aceleași denumiri nu pot fi lipite la aceeași destinație."
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1922,7 +1934,7 @@ msgstr[1] ""
 msgstr[2] ""
 "Ștergerea acestor fișiere nu e revocabilă. Sigur doriți să faceți asta?"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1931,13 +1943,13 @@ msgstr[0] "Șterge fișierul"
 msgstr[1] "Șterge fișierele"
 msgstr[2] "Șterge fișierele"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Salvează copia ca"
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1947,7 +1959,7 @@ msgstr ""
 "Arhiva nu a putut fi salvată ca <filename>%1</filename>. Încercați să o "
 "salvați în altă parte."
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

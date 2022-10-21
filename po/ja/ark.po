@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-12 00:50+0000\n"
+"POT-Creation-Date: 2022-10-21 00:50+0000\n"
 "PO-Revision-Date: 2021-05-02 20:49-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -1902,45 +1902,57 @@ msgstr ""
 "ファイル <filename>%1</filename> は編集されています。本当にアーカイブを更新し"
 "ますか？"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1122
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "ファイルは編集されています"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@action:button"
+msgid "Update"
+msgstr ""
+
+#: part/part.cpp:1124
+#, kde-format
+msgctxt "@action:button"
+msgid "Ignore"
+msgstr ""
+
+#: part/part.cpp:1405
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "ファイルを追加"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1410
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "ファイルを %1 に追加"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1474
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "ファイル名は / を含むものや \".\" や \"..\" にできません"
 
-#: part/part.cpp:1516
+#: part/part.cpp:1518
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "フォルダを自身の中に移動できません。"
 
-#: part/part.cpp:1517
+#: part/part.cpp:1519
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "フォルダをそれの中に移動中"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1547
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "同じ名前のエントリは同じ場所にペーストできません。"
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1949,7 +1961,7 @@ msgid_plural ""
 msgstr[0] "このファイルを削除すると元に戻せません。本当に削除しますか？"
 msgstr[1] "これらのファイルを削除すると元に戻せません。本当に削除しますか？"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Delete files"
@@ -1959,13 +1971,13 @@ msgid_plural "Delete Files"
 msgstr[0] "ファイルを削除"
 msgstr[1] "ファイルを削除"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "コピーを保存"
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1975,7 +1987,7 @@ msgstr ""
 "アーカイブを <filename>%1</filename> に保存できませんでした。他の場所に保存し"
 "てみてください。"
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

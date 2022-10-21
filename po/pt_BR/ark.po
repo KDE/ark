@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-12 00:50+0000\n"
+"POT-Creation-Date: 2022-10-21 00:50+0000\n"
 "PO-Revision-Date: 2022-10-19 16:03-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -1892,45 +1892,57 @@ msgstr ""
 "O arquivo <filename>%1</filename> foi modificado. Deseja atualizar o arquivo "
 "compactado?"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1122
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Arquivo modificado"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@action:button"
+msgid "Update"
+msgstr ""
+
+#: part/part.cpp:1124
+#, kde-format
+msgctxt "@action:button"
+msgid "Ignore"
+msgstr ""
+
+#: part/part.cpp:1405
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Adicionar arquivos"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1410
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Adicionar arquivos a %1"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1474
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "O arquivo não pode conter barras nem ser igual a \".\" ou \"..\""
 
-#: part/part.cpp:1516
+#: part/part.cpp:1518
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "As pastas não podem ser movidas para elas mesmas."
 
-#: part/part.cpp:1517
+#: part/part.cpp:1519
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Movendo uma pasta para ela mesma"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1547
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Os itens com os mesmos nomes não podem ser colados no mesmo destino."
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1943,7 +1955,7 @@ msgstr[1] ""
 "Não é possível reverter a exclusão destes arquivos. Deseja realmente fazer "
 "isso?"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1951,13 +1963,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Excluir arquivo"
 msgstr[1] "Excluir arquivos"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Salvar cópia como"
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1967,7 +1979,7 @@ msgstr ""
 "O arquivo não pôde ser salvo como <filename>%1</filename>. Tente salvá-lo em "
 "outro local."
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

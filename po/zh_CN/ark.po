@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-12 00:50+0000\n"
+"POT-Creation-Date: 2022-10-21 00:50+0000\n"
 "PO-Revision-Date: 2022-10-19 13:21\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1791,45 +1791,57 @@ msgid ""
 "archive?"
 msgstr "文件 <filename>%1</filename> 已修改。您想要更新压缩文件吗？"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1122
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "文件已修改"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@action:button"
+msgid "Update"
+msgstr ""
+
+#: part/part.cpp:1124
+#, kde-format
+msgctxt "@action:button"
+msgid "Ignore"
+msgstr ""
+
+#: part/part.cpp:1405
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "添加文件"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1410
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "添加文件到 %1"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1474
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "文件名不能包含斜杠，且不能为“.”或“..”"
 
-#: part/part.cpp:1516
+#: part/part.cpp:1518
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "文件夹不能被移动到自身之内。"
 
-#: part/part.cpp:1517
+#: part/part.cpp:1519
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "文件夹移动到自身之内"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1547
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "同名项目不能粘贴到同一个目标位置。"
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1837,20 +1849,20 @@ msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr[0] "文件被删除后将无法恢复。您确定要删除吗？"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
 msgid_plural "Delete Files"
 msgstr[0] "删除文件"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "副本另存为"
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1858,7 +1870,7 @@ msgid ""
 "another location."
 msgstr "无法将压缩包保存为 <filename>%1</filename>。请尝试将其保存到其他位置。"
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

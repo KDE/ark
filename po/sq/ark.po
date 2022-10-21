@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-12 00:50+0000\n"
+"POT-Creation-Date: 2022-10-21 00:50+0000\n"
 "PO-Revision-Date: 2009-09-14 12:35+0000\n"
 "Last-Translator: Vilson Gjeci <vilsongjeci@gmail.com>\n"
 "Language-Team: Albanian <sq@li.org>\n"
@@ -1885,46 +1885,58 @@ msgid ""
 "archive?"
 msgstr ""
 
-#: part/part.cpp:1123
+#: part/part.cpp:1122
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr ""
 
-#: part/part.cpp:1403
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@action:button"
+msgid "Update"
+msgstr ""
+
+#: part/part.cpp:1124
+#, kde-format
+msgctxt "@action:button"
+msgid "Ignore"
+msgstr ""
+
+#: part/part.cpp:1405
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr ""
 
-#: part/part.cpp:1408
+#: part/part.cpp:1410
 #, fuzzy, kde-format
 #| msgid "Add &File..."
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Shto &Skedar..."
 
-#: part/part.cpp:1472
+#: part/part.cpp:1474
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1516
+#: part/part.cpp:1518
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr ""
 
-#: part/part.cpp:1517
+#: part/part.cpp:1519
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr ""
 
-#: part/part.cpp:1545
+#: part/part.cpp:1547
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1933,7 +1945,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, fuzzy, kde-format
 #| msgid "De&lete"
 msgctxt "@title:window"
@@ -1942,13 +1954,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Fsh&ije"
 msgstr[1] "Fsh&ije"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1956,7 +1968,7 @@ msgid ""
 "another location."
 msgstr ""
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

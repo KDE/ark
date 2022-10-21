@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-12 00:50+0000\n"
+"POT-Creation-Date: 2022-10-21 00:50+0000\n"
 "PO-Revision-Date: 2022-10-08 01:09+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -1875,49 +1875,61 @@ msgstr ""
 "Il file <filename>%1</filename> è stato modificato. Vuoi aggiornare "
 "l'archivio?"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1122
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "File modificato"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@action:button"
+msgid "Update"
+msgstr ""
+
+#: part/part.cpp:1124
+#, kde-format
+msgctxt "@action:button"
+msgid "Ignore"
+msgstr ""
+
+#: part/part.cpp:1405
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Aggiungi file"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1410
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Aggiungi file a %1"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1474
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Il nome del file non può contenere barre (/) e non può essere uguale a «.» o "
 "«..»"
 
-#: part/part.cpp:1516
+#: part/part.cpp:1518
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Le cartelle non possono essere spostate dentro se stesse."
 
-#: part/part.cpp:1517
+#: part/part.cpp:1519
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Spostare una cartella in se stessa"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1547
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Le voci con lo stesso nome non possono essere incollare nella stessa "
 "destinazione."
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1928,7 +1940,7 @@ msgstr[0] ""
 msgstr[1] ""
 "L'eliminazione di questi file è irreversibile. Sei sicuro di volerlo fare?"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1936,13 +1948,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Elimina file"
 msgstr[1] "Elimina file"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Salva copia come"
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1952,7 +1964,7 @@ msgstr ""
 "L'archivio non può essere salvato come <filename>%1</filename>. Prova a "
 "salvarlo in un'altra posizione."
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

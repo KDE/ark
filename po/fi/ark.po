@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-12 00:50+0000\n"
+"POT-Creation-Date: 2022-10-21 00:50+0000\n"
 "PO-Revision-Date: 2022-07-13 17:33+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -1865,45 +1865,57 @@ msgid ""
 msgstr ""
 "Tiedosto <filename>%1</filename> on muuttunut. Haluatko päivittää arkiston?"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1122
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Tiedosto muuttunut"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@action:button"
+msgid "Update"
+msgstr ""
+
+#: part/part.cpp:1124
+#, kde-format
+msgctxt "@action:button"
+msgid "Ignore"
+msgstr ""
+
+#: part/part.cpp:1405
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Lisää tiedostoja"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1410
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Lisää tiedostoja arkistoon %1"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1474
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "Tiedostonimessä ei saa olla vinoviivoja eikä se voi olla ”.” tai ”..”."
 
-#: part/part.cpp:1516
+#: part/part.cpp:1518
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Kansioita ei voi siirtää itseensä."
 
-#: part/part.cpp:1517
+#: part/part.cpp:1519
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Siirretään kansiota itseensä"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1547
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Samannimisiä tietueita ei voi liittää samaan kohteeseen."
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1914,7 +1926,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Näiden tiedostojen poistoa ei voi kumota. Haluatko varmasti poistaa ne?"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1922,13 +1934,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Poista tiedosto"
 msgstr[1] "Poista tiedostot"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Tallenna kopio nimellä"
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1938,7 +1950,7 @@ msgstr ""
 "Arkiston tallentaminen nimellä <filename>%1</filename> epäonnistui. Yritä "
 "tallentaa se muualle."
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

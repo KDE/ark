@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-12 00:50+0000\n"
+"POT-Creation-Date: 2022-10-21 00:50+0000\n"
 "PO-Revision-Date: 2022-01-01 09:22-0800\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -1837,45 +1837,57 @@ msgid ""
 msgstr ""
 "ਫਾਇਲ <filename>%1</filename> ਸੋਧੀ ਗਈ ਸੀ। ਕੀ ਤੁਸੀਂ ਅਕਾਇਵ ਨੂੰ ਅੱਪਡੇਟ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ।"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1122
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "ਫਾਇਲ ਸੋਧੀ ਗਈ"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@action:button"
+msgid "Update"
+msgstr ""
+
+#: part/part.cpp:1124
+#, kde-format
+msgctxt "@action:button"
+msgid "Ignore"
+msgstr ""
+
+#: part/part.cpp:1405
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "ਫ਼ਾਇਲਾਂ ਜੋੜੋ"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1410
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "%1 'ਚ ਫ਼ਾਇਲਾਂ ਜੋੜੋ"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1474
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "ਫਾਇਲ-ਨਾਂ ਵਿੱਚ ਸਲੈਸ਼ ਨਹੀਂ ਹੋ ਸਕਦੀ ਅਤੇ  \".\" ਜਾਂ \"..\" ਦੇ ਬਰਾਬਰ ਨਹੀਂ ਹੋ ਸਕਦਾ ਹੈ"
 
-#: part/part.cpp:1516
+#: part/part.cpp:1518
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "ਫੋਲਡਰਾਂ ਨੂੰ ਖੁਦ ਵਿੱਚ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
 
-#: part/part.cpp:1517
+#: part/part.cpp:1519
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "ਫੋਲਡਰ ਨੂੰ ਖੁਦ ਵਿੱਚ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1547
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1884,7 +1896,7 @@ msgid_plural ""
 msgstr[0] "ਇਹ ਫ਼ਾਇਲਾਂ ਦੇ ਹਟਾਉਣ ਨੂੰ ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਕੀ ਤੁਸੀਂ ਇਹ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 msgstr[1] "ਇਹ ਫ਼ਾਇਲਾਂ ਦੇ ਹਟਾਉਣਾ ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਕੀ ਤੁਸੀਂ ਇਹ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1892,13 +1904,13 @@ msgid_plural "Delete Files"
 msgstr[0] "ਫ਼ਾਇਲ ਨੂੰ ਹਟਾਓ"
 msgstr[1] "ਫ਼ਾਇਲਾਂ ਨੂੰ ਹਟਾਓ"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "ਕਾਪੀ ਵਜੋਂ ਇੰਝ ਸੰਭਾਲੋ"
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1908,7 +1920,7 @@ msgstr ""
 "ਅਕਾਇਵ ਨੂੰ <filename>%1</filename> ਉੱਤੇ ਸੰਭਾਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ। ਇਸ ਨੂੰ ਹੋਰ ਟਿਕਾਣੇ ਉੱਤੇ "
 "ਸੰਭਾਲਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
