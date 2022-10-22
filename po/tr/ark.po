@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:50+0000\n"
-"PO-Revision-Date: 2022-10-08 12:32+0300\n"
+"PO-Revision-Date: 2022-10-21 10:54+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -317,14 +317,14 @@ msgstr "İşlem (çıkarma/ekleme) seçeneklerini belirtmek için bir pencere g�
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr ""
-"Dosyaların çıkarılacağı hedef dizin. Belirtilmezse öntanımlı olarak şimdiki "
+"Dosyaların çıkarılacağı hedef klasör. Belirtilmezse öntanımlı olarak şimdiki "
 "dizin kullanılır."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
 #: app/main.cpp:161 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
-msgstr "Çıkarma işleminden sonra hedef dizini aç."
+msgstr "Çıkarma işleminden sonra hedef klasörü aç."
 
 #: app/main.cpp:164
 #, kde-format
@@ -384,8 +384,8 @@ msgid ""
 "a single file archive, a subfolder with the name of the archive will be "
 "created."
 msgstr ""
-"Arşiv içeriği okunacak ve eğer tek dizinlik veya tek dosyalım bir arşiv "
-"olmadığı belirlenirse arşivin adını taşıyan bir alt dizin veya tek dosya "
+"Arşiv içeriği okunacak ve eğer tek klasörlük veya tek dosyalık bir arşiv "
+"olmadığı belirlenirse arşivin adını taşıyan bir alt klasör veya tek dosya "
 "oluşturulacaktır."
 
 #: app/main.cpp:187
@@ -462,7 +462,7 @@ msgstr "Ekle"
 #: kerfuffle/adddialog.ui:35
 #, kde-format
 msgid "Files/Folders to Compress"
-msgstr "Sıkıştırılacak Dosyalar/Dizinler"
+msgstr "Sıkıştırılacak Dosyalar/Klasörler"
 
 #: kerfuffle/addtoarchive.cpp:79
 #, kde-format
@@ -762,7 +762,7 @@ msgstr "Çıkar"
 #: kerfuffle/extractiondialog.cpp:97
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
-msgstr "Üzgünüm, alt dizin adı '/' karakteri içeremez."
+msgstr "Üzgünüm, alt klasör adı '/' karakteri içeremez."
 
 #: kerfuffle/extractiondialog.cpp:107
 #, kde-kuit-format
@@ -771,13 +771,13 @@ msgid ""
 "The folder <filename>%1</filename> already exists. Are you sure you want to "
 "extract here?"
 msgstr ""
-"<filename>%1</filename> dizini zaten var. Buraya çıkarmak istediğinize emin "
+"<filename>%1</filename> klasörü zaten var. Buraya çıkarmak istediğinize emin "
 "misiniz?"
 
 #: kerfuffle/extractiondialog.cpp:108
 #, kde-format
 msgid "Folder exists"
-msgstr "Dizin var"
+msgstr "Klasör var"
 
 #: kerfuffle/extractiondialog.cpp:109
 #, kde-format
@@ -793,13 +793,13 @@ msgstr "Yeniden Dene"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
-msgstr "<filename>%1</filename> dizini oluşturulamadı."
+msgstr "<filename>%1</filename> klasörü oluşturulamadı."
 
 #: kerfuffle/extractiondialog.cpp:121
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
-msgstr "<filename>%1</filename> var; ancak bir dizin değil."
+msgstr "<filename>%1</filename> var; ancak bir klasör değil."
 
 #: kerfuffle/extractiondialog.cpp:127
 #, kde-format
@@ -827,7 +827,7 @@ msgstr "Tüm Dosyaları Çıkar"
 #: kerfuffle/extractiondialog.ui:79
 #, kde-format
 msgid "E&xtraction into subfolder:"
-msgstr "&Alt dizinler içerisine çıkarma:"
+msgstr "&Alt klasörler içine çıkarma:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: kerfuffle/extractiondialog.ui:113
@@ -839,7 +839,7 @@ msgstr "Seçenekler"
 #: kerfuffle/extractiondialog.ui:132
 #, kde-format
 msgid "Open &destination folder after extraction"
-msgstr "&Çıkarma işleminden sonra hedef dizini aç"
+msgstr "&Çıkarma işleminden sonra hedef klasörü aç"
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
 #: kerfuffle/extractiondialog.ui:139
@@ -857,7 +857,7 @@ msgstr "&Çıkarırken dosya yollarını koru"
 #: kerfuffle/extractiondialog.ui:153
 #, kde-format
 msgid "&Automatically create subfolders"
-msgstr "Alt dizinleri &otomatik olarak oluştur"
+msgstr "Alt klasörleri &otomatik olarak oluştur"
 
 #. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
 #: kerfuffle/extractiondialog.ui:169
@@ -882,7 +882,7 @@ msgstr "Tüm &dosyalar"
 #: kerfuffle/extractionsettingspage.ui:17
 #, kde-format
 msgid "Open destination folder after extraction"
-msgstr "Çıkarma işleminden sonra hedef dizini aç"
+msgstr "Çıkarma işleminden sonra hedef klasörü aç"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_closeAfterExtraction)
 #: kerfuffle/extractionsettingspage.ui:24
@@ -1879,13 +1879,13 @@ msgstr "Dosya Değiştirildi"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Güncelle"
 
 #: part/part.cpp:1124
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Yok Say"
 
 #: part/part.cpp:1405
 #, kde-format

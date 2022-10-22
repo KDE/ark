@@ -1886,13 +1886,13 @@ msgstr "Ficheiro Modificado"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 #: part/part.cpp:1124
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Ignorar"
 
 #: part/part.cpp:1405
 #, kde-format

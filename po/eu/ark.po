@@ -1,6 +1,6 @@
 # Translation for ark.po to Euskara/Basque (eu).
-# Copyright (C) 1999-2018, Free Software Foundation.
-# Copyright (C) 2019-2022, This file is copyright:
+# Copyright (C) 1999-2018 Free Software Foundation.
+# Copyright (C) 2019-2022 This file is copyright:
 # This file is distributed under the same license as the ark package.
 # KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.
 #
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:50+0000\n"
-"PO-Revision-Date: 2022-10-07 05:27+0200\n"
+"PO-Revision-Date: 2022-10-21 19:58+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -1879,13 +1879,13 @@ msgstr "Fitxategia aldatuta"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Eguneratu"
 
 #: part/part.cpp:1124
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Ezikusi"
 
 #: part/part.cpp:1405
 #, kde-format

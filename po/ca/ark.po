@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-21 00:50+0000\n"
-"PO-Revision-Date: 2022-10-07 18:06+0200\n"
+"PO-Revision-Date: 2022-10-21 13:14+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -1880,13 +1880,13 @@ msgstr "Fitxer modificat"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Actualitza"
 
 #: part/part.cpp:1124
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Ignora"
 
 #: part/part.cpp:1405
 #, kde-format
@@ -2261,13 +2261,3 @@ msgstr "Ha fallat en copiar l'entrada: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Ha fallat en establir les metadades de l'entrada: %1"
-
-#~ msgid ""
-#~ "Internal config version of Ark, mainly used to determine whether an "
-#~ "updated version of Ark is running, so as to migrate config entries that "
-#~ "were removed/renamed ...etc"
-#~ msgstr ""
-#~ "Versió de la configuració interna de l'Ark, usada principalment per a "
-#~ "determinar si s'està executant un versió actualitzada de l'Ark, així com "
-#~ "per a migrar les entrades de configuració que s'han eliminat/canviat de "
-#~ "nom, etc."
