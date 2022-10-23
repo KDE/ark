@@ -34,7 +34,10 @@ class Archive::Entry : public QObject
      * below, so set those that are available.
      */
     Q_PROPERTY(QString fullPath MEMBER m_fullPath WRITE setFullPath)
+    /// The internal name of the entry in the archive.
     Q_PROPERTY(QString name READ name)
+    /// The visible name of the entry in the UI. This is currently always equal to the name of the entry.
+    Q_PROPERTY(QString displayName READ displayName WRITE setDisplayName)
     Q_PROPERTY(QString permissions MEMBER m_permissions)
     Q_PROPERTY(QString owner MEMBER m_owner)
     Q_PROPERTY(QString group MEMBER m_group)
@@ -68,8 +71,10 @@ public:
     void setParent(Entry *parent);
     void setFullPath(const QString &fullPath);
     QString fullPath(PathFormat format = WithTrailingSlash) const;
+    QString displayName() const;
     QString name() const;
     QStringView nameView() const;
+    void setDisplayName(const QString &displayName);
     void setIsDirectory(const bool isDirectory);
     bool isDir() const;
     void setIsExecutable(const bool isExecutable);
@@ -96,6 +101,7 @@ public:
 private:
     QVector<Entry*> m_entries;
     QString         m_name;
+    QString         m_displayName;
     Entry           *m_parent;
 
     QString m_fullPath;

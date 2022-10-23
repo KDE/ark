@@ -119,6 +119,15 @@ QString Archive::Entry::fullPath(PathFormat format) const
     }
 }
 
+QString Archive::Entry::displayName() const
+{
+    if (m_displayName.isEmpty()) {
+        return m_name;
+    }
+
+    return m_displayName;
+}
+
 QString Archive::Entry::name() const
 {
     return m_name;
@@ -127,6 +136,11 @@ QString Archive::Entry::name() const
 QStringView Archive::Entry::nameView() const
 {
     return m_name;
+}
+
+void Archive::Entry::setDisplayName(const QString &displayName)
+{
+    m_displayName = displayName;
 }
 
 void Archive::Entry::setIsDirectory(const bool isDirectory)
