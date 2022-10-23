@@ -29,7 +29,7 @@ namespace Kerfuffle
  * and for determining data displaying order in part's view.
  */
 enum EntryMetaDataType {
-    FullPath,            /**< The entry's file name */
+    DisplayName,         /**< The entry's name that will be displayed in the view */
     Size,                /**< The entry's original size */
     CompressedSize,      /**< The compressed size for the entry */
     Permissions,         /**< The entry's permissions */

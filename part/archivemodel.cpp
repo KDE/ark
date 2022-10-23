@@ -40,7 +40,7 @@ ArchiveModel::ArchiveModel(const QString &dbusPathName, QObject *parent)
 
     // Mappings between column indexes and entry properties.
     m_propertiesMap = {
-        { FullPath, "fullPath" },
+        { DisplayName, "displayName" },
         { Size, "size" },
         { CompressedSize, "compressedSize" },
         { Permissions, "permissions" },
@@ -68,8 +68,8 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
             // TODO: complete the columns.
             int column = m_showColumns.at(index.column());
             switch (column) {
-            case FullPath:
-                return entry->name();
+            case DisplayName:
+                return entry->displayName();
             case Size:
                 if (!entry->property("link").toString().isEmpty()) {
                     return QVariant();
@@ -151,7 +151,7 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
         int columnId = m_showColumns.at(section);
 
         switch (columnId) {
-        case FullPath:
+        case DisplayName:
             return i18nc("Name of a file inside an archive", "Name");
         case Size:
             return i18nc("Uncompressed size of a file inside an archive", "Original Size");
