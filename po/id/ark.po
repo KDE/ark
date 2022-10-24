@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-21 00:50+0000\n"
+"POT-Creation-Date: 2022-10-24 00:51+0000\n"
 "PO-Revision-Date: 2022-09-27 17:54+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -1403,22 +1403,22 @@ msgstr "Bilah Alat Utama"
 msgid "&Help"
 msgstr "Ba&ntuan"
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:55
 #, kde-format
 msgid "Closing preview"
 msgstr "Menutup pratinjau"
 
-#: part/arkviewer.cpp:54
+#: part/arkviewer.cpp:56
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Mohon tunggu sembari pratinjau ditutup..."
 
-#: part/arkviewer.cpp:101
+#: part/arkviewer.cpp:103
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "Penampil internal tidak dapat membuka pratinjau untuk file ini."
 
-#: part/arkviewer.cpp:117
+#: part/arkviewer.cpp:119
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1427,19 +1427,19 @@ msgstr ""
 "Penampil internal tak bisa mempratinjau tipe file<nl/>(%1) ini.<nl/><nl/"
 ">Apakah kamu ingin mencoba untuk menampilkannya sebagai teks plain?"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "Tak Bisa Mempratinjau File"
 
-#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
+#: part/arkviewer.cpp:121 part/arkviewer.cpp:133
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "Pratinjau sebagai Teks"
 
-#: part/arkviewer.cpp:129
+#: part/arkviewer.cpp:131
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1448,7 +1448,7 @@ msgstr ""
 "Penampil internal tak bisa mempratinjau tipe file yang tak diketahui ini.<nl/"
 "><nl/>Apakah kamu ingin mencoba untuk menampilkannya sebagai teks plain?"
 
-#: part/arkviewer.cpp:193
+#: part/arkviewer.cpp:233
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"

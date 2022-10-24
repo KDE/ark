@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-21 00:50+0000\n"
+"POT-Creation-Date: 2022-10-24 00:51+0000\n"
 "PO-Revision-Date: 2022-10-22 18:54+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -1420,22 +1420,22 @@ msgstr "شريط الأدوات الرئيسي"
 msgid "&Help"
 msgstr "م&ساعدة"
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:55
 #, kde-format
 msgid "Closing preview"
 msgstr "يغلق المعاينة"
 
-#: part/arkviewer.cpp:54
+#: part/arkviewer.cpp:56
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "الرجاء الانتظار حالما يتم غلق المعاينة..."
 
-#: part/arkviewer.cpp:101
+#: part/arkviewer.cpp:103
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "العارض الداخلي لا يمكنه معاينة هذا الملف."
 
-#: part/arkviewer.cpp:117
+#: part/arkviewer.cpp:119
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1444,19 +1444,19 @@ msgstr ""
 "لا يمكن للعرض الداخلي أن يعرض هذا النوع من الملفات<nl/>(%1).<nl/><nl/>هل "
 "تريد محاولة فتحه كملف نصيّ صَرِف؟"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "تعذّر عرض الملف"
 
-#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
+#: part/arkviewer.cpp:121 part/arkviewer.cpp:133
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "&عاين كنَصّ"
 
-#: part/arkviewer.cpp:129
+#: part/arkviewer.cpp:131
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1465,7 +1465,7 @@ msgstr ""
 "لا يمكن للعارض الداخلي أن يعرض هذا النوع غير المعروف من الملفات.<nl/><nl/>هل "
 "تريد محاولة فتحه كملف نصيّ صَرِف؟"
 
-#: part/arkviewer.cpp:193
+#: part/arkviewer.cpp:233
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"

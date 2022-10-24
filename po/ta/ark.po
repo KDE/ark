@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-21 00:50+0000\n"
+"POT-Creation-Date: 2022-10-24 00:51+0000\n"
 "PO-Revision-Date: 2022-10-13 21:46+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -1398,22 +1398,22 @@ msgstr "பிரதான கருவிப்பட்டை"
 msgid "&Help"
 msgstr "&உதவி"
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:55
 #, kde-format
 msgid "Closing preview"
 msgstr "முன்னோட்டம் மூடப்படுகிறது"
 
-#: part/arkviewer.cpp:54
+#: part/arkviewer.cpp:56
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "முன்னோட்டத்தை மூடும்வரை காத்திருங்கள்..."
 
-#: part/arkviewer.cpp:101
+#: part/arkviewer.cpp:103
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "இக்கோப்பை உள்ளமை காட்டியில் பார்க்க முடியாது."
 
-#: part/arkviewer.cpp:117
+#: part/arkviewer.cpp:119
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1422,19 +1422,19 @@ msgstr ""
 "இவ்வகையான கோப்பை உள்ளமை காட்டியில் பார்க்க முடியாது<nl/>(%1).<nl/><nl/> அதை சாதாரண "
 "உரைக்கோப்பாக பார்க்க முயற்சிக்கலாமா?"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "கோப்பின் முன்னோட்டத்தை காட்ட முடியாது"
 
-#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
+#: part/arkviewer.cpp:121 part/arkviewer.cpp:133
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "உரையாக காட்டு"
 
-#: part/arkviewer.cpp:129
+#: part/arkviewer.cpp:131
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1443,7 +1443,7 @@ msgstr ""
 "தெரியாத வகையான இக்கோப்பை உள்ளமை காட்டியில் பார்க்க முடியாது.<nl/><nl/> அதை சாதாரண "
 "உரைக்கோப்பாக பார்க்க முயற்சிக்கலாமா?"
 
-#: part/arkviewer.cpp:193
+#: part/arkviewer.cpp:233
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"

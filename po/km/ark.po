@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-21 00:50+0000\n"
+"POT-Creation-Date: 2022-10-24 00:51+0000\n"
 "PO-Revision-Date: 2012-06-11 15:59+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -1472,22 +1472,22 @@ msgstr "របារ​ឧបករណ៍​មេ"
 msgid "&Help"
 msgstr ""
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:55
 #, kde-format
 msgid "Closing preview"
 msgstr "បិទ​ការ​មើល​ជា​មុន"
 
-#: part/arkviewer.cpp:54
+#: part/arkviewer.cpp:56
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "សូមរ​ង់ចាំ​ខណៈពេល​ដែល​កំពុង​បិទ​ការ​មើលជា​មុន..."
 
-#: part/arkviewer.cpp:101
+#: part/arkviewer.cpp:103
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "កម្មវិធី​មើល​ចន្លោះ​ពេល​មិនអាច​មើល​ឯកសារ​នេះ​ជា​មុន​បាន​ទេ ។"
 
-#: part/arkviewer.cpp:117
+#: part/arkviewer.cpp:119
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1496,19 +1496,19 @@ msgstr ""
 "កម្មវិធី​មើល​ខាង​ក្នុង​មិន​អាច​មើល​ប្រភេទ​ឯកសារ​នេះ​ជា​មុន​បាន​ទេ<nl/>(%1) ។<nl/><nl/>តើ​អ្នក​ចង់​"
 "ព្យាយាម​មើល​វា​ជា​អត្ថបទ​ធម្មតា​ដែរឬទេ ?"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "មិនអាច​មើល​ឯកសារ​ជា​មុន​បាន​ទេ"
 
-#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
+#: part/arkviewer.cpp:121 part/arkviewer.cpp:133
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "មើល​ជា​​​មុន​ជា​អត្ថបទ"
 
-#: part/arkviewer.cpp:129
+#: part/arkviewer.cpp:131
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1517,7 +1517,7 @@ msgstr ""
 "កម្មវិធី​មើល​ខាង​ក្នុង​មិន​អាច​មើល​ប្រភេទ​ឯកសារ​ដែលមិនស្គាល់បាន​ទេ ។<nl/><nl/>តើ​អ្នក​ចង់​ព្យាយាម​មើល​វា​"
 "ជា​អត្ថបទ​ធម្មតា​ដែរឬទេ ?"
 
-#: part/arkviewer.cpp:193
+#: part/arkviewer.cpp:233
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"

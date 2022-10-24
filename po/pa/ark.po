@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-21 00:50+0000\n"
+"POT-Creation-Date: 2022-10-24 00:51+0000\n"
 "PO-Revision-Date: 2022-01-01 09:22-0800\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -1378,22 +1378,22 @@ msgstr "ਮੁੱਖ ਟੂਲਬਾਰ"
 msgid "&Help"
 msgstr "ਮਦਦ(&H)"
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:55
 #, kde-format
 msgid "Closing preview"
 msgstr "ਝਲਕ ਬੰਦ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
 
-#: part/arkviewer.cpp:54
+#: part/arkviewer.cpp:56
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "...ਝਲਕ ਬੰਦ ਹੋਣ ਤੱਕ ਉਡੀਕੋ ਜੀ"
 
-#: part/arkviewer.cpp:101
+#: part/arkviewer.cpp:103
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "ਅੰਦਰੂਨੀ ਦਰਸ਼ਕ ਇਹ ਫ਼ਾਇਲ ਦੀ ਝਲਕ ਨਹੀਂ ਦੇ ਸਕਦਾ।"
 
-#: part/arkviewer.cpp:117
+#: part/arkviewer.cpp:119
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1402,19 +1402,19 @@ msgstr ""
 "ਅੰਦਰੂਨੀ ਦਰਸ਼ਕ ਇਹ ਕਿਸਮ ਦੀ ਫ਼ਾਇਲ ਨਹੀਂ ਵੇਖਾ ਸਕਦਾ ਹੈ<nl/>(%1)।<nl/><nl/>ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ "
 "ਇਕਸਾਰ ਲਿਖਤ ਵਜੋਂ ਵੇਖਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "ਫ਼ਾਇਲ ਝਲਕ ਵੇਖਾਈ ਨਹੀਂ ਜਾ ਸਕਦੀ"
 
-#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
+#: part/arkviewer.cpp:121 part/arkviewer.cpp:133
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "ਲਿਖਤ ਵਜੋਂ ਝਲਕ"
 
-#: part/arkviewer.cpp:129
+#: part/arkviewer.cpp:131
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1423,7 +1423,7 @@ msgstr ""
 "ਅੰਦਰੂਨੀ ਦਰਸ਼ਕ ਇਹ ਅਣਜਾਣ ਕਿਸਮ ਦੀ ਫ਼ਾਇਲ ਨਹੀਂ ਵੇਖਾ ਸਕਦਾ ਹੈ।<nl/><nl/>ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ ਇਕਸਾਰ "
 "ਲਿਖਤ ਵਜੋਂ ਵੇਖਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: part/arkviewer.cpp:193
+#: part/arkviewer.cpp:233
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
