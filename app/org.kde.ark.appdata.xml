@@ -25,6 +25,7 @@
   <name xml:lang="hu">Ark</name>
   <name xml:lang="ia">Ark</name>
   <name xml:lang="id">Ark</name>
+  <name xml:lang="ie">Ark</name>
   <name xml:lang="is">Ark</name>
   <name xml:lang="it">Ark</name>
   <name xml:lang="ja">Ark</name>
@@ -76,6 +77,7 @@
   <summary xml:lang="hu">Fájltömörítő</summary>
   <summary xml:lang="ia">Instrumento per archivar</summary>
   <summary xml:lang="id">Alat Pengarsipan</summary>
+  <summary xml:lang="ie">Gerente de archives</summary>
   <summary xml:lang="is">Safnskráaverkfæri</summary>
   <summary xml:lang="it">Strumento di archiviazione</summary>
   <summary xml:lang="ja">アーカイブツール</summary>
@@ -132,6 +134,7 @@
     <p xml:lang="hu">Az Ark egy grafikus fájltömörítő és kibontó segédprogram többféle formátum támogatásával, beleértve a tar, gzip, bzip2, rar és zip formátumokat, valamint a CD-ROM képfájlokat. Az Ark használható archívumok böngészéséhez, kibontásához, létrehozásához és módosításához.</p>
     <p xml:lang="ia">Ark es un utilitate graphic de compression/decompression de file con supporto per formatos multiple, includente tar, gzip, bzip2, rar e zip, tal como images de CD-ROM. Ark pote esser usate per navigar, extraher, crear e modificar archivos.</p>
     <p xml:lang="id">Ark adalah utilitas kompresi/dekompresi file grafis dengan dukungan untuk berbagai format, termasuk tar, gzip, bzip2, rar dan zip, serta citra CD-ROM. Ark dapat digunakan untuk menelusuri, mengekstrak, menciptakan, dan memodifikasi arsip.</p>
+    <p xml:lang="ie">Ark es un grafic utensile de compression e decompression de files quel supporte multiplic formates, includente tar, gzip, bzip2, rar, zip e images CD-ROM. On posse usar Ark por navigar, extraer, crear e modificar archives.</p>
     <p xml:lang="is">Ark er myndrænt þjöppunar/afþjöppunartól fyrir skrár með stuðningi við margvísleg skráasnið, þar með talin tar, gzip, bzip2, rar og zip, auk CD-ROM diskmynda. Ark má nota til að skoða, afþjappa, útbúa og breyta safnskrám.</p>
     <p xml:lang="it">Ark è uno strumento grafico per la compressione/decompressione dei file che supporta molti formati, tra i quali tar, gzip, bzip2, rar e zip, così come le immagini dei CD-ROM. Ark può essere utilizzato per sfogliare, estrarre, creare e modificare archivi.</p>
     <p xml:lang="ka">Ark ფაილების გრაფიკულად შეკუმშვა/გაშლის ხელსაწყოა შეკუმშვის ისეთი ფორმატების მხარდაჭერით, როგორიცაა მაგალითად tar, gzip, bzip2, zip და CD-ROM-ის ასლები. Ark-ს ასევე ეუძლია დაათვალიეროს, გაშალოს, შექმნას და შეცვალოს არქივები.</p>
@@ -179,6 +182,7 @@
     <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="id">Fitur:</p>
+    <p xml:lang="ie">Caracteristicas:</p>
     <p xml:lang="is">Eiginleikar:</p>
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="ja">特徴:</p>
@@ -231,6 +235,7 @@
       <li xml:lang="hu">Számos formátum támogatott: gzip, bzip2, zip, rar, 7z és továbbiak</li>
       <li xml:lang="ia">Plure formatos supportate: gzip, bzip2, zip, rar, 7z e altere</li>
       <li xml:lang="id">beberapa format yang didukung: gzip, bzip2, zip, rar, 7z dan banyak lagi</li>
+      <li xml:lang="ie">Multiplic formates es supportat: gzip, bzip2, zip, rar, 7z e plu</li>
       <li xml:lang="is">Mörg studd skráasnið: gzip, bzip2, zip, rar, 7z og fleiri</li>
       <li xml:lang="it">Diversi formati supportati: gzip, bzip2, zip, rar, 7z e altri</li>
       <li xml:lang="ja">gzip、bzip2、zip、rar、7z などの様々な形式をサポートしています</li>
@@ -279,6 +284,7 @@
       <li xml:lang="hu">Fájltartalom előnézete a fájlok kibontása nélkül</li>
       <li xml:lang="ia">Contentos de file de previsualisation sin extraher files</li>
       <li xml:lang="id">Pratinjau konten file tanpa mengekstrak filenya</li>
+      <li xml:lang="ie">Previder li contenete sin extraction de files</li>
       <li xml:lang="is">Forskoða efni skráa án þess að afþjappa skrám</li>
       <li xml:lang="it">Anteprima dei file senza estrarre i file</li>
       <li xml:lang="ja">ファイルを展開せずにファイルの内容をプレビュー</li>
@@ -329,6 +335,7 @@
       <caption xml:lang="hu">Archívumok kezelése az Arkkal</caption>
       <caption xml:lang="ia">Gerer archivos con Ark</caption>
       <caption xml:lang="id">Mengelola arsip dengan Ark</caption>
+      <caption xml:lang="ie">Gestion de archives med Ark</caption>
       <caption xml:lang="is">Sýslaðu með safnskrár í Ark</caption>
       <caption xml:lang="it">Gestione archivi con Ark</caption>
       <caption xml:lang="ja">Ark でアーカイブを管理</caption>
