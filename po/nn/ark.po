@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-12 00:50+0000\n"
+"POT-Creation-Date: 2022-10-24 00:51+0000\n"
 "PO-Revision-Date: 2022-08-20 11:03+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -1393,22 +1393,22 @@ msgstr "Hovudverktøylinje"
 msgid "&Help"
 msgstr "&Hjelp"
 
-#: part/arkviewer.cpp:53
+#: part/arkviewer.cpp:55
 #, kde-format
 msgid "Closing preview"
 msgstr "Lukkar førehandsvisinga"
 
-#: part/arkviewer.cpp:54
+#: part/arkviewer.cpp:56
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Vent mens førehandsvisinga vert lukka …"
 
-#: part/arkviewer.cpp:101
+#: part/arkviewer.cpp:103
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "Det interne visingsprogrammet kan ikkje førehandsvisa denne fila."
 
-#: part/arkviewer.cpp:117
+#: part/arkviewer.cpp:119
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1417,19 +1417,19 @@ msgstr ""
 "Det interne visingsprogrammet kan ikkje førehandsvisa filtypen<nl/>(%1).<nl/"
 "><nl/>Vil du prøva å visa fila som rein tekst?"
 
-#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
+#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "Kan ikkje førehandsvisa fila"
 
-#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
+#: part/arkviewer.cpp:121 part/arkviewer.cpp:133
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "Førehandsvis som tekst"
 
-#: part/arkviewer.cpp:129
+#: part/arkviewer.cpp:131
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1438,7 +1438,7 @@ msgstr ""
 "Det interne visingsprogrammet kan ikkje førehandsvisa denne ukjende filtypen."
 "<nl/><nl/>Vil du prøva å visa fila som rein tekst?"
 
-#: part/arkviewer.cpp:193
+#: part/arkviewer.cpp:233
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1849,46 +1849,58 @@ msgid ""
 "archive?"
 msgstr "Fila <filename>%1</filename> vart endra. Vil du oppdatera arkivet?"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1122
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fil endra"
 
-#: part/part.cpp:1403
+#: part/part.cpp:1123
+#, kde-format
+msgctxt "@action:button"
+msgid "Update"
+msgstr ""
+
+#: part/part.cpp:1124
+#, kde-format
+msgctxt "@action:button"
+msgid "Ignore"
+msgstr ""
+
+#: part/part.cpp:1405
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Legg til filer"
 
-#: part/part.cpp:1408
+#: part/part.cpp:1410
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Legg filer til %1"
 
-#: part/part.cpp:1472
+#: part/part.cpp:1474
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Filnamn kan ikkje innehalda skråstrekar og kan ikkje vera lik «.» eller «..»."
 
-#: part/part.cpp:1516
+#: part/part.cpp:1518
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Du kan ikkje flytta mapper til seg sjølve."
 
-#: part/part.cpp:1517
+#: part/part.cpp:1519
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Mappe flytta til seg sjølv"
 
-#: part/part.cpp:1545
+#: part/part.cpp:1547
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Oppføringar med same namn kan ikkje limast inn til same målmappe."
 
-#: part/part.cpp:1646
+#: part/part.cpp:1647
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1901,7 +1913,7 @@ msgstr[1] ""
 "Du kan ikkje angra slettinga av desse filene. Er du sikker på at du vil "
 "sletta dei?"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1650
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1909,13 +1921,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Slett fila"
 msgstr[1] "Slett filene"
 
-#: part/part.cpp:1692
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Lagra kopi som"
 
-#: part/part.cpp:1707
+#: part/part.cpp:1708
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1925,7 +1937,7 @@ msgstr ""
 "Klarte ikkje lagra arkivfila som <filename>%1</filename>. Prøv å lagra ho i "
 "ei anna mappe."
 
-#: part/part.cpp:1711
+#: part/part.cpp:1712
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
