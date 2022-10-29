@@ -443,7 +443,7 @@
 </mediaobject>
 
 <para
->Podeu especificar extreure els fitxers en una subcarpeta. El nom predeterminat d'aquesta subcarpeta és el nom de l'arxiu sense l'extensió del nom de fitxer, però podeu editar-lo segons les vostres necessitats. Si voleu preservar els camins en extreure, seleccioneu l'opció <guilabel
+>Podeu especificar extreure els fitxers en una subcarpeta. El nom predeterminat d'aquesta subcarpeta és el nom de l'arxiu sense l'extensió del nom de fitxer, però podeu editar-lo segons les vostres necessitats. Si voleu mantenir els camins en extreure, seleccioneu l'opció <guilabel
 >Conserva els camins en fer l'extracció</guilabel
 >. També podeu triar obrir la carpeta de destinació al &dolphin; o tancar l'&ark; una vegada que l'extracció hagi finalitzat.</para>
 
