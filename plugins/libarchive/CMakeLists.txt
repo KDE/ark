@@ -6,6 +6,8 @@ set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "${SUPPORTED_LIBARCHIVE_READWRITE_M
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "application/vnd.debian.binary-package;application/x-deb;application/x-cd-image;application/x-bcpio;application/x-cpio;application/x-cpio-compressed;application/x-sv4cpio;application/x-sv4crc;")
 set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}application/x-rpm;application/x-source-rpm;application/vnd.ms-cab-compressed;application/x-xar;application/x-iso9660-appimage;application/x-archive;")
 set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "${SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES}application/x-zstd-compressed-tar;")
+set(SUPPORTED_LIBARCHIVE_RAW_MIMETYPES "application/x-compress;application/gzip;application/x-bzip;application/zlib;application/zstd;application/x-lzma;application/x-xz;application/x-lz4;application/x-lzip;application/x-lrzip;application/x-lzop;")
+set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}${SUPPORTED_LIBARCHIVE_RAW_MIMETYPES}")
 
 set(INSTALLED_LIBARCHIVE_PLUGINS "")
 
@@ -29,6 +31,17 @@ set(SUPPORTED_READONLY_MIMETYPES
     \"application/x-sv4cpio\",
     \"application/x-sv4crc\",
     \"application/x-rpm\",
+    \"application/x-compress\",
+    \"application/gzip\",
+    \"application/x-bzip\",
+    \"application/x-lzma\",
+    \"application/x-xz\",
+    \"application/zlib\",
+    \"application/zstd\",
+    \"application/x-lz4\",
+    \"application/x-lzip\",
+    \"application/x-lrzip\",
+    \"application/x-lzop\",
     \"application/x-source-rpm\",
     \"application/vnd.debian.binary-package\",
     \"application/vnd.ms-cab-compressed\",
@@ -61,6 +74,11 @@ configure_file(
 
 kerfuffle_add_plugin(kerfuffle_libarchive_readonly ${kerfuffle_libarchive_readonly_SRCS})
 kerfuffle_add_plugin(kerfuffle_libarchive ${kerfuffle_libarchive_readwrite_SRCS})
+
+# Concat the list of raw mimetypes in a single string, so that we can pass it as C++ define to the plugin.
+# NOTE: cannot use ";" as separator since it breaks cmake badly.
+list(JOIN SUPPORTED_LIBARCHIVE_RAW_MIMETYPES ":" RAW_MIMETYPES_CONCAT)
+target_compile_definitions(kerfuffle_libarchive_readonly PRIVATE -DLIBARCHIVE_RAW_MIMETYPES="${RAW_MIMETYPES_CONCAT}")
 
 target_link_libraries(kerfuffle_libarchive_readonly ${LibArchive_LIBRARIES})
 target_link_libraries(kerfuffle_libarchive ${LibArchive_LIBRARIES})

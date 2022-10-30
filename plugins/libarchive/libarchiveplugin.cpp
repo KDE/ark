@@ -31,6 +31,11 @@ LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList &args)
 
     connect(this, &ReadOnlyArchiveInterface::error, this, &LibarchivePlugin::slotRestoreWorkingDir);
     connect(this, &ReadOnlyArchiveInterface::cancelled, this, &LibarchivePlugin::slotRestoreWorkingDir);
+
+#ifdef LIBARCHIVE_RAW_MIMETYPES
+    m_rawMimetypes = QStringLiteral(LIBARCHIVE_RAW_MIMETYPES).split(QLatin1Char(':'), Qt::SkipEmptyParts);
+    qCDebug(ARK) << "# available raw mimetypes:" << m_rawMimetypes.count();
+#endif
 }
 
 LibarchivePlugin::~LibarchivePlugin()
@@ -72,7 +77,8 @@ bool LibarchivePlugin::list()
         }
 
         if (!m_emitNoEntries) {
-            emitEntryFromArchiveEntry(aentry);
+            const bool isRawFormat = (archive_format(m_archiveReader.data()) == ARCHIVE_FORMAT_RAW);
+            emitEntryFromArchiveEntry(aentry, isRawFormat);
         }
 
         m_extractedFilesSize += (qlonglong)archive_entry_size(aentry);
@@ -123,6 +129,24 @@ bool LibarchivePlugin::emitCorruptArchive()
         Q_EMIT progress(1.0);
         return true;
     }
+}
+
+const QString LibarchivePlugin::uncompressedFileName() const
+{
+    QFileInfo fileInfo(filename());
+    QString uncompressedName(fileInfo.fileName());
+
+    // Bug 252701: For .svgz just remove the terminal "z".
+    if (uncompressedName.endsWith(QLatin1String(".svgz"), Qt::CaseInsensitive)) {
+        uncompressedName.chop(1);
+        return uncompressedName;
+    }
+
+    if (!fileInfo.suffix().isEmpty()) {
+        return fileInfo.completeBaseName();
+    }
+
+    return uncompressedName + QLatin1String(".uncompressed");
 }
 
 bool LibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd)
@@ -217,6 +241,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
     bool overwriteAll = false; // Whether to overwrite all files
     bool skipAll = false; // Whether to skip all files
     bool dontPromptErrors = false; // Whether to prompt for errors
+    bool isSingleFile = false;
     m_currentExtractedFilesSize = 0;
     int extractedEntriesCount = 0;
     int progressEntryCount = 0;
@@ -249,7 +274,10 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
 
         // entryName is the name inside the archive, full path
         QString entryName = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(entry)));
-
+        if (archive_format(m_archiveReader.data()) == ARCHIVE_FORMAT_RAW) {
+            isSingleFile = true;
+            qCDebug(ARK) << "Detected single file archive, entry path: " << entryName;
+        }
         // Some archive types e.g. AppImage prepend all entries with "./" so remove this part.
         if (entryName.startsWith(QLatin1String("./"))) {
             entryName.remove(0, 2);
@@ -285,6 +313,14 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
             // written from the archive.
             QFileInfo entryFI(entryName);
             //qCDebug(ARK) << "setting path to " << archive_entry_pathname( entry );
+
+            if (isSingleFile && fileBeingRenamed.isEmpty()) {
+                // Rename extracted file from libarchive-internal "data" name to the archive uncompressed name.
+                const QString uncompressedName = uncompressedFileName();
+                qCDebug(ARK) << "going to rename libarchive-internal 'data' filename to:" << uncompressedName;
+                archive_entry_copy_pathname(entry, QFile::encodeName(uncompressedName).constData());
+                entryFI = QFileInfo(uncompressedName);
+            }
 
             const QString fileWithoutPath(entryFI.fileName());
             // If we DON'T preserve paths, we cut the path and set the entryFI
@@ -435,8 +471,16 @@ bool LibarchivePlugin::initializeReader()
         return false;
     }
 
-    if (archive_read_support_format_all(m_archiveReader.data()) != ARCHIVE_OK) {
-        return false;
+    if (m_rawMimetypes.contains(mimetype().name())) {
+        qCDebug(ARK) << "Enabling RAW filter for mimetype: " << mimetype().name();
+        // Enable "raw" format only if we have a "raw mimetype", i.e. a single-file archive, as to not affect normal tar archives.
+        if (archive_read_support_format_raw(m_archiveReader.data()) != ARCHIVE_OK) {
+            return false;
+        }
+    } else {
+        if (archive_read_support_format_all(m_archiveReader.data()) != ARCHIVE_OK) {
+            return false;
+        }
     }
 
     if (archive_read_open_filename(m_archiveReader.data(), QFile::encodeName(filename()).constData(), 10240) != ARCHIVE_OK) {
@@ -448,7 +492,7 @@ bool LibarchivePlugin::initializeReader()
     return true;
 }
 
-void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
+void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry, bool isRawFormat)
 {
     auto e = new Archive::Entry();
 
@@ -458,36 +502,42 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry)
     e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry))));
 #endif
 
-    const QString owner = QString::fromLatin1(archive_entry_uname(aentry));
-    if (!owner.isEmpty()) {
-        e->setProperty("owner", owner);
+    if (isRawFormat) {
+        e->setProperty("displayName", uncompressedFileName()); // libarchive reports a fake 'data' entry if raw format, ignore it and use the uncompressed filename.
+        e->setProperty("compressedSize", QFileInfo(filename()).size());
+        e->compressedSizeIsSet = true;
     } else {
-        e->setProperty("owner", static_cast<qlonglong>(archive_entry_uid(aentry)));
+        const QString owner = QString::fromLatin1(archive_entry_uname(aentry));
+        if (!owner.isEmpty()) {
+            e->setProperty("owner", owner);
+        } else {
+            e->setProperty("owner", static_cast<qlonglong>(archive_entry_uid(aentry)));
+        }
+
+        const QString group = QString::fromLatin1(archive_entry_gname(aentry));
+        if (!group.isEmpty()) {
+            e->setProperty("group", group);
+        } else {
+            e->setProperty("group", static_cast<qlonglong>(archive_entry_gid(aentry)));
+        }
+
+        const mode_t mode = archive_entry_mode(aentry);
+        if (mode != 0) {
+            e->setProperty("permissions", permissionsToString(mode));
+        }
+        e->setProperty("isExecutable", mode & (S_IXUSR | S_IXGRP | S_IXOTH));
+
+        e->compressedSizeIsSet = false;
+        e->setProperty("size", (qlonglong)archive_entry_size(aentry));
+        e->setProperty("isDirectory", S_ISDIR(archive_entry_mode(aentry)));
+
+        if (archive_entry_symlink(aentry)) {
+            e->setProperty("link", QLatin1String( archive_entry_symlink(aentry) ));
+        }
+
+        auto time = static_cast<uint>(archive_entry_mtime(aentry));
+        e->setProperty("timestamp", QDateTime::fromSecsSinceEpoch(time));
     }
-
-    const QString group = QString::fromLatin1(archive_entry_gname(aentry));
-    if (!group.isEmpty()) {
-        e->setProperty("group", group);
-    } else {
-        e->setProperty("group", static_cast<qlonglong>(archive_entry_gid(aentry)));
-    }
-
-    const mode_t mode = archive_entry_mode(aentry);
-    if (mode != 0) {
-        e->setProperty("permissions", permissionsToString(mode));
-    }
-    e->setProperty("isExecutable", mode & (S_IXUSR | S_IXGRP | S_IXOTH));
-
-    e->compressedSizeIsSet = false;
-    e->setProperty("size", (qlonglong)archive_entry_size(aentry));
-    e->setProperty("isDirectory", S_ISDIR(archive_entry_mode(aentry)));
-
-    if (archive_entry_symlink(aentry)) {
-        e->setProperty("link", QLatin1String( archive_entry_symlink(aentry) ));
-    }
-
-    auto time = static_cast<uint>(archive_entry_mtime(aentry));
-    e->setProperty("timestamp", QDateTime::fromSecsSinceEpoch(time));
 
     if (archive_entry_sparse_reset(aentry)) {
         qulonglong sparseSize = 0;

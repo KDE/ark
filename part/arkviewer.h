@@ -27,7 +27,7 @@ class ArkViewer : public KParts::MainWindow, public Ui::ArkViewer
 public:
     ~ArkViewer() override;
 
-    static void view(const QString& fileName, const QString& entryPath = QString());
+    static void view(const QString& fileName, const QString& entryPath = QString(), const QMimeType& mimeType = QMimeType());
 
 private:
     explicit ArkViewer();

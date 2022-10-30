@@ -36,7 +36,7 @@ class Archive::Entry : public QObject
     Q_PROPERTY(QString fullPath MEMBER m_fullPath WRITE setFullPath)
     /// The internal name of the entry in the archive.
     Q_PROPERTY(QString name READ name)
-    /// The visible name of the entry in the UI. This is currently always equal to the name of the entry.
+    /// The visible name of the entry in the UI. This is usually (but not necessarily) equal to the name of the entry.
     Q_PROPERTY(QString displayName READ displayName WRITE setDisplayName)
     Q_PROPERTY(QString permissions MEMBER m_permissions)
     Q_PROPERTY(QString owner MEMBER m_owner)

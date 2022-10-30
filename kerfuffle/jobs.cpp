@@ -598,7 +598,15 @@ Archive::Entry *TempExtractJob::entry() const
 
 QString TempExtractJob::validatedFilePath() const
 {
-    QString path = extractionDir() + QLatin1Char('/') + m_entry->fullPath();
+    QString path;
+    // For single-file archives the filepath of the extracted entry is the displayName and not the fullpath.
+    // TODO: find a better way to handle this.
+    // Should the ReadOnlyArchiveInterface tell us which is the actual filepath of the entry that it has extracted?
+    if (m_entry->displayName() != m_entry->name()) {
+        path = extractionDir() + QLatin1Char('/') + m_entry->displayName();
+    } else {
+        path = extractionDir() + QLatin1Char('/') + m_entry->fullPath();
+    }
 
     // Make sure a maliciously crafted archive with parent folders named ".." do
     // not cause the previewed file path to be located outside the temporary

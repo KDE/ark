@@ -62,7 +62,7 @@ protected:
     typedef QScopedPointer<struct archive, ArchiveWriteCustomDeleter> ArchiveWrite;
 
     bool initializeReader();
-    void emitEntryFromArchiveEntry(struct archive_entry *entry);
+    void emitEntryFromArchiveEntry(struct archive_entry *entry, bool isRawFormat = false);
     void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
     void copyData(const QString& filename, struct archive *source, struct archive *dest, bool partialprogress = true);
 
@@ -76,6 +76,7 @@ private:
     int extractionFlags() const;
     QString convertCompressionName(const QString &method);
     bool emitCorruptArchive();
+    const QString uncompressedFileName() const;
 
     int m_cachedArchiveEntryCount;
     qlonglong m_currentExtractedFilesSize;
@@ -83,6 +84,7 @@ private:
     qlonglong m_extractedFilesSize;
     QVector<Archive::Entry*> m_emittedEntries;
     QString m_oldWorkingDir;
+    QStringList m_rawMimetypes;
 };
 
 #endif // LIBARCHIVEPLUGIN_H

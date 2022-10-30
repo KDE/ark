@@ -1077,7 +1077,13 @@ void Part::slotPreviewExtractedEntry(KJob *job)
         Q_ASSERT(previewJob);
 
         m_tmpExtractDirList << previewJob->tempDir();
-        ArkViewer::view(previewJob->validatedFilePath(), previewJob->entry()->fullPath(PathFormat::NoTrailingSlash));
+        // Use displayName to detect the mimetype, otherwise with single-file archives with fake 'data' entry the detected mime would be the default one.
+        QMimeType mimeType = QMimeDatabase().mimeTypeForFile(previewJob->entry()->displayName());
+        if (previewJob->entry()->displayName() != previewJob->entry()->name()) {
+            ArkViewer::view(previewJob->validatedFilePath(), previewJob->entry()->displayName(), mimeType);
+        } else {
+            ArkViewer::view(previewJob->validatedFilePath(), previewJob->entry()->fullPath(PathFormat::NoTrailingSlash), mimeType);
+        }
 
     } else if (job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());

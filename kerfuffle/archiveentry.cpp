@@ -223,7 +223,7 @@ QIcon Archive::Entry::icon() const
             static QIcon directoryIcon = QIcon::fromTheme(db.mimeTypeForName(QStringLiteral("inode/directory")).iconName());
             m_icon = directoryIcon;
         } else {
-            m_icon = QIcon::fromTheme(db.mimeTypeForFile(m_name, QMimeDatabase::MatchMode::MatchExtension).iconName());
+            m_icon = QIcon::fromTheme(db.mimeTypeForFile(displayName(), QMimeDatabase::MatchMode::MatchExtension).iconName());
         }
     }
 

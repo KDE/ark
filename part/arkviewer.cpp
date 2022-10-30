@@ -139,10 +139,9 @@ bool ArkViewer::askViewAsPlainText(const QMimeType& mimeType)
     return response != KMessageBox::Cancel;
 }
 
-void ArkViewer::view(const QString& fileName, const QString& entryPath)
+void ArkViewer::view(const QString& fileName, const QString& entryPath, const QMimeType& mimeType)
 {
     QMimeDatabase db;
-    QMimeType mimeType = db.mimeTypeForFile(fileName);
     qCDebug(ARK) << "viewing" << fileName << "from" << entryPath << "with mime type:" << mimeType.name();
 
     const std::optional<KPluginMetaData> internalViewer = ArkViewer::getInternalViewer(mimeType.name());
