@@ -10,6 +10,7 @@
 #include "archiveinterface.h"
 #include "ark_debug.h"
 #include "mimetypes.h"
+#include "jobs.h"
 
 #include <QDir>
 #include <QFileInfo>
@@ -28,6 +29,7 @@ ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVaria
     , m_unpackedSize(0)
 {
     Q_ASSERT(args.size() >= 2);
+    qRegisterMetaType<Kerfuffle::Query*>();
 
     qCDebug(ARK) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();

@@ -120,4 +120,6 @@ private:
 
 }
 
+Q_DECLARE_METATYPE(Kerfuffle::Query*)
+
 #endif /* ifndef QUERIES_H */
