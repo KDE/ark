@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-24 00:51+0000\n"
+"POT-Creation-Date: 2022-10-30 00:49+0000\n"
 "PO-Revision-Date: 2022-10-21 19:58+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -744,23 +744,23 @@ msgstr "Mota:"
 msgid "Extension:"
 msgstr "Luzapena:"
 
-#: kerfuffle/extractiondialog.cpp:40
+#: kerfuffle/extractiondialog.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Extract"
 msgstr "Erauzi"
 
-#: kerfuffle/extractiondialog.cpp:54
+#: kerfuffle/extractiondialog.cpp:55
 #, kde-format
 msgid "Extract"
 msgstr "Erauzi"
 
-#: kerfuffle/extractiondialog.cpp:97
+#: kerfuffle/extractiondialog.cpp:98
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "Azpikarpetaren izenak ezin du '/' karakterea eduki."
 
-#: kerfuffle/extractiondialog.cpp:107
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -770,39 +770,39 @@ msgstr ""
 "Lehendik badago <filename>%1</filename> karpeta. Ziur zaude hemen atera nahi "
 "duzula?"
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:115
 #, kde-format
 msgid "Folder exists"
 msgstr "Karpeta lehendik badago"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:116
 #, kde-format
 msgid "Extract here"
 msgstr "Erauzi hemen"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:117
 #, kde-format
 msgid "Retry"
 msgstr "Saiatu berriz"
 
-#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#: kerfuffle/extractiondialog.cpp:131 kerfuffle/extractiondialog.cpp:137
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Ezin izan da <filename>%1</filename> karpeta sortu."
 
-#: kerfuffle/extractiondialog.cpp:121
+#: kerfuffle/extractiondialog.cpp:132
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "Lehendik badago <filename>%1</filename>, baina ez da karpeta bat."
 
-#: kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:138
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Egiaztatu zure baimenak hura sortzeko."
 
-#: kerfuffle/extractiondialog.cpp:166
+#: kerfuffle/extractiondialog.cpp:177
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Erauzi artxibo anitz"
@@ -1223,13 +1223,13 @@ msgstr "Bolumen-anitz:"
 msgid "Compression method(s):"
 msgstr "Konprimatzeko metodoa(k):"
 
-#: kerfuffle/queries.cpp:73
+#: kerfuffle/queries.cpp:74
 #, kde-format
 msgctxt "@title:window"
 msgid "File Already Exists"
 msgstr "Fitxategia badago lehendik ere"
 
-#: kerfuffle/queries.cpp:156
+#: kerfuffle/queries.cpp:157
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1238,12 +1238,12 @@ msgid ""
 msgstr ""
 "<filename>%1</filename> artxiboa pasahitzaz babestuta dago. Sartu pasahitza."
 
-#: kerfuffle/queries.cpp:160
+#: kerfuffle/queries.cpp:161
 #, kde-format
 msgid "Incorrect password, please try again."
 msgstr "Pasahitza ez da zuzena, saiatu berriro."
 
-#: kerfuffle/queries.cpp:195
+#: kerfuffle/queries.cpp:201
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1253,35 +1253,35 @@ msgstr ""
 "Ireki nahi duzun artxiboa hondatuta dago.<nl/>Hainbat fitxategi galduta edo "
 "kaltetuta egon daitezke."
 
-#: kerfuffle/queries.cpp:197
+#: kerfuffle/queries.cpp:203
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
 msgstr "Hondatutako artxiboa"
 
-#: kerfuffle/queries.cpp:198
+#: kerfuffle/queries.cpp:204
 #, kde-format
 msgctxt "@action:button"
 msgid "Open as Read-Only"
 msgstr "Ireki irakurtzeko-soilik gisa"
 
-#: kerfuffle/queries.cpp:199
+#: kerfuffle/queries.cpp:205
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
 msgstr "Ez ireki"
 
-#: kerfuffle/queries.cpp:208
+#: kerfuffle/queries.cpp:218
 #, kde-format
 msgid "Don't ask again."
 msgstr "Ez galdetu berriz."
 
-#: kerfuffle/queries.cpp:220
+#: kerfuffle/queries.cpp:230
 #, kde-format
 msgid "Error during extraction"
 msgstr "Errorea erauztean"
 
-#: kerfuffle/queries.cpp:221
+#: kerfuffle/queries.cpp:231
 #, kde-kuit-format
 msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
@@ -1547,81 +1547,81 @@ msgstr ""
 "Hurrengo bide-izena duten fitxategiak badaude dagoeneko. Haiek gainidazten "
 "jarraitu nahi duzu?"
 
-#: part/part.cpp:111
+#: part/part.cpp:112
 #, kde-format
 msgid "Comment"
 msgstr "Iruzkina"
 
-#: part/part.cpp:122
+#: part/part.cpp:123
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Iruzkina aldatu da."
 
-#: part/part.cpp:127
+#: part/part.cpp:128
 #, kde-format
 msgid "Save"
 msgstr "Gorde"
 
-#: part/part.cpp:150
+#: part/part.cpp:151
 #, kde-format
 msgid "Type to search..."
 msgstr "Idatzi bilatu beharrekoa..."
 
-#: part/part.cpp:308
+#: part/part.cpp:309
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark-ek helburu lokaletara baino ezin du erauzi."
 
-#: part/part.cpp:363
+#: part/part.cpp:364
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Erakutsi informazio-panela"
 
-#: part/part.cpp:370
+#: part/part.cpp:371
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Gorde kopia honela..."
 
-#: part/part.cpp:374
+#: part/part.cpp:375
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "&Ireki kanpoko aplikazioan"
 
-#: part/part.cpp:379
+#: part/part.cpp:380
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Ireki &honekin..."
 
-#: part/part.cpp:381
+#: part/part.cpp:382
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Klikatu hautatutako fitxategia kanpoko programa batekin irekitzeko"
 
-#: part/part.cpp:385
+#: part/part.cpp:386
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "Aurre&ikusi"
 
-#: part/part.cpp:387
+#: part/part.cpp:388
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Klikatu hautatutako fitxategia aurreikusteko"
 
-#: part/part.cpp:392
+#: part/part.cpp:393
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "Erau&zi guztia"
 
-#: part/part.cpp:394
+#: part/part.cpp:395
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1630,13 +1630,13 @@ msgstr ""
 "Klikatu erauzteko elkarrizketa-koadro bat irekitzeko, non artxiboko "
 "fitxategi guztiak nola erauzi hautatu dezakezun."
 
-#: part/part.cpp:399
+#: part/part.cpp:400
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&Erauzi"
 
-#: part/part.cpp:402
+#: part/part.cpp:403
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1645,54 +1645,54 @@ msgstr ""
 "klikatu erauzteko elkarrizketa-koadro bat irekitzeko, non fitxategi guztiak "
 "edo hautatutakoak soilik erauztea aukeratu dezakezun."
 
-#: part/part.cpp:407
+#: part/part.cpp:408
 #, kde-format
 msgid "Add &Files..."
 msgstr "Erantsi &fitxategiak..."
 
-#: part/part.cpp:408 part/part.cpp:471
+#: part/part.cpp:409 part/part.cpp:472
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Klikatu fitxategiak artxibora eransteko"
 
-#: part/part.cpp:415
+#: part/part.cpp:416
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Kendu artxibotik"
 
-#: part/part.cpp:425
+#: part/part.cpp:426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Propietateak"
 
-#: part/part.cpp:427
+#: part/part.cpp:428
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Klikatu artxiboaren propietateak ikusteko"
 
-#: part/part.cpp:433
+#: part/part.cpp:434
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Klikatu iruzkina eransteko edo editatzeko"
 
-#: part/part.cpp:438
+#: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "Egiaz&tatu osotasuna"
 
-#: part/part.cpp:440 part/part.cpp:472
+#: part/part.cpp:441 part/part.cpp:473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Klikatu fitxategiaren osotasuna egiaztatzeko"
 
-#: part/part.cpp:466
+#: part/part.cpp:467
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1704,7 +1704,7 @@ msgstr ""
 "eranstea ez da oraingoz onartzen.<nl/><nl/>Erauzi fitxategiak eta sortu "
 "artxibo berria fitxategiak erantsi nahi badituzu."
 
-#: part/part.cpp:469
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1714,74 +1714,74 @@ msgstr ""
 "Pasahitz-babesa duten zifratze-goibururik gabeko artxiboak probatzea ez da "
 "oraingoz onartzen."
 
-#: part/part.cpp:537
+#: part/part.cpp:538
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Editatu iruz&kina"
 
-#: part/part.cpp:538 part/part.cpp:546
+#: part/part.cpp:539 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Erantsi iruz&kina"
 
-#: part/part.cpp:647
+#: part/part.cpp:648
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Artxiboak osotasun egiaztatzea gainditu du."
 
-#: part/part.cpp:647 part/part.cpp:649
+#: part/part.cpp:648 part/part.cpp:650
 #, kde-format
 msgid "Test Results"
 msgstr "Egiaztatzearen emaitzak"
 
-#: part/part.cpp:649
+#: part/part.cpp:650
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Artxiboak ez du gainditu osotasun egiaztatzea."
 
-#: part/part.cpp:670
+#: part/part.cpp:671
 #, kde-format
 msgid "Extract To..."
 msgstr "Erauzi hona..."
 
-#: part/part.cpp:684
+#: part/part.cpp:685
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Erauzte azkarra hona..."
 
-#: part/part.cpp:814
+#: part/part.cpp:815
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Orokorra"
 
-#: part/part.cpp:815
+#: part/part.cpp:816
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Erauztea"
 
-#: part/part.cpp:816
+#: part/part.cpp:817
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Pluginak"
 
-#: part/part.cpp:817
+#: part/part.cpp:818
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Aurreikuspegiak"
 
-#: part/part.cpp:829
+#: part/part.cpp:830
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> direktorio bat da."
 
-#: part/part.cpp:838
+#: part/part.cpp:839
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1791,7 +1791,7 @@ msgstr ""
 "Ezin izan da gainidatzi <filename>%1</filename>. Egiaztatu idazteko baimena "
 "duzun."
 
-#: part/part.cpp:844
+#: part/part.cpp:845
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1801,13 +1801,13 @@ msgstr ""
 "<filename>%1</filename> fitxategia sortuko da fitxategi bat eransten "
 "duzunean."
 
-#: part/part.cpp:847
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "<filename>%1</filename> fitxategia ez da aurkitu."
 
-#: part/part.cpp:852
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1817,7 +1817,7 @@ msgstr ""
 "<filename>%1</filename> artxiboa ezin izan da zamatu, ezin izan delako berau "
 "irakurri."
 
-#: part/part.cpp:865
+#: part/part.cpp:871
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1826,26 +1826,26 @@ msgid ""
 msgstr ""
 "<filename>%1</filename> artxiboa badago lehendik ere. Gainidatzi nahi duzu?"
 
-#: part/part.cpp:867
+#: part/part.cpp:872
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Fitxategia badago lehendik ere"
 
-#: part/part.cpp:904
+#: part/part.cpp:913
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Artxiboa hutsik dago edo Ark-ek ezin du bere edukia irakurri."
 
-#: part/part.cpp:909
+#: part/part.cpp:918
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 "Ark-ek ez du oraingoz UDF fitxategi-sistemako ISO fitxategirik onartzen."
 
-#: part/part.cpp:939
+#: part/part.cpp:948
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1855,12 +1855,12 @@ msgstr ""
 "<filename>%1</filename> artxiboa zamatzeak huts egin du ondoko errorearekin:"
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:999
+#: part/part.cpp:1008
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark-ek ezin du esteka sinbolikorik ireki."
 
-#: part/part.cpp:1121
+#: part/part.cpp:1134
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1869,59 +1869,59 @@ msgstr ""
 "<filename>%1</filename> fitxategia aldatu egin da. Artxiboa eguneratu nahi "
 "duzu?"
 
-#: part/part.cpp:1122
+#: part/part.cpp:1135
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fitxategia aldatuta"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1136
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Eguneratu"
 
-#: part/part.cpp:1124
+#: part/part.cpp:1137
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Ezikusi"
 
-#: part/part.cpp:1405
+#: part/part.cpp:1422
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Erantsi fitxategiak"
 
-#: part/part.cpp:1410
+#: part/part.cpp:1427
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Erantsi fitxategiak %1-(e)ra"
 
-#: part/part.cpp:1474
+#: part/part.cpp:1491
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Fitxategi-izenak ezin du eduki barra zeiharrik eta ezin da izan \".\" edo "
 "\"..\""
 
-#: part/part.cpp:1518
+#: part/part.cpp:1535
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Karpetak ezin dira mugitu beraien barnera."
 
-#: part/part.cpp:1519
+#: part/part.cpp:1536
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Karpeta bat bere barnera mugitzen"
 
-#: part/part.cpp:1547
+#: part/part.cpp:1564
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Izen bereko sarrerak ezin dira kokapen berean itsatsi."
 
-#: part/part.cpp:1647
+#: part/part.cpp:1668
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1932,7 +1932,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Fitxategi hauen ezabatzea ezin da desegin. Ziur zaude hau egin nahi duzula?"
 
-#: part/part.cpp:1650
+#: part/part.cpp:1671
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1940,13 +1940,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Ezabatu fitxategia"
 msgstr[1] "Ezabatu fitxategiak"
 
-#: part/part.cpp:1693
+#: part/part.cpp:1718
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Gorde kopia honela"
 
-#: part/part.cpp:1708
+#: part/part.cpp:1733
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1956,7 +1956,7 @@ msgstr ""
 "Artxiboa ezin izan da <filename>%1</filename> izenarekin gorde. Saiatu beste "
 "kokaleku batean gordetzen."
 
-#: part/part.cpp:1712
+#: part/part.cpp:1737
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-24 00:51+0000\n"
+"POT-Creation-Date: 2022-10-30 00:49+0000\n"
 "PO-Revision-Date: 2021-06-03 12:14+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -761,23 +761,23 @@ msgstr "Τύπος:"
 msgid "Extension:"
 msgstr "Επέκταση:"
 
-#: kerfuffle/extractiondialog.cpp:40
+#: kerfuffle/extractiondialog.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Extract"
 msgstr "Εξαγωγή"
 
-#: kerfuffle/extractiondialog.cpp:54
+#: kerfuffle/extractiondialog.cpp:55
 #, kde-format
 msgid "Extract"
 msgstr "Εξαγωγή"
 
-#: kerfuffle/extractiondialog.cpp:97
+#: kerfuffle/extractiondialog.cpp:98
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "Το όνομα του υποφακέλου δεν μπορεί να περιέχει τον χαρακτήρα '/'."
 
-#: kerfuffle/extractiondialog.cpp:107
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -787,39 +787,39 @@ msgstr ""
 "Ο φάκελος <filename>%1</filename> υπάρχει ήδη. Επιθυμείτε σίγουρα την "
 "εξαγωγή σε αυτόν;"
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:115
 #, kde-format
 msgid "Folder exists"
 msgstr "Υπάρχων φάκελος"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:116
 #, kde-format
 msgid "Extract here"
 msgstr "Εξαγωγή εδώ"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:117
 #, kde-format
 msgid "Retry"
 msgstr "Επανάληψη"
 
-#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#: kerfuffle/extractiondialog.cpp:131 kerfuffle/extractiondialog.cpp:137
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Ο φάκελος <filename>%1</filename> δεν μπορεί να δημιουργηθεί."
 
-#: kerfuffle/extractiondialog.cpp:121
+#: kerfuffle/extractiondialog.cpp:132
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> υπάρχει ήδη, αλλά δεν είναι φάκελος."
 
-#: kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:138
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Παρακαλώ ελέγξτε τα δικαιώματα σας για να το δημιουργήσετε."
 
-#: kerfuffle/extractiondialog.cpp:166
+#: kerfuffle/extractiondialog.cpp:177
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Εξαγωγή πολλαπλών αρχειοθηκών"
@@ -1245,13 +1245,13 @@ msgstr "Πολλαπλών τόμων:"
 msgid "Compression method(s):"
 msgstr "Μέθοδος συμπίεσης:"
 
-#: kerfuffle/queries.cpp:73
+#: kerfuffle/queries.cpp:74
 #, kde-format
 msgctxt "@title:window"
 msgid "File Already Exists"
 msgstr "Το αρχείο υπάρχει ήδη"
 
-#: kerfuffle/queries.cpp:156
+#: kerfuffle/queries.cpp:157
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1261,12 +1261,12 @@ msgstr ""
 "Η αρχειοθήκη <filename>%1</filename> είναι προστατευμένη με κωδικό. Παρακαλώ "
 "καταχωρήστε τον κωδικό."
 
-#: kerfuffle/queries.cpp:160
+#: kerfuffle/queries.cpp:161
 #, kde-format
 msgid "Incorrect password, please try again."
 msgstr "Λάθος κωδικός πρόσβασης, παρακαλώ προσπαθήστε ξανά."
 
-#: kerfuffle/queries.cpp:195
+#: kerfuffle/queries.cpp:201
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1276,35 +1276,35 @@ msgstr ""
 "Η αρχειοθήκη την οποία επιχειρείτε να ανοίξετε είναι κατεστραμμένη. <nl/"
 ">Κάποια αρχεία ίσως λείπουν ή είναι κατεστραμμένα."
 
-#: kerfuffle/queries.cpp:197
+#: kerfuffle/queries.cpp:203
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
 msgstr "Κατεστραμμένη αρχειοθήκη"
 
-#: kerfuffle/queries.cpp:198
+#: kerfuffle/queries.cpp:204
 #, kde-format
 msgctxt "@action:button"
 msgid "Open as Read-Only"
 msgstr "Άνοιγμα μόνο για ανάγνωση"
 
-#: kerfuffle/queries.cpp:199
+#: kerfuffle/queries.cpp:205
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
 msgstr "Να μην ανοίξει"
 
-#: kerfuffle/queries.cpp:208
+#: kerfuffle/queries.cpp:218
 #, kde-format
 msgid "Don't ask again."
 msgstr "Να μην ξαναγίνει η ερώτηση."
 
-#: kerfuffle/queries.cpp:220
+#: kerfuffle/queries.cpp:230
 #, kde-format
 msgid "Error during extraction"
 msgstr "Σφάλμα κατά την εξαγωγή"
 
-#: kerfuffle/queries.cpp:221
+#: kerfuffle/queries.cpp:231
 #, kde-kuit-format
 msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
@@ -1574,27 +1574,27 @@ msgstr ""
 "Υπάρχουν ήδη αρχεία με τις ακόλουθες διαδρομές Θέλετε πραγματικά να το "
 "αντικαταστήσετε; "
 
-#: part/part.cpp:111
+#: part/part.cpp:112
 #, kde-format
 msgid "Comment"
 msgstr "Σχόλιο"
 
-#: part/part.cpp:122
+#: part/part.cpp:123
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Τροποποίηση σχολίου."
 
-#: part/part.cpp:127
+#: part/part.cpp:128
 #, kde-format
 msgid "Save"
 msgstr "Αποθήκευση"
 
-#: part/part.cpp:150
+#: part/part.cpp:151
 #, kde-format
 msgid "Type to search..."
 msgstr "Πληκτρολογήστε για αναζήτηση..."
 
-#: part/part.cpp:308
+#: part/part.cpp:309
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
@@ -1602,56 +1602,56 @@ msgstr ""
 "Το ark μπορεί να πραγματοποιήσει εξαγωγή αρχειοθηκών μόνο σε τοπικές "
 "τοποθεσίες."
 
-#: part/part.cpp:363
+#: part/part.cpp:364
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Εμφάνιση Πίνακα Πληροφοριών"
 
-#: part/part.cpp:370
+#: part/part.cpp:371
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Αποθήκευση αντιγράφου ως..."
 
-#: part/part.cpp:374
+#: part/part.cpp:375
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr ""
 
-#: part/part.cpp:379
+#: part/part.cpp:380
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Ά&νοιγμα με..."
 
-#: part/part.cpp:381
+#: part/part.cpp:382
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr ""
 "Κάντε κλικ για να ανοίξετε το επιλεγμένο αρχείο με ένα εξωτερικό πρόγραμμα"
 
-#: part/part.cpp:385
+#: part/part.cpp:386
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "Προ&επισκόπηση"
 
-#: part/part.cpp:387
+#: part/part.cpp:388
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Κάντε κλικ για την προεπισκόπηση του επιλεγμένου αρχείου"
 
-#: part/part.cpp:392
+#: part/part.cpp:393
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "Εξαγωγή ό&λων"
 
-#: part/part.cpp:394
+#: part/part.cpp:395
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1660,13 +1660,13 @@ msgstr ""
 "Κάντε κλικ για να ανοίξετε έναν διάλογο εξαγωγής, όπου μπορείτε να επιλέξετε "
 "πώς θα γίνει η εξαγωγή όλων των αρχείων της αρχειοθήκης"
 
-#: part/part.cpp:399
+#: part/part.cpp:400
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&Εξαγωγή"
 
-#: part/part.cpp:402
+#: part/part.cpp:403
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1675,55 +1675,55 @@ msgstr ""
 "Κάντε κλικ για το άνοιγμα του διαλόγου εξαγωγής, όπου μπορείτε να επιλέξετε "
 "την εξαγωγή όλων των αρχείων ή μόνο των επιλεγμένων"
 
-#: part/part.cpp:407
+#: part/part.cpp:408
 #, kde-format
 msgid "Add &Files..."
 msgstr "Προσθήκη αρχείων..."
 
-#: part/part.cpp:408 part/part.cpp:471
+#: part/part.cpp:409 part/part.cpp:472
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Κάντε κλικ για την προσθήκη αρχείων στην αρχειοθήκη"
 
-#: part/part.cpp:415
+#: part/part.cpp:416
 #, fuzzy, kde-format
 #| msgid "Compress to Archive"
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Συμπίεση σε αρχειοθήκη"
 
-#: part/part.cpp:425
+#: part/part.cpp:426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Ιδιότητες"
 
-#: part/part.cpp:427
+#: part/part.cpp:428
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Κάντε κλικ για προβολή ιδιοτήτων αρχειοθήκης"
 
-#: part/part.cpp:433
+#: part/part.cpp:434
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Κάντε κλικ για την προσθήκη ή την επεξεργασία ενός σχολίου"
 
-#: part/part.cpp:438
+#: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "Έλεγχος α&κεραιότητας"
 
-#: part/part.cpp:440 part/part.cpp:472
+#: part/part.cpp:441 part/part.cpp:473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Κάντε κλικ για να ελέγξετε την ακεραιότητα της αρχειοθήκης"
 
-#: part/part.cpp:466
+#: part/part.cpp:467
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1736,7 +1736,7 @@ msgstr ""
 ">Εξάγετε τα αρχεία και δημιουργήστε μια νέα αρχειοθήκη αν θέλετε να "
 "προσθέσετε αρχεία."
 
-#: part/part.cpp:469
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1746,74 +1746,74 @@ msgstr ""
 "Ο έλεγχος προστατευμένων με κωδικό αρχειοθηκών χωρίς κρυπτογράφηση κεφαλίδας "
 "δεν υποστηρίζεται αυτή τη στιγμή."
 
-#: part/part.cpp:537
+#: part/part.cpp:538
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Επεξεργασία &σχολίου"
 
-#: part/part.cpp:538 part/part.cpp:546
+#: part/part.cpp:539 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Προσ&θήκη σχολίου"
 
-#: part/part.cpp:647
+#: part/part.cpp:648
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Η αρχειοθήκη πέρασε με επιτυχία τον έλεγχο ακεραιότητας."
 
-#: part/part.cpp:647 part/part.cpp:649
+#: part/part.cpp:648 part/part.cpp:650
 #, kde-format
 msgid "Test Results"
 msgstr "Αποτελέσματα ελέγχου"
 
-#: part/part.cpp:649
+#: part/part.cpp:650
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Η αρχειοθήκη απέτυχε στον έλεγχο ακεραιότητας."
 
-#: part/part.cpp:670
+#: part/part.cpp:671
 #, kde-format
 msgid "Extract To..."
 msgstr "Εξαγωγή σε..."
 
-#: part/part.cpp:684
+#: part/part.cpp:685
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Γρήγορη εξαγωγή σε..."
 
-#: part/part.cpp:814
+#: part/part.cpp:815
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Γενικά"
 
-#: part/part.cpp:815
+#: part/part.cpp:816
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Εξαγωγή"
 
-#: part/part.cpp:816
+#: part/part.cpp:817
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Πρόσθετα"
 
-#: part/part.cpp:817
+#: part/part.cpp:818
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Προεπισκοπήσεις"
 
-#: part/part.cpp:829
+#: part/part.cpp:830
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> είναι ένας κατάλογος."
 
-#: part/part.cpp:838
+#: part/part.cpp:839
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1823,7 +1823,7 @@ msgstr ""
 "Αδυναμία αντικατάστασης του <filename>%1</filename>.<nl/> Ελέγξτε αν έχετε "
 "επαρκή δικαιώματα."
 
-#: part/part.cpp:844
+#: part/part.cpp:845
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1833,13 +1833,13 @@ msgstr ""
 "Η αρχειοθήκη <filename>%1</filename> θα δημιουργηθεί όταν προσθέσετε ένα "
 "αρχείο."
 
-#: part/part.cpp:847
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Η αρχειοθήκη <filename>%1</filename> δε βρέθηκε."
 
-#: part/part.cpp:852
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1849,7 +1849,7 @@ msgstr ""
 "Αδυναμία φόρτωσης της αρχειοθήκης <filename>%1</filename>, καθώς δεν ήταν "
 "δυνατή η ανάγνωσή της."
 
-#: part/part.cpp:865
+#: part/part.cpp:871
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1859,27 +1859,27 @@ msgstr ""
 "Η αρχειοθήκη <filename>%1</filename> υπάρχει ήδη. Επιθυμείτε την "
 "αντικατάστασή της;"
 
-#: part/part.cpp:867
+#: part/part.cpp:872
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Υπάρχον αρχείο"
 
-#: part/part.cpp:904
+#: part/part.cpp:913
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr ""
 "Η αρχειοθήκη είναι κενή ή το Ark δεν μπόρεσε να ανοίξει το περιεχόμενό της."
 
-#: part/part.cpp:909
+#: part/part.cpp:918
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 "Το Ark αυτή τη στιγμή δεν υποστηρίζει αρχεία ISO με σύστημα αρχείων UDF."
 
-#: part/part.cpp:939
+#: part/part.cpp:948
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1889,12 +1889,12 @@ msgstr ""
 "Αποτυχία φόρτωσης της αρχειοθήκης <filename>%1</filename> με το ακόλουθο "
 "σφάλμα:<nl/><message>%2</message>"
 
-#: part/part.cpp:999
+#: part/part.cpp:1008
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Το Ark δεν μπορεί να ανοίξει συμβολικούς συνδέσμους."
 
-#: part/part.cpp:1121
+#: part/part.cpp:1134
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1903,60 +1903,60 @@ msgstr ""
 "Το αρχείο <filename>%1</filename> έχει τροποποιηθεί. Επιθυμείτε την "
 "ενημέρωση της αρχειοθήκης;"
 
-#: part/part.cpp:1122
+#: part/part.cpp:1135
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Τροποποιημένο αρχείο"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1136
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1124
+#: part/part.cpp:1137
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1405
+#: part/part.cpp:1422
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Προσθήκη αρχείων"
 
-#: part/part.cpp:1410
+#: part/part.cpp:1427
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Προσθήκη αρχείων στο %1"
 
-#: part/part.cpp:1474
+#: part/part.cpp:1491
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Το όνομα αρχείου δε μπορεί να περιέχει και δε μπορεί να είναι ίσο με \".\" ή "
 "\"..\""
 
-#: part/part.cpp:1518
+#: part/part.cpp:1535
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Οι φάκελοι δε μπορούν να μετακινηθούν στους εαυτούς τους."
 
-#: part/part.cpp:1519
+#: part/part.cpp:1536
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Μετακίνηση ενός φακέλου στον εαυτό του"
 
-#: part/part.cpp:1547
+#: part/part.cpp:1564
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Καταχωρήσεις με το ίδιο όνομα δεν μπορούν να επικολληθούν στο ίδιο προορισμό."
 
-#: part/part.cpp:1647
+#: part/part.cpp:1668
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1969,7 +1969,7 @@ msgstr[1] ""
 "Η διαγραφή αυτών των αρχείων είναι μη αναιρέσιμη. Είστε σίγουροι ότι θέλετε "
 "να προχωρήσετε;"
 
-#: part/part.cpp:1650
+#: part/part.cpp:1671
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1977,13 +1977,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Διαγραφή αρχείου"
 msgstr[1] "Διαγραφή αρχείων"
 
-#: part/part.cpp:1693
+#: part/part.cpp:1718
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Αποθήκευση αντιγράφου ως"
 
-#: part/part.cpp:1708
+#: part/part.cpp:1733
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1993,7 +1993,7 @@ msgstr ""
 "Η αρχειοθήκη δεν μπορεί να αποθηκευτεί ως <filename>%1</filename>. "
 "Προσπαθήστε να την αποθηκεύσετε σε διαφορετική τοποθεσία."
 
-#: part/part.cpp:1712
+#: part/part.cpp:1737
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-24 00:51+0000\n"
+"POT-Creation-Date: 2022-10-30 00:49+0000\n"
 "PO-Revision-Date: 2022-10-03 14:19+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-i18n-doc@kde.org>\n"
@@ -721,23 +721,23 @@ msgstr "종류:"
 msgid "Extension:"
 msgstr "확장자:"
 
-#: kerfuffle/extractiondialog.cpp:40
+#: kerfuffle/extractiondialog.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Extract"
 msgstr "압축 풀기"
 
-#: kerfuffle/extractiondialog.cpp:54
+#: kerfuffle/extractiondialog.cpp:55
 #, kde-format
 msgid "Extract"
 msgstr "압축 풀기"
 
-#: kerfuffle/extractiondialog.cpp:97
+#: kerfuffle/extractiondialog.cpp:98
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "하위 폴더 이름에는 '/' 문자가 들어갈 수 없습니다."
 
-#: kerfuffle/extractiondialog.cpp:107
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -747,39 +747,39 @@ msgstr ""
 "<filename>%1</filename> 폴더가 이미 존재합니다. 그래도 여기에 압축을 푸시겠습"
 "니까?"
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:115
 #, kde-format
 msgid "Folder exists"
 msgstr "폴더가 이미 존재함"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:116
 #, kde-format
 msgid "Extract here"
 msgstr "여기에 압축 풀기"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:117
 #, kde-format
 msgid "Retry"
 msgstr "다시 시도"
 
-#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#: kerfuffle/extractiondialog.cpp:131 kerfuffle/extractiondialog.cpp:137
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "<filename>%1</filename> 폴더를 만들 수 없습니다."
 
-#: kerfuffle/extractiondialog.cpp:121
+#: kerfuffle/extractiondialog.cpp:132
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename>이(가) 이미 존재하지만 폴더가 아닙니다."
 
-#: kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:138
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "만들 수 있는 권한이 있는지 확인하십시오."
 
-#: kerfuffle/extractiondialog.cpp:166
+#: kerfuffle/extractiondialog.cpp:177
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "여러 압축 파일에서 풀기"
@@ -1190,13 +1190,13 @@ msgstr "분할 압축:"
 msgid "Compression method(s):"
 msgstr "압축 방법:"
 
-#: kerfuffle/queries.cpp:73
+#: kerfuffle/queries.cpp:74
 #, kde-format
 msgctxt "@title:window"
 msgid "File Already Exists"
 msgstr "파일이 이미 존재함"
 
-#: kerfuffle/queries.cpp:156
+#: kerfuffle/queries.cpp:157
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1206,12 +1206,12 @@ msgstr ""
 "압축 파일 <filename>%1</filename>이(가) 암호로 보호되어 있습니다. 암호를 입력"
 "하십시오."
 
-#: kerfuffle/queries.cpp:160
+#: kerfuffle/queries.cpp:161
 #, kde-format
 msgid "Incorrect password, please try again."
 msgstr "암호가 잘못되었습니다. 다시 시도하십시오."
 
-#: kerfuffle/queries.cpp:195
+#: kerfuffle/queries.cpp:201
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1221,35 +1221,35 @@ msgstr ""
 "열려고 하는 압축 파일이 잘못되었습니다.<nl/>일부 파일이 없거나 손상되었을 수 "
 "있습니다."
 
-#: kerfuffle/queries.cpp:197
+#: kerfuffle/queries.cpp:203
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
 msgstr "손상된 압축 파일"
 
-#: kerfuffle/queries.cpp:198
+#: kerfuffle/queries.cpp:204
 #, kde-format
 msgctxt "@action:button"
 msgid "Open as Read-Only"
 msgstr "읽기 전용으로 열기"
 
-#: kerfuffle/queries.cpp:199
+#: kerfuffle/queries.cpp:205
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
 msgstr "열지 않기"
 
-#: kerfuffle/queries.cpp:208
+#: kerfuffle/queries.cpp:218
 #, kde-format
 msgid "Don't ask again."
 msgstr "다시 묻지 않습니다."
 
-#: kerfuffle/queries.cpp:220
+#: kerfuffle/queries.cpp:230
 #, kde-format
 msgid "Error during extraction"
 msgstr "압축 풀기 오류"
 
-#: kerfuffle/queries.cpp:221
+#: kerfuffle/queries.cpp:231
 #, kde-kuit-format
 msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
@@ -1510,81 +1510,81 @@ msgid ""
 "overwriting them?"
 msgstr "다음 경로에 파일이 이미 존재합니다. 덮어쓰시겠습니까?"
 
-#: part/part.cpp:111
+#: part/part.cpp:112
 #, kde-format
 msgid "Comment"
 msgstr "주석"
 
-#: part/part.cpp:122
+#: part/part.cpp:123
 #, kde-format
 msgid "Comment has been modified."
 msgstr "주석을 수정했습니다."
 
-#: part/part.cpp:127
+#: part/part.cpp:128
 #, kde-format
 msgid "Save"
 msgstr "저장"
 
-#: part/part.cpp:150
+#: part/part.cpp:151
 #, kde-format
 msgid "Type to search..."
 msgstr "입력하여 찾기..."
 
-#: part/part.cpp:308
+#: part/part.cpp:309
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark에서는 로컬 경로에만 압축을 풀 수 있습니다."
 
-#: part/part.cpp:363
+#: part/part.cpp:364
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "정보 패널 표시"
 
-#: part/part.cpp:370
+#: part/part.cpp:371
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "복사본을 다른 이름으로 저장..."
 
-#: part/part.cpp:374
+#: part/part.cpp:375
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "외부 프로그램으로 열기(&O)"
 
-#: part/part.cpp:379
+#: part/part.cpp:380
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "다음으로 열기(&W)..."
 
-#: part/part.cpp:381
+#: part/part.cpp:382
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "선택한 파일을 외부 프로그램으로 열려면 클릭하십시오"
 
-#: part/part.cpp:385
+#: part/part.cpp:386
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "미리 보기(&V)"
 
-#: part/part.cpp:387
+#: part/part.cpp:388
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "선택한 파일을 미리 보려면 클릭하십시오"
 
-#: part/part.cpp:392
+#: part/part.cpp:393
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "모두 압축 풀기(&X)"
 
-#: part/part.cpp:394
+#: part/part.cpp:395
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1593,13 +1593,13 @@ msgstr ""
 "모든 파일의 압축을 어떻게 풀지 결정할 압축 풀기 대화 상자를 표시하려면 클릭하"
 "십시오"
 
-#: part/part.cpp:399
+#: part/part.cpp:400
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "압축 풀기(&E)"
 
-#: part/part.cpp:402
+#: part/part.cpp:403
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1608,54 +1608,54 @@ msgstr ""
 "선택한 파일만 풀거나 모든 파일의 압축을 풀 수 있는 압축 풀기 대화 상자를 표시"
 "하려면 클릭하십시오"
 
-#: part/part.cpp:407
+#: part/part.cpp:408
 #, kde-format
 msgid "Add &Files..."
 msgstr "파일 추가(&F)..."
 
-#: part/part.cpp:408 part/part.cpp:471
+#: part/part.cpp:409 part/part.cpp:472
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "압축 파일에 파일을 추가하려면 클릭하십시오"
 
-#: part/part.cpp:415
+#: part/part.cpp:416
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "압축 파일에서 삭제"
 
-#: part/part.cpp:425
+#: part/part.cpp:426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "속성(&P)"
 
-#: part/part.cpp:427
+#: part/part.cpp:428
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "압축 파일의 속성을 보려면 클릭하십시오"
 
-#: part/part.cpp:433
+#: part/part.cpp:434
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "설명을 추가하거나 편집하려면 클릭하십시오"
 
-#: part/part.cpp:438
+#: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "무결성 검사(&T)"
 
-#: part/part.cpp:440 part/part.cpp:472
+#: part/part.cpp:441 part/part.cpp:473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "압축 파일의 무결성을 검사하려면 클릭하십시오"
 
-#: part/part.cpp:466
+#: part/part.cpp:467
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1667,7 +1667,7 @@ msgstr ""
 "원하지 않습니다.<nl/><nl/>파일을 추가하려면 압축을 해제한 다음 새로운 압축 파"
 "일을 만드십시오."
 
-#: part/part.cpp:469
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1676,74 +1676,74 @@ msgid ""
 msgstr ""
 "헤더가 암호화되지 않은 암호로 보호된 압축 파일은 현재 지원하지 않습니다."
 
-#: part/part.cpp:537
+#: part/part.cpp:538
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "주석 편집(&C)"
 
-#: part/part.cpp:538 part/part.cpp:546
+#: part/part.cpp:539 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "주석 추가(&C)"
 
-#: part/part.cpp:647
+#: part/part.cpp:648
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "압축 파일 무결성 검사가 성공했습니다."
 
-#: part/part.cpp:647 part/part.cpp:649
+#: part/part.cpp:648 part/part.cpp:650
 #, kde-format
 msgid "Test Results"
 msgstr "검사 결과"
 
-#: part/part.cpp:649
+#: part/part.cpp:650
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "압축 파일 무결성 검사가 실패했습니다."
 
-#: part/part.cpp:670
+#: part/part.cpp:671
 #, kde-format
 msgid "Extract To..."
 msgstr "압축 풀기..."
 
-#: part/part.cpp:684
+#: part/part.cpp:685
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "빠르게 압축 풀기..."
 
-#: part/part.cpp:814
+#: part/part.cpp:815
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "일반"
 
-#: part/part.cpp:815
+#: part/part.cpp:816
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "압축 풀기"
 
-#: part/part.cpp:816
+#: part/part.cpp:817
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "플러그인"
 
-#: part/part.cpp:817
+#: part/part.cpp:818
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "미리 보기"
 
-#: part/part.cpp:829
+#: part/part.cpp:830
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename>은(는) 디렉터리입니다."
 
-#: part/part.cpp:838
+#: part/part.cpp:839
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1753,7 +1753,7 @@ msgstr ""
 "<filename>%1</filename>에 덮어쓸 수 없습니다. 쓰기 권한이 있는지 확인하십시"
 "오."
 
-#: part/part.cpp:844
+#: part/part.cpp:845
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1761,13 +1761,13 @@ msgid ""
 "file."
 msgstr "파일을 추가하는 대로 압축 파일 <filename>%1</filename>을(를) 만듭니다."
 
-#: part/part.cpp:847
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "압축 파일 <filename>%1</filename>을(를) 찾을 수 없습니다."
 
-#: part/part.cpp:852
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1776,7 +1776,7 @@ msgid ""
 msgstr ""
 "압축 파일 <filename>%1</filename>에서 읽을 수 없으므로 불러올 수 없습니다."
 
-#: part/part.cpp:865
+#: part/part.cpp:871
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1785,25 +1785,25 @@ msgid ""
 msgstr ""
 "압축 파일 <filename>%1</filename>이(가) 이미 존재합니다. 덮어쓰시겠습니까?"
 
-#: part/part.cpp:867
+#: part/part.cpp:872
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "파일이 존재함"
 
-#: part/part.cpp:904
+#: part/part.cpp:913
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "압축 파일이 비어 있거나 Ark에서 내용을 표시할 수 없습니다."
 
-#: part/part.cpp:909
+#: part/part.cpp:918
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark는 UDF 파일 시스템을 사용한 ISO 파일을 지원하지 않습니다."
 
-#: part/part.cpp:939
+#: part/part.cpp:948
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1813,12 +1813,12 @@ msgstr ""
 "압축 파일 <filename>%1</filename>을(를) 읽는 중 오류가 발생했습니다:<nl/"
 "><message>%2</message>"
 
-#: part/part.cpp:999
+#: part/part.cpp:1008
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark에서 심볼릭 링크를 열 수 없습니다."
 
-#: part/part.cpp:1121
+#: part/part.cpp:1134
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1827,58 +1827,58 @@ msgstr ""
 "파일 <filename>%1</filename>이(가) 변경되었습니다. 압축 파일을 업데이트 하시"
 "겠습니까?"
 
-#: part/part.cpp:1122
+#: part/part.cpp:1135
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "파일 수정됨"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1136
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1124
+#: part/part.cpp:1137
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1405
+#: part/part.cpp:1422
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "파일 추가"
 
-#: part/part.cpp:1410
+#: part/part.cpp:1427
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "%1에 파일 추가"
 
-#: part/part.cpp:1474
+#: part/part.cpp:1491
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "파일 이름에 슬래시가 올 수 없으며 \".\" 및 \"..\"을 사용할 수 없습니다."
 
-#: part/part.cpp:1518
+#: part/part.cpp:1535
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "폴더를 자기 자신으로 이동할 수 없습니다."
 
-#: part/part.cpp:1519
+#: part/part.cpp:1536
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "폴더를 자기 자신으로 이동함"
 
-#: part/part.cpp:1547
+#: part/part.cpp:1564
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "이름이 동일한 항목을 같은 대상 위치에 붙여넣을 수 없습니다."
 
-#: part/part.cpp:1647
+#: part/part.cpp:1668
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1886,20 +1886,20 @@ msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr[0] "이 파일을 지우면 다시 복구할 수 없습니다. 계속 진행하시겠습니까?"
 
-#: part/part.cpp:1650
+#: part/part.cpp:1671
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
 msgid_plural "Delete Files"
 msgstr[0] "파일 삭제"
 
-#: part/part.cpp:1693
+#: part/part.cpp:1718
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "복사본을 다른 이름으로 저장"
 
-#: part/part.cpp:1708
+#: part/part.cpp:1733
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1909,7 +1909,7 @@ msgstr ""
 "압축 파일을 <filename>%1</filename>(으)로 저장할 수 없습니다. 다른 경로에 저"
 "장해 보십시오."
 
-#: part/part.cpp:1712
+#: part/part.cpp:1737
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
