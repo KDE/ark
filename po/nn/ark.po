@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-24 00:51+0000\n"
+"POT-Creation-Date: 2022-10-30 00:49+0000\n"
 "PO-Revision-Date: 2022-08-20 11:03+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -73,11 +73,11 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"There was an error while extracting <filename>%1</filename>:<nl/><message>"
-"%2</message><nl/>Any further archive will not be extracted."
+"There was an error while extracting <filename>%1</filename>:<nl/"
+"><message>%2</message><nl/>Any further archive will not be extracted."
 msgstr ""
-"Det oppstod ein feil ved utpakking av <filename>%1</filename>:<nl/><message>"
-"%2</message><nl/>Vidare arkivinnhald vert ikkje pakka ut."
+"Det oppstod ein feil ved utpakking av <filename>%1</filename>:<nl/"
+"><message>%2</message><nl/>Vidare arkivinnhald vert ikkje pakka ut."
 
 #: app/batchextract.cpp:142
 #, kde-kuit-format
@@ -89,11 +89,11 @@ msgstr "Det oppstod ein feil ved utpakking av <filename>%1</filename>."
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"There was an error while extracting <filename>%1</filename>:<nl/><message>"
-"%2</message>"
+"There was an error while extracting <filename>%1</filename>:<nl/"
+"><message>%2</message>"
 msgstr ""
-"Det oppstod ein feil ved utpakking av <filename>%1</filename>:<nl/><message>"
-"%2</message>"
+"Det oppstod ein feil ved utpakking av <filename>%1</filename>:<nl/"
+"><message>%2</message>"
 
 #: app/batchextract.cpp:294
 #, kde-kuit-format
@@ -732,23 +732,23 @@ msgstr "Type:"
 msgid "Extension:"
 msgstr "Etternamn:"
 
-#: kerfuffle/extractiondialog.cpp:40
+#: kerfuffle/extractiondialog.cpp:41
 #, kde-format
 msgctxt "@title:window"
 msgid "Extract"
 msgstr "Pakk ut"
 
-#: kerfuffle/extractiondialog.cpp:54
+#: kerfuffle/extractiondialog.cpp:55
 #, kde-format
 msgid "Extract"
 msgstr "Pakk ut"
 
-#: kerfuffle/extractiondialog.cpp:97
+#: kerfuffle/extractiondialog.cpp:98
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "Mappenamnet kan ikkje innehalda teiknet «/»."
 
-#: kerfuffle/extractiondialog.cpp:107
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -758,39 +758,39 @@ msgstr ""
 "Mappa <filename>%1</filename> finst frå før. Er du sikker på at du vil pakka "
 "ut her?"
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:115
 #, kde-format
 msgid "Folder exists"
 msgstr "Mappa finst alt"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:116
 #, kde-format
 msgid "Extract here"
 msgstr "Pakk ut her"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:117
 #, kde-format
 msgid "Retry"
 msgstr "Prøv igjen"
 
-#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#: kerfuffle/extractiondialog.cpp:131 kerfuffle/extractiondialog.cpp:137
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Klarte ikkje oppretta mappa <filename>%1</filename>."
 
-#: kerfuffle/extractiondialog.cpp:121
+#: kerfuffle/extractiondialog.cpp:132
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> finst frå før, men er ikkje ei mappe."
 
-#: kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:138
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Sjå til at du har løyve til å oppretta ho."
 
-#: kerfuffle/extractiondialog.cpp:166
+#: kerfuffle/extractiondialog.cpp:177
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Pakk ut fleire arkiv"
@@ -1208,13 +1208,13 @@ msgstr "Fleirvolum:"
 msgid "Compression method(s):"
 msgstr "Komprimeringsmetode/-ar:"
 
-#: kerfuffle/queries.cpp:73
+#: kerfuffle/queries.cpp:74
 #, kde-format
 msgctxt "@title:window"
 msgid "File Already Exists"
 msgstr "Fila finst frå før"
 
-#: kerfuffle/queries.cpp:156
+#: kerfuffle/queries.cpp:157
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1223,12 +1223,12 @@ msgid ""
 msgstr ""
 "Arkivfila <filename>%1</filename> er verna med passord. Skriv inn passordet."
 
-#: kerfuffle/queries.cpp:160
+#: kerfuffle/queries.cpp:161
 #, kde-format
 msgid "Incorrect password, please try again."
 msgstr "Feil passord. Prøv igjen."
 
-#: kerfuffle/queries.cpp:195
+#: kerfuffle/queries.cpp:201
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1238,35 +1238,35 @@ msgstr ""
 "Arkivfila du prøver opna er øydelagd.<nl/>Nokre av filene kan mangla eller "
 "vera skada."
 
-#: kerfuffle/queries.cpp:197
+#: kerfuffle/queries.cpp:203
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
 msgstr "Ugyldig arkiv"
 
-#: kerfuffle/queries.cpp:198
+#: kerfuffle/queries.cpp:204
 #, kde-format
 msgctxt "@action:button"
 msgid "Open as Read-Only"
 msgstr "Opna skriveverna"
 
-#: kerfuffle/queries.cpp:199
+#: kerfuffle/queries.cpp:205
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
 msgstr "Ikkje opna"
 
-#: kerfuffle/queries.cpp:208
+#: kerfuffle/queries.cpp:218
 #, kde-format
 msgid "Don't ask again."
 msgstr "Ikkje spør igjen."
 
-#: kerfuffle/queries.cpp:220
+#: kerfuffle/queries.cpp:230
 #, kde-format
 msgid "Error during extraction"
 msgstr "Feil ved utpakking"
 
-#: kerfuffle/queries.cpp:221
+#: kerfuffle/queries.cpp:231
 #, kde-kuit-format
 msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
@@ -1532,81 +1532,81 @@ msgstr ""
 "Det finst alt filer med denne adressa. Vil du halda fram med å overskriva "
 "dei?"
 
-#: part/part.cpp:111
+#: part/part.cpp:112
 #, kde-format
 msgid "Comment"
 msgstr "Kommentar"
 
-#: part/part.cpp:122
+#: part/part.cpp:123
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Kommentaren er endra."
 
-#: part/part.cpp:127
+#: part/part.cpp:128
 #, kde-format
 msgid "Save"
 msgstr "Lagra"
 
-#: part/part.cpp:150
+#: part/part.cpp:151
 #, kde-format
 msgid "Type to search..."
 msgstr "Skriv for å søkja …"
 
-#: part/part.cpp:308
+#: part/part.cpp:309
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark kan berre pakka ut til lokale mapper."
 
-#: part/part.cpp:363
+#: part/part.cpp:364
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Vis informasjonspanel"
 
-#: part/part.cpp:370
+#: part/part.cpp:371
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Lagra kopi som …"
 
-#: part/part.cpp:374
+#: part/part.cpp:375
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "&Opna i eksternt program"
 
-#: part/part.cpp:379
+#: part/part.cpp:380
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Opna &med …"
 
-#: part/part.cpp:381
+#: part/part.cpp:382
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Trykk for å opna den valde fila med eit eksternt program"
 
-#: part/part.cpp:385
+#: part/part.cpp:386
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&Førehandsvising"
 
-#: part/part.cpp:387
+#: part/part.cpp:388
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Trykk for å førehandsvisa den valde fila"
 
-#: part/part.cpp:392
+#: part/part.cpp:393
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "&Pakk ut alle"
 
-#: part/part.cpp:394
+#: part/part.cpp:395
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1615,13 +1615,13 @@ msgstr ""
 "Trykk for å opna eit utpakkingsvindauge, der du kan velja korleis du vil "
 "pakka ut alle filene i arkivet"
 
-#: part/part.cpp:399
+#: part/part.cpp:400
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&Pakk ut"
 
-#: part/part.cpp:402
+#: part/part.cpp:403
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1630,54 +1630,54 @@ msgstr ""
 "Trykk for å opna eit utpakkingsvindauge, der du kan pakka ut alle eller "
 "utvalde filer."
 
-#: part/part.cpp:407
+#: part/part.cpp:408
 #, kde-format
 msgid "Add &Files..."
 msgstr "Legg til &filer …"
 
-#: part/part.cpp:408 part/part.cpp:471
+#: part/part.cpp:409 part/part.cpp:472
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Trykk for å leggja filer til arkivet"
 
-#: part/part.cpp:415
+#: part/part.cpp:416
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Fjern frå arkivet"
 
-#: part/part.cpp:425
+#: part/part.cpp:426
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Eigenskapar"
 
-#: part/part.cpp:427
+#: part/part.cpp:428
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Trykk for å sjå eigenskapar for arkivet"
 
-#: part/part.cpp:433
+#: part/part.cpp:434
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Trykk for å leggja til eller redigera kommentar"
 
-#: part/part.cpp:438
+#: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "&Test integritet"
 
-#: part/part.cpp:440 part/part.cpp:472
+#: part/part.cpp:441 part/part.cpp:473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Trykk for å testa arkivet for integritet"
 
-#: part/part.cpp:466
+#: part/part.cpp:467
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1689,7 +1689,7 @@ msgstr ""
 "filhovudkryptering er ikkje støtta.<nl/><nl/>Pakk ut filene og lag eit nytt "
 "arkiv viss du vil leggja til filer."
 
-#: part/part.cpp:469
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1698,74 +1698,74 @@ msgid ""
 msgstr ""
 "Å testa passordverna arkivfiler utan filhovudkryptering er ikkje støtta."
 
-#: part/part.cpp:537
+#: part/part.cpp:538
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Rediger &kommentar"
 
-#: part/part.cpp:538 part/part.cpp:546
+#: part/part.cpp:539 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Legg til &kommentar"
 
-#: part/part.cpp:647
+#: part/part.cpp:648
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Integritetstesten var vellukka."
 
-#: part/part.cpp:647 part/part.cpp:649
+#: part/part.cpp:648 part/part.cpp:650
 #, kde-format
 msgid "Test Results"
 msgstr "Testresultat"
 
-#: part/part.cpp:649
+#: part/part.cpp:650
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Integritetstesten var mislukka."
 
-#: part/part.cpp:670
+#: part/part.cpp:671
 #, kde-format
 msgid "Extract To..."
 msgstr "Pakk ut til …"
 
-#: part/part.cpp:684
+#: part/part.cpp:685
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Pakk ut smart til …"
 
-#: part/part.cpp:814
+#: part/part.cpp:815
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Generelt"
 
-#: part/part.cpp:815
+#: part/part.cpp:816
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Utpakking"
 
-#: part/part.cpp:816
+#: part/part.cpp:817
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Programtillegg"
 
-#: part/part.cpp:817
+#: part/part.cpp:818
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Førehandsvising"
 
-#: part/part.cpp:829
+#: part/part.cpp:830
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> er ei mappe."
 
-#: part/part.cpp:838
+#: part/part.cpp:839
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1775,7 +1775,7 @@ msgstr ""
 "Klarte ikkje overskriva <filename>%1</filename>. Sjå til at du har "
 "skriveløyve."
 
-#: part/part.cpp:844
+#: part/part.cpp:845
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1784,13 +1784,13 @@ msgid ""
 msgstr ""
 "Arkivfila <filename>%1</filename> vert oppretta når du legg til ei fil."
 
-#: part/part.cpp:847
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Fann ikkje arkivfila <filename>%1</filename>."
 
-#: part/part.cpp:852
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1800,7 +1800,7 @@ msgstr ""
 "Klarte ikkje opna <filename>%1</filename>, då det ikkje var mogleg å lesa "
 "frå ho."
 
-#: part/part.cpp:865
+#: part/part.cpp:871
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1809,25 +1809,25 @@ msgid ""
 msgstr ""
 "Arkivfila <filename>%1</filename> finst frå før. Vil du skriva over ho?"
 
-#: part/part.cpp:867
+#: part/part.cpp:872
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Fila finst alt"
 
-#: part/part.cpp:904
+#: part/part.cpp:913
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Arkivfila er tom eller så klarte ikkje Ark å opna innhaldet."
 
-#: part/part.cpp:909
+#: part/part.cpp:918
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark støttar ikkje ISO-filer med UDF-filsystemet."
 
-#: part/part.cpp:939
+#: part/part.cpp:948
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1837,70 +1837,70 @@ msgstr ""
 "Forsøk på å opna arkivfila <filename>%1</filename> gav denne feilmeldinga:"
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:999
+#: part/part.cpp:1008
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark kan ikkje opna symbolske lenkjer."
 
-#: part/part.cpp:1121
+#: part/part.cpp:1134
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
 "archive?"
 msgstr "Fila <filename>%1</filename> vart endra. Vil du oppdatera arkivet?"
 
-#: part/part.cpp:1122
+#: part/part.cpp:1135
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fil endra"
 
-#: part/part.cpp:1123
+#: part/part.cpp:1136
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1124
+#: part/part.cpp:1137
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1405
+#: part/part.cpp:1422
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Legg til filer"
 
-#: part/part.cpp:1410
+#: part/part.cpp:1427
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Legg filer til %1"
 
-#: part/part.cpp:1474
+#: part/part.cpp:1491
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Filnamn kan ikkje innehalda skråstrekar og kan ikkje vera lik «.» eller «..»."
 
-#: part/part.cpp:1518
+#: part/part.cpp:1535
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Du kan ikkje flytta mapper til seg sjølve."
 
-#: part/part.cpp:1519
+#: part/part.cpp:1536
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Mappe flytta til seg sjølv"
 
-#: part/part.cpp:1547
+#: part/part.cpp:1564
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Oppføringar med same namn kan ikkje limast inn til same målmappe."
 
-#: part/part.cpp:1647
+#: part/part.cpp:1668
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1913,7 +1913,7 @@ msgstr[1] ""
 "Du kan ikkje angra slettinga av desse filene. Er du sikker på at du vil "
 "sletta dei?"
 
-#: part/part.cpp:1650
+#: part/part.cpp:1671
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1921,13 +1921,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Slett fila"
 msgstr[1] "Slett filene"
 
-#: part/part.cpp:1693
+#: part/part.cpp:1718
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Lagra kopi som"
 
-#: part/part.cpp:1708
+#: part/part.cpp:1733
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1937,7 +1937,7 @@ msgstr ""
 "Klarte ikkje lagra arkivfila som <filename>%1</filename>. Prøv å lagra ho i "
 "ei anna mappe."
 
-#: part/part.cpp:1712
+#: part/part.cpp:1737
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
