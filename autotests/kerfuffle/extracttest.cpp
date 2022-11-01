@@ -267,7 +267,7 @@ void ExtractTest::testExtraction_data()
             << optionsPreservePaths
             << 7;
 
-    // Only run tests if tar.lzo format is available
+    // Only run tests for lzop compressed files if tar.lzo format is available
     if (PluginManager().supportedMimeTypes().contains(QLatin1String("application/x-tzo"))) {
         archivePath = QFINDTESTDATA("data/simplearchive.tar.lzo");
         QTest::newRow("extract selected entries from a lzop-compressed tarball without path")
@@ -285,9 +285,16 @@ void ExtractTest::testExtraction_data()
                 << QVector<Archive::Entry*>()
                 << optionsPreservePaths
                 << 7;
+
+        archivePath = QFINDTESTDATA("data/test.png.lzo");
+        QTest::newRow("extract the single-file test.png.lzo")
+                << archivePath
+                << QVector<Archive::Entry*>()
+                << optionsPreservePaths
+                << 1;
     }
 
-    // Only run test for lrzipped tar if lrzip executable is found in path.
+    // Only run tests for lrzipped files if lrzip executable is found in path.
     if (!QStandardPaths::findExecutable(QStringLiteral("lrzip")).isEmpty()) {
         archivePath = QFINDTESTDATA("data/simplearchive.tar.lrz");
         QTest::newRow("extract selected entries from a lrzip-compressed tarball without path")
@@ -305,11 +312,47 @@ void ExtractTest::testExtraction_data()
                 << QVector<Archive::Entry*>()
                 << optionsPreservePaths
                 << 7;
+
+        archivePath = QFINDTESTDATA("data/test.txt.lrz");
+        QTest::newRow("extract the single-file test.txt.lrz")
+                << archivePath
+                << QVector<Archive::Entry*>()
+                << optionsPreservePaths
+                << 1;
     } else {
         qDebug() << "lrzip executable not found in path. Skipping lrzip test.";
     }
 
-    // Only run test for lz4-compressed tar if lz4 executable is found in path.
+    // Only run tests for zstd-compressed files if zstd executable is found in path.
+    if (!QStandardPaths::findExecutable(QStringLiteral("zstd")).isEmpty()) {
+        archivePath = QFINDTESTDATA("data/simplearchive.tar.zst");
+        QTest::newRow("extract selected entries from a zstd-compressed tarball without path")
+                << archivePath
+                << QVector<Archive::Entry*> {
+                       new Archive::Entry(this, QStringLiteral("file3.txt"), QString()),
+                       new Archive::Entry(this, QStringLiteral("dir2/file22.txt"), QString())
+                   }
+                << optionsNoPaths
+                << 2;
+
+        archivePath = QFINDTESTDATA("data/simplearchive.tar.zst");
+        QTest::newRow("extract all entries from a zst-compressed tarball with path")
+                << archivePath
+                << QVector<Archive::Entry*>()
+                << optionsPreservePaths
+                << 7;
+
+        archivePath = QFINDTESTDATA("data/test.txt.zst");
+        QTest::newRow("extract the single-file test.txt.zst")
+                << archivePath
+                << QVector<Archive::Entry*>()
+                << optionsPreservePaths
+                << 1;
+    } else {
+        qDebug() << "zstd executable not found in path. Skipping zstd test.";
+    }
+
+    // Only run tests for lz4-compressed files if lz4 executable is found in path.
     if (!QStandardPaths::findExecutable(QStringLiteral("lz4")).isEmpty()) {
         archivePath = QFINDTESTDATA("data/simplearchive.tar.lz4");
         QTest::newRow("extract selected entries from a lz4-compressed tarball without path")
@@ -327,6 +370,13 @@ void ExtractTest::testExtraction_data()
                 << QVector<Archive::Entry*>()
                 << optionsPreservePaths
                 << 7;
+
+        archivePath = QFINDTESTDATA("data/test.txt.lz4");
+        QTest::newRow("extract the single-file test.txt.lz4")
+                << archivePath
+                << QVector<Archive::Entry*>()
+                << optionsPreservePaths
+                << 1;
     } else {
         qDebug() << "lz4 executable not found in path. Skipping lz4 test.";
     }
@@ -445,6 +495,48 @@ void ExtractTest::testExtraction_data()
                }
             << dragAndDropOptions
             << 4;
+
+    archivePath = QFINDTESTDATA("data/test.z");
+    QTest::newRow("extract the single-file test.z")
+            << archivePath
+            << QVector<Archive::Entry*>()
+            << optionsPreservePaths
+            << 1;
+
+    archivePath = QFINDTESTDATA("data/test.zz");
+    QTest::newRow("extract the single-file test.zz")
+            << archivePath
+            << QVector<Archive::Entry*>()
+            << optionsPreservePaths
+            << 1;
+
+    archivePath = QFINDTESTDATA("data/test.txt.gz");
+    QTest::newRow("extract the single-file test.txt.gz")
+            << archivePath
+            << QVector<Archive::Entry*>()
+            << optionsPreservePaths
+            << 1;
+
+    archivePath = QFINDTESTDATA("data/test.txt.bz2");
+    QTest::newRow("extract the single-file test.txt.bz2")
+            << archivePath
+            << QVector<Archive::Entry*>()
+            << optionsPreservePaths
+            << 1;
+
+    archivePath = QFINDTESTDATA("data/test.png.lzma");
+    QTest::newRow("extract the single-file test.png.lzma")
+            << archivePath
+            << QVector<Archive::Entry*>()
+            << optionsPreservePaths
+            << 1;
+
+    archivePath = QFINDTESTDATA("data/test.svgz");
+    QTest::newRow("extract the single-file test.svgz")
+            << archivePath
+            << QVector<Archive::Entry*>()
+            << optionsPreservePaths
+            << 1;
 
     m_expectedWorkingDir = QDir::currentPath();
 }

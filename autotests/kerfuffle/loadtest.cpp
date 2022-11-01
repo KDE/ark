@@ -127,6 +127,7 @@ void LoadTest::testProperties_data()
             << QStringLiteral("simplearchive")
             << QString();
 
+    // Only run tests for lzop compressed files if tar.lzo format is available
     if (PluginManager().supportedMimeTypes().contains(QLatin1String("application/x-tzo"))) {
         QTest::newRow("lzop-compressed tarball")
                 << QFINDTESTDATA("data/simplearchive.tar.lzo")
@@ -134,11 +135,18 @@ void LoadTest::testProperties_data()
                 << false << false << false << false << false << 0 << Archive::Unencrypted
                 << QStringLiteral("simplearchive")
                 << QString();
+
+        QTest::newRow("single-file lzop compressed")
+                << QFINDTESTDATA("data/test.png.lzo")
+                << QStringLiteral("test.png")
+                << true << false << true << false << false << 0 << Archive::Unencrypted
+                << QStringLiteral("test.png")
+                << QString();
     } else {
         qDebug() << "tar.lzo format not available. Skipping lzo test.";
     }
 
-    // Only run test for lrzipped tar if lrzip executable is found in path.
+    // Only run tests for lrzipped files if lrzip executable is found in path.
     if (!QStandardPaths::findExecutable(QStringLiteral("lrzip")).isEmpty()) {
         QTest::newRow("lrzipped tarball")
                 << QFINDTESTDATA("data/simplearchive.tar.lrz")
@@ -146,17 +154,31 @@ void LoadTest::testProperties_data()
                 << false << false << false << false << false << 0 << Archive::Unencrypted
                 << QStringLiteral("simplearchive")
                 << QString();
+
+        QTest::newRow("single-file lrzip compressed")
+                << QFINDTESTDATA("data/test.txt.lrz")
+                << QStringLiteral("test.txt")
+                << true << false << true << false << false << 0 << Archive::Unencrypted
+                << QStringLiteral("test.txt")
+                << QString();
     } else {
         qDebug() << "lrzip executable not found in path. Skipping lrzip test.";
     }
 
-    // Only run test for lz4-compressed tar if lz4 executable is found in path.
+    // Only run tests for lz4-compressed files if lz4 executable is found in path.
     if (!QStandardPaths::findExecutable(QStringLiteral("lz4")).isEmpty()) {
         QTest::newRow("lz4-compressed tarball")
                 << QFINDTESTDATA("data/simplearchive.tar.lz4")
                 << QStringLiteral("simplearchive")
                 << false << false << false << false << false << 0 << Archive::Unencrypted
                 << QStringLiteral("simplearchive")
+                << QString();
+
+        QTest::newRow("single-file lz4 compressed")
+                << QFINDTESTDATA("data/test.txt.lz4")
+                << QStringLiteral("test.txt")
+                << true << false << true << false << false << 0 << Archive::Unencrypted
+                << QStringLiteral("test.txt")
                 << QString();
     } else {
         qDebug() << "lz4 executable not found in path. Skipping lz4 test.";
@@ -211,13 +233,20 @@ void LoadTest::testProperties_data()
             << QStringLiteral("addonsu-remove-14.1-x86-signed")
             << QStringLiteral("signed by SignApk");
 
-    // Only run test for zstd-compressed tar if zstd executable is found in path.
+    // Only run tests for zstd-compressed files if zstd executable is found in path.
     if (!QStandardPaths::findExecutable(QStringLiteral("zstd")).isEmpty()) {
         QTest::newRow("zstd-compressed tarball")
                 << QFINDTESTDATA("data/simplearchive.tar.zst")
                 << QStringLiteral("simplearchive")
                 << false << false << false << false << false << 0 << Archive::Unencrypted
                 << QStringLiteral("simplearchive")
+                << QString();
+
+        QTest::newRow("single-file zstd compressed")
+                << QFINDTESTDATA("data/test.txt.zst")
+                << QStringLiteral("test.txt")
+                << true << false << true << false << false << 0 << Archive::Unencrypted
+                << QStringLiteral("test.txt")
                 << QString();
     } else {
         qDebug() << "zstd executable not found in path. Skipping zstd test.";
@@ -235,6 +264,48 @@ void LoadTest::testProperties_data()
             << QStringLiteral("test_encrypted")
             << false << false << false << false << false << 0 << Archive::Encrypted
             << QStringLiteral("test_encrypted")
+            << QString();
+
+    QTest::newRow("single-file UNIX-compressed")
+            << QFINDTESTDATA("data/test.z")
+            << QStringLiteral("test")
+            << true << false << true << false << false << 0 << Archive::Unencrypted
+            << QStringLiteral("test")
+            << QString();
+
+    QTest::newRow("single-file zlib compressed")
+            << QFINDTESTDATA("data/test.zz")
+            << QStringLiteral("test")
+            << true << false << true << false << false << 0 << Archive::Unencrypted
+            << QStringLiteral("test")
+            << QString();
+
+    QTest::newRow("single-file gz compressed")
+            << QFINDTESTDATA("data/test.txt.gz")
+            << QStringLiteral("test.txt")
+            << true << false << true << false << false << 0 << Archive::Unencrypted
+            << QStringLiteral("test.txt")
+            << QString();
+
+    QTest::newRow("single-file bzip compressed")
+            << QFINDTESTDATA("data/test.txt.bz2")
+            << QStringLiteral("test.txt")
+            << true << false << true << false << false << 0 << Archive::Unencrypted
+            << QStringLiteral("test.txt")
+            << QString();
+
+    QTest::newRow("single-file lzma compressed")
+            << QFINDTESTDATA("data/test.png.lzma")
+            << QStringLiteral("test.png")
+            << true << false << true << false << false << 0 << Archive::Unencrypted
+            << QStringLiteral("test.png")
+            << QString();
+
+    QTest::newRow("single-file compressed SVG")
+            << QFINDTESTDATA("data/test.svgz")
+            << QStringLiteral("test")
+            << true << false << true << false << false << 0 << Archive::Unencrypted
+            << QStringLiteral("test")
             << QString();
 }
 
