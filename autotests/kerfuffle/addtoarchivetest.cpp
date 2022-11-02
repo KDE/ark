@@ -15,6 +15,13 @@
 
 using namespace Kerfuffle;
 
+void initLocale()
+{
+    qputenv("LANG", "en_US");
+}
+
+Q_CONSTRUCTOR_FUNCTION(initLocale)
+
 class AddToArchiveTest : public QObject
 {
     Q_OBJECT
