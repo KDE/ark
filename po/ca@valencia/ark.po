@@ -258,7 +258,7 @@ msgstr "Vladyslav Batyrenko"
 #: app/main.cpp:131
 #, kde-format
 msgid "Advanced editing functionalities"
-msgstr "Funcionalitats avançades d'edició"
+msgstr "Característiques avançades d'edició"
 
 #: app/main.cpp:134
 #, kde-format
@@ -493,7 +493,7 @@ msgstr "Si s'ha de mostrar un avís en crear arxius ZIP amb l'encriptació AES."
 #: kerfuffle/ark.kcfg:13
 #, kde-format
 msgid "Default action when opening archive entries."
-msgstr "Acció predeterminada en obrir les entrades a l'arxiu."
+msgstr "Acció predeterminada en obrir les entrades en l'arxiu."
 
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
 #: kerfuffle/ark.kcfg:27
