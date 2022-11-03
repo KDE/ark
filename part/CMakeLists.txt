@@ -36,7 +36,3 @@ configure_file(
 kcoreaddons_desktop_to_json(arkpart ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop SERVICE_TYPES kpart.desktop browserview.desktop)
 
 install(TARGETS arkpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf${QT_MAJOR_VERSION}/parts)
-
-########### install files ###############
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR})
