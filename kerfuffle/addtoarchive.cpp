@@ -211,7 +211,11 @@ QString findCommonPrefixForUrls(const QList<QUrl> &list)
         // Strip filename of its extension, but only if present (see #362690).
         // Use loops to handle cases like `*.tar.gz`.
         while (!QMimeDatabase().mimeTypeForFile(fileName, QMimeDatabase::MatchExtension).isDefault()) {
-            fileName = QFileInfo(fileName).completeBaseName();
+            const QString strippedName = QFileInfo(fileName).completeBaseName();
+            if (strippedName == fileName) {
+                break;
+            }
+            fileName = strippedName;
         }
 
         if (prefix.length() > fileName.length()) {

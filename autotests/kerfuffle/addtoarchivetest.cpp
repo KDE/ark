@@ -98,6 +98,13 @@ void AddToArchiveTest::testCompressHere_data()
         << QStringLiteral("test-3.4.0.tar.gz")
         << 2ULL;
 
+    QTest::newRow("compress here (as TAR) - files with mimetypes but no extension (no infinite loop)")
+        << QStringLiteral("tar.gz")
+        << Archive::Unencrypted
+        << QStringList {QFINDTESTDATA("data/Makefile"), QFINDTESTDATA("data/README")}
+        << QStringLiteral("Archive.tar.gz")
+        << 2ULL;
+
     if (!PluginManager().preferredWritePluginsFor(QMimeDatabase().mimeTypeForName(QStringLiteral("application/zip"))).isEmpty()) {
         QTest::newRow("compress here (as ZIP) - dir with files")
             << QStringLiteral("zip")
