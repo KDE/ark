@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-30 00:49+0000\n"
+"POT-Creation-Date: 2022-11-03 00:49+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -1024,9 +1024,9 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Cartlann á luchtú..."
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:704
-#: kerfuffle/jobs.cpp:757 kerfuffle/jobs.cpp:795 kerfuffle/jobs.cpp:827
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:712
+#: kerfuffle/jobs.cpp:765 kerfuffle/jobs.cpp:803 kerfuffle/jobs.cpp:835
+#: kerfuffle/jobs.cpp:883
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgid "Archive"
@@ -1045,7 +1045,7 @@ msgid "Extracting all files"
 msgstr "Gach comhad á bhaint amach"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:630
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:638
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1069,7 +1069,7 @@ msgid ""
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:703
+#: kerfuffle/jobs.cpp:711
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1081,7 +1081,7 @@ msgstr[2] "%1 chomhad á gcur leis..."
 msgstr[3] "%1 gcomhad á gcur leis..."
 msgstr[4] "%1 comhad á gcur leis..."
 
-#: kerfuffle/jobs.cpp:756
+#: kerfuffle/jobs.cpp:764
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1093,7 +1093,7 @@ msgstr[2] "%1 chomhad á gcur leis..."
 msgstr[3] "%1 gcomhad á gcur leis..."
 msgstr[4] "%1 comhad á gcur leis..."
 
-#: kerfuffle/jobs.cpp:794
+#: kerfuffle/jobs.cpp:802
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1105,7 +1105,7 @@ msgstr[2] "%1 chomhad á gcur leis..."
 msgstr[3] "%1 gcomhad á gcur leis..."
 msgstr[4] "%1 comhad á gcur leis..."
 
-#: kerfuffle/jobs.cpp:826
+#: kerfuffle/jobs.cpp:834
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1115,14 +1115,14 @@ msgstr[2] "%1 chomhad á scriosadh ón chartlann"
 msgstr[3] "%1 gcomhad á scriosadh ón chartlann"
 msgstr[4] "%1 comhad á scriosadh ón chartlann"
 
-#: kerfuffle/jobs.cpp:850
+#: kerfuffle/jobs.cpp:858
 #, fuzzy, kde-format
 #| msgctxt "File comment"
 #| msgid "Comment"
 msgid "Adding comment"
 msgstr "Nóta"
 
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:883
 #, fuzzy, kde-format
 #| msgid "Loading archive..."
 msgid "Testing archive"
@@ -1565,7 +1565,7 @@ msgid ""
 "you want to try to view it as plain text?"
 msgstr ""
 
-#: part/arkviewer.cpp:233
+#: part/arkviewer.cpp:232
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1586,7 +1586,7 @@ msgstr "Nasc Siombalach"
 msgid "Unknown size"
 msgstr "Méid anaithnid"
 
-#: part/infopanel.cpp:129
+#: part/infopanel.cpp:126
 #, kde-format
 msgid "One file selected"
 msgid_plural "%1 files selected"
@@ -2016,7 +2016,7 @@ msgstr ""
 msgid "Ark cannot open symlinks."
 msgstr ""
 
-#: part/part.cpp:1134
+#: part/part.cpp:1140
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -2029,32 +2029,32 @@ msgstr ""
 "Tá fillteán <filename>%1</filename> ann cheana. An bhfuil tú cinnte gur mian "
 "leat baint amach anseo?"
 
-#: part/part.cpp:1135
+#: part/part.cpp:1141
 #, fuzzy, kde-format
 #| msgid "Files to be added"
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Comhaid le cur leis"
 
-#: part/part.cpp:1136
+#: part/part.cpp:1142
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1137
+#: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1422
+#: part/part.cpp:1428
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Cuir Comhaid Leis"
 
-#: part/part.cpp:1427
+#: part/part.cpp:1433
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Add Files"
@@ -2062,27 +2062,27 @@ msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Cuir Comhaid Leis"
 
-#: part/part.cpp:1491
+#: part/part.cpp:1497
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1535
+#: part/part.cpp:1541
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr ""
 
-#: part/part.cpp:1536
+#: part/part.cpp:1542
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr ""
 
-#: part/part.cpp:1564
+#: part/part.cpp:1570
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1668
+#: part/part.cpp:1674
 #, fuzzy, kde-format
 #| msgid ""
 #| "Deleting these files is not undoable. Are you sure you want to do this?"
@@ -2106,7 +2106,7 @@ msgstr[4] ""
 "Ní féidir na comhaid seo a fháil ar ais tar éis iad a scriosadh.  An bhfuil "
 "tú cinnte?"
 
-#: part/part.cpp:1671
+#: part/part.cpp:1677
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Delete files"
@@ -2119,13 +2119,13 @@ msgstr[2] "Scrios comhaid"
 msgstr[3] "Scrios comhaid"
 msgstr[4] "Scrios comhaid"
 
-#: part/part.cpp:1718
+#: part/part.cpp:1724
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1733
+#: part/part.cpp:1739
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2135,7 +2135,7 @@ msgstr ""
 "Níorbh fhéidir an chartlann a shábháil mar <filename>%1</filename>. Bain "
 "triail as suíomh eile."
 
-#: part/part.cpp:1737
+#: part/part.cpp:1743
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -2270,18 +2270,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "Méid anaithnid"
 
-#: plugins/libarchive/libarchiveplugin.cpp:396
+#: plugins/libarchive/libarchiveplugin.cpp:432
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:430
+#: plugins/libarchive/libarchiveplugin.cpp:466
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Níorbh fhéidir an léitheoir cartlainne a thúsú."
 
-#: plugins/libarchive/libarchiveplugin.cpp:444
+#: plugins/libarchive/libarchiveplugin.cpp:488
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
@@ -2341,27 +2341,6 @@ msgstr ""
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
 msgstr "Níorbh fhéidir comhad #%1 a aimsiú sa chartlann"
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:49
-#, kde-kuit-format
-msgctxt "@info"
-msgid "Ark could not extract <filename>%1</filename>."
-msgstr "Níorbh fhéidir le hArk <filename>%1</filename> a bhaint amach."
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:57
-#, kde-kuit-format
-msgctxt "@info"
-msgid "Ark could not open <filename>%1</filename> for extraction."
-msgstr ""
-"Níorbh fhéidir le hArk <filename>%1</filename> a oscailt chun baint amach."
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:71
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"There was an error while reading <filename>%1</filename> during extraction."
-msgstr ""
-"Tharla earráid agus <filename>%1</filename> á léamh le linn bainte amach."
 
 #: plugins/libzipplugin/libzipplugin.cpp:76
 #: plugins/libzipplugin/libzipplugin.cpp:118
@@ -2473,6 +2452,22 @@ msgstr ""
 msgid "Failed to set metadata for entry: %1"
 msgstr ""
 "Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
+
+#~ msgctxt "@info"
+#~ msgid "Ark could not extract <filename>%1</filename>."
+#~ msgstr "Níorbh fhéidir le hArk <filename>%1</filename> a bhaint amach."
+
+#~ msgctxt "@info"
+#~ msgid "Ark could not open <filename>%1</filename> for extraction."
+#~ msgstr ""
+#~ "Níorbh fhéidir le hArk <filename>%1</filename> a oscailt chun baint amach."
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "There was an error while reading <filename>%1</filename> during "
+#~ "extraction."
+#~ msgstr ""
+#~ "Tharla earráid agus <filename>%1</filename> á léamh le linn bainte amach."
 
 #, fuzzy
 #~| msgid "&Open"

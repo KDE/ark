@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-30 00:49+0000\n"
+"POT-Creation-Date: 2022-11-03 00:49+0000\n"
 "PO-Revision-Date: 2006-05-08 10:32+0200\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -982,9 +982,9 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Создавам архива..."
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:704
-#: kerfuffle/jobs.cpp:757 kerfuffle/jobs.cpp:795 kerfuffle/jobs.cpp:827
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:712
+#: kerfuffle/jobs.cpp:765 kerfuffle/jobs.cpp:803 kerfuffle/jobs.cpp:835
+#: kerfuffle/jobs.cpp:883
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
 msgid "Archive"
@@ -1003,7 +1003,7 @@ msgid "Extracting all files"
 msgstr "Ги распакувам сите датотеки"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:630
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:638
 #, fuzzy, kde-format
 #| msgid "Extract all files"
 msgid "Extracting one file"
@@ -1026,7 +1026,7 @@ msgid ""
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:703
+#: kerfuffle/jobs.cpp:711
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Compressing a file"
@@ -1035,7 +1035,7 @@ msgstr[0] "Додавам датотеки..."
 msgstr[1] "Додавам датотеки..."
 msgstr[2] "Додавам датотеки..."
 
-#: kerfuffle/jobs.cpp:756
+#: kerfuffle/jobs.cpp:764
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Moving a file"
@@ -1044,7 +1044,7 @@ msgstr[0] "Додавам датотеки..."
 msgstr[1] "Додавам датотеки..."
 msgstr[2] "Додавам датотеки..."
 
-#: kerfuffle/jobs.cpp:794
+#: kerfuffle/jobs.cpp:802
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Copying a file"
@@ -1053,7 +1053,7 @@ msgstr[0] "Додавам датотеки..."
 msgstr[1] "Додавам датотеки..."
 msgstr[2] "Додавам датотеки..."
 
-#: kerfuffle/jobs.cpp:826
+#: kerfuffle/jobs.cpp:834
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgid "Deleting a file from the archive"
@@ -1062,13 +1062,13 @@ msgstr[0] "Се случи грешка при додавањето на дат�
 msgstr[1] "Се случи грешка при додавањето на датотеките во архивата."
 msgstr[2] "Се случи грешка при додавањето на датотеките во архивата."
 
-#: kerfuffle/jobs.cpp:850
+#: kerfuffle/jobs.cpp:858
 #, fuzzy, kde-format
 #| msgid "Adding folder..."
 msgid "Adding comment"
 msgstr "Додавам папка..."
 
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:883
 #, fuzzy, kde-format
 #| msgid "Creating archive..."
 msgid "Testing archive"
@@ -1501,7 +1501,7 @@ msgid ""
 "you want to try to view it as plain text?"
 msgstr ""
 
-#: part/arkviewer.cpp:233
+#: part/arkviewer.cpp:232
 #, fuzzy, kde-format
 #| msgid "Ark KParts Component"
 msgctxt "@action"
@@ -1523,7 +1523,7 @@ msgstr ""
 msgid "Unknown size"
 msgstr ""
 
-#: part/infopanel.cpp:129
+#: part/infopanel.cpp:126
 #, fuzzy, kde-format
 #| msgid "0 files selected"
 msgid "One file selected"
@@ -1922,7 +1922,7 @@ msgstr ""
 msgid "Ark cannot open symlinks."
 msgstr ""
 
-#: part/part.cpp:1134
+#: part/part.cpp:1140
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgid ""
@@ -1930,60 +1930,60 @@ msgid ""
 "archive?"
 msgstr "Архивата веќе постои. Дали сакате да запишам врз неа?"
 
-#: part/part.cpp:1135
+#: part/part.cpp:1141
 #, fuzzy, kde-format
 #| msgid "Files to be added"
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Датотеки за додавање"
 
-#: part/part.cpp:1136
+#: part/part.cpp:1142
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1137
+#: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1422
+#: part/part.cpp:1428
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Сите датотеки"
 
-#: part/part.cpp:1427
+#: part/part.cpp:1433
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Сите датотеки"
 
-#: part/part.cpp:1491
+#: part/part.cpp:1497
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1535
+#: part/part.cpp:1541
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr ""
 
-#: part/part.cpp:1536
+#: part/part.cpp:1542
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr ""
 
-#: part/part.cpp:1564
+#: part/part.cpp:1570
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1668
+#: part/part.cpp:1674
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1993,7 +1993,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: part/part.cpp:1671
+#: part/part.cpp:1677
 #, fuzzy, kde-format
 #| msgid "Selected files only"
 msgctxt "@title:window"
@@ -2003,13 +2003,13 @@ msgstr[0] "Само избраните датотеки"
 msgstr[1] "Само избраните датотеки"
 msgstr[2] "Само избраните датотеки"
 
-#: part/part.cpp:1718
+#: part/part.cpp:1724
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1733
+#: part/part.cpp:1739
 #, fuzzy, kde-kuit-format
 #| msgid "Last folders used for extraction"
 msgctxt "@info"
@@ -2018,7 +2018,7 @@ msgid ""
 "another location."
 msgstr "Последните папки користени за распакување"
 
-#: part/part.cpp:1737
+#: part/part.cpp:1743
 #, fuzzy, kde-kuit-format
 #| msgid "You must enter a password to extract the file:"
 msgctxt "@info"
@@ -2143,19 +2143,19 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:396
+#: plugins/libarchive/libarchiveplugin.cpp:432
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:430
+#: plugins/libarchive/libarchiveplugin.cpp:466
 #, fuzzy, kde-format
 #| msgid "The archive %1 does not exist."
 msgid "The archive reader could not be initialized."
 msgstr "Архивата %1 не постои."
 
-#: plugins/libarchive/libarchiveplugin.cpp:444
+#: plugins/libarchive/libarchiveplugin.cpp:488
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
@@ -2213,28 +2213,6 @@ msgstr ""
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
 msgstr "Се случи грешка при додавањето на датотеките во архивата."
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:49
-#, fuzzy, kde-kuit-format
-#| msgid "Folder to extract to"
-msgctxt "@info"
-msgid "Ark could not extract <filename>%1</filename>."
-msgstr "Папка во која ќе се отпакува"
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:57
-#, fuzzy, kde-kuit-format
-#| msgid "Last folders used for extraction"
-msgctxt "@info"
-msgid "Ark could not open <filename>%1</filename> for extraction."
-msgstr "Последните папки користени за распакување"
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:71
-#, fuzzy, kde-kuit-format
-#| msgid "Last folders used for extraction"
-msgctxt "@info"
-msgid ""
-"There was an error while reading <filename>%1</filename> during extraction."
-msgstr "Последните папки користени за распакување"
 
 #: plugins/libzipplugin/libzipplugin.cpp:76
 #: plugins/libzipplugin/libzipplugin.cpp:118
@@ -2331,6 +2309,26 @@ msgstr ""
 #| msgid "Folder to extract to"
 msgid "Failed to set metadata for entry: %1"
 msgstr "Папка во која ќе се отпакува"
+
+#, fuzzy
+#~| msgid "Folder to extract to"
+#~ msgctxt "@info"
+#~ msgid "Ark could not extract <filename>%1</filename>."
+#~ msgstr "Папка во која ќе се отпакува"
+
+#, fuzzy
+#~| msgid "Last folders used for extraction"
+#~ msgctxt "@info"
+#~ msgid "Ark could not open <filename>%1</filename> for extraction."
+#~ msgstr "Последните папки користени за распакување"
+
+#, fuzzy
+#~| msgid "Last folders used for extraction"
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "There was an error while reading <filename>%1</filename> during "
+#~ "extraction."
+#~ msgstr "Последните папки користени за распакување"
 
 #, fuzzy
 #~| msgid "&Open"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:ark-1.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-30 00:49+0000\n"
+"POT-Creation-Date: 2022-11-03 00:49+0000\n"
 "PO-Revision-Date: 2004-05-19 11:54+0200\n"
 "Last-Translator: Jañ-Mai Drapier <jdrapier@club-internet.fr>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -958,9 +958,9 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Emaon o krouiñ un diell ..."
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:704
-#: kerfuffle/jobs.cpp:757 kerfuffle/jobs.cpp:795 kerfuffle/jobs.cpp:827
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:712
+#: kerfuffle/jobs.cpp:765 kerfuffle/jobs.cpp:803 kerfuffle/jobs.cpp:835
+#: kerfuffle/jobs.cpp:883
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
 msgid "Archive"
@@ -979,7 +979,7 @@ msgid "Extracting all files"
 msgstr "Eztennañ an holl restroù"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:630
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:638
 #, fuzzy, kde-format
 #| msgid "Extract all files"
 msgid "Extracting one file"
@@ -1001,7 +1001,7 @@ msgid ""
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:703
+#: kerfuffle/jobs.cpp:711
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Compressing a file"
@@ -1009,7 +1009,7 @@ msgid_plural "Compressing %1 files"
 msgstr[0] "Emaon oc'h ouzhpennañ ar restroù ..."
 msgstr[1] ""
 
-#: kerfuffle/jobs.cpp:756
+#: kerfuffle/jobs.cpp:764
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Moving a file"
@@ -1017,7 +1017,7 @@ msgid_plural "Moving %1 files"
 msgstr[0] "Emaon oc'h ouzhpennañ ar restroù ..."
 msgstr[1] ""
 
-#: kerfuffle/jobs.cpp:794
+#: kerfuffle/jobs.cpp:802
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Copying a file"
@@ -1025,7 +1025,7 @@ msgid_plural "Copying %1 files"
 msgstr[0] "Emaon oc'h ouzhpennañ ar restroù ..."
 msgstr[1] ""
 
-#: kerfuffle/jobs.cpp:826
+#: kerfuffle/jobs.cpp:834
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgid "Deleting a file from the archive"
@@ -1033,13 +1033,13 @@ msgid_plural "Deleting %1 files"
 msgstr[0] "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
 msgstr[1] ""
 
-#: kerfuffle/jobs.cpp:850
+#: kerfuffle/jobs.cpp:858
 #, fuzzy, kde-format
 #| msgid "Adding folder..."
 msgid "Adding comment"
 msgstr "Emaon oc'h ouzhpennañ ar renkell ..."
 
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:883
 #, fuzzy, kde-format
 #| msgid "Creating archive..."
 msgid "Testing archive"
@@ -1467,7 +1467,7 @@ msgid ""
 "you want to try to view it as plain text?"
 msgstr ""
 
-#: part/arkviewer.cpp:233
+#: part/arkviewer.cpp:232
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1488,7 +1488,7 @@ msgstr "Arouezere"
 msgid "Unknown size"
 msgstr ""
 
-#: part/infopanel.cpp:129
+#: part/infopanel.cpp:126
 #, fuzzy, kde-format
 #| msgid "0 files selected"
 msgid "One file selected"
@@ -1887,7 +1887,7 @@ msgstr ""
 msgid "Ark cannot open symlinks."
 msgstr ""
 
-#: part/part.cpp:1134
+#: part/part.cpp:1140
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgid ""
@@ -1895,60 +1895,60 @@ msgid ""
 "archive?"
 msgstr "An diell gant an anv-se a zo c'hoazh. C'hoant ho peus e rasklañ ?"
 
-#: part/part.cpp:1135
+#: part/part.cpp:1141
 #, fuzzy, kde-format
 #| msgid "Files to be added"
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Restroù da ouzhpennañ"
 
-#: part/part.cpp:1136
+#: part/part.cpp:1142
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1137
+#: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1422
+#: part/part.cpp:1428
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "An holl Restroù"
 
-#: part/part.cpp:1427
+#: part/part.cpp:1433
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "An holl Restroù"
 
-#: part/part.cpp:1491
+#: part/part.cpp:1497
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1535
+#: part/part.cpp:1541
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr ""
 
-#: part/part.cpp:1536
+#: part/part.cpp:1542
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr ""
 
-#: part/part.cpp:1564
+#: part/part.cpp:1570
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1668
+#: part/part.cpp:1674
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1957,7 +1957,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: part/part.cpp:1671
+#: part/part.cpp:1677
 #, fuzzy, kde-format
 #| msgid "Selected files only"
 msgctxt "@title:window"
@@ -1966,13 +1966,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Restroù diuzet hepken"
 msgstr[1] ""
 
-#: part/part.cpp:1718
+#: part/part.cpp:1724
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1733
+#: part/part.cpp:1739
 #, fuzzy, kde-kuit-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info"
@@ -1981,7 +1981,7 @@ msgid ""
 "another location."
 msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
 
-#: part/part.cpp:1737
+#: part/part.cpp:1743
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
@@ -2105,19 +2105,19 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:396
+#: plugins/libarchive/libarchiveplugin.cpp:432
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:430
+#: plugins/libarchive/libarchiveplugin.cpp:466
 #, fuzzy, kde-format
 #| msgid "The archive %1 does not exist."
 msgid "The archive reader could not be initialized."
 msgstr "N'eo ket un diell %1."
 
-#: plugins/libarchive/libarchiveplugin.cpp:444
+#: plugins/libarchive/libarchiveplugin.cpp:488
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
@@ -2175,28 +2175,6 @@ msgstr ""
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
 msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:49
-#, fuzzy, kde-kuit-format
-#| msgid "An error occurred while adding the files to the archive."
-msgctxt "@info"
-msgid "Ark could not extract <filename>%1</filename>."
-msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:57
-#, fuzzy, kde-kuit-format
-#| msgid "An error occurred while adding the files to the archive."
-msgctxt "@info"
-msgid "Ark could not open <filename>%1</filename> for extraction."
-msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:71
-#, fuzzy, kde-kuit-format
-#| msgid "The folder could not be created. Please check permissions."
-msgctxt "@info"
-msgid ""
-"There was an error while reading <filename>%1</filename> during extraction."
-msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
 
 #: plugins/libzipplugin/libzipplugin.cpp:76
 #: plugins/libzipplugin/libzipplugin.cpp:118
@@ -2293,6 +2271,26 @@ msgstr ""
 #| msgid "An error occurred while adding the files to the archive."
 msgid "Failed to set metadata for entry: %1"
 msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Ark could not extract <filename>%1</filename>."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "An error occurred while adding the files to the archive."
+#~ msgctxt "@info"
+#~ msgid "Ark could not open <filename>%1</filename> for extraction."
+#~ msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "The folder could not be created. Please check permissions."
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "There was an error while reading <filename>%1</filename> during "
+#~ "extraction."
+#~ msgstr "Ne m'eus ket krouiñ ar renkell. Gwiriit aotreoù mar plij."
 
 #, fuzzy
 #~| msgid "&Open"

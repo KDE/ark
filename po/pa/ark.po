@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-30 00:49+0000\n"
+"POT-Creation-Date: 2022-11-03 00:49+0000\n"
 "PO-Revision-Date: 2022-01-01 09:22-0800\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -938,9 +938,9 @@ msgstr ""
 msgid "Loading archive"
 msgstr "ਅਕਾਇਵ ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:704
-#: kerfuffle/jobs.cpp:757 kerfuffle/jobs.cpp:795 kerfuffle/jobs.cpp:827
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:712
+#: kerfuffle/jobs.cpp:765 kerfuffle/jobs.cpp:803 kerfuffle/jobs.cpp:835
+#: kerfuffle/jobs.cpp:883
 #, kde-format
 msgid "Archive"
 msgstr "ਅਕਾਇਵ"
@@ -958,7 +958,7 @@ msgid "Extracting all files"
 msgstr "ਸਭ ਫ਼ਾਇਲਾਂ ਖਿਲਾਰੀਆਂ ਜਾਂਦੀਆਂ ਹਨ"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:630
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:638
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -978,40 +978,40 @@ msgid ""
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:703
+#: kerfuffle/jobs.cpp:711
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "ਫ਼ਾਇਲ ਕੰਪਰੈਸ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
 msgstr[1] "%1 ਫ਼ਾਇਲਾਂ ਕੰਪਰੈਸ ਕੀਤੀਆਂ ਜਾ ਰਹੀਆਂ ਹਨ"
 
-#: kerfuffle/jobs.cpp:756
+#: kerfuffle/jobs.cpp:764
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "ਫਾਇਲ ਭੇਜੀ ਜਾ ਰਹੀ ਹੈ"
 msgstr[1] "%1 ਫਾਇਲਾਂ ਭੇਜੀਆਂ ਜਾ ਰਹੀਆਂ ਹਨ"
 
-#: kerfuffle/jobs.cpp:794
+#: kerfuffle/jobs.cpp:802
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "ਫ਼ਾਇਲ ਕਾਪੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
 msgstr[1] "%1 ਫ਼ਾਇਲਾਂ ਕਾਪੀ ਕੀਤੀਆਂ ਜਾ ਰਹੀਆਂ ਹਨ"
 
-#: kerfuffle/jobs.cpp:826
+#: kerfuffle/jobs.cpp:834
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "ਅਕਾਇਵ 'ਚੋਂ ਫ਼ਾਇਲ ਹਟਾਈ ਜਾ ਰਹੀ ਹੈ"
 msgstr[1] "%1 ਫ਼ਾਇਲਾਂ ਹਟਾਈਆਂ ਜਾ ਰਹੀਆਂ ਹਨ"
 
-#: kerfuffle/jobs.cpp:850
+#: kerfuffle/jobs.cpp:858
 #, kde-format
 msgid "Adding comment"
 msgstr "ਟਿੱਪਣੀ ਜੋੜੀ ਜਾ ਰਹੀ ਹੈ"
 
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:883
 #, kde-format
 msgid "Testing archive"
 msgstr "ਅਕਾਇਵ ਜਾਂਚ ਜਾਰੀ ਹੈ"
@@ -1423,7 +1423,7 @@ msgstr ""
 "ਅੰਦਰੂਨੀ ਦਰਸ਼ਕ ਇਹ ਅਣਜਾਣ ਕਿਸਮ ਦੀ ਫ਼ਾਇਲ ਨਹੀਂ ਵੇਖਾ ਸਕਦਾ ਹੈ।<nl/><nl/>ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ ਇਕਸਾਰ "
 "ਲਿਖਤ ਵਜੋਂ ਵੇਖਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: part/arkviewer.cpp:233
+#: part/arkviewer.cpp:232
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1444,7 +1444,7 @@ msgstr "ਸਿੰਬੋਲਿਕ ਲਿੰਕ"
 msgid "Unknown size"
 msgstr "ਅਣਪਛਾਤਾ ਆਕਾਰ"
 
-#: part/infopanel.cpp:129
+#: part/infopanel.cpp:126
 #, kde-format
 msgid "One file selected"
 msgid_plural "%1 files selected"
@@ -1829,7 +1829,7 @@ msgstr ""
 msgid "Ark cannot open symlinks."
 msgstr "ਅਕਾਇਵ ਸਿਮਲਿੰਕ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦੀ ਹੈ।"
 
-#: part/part.cpp:1134
+#: part/part.cpp:1140
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1837,57 +1837,57 @@ msgid ""
 msgstr ""
 "ਫਾਇਲ <filename>%1</filename> ਸੋਧੀ ਗਈ ਸੀ। ਕੀ ਤੁਸੀਂ ਅਕਾਇਵ ਨੂੰ ਅੱਪਡੇਟ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ।"
 
-#: part/part.cpp:1135
+#: part/part.cpp:1141
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "ਫਾਇਲ ਸੋਧੀ ਗਈ"
 
-#: part/part.cpp:1136
+#: part/part.cpp:1142
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1137
+#: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1422
+#: part/part.cpp:1428
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "ਫ਼ਾਇਲਾਂ ਜੋੜੋ"
 
-#: part/part.cpp:1427
+#: part/part.cpp:1433
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "%1 'ਚ ਫ਼ਾਇਲਾਂ ਜੋੜੋ"
 
-#: part/part.cpp:1491
+#: part/part.cpp:1497
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "ਫਾਇਲ-ਨਾਂ ਵਿੱਚ ਸਲੈਸ਼ ਨਹੀਂ ਹੋ ਸਕਦੀ ਅਤੇ  \".\" ਜਾਂ \"..\" ਦੇ ਬਰਾਬਰ ਨਹੀਂ ਹੋ ਸਕਦਾ ਹੈ"
 
-#: part/part.cpp:1535
+#: part/part.cpp:1541
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "ਫੋਲਡਰਾਂ ਨੂੰ ਖੁਦ ਵਿੱਚ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
 
-#: part/part.cpp:1536
+#: part/part.cpp:1542
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "ਫੋਲਡਰ ਨੂੰ ਖੁਦ ਵਿੱਚ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: part/part.cpp:1564
+#: part/part.cpp:1570
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1668
+#: part/part.cpp:1674
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1896,7 +1896,7 @@ msgid_plural ""
 msgstr[0] "ਇਹ ਫ਼ਾਇਲਾਂ ਦੇ ਹਟਾਉਣ ਨੂੰ ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਕੀ ਤੁਸੀਂ ਇਹ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 msgstr[1] "ਇਹ ਫ਼ਾਇਲਾਂ ਦੇ ਹਟਾਉਣਾ ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਕੀ ਤੁਸੀਂ ਇਹ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: part/part.cpp:1671
+#: part/part.cpp:1677
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1904,13 +1904,13 @@ msgid_plural "Delete Files"
 msgstr[0] "ਫ਼ਾਇਲ ਨੂੰ ਹਟਾਓ"
 msgstr[1] "ਫ਼ਾਇਲਾਂ ਨੂੰ ਹਟਾਓ"
 
-#: part/part.cpp:1718
+#: part/part.cpp:1724
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "ਕਾਪੀ ਵਜੋਂ ਇੰਝ ਸੰਭਾਲੋ"
 
-#: part/part.cpp:1733
+#: part/part.cpp:1739
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1920,7 +1920,7 @@ msgstr ""
 "ਅਕਾਇਵ ਨੂੰ <filename>%1</filename> ਉੱਤੇ ਸੰਭਾਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ। ਇਸ ਨੂੰ ਹੋਰ ਟਿਕਾਣੇ ਉੱਤੇ "
 "ਸੰਭਾਲਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
 
-#: part/part.cpp:1737
+#: part/part.cpp:1743
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -2048,18 +2048,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "ਅਣਪਛਾਤਾ"
 
-#: plugins/libarchive/libarchiveplugin.cpp:396
+#: plugins/libarchive/libarchiveplugin.cpp:432
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "ਘਾਤਕ ਗਲਤੀ, ਖਿਲਾਰਨਾ ਅਧੂਰਾ ਛੱਡਿਆ।"
 
-#: plugins/libarchive/libarchiveplugin.cpp:430
+#: plugins/libarchive/libarchiveplugin.cpp:466
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "ਅਕਾਇਵ ਰੀਡਰ ਸ਼ੁਰੂ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।"
 
-#: plugins/libarchive/libarchiveplugin.cpp:444
+#: plugins/libarchive/libarchiveplugin.cpp:488
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
@@ -2113,25 +2113,6 @@ msgstr ""
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
 msgstr "ਅਕਾਇਵ ਵਿੱਚ ਫ਼ਾਇਲ #%1 ਖੋਜੀ ਨਹੀਂ ਜਾ ਸਕੀ"
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:49
-#, kde-kuit-format
-msgctxt "@info"
-msgid "Ark could not extract <filename>%1</filename>."
-msgstr "ਆਕ <filename>%1</filename> ਨੂੰ ਖਿਲਾਰ ਨਹੀਂ ਸਕੀ।"
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:57
-#, kde-kuit-format
-msgctxt "@info"
-msgid "Ark could not open <filename>%1</filename> for extraction."
-msgstr "ਆਕ ਖਿਲਾਰਨ ਲਈ <filename>%1</filename> ਨੂੰ ਖੋਲ੍ਹ ਨਹੀਂ ਸਕੀ।"
-
-#: plugins/libsinglefileplugin/singlefileplugin.cpp:71
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"There was an error while reading <filename>%1</filename> during extraction."
-msgstr "ਖੋਲ੍ਹਣ ਦੌਰਾਨ <filename>%1</filename> ਨੂੰ ਪੜ੍ਹਨ ਲਈ ਗਲਤੀ ਆਈ ਹੈ।"
 
 #: plugins/libzipplugin/libzipplugin.cpp:76
 #: plugins/libzipplugin/libzipplugin.cpp:118
@@ -2237,6 +2218,20 @@ msgstr "ਐੰਟਰੀ ਕਾਪੀ ਕਰਨ ਲਈ ਫੇਲ੍ਹ: %1"
 #| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
 msgid "Failed to set metadata for entry: %1"
 msgstr "ਡਿਸਕ ਉੱਤੇ <filename>%2</filename> ਪਰੋਗਰਾਮ ਲੱਭਣ ਲਈ ਫੇਲ੍ਹ ਹੈ"
+
+#~ msgctxt "@info"
+#~ msgid "Ark could not extract <filename>%1</filename>."
+#~ msgstr "ਆਕ <filename>%1</filename> ਨੂੰ ਖਿਲਾਰ ਨਹੀਂ ਸਕੀ।"
+
+#~ msgctxt "@info"
+#~ msgid "Ark could not open <filename>%1</filename> for extraction."
+#~ msgstr "ਆਕ ਖਿਲਾਰਨ ਲਈ <filename>%1</filename> ਨੂੰ ਖੋਲ੍ਹ ਨਹੀਂ ਸਕੀ।"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "There was an error while reading <filename>%1</filename> during "
+#~ "extraction."
+#~ msgstr "ਖੋਲ੍ਹਣ ਦੌਰਾਨ <filename>%1</filename> ਨੂੰ ਪੜ੍ਹਨ ਲਈ ਗਲਤੀ ਆਈ ਹੈ।"
 
 #~ msgctxt "open a file with external program"
 #~ msgid "&Open"
