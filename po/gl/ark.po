@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-03 00:49+0000\n"
+"POT-Creation-Date: 2022-11-04 00:49+0000\n"
 "PO-Revision-Date: 2019-10-26 13:54+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -478,7 +478,7 @@ msgstr ""
 "Ten que indicar unha ruta para o arquivo ou un sufixo (como «rar» ou «tar."
 "gz») mediante o argumento <command>--autofilename</command>."
 
-#: kerfuffle/addtoarchive.cpp:239
+#: kerfuffle/addtoarchive.cpp:243
 #, fuzzy, kde-format
 #| msgid "Archive"
 msgctxt "Default name of a newly-created multi-file archive"

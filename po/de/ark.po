@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-03 00:49+0000\n"
+"POT-Creation-Date: 2022-11-04 00:49+0000\n"
 "PO-Revision-Date: 2022-08-20 20:34+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -478,7 +478,7 @@ msgstr ""
 "<filename>tar.gz</filename>) mit dem Argument <command>--autofilename</"
 "command> angeben."
 
-#: kerfuffle/addtoarchive.cpp:239
+#: kerfuffle/addtoarchive.cpp:243
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"

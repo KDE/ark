@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-03 00:49+0000\n"
+"POT-Creation-Date: 2022-11-04 00:49+0000\n"
 "PO-Revision-Date: 2021-05-02 20:49-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -495,7 +495,7 @@ msgstr ""
 "子 (例: rar, tar.gz) を指定する必要があります。"
 
 # @info:tooltip
-#: kerfuffle/addtoarchive.cpp:239
+#: kerfuffle/addtoarchive.cpp:243
 #, fuzzy, kde-format
 #| msgid "Archive"
 msgctxt "Default name of a newly-created multi-file archive"

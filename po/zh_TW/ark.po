@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-03 00:49+0000\n"
+"POT-Creation-Date: 2022-11-04 00:49+0000\n"
 "PO-Revision-Date: 2022-07-10 17:54+0800\n"
 "Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
@@ -455,7 +455,7 @@ msgstr ""
 "使用 <command>--autofilename</command> 參數時，您需要指定封存檔名，或是副檔名"
 "（如 rar，tar.gz 等）。"
 
-#: kerfuffle/addtoarchive.cpp:239
+#: kerfuffle/addtoarchive.cpp:243
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-03 00:49+0000\n"
+"POT-Creation-Date: 2022-11-04 00:49+0000\n"
 "PO-Revision-Date: 2010-12-18 15:47+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -491,7 +491,7 @@ msgstr ""
 "คุณต้องกำหนดชื่อแฟ้มของแฟ้มจัดเก็บหรือส่วนขยายต่อท้ายแฟ้ม (เช่น  rar, tar.tz) "
 "ร่วมกับอาร์กิวเมนต์ <command>--autofilename</command> ด้วย"
 
-#: kerfuffle/addtoarchive.cpp:239
+#: kerfuffle/addtoarchive.cpp:243
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt "Default name of a newly-created multi-file archive"

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-03 00:49+0000\n"
+"POT-Creation-Date: 2022-11-04 00:49+0000\n"
 "PO-Revision-Date: 2022-10-19 16:03-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -485,7 +485,7 @@ msgstr ""
 # A partir da versão 16.04 do Ark , há menus dois menus separados para as ações com arquivos compactados "Archive" e para arquivos que estão dentro dos arquivos compactados "File".
 # Por esse, motivo a tradução ficou como "Arquivo compactado" no menu, de forma a diferenciar as ações. A tradução apenas como "arquivo" é usada sempre que não houver conflito entre os termos.
 # Todos os programas que pesquisei usam a tradução "arquivo" para definir os arquivos compactados (como zip, rar, tar), mesmo que tecnicamente a definição não seja a mais adequada (alguns não são compactados, como o tar). (Alvarenga)
-#: kerfuffle/addtoarchive.cpp:239
+#: kerfuffle/addtoarchive.cpp:243
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
