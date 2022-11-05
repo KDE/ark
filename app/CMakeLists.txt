@@ -78,7 +78,7 @@ set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp ark_debug.cpp)
 
 kcoreaddons_add_plugin(extracthere
     SOURCES ${extracthere_SRCS}
-    INSTALL_NAMESPACE kf5/kio_dnd)
+    INSTALL_NAMESPACE kf${QT_MAJOR_VERSION}/kio_dnd)
 
 kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop)
 
@@ -88,7 +88,7 @@ target_link_libraries(extracthere kerfuffle KF5::KIOWidgets KF5::KIOFileWidgets)
 
 kcoreaddons_add_plugin(compressfileitemaction
     SOURCES compressfileitemaction.cpp
-    INSTALL_NAMESPACE "kf5/kfileitemaction")
+    INSTALL_NAMESPACE "kf${QT_MAJOR_VERSION}/kfileitemaction")
 
 target_link_libraries(compressfileitemaction
     kerfuffle
@@ -99,7 +99,7 @@ target_link_libraries(compressfileitemaction
 
 kcoreaddons_add_plugin(extractfileitemaction
     SOURCES extractfileitemaction.cpp batchextract.cpp ${CMAKE_CURRENT_BINARY_DIR}/ark_debug.cpp
-    INSTALL_NAMESPACE "kf5/kfileitemaction")
+    INSTALL_NAMESPACE "kf${QT_MAJOR_VERSION}/kfileitemaction")
 
 target_link_libraries(extractfileitemaction
     kerfuffle
