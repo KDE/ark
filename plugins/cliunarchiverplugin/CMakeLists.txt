@@ -1,7 +1,6 @@
 ########### next target ###############
 
-# TODO: drop application/x-rar alias once distributions ship shared-mime-info 1.7
-set(SUPPORTED_CLIUNARCHIVER_MIMETYPES "application/vnd.rar;application/x-rar;application/x-lha;")
+set(SUPPORTED_CLIUNARCHIVER_MIMETYPES "application/vnd.rar;application/x-lha;")
 
 set(kerfuffle_cliunarchiver_SRCS cliplugin.cpp)
 
@@ -14,7 +13,6 @@ ecm_qt_declare_logging_category(kerfuffle_cliunarchiver_SRCS
 # double-quotes of the last mime must NOT be escaped.
 set(SUPPORTED_MIMETYPES
     "application/vnd.rar\",
-    \"application/x-rar\",
     \"application/x-lha")
 
 configure_file(

@@ -98,8 +98,5 @@
     "X-KDE-Priority": 100,
     "application/vnd.rar": {
         "HeaderEncryption": true
-    },
-    "application/x-rar": {
-        "HeaderEncryption": true
     }
 }

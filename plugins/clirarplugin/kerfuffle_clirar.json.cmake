@@ -123,24 +123,5 @@
         "SupportsMultiVolume": true,
         "SupportsTesting": true,
         "SupportsWriteComment": true
-    },
-    "application/x-rar": {
-        "CompressionLevelDefault": 3,
-        "CompressionLevelMax": 5,
-        "CompressionLevelMin": 0,
-        "CompressionMethodDefault": "RAR4",
-        "CompressionMethods": {
-            "RAR4": "4",
-            "RAR5": "5"
-        },
-        "EncryptionMethodDefault": "AES128",
-        "EncryptionMethods": [
-            "AES128",
-            "AES256"
-        ],
-        "HeaderEncryption": true,
-        "SupportsMultiVolume": true,
-        "SupportsTesting": true,
-        "SupportsWriteComment": true
     }
 }
