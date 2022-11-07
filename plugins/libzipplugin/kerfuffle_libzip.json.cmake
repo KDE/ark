@@ -39,7 +39,7 @@
         "Description[zh_TW]": "對 zip 壓縮檔格式的完整支援",
         "Id": "kerfuffle_libzip",
         "MimeTypes": [
-            "@SUPPORTED_MIMETYPES@"
+            "application/zip"
         ],
         "Name": "Libzip plugin",
         "Name[az]": "Libzip qoşması",

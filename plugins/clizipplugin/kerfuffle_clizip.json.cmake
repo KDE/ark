@@ -47,7 +47,8 @@
         "Description[zh_TW]": "對 zip 壓縮格式的舊版支援",
         "Id": "kerfuffle_clizip",
         "MimeTypes": [
-            "@SUPPORTED_MIMETYPES@"
+            "application/x-java-archive",
+            "application/zip"
         ],
         "Name": "Info-zip plugin",
         "Name[ar]": "ملحق Info-zip",

@@ -47,7 +47,8 @@
         "Description[zh_TW]": "對 zip 與 7z 壓縮檔格式的完整支援",
         "Id": "kerfuffle_cli7z",
         "MimeTypes": [
-            "@SUPPORTED_MIMETYPES@"
+            "application/x-7z-compressed",
+            "application/zip"
         ],
         "Name": "7z plugin",
         "Name[ar]": "ملحق 7z",

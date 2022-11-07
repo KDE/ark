@@ -25,7 +25,8 @@
         "Description[zh_CN]": "完整支持 ARJ 压缩包格式",
         "Id": "kerfuffle_cliarj",
         "MimeTypes": [
-            "@SUPPORTED_MIMETYPES@"
+            "application/x-arj",
+            "application/arj"
         ],
         "Name": "ARJ plugin",
         "Name[ar]": "ملحق ARJ",

@@ -41,7 +41,8 @@
         "Description[zh_TW]": "開啟並解壓縮 RAR 與 LHA 壓縮檔",
         "Id": "kerfuffle_cliunarchiver",
         "MimeTypes": [
-            "@SUPPORTED_MIMETYPES@"
+            "application/vnd.rar",
+            "application/x-lha"
         ],
         "Name": "The Unarchiver plugin",
         "Name[ar]": "ملحق فك الأرشيف",

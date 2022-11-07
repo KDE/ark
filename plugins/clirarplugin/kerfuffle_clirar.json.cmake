@@ -47,7 +47,7 @@
         "Description[zh_TW]": "對 RAR 壓縮檔格式的完整支援",
         "Id": "kerfuffle_clirar",
         "MimeTypes": [
-            "@SUPPORTED_MIMETYPES@"
+            "application/vnd.rar"
         ],
         "Name": "RAR plugin",
         "Name[ar]": "ملحق RAR",
