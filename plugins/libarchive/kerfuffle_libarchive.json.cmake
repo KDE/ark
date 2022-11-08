@@ -47,7 +47,17 @@
         "Description[zh_TW]": "對壓縮過的 TAR 壓縮檔的完整支援",
         "Id": "kerfuffle_libarchive",
         "MimeTypes": [
-            "@SUPPORTED_READWRITE_MIMETYPES@"
+            "application/x-tar",
+            "application/x-compressed-tar",
+            "application/x-bzip-compressed-tar",
+            "application/x-tarz",
+            "application/x-xz-compressed-tar",
+            "application/x-lzma-compressed-tar",
+            "application/x-lzip-compressed-tar",
+            "application/x-tzo",
+            "application/x-lrzip-compressed-tar",
+            "application/x-lz4-compressed-tar",
+            "application/x-zstd-compressed-tar"
         ],
         "Name": "Libarchive plugin",
         "Name[ar]": "ملحق Libarchive",

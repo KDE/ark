@@ -1,13 +1,10 @@
 include_directories(${LibArchive_INCLUDE_DIRS})
 
 ########### next target ###############
-set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "application/x-tar;application/x-compressed-tar;application/x-bzip-compressed-tar;application/x-tarz;application/x-xz-compressed-tar;")
-set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "${SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES}application/x-lzma-compressed-tar;application/x-lzip-compressed-tar;application/x-tzo;application/x-lrzip-compressed-tar;application/x-lz4-compressed-tar;")
-set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "application/vnd.debian.binary-package;application/x-deb;application/x-cd-image;application/x-bcpio;application/x-cpio;application/x-cpio-compressed;application/x-sv4cpio;application/x-sv4crc;")
-set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}application/x-rpm;application/x-source-rpm;application/vnd.ms-cab-compressed;application/x-xar;application/x-iso9660-appimage;application/x-archive;")
-set(SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES "${SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES}application/x-zstd-compressed-tar;")
+
+# NOTE: These are the mimetypes for "single-file" archives. They must be defined in the JSON metadata together with the "normal" mimetypes.
+# However they need to be duplicated here because we need to pass them as C++ define to the plugin (see LIBARCHIVE_RAW_MIMETYPES define below).
 set(SUPPORTED_LIBARCHIVE_RAW_MIMETYPES "application/x-compress;application/gzip;application/x-bzip;application/zlib;application/zstd;application/x-lzma;application/x-xz;application/x-lz4;application/x-lzip;application/x-lrzip;application/x-lzop;")
-set(SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES "${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}${SUPPORTED_LIBARCHIVE_RAW_MIMETYPES}")
 
 set(INSTALLED_LIBARCHIVE_PLUGINS "")
 
@@ -20,50 +17,6 @@ ecm_qt_declare_logging_category(kerfuffle_libarchive_SRCS
                                 IDENTIFIER ARK
                                 CATEGORY_NAME ark.libarchive DESCRIPTION "Ark Libarchive plugin" EXPORT ARK)
 
-# NOTE: the first double-quotes of the first mime and the last
-# double-quotes of the last mime must NOT be escaped.
-set(SUPPORTED_READONLY_MIMETYPES
-    "application/x-deb\",
-    \"application/x-cd-image\",
-    \"application/x-bcpio\",
-    \"application/x-cpio\",
-    \"application/x-cpio-compressed\",
-    \"application/x-sv4cpio\",
-    \"application/x-sv4crc\",
-    \"application/x-rpm\",
-    \"application/x-compress\",
-    \"application/gzip\",
-    \"application/x-bzip\",
-    \"application/x-lzma\",
-    \"application/x-xz\",
-    \"application/zlib\",
-    \"application/zstd\",
-    \"application/x-lz4\",
-    \"application/x-lzip\",
-    \"application/x-lrzip\",
-    \"application/x-lzop\",
-    \"application/x-source-rpm\",
-    \"application/vnd.debian.binary-package\",
-    \"application/vnd.ms-cab-compressed\",
-    \"application/x-xar\",
-    \"application/x-iso9660-appimage\",
-    \"application/x-archive")
-
-# NOTE: the first double-quotes of the first mime and the last
-# double-quotes of the last mime must NOT be escaped.
-set(SUPPORTED_READWRITE_MIMETYPES
-    "application/x-tar\",
-    \"application/x-compressed-tar\",
-    \"application/x-bzip-compressed-tar\",
-    \"application/x-tarz\",
-    \"application/x-xz-compressed-tar\",
-    \"application/x-lzma-compressed-tar\",
-    \"application/x-lzip-compressed-tar\",
-    \"application/x-tzo\",
-    \"application/x-lrzip-compressed-tar\",
-    \"application/x-lz4-compressed-tar\",
-    \"application/x-zstd-compressed-tar")
-
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libarchive_readonly.json.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive_readonly.json)
@@ -71,6 +24,14 @@ configure_file(
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/kerfuffle_libarchive.json.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive.json)
+
+kerfuffle_parse_json_mimetypes(${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive_readonly.json)
+set(SUPPORTED_LIBARCHIVE_MIMETYPES "${SUPPORTED_LIBARCHIVE_MIMETYPES}${PLUGIN_SUPPORTED_MIMETYPES}")
+
+kerfuffle_parse_json_mimetypes(${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libarchive.json)
+set(SUPPORTED_LIBARCHIVE_MIMETYPES "${SUPPORTED_LIBARCHIVE_MIMETYPES}${PLUGIN_SUPPORTED_MIMETYPES}")
+
+set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_LIBARCHIVE_MIMETYPES}" PARENT_SCOPE)
 
 kerfuffle_add_plugin(kerfuffle_libarchive_readonly ${kerfuffle_libarchive_readonly_SRCS})
 kerfuffle_add_plugin(kerfuffle_libarchive ${kerfuffle_libarchive_readwrite_SRCS})
@@ -86,7 +47,6 @@ target_link_libraries(kerfuffle_libarchive ${LibArchive_LIBRARIES})
 set(INSTALLED_LIBARCHIVE_PLUGINS "${INSTALLED_LIBARCHIVE_PLUGINS}kerfuffle_libarchive_readonly;")
 set(INSTALLED_LIBARCHIVE_PLUGINS "${INSTALLED_LIBARCHIVE_PLUGINS}kerfuffle_libarchive;")
 
-set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${SUPPORTED_LIBARCHIVE_READWRITE_MIMETYPES}${SUPPORTED_LIBARCHIVE_READONLY_MIMETYPES}" PARENT_SCOPE)
 set(INSTALLED_KERFUFFLE_PLUGINS "${INSTALLED_KERFUFFLE_PLUGINS}${INSTALLED_LIBARCHIVE_PLUGINS}" PARENT_SCOPE)
 
 find_program(LRZIP lrzip)
