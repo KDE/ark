@@ -2241,19 +2241,3 @@ msgstr "Ha fallat en copiar l'entrada: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Ha fallat en establir les metadades de l'entrada: %1"
-
-#~ msgctxt "@info"
-#~ msgid "Ark could not extract <filename>%1</filename>."
-#~ msgstr "L'Ark no ha pogut extreure <filename>%1</filename>."
-
-#~ msgctxt "@info"
-#~ msgid "Ark could not open <filename>%1</filename> for extraction."
-#~ msgstr "L'Ark no ha pogut obrir <filename>%1</filename> per a l'extracció."
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "There was an error while reading <filename>%1</filename> during "
-#~ "extraction."
-#~ msgstr ""
-#~ "S'ha produït un error en llegir <filename>%1</filename> durant "
-#~ "l'extracció."
