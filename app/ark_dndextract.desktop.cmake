@@ -24,6 +24,7 @@ Name[hr]=Ovdje Ark-otpakiraj
 Name[hu]=Kibontás ide
 Name[ia]=Ark Extrahe hic
 Name[id]=Ark Ekstrak di Sini
+Name[ie]=Ark: Extraer ci-ti
 Name[is]=Ark afþjappa hingað
 Name[it]=Ark Estrai qui
 Name[ja]=Ark ここに展開
