@@ -2,6 +2,7 @@
     "KPlugin": {
         "Description": "Full support for the ARJ archive formats",
         "Description[ar]": "دعم كامل لتنسيقات الأرشيف ARJ",
+        "Description[az]": "ARJ formatlı arxivlərin tam dəstəklənməsi",
         "Description[bg]": "Пълна поддръжка на архивен формат ARJ",
         "Description[ca@valencia]": "Implementació completa del format d'arxiu ARJ",
         "Description[ca]": "Implementació completa del format d'arxiu ARJ",
@@ -26,6 +27,7 @@
         ],
         "Name": "ARJ plugin",
         "Name[ar]": "ملحق ARJ",
+        "Name[az]": "ARJ qoşması",
         "Name[bg]": "Приставка ARJ",
         "Name[ca@valencia]": "Connector d'ARJ",
         "Name[ca]": "Connector de l'ARJ",
