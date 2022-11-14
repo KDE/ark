@@ -9,20 +9,21 @@
 # Panagiotis Papadopoulos <pano_90@gmx.net>, 2009, 2011.
 # Frederik Schwarzer <schwarzer@kde.org>, 2010, 2011, 2012, 2015, 2016, 2022.
 # Maximilian Trummer <kde@trummer.xyz>, 2019.
+# Frank Steinmetzger <dev-kde@felsenfleischer.de>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-04 00:49+0000\n"
-"PO-Revision-Date: 2022-08-20 20:34+0200\n"
-"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
+"PO-Revision-Date: 2022-11-10 20:15+0100\n"
+"Last-Translator: Frank Steinmetzger <dev-kde@felsenfleischer.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -403,6 +404,9 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"Dies schaltet zwischen einer <emphasis>Menüleiste</emphasis> und einem Knopf "
+"für das <interface>Hamburger-Menü</interface> um. Beide enthalten "
+"größtenteils dieselben Both Befehle und Einstellungsmöglichkeiten."
 
 #: app/mainwindow.cpp:255
 #, kde-format
@@ -1898,13 +1902,13 @@ msgstr "Datei geändert"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Aktualisieren"
 
 #: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Ignorieren"
 
 #: part/part.cpp:1428
 #, kde-format
@@ -2021,32 +2025,30 @@ msgstr ""
 #: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ alt"
 
 #: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40-bit"
 
 #: plugins/cliarjplugin/cliplugin.cpp:338
-#, fuzzy, kde-format
-#| msgctxt "referred to compression method"
-#| msgid "unknown"
+#, kde-format
 msgid "unknown"
 msgstr "unbekannt"
 
