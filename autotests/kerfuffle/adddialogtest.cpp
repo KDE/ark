@@ -21,19 +21,12 @@ class AddDialogTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
-    void initTestCase();
     void testBasicWidgets_data();
     void testBasicWidgets();
 
 private:
     PluginManager m_pluginManager;
 };
-
-void AddDialogTest::initTestCase()
-{
-    // Avoid a runtime dependency on KLauncher.
-    qputenv("KDE_FORK_SLAVES", "yes");
-}
 
 void AddDialogTest::testBasicWidgets_data()
 {
