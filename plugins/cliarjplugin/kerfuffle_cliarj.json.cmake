@@ -22,6 +22,7 @@
         "Description[tr]": "ARJ arşiv biçimi için tam destek",
         "Description[uk]": "Повноцінна підтримка архівів у форматі ARJ",
         "Description[x-test]": "xxFull support for the ARJ archive formatsxx",
+        "Description[zh_CN]": "完整支持 ARJ 压缩包格式",
         "Id": "kerfuffle_cliarj",
         "MimeTypes": [
             "@SUPPORTED_MIMETYPES@"
@@ -49,6 +50,7 @@
         "Name[tr]": "ARJ eklentisi",
         "Name[uk]": "Додаток ARJ",
         "Name[x-test]": "xxARJ pluginxx",
+        "Name[zh_CN]": "ARJ 插件",
         "Version": "@RELEASE_SERVICE_VERSION@"
     },
     "X-KDE-Kerfuffle-ReadOnlyExecutables": [
