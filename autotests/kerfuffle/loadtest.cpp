@@ -307,6 +307,13 @@ void LoadTest::testProperties_data()
             << true << false << true << false << false << 0 << Archive::Unencrypted
             << QStringLiteral("test")
             << QString();
+
+    QTest::newRow("stuffit unencrypted archive")
+            << QFINDTESTDATA("data/test.sit")
+            << QStringLiteral("test")
+            << true << false << true << false << false << 0 << Archive::Unencrypted
+            << QStringLiteral("test")
+            << QString();
 }
 
 void LoadTest::testProperties()

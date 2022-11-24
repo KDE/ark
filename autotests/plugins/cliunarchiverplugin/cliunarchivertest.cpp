@@ -74,6 +74,13 @@ void CliUnarchiverTest::testArchive_data()
             << QFileInfo(archivePath).fileName()
             << true << false << Archive::Unencrypted
             << QStringLiteral("multiple_toplevel_entries");
+
+    archivePath = QFINDTESTDATA("data/test.sit");
+    QTest::newRow("stuffit archive unencrypted")
+            << archivePath
+            << QFileInfo(archivePath).fileName()
+            << true << false << Archive::Unencrypted
+            << QStringLiteral("test");
 }
 
 void CliUnarchiverTest::testArchive()

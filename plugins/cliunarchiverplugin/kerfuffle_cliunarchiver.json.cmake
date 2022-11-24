@@ -42,7 +42,8 @@
         "Id": "kerfuffle_cliunarchiver",
         "MimeTypes": [
             "application/vnd.rar",
-            "application/x-lha"
+            "application/x-lha",
+            "application/x-stuffit"
         ],
         "Name": "The Unarchiver plugin",
         "Name[ar]": "ملحق فك الأرشيف",

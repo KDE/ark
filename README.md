@@ -59,6 +59,7 @@ Supported read-only formats
 | LZOP-compressed file      | `application/x-lzop`                                                                                                           |
 | Windows theme pack        | `application/vnd.ms-cab-compressed`                                                                                            |
 | AR                        | `application/x-archive`                                                                                                        |
+| Stuffit                   | `application/x-stuffit`                                                                                                        |
 
 The notes about `lrzip`, `lzop` and `zstd` binaries apply also here.
 
@@ -73,7 +74,7 @@ The plugins currently available in ark are the following:
 * Libzip plugin: supports the Zip format by using the libzip library.
 * 7-Zip plugin: supports the 7-Zip format by using the `7z` binary.
     * Supports both the upstream 7-Zip binary and the binary from a p7zip fork shipped by Archlinux et al.
-* Unarchiver plugin: supports the RAR and LHA formats in read-only mode. Requires the `lsar` and `unar` binaries from the unarchiver project.
+* Unarchiver plugin: supports the RAR, LHA and Stuffit formats in read-only mode. Requires the `lsar` and `unar` binaries from the unarchiver project.
 * RAR plugin: supports the RAR format by using the unrar binary. Requires the proprietary `rar` binary to enable read-write mode support to create RAR archives.
 * Info-zip plugin (legacy): supports the Zip format by using the `zip` binary.
 * ARJ plugin: supports the ARJ format by using the `arj` binary.

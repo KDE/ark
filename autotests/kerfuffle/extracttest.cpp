@@ -538,6 +538,14 @@ void ExtractTest::testExtraction_data()
             << optionsPreservePaths
             << 1;
 
+    archivePath = QFINDTESTDATA("data/test.sit");
+    QTest::newRow("extract the whole test.sit")
+            << archivePath
+            << QVector<Archive::Entry*>()
+            << optionsPreservePaths
+            << 1;
+
+
     m_expectedWorkingDir = QDir::currentPath();
 }
 
