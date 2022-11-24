@@ -34,6 +34,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     PluginManager pluginManager;
     const QMimeType mimeType = fixedMimeType.isEmpty() ? determineMimeType(fileName) : QMimeDatabase().mimeTypeForName(fixedMimeType);
 
+    qCDebug(ARK) << "Looking for plugins that handle the mimetype: " << mimeType.name();
     QVector<Plugin*> offers = pluginManager.preferredPluginsFor(mimeType);
     if (offers.isEmpty()) {
         if (fixedMimeType.isEmpty()) {
