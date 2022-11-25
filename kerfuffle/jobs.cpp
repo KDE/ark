@@ -300,7 +300,7 @@ bool LoadJob::isSingleFolderArchive() const
 
 void LoadJob::onNewEntry(const Archive::Entry *entry)
 {
-    m_extractedFilesSize += entry->property("size").toLongLong();
+    m_extractedFilesSize += entry->sparseSize() > 0 ? entry->sparseSize() : entry->property("size").toLongLong();
     m_isPasswordProtected |= entry->property("isPasswordProtected").toBool();
 
     if (entry->isDir()) {
