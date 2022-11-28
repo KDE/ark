@@ -10,7 +10,7 @@ Dependencies:
     'frameworks/ki18n': '@stable'
     'frameworks/karchive': '@stable'
     'frameworks/kcrash': '@stable'
-    'frameworks/kdbusaddon': '@stable'
+    'frameworks/kdbusaddons': '@stable'
     'frameworks/kdoctools': '@stable'
     'frameworks/kitemmodels': '@stable'
     'frameworks/kio': '@stable'
