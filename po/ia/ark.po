@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-04 00:49+0000\n"
-"PO-Revision-Date: 2022-10-12 15:31+0200\n"
+"PO-Revision-Date: 2022-11-28 15:42+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -394,6 +394,9 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"Isto commuta inter haber un  <emphasis>Barra de Menu</emphasis> e haber un "
+"button de <interface>Hamburger Menu</interface>. Ambes contine supertoto le "
+"mesme commandos e optiones de configuration."
 
 #: app/mainwindow.cpp:255
 #, kde-format
@@ -1872,13 +1875,13 @@ msgstr "File modificate"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Actualisa"
 
 #: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Ignora"
 
 #: part/part.cpp:1428
 #, kde-format
