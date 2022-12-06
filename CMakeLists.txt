@@ -21,6 +21,7 @@ include(GenerateExportHeader)
 include(FeatureSummary)
 include(ECMQtDeclareLoggingCategory)
 include(ECMSetupVersion)
+include(ECMDeprecationSettings)
 
 ecm_setup_version(${RELEASE_SERVICE_VERSION}
                   VARIABLE_PREFIX ARK
@@ -83,11 +84,8 @@ set(SUPPORTED_ARK_MIMETYPES "")
 
 add_definitions(-DTRANSLATION_DOMAIN="ark")
 
-add_definitions(
-    -DQT_DISABLE_DEPRECATED_BEFORE=0x050f00
-    -DQT_DEPRECATED_WARNINGS_SINCE=0x060000
-    #-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055200
-    -DKF_DEPRECATED_WARNINGS_SINCE=0x060000
+ecm_set_disabled_deprecation_versions(QT 5.15.2
+    KF 5.101
 )
 
 
