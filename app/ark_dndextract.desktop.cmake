@@ -2,6 +2,7 @@
 Type=Service
 Name=Ark Extract Here
 Name[ar]=أرك استخرج هنا
+Name[ast]=Ark: estrayer equí
 Name[az]=Ark buraya çıxarır
 Name[bg]=Извличане с Ark тук
 Name[bs]=Raspakuj Arkom ovde

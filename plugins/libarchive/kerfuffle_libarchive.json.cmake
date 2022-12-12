@@ -2,6 +2,7 @@
     "KPlugin": {
         "Description": "Full support for compressed TAR archives",
         "Description[ar]": "دعم كامل لأرشيفات TAR المضغوطة",
+        "Description[ast]": "Compatibilidá completa colos archivos TAR comprimíos",
         "Description[az]": "Sıxılmış TAR arxivlərinin tam dəstəklənməsi",
         "Description[bg]": "Пълна поддръжка на компресирани архиви TAR",
         "Description[ca@valencia]": "Implementació completa dels arxius TAR comprimits",
@@ -61,6 +62,7 @@
         ],
         "Name": "Libarchive plugin",
         "Name[ar]": "ملحق Libarchive",
+        "Name[ast]": "Plugin de libarchive",
         "Name[az]": "Libarchive qoşması",
         "Name[bg]": "Приставка Libarchive",
         "Name[ca@valencia]": "Connector de Libarchive",

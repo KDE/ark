@@ -2,6 +2,7 @@
     "KPlugin": {
         "Description": "Open and extract RAR and LHA archives",
         "Description[ar]": "يفتح ويستخرج أرشيفات RAR و LHA",
+        "Description[ast]": "Abre ya estrae archivos RAR ya LHA",
         "Description[az]": "RAR və LHA arxivlərini açın və çıxarın",
         "Description[bg]": "Отваряне и извличане на архиви RAR и LHA",
         "Description[ca@valencia]": "Obri i extrau arxius RAR i LHA",
@@ -47,6 +48,7 @@
         ],
         "Name": "The Unarchiver plugin",
         "Name[ar]": "ملحق فك الأرشيف",
+        "Name[ast]": "Plugin de The Unarchiver",
         "Name[az]": "Unarchive qoşması",
         "Name[bg]": "Приставка Unarchiver",
         "Name[ca@valencia]": "Connector d'Unarchiver",
