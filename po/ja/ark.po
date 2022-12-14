@@ -2272,17 +2272,3 @@ msgstr "エントリをコピーできません: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "エントリにメタデータを設定できません: %1"
-
-#~ msgctxt "@info"
-#~ msgid "Ark could not extract <filename>%1</filename>."
-#~ msgstr "Ark は <filename>%1</filename> を展開できませんでした。"
-
-#~ msgctxt "@info"
-#~ msgid "Ark could not open <filename>%1</filename> for extraction."
-#~ msgstr "Ark は <filename>%1</filename> を展開のために開けませんでした。"
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "There was an error while reading <filename>%1</filename> during "
-#~ "extraction."
-#~ msgstr "展開中に <filename>%1</filename> の読み取りでエラーが発生しました。"
