@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-04 00:49+0000\n"
-"PO-Revision-Date: 2022-10-08 06:24+0200\n"
+"PO-Revision-Date: 2022-12-27 09:49+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -103,32 +103,32 @@ msgstr "შეკუმშვა"
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
-msgstr ""
+msgstr "შეკუმშვა ფაილში..."
 
 #: app/compressfileitemaction.cpp:97
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Here as \"%1\""
-msgstr ""
+msgstr "აქ, როგორც \"%1\""
 
 #: app/extractfileitemaction.cpp:63
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract archive to..."
-msgstr ""
+msgstr "არქივის გაშლა მისამართზე..."
 
 #: app/extractfileitemaction.cpp:75
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract archive here"
-msgstr ""
+msgstr "არქივის აქ გაშლა"
 
 #: app/extractfileitemaction.cpp:83
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract archive here, autodetect subfolder"
-msgstr ""
+msgstr "არქივის აქ გაშლა. ქვესაქაღალდის ავტომატური აღმოჩენა"
 
 #: app/extractfileitemaction.cpp:89
 #, kde-format
@@ -299,7 +299,7 @@ msgstr ""
 #: app/main.cpp:161 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
-msgstr ""
+msgstr "გაშლის შემდეგ სამიზნე საქაღალდის გახსნა."
 
 #: app/main.cpp:164
 #, kde-format
@@ -752,7 +752,7 @@ msgstr ""
 #: kerfuffle/extractiondialog.cpp:138
 #, kde-format
 msgid "Please check your permissions to create it."
-msgstr ""
+msgstr "შესაქმნელად წვდომები გადაამოწმეთ."
 
 #: kerfuffle/extractiondialog.cpp:177
 #, kde-format
@@ -787,7 +787,7 @@ msgstr "მორგება"
 #: kerfuffle/extractiondialog.ui:132
 #, kde-format
 msgid "Open &destination folder after extraction"
-msgstr ""
+msgstr "გაშლის შემდეგ &სამიზნე საქაღალდის გახსნა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
 #: kerfuffle/extractiondialog.ui:139
@@ -799,13 +799,13 @@ msgstr "&Ark-ის დახურვა გაშლის შემდეგ"
 #: kerfuffle/extractiondialog.ui:146
 #, kde-format
 msgid "&Preserve paths when extracting"
-msgstr ""
+msgstr "გაშლისას ბილიკების &შენარჩუნება"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
 #: kerfuffle/extractiondialog.ui:153
 #, kde-format
 msgid "&Automatically create subfolders"
-msgstr ""
+msgstr "ქვესაქაღალდეებს &ავტომატური შექმნა"
 
 #. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
 #: kerfuffle/extractiondialog.ui:169
@@ -830,19 +830,19 @@ msgstr "ყველა &ფაილი"
 #: kerfuffle/extractionsettingspage.ui:17
 #, kde-format
 msgid "Open destination folder after extraction"
-msgstr ""
+msgstr "გაშლის შემდეგ სამიზნე საქაღალდის გახსნა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_closeAfterExtraction)
 #: kerfuffle/extractionsettingspage.ui:24
 #, kde-format
 msgid "Close Ark after extraction"
-msgstr ""
+msgstr "Ark-ის დახურვა გაშლის შემდეგ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_preservePaths)
 #: kerfuffle/extractionsettingspage.ui:31
 #, kde-format
 msgid "Preserve paths when extracting"
-msgstr ""
+msgstr "გაშლისას ბილიკების შენარჩუნება"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_extractToSubfolder)
 #: kerfuffle/extractionsettingspage.ui:41
@@ -868,7 +868,7 @@ msgstr ""
 #: kerfuffle/generalsettingspage.ui:33
 #, kde-format
 msgid "Pre&view the file with internal previewer"
-msgstr ""
+msgstr "ფაილის შიდა &დამთვალიერებელში გახსნა"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: kerfuffle/generalsettingspage.ui:43
@@ -1385,7 +1385,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
-msgstr ""
+msgstr "დამთვალიერებლის კომპონენტის შესახებ"
 
 #: part/infopanel.cpp:52
 #, kde-format
@@ -1455,7 +1455,7 @@ msgstr "<b>დავალების აღწერა</b>"
 #: part/jobtracker.ui:62
 #, kde-format
 msgid "Some Information about the job"
-msgstr ""
+msgstr "ინფორმაცია ამოცანის შესახებ"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
@@ -1501,7 +1501,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
-msgstr ""
+msgstr "ინფორმაციის პანელის გახსნა"
 
 #: part/part.cpp:371
 #, kde-format
@@ -1513,7 +1513,7 @@ msgstr "ასლის შენახვა, როგორც..."
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr ""
+msgstr "გარე აპლიკაციაში &გახსნა"
 
 #: part/part.cpp:380
 #, kde-format
@@ -1525,7 +1525,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
-msgstr ""
+msgstr "დააწკაპუნეთ მონიშნული ფაილის გარე პროგრამაში გასახსნელად"
 
 #: part/part.cpp:386
 #, kde-format
@@ -1537,7 +1537,7 @@ msgstr "&გადახედვა"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
-msgstr ""
+msgstr "დააწკაპუნეთ მონიშნული ფაილის გადასახედად"
 
 #: part/part.cpp:393
 #, kde-format
@@ -1574,7 +1574,7 @@ msgstr "&ფაილების დამატება…"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
-msgstr ""
+msgstr "დააწკაპუნეთ არქივში ფაილების დასამატებლად"
 
 #: part/part.cpp:416
 #, kde-format
@@ -1592,25 +1592,25 @@ msgstr "&თვისებები"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
-msgstr ""
+msgstr "დააწკაპუნეთ არქივის თვისებების სანახავად"
 
 #: part/part.cpp:434
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
-msgstr ""
+msgstr "დააწკაპუნეთ კომენტარის დასამატებლად ან ჩასასწორებლად"
 
 #: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
-msgstr ""
+msgstr "&მთლიანობის შემოწმება"
 
 #: part/part.cpp:441 part/part.cpp:473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
-msgstr ""
+msgstr "დააწკაპუნეთ არქივის მთლიანობის შესამოწმებლად"
 
 #: part/part.cpp:467
 #, kde-kuit-format
@@ -1639,12 +1639,12 @@ msgstr "შენიშვნის &რედაქტირება"
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
-msgstr ""
+msgstr "კომენტარის &დამატება"
 
 #: part/part.cpp:648
 #, kde-format
 msgid "The archive passed the integrity test."
-msgstr ""
+msgstr "არქივის მთლიანობის შემოწმება წარმატებით დასრულდა."
 
 #: part/part.cpp:648 part/part.cpp:650
 #, kde-format
@@ -1654,7 +1654,7 @@ msgstr "ტესტის შედეგები"
 #: part/part.cpp:650
 #, kde-format
 msgid "The archive failed the integrity test."
-msgstr ""
+msgstr "არქივის მთლიანობის შემოწმება წარუმატებელია."
 
 #: part/part.cpp:671
 #, kde-format
@@ -1664,7 +1664,7 @@ msgstr "გაშლის სამიზნე..."
 #: part/part.cpp:685
 #, kde-format
 msgid "Quick Extract To..."
-msgstr ""
+msgstr "სწრაფი გაშლა მისამართზე..."
 
 #: part/part.cpp:815
 #, kde-format
@@ -1694,7 +1694,7 @@ msgstr "გადახედვები"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
-msgstr ""
+msgstr "<filename>%1</filename> საქაღლდეა."
 
 #: part/part.cpp:839
 #, kde-kuit-format
@@ -1763,7 +1763,7 @@ msgstr ""
 #: part/part.cpp:1008
 #, kde-format
 msgid "Ark cannot open symlinks."
-msgstr ""
+msgstr "Ark-ს სიმბმულების გახსნა არ შეუძლია."
 
 #: part/part.cpp:1140
 #, kde-kuit-format
@@ -1776,19 +1776,19 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
-msgstr ""
+msgstr "შეცვლილი ფაილი"
 
 #: part/part.cpp:1142
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "განახლება"
 
 #: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "იგნორი"
 
 #: part/part.cpp:1428
 #, kde-format
@@ -1800,7 +1800,7 @@ msgstr "ფაილების დამატება"
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
-msgstr ""
+msgstr "ფაილების დამატება %1-ში"
 
 #: part/part.cpp:1497
 #, kde-format
@@ -1815,7 +1815,7 @@ msgstr ""
 #: part/part.cpp:1542
 #, kde-format
 msgid "Moving a folder into itself"
-msgstr ""
+msgstr "საქაღალდის თავის თავში გადატანა"
 
 #: part/part.cpp:1570
 #, kde-format
@@ -1865,12 +1865,12 @@ msgstr ""
 #: plugins/cliunarchiverplugin/cliplugin.cpp:85
 #, kde-format
 msgid "Listing the archive failed."
-msgstr ""
+msgstr "არქივის სიის მიღების შეცდომა."
 
 #: plugins/cli7zplugin/cliplugin.cpp:309
 #, kde-format
 msgid "Extraction failed due to an unknown error."
-msgstr ""
+msgstr "გაშლა შეუძლებელია უცნობი მიზეზით."
 
 #: plugins/cli7zplugin/cliplugin.cpp:315 plugins/clizipplugin/cliplugin.cpp:188
 #, kde-format
@@ -1921,7 +1921,7 @@ msgstr "უცნობი"
 #: plugins/clirarplugin/cliplugin.cpp:553
 #, kde-format
 msgid "Failed to find all archive volumes."
-msgstr ""
+msgstr "არქვივის ყველა ნაწილის აღმოჩენა შეუძლებელია."
 
 #: plugins/clirarplugin/cliplugin.cpp:321
 #, kde-format
@@ -1960,12 +1960,12 @@ msgstr "არასწორი პაროლი."
 #: plugins/clizipplugin/cliplugin.cpp:178
 #, kde-format
 msgid "Extraction failed due to unsupported compression method (%1)."
-msgstr ""
+msgstr "გაშლის შეცდომა მხარდაუჭერელი დაშიფვრის მეთოდის გამო (%1)."
 
 #: plugins/clizipplugin/cliplugin.cpp:183
 #, kde-format
 msgid "Extraction failed due to unsupported encryption method."
-msgstr ""
+msgstr "გაშლის შეცდომა მხარდაუჭერელი დაშიფვრის მეთოდის გამო."
 
 #: plugins/clizipplugin/cliplugin.cpp:311
 #, kde-format
@@ -1982,24 +1982,24 @@ msgstr "ფატალური შეცდომა. გაშლა გა�
 #: plugins/libarchive/libarchiveplugin.cpp:466
 #, kde-format
 msgid "The archive reader could not be initialized."
-msgstr ""
+msgstr "არქივის წამკითხველის ინიციალიზაციის შეცდომა."
 
 #: plugins/libarchive/libarchiveplugin.cpp:488
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
-msgstr ""
+msgstr "დაზიანებული არქივი ან არასაკმარისი წვდომები."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:209
 #, kde-format
 msgctxt "@info"
 msgid "Failed to create a temporary file for writing data."
-msgstr ""
+msgstr "მონაცემების ჩასაწერად დროებითი ფაილის შექმნის შეცდომა."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:215
 #, kde-format
 msgid "The archive writer could not be initialized."
-msgstr ""
+msgstr "არქივის ჩამწერის ინიციალიზაციის შეცდომა."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:233
 #, kde-format
@@ -2017,25 +2017,25 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression method."
-msgstr ""
+msgstr "შეკუმშვის მეთოდის დაყენების შეცდომა."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:353
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression level."
-msgstr ""
+msgstr "შეკუმშვის დონის დაყენებს შეცდომა."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:472
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
-msgstr ""
+msgstr "ელემენტის შეკუმშვის შეცდომა. ოპერაცია გაუქმდა."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:513
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
-msgstr ""
+msgstr "ელემენტის შეკუმშვის შეცდომა."
 
 #: plugins/libzipplugin/libzipplugin.cpp:76
 #: plugins/libzipplugin/libzipplugin.cpp:118
