@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-04 00:49+0000\n"
-"PO-Revision-Date: 2022-12-06 22:35+0100\n"
+"PO-Revision-Date: 2022-12-28 05:22+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -62,6 +62,7 @@ msgid ""
 "There was an error while extracting <filename>%1</filename>. Any further "
 "archive will not be extracted."
 msgstr ""
+"შეცდომა ფაილის გაშლისას<filename>%1</filename>. არქივის გაშლა არ გაგრძელდება."
 
 #: app/batchextract.cpp:138
 #, kde-kuit-format
@@ -70,12 +71,14 @@ msgid ""
 "There was an error while extracting <filename>%1</filename>:<nl/><message>"
 "%2</message><nl/>Any further archive will not be extracted."
 msgstr ""
+"შეცდომა არქივის გაშლისას<filename>%1</filename>:<nl/><message>%2</"
+"message><nl/>მეტი არქივი აღარ გაიშლება."
 
 #: app/batchextract.cpp:142
 #, kde-kuit-format
 msgctxt "@info"
 msgid "There was an error while extracting <filename>%1</filename>."
-msgstr ""
+msgstr "შეცდომა არქივის გაშლისას <filename>%1</filename>."
 
 #: app/batchextract.cpp:143
 #, kde-kuit-format
@@ -84,6 +87,7 @@ msgid ""
 "There was an error while extracting <filename>%1</filename>:<nl/><message>"
 "%2</message>"
 msgstr ""
+"შეცდომა არქივის გაშლისას <filename>%1</filename>:<nl/><message>%2</message>"
 
 #: app/batchextract.cpp:294
 #, kde-kuit-format
@@ -358,7 +362,7 @@ msgstr "მხარდაჭერილი MIME ტიპების სი�
 #: app/mainwindow.cpp:124
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
-msgstr ""
+msgstr "Ark-ის KPart კომპონენტი ვერ ვიპოვე. შეამოწმეთ KDE-ის ფაილები."
 
 #: app/mainwindow.cpp:196
 #, kde-kuit-format
@@ -456,7 +460,7 @@ msgstr ""
 #: kerfuffle/ark.kcfg:13
 #, kde-format
 msgid "Default action when opening archive entries."
-msgstr ""
+msgstr "არქივის ჩანაწერის გახსნის ნაგულისხმები ქმედება."
 
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
 #: kerfuffle/ark.kcfg:27
@@ -468,7 +472,7 @@ msgstr "Ark-ის დახურვა გაშლის შემდეგ."
 #: kerfuffle/ark.kcfg:31
 #, kde-format
 msgid "Preserve paths when extracting."
-msgstr ""
+msgstr "გაშლისას ბილიკების შენარჩუნება."
 
 #. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
 #: kerfuffle/ark.kcfg:35
@@ -481,25 +485,25 @@ msgstr ""
 #: kerfuffle/ark.kcfg:41
 #, kde-format
 msgid "How the main window is divided."
-msgstr ""
+msgstr "როგორ იყოფა მთავარი ფანჯარა."
 
 #. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
 #: kerfuffle/ark.kcfg:45
 #, kde-format
 msgid "Whether to show the information panel."
-msgstr ""
+msgstr "ნაჩვენებია ინფორმაციის პანელი, თუ არა."
 
 #. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
 #: kerfuffle/ark.kcfg:55
 #, kde-format
 msgid "Whether to limit the preview according to file size."
-msgstr ""
+msgstr "მინიატურის შეზღუდვა ფაილის ზომის მიხედვით."
 
 #. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
 #: kerfuffle/ark.kcfg:59
 #, kde-format
 msgid "Preview file size limit in megabytes."
-msgstr ""
+msgstr "მინიატურის ფაილის ზომის ლიმიტი, მეგაბაიტებში."
 
 #: kerfuffle/cliinterface.cpp:245
 #, kde-kuit-format
@@ -510,7 +514,7 @@ msgstr ""
 #: kerfuffle/cliinterface.cpp:355
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
-msgstr ""
+msgstr "გაშლის შეცდომა. დარწმუნდით, რომ ადგილი საკმარისია."
 
 #: kerfuffle/cliinterface.cpp:358
 #, kde-format
@@ -524,20 +528,20 @@ msgstr ""
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
 msgid_plural "Could not move the extracted files to the destination directory."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "გაშლილი ფაილის სამიზნე საქაღალდეში გადატანის შეცდომა."
+msgstr[1] "გაშლილი ფაილის სამიზნე საქაღალდეში გადატანის შეცდომა."
 
 #: kerfuffle/cliinterface.cpp:857
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
-msgstr ""
+msgstr "გაშლის შეცდომა. დისკის სავსეა."
 
 #: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:144
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
-msgstr ""
+msgstr "გაშლის შეცდომა. პაროლი არასწორია"
 
 #: kerfuffle/cliinterface.cpp:898
 #, kde-format
@@ -547,12 +551,12 @@ msgstr "არასწორი პაროლი."
 #: kerfuffle/cliinterface.cpp:921
 #, kde-format
 msgid "Ark does not currently support testing this archive."
-msgstr ""
+msgstr "Ark-ს ამჟამად არქივის ტესტირების მხარდაჭერა არ გააჩნია."
 
 #: kerfuffle/compressionoptionswidget.cpp:132
 #, kde-format
 msgid "Protection of the list of files is not possible with the %1 format."
-msgstr ""
+msgstr "ფაილების სიის დაცვა %1 ფორმატში მხარდაჭერილი არაა."
 
 #: kerfuffle/compressionoptionswidget.cpp:141
 #, kde-format
@@ -712,7 +716,7 @@ msgstr "გაშლა"
 #: kerfuffle/extractiondialog.cpp:98
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
-msgstr ""
+msgstr "ქვესაქაღალდის სახელი არ შეიძლება '/'-ს შეიცავდეს."
 
 #: kerfuffle/extractiondialog.cpp:114
 #, kde-kuit-format
@@ -741,13 +745,13 @@ msgstr "გამეორება"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
-msgstr ""
+msgstr "საქაღალდე სახელით <filename>%1</filename> ვერ შეიქმნა."
 
 #: kerfuffle/extractiondialog.cpp:132
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
-msgstr ""
+msgstr "<filename>%1</filename> უკვე არსებობს, მაგრამ საქაღალდე არაა."
 
 #: kerfuffle/extractiondialog.cpp:138
 #, kde-format
@@ -1303,12 +1307,12 @@ msgstr "??"
 #: part/archivemodel.cpp:291
 #, kde-format
 msgid "Adding files is not supported for this archive."
-msgstr ""
+msgstr "ამ არქივში ფაილების ჩამატება მხარდაჭერილი არაა."
 
 #: part/archivemodel.cpp:299
 #, kde-format
 msgid "You can only add local files to an archive."
-msgstr ""
+msgstr "არქივში მხოლოდ ლოკალური ფაილების ჩამატება შეგიძლიათ."
 
 #. i18n: ectx: Menu (archive)
 #: part/ark_part.rc:5
@@ -1348,12 +1352,12 @@ msgstr "გადახედვის დახურვა"
 #: part/arkviewer.cpp:56
 #, kde-format
 msgid "Please wait while the preview is being closed..."
-msgstr ""
+msgstr "მიმდინარეობს მინიატურის დახურვა. მოითმინეთ..."
 
 #: part/arkviewer.cpp:103
 #, kde-format
 msgid "The internal viewer cannot preview this file."
-msgstr ""
+msgstr "შიდა დამთვალიერებელს ამ ფაილის წაკითხვა არ შეუძლია."
 
 #: part/arkviewer.cpp:119
 #, kde-kuit-format
@@ -1716,7 +1720,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
-msgstr ""
+msgstr "არქივი <filename>%1</filename> ვერ ვიპოვე."
 
 #: part/part.cpp:853
 #, kde-kuit-format
@@ -1744,13 +1748,15 @@ msgstr "ფაილი უკვე არსებობს"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
-msgstr ""
+msgstr "არქივი ცარიელია ან Ark-ს მისი შემცველობის წაკითხვა არ შეუძლია."
 
 #: part/part.cpp:918
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
+"Ark-ს ამჟამად UDF ფაილური სისტემის შემცველი ISO ფაილების მხარდაჭერა არ "
+"გააჩნია."
 
 #: part/part.cpp:948
 #, kde-kuit-format
@@ -1782,13 +1788,13 @@ msgstr "შეცვლილი ფაილი"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "განახლება"
 
 #: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "იგნორი"
 
 #: part/part.cpp:1428
 #, kde-format
@@ -1810,7 +1816,7 @@ msgstr ""
 #: part/part.cpp:1541
 #, kde-format
 msgid "Folders can't be moved into themselves."
-msgstr ""
+msgstr "საქაღალდეებს საკუთარ თავში ვერ გადაიტანთ."
 
 #: part/part.cpp:1542
 #, kde-format
@@ -2005,7 +2011,7 @@ msgstr "არქივის ჩამწერის ინიციალი�
 #, kde-format
 msgctxt "@info"
 msgid "Could not open the archive for writing entries."
-msgstr ""
+msgstr "ჩანაწერების დასამატებლად არქივი ვერ გავხსენი."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:280
 #, kde-format
