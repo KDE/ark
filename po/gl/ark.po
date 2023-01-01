@@ -416,7 +416,8 @@ msgstr "Crear un arquivo novo"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
 #: app/welcomescreen.ui:18
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Form"
 msgid "Form"
 msgstr "Formulario"
 
