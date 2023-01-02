@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-04 00:49+0000\n"
-"PO-Revision-Date: 2022-12-30 05:39+0100\n"
+"PO-Revision-Date: 2023-01-01 07:51+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -352,7 +352,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
-msgstr ""
+msgstr "სამიზნის არგუმენტი პირველი მითითებული ფაილის ბილიკი იქნება."
 
 #: app/main.cpp:184
 #, kde-format
@@ -1646,6 +1646,9 @@ msgid ""
 "encryption is currently not supported.<nl/><nl/>Extract the files and create "
 "a new archive if you want to add files."
 msgstr ""
+"პაროლით დაშიფრულ არქივებში, რომლებსაც თავსართის გაშიფვრა ჩართული არ აქვთ, "
+"ფაილების ჩამატება მხარდაჭერილი არაა.<nl/><nl/>თუ ფაილის ჩამატება "
+"აუცილებელია, გაშალეთ არქივი და თავიდან შექმენით ის."
 
 #: part/part.cpp:470
 #, kde-kuit-format
@@ -1654,6 +1657,8 @@ msgid ""
 "Testing password-protected archives with no header-encryption is currently "
 "not supported."
 msgstr ""
+"პაროლით დაშიფრული არქივების ტესტირება, რომლებსაც თავსართის დაშიფვრა ჩართული "
+"არ აქვთ, მხარდაჭერილი არაა."
 
 #: part/part.cpp:538
 #, kde-format
