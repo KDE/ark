@@ -720,13 +720,13 @@ msgstr "Taille de volume :"
 #: kerfuffle/previewsettingspage.ui:32
 #, kde-format
 msgid " megabytes"
-msgstr " méga-octets"
+msgstr " méga-octets"
 
 #: kerfuffle/createdialog.cpp:111
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
-msgstr "Ajouter automatiquement .%1"
+msgstr "Ajouter automatiquement .%1"
 
 #: kerfuffle/createdialog.cpp:198
 #, kde-format
@@ -1828,14 +1828,14 @@ msgid ""
 "The archive <filename>%1</filename> will be created as soon as you add a "
 "file."
 msgstr ""
-"L'archive <filename>%1</filename> sera créée dès que vous ajouterez un "
+"L'archive <filename>%1</filename> sera créée dès que vous ajouterez un "
 "fichier."
 
 #: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
-msgstr "Impossible de trouver l'archive <filename>%1</filename>."
+msgstr "Impossible de trouver l'archive <filename>%1</filename>."
 
 #: part/part.cpp:853
 #, kde-kuit-format
