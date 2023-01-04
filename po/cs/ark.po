@@ -4,7 +4,7 @@
 # Lukáš Tinkl <ltinkl@redhat.com>, 2010.
 # David Kolibac <david@kolibac.cz>, 2010.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
-# Vit Pelcak <vpelcak@suse.cz>, 2021, 2022.
+# Vit Pelcak <vit@pelcak.org>, 2021, 2022.
 #
 msgid ""
 msgstr ""
@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-04 00:49+0000\n"
 "PO-Revision-Date: 2022-06-28 13:56+0200\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -1861,13 +1861,13 @@ msgstr "Soubor byl změněn"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Aktualizovat"
 
 #: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Ignorovat"
 
 #: part/part.cpp:1428
 #, kde-format
@@ -2221,17 +2221,3 @@ msgstr "Nelze kopírovat záznam: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Nelze nastavit metadata pro záznam: %1"
-
-#~ msgctxt "@info"
-#~ msgid "Ark could not extract <filename>%1</filename>."
-#~ msgstr "Ark nemůže rozbalit <filename>%1</filename>."
-
-#~ msgctxt "@info"
-#~ msgid "Ark could not open <filename>%1</filename> for extraction."
-#~ msgstr "Ark nemohl pro rozbalení otevřít archiv <filename>%1</filename>."
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "There was an error while reading <filename>%1</filename> during "
-#~ "extraction."
-#~ msgstr "Nastala chyba při čtení <filename>%1</filename> během rozbalování."
