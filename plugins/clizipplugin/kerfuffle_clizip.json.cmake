@@ -10,7 +10,7 @@
         "Description[cs]": "Historická podpora archivačního formátu zip",
         "Description[da]": "Understøttelse af det forældende zip-arkivformat",
         "Description[de]": "Unterstützung für veraltete Zip-Archivformate",
-        "Description[el]": "Κληροδοτούμενη υποστήριξη για την αρχειοθήκη μορφής zip",
+        "Description[el]": "Κληροδοτούμενη υποστήριξη για τον τύπο αρχειοθήκης zip",
         "Description[en_GB]": "Legacy support for the zip archive format",
         "Description[es]": "Uso heredado para el formato de archivo comprimido zip",
         "Description[et]": "Zip-arhiivi vormingu pärandtoetus",
