@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-04 00:49+0000\n"
-"PO-Revision-Date: 2022-12-29 11:41+0100\n"
+"PO-Revision-Date: 2023-01-03 09:40+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -315,6 +315,8 @@ msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
 "when finished."
 msgstr ""
+"მომხმარებლისთვის არქივის ფაილის სახელის კითხვა და მითითებული ფაილების "
+"დამატება. დასრულებისას კი გასვლა."
 
 #: app/main.cpp:167
 #, kde-format
@@ -322,6 +324,8 @@ msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
 "Quit when finished."
 msgstr ""
+"მითითებული ფაილების 'ფაილის სახელში' ჩამატება. არქივი შეიქმნება, როცა არ "
+"არსებობს. დასრულებისას კი დაასრულებს მუშაობას."
 
 #: app/main.cpp:171
 #, kde-format
@@ -329,6 +333,8 @@ msgid ""
 "Change the current dir to the first entry and add all other entries relative "
 "to this one."
 msgstr ""
+"შეცვალეთ მიმდინარე საქაღალდე პირველ ჩანაწერზე და ყველა დანარჩენი ჩანაწერი ამ "
+"ერთთან შედარებით დაამატეთ."
 
 #: app/main.cpp:174
 #, kde-format
@@ -336,6 +342,8 @@ msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
 "tar.gz, zip or any other supported types)"
 msgstr ""
+"ფაილის სახელის ავტომატური არჩევა, მითითებული სუფიქსით (მაგ: rar, tar.gz, zip "
+"ან სხვა მხარდაჭერილ ტიპი)"
 
 #: app/main.cpp:178
 #, kde-format
@@ -343,12 +351,14 @@ msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
 "if more than one url is specified."
 msgstr ""
+"მრავალფაილიანი ინტერფეისის გამოყენება ჩვეულებრივი ფანჯრების გარეშე. ფუნქცია "
+"ერთზე მეტ ბმულის მითითებას საჭიროებს."
 
 #: app/main.cpp:181
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
-msgstr ""
+msgstr "სამიზნის არგუმენტი პირველი მითითებული ფაილის ბილიკი იქნება."
 
 #: app/main.cpp:184
 #, kde-format
@@ -357,6 +367,8 @@ msgid ""
 "a single file archive, a subfolder with the name of the archive will be "
 "created."
 msgstr ""
+"წაკითხული იქნება არქივის შემცველობა და თუ აღმოჩნდა, რომ ის ერთი საქაღალდე ან "
+"ერთფაილიანი არქივი არაა, შეიქმნება არქივის სახელის საქაღალდე."
 
 #: app/main.cpp:187
 #, kde-format
@@ -376,6 +388,8 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"გადართვა <emphasis>მენიუს ზოლსა</emphasis> და <interface>ჰამბურგერის მენიუს</"
+"interface> შორის. მათი შემცველობა ერთი და იგივეა."
 
 #: app/mainwindow.cpp:255
 #, kde-format
@@ -446,6 +460,8 @@ msgid ""
 "You need to either supply a filename for the archive or a suffix (such as "
 "rar, tar.gz) with the <command>--autofilename</command> argument."
 msgstr ""
+"<command>--autofilename</command> არგუმენტთან ერთად გჭირდებათ ან არქივის "
+"ფაილის სახელის მითითება, ან სუფიქსის (როგორიცაა rar, tar.gz)."
 
 #: kerfuffle/addtoarchive.cpp:243
 #, kde-format
@@ -458,7 +474,7 @@ msgstr "არქივი"
 #, kde-format
 msgid ""
 "Whether to show a warning when creating zip archives with AES encryption."
-msgstr ""
+msgstr "ZIP არქივის AES დაშიფვრით შექმნისას გაფრთხილების ჩვენება."
 
 #. i18n: ectx: label, entry (defaultOpenAction), group (General)
 #: kerfuffle/ark.kcfg:13
@@ -483,7 +499,7 @@ msgstr "გაშლისას ბილიკების შენარჩ�
 #, kde-format
 msgid ""
 "Extract to a subfolder if the archive has more than one top-level entry."
-msgstr ""
+msgstr "ქვესაქაღალდეში გაშლა, თუ არქივს ერთზე მეტი დონის ჩანაწერები გააჩნია."
 
 #. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
 #: kerfuffle/ark.kcfg:41
@@ -526,6 +542,8 @@ msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
 "enough space is available."
 msgstr ""
+"გაშლის შეცდომა. დარწმუნდით, რომ შეყვანილი პაროლი სწორია და დისკზე თავისუფალი "
+"ადგილი საკმარისია."
 
 #: kerfuffle/cliinterface.cpp:369 kerfuffle/cliinterface.cpp:494
 #, kde-format
@@ -861,12 +879,15 @@ msgid ""
 "Whether to check by default the extraction into subfolder checkbox in the "
 "Extraction Dialog, when the archive has more than one top-level entry."
 msgstr ""
+"გაშლის ფანჯარაში ქვესაქაღალდეში გაშლის პარამეტრის ავტომატური ჩართვა, როცა "
+"არქივს ერთზე მეტი ზედა-დონის ჩანაწერი გააჩნია."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
 #: kerfuffle/extractionsettingspage.ui:44
 #, kde-format
 msgid "Extract to a subfolder if the archive has more than one top-level entry"
 msgstr ""
+"ქვესაქაღალდეში გაშლა, თუ არქივს ერთზე მეტი ზედა დონის ჩანაწერები გააჩნია"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/generalsettingspage.ui:17
@@ -905,6 +926,8 @@ msgid ""
 "Failed to load a suitable plugin. Make sure any executables needed to handle "
 "the archive type are installed."
 msgstr ""
+"შესაბამისი დამატების ჩატვირთვის შეცდომა. დარწმუნდით, რომ არქივთან სამუშაო "
+"პროგრამები დაყენებულია."
 
 #: kerfuffle/jobs.cpp:168
 #, kde-format
@@ -912,6 +935,8 @@ msgid ""
 "Could not load the archive because it contains ill-formed entries and might "
 "be a malicious archive."
 msgstr ""
+"არქივის ჩატვირთვა შეუძლებელია, რადგან ის არასწორ ჩანაწერებს შეიცავს და "
+"შეიძლება მავნე არქივს წარმოადგენდეს."
 
 #: kerfuffle/jobs.cpp:253
 #, kde-format
@@ -955,6 +980,8 @@ msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
+"სამიზნეში <filename>%1</filename> ჩაწერის შეცდომა.<nl/>შეამოწმეთ, თქვენ "
+"წვდომები საკმარისი თუა."
 
 #: kerfuffle/jobs.cpp:711
 #, kde-format
@@ -1000,6 +1027,8 @@ msgid ""
 "The plugin cannot be used because one or more required executables are "
 "missing. Check your installation."
 msgstr ""
+"ამ დამატების გამოყენება შეუძლებელია, რადგან ერთი ან მეტი გამშვები ფაილი "
+"რომელიც მას სჭირდება, აღმოჩენილი არაა. გადაამოწმეთ თქვენი ფაილები."
 
 #. i18n: @title:column
 #. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
@@ -1198,6 +1227,8 @@ msgid ""
 "The archive you're trying to open is corrupt.<nl/>Some files may be missing "
 "or damaged."
 msgstr ""
+"არქივი, რომლის გახსნასაც ცდილობთ, დაზიანებულია. <nl/> ზოგიერთი ფაილი "
+"შეიძლება ვერ იპოვოთ, ან დაზიანებული იყოს."
 
 #: kerfuffle/queries.cpp:203
 #, kde-format
@@ -1233,6 +1264,8 @@ msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
 "error message:<nl/>    %2<nl/><nl/>Do you want to continue extraction?<nl/>"
 msgstr ""
+"შეცდომა ჩანაწერის გაშლისას:<nl/>    <filename>%1</filename><nl/>დასრულდა "
+"შეცდომით:<nl/>    %2<nl/><nl/>გნებავთ გაშლის გაგრძელება?<nl/>"
 
 #: part/archivemodel.cpp:155
 #, kde-format
@@ -1373,6 +1406,8 @@ msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
+"შიდა დამთვალიერებელს ამ ტიპის ფაილის გახსნა არ შეუძლია: <nl/>(%1).<nl/><nl/> "
+"გნებავთ ფაილი უბრალო ტექსტად გავხსნა?"
 
 #: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
@@ -1392,6 +1427,8 @@ msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
+"შიდა დამთვალიერებელს ამ ტიპის ფაილის გახსნა არ შეუძლია.<nl/><nl/>გნებავთ ის "
+"უბრალო ტექსტად გახსნათ?"
 
 #: part/arkviewer.cpp:232
 #, kde-format
@@ -1475,6 +1512,8 @@ msgid ""
 "Files with the following paths already exist. Remove them if you really want "
 "to overwrite."
 msgstr ""
+"ფაილები შემდეგი ბილიკით უკვე არსებობს. თუ თავზე გადაწერა მართლა გნებავთ, ჯერ "
+"წაშალეთ ისინი."
 
 #: part/overwritedialog.cpp:28
 #, kde-format
@@ -1482,6 +1521,7 @@ msgid ""
 "Files with the following paths already exist. Do you want to continue "
 "overwriting them?"
 msgstr ""
+"ფაილები ამ ბილიკებით უკვე არსებობს. გნებავთ გააგრძელოთ მათი თავზე გადაწერა?"
 
 #: part/part.cpp:112
 #, kde-format
@@ -1507,7 +1547,7 @@ msgstr "მოსაძებნად აკრიფეთ…"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
-msgstr ""
+msgstr "Ark-ს არქივების გაშლა მხოლოდ ლოკალურ საქაღალდეებში შეუძლია."
 
 #: part/part.cpp:364
 #, kde-format
@@ -1531,7 +1571,7 @@ msgstr "გარე აპლიკაციაში &გახსნა"
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
-msgstr ""
+msgstr "&გამხსნელი პროგრამა…"
 
 #: part/part.cpp:382
 #, kde-format
@@ -1563,6 +1603,8 @@ msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
 "the files in the archive"
 msgstr ""
+"დააწკაპუნეთ აქ გაშლის ფანჯრის საჩვენებლად, სადაც გასაშლელი ფაილები ხელით "
+"შეგიძლიათ, აირჩიოთ"
 
 #: part/part.cpp:400
 #, kde-format
@@ -1576,6 +1618,8 @@ msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
 "all files or just the selected ones"
 msgstr ""
+"დააწკაპუნეთ გაშლის ფანჯრის საჩვენებლად, სადაც შეგიძლიათ აირჩიოთ, მხოლოდ "
+"მონიშნული ფაილების გაშლა გნებავთ, თუ ყველასი"
 
 #: part/part.cpp:408
 #, kde-format
@@ -1632,6 +1676,9 @@ msgid ""
 "encryption is currently not supported.<nl/><nl/>Extract the files and create "
 "a new archive if you want to add files."
 msgstr ""
+"პაროლით დაშიფრულ არქივებში, რომლებსაც თავსართის გაშიფვრა ჩართული არ აქვთ, "
+"ფაილების ჩამატება მხარდაჭერილი არაა.<nl/><nl/>თუ ფაილის ჩამატება "
+"აუცილებელია, გაშალეთ არქივი და თავიდან შექმენით ის."
 
 #: part/part.cpp:470
 #, kde-kuit-format
@@ -1640,6 +1687,8 @@ msgid ""
 "Testing password-protected archives with no header-encryption is currently "
 "not supported."
 msgstr ""
+"პაროლით დაშიფრული არქივების ტესტირება, რომლებსაც თავსართის დაშიფვრა ჩართული "
+"არ აქვთ, მხარდაჭერილი არაა."
 
 #: part/part.cpp:538
 #, kde-format
@@ -1715,6 +1764,8 @@ msgid ""
 "Could not overwrite <filename>%1</filename>. Check whether you have write "
 "permission."
 msgstr ""
+"<filename>%1</filename>-ის თავზე გადაწერის შეცდომა. გადაამოწმეთ, გაქვთ თუ "
+"არა ჩაწერის უფლება."
 
 #: part/part.cpp:845
 #, kde-kuit-format
@@ -1722,7 +1773,7 @@ msgctxt "@info"
 msgid ""
 "The archive <filename>%1</filename> will be created as soon as you add a "
 "file."
-msgstr ""
+msgstr "არქივი <filename>%1</filename> შეიქმნება, როცა მასში ფაილს ჩაამატებთ."
 
 #: part/part.cpp:848
 #, kde-kuit-format
@@ -1737,6 +1788,8 @@ msgid ""
 "The archive <filename>%1</filename> could not be loaded, as it was not "
 "possible to read from it."
 msgstr ""
+"არქივის <filename>%1</filename> ჩატვირთვა შეუძლებელია, რადგან მისგან "
+"წაკითხვის მცდელობა შეცდომით დასრულდა."
 
 #: part/part.cpp:871
 #, kde-kuit-format
@@ -1745,6 +1798,8 @@ msgid ""
 "The archive <filename>%1</filename> already exists. Do you wish to overwrite "
 "it?"
 msgstr ""
+"არქივი სახელით <filename>%1</filename> უკვე არსებობს. გნებავთ, თავზე "
+"გადავაწერო?"
 
 #: part/part.cpp:872
 #, kde-format
@@ -1773,6 +1828,8 @@ msgid ""
 "Loading the archive <filename>%1</filename> failed with the following error:"
 "<nl/><message>%2</message>"
 msgstr ""
+"არქივის <filename>%1</filename> ჩატვირთვა შემდეგი შეცდომით დასრულდა:<nl/"
+"><message>%2</message>"
 
 #: part/part.cpp:1008
 #, kde-format
@@ -1784,7 +1841,7 @@ msgstr "Ark-ს სიმბმულების გახსნა არ შ�
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
 "archive?"
-msgstr ""
+msgstr "ფაილი <filename>%1</filename> შეიცვალა. გნებავთ, განაახლოთ არქივი?"
 
 #: part/part.cpp:1141
 #, kde-format
@@ -1820,6 +1877,7 @@ msgstr "ფაილების დამატება %1-ში"
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
+"ფაილის სახელი არ შეიძლება შეიცავდეს დახრილ ხაზებს, ან უდრიდეს \".\" ან \"..\""
 
 #: part/part.cpp:1541
 #, kde-format
@@ -1835,6 +1893,7 @@ msgstr "საქაღალდის თავის თავში გად
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
+"იგივე სახელის მქონე ჩანაწერები იგივე სამიზნე წერტილში ჩაწერილი ვერ იქნება."
 
 #: part/part.cpp:1674
 #, kde-format
@@ -1843,7 +1902,10 @@ msgid "Deleting this file is not undoable. Are you sure you want to do this?"
 msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr[0] ""
+"ფაილის წაშლა შეუქცევადია. დარწმუნებული ბრძანდებით, რომ გნებავთ, გააკეთოთ ეს?"
 msgstr[1] ""
+"ფაილების წაშლა შეუქცევადია. დარწმუნებული ბრძანდებით, რომ გნებავთ, გააკეთოთ "
+"ეს?"
 
 #: part/part.cpp:1677
 #, kde-format
@@ -1866,6 +1928,8 @@ msgid ""
 "The archive could not be saved as <filename>%1</filename>. Try saving it to "
 "another location."
 msgstr ""
+"შეცდომა არქივის შენახვისას, როგორც <filename>%1</filename>. სცადეთ, სხვა "
+"ადგილას შეინახოთ."
 
 #: part/part.cpp:1743
 #, kde-kuit-format
@@ -1874,6 +1938,8 @@ msgid ""
 "The archive <filename>%1</filename> does not exist anymore, therefore it "
 "cannot be copied to the specified location."
 msgstr ""
+"არქივი<filename>%1</filename> აღარ არსებობს, ამიტომ მითითებულ ადგილზე ის ვერ "
+"დაკოპირდება."
 
 #: plugins/cli7zplugin/cliplugin.cpp:130
 #: plugins/cliunarchiverplugin/cliplugin.cpp:85
@@ -1892,13 +1958,15 @@ msgid ""
 "Extraction failed due to one or more corrupt files. Any extracted files may "
 "be damaged."
 msgstr ""
+"გაშლა ავარიულად დასრულდა, რადგან ერთი ან მეტი ფაილი დაზიანებულია. "
+"შესაბამისად, გაშლილი ფაილებიც შეიძლება, დაზიანებული იყოს."
 
 #: plugins/cli7zplugin/cliplugin.cpp:326
 #, kde-format
 msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
 "configuration dialog."
-msgstr ""
+msgstr "წაშლის შეცდომა. სცადეთ განაახლოთ ან გამორთოთ 7z -ის გაფართოება."
 
 #: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
@@ -1943,6 +2011,8 @@ msgid ""
 "Your unrar executable is version %1, which is too old to handle this "
 "archive. Please update to a more recent version."
 msgstr ""
+"Unrar-ის თქვენი ასლის ვერსიაა %1, რაც ამ არქივთან სამუშაოდ ძალიან ძველია. "
+"განაახლეთ ის უფრო ახალ ვერსიამდე."
 
 #: plugins/clirarplugin/cliplugin.cpp:328
 #, kde-format
