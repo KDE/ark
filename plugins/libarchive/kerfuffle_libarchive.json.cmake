@@ -9,7 +9,7 @@
         "Description[cs]": "Plná podpora komprimovaných archivů TAR",
         "Description[da]": "Fuld understøttelse af TAR-arkiver",
         "Description[de]": "Vollständige Unterstützung für komprimierte TAR-Archive",
-        "Description[el]": "Πλήρης υποστήριξη για την αρχειοθήκη μορφής TAR",
+        "Description[el]": "Πλήρης υποστήριξη για αρχειοθήκες TAR",
         "Description[en_GB]": "Full support for compressed TAR archives",
         "Description[es]": "Uso total de los archivos comprimidos TAR",
         "Description[et]": "Pakitud TAR-arhiivide täielik toetus",

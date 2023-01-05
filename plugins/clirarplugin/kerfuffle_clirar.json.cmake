@@ -9,7 +9,7 @@
         "Description[cs]": "Plná podpora archivačního formátu RAR",
         "Description[da]": "Fuld understøttelse af RAR-arkivformatet",
         "Description[de]": "Vollständige Unterstützung für das RAR-Archivformat",
-        "Description[el]": "Πλήρης υποστήριξη για την αρχειοθήκη μορφής RAR",
+        "Description[el]": "Πλήρης υποστήριξη για τον τύπο αρχειοθήκης RAR",
         "Description[en_GB]": "Full support for the RAR archive format",
         "Description[es]": "Uso total del formato de archivo comprimido RAR",
         "Description[et]": "RAR-arhiivi vormingu täielik toetus",
