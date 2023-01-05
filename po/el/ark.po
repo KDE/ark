@@ -11,7 +11,7 @@
 # Toussis Manolis <manolis@koppermind.homelinux.org>, 2007, 2008, 2009.
 # Antonis Geralis <capoiosct@gmail.com>, 2011, 2012.
 # Dimitrios Glentadakis <dglent@gmail.com>, 2011, 2012, 2013.
-# Stelios <sstavra@gmail.com>, 2012, 2014, 2017, 2019, 2020, 2021.
+# Stelios <sstavra@gmail.com>, 2012, 2014, 2017, 2019, 2020, 2021, 2023.
 # Dimitris Kardarakos <dimkard@gmail.com>, 2016.
 # Petros Vidalis <pvidalis@gmail.com>, 2016, 2017, 2018.
 msgid ""
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-04 00:49+0000\n"
-"PO-Revision-Date: 2021-06-03 12:14+0300\n"
+"PO-Revision-Date: 2023-01-04 09:58+0200\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.04.2\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -41,8 +41,7 @@ msgstr "manolis@koppermind.homelinux.org, pvidalis@gmail.com"
 
 #. i18n: ectx: Menu (archive)
 #: app/arkui.rc:5
-#, fuzzy, kde-format
-#| msgid "&Archive"
+#, kde-format
 msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr "&Αρχειοθήκη"
@@ -50,7 +49,7 @@ msgstr "&Αρχειοθήκη"
 #: app/batchextract.cpp:103 app/batchextract.cpp:167
 #, kde-format
 msgid "Extracting Files"
-msgstr "Εξαγωγή αρχείωγ"
+msgstr "Εξαγωγή αρχείων"
 
 #: app/batchextract.cpp:104 app/batchextract.cpp:168
 #, kde-format
@@ -126,13 +125,11 @@ msgid "Compress to..."
 msgstr "Συμπίεση στο..."
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Here (as ZIP)"
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Here as \"%1\""
-msgstr "Εδώ (ως ZIP)"
+msgstr "Εδώ ως «%1»"
 
 #: app/extractfileitemaction.cpp:63
 #, kde-format
@@ -409,6 +406,9 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"Με αυτό γίνεται εναλλαγή στο κουμπί για τη <emphasis>Γραμμή μενού</emphasis> "
+"και για το <interface>Hamburger μενού</interface>. Και τα δύο περιέχουν τις "
+"ίδιες λίγο πολύ εντολές και επιλογές διαμόρφωσης."
 
 #: app/mainwindow.cpp:255
 #, kde-format
@@ -483,8 +483,7 @@ msgstr ""
 "rar, tar.tz) με την παράμετρο <command>--autofilename</command>."
 
 #: kerfuffle/addtoarchive.cpp:243
-#, fuzzy, kde-format
-#| msgid "Archive"
+#, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
 msgstr "Αρχειοθήκη"
@@ -993,11 +992,9 @@ msgid "Archive"
 msgstr "Αρχειοθήκη"
 
 #: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Error creating directory <filename>%1</filename>"
+#, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
-msgstr "Σφάλμα δημιουργίας του καταλόγου <filename>%1</filename>"
+msgstr "Δεν υπάρχει διαθέσιμος χώρος στη συσκευή <filename>%1</filename>"
 
 #: kerfuffle/jobs.cpp:536
 #, kde-format
@@ -1324,15 +1321,13 @@ msgstr "Όνομα"
 #, kde-format
 msgctxt "Uncompressed size of a file inside an archive"
 msgid "Original Size"
-msgstr ""
+msgstr "Αρχικό μέγεθος"
 
 #: part/archivemodel.cpp:159
-#, fuzzy, kde-format
-#| msgctxt "Compressed size of a file inside an archive"
-#| msgid "Compressed"
+#, kde-format
 msgctxt "Compressed size of a file inside an archive"
 msgid "Compressed Size"
-msgstr "Συμπιεσμένο"
+msgstr "Συμπιεσμένο μέγεθος"
 
 #: part/archivemodel.cpp:161
 #, kde-format
@@ -1618,7 +1613,7 @@ msgstr "Αποθήκευση αντιγράφου ως..."
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr ""
+msgstr "Άν&οιγμα σε εξωτερική εφαρμογή"
 
 #: part/part.cpp:380
 #, kde-format
@@ -1687,11 +1682,10 @@ msgid "Click to add files to the archive"
 msgstr "Κάντε κλικ για την προσθήκη αρχείων στην αρχειοθήκη"
 
 #: part/part.cpp:416
-#, fuzzy, kde-format
-#| msgid "Compress to Archive"
+#, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
-msgstr "Συμπίεση σε αρχειοθήκη"
+msgstr "Αφαίρεση από την αρχειοθήκη"
 
 #: part/part.cpp:426
 #, kde-format
@@ -1913,13 +1907,13 @@ msgstr "Τροποποιημένο αρχείο"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Ενημέρωση"
 
 #: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Αγνόηση"
 
 #: part/part.cpp:1428
 #, kde-format
@@ -2024,48 +2018,43 @@ msgstr ""
 "εξαχθέντα αρχεία ίσως έχουν καταστραφεί."
 
 #: plugins/cli7zplugin/cliplugin.cpp:326
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delete operation failed. Try upgrading p7zip or disabling the p7zip "
-#| "plugin in the configuration dialog."
+#, kde-format
 msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
 "configuration dialog."
 msgstr ""
 "Η διεργασία διαγραφής απέτυχε. Προσπαθήστε να αναβαθμίσετε ή να "
-"απενεργοποιήσετε το πρόσθετο p7zip στο διάλογο διαμόρφωσης, "
+"απενεργοποιήσετε το πρόσθετο 7z στο διάλογο διαμόρφωσης."
 
 #: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ παλαιό"
 
 #: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40-bit"
 
 #: plugins/cliarjplugin/cliplugin.cpp:338
-#, fuzzy, kde-format
-#| msgctxt "referred to compression method"
-#| msgid "unknown"
+#, kde-format
 msgid "unknown"
-msgstr "άγνωστο"
+msgstr "άγνωστη"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
@@ -2121,7 +2110,7 @@ msgstr "Αποτυχία εξαγωγής λόγω μη υποστηριζόμε
 #: plugins/clizipplugin/cliplugin.cpp:183
 #, kde-format
 msgid "Extraction failed due to unsupported encryption method."
-msgstr "Αποτυχία εξαγωγής λόγω μη υποστηριζόμενης μεθόδου κρυπτογράφισης."
+msgstr "Αποτυχία εξαγωγής λόγω μη υποστηριζόμενης μεθόδου κρυπτογράφησης."
 
 #: plugins/clizipplugin/cliplugin.cpp:311
 #, kde-format
