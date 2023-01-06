@@ -1,311 +1,179 @@
 <?xml version="1.0" ?>
 <!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
-  <!ENTITY % German "INCLUDE">
+  <!ENTITY % English "INCLUDE">
 ]>
 
 <refentry lang="&language;">
 <refentryinfo>
-<title
->&ark;-Benutzerhandbuch</title>
+<title>&ark; User's Manual</title>
 
-<author
-><firstname
->Lauri</firstname
-><surname
->Watts</surname
-> <contrib
->Ursprüngliche Version der &ark;-Handbuchseite 2005.</contrib
-> <email
->lauri@kde.org</email
-></author>
+<author><firstname>Lauri</firstname><surname>Watts</surname>
+<contrib>Initial version of &ark; man page in 2005.</contrib>
+<email>lauri@kde.org</email></author>
 
-<author
-><firstname
->Raphael</firstname
-><surname
->Kubo da Costa</surname
-> <contrib
->Aktualisierung der &ark;-Handbuchseite 2009.</contrib
-> <email
->rakuco@FreeBSD.org</email
-></author>
+<author><firstname>Raphael</firstname><surname>Kubo da Costa</surname>
+<contrib>Update of &ark; man page in 2009.</contrib>
+<email>rakuco@FreeBSD.org</email></author>
 
-<author
-><firstname
->Ragnar</firstname
-><surname
->Thomsen</surname
-> <contrib
->Aktualisierung der &ark;-Handbuchseite 2015 und 2016.</contrib
-> <email
->rthomsen6@gmail.com</email
-></author>
+<author><firstname>Ragnar</firstname><surname>Thomsen</surname>
+<contrib>Update of &ark; man page in 2015 and 2016.</contrib>
+<email>rthomsen6@gmail.com</email></author>
 
-<date
->2018-08-08</date
-><!--Update only when changing/reviewing this man page-->
-<releaseinfo
->18.12</releaseinfo
-><!--Update only when changing/reviewing this man page-->
-<productname
->KDE-Anwendungen</productname>
+<date>2018-08-08</date><!--Update only when changing/reviewing this man page-->
+<releaseinfo>18.12</releaseinfo><!--Update only when changing/reviewing this man page-->
+<productname>KDE Applications</productname>
 </refentryinfo>
 
 <refmeta>
-<refentrytitle
-><command
->ark</command
-></refentrytitle>
-<manvolnum
->1</manvolnum>
+<refentrytitle><command>ark</command></refentrytitle>
+<manvolnum>1</manvolnum>
 </refmeta>
 
 <refnamediv>
-<refname
-><command
->ark</command
-></refname>
-<refpurpose
->&kde;-Archivprogramm</refpurpose>
+<refname><command>ark</command></refname>
+<refpurpose>&kde; archiving tool</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
-<cmdsynopsis
-><command
->ark</command
-> <group choice="opt"
-><option
->-b</option
-></group
-> <group choice="opt"
-><option
->-a</option
-></group
-> <group choice="opt"
-><option
->-e</option
-></group
-> <group choice="opt"
-><option
->-O</option
-></group
-> <group choice="opt"
-><option
->-c</option
-></group
-> <group choice="opt"
-><option
->-f</option
-> <replaceable
-> erweiterung</replaceable
-></group
-> <group choice="opt"
-><option
->-p</option
-></group
-> <group choice="opt"
-><option
->-t</option
-> <replaceable
-> datei</replaceable
-></group
-> <group choice="opt"
-><option
->-d</option
-></group
-> <group choice="opt"
-><option
->-m</option
-></group
-> <group choice="opt"
-><option
->-o</option
-> <replaceable
-> ordner</replaceable
-></group
-> <arg choice="opt"
->Allgemeine &kf5;-Optionen</arg
-> <arg choice="opt"
->Allgemeine &Qt;-Option</arg
-> </cmdsynopsis>
+<cmdsynopsis>
+<command>ark</command>
+<group choice="opt"><option>-b</option></group>
+<group choice="opt"><option>-a</option></group>
+<group choice="opt"><option>-e</option></group>
+<group choice="opt"><option>-O</option></group>
+<group choice="opt"><option>-c</option></group>
+<group choice="opt"><option>-f</option> <replaceable>
+suffix</replaceable></group>
+<group choice="opt"><option>-p</option></group>
+<group choice="opt"><option>-t</option> <replaceable>
+file</replaceable></group>
+<group choice="opt"><option>-d</option></group>
+<group choice="opt"><option>-m</option></group>
+<group choice="opt"><option>-o</option> <replaceable>
+directory</replaceable></group>
+<arg choice="opt">&kf5; Generic Options</arg>
+<arg choice="opt">&Qt; Generic Options</arg>
+</cmdsynopsis>
 </refsynopsisdiv>
 
 <refsect1>
-<title
->Beschreibung</title>
-<para
->&ark; ist ein Programm zur Verwaltung verschiedener komprimierter Archivformate in &kde;. Mit &ark; können Archive angezeigt, ausgepackt, erzeugt und bearbeitet werden. Das Programm beherrscht verschiedene Format wie <application
->tar</application
->, <application
->gzip</application
->, <application
->bzip2</application
->, <application
->zip</application
-> und <application
->rar</application
->. Hierzu müssen die entsprechenden Befehlszeilenprogramme installiert sein.</para>
+<title>Description</title>
+<para>&ark; is a program for managing various compressed file formats
+within &kde;. Archives can be viewed, extracted, created
+and modified with &ark;. The program can handle various
+formats such as <application>tar</application>,
+<application>gzip</application>, <application>bzip2</application>,
+<application>zip</application>, <application>rar</application> 
+(when the appropriate libraries or command-line programs are
+installed).</para>
 </refsect1>
 
 <refsect1>
-<title
->Arbeitsmodi</title>
-<para
->&ark; kann sowohl als eigenständiges Programm mit grafischer Benutzeroberfläche wie auch als Befehlszeilenprogramm für bestimmte Aufgaben eingesetzt werden.</para>
-<para
->Wird &ark; ohne die Optionen  -b (--batch) or -c (--add) aufgerufen, started es mit der grafischen Benutzeroberfläche.</para>
-<para
->Mit der Option -b (--batch) kann &ark; verwendet werden, um den Inhalt von einer oder mehrerer Dateien direkt von der Befehlszeile aus zu extrahieren, ohne dazu die grafische Benutzeroberfläche zu starten.</para>
-<para
->Wird die Option -c (--add) benutzt, fragt &ark; nach den Dateien, die zum neuen Archiv oder zu einem vorhandenen Archiv hinzugefügt werden sollen.</para>
-<para
-></para>
-<para
-></para>
+<title>Operation modes</title>
+<para>&ark; can be used either as a stand-alone &GUI; program as well as a
+command-line program in order to perform some specific tasks.</para>
+<para>If invoked without the -b (--batch) or -c (--add) options, &ark; is started
+as a normal &GUI; program.</para>
+<para>When the -b (--batch) option is used, &ark; can be used to extract the
+contents of one or more files directly from the command-line, without
+launching its &GUI;.</para>
+<para>When the -c (--add) option is used, &ark; prompts for files that should
+be added to a new archive or to an existing archive.</para>
+<para></para>
+<para></para>
 </refsect1>
 
 <refsect1>
-<title
->Aufrufparameter</title>
+<title>Options</title>
 
 <variablelist>
 <varlistentry>
-<term
-><option
->-d, --dialog</option
-></term>
+<term><option>-d, --dialog</option></term>
 <listitem>
-<para
->Zeigt einen Dialog für die Angabe von Einstellungen für eine Stapelverarbeitung oder das Hinzufügen an.</para>
+<para>Show a dialog for specifying the options for a batch or add operation.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term
-><option
->-m, --mimetypes</option
-></term>
+<term><option>-m, --mimetypes</option></term>
 <listitem>
-<para
->Liste der unterstützten &MIME;-Typen ausgeben</para>
+<para>List supported &MIME; types.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term
-><option
->-o, --destination <replaceable
->ordner</replaceable
-></option
-></term>
-<listitem
-><para
->Zielordner für das Entpacken nach <replaceable
->ordner</replaceable
->. Ohne diese Option wird der aktuelle Ordner verwendet.</para>
+<term><option>-o, --destination
+<replaceable>directory</replaceable></option></term>
+<listitem><para>Default the extraction directory to <replaceable>directory</replaceable>.
+If not passed, the current path is used.</para>
 </listitem>
 </varlistentry>
 </variablelist>
 
 <refsect2>
-<title
->Einstellungen für das Hinzufügen von Dateien</title>
+<title>Options for adding files</title>
 <variablelist>
 <varlistentry>
-<term
-><option
->-c, --add</option
-></term>
+<term><option>-c, --add</option></term>
 <listitem>
-<para
->Fragt den Benutzer nach einem Archivnamen und fügt die angegebenen Dateien hinzu. &ark; wird beendet, wenn die Aktion abgeschlossen ist.</para>
+<para>Query the user for an archive filename and add specified files to it. 
+Quit when finished.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term
-><option
->-t, --add-to <replaceable
->dateiname</replaceable
-></option
-></term>
+<term><option>-t, --add-to <replaceable>filename</replaceable></option></term>
 <listitem>
-<para
->Die angegebenen Dateien zu <replaceable
->dateiname</replaceable
-> hinzufügen. Erzeugt ein neues Archiv, falls noch keines mit diesem Namen existiert. &ark; wird beendet, wenn die Aktion abgeschlossen ist.</para>
+<para>Add the specified files to <replaceable>filename</replaceable>. Create archive 
+if it does not exist. Quit when finished.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term
-><option
->-p, --changetofirstpath</option
-></term>
+<term><option>-p, --changetofirstpath</option></term>
 <listitem>
-<para
->Aktuellen Ordner gemäß erstem Eintrag ändern und alle anderen Einträge relativ dazu hinzufügen.</para>
+<para>Change the current directory to the first entry and add all other entries relative 
+to this one.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term
-><option
->-f, --autofilename <replaceable
->erweiterung</replaceable
-></option
-></term>
+<term><option>-f, --autofilename <replaceable>suffix</replaceable></option></term>
 <listitem>
-<para
->Automatisch einen Dateinamen mit der angegeben Datei<replaceable
->erweiterung</replaceable
-> (&eg; rar, tar.gz, zip oder ein andere unterstützter Typ) wählen.</para>
+<para>Automatically choose a filename, with the selected <replaceable>suffix</replaceable> 
+(for example rar, tar.gz, zip or any other supported types).</para>
 </listitem>
 </varlistentry>
 </variablelist>
 </refsect2>
 
 <refsect2>
-<title
->Einstellungen für das Entpacken mittels Stapelverarbeitung</title>
+<title>Options for batch extraction</title>
 <variablelist>
 <varlistentry>
-<term
-><option
->-b, --batch</option
-></term>
+<term><option>-b, --batch</option></term>
 <listitem>
-<para
->Die Stapelverarbeitungsschnittstelle anstelle des normalen Dialogs verwenden. Diese Einstellung wird angenommen, wenn mehr als eine Adresse angegeben wird.</para>
+<para>Use the batch interface instead of the usual dialog. This option is implied 
+if more than one url is specified.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term
-><option
->-e, --autodestination</option
-></term>
+<term><option>-e, --autodestination</option></term>
 <listitem>
-<para
->Das Ziel wird auf den Pfad der ersten angegebenen Datei gesetzt.</para>
+<para>The destination argument will be set to the path of the first file 
+supplied.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term
-><option
->-a, --autosubfolder</option
-></term>
+<term><option>-a, --autosubfolder</option></term>
 <listitem>
-<para
->Der Archivinhalt wird gelesen. Falls es sich um ein Archiv mit mehr als einem Ordner handelt, wird ein Unterordner mit dem Namen des Archivs erstellt.</para>
+<para>Archive contents will be read, and if detected to not be a single folder archive, 
+a subfolder by the name of the archive will be created.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term
-><option
->-O, --opendestination</option
-></term>
+<term><option>-O, --opendestination</option></term>
 <listitem>
-<para
->Öffnet den Zielordner, wenn das Entpacken beendet wurde.</para>
+<para>Open the destination folder when the extraction is complete.</para>
 </listitem>
 </varlistentry>
 
@@ -314,99 +182,50 @@
 </refsect1>
 
 <refsect1>
-<title
->Siehe auch</title>
+<title>See Also</title>
 <simplelist>
-<member
->Ausführlichere Informationen finden Sie mit <ulink url="help:/ark"
->help:ark</ulink
->. (Sie können diese &URL; in der Adressleiste von &konqueror; eingeben oder führen Sie <userinput
-><command
->khelpcenter</command
-><parameter
->help:/ark</parameter
-></userinput
-> aus.)</member>
-<member
->kf5options(7)</member>
-<member
->qt5options(7)</member>
+<member>More detailed user documentation is available from <ulink
+url="help:/ark">help:/ark</ulink>
+(either enter this &URL; into &konqueror;, or run
+<userinput><command>khelpcenter</command>
+<parameter>help:/ark</parameter></userinput>).</member>
+<member>kf5options(7)</member>
+<member>qt5options(7)</member>
 </simplelist>
 </refsect1>
 
 <refsect1>
-<title
->Beispiele</title>
+<title>Examples</title>
 
 <variablelist>
 <varlistentry>
-<term
-><userinput
-><command
->ark</command
-> <option
->--batch</option
-> <replaceable
->archive.tar.bz2</replaceable
-></userinput
-></term>
+<term><userinput><command>ark</command> <option>--batch</option>
+<replaceable>archive.tar.bz2</replaceable></userinput></term>
 <listitem>
-<para
->Entpackt das Archiv <replaceable
->archive.tar.bz2</replaceable
-> in den aktuellen Ordner, ohne die grafische Benutzeroberfläche zu starten. </para>
+<para>Will extract <replaceable>archive.tar.bz2</replaceable> into the current directory 
+without showing any &GUI;.
+</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term
-><userinput
-><command
->ark</command
-> <option
->-b</option
-> <option
->-d</option
-> <replaceable
->archive.tar.bz2</replaceable
-> <replaceable
->archive2.zip</replaceable
-></userinput
-></term>
+<term><userinput><command>ark</command> <option>-b</option> <option>-d</option>
+<replaceable>archive.tar.bz2</replaceable> <replaceable>archive2.zip</replaceable></userinput></term>
 <listitem>
-<para
->Zuerst wird ein Dialog mit Optionen zum Entpacken angezeigt, dann werden beide Archive <replaceable
->archive.tar.bz2</replaceable
-> und <replaceable
->archive2.zip</replaceable
-> in den Ordner entpackt, der im Dialog ausgewählt wurde.</para>
+<para>Will first show an extraction options dialog and then extract both 
+<replaceable>archive.tar.bz2</replaceable> and <replaceable>archive2.zip</replaceable> 
+into the directory chosen in the dialog.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term
-><userinput
-><command
->ark</command
-> <option
->--add-to</option
-> <replaceable
->mein-archiv.zip</replaceable
-> <replaceable
->photo1.jpg</replaceable
-> <replaceable
->text.txt</replaceable
-></userinput
-></term>
+<term><userinput><command>ark</command> <option>--add-to</option> 
+<replaceable>my-archive.zip</replaceable> <replaceable>photo1.jpg</replaceable>
+<replaceable>text.txt</replaceable></userinput></term>
 <listitem>
-<para
->Erstellt <replaceable
->mein-archiv.zip</replaceable
->, sofern dieses Archiv noch nicht existiert und fügt dann  <replaceable
->photo1.jpg</replaceable
-> und <replaceable
->text.txt</replaceable
-> hinzu. </para>
+<para>Will create <replaceable>my-archive.zip</replaceable> if does not exist and 
+then add <replaceable>photo1.jpg</replaceable> and <replaceable>text.txt</replaceable> to it.
+</para>
 </listitem>
 </varlistentry>
 
@@ -414,14 +233,9 @@
 </refsect1>
 
 <refsect1>
-<title
->Betreuer</title>
-<para
->&ark; wird zurzeit von <emphasis role="bold"
->Elvis Angelaccio</emphasis
-> und <emphasis role="bold"
->Ragnar Thomsen</emphasis
-> betreut.</para>
+<title>Maintainership</title>
+<para>&ark; is currently maintained by <emphasis role="bold">Elvis Angelaccio</emphasis> and
+<emphasis role="bold">Ragnar Thomsen</emphasis>.</para>
 </refsect1>
 
 </refentry>
