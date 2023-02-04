@@ -4,14 +4,14 @@
 # Lukáš Tinkl <ltinkl@redhat.com>, 2010.
 # David Kolibac <david@kolibac.cz>, 2010.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
-# Vit Pelcak <vit@pelcak.org>, 2021, 2022.
+# Vit Pelcak <vit@pelcak.org>, 2021, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-04 00:49+0000\n"
-"PO-Revision-Date: 2022-06-28 13:56+0200\n"
+"PO-Revision-Date: 2023-02-03 13:41+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.04.2\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1579,7 +1579,7 @@ msgstr "Uložit kopii jako..."
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr ""
+msgstr "&Otevřít v externí aplikaci"
 
 #: part/part.cpp:380
 #, kde-format
@@ -1650,7 +1650,7 @@ msgstr "Kliknutím přidáte soubory do archivu"
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
-msgstr ""
+msgstr "Odstranit z archivu"
 
 #: part/part.cpp:426
 #, kde-format
@@ -1674,13 +1674,13 @@ msgstr "Klikněte pro přidání nebo úpravu komentáře"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
-msgstr "Ověři&t integritu"
+msgstr "Ověři&t neporušenost"
 
 #: part/part.cpp:441 part/part.cpp:473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
-msgstr "Kliknutím spustíte ověření integrity"
+msgstr "Kliknutím spustíte ověření neporušenosti"
 
 #: part/part.cpp:467
 #, kde-kuit-format
@@ -1719,7 +1719,7 @@ msgstr "Přidat &komentář"
 #: part/part.cpp:648
 #, kde-format
 msgid "The archive passed the integrity test."
-msgstr "Archiv prošel ověřením integrity."
+msgstr "Archiv prošel ověřením neporušenosti."
 
 #: part/part.cpp:648 part/part.cpp:650
 #, kde-format
@@ -1729,7 +1729,7 @@ msgstr "Výsledky ověření"
 #: part/part.cpp:650
 #, kde-format
 msgid "The archive failed the integrity test."
-msgstr "Archiv neprošel ověřením integrity."
+msgstr "Archiv neprošel ověřením neporušenosti."
 
 #: part/part.cpp:671
 #, kde-format
@@ -1980,27 +1980,27 @@ msgstr ""
 #: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "Starý ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40-bit"
 
 #: plugins/cliarjplugin/cliplugin.cpp:338
 #, kde-format
