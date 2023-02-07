@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-04 00:49+0000\n"
+"POT-Creation-Date: 2023-02-07 02:53+0000\n"
 "PO-Revision-Date: 2017-05-16 07:03-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
@@ -938,14 +938,14 @@ msgstr ""
 msgid "Loading archive"
 msgstr "טוען ארכיון..."
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:712
-#: kerfuffle/jobs.cpp:765 kerfuffle/jobs.cpp:803 kerfuffle/jobs.cpp:835
-#: kerfuffle/jobs.cpp:883
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:714
+#: kerfuffle/jobs.cpp:767 kerfuffle/jobs.cpp:805 kerfuffle/jobs.cpp:837
+#: kerfuffle/jobs.cpp:885
 #, fuzzy, kde-format
 msgid "Archive"
 msgstr "&ארכיון"
 
-#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:566
 #, fuzzy, kde-kuit-format
 #| msgid "There was an error during extraction."
 msgid "No space available on device <filename>%1</filename>"
@@ -957,7 +957,7 @@ msgid "Extracting all files"
 msgstr "מחלץ את כל הקבצים"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:638
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -980,40 +980,40 @@ msgstr ""
 "לא יכול לכתוב ליד את <filename>%1</filename>.<nl/>בדוק אם יש לך את ההרשאות "
 "המתאימות"
 
-#: kerfuffle/jobs.cpp:711
+#: kerfuffle/jobs.cpp:713
 #, fuzzy, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "מוסיף קובץ אחד"
 msgstr[1] "מוסיף %1 קבצים"
 
-#: kerfuffle/jobs.cpp:764
+#: kerfuffle/jobs.cpp:766
 #, fuzzy, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "מוסיף קובץ אחד"
 msgstr[1] "מוסיף %1 קבצים"
 
-#: kerfuffle/jobs.cpp:802
+#: kerfuffle/jobs.cpp:804
 #, fuzzy, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "מוסיף קובץ אחד"
 msgstr[1] "מוסיף %1 קבצים"
 
-#: kerfuffle/jobs.cpp:834
+#: kerfuffle/jobs.cpp:836
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "מוחק קובץ מהארכיון"
 msgstr[1] "מוחק %1 קבצים"
 
-#: kerfuffle/jobs.cpp:858
+#: kerfuffle/jobs.cpp:860
 #, kde-format
 msgid "Adding comment"
 msgstr "הוסף הערה"
 
-#: kerfuffle/jobs.cpp:883
+#: kerfuffle/jobs.cpp:885
 #, kde-format
 msgid "Testing archive"
 msgstr "בדוק את הארכיון"

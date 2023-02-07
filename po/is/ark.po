@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-04 00:49+0000\n"
+"POT-Creation-Date: 2023-02-07 02:53+0000\n"
 "PO-Revision-Date: 2022-12-11 10:56+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -953,14 +953,14 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Hleð inn safnskrá"
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:712
-#: kerfuffle/jobs.cpp:765 kerfuffle/jobs.cpp:803 kerfuffle/jobs.cpp:835
-#: kerfuffle/jobs.cpp:883
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:714
+#: kerfuffle/jobs.cpp:767 kerfuffle/jobs.cpp:805 kerfuffle/jobs.cpp:837
+#: kerfuffle/jobs.cpp:885
 #, kde-format
 msgid "Archive"
 msgstr "Safnskrá"
 
-#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:566
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Ekkert pláss eftir á tækinu <filename>%1</filename>"
@@ -971,7 +971,7 @@ msgid "Extracting all files"
 msgstr "Afþjappa allar skrár"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:638
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -993,40 +993,40 @@ msgstr ""
 "Gat ekki skrifað í úttaksskrána <filename>%1</filename>.<nl/>Gakktu úr "
 "skugga um að þú hafir nægilegar heimildir."
 
-#: kerfuffle/jobs.cpp:711
+#: kerfuffle/jobs.cpp:713
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "Þjappa skrá"
 msgstr[1] "Þjappa %1 skrám"
 
-#: kerfuffle/jobs.cpp:764
+#: kerfuffle/jobs.cpp:766
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "Færi skrá"
 msgstr[1] "Færi %1 skrár"
 
-#: kerfuffle/jobs.cpp:802
+#: kerfuffle/jobs.cpp:804
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "Afrita skrá"
 msgstr[1] "Afrita %1 skrár"
 
-#: kerfuffle/jobs.cpp:834
+#: kerfuffle/jobs.cpp:836
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "Eyði skrá úr safninu"
 msgstr[1] "Eyði %1 skrám úr safninu"
 
-#: kerfuffle/jobs.cpp:858
+#: kerfuffle/jobs.cpp:860
 #, kde-format
 msgid "Adding comment"
 msgstr "Bæti við athugasemd"
 
-#: kerfuffle/jobs.cpp:883
+#: kerfuffle/jobs.cpp:885
 #, kde-format
 msgid "Testing archive"
 msgstr "Prófa safnskrá"
