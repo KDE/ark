@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-04 00:49+0000\n"
+"POT-Creation-Date: 2023-02-07 01:02+0000\n"
 "PO-Revision-Date: 2022-10-22 08:10+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -957,14 +957,14 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Nalaganje arhiva"
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:712
-#: kerfuffle/jobs.cpp:765 kerfuffle/jobs.cpp:803 kerfuffle/jobs.cpp:835
-#: kerfuffle/jobs.cpp:883
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:714
+#: kerfuffle/jobs.cpp:767 kerfuffle/jobs.cpp:805 kerfuffle/jobs.cpp:837
+#: kerfuffle/jobs.cpp:885
 #, kde-format
 msgid "Archive"
 msgstr "Arhiviraj"
 
-#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:566
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Ni razpoložljivega prostora na napravi <filename>%1</filename>"
@@ -975,7 +975,7 @@ msgid "Extracting all files"
 msgstr "Razširjanje vseh datotek"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:638
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -999,7 +999,7 @@ msgstr ""
 "Ni bilo mogoče pisati v cilj <filename>%1</filename>.<nl/>Preverite ali "
 "imate zadostna dovoljenja."
 
-#: kerfuffle/jobs.cpp:711
+#: kerfuffle/jobs.cpp:713
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
@@ -1008,7 +1008,7 @@ msgstr[1] "Stiskanje %1 datotek"
 msgstr[2] "Stiskanje %1 datotek"
 msgstr[3] "Stiskanje %1 datotek"
 
-#: kerfuffle/jobs.cpp:764
+#: kerfuffle/jobs.cpp:766
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
@@ -1017,7 +1017,7 @@ msgstr[1] "Premikanje %1 datotek"
 msgstr[2] "Premikanje %1 datotek"
 msgstr[3] "Premikanje %1 datotek"
 
-#: kerfuffle/jobs.cpp:802
+#: kerfuffle/jobs.cpp:804
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
@@ -1026,7 +1026,7 @@ msgstr[1] "Kopiranje %1 datotek"
 msgstr[2] "Kopiranje %1 datotek"
 msgstr[3] "Kopiranje %1 datotek"
 
-#: kerfuffle/jobs.cpp:834
+#: kerfuffle/jobs.cpp:836
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1035,12 +1035,12 @@ msgstr[1] "Brisanje %1 datotek"
 msgstr[2] "Brisanje %1 datotek"
 msgstr[3] "Brisanje %1 datotek"
 
-#: kerfuffle/jobs.cpp:858
+#: kerfuffle/jobs.cpp:860
 #, kde-format
 msgid "Adding comment"
 msgstr "Dodajanje opombe"
 
-#: kerfuffle/jobs.cpp:883
+#: kerfuffle/jobs.cpp:885
 #, kde-format
 msgid "Testing archive"
 msgstr "Preizkušanje arhiva"

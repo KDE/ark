@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-04 00:49+0000\n"
+"POT-Creation-Date: 2023-02-07 01:02+0000\n"
 "PO-Revision-Date: 2012-06-11 15:59+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -1007,15 +1007,15 @@ msgstr ""
 msgid "Loading archive"
 msgstr "កំពុង​ផ្ទុក​ប័ណ្ណសារ..."
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:712
-#: kerfuffle/jobs.cpp:765 kerfuffle/jobs.cpp:803 kerfuffle/jobs.cpp:835
-#: kerfuffle/jobs.cpp:883
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:714
+#: kerfuffle/jobs.cpp:767 kerfuffle/jobs.cpp:805 kerfuffle/jobs.cpp:837
+#: kerfuffle/jobs.cpp:885
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgid "Archive"
 msgstr "បើក​ប័ណ្ណសារ"
 
-#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:566
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Error creating directory <filename>%1</filename>"
@@ -1028,7 +1028,7 @@ msgid "Extracting all files"
 msgstr "ស្រង់​ឯកសារ​ទាំងអស់​ចេញ"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:638
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1048,7 +1048,7 @@ msgid ""
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:711
+#: kerfuffle/jobs.cpp:713
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1056,7 +1056,7 @@ msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "បន្ថែម​ឯកសារ %1"
 
-#: kerfuffle/jobs.cpp:764
+#: kerfuffle/jobs.cpp:766
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1064,7 +1064,7 @@ msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "បន្ថែម​ឯកសារ %1"
 
-#: kerfuffle/jobs.cpp:802
+#: kerfuffle/jobs.cpp:804
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1072,20 +1072,20 @@ msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "បន្ថែម​ឯកសារ %1"
 
-#: kerfuffle/jobs.cpp:834
+#: kerfuffle/jobs.cpp:836
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "លុប​ឯកសារ %1"
 
-#: kerfuffle/jobs.cpp:858
+#: kerfuffle/jobs.cpp:860
 #, fuzzy, kde-format
 #| msgctxt "File comment"
 #| msgid "Comment"
 msgid "Adding comment"
 msgstr "មតិយោបល់"
 
-#: kerfuffle/jobs.cpp:883
+#: kerfuffle/jobs.cpp:885
 #, fuzzy, kde-format
 #| msgid "Loading archive..."
 msgid "Testing archive"

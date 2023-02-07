@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-04 00:49+0000\n"
+"POT-Creation-Date: 2023-02-07 01:02+0000\n"
 "PO-Revision-Date: 2021-06-16 00:52+0300\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -980,14 +980,14 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Įkeliamas archyvas"
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:712
-#: kerfuffle/jobs.cpp:765 kerfuffle/jobs.cpp:803 kerfuffle/jobs.cpp:835
-#: kerfuffle/jobs.cpp:883
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:714
+#: kerfuffle/jobs.cpp:767 kerfuffle/jobs.cpp:805 kerfuffle/jobs.cpp:837
+#: kerfuffle/jobs.cpp:885
 #, kde-format
 msgid "Archive"
 msgstr "Archyvas"
 
-#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:564
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:566
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Error creating directory <filename>%1</filename>"
@@ -1000,7 +1000,7 @@ msgid "Extracting all files"
 msgstr "Išpakuojami visi failai"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:638
+#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1024,7 +1024,7 @@ msgstr ""
 "Nepavyksta rašyti į paskirties vietą <filename>%1</filename>.<nl/"
 ">Pasitikrinkite, ar turite reikiamus leidimus."
 
-#: kerfuffle/jobs.cpp:711
+#: kerfuffle/jobs.cpp:713
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
@@ -1033,7 +1033,7 @@ msgstr[1] "Glaudinami %1 failai"
 msgstr[2] "Glaudinama %1 failų"
 msgstr[3] "Glaudinamas %1 failas"
 
-#: kerfuffle/jobs.cpp:764
+#: kerfuffle/jobs.cpp:766
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
@@ -1042,7 +1042,7 @@ msgstr[1] "Perkeliami %1 failai"
 msgstr[2] "Perkeliama %1 failų"
 msgstr[3] "Perkeliamas %1 failas"
 
-#: kerfuffle/jobs.cpp:802
+#: kerfuffle/jobs.cpp:804
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
@@ -1051,7 +1051,7 @@ msgstr[1] "Kopijuojami %1 failai"
 msgstr[2] "Kopijuojama %1 failų"
 msgstr[3] "Kopijuojamas %1 failas"
 
-#: kerfuffle/jobs.cpp:834
+#: kerfuffle/jobs.cpp:836
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1060,12 +1060,12 @@ msgstr[1] "Iš archyvo ištrinami %1 failai"
 msgstr[2] "Iš archyvo ištrinama %1 failų"
 msgstr[3] "Iš archyvo ištrinamas %1 failas"
 
-#: kerfuffle/jobs.cpp:858
+#: kerfuffle/jobs.cpp:860
 #, kde-format
 msgid "Adding comment"
 msgstr "Pridedamas komentaras"
 
-#: kerfuffle/jobs.cpp:883
+#: kerfuffle/jobs.cpp:885
 #, kde-format
 msgid "Testing archive"
 msgstr "Testuojamas archyvas"
