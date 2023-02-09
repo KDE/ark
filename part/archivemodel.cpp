@@ -569,7 +569,7 @@ void ArchiveModel::createEmptyArchive(const QString &path, const QString &mimeTy
     m_archive.reset(Archive::createEmpty(path, mimeType, parent));
 }
 
-KJob *ArchiveModel::loadArchive(const QString &path, const QString &mimeType, QObject *parent)
+Kerfuffle::LoadJob *ArchiveModel::loadArchive(const QString &path, const QString &mimeType, QObject *parent)
 {
     reset();
 

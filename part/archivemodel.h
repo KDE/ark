@@ -68,7 +68,7 @@ public:
 
     void reset();
     void createEmptyArchive(const QString &path, const QString &mimeType, QObject *parent);
-    KJob* loadArchive(const QString &path, const QString &mimeType, QObject *parent);
+    Kerfuffle::LoadJob* loadArchive(const QString &path, const QString &mimeType, QObject *parent);
     Kerfuffle::Archive *archive() const;
 
     QList<int> shownColumns() const;
