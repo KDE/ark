@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-07 01:02+0000\n"
-"PO-Revision-Date: 2023-02-07 11:01\n"
+"PO-Revision-Date: 2023-02-15 11:03\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -314,7 +314,7 @@ msgstr "解压缩后打开目标文件夹。"
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
 "when finished."
-msgstr "询问用户压缩包文件名并向其添加选定的文件。完成后退出。"
+msgstr "询问用户压缩包的文件名，并向其添加指定的文件。完成后退出。"
 
 #: app/main.cpp:167
 #, kde-format
@@ -438,7 +438,7 @@ msgstr "要压缩的文件/文件夹"
 #: kerfuffle/addtoarchive.cpp:79
 #, kde-format
 msgid "Compress to Archive"
-msgstr "压缩到压缩包"
+msgstr "添加到压缩包"
 
 #: kerfuffle/addtoarchive.cpp:133
 #, kde-format
