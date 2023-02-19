@@ -15,7 +15,7 @@
         "Description[et]": "DEB-, RPM-, ISO-, AppImage'i, XAR- ja CAB-failide avamine ja lahtipakkimine",
         "Description[eu]": "Ireki eta erauzi DEB, RPM, ISO, AppImage, XAR eta CAB fitxategiak",
         "Description[fi]": "Avaa ja pura Deb-, RPM-, ISO-, AppImage-, Xar- ja Cab-tiedostoja",
-        "Description[fr]": "Ouvre et extrait les fichiers DEB, RPM, ISO, AppImage, XAR et CAB",
+        "Description[fr]": "Ouvre et extrait les fichiers aux formats « DEB », « RPM », « ISO », « AppImage », « XAR » et « CAB »",
         "Description[gl]": "Abrir e extraer ficheiros DEB, RPM, ISO, AppImage, XAR e CAB.",
         "Description[hu]": "DEB-, RPM-, ISO-, AppImage-, XAR- és CAB-fájlok megnyitása és kibontása",
         "Description[ia]": "Aperir e Extraher files DEB, RPM, ISO, AppImage, XAR e CAB ",
