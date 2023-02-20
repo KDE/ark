@@ -16,6 +16,7 @@
   <name xml:lang="de">Ark</name>
   <name xml:lang="el">Ark</name>
   <name xml:lang="en-GB">Ark</name>
+  <name xml:lang="eo">Ark</name>
   <name xml:lang="es">Ark</name>
   <name xml:lang="et">Ark</name>
   <name xml:lang="eu">Ark</name>
@@ -69,6 +70,7 @@
   <summary xml:lang="de">Archivprogramm</summary>
   <summary xml:lang="el">Εργαλείο αρχειοθέτησης</summary>
   <summary xml:lang="en-GB">Archiving Tool</summary>
+  <summary xml:lang="eo">Arkiva Ilo</summary>
   <summary xml:lang="es">Herramienta de archivado</summary>
   <summary xml:lang="et">Arhiivide haldamise rakendus</summary>
   <summary xml:lang="eu">Artxibatzeko tresna</summary>
@@ -127,6 +129,7 @@
     <p xml:lang="de">Ark ist ein grafisches Dienstprogramm zum Packen/Entpacken von Dateien mit Unterstützung für mehrere Formate wie tar, gzip, bzip2, rar, zip und auch CD-Abbilder. Mit Ark können Sie können Sie Archive durchsehen, entpacken, erstellen und bearbeiten.</p>
     <p xml:lang="el">Το Ark είναι ένα γραφικό εργαλείο συμπίεσης/αποσυμπίεσης αρχείων με υποστήριξη για πολλούς τύπους αποθήκευσης, όπως tar, gzip, bzip2, rar και zip, καθώς επίσης και εικόνες CD-ROM. To Ark χρησιμεύει για την περιήγηση, εξαγωγή, δημιουργία και τροποποίηση αρχειοθηκών.</p>
     <p xml:lang="en-GB">Ark is a graphical file compression/decompression utility with support for multiple formats, including tar, gzip, bzip2, rar and zip, as well as CD-ROM images. Ark can be used to browse, extract, create, and modify archives.</p>
+    <p xml:lang="eo">Ark estas grafika dosiero kunprema/malkunprema ilo kun subteno por pluraj formatoj, inkluzive de tar, gzip, bzip2, rar kaj zip, kaj ankaŭ KD-ROM-bildojn. Ark povas esti uzata por foliumi, ĉerpi, krei kaj modifi arkivojn.</p>
     <p xml:lang="es">Ark es una utilidad gráfica de compresión y descompresión de archivos que permite usar diversos formatos, como tar, gzip, bzip2, rar y zip, así como imágenes de CD-ROM. Ark se puede usar para explorar, extraer, crear y modificar archivos comprimidos.</p>
     <p xml:lang="et">Ark on graafiline failide tihendamise ehk kokkupakkimise ja nende lahtipakkimise tööriist, mis toetab väga paljusid vorminguid, sealhulgas tar, gzip, bzip2, rar and zip, samuti CD-ROM-i tõmmised. Arki abil saab arhiivifaile sirvida, lahti pakkida, luua ja muuta.</p>
     <p xml:lang="eu">Ark fitxategien konprimatze-lanetarako utilitate grafiko bat da formatu ugari onartzen dituena, hauen artean tar, gzip, bzip2, rar eta zip, baita CD-ROM irudiak ere. Ark erabili daiteke artxiboak arakatu, erauzi, sortu eta aldatzeko.</p>
@@ -176,6 +179,7 @@
     <p xml:lang="de">Leistungsmerkmale:</p>
     <p xml:lang="el">Χαρακτηριστικά:</p>
     <p xml:lang="en-GB">Features:</p>
+    <p xml:lang="eo">Trajtoj:</p>
     <p xml:lang="es">Funcionalidades:</p>
     <p xml:lang="et">Omadused:</p>
     <p xml:lang="eu">Ezaugarriak:</p>
@@ -230,6 +234,7 @@
       <li xml:lang="de">Mehrere unterstützte Formate wie gzip, bzip2, zip, rar, 7z und mehr</li>
       <li xml:lang="el">Υποστηρίζονται πολλοί τύποι αποθήκευσης: gzip, bzip2, zip, rar, 7z και άλλοι</li>
       <li xml:lang="en-GB">Several formats supported: gzip, bzip2, zip, rar, 7z and more</li>
+      <li xml:lang="eo">Pluraj formatoj subtenataj: gzip, bzip2, zip, rar, 7z kaj pli</li>
       <li xml:lang="es">Permite el uso de diversos formatos: gzip, bzip2, zip, rar, 7z y más</li>
       <li xml:lang="et">Paljude vormingute toetus: gzip, bzip2, zip, rar, 7z ja veel paljud.</li>
       <li xml:lang="eu">Hainbat formatu onartuak: gzip, bzip2, zip, rar, 7z eta gehiago</li>
@@ -280,6 +285,7 @@
       <li xml:lang="de">Vorschau der Dateiinhalte ohne das Entpacken der Dateien</li>
       <li xml:lang="el">Προεπισκόπηση περιεχομένων αρχείου χωρίς εξαγωγή αρχείων</li>
       <li xml:lang="en-GB">Preview file contents without extracting files</li>
+      <li xml:lang="eo">Antaŭrigardu dosierenhavon sen ĉerpi dosierojn</li>
       <li xml:lang="es">Vista previa del contenido de archivos sin extraerlos</li>
       <li xml:lang="et">Failide sisu näitamine ilma neid lahti pakkimata.</li>
       <li xml:lang="eu">Aurreikusi fitxategiaren edukia fitxategiak erauzi gabe</li>
@@ -333,6 +339,7 @@
       <caption xml:lang="de">Verwaltung von Archiven mit Ark</caption>
       <caption xml:lang="el">Διαχείριση αρχειοθηκών με το Ark</caption>
       <caption xml:lang="en-GB">Managing archives with Ark</caption>
+      <caption xml:lang="eo">Administri arkivojn kun Ark</caption>
       <caption xml:lang="es">Gestión de archivos comprimidos con Ark</caption>
       <caption xml:lang="et">Arhiivide haldamine Arkis</caption>
       <caption xml:lang="eu">Ark erabiliz artxiboak kudeatzea</caption>
