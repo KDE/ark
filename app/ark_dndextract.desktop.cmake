@@ -13,6 +13,7 @@ Name[da]=Pak ud med Ark her
 Name[de]=Ark – Hierher entpacken
 Name[el]=Εξαγωγή Ark εδώ
 Name[en_GB]=Ark Extract Here
+Name[eo]=Ark Malpaki Ĉi tie
 Name[es]=Extraer aquí con Ark
 Name[et]=Paki siia lahti
 Name[eu]=Ark: Erauzi hemen
