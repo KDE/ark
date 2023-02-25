@@ -42,10 +42,10 @@
 ></author>
 
 <date
->19/03/2016</date
+>08/08/2018</date
 ><!--Update only when changing/reviewing this man page-->
 <releaseinfo
->16.04</releaseinfo
+>18.12</releaseinfo
 ><!--Update only when changing/reviewing this man page-->
 <productname
 >KDE Applications</productname>
@@ -115,6 +115,10 @@
 ></group
 > <group choice="opt"
 ><option
+>-m</option
+></group
+> <group choice="opt"
+><option
 >-o</option
 > <replaceable
 > pasta</replaceable
@@ -173,6 +177,16 @@
 <listitem>
 <para
 >Mostra uma janela para indicar as opções em uma operação em lote ou de adição.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-m, --mimetypes</option
+></term>
+<listitem>
+<para
+>Lista dos tipos &MIME; suportados.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -297,6 +311,27 @@
 
 </variablelist>
 </refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Veja também</title>
+<simplelist>
+<member
+>Documentação de usuário mais detalhada está disponível em <ulink url="help:/ark"
+>help:/ark</ulink
+> (digite esta &URL; no &konqueror;, ou execute <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
 </refsect1>
 
 <refsect1>
