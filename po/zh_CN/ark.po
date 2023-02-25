@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-07 02:53+0000\n"
-"PO-Revision-Date: 2023-02-15 11:08\n"
+"PO-Revision-Date: 2023-02-24 12:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -42,7 +42,7 @@ msgstr "压缩包(&A)"
 #: app/batchextract.cpp:103 app/batchextract.cpp:167
 #, kde-format
 msgid "Extracting Files"
-msgstr "正在解压缩文件"
+msgstr "正在解压文件"
 
 #: app/batchextract.cpp:104 app/batchextract.cpp:168
 #, kde-format
@@ -57,7 +57,7 @@ msgstr "目标文件夹"
 #: app/batchextract.cpp:118
 #, kde-format
 msgid "The following files could not be extracted:"
-msgstr "无法解压缩下列文件："
+msgstr "无法解压以下文件："
 
 #: app/batchextract.cpp:137
 #, kde-kuit-format
@@ -65,7 +65,7 @@ msgctxt "@info"
 msgid ""
 "There was an error while extracting <filename>%1</filename>. Any further "
 "archive will not be extracted."
-msgstr "解压缩 <filename>%1</filename> 时出错。后续压缩包将不会被解压缩。"
+msgstr "解压 <filename>%1</filename> 时出错。后续压缩包将不会被解压。"
 
 #: app/batchextract.cpp:138
 #, kde-kuit-format
@@ -74,14 +74,14 @@ msgid ""
 "There was an error while extracting <filename>%1</filename>:<nl/><message>"
 "%2</message><nl/>Any further archive will not be extracted."
 msgstr ""
-"解压缩 <filename>%1</filename> 时出错：<nl/><message>%2</message><nl/>后续压"
-"缩包将不会被解压缩。"
+"解压 <filename>%1</filename> 时出错：<nl/><message>%2</message><nl/>后续压缩"
+"包将不会被解压。"
 
 #: app/batchextract.cpp:142
 #, kde-kuit-format
 msgctxt "@info"
 msgid "There was an error while extracting <filename>%1</filename>."
-msgstr "解压缩 <filename>%1</filename> 时出错。"
+msgstr "解压 <filename>%1</filename> 时出错。"
 
 #: app/batchextract.cpp:143
 #, kde-kuit-format
@@ -89,7 +89,7 @@ msgctxt "@info"
 msgid ""
 "There was an error while extracting <filename>%1</filename>:<nl/><message>"
 "%2</message>"
-msgstr "解压缩 <filename>%1</filename> 时出错：<nl/><message>%2</message>"
+msgstr "解压 <filename>%1</filename>时出错：<nl/><message>%2</message>"
 
 #: app/batchextract.cpp:294
 #, kde-kuit-format
@@ -98,8 +98,8 @@ msgid ""
 "The archive could not be extracted to <filename>%1</filename> because Ark "
 "can only extract to local destinations."
 msgstr ""
-"该压缩包无法被解压缩到 <filename>%1</filename>，因为 Ark 只能将文件解压缩到本"
-"机位置。"
+"该压缩包无法被解压到 <filename>%1</filename>，因为 Ark 只能将文件解压到本地目"
+"标位置。"
 
 #: app/compressfileitemaction.cpp:77
 #, kde-format
@@ -124,32 +124,32 @@ msgstr "压缩为“%1”到此位置"
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract archive to..."
-msgstr "解压缩到..."
+msgstr "解压到..."
 
 #: app/extractfileitemaction.cpp:75
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract archive here"
-msgstr "解压缩到当前位置"
+msgstr "解压到当前文件夹"
 
 #: app/extractfileitemaction.cpp:83
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract archive here, autodetect subfolder"
-msgstr "解压缩到当前位置，自动建立文件夹"
+msgstr "解压到当前文件夹，自动创建子文件夹"
 
 #: app/extractfileitemaction.cpp:89
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"
-msgstr "解压缩"
+msgstr "解压"
 
 #: app/extractHereDndPlugin.cpp:55
 #, kde-format
 msgctxt ""
 "@action:inmenu Context menu shown when an archive is being drag'n'dropped"
 msgid "Extract here"
-msgstr "解压缩到当前位置"
+msgstr "解压到当前文件夹"
 
 #: app/main.cpp:84
 #, kde-format
@@ -295,19 +295,19 @@ msgstr "要打开的 URL。"
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
-msgstr "显示对话框以设定操作的选项 (解压缩/添加文件)"
+msgstr "显示用于指定操作选项的对话框 (解压/添加)"
 
 #: app/main.cpp:157
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
-msgstr "解压缩的目标文件夹。如未指定则默认为当前位置。"
+msgstr "解压的目标文件夹。如果没有指定，则默认为当前文件夹。"
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
 #: app/main.cpp:161 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
-msgstr "解压缩后打开目标文件夹。"
+msgstr "解压后打开目标文件夹。"
 
 #: app/main.cpp:164
 #, kde-format
@@ -359,7 +359,7 @@ msgid ""
 "a single file archive, a subfolder with the name of the archive will be "
 "created."
 msgstr ""
-"解压缩时如果检测到压缩包内含多个文件/文件夹，将按照压缩包文件名创建子文件夹。"
+"解压时如果检测到压缩包内含多个文件/文件夹，将按照压缩包文件名创建子文件夹。"
 
 #: app/main.cpp:187
 #, kde-format
@@ -477,20 +477,20 @@ msgstr "打开压缩包文件时的默认操作。"
 #: kerfuffle/ark.kcfg:27
 #, kde-format
 msgid "Close Ark after extraction."
-msgstr "解压缩后关闭 Ark。"
+msgstr "解压后关闭 Ark。"
 
 #. i18n: ectx: label, entry (preservePaths), group (Extraction)
 #: kerfuffle/ark.kcfg:31
 #, kde-format
 msgid "Preserve paths when extracting."
-msgstr "解压缩时保留路径。"
+msgstr "解压时保留路径。"
 
 #. i18n: ectx: label, entry (extractToSubfolder), group (Extraction)
 #: kerfuffle/ark.kcfg:35
 #, kde-format
 msgid ""
 "Extract to a subfolder if the archive has more than one top-level entry."
-msgstr "如果压缩包含多个顶层目录，解压缩到子文件夹中。"
+msgstr "如果压缩包含多个顶层目录，将它们解压到子文件夹中。"
 
 #. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
 #: kerfuffle/ark.kcfg:41
@@ -525,33 +525,33 @@ msgstr "无法在本机找到 <filename>%1</filename> 程序。"
 #: kerfuffle/cliinterface.cpp:355
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
-msgstr "解压缩失败。请确保可用存储空间充足。"
+msgstr "解压失败。请确保可用存储空间充足。"
 
 #: kerfuffle/cliinterface.cpp:358
 #, kde-format
 msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
 "enough space is available."
-msgstr "解压缩失败。请确保密码正确且可用存储空间充足。"
+msgstr "解压失败。请确保密码正确，且可用存储空间充足。"
 
 #: kerfuffle/cliinterface.cpp:369 kerfuffle/cliinterface.cpp:494
 #, kde-format
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
 msgid_plural "Could not move the extracted files to the destination directory."
-msgstr[0] "无法将解压缩后的文件移动到目标目录"
+msgstr[0] "无法将解压后的文件移动到目标目录。"
 
 #: kerfuffle/cliinterface.cpp:857
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
-msgstr "解压缩失败：存储设备已满。"
+msgstr "解压失败：存储设备已满。"
 
 #: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:144
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
-msgstr "解压缩失败：密码错误"
+msgstr "解压失败：密码错误"
 
 #: kerfuffle/cliinterface.cpp:898
 #, kde-format
@@ -716,12 +716,12 @@ msgstr "扩展名："
 #, kde-format
 msgctxt "@title:window"
 msgid "Extract"
-msgstr "解压缩"
+msgstr "解压"
 
 #: kerfuffle/extractiondialog.cpp:55
 #, kde-format
 msgid "Extract"
-msgstr "解压缩"
+msgstr "解压"
 
 #: kerfuffle/extractiondialog.cpp:98
 #, kde-format
@@ -744,7 +744,7 @@ msgstr "文件夹已存在"
 #: kerfuffle/extractiondialog.cpp:116
 #, kde-format
 msgid "Extract here"
-msgstr "解压缩到此位置"
+msgstr "解压到此文件夹"
 
 #: kerfuffle/extractiondialog.cpp:117
 #, kde-format
@@ -771,25 +771,25 @@ msgstr "请检查您是否具备创建该文件的权限。"
 #: kerfuffle/extractiondialog.cpp:177
 #, kde-format
 msgid "Extract multiple archives"
-msgstr "解压缩多个压缩包"
+msgstr "解压多个压缩包"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ExtractionDialog)
 #: kerfuffle/extractiondialog.ui:21
 #, kde-format
 msgid "Extraction Dialog"
-msgstr "解压缩对话框"
+msgstr "解压对话框"
 
 #. i18n: ectx: property (text), widget (QLabel, extractAllLabel)
 #: kerfuffle/extractiondialog.ui:70
 #, kde-format
 msgid "Extract All Files"
-msgstr "解压缩所有文件"
+msgstr "解压所有文件"
 
 #. i18n: ectx: property (title), widget (QGroupBox, singleFolderGroup)
 #: kerfuffle/extractiondialog.ui:79
 #, kde-format
 msgid "E&xtraction into subfolder:"
-msgstr "解压缩到子文件夹(&X)："
+msgstr "解压到子文件夹(&X)："
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: kerfuffle/extractiondialog.ui:113
@@ -801,19 +801,19 @@ msgstr "选项"
 #: kerfuffle/extractiondialog.ui:132
 #, kde-format
 msgid "Open &destination folder after extraction"
-msgstr "解压缩后打开目标文件夹(&D)"
+msgstr "解压后打开目标文件夹(&D)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
 #: kerfuffle/extractiondialog.ui:139
 #, kde-format
 msgid "Close &Ark after extraction"
-msgstr "解压缩后关闭 &Ark"
+msgstr "解压后关闭 &Ark"
 
 #. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
 #: kerfuffle/extractiondialog.ui:146
 #, kde-format
 msgid "&Preserve paths when extracting"
-msgstr "解压缩时保留路径(&P)"
+msgstr "解压时保留路径(&P)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
 #: kerfuffle/extractiondialog.ui:153
@@ -826,7 +826,7 @@ msgstr "自动创建子文件夹(&A)"
 #, kde-format
 msgctxt "@title:group"
 msgid "Extract"
-msgstr "解压缩"
+msgstr "解压"
 
 #. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
 #: kerfuffle/extractiondialog.ui:187
@@ -844,19 +844,19 @@ msgstr "所有文件(&F)"
 #: kerfuffle/extractionsettingspage.ui:17
 #, kde-format
 msgid "Open destination folder after extraction"
-msgstr "解压缩后打开目标文件夹"
+msgstr "解压后打开目标文件夹"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_closeAfterExtraction)
 #: kerfuffle/extractionsettingspage.ui:24
 #, kde-format
 msgid "Close Ark after extraction"
-msgstr "解压缩后关闭 Ark"
+msgstr "解压后关闭 Ark"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_preservePaths)
 #: kerfuffle/extractionsettingspage.ui:31
 #, kde-format
 msgid "Preserve paths when extracting"
-msgstr "解压缩时保留路径"
+msgstr "解压时保留路径"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_extractToSubfolder)
 #: kerfuffle/extractionsettingspage.ui:41
@@ -865,14 +865,13 @@ msgid ""
 "Whether to check by default the extraction into subfolder checkbox in the "
 "Extraction Dialog, when the archive has more than one top-level entry."
 msgstr ""
-"当压缩包含多个顶层文件夹时，是否默认启用解压缩对话框的“解压缩到子文件夹”选"
-"项。"
+"当压缩包含多个顶层文件夹时，是否默认勾选解压对话框的“解压到子文件夹”选项。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
 #: kerfuffle/extractionsettingspage.ui:44
 #, kde-format
 msgid "Extract to a subfolder if the archive has more than one top-level entry"
-msgstr "如果压缩包有多个顶层目录，解压缩到子文件夹"
+msgstr "如果压缩包含多个顶层目录，将它们解压到子文件夹中。"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/generalsettingspage.ui:17
@@ -937,14 +936,14 @@ msgstr "设备 <filename>%1</filename> 上没有可用空间"
 #: kerfuffle/jobs.cpp:536
 #, kde-format
 msgid "Extracting all files"
-msgstr "正在解压缩所有文件"
+msgstr "正在解压所有文件"
 
 #. i18np on purpose so this translation may properly be reused.
 #: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
-msgstr[0] "正在解压缩 %1 个文件"
+msgstr[0] "正在解压 %1 个文件"
 
 #: kerfuffle/jobs.cpp:540
 #, kde-format
@@ -1224,7 +1223,7 @@ msgstr "不再询问。"
 #: kerfuffle/queries.cpp:230
 #, kde-format
 msgid "Error during extraction"
-msgstr "解压缩时出错。"
+msgstr "解压时发生错误。"
 
 #: kerfuffle/queries.cpp:231
 #, kde-kuit-format
@@ -1232,8 +1231,8 @@ msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
 "error message:<nl/>    %2<nl/><nl/>Do you want to continue extraction?<nl/>"
 msgstr ""
-"解压缩下列项目失败：<nl/>    <filename>%1</filename><nl/>错误信息为：<nl/"
-">    %2<nl/><nl/>您想要继续解压缩吗？<nl/>"
+"解压以下项目失败：<nl/>    <filename>%1</filename><nl/>错误信息：<nl/>    "
+"%2<nl/><nl/>您想要继续解压吗？<nl/>"
 
 #: part/archivemodel.cpp:155
 #, kde-format
@@ -1511,7 +1510,7 @@ msgstr "请输入搜索条件..."
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
-msgstr "Ark 只能将压缩包解压缩到本机目标位置。"
+msgstr "Ark 只能将压缩包解压到本地目标位置。"
 
 #: part/part.cpp:364
 #, kde-format
@@ -1559,7 +1558,7 @@ msgstr "点击即可预览选中的文件"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
-msgstr "全部解压缩(&X)"
+msgstr "解压所有(&X)"
 
 #: part/part.cpp:395
 #, kde-format
@@ -1567,21 +1566,20 @@ msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
 "the files in the archive"
 msgstr ""
-"点击即可打开解压缩对话框，您可以从中选择如何对压缩包中的所有文件进行解压缩。"
+"点击即可打开解压对话框，您可以从中选择如何对压缩包中的所有文件进行解压。"
 
 #: part/part.cpp:400
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
-msgstr "解压缩(&E)"
+msgstr "解压(&E)"
 
 #: part/part.cpp:403
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
 "all files or just the selected ones"
-msgstr ""
-"点击即可打开解压缩对话框，您可以从中选择解压缩所有文件还是仅解压缩选中的文件"
+msgstr "点击即可打开解压对话框，您可以从中选择解压所有文件还是仅解压选中的文件"
 
 #: part/part.cpp:408
 #, kde-format
@@ -1639,7 +1637,7 @@ msgid ""
 "a new archive if you want to add files."
 msgstr ""
 "尚不支持向无加密文件头的加密压缩包添加文件。<nl/><nl/>如果您想要添加文件，请"
-"先将文件解压缩，然后再重新创建压缩包。"
+"先解压文件，然后再重新创建压缩包。"
 
 #: part/part.cpp:470
 #, kde-kuit-format
@@ -1679,12 +1677,12 @@ msgstr "压缩包无法通过完整性测试。"
 #: part/part.cpp:671
 #, kde-format
 msgid "Extract To..."
-msgstr "解压缩到..."
+msgstr "解压到..."
 
 #: part/part.cpp:685
 #, kde-format
 msgid "Quick Extract To..."
-msgstr "快速解压缩到..."
+msgstr "快速解压到..."
 
 #: part/part.cpp:815
 #, kde-format
@@ -1696,7 +1694,7 @@ msgstr "常规"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
-msgstr "解压缩"
+msgstr "解压"
 
 #: part/part.cpp:817
 #, kde-format
@@ -1889,14 +1887,14 @@ msgstr "获取压缩包内容列表失败。"
 #: plugins/cli7zplugin/cliplugin.cpp:309
 #, kde-format
 msgid "Extraction failed due to an unknown error."
-msgstr "解压缩失败。发生了一个未知错误。"
+msgstr "解压失败。发生了一个未知错误。"
 
 #: plugins/cli7zplugin/cliplugin.cpp:315 plugins/clizipplugin/cliplugin.cpp:188
 #, kde-format
 msgid ""
 "Extraction failed due to one or more corrupt files. Any extracted files may "
 "be damaged."
-msgstr "解压缩失败。压缩包中存在已损坏的文件。已经解压缩的文件可能遭到损坏。"
+msgstr "解压失败。压缩包中存在已损坏的文件。已经解压的文件也有可能损坏。"
 
 #: plugins/cli7zplugin/cliplugin.cpp:326
 #, kde-format
@@ -1968,7 +1966,7 @@ msgstr "校验和错误"
 #: plugins/cliunarchiverplugin/cliplugin.cpp:97
 #, kde-format
 msgid "Extraction failed."
-msgstr "解压缩失败。"
+msgstr "解压失败。"
 
 #: plugins/cliunarchiverplugin/cliplugin.cpp:131
 #, kde-format
@@ -1983,12 +1981,12 @@ msgstr "密码错误。"
 #: plugins/clizipplugin/cliplugin.cpp:178
 #, kde-format
 msgid "Extraction failed due to unsupported compression method (%1)."
-msgstr "解压缩失败。不支持的压缩方式 (%1)。"
+msgstr "解压失败。不支持的压缩方式 (%1)。"
 
 #: plugins/clizipplugin/cliplugin.cpp:183
 #, kde-format
 msgid "Extraction failed due to unsupported encryption method."
-msgstr "解压缩失败。不支持的加密方式。"
+msgstr "解压失败。不支持的加密方式。"
 
 #: plugins/clizipplugin/cliplugin.cpp:311
 #, kde-format
@@ -2000,7 +1998,7 @@ msgstr "未知"
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
-msgstr "发生致命错误，解压缩操作已中止。"
+msgstr "发生严重错误，解压操作已中止。"
 
 #: plugins/libarchive/libarchiveplugin.cpp:466
 #, kde-format
