@@ -55,7 +55,7 @@
   <name xml:lang="tr">Ark</name>
   <name xml:lang="uk">Ark</name>
   <name xml:lang="x-test">xxArkxx</name>
-  <name xml:lang="zh-CN">Ark 压缩包管理工具</name>
+  <name xml:lang="zh-CN">Ark 压缩文件管理工具</name>
   <name xml:lang="zh-TW">Ark</name>
   <summary>Archiving Tool</summary>
   <summary xml:lang="ar">أداة أرشفة</summary>
@@ -164,7 +164,7 @@
     <p xml:lang="tr">Ark; tar, gzip, bzip2, rar ve zip dosyalarının yanında CD-ROM kalıplarını da destekleyen grafiksel bir dosya sıkıştırma/açma yardımcısıdır. Ark arşivlerde gezinmek, arşiv ayıklamak, oluşturmak ve değiştirmek için kullanılabilir.</p>
     <p xml:lang="uk">Ark — програма з графічним інтерфейсом, призначена для стискання даних у архіви та видобування даних з архівів. Передбачено підтримку декількох форматів архівів, зокрема tar, gzip, bzip2, rar та zip, а також образів дисків. Ark можна використовувати для перегляду, видобування, створення та внесення змін до архівів.</p>
     <p xml:lang="x-test">xxArk is a graphical file compression/decompression utility with support for multiple formats, including tar, gzip, bzip2, rar and zip, as well as CD-ROM images. Ark can be used to browse, extract, create, and modify archives.xx</p>
-    <p xml:lang="zh-CN">Ark 是一款具备图形界面的文件压缩/解压缩工具。它支持多种格式，包括 tar、gzip、bzip2、rar、zip 和 CD-ROM 镜像文件等。您可以使用 Ark 来浏览、解压、创建和修改各种压缩包文件。</p>
+    <p xml:lang="zh-CN">Ark 是一款具备图形界面的文件压缩/解压工具。它支持多种格式，包括 tar、gzip、bzip2、rar、zip 和 CD-ROM 镜像文件等。您可以使用 Ark 来浏览、解压、创建和修改各种压缩包文件。</p>
     <p xml:lang="zh-TW">Ark 是一套圖形介面的檔案壓縮/解壓縮工具，支援多種格式，包括 tar, gzip, bzip2, rar 與 zip 等，還有 CD-ROM 映像檔等。Ark 有瀏覽、解開、建立與變更壓縮檔的功能。</p>
     <p>Features:</p>
     <p xml:lang="ar">المزايا</p>
