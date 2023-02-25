@@ -60,6 +60,6 @@ Name[tr]=Ark Arşivi Buraya Çıkar
 Name[uk]=Видобути архів сюди з Ark
 Name[wa]=Saetchî foû avou Ark cial
 Name[x-test]=xxArk Extract Herexx
-Name[zh_CN]=Ark 解压缩到此位置
+Name[zh_CN]=Ark 解压到此位置
 Name[zh_TW]=在此解壓縮
 MimeType=@SUPPORTED_ARK_MIMETYPES@
