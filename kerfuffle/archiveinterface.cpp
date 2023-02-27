@@ -46,7 +46,7 @@ void ReadOnlyArchiveInterface::onEntry(Archive::Entry *archiveEntry)
 {
     Q_ASSERT(archiveEntry);
     m_numberOfEntries += 1;
-    m_unpackedSize += archiveEntry->size();
+    m_unpackedSize += archiveEntry->isSparse() ? archiveEntry->sparseSize() : archiveEntry->size();
 }
 
 QString ReadOnlyArchiveInterface::filename() const

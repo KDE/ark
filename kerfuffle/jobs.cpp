@@ -300,7 +300,7 @@ bool LoadJob::isSingleFolderArchive() const
 
 void LoadJob::onNewEntry(const Archive::Entry *entry)
 {
-    m_extractedFilesSize += entry->sparseSize() > 0 ? entry->sparseSize() : entry->property("size").toLongLong();
+    m_extractedFilesSize += entry->isSparse() ? entry->sparseSize() : entry->property("size").toLongLong();
     m_isPasswordProtected |= entry->property("isPasswordProtected").toBool();
 
     if (entry->isDir()) {
@@ -531,8 +531,10 @@ ExtractJob::ExtractJob(const QVector<Archive::Entry*> &entries, const QString &d
 
 void ExtractJob::doWork()
 {
+    const bool extractingAll = m_entries.empty();
+
     QString desc;
-    if (m_entries.count() == 0) {
+    if (extractingAll) {
         desc = i18n("Extracting all files");
     } else {
         desc = i18np("Extracting one file", "Extracting %1 files", m_entries.count());
@@ -554,9 +556,13 @@ void ExtractJob::doWork()
              << "Options:" << m_options;
 
     qulonglong totalUncompressedSize = 0;
-    for (Archive::Entry *entry : qAsConst(m_entries)) {
-        if (!entry->isDir()) {
-            totalUncompressedSize += entry->sparseSize() > 0 ? entry->sparseSize() : entry->size();
+    if (extractingAll) {
+        totalUncompressedSize = archiveInterface()->unpackedSize();
+    } else {
+        for (Archive::Entry *entry : qAsConst(m_entries)) {
+            if (!entry->isDir()) {
+                totalUncompressedSize += entry->isSparse() ? entry->sparseSize() : entry->size();
+            }
         }
     }
 
