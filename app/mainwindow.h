@@ -39,7 +39,7 @@ public Q_SLOTS:
     void openUrl(const QUrl &url);
     void setShowExtractDialog(bool);
 
-    void showWelcomeScreen(bool force = false);
+    void showWelcomeScreen();
     void hideWelcomeScreen();
 
 protected:
