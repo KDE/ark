@@ -158,7 +158,11 @@ bool MainWindow::loadPart()
     connect(m_part, QOverload<>::of(&KParts::ReadOnlyPart::completed), this, &MainWindow::addPartUrl);
 
     updateActions();
-    showWelcomeScreen();
+
+    const KConfigGroup configGroup = KSharedConfig::openConfig()->group("General");
+    if (configGroup.readEntry("ShowWelcomeScreenOnStartup", true)) {
+        showWelcomeScreen();
+    }
 
     return true;
 }
@@ -168,15 +172,8 @@ KRecentFilesMenu *MainWindow::recentFilesMenu() const
     return m_recentFilesMenu;
 }
 
-void MainWindow::showWelcomeScreen(bool force)
+void MainWindow::showWelcomeScreen()
 {
-    if (!force) {
-        const KConfigGroup configGroup = KSharedConfig::openConfig()->group("General");
-        if (!configGroup.readEntry("ShowWelcomeScreenOnStartup", true)) {
-            return;
-        }
-    }
-
     m_windowContents->setCurrentWidget(m_welcomeView);
 }
 
@@ -205,7 +202,7 @@ void MainWindow::setupActions()
     a->setIcon(qApp->windowIcon());
     a->setWhatsThis(i18n("Show the welcome page"));
     connect(a, &QAction::triggered, this, [this]() {
-        showWelcomeScreen(true);
+        showWelcomeScreen();
     });
 
     // add Menubar toggle to 'Settings' menu
