@@ -546,6 +546,7 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry, b
             sparseSize += static_cast<qulonglong>(len);
         }
         e->setProperty("sparseSize", sparseSize);
+        e->setProperty("isSparse", true);
     }
 
     Q_EMIT entry(e);

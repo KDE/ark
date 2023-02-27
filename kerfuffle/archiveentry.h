@@ -54,6 +54,7 @@ class Archive::Entry : public QObject
     Q_PROPERTY(bool isDirectory MEMBER m_isDirectory WRITE setIsDirectory)
     Q_PROPERTY(bool isExecutable MEMBER m_isExecutable WRITE setIsExecutable)
     Q_PROPERTY(bool isPasswordProtected MEMBER m_isPasswordProtected)
+    Q_PROPERTY(bool isSparse MEMBER m_isSparse)
 
 public:
 
@@ -85,6 +86,7 @@ public:
     QIcon icon() const;
     qulonglong size() const;
     qulonglong sparseSize() const;
+    bool isSparse() const;
 
     /**
      * Fills @p dirs and @p files with the number of directories and files
@@ -121,6 +123,7 @@ private:
     bool m_isDirectory;
     bool m_isExecutable;
     bool m_isPasswordProtected;
+    bool m_isSparse;
     mutable QIcon m_icon;
 };
 

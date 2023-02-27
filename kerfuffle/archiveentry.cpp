@@ -22,6 +22,7 @@ Archive::Entry::Entry(QObject *parent, const QString &fullPath, const QString &r
     , m_isDirectory(false)
     , m_isExecutable(false)
     , m_isPasswordProtected(false)
+    , m_isSparse(false)
 {
     if (!fullPath.isEmpty())
         setFullPath(fullPath);
@@ -39,6 +40,11 @@ qulonglong Archive::Entry::size() const
 qulonglong Archive::Entry::sparseSize() const
 {
     return m_sparseSize;
+}
+
+bool Archive::Entry::isSparse() const
+{
+    return m_isSparse;
 }
 
 void Archive::Entry::copyMetaData(const Archive::Entry *sourceEntry)
