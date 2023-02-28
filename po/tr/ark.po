@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-07 01:02+0000\n"
+"POT-Creation-Date: 2023-02-28 01:02+0000\n"
 "PO-Revision-Date: 2023-02-01 00:28+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -969,38 +969,38 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Arşiv yükleniyor"
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:714
-#: kerfuffle/jobs.cpp:767 kerfuffle/jobs.cpp:805 kerfuffle/jobs.cpp:837
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:542 kerfuffle/jobs.cpp:720
+#: kerfuffle/jobs.cpp:773 kerfuffle/jobs.cpp:811 kerfuffle/jobs.cpp:843
+#: kerfuffle/jobs.cpp:891
 #, kde-format
 msgid "Archive"
 msgstr "Arşivle"
 
-#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:566
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:572
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "<filename>%1</filename> aygıtında boş alan kalmadı"
 
-#: kerfuffle/jobs.cpp:536
+#: kerfuffle/jobs.cpp:538
 #, kde-format
 msgid "Extracting all files"
 msgstr "Tüm dosyalar çıkarılıyor"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
+#: kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:646
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "%1 dosya çıkarılıyor"
 msgstr[1] "%1 dosya çıkarılıyor"
 
-#: kerfuffle/jobs.cpp:540
+#: kerfuffle/jobs.cpp:542
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Hedef"
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:546
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1009,40 +1009,40 @@ msgstr ""
 "<filename>%1</filename> hedefine yazılamadı.<nl/>Yeterli izinlere sahip olup "
 "olmadığınızı denetleyin."
 
-#: kerfuffle/jobs.cpp:713
+#: kerfuffle/jobs.cpp:719
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "Bir dosya sıkıştırılıyor"
 msgstr[1] "%1 dosya sıkıştırılıyor"
 
-#: kerfuffle/jobs.cpp:766
+#: kerfuffle/jobs.cpp:772
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "Bir dosya taşınıyor"
 msgstr[1] "%1 dosya taşınıyor"
 
-#: kerfuffle/jobs.cpp:804
+#: kerfuffle/jobs.cpp:810
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "Bir dosya kopyalanıyor"
 msgstr[1] "%1 dosya kopyalanıyor"
 
-#: kerfuffle/jobs.cpp:836
+#: kerfuffle/jobs.cpp:842
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "%1 dosya siliniyor"
 msgstr[1] "%1 dosya siliniyor"
 
-#: kerfuffle/jobs.cpp:860
+#: kerfuffle/jobs.cpp:866
 #, kde-format
 msgid "Adding comment"
 msgstr "Yorum ekleniyor"
 
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:891
 #, kde-format
 msgid "Testing archive"
 msgstr "Arşiv sınanıyor"

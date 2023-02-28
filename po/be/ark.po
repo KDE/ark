@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-07 01:02+0000\n"
+"POT-Creation-Date: 2023-02-28 01:02+0000\n"
 "PO-Revision-Date: 2007-04-03 18:07+0300\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian (Official spelling) <i18n@mova.org>\n"
@@ -932,25 +932,25 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Стварэнне архіва..."
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:714
-#: kerfuffle/jobs.cpp:767 kerfuffle/jobs.cpp:805 kerfuffle/jobs.cpp:837
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:542 kerfuffle/jobs.cpp:720
+#: kerfuffle/jobs.cpp:773 kerfuffle/jobs.cpp:811 kerfuffle/jobs.cpp:843
+#: kerfuffle/jobs.cpp:891
 #, fuzzy, kde-format
 msgid "Archive"
 msgstr "Адкрыць"
 
-#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:566
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:572
 #, fuzzy, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Тэчка да да"
 
-#: kerfuffle/jobs.cpp:536
+#: kerfuffle/jobs.cpp:538
 #, fuzzy, kde-format
 msgid "Extracting all files"
 msgstr "Вылучыць"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
+#: kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:646
 #, fuzzy, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -958,21 +958,21 @@ msgstr[0] "Вылучыць"
 msgstr[1] "Вылучыць"
 msgstr[2] "Вылучыць"
 
-#: kerfuffle/jobs.cpp:540
+#: kerfuffle/jobs.cpp:542
 #, fuzzy, kde-format
 #| msgid "Destination folder: "
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Тэчка прызначэння: "
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:546
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:713
+#: kerfuffle/jobs.cpp:719
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Compressing a file"
@@ -981,7 +981,7 @@ msgstr[0] "Даданне файлаў..."
 msgstr[1] "Даданне файлаў..."
 msgstr[2] "Даданне файлаў..."
 
-#: kerfuffle/jobs.cpp:766
+#: kerfuffle/jobs.cpp:772
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Moving a file"
@@ -990,7 +990,7 @@ msgstr[0] "Даданне файлаў..."
 msgstr[1] "Даданне файлаў..."
 msgstr[2] "Даданне файлаў..."
 
-#: kerfuffle/jobs.cpp:804
+#: kerfuffle/jobs.cpp:810
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Copying a file"
@@ -999,7 +999,7 @@ msgstr[0] "Даданне файлаў..."
 msgstr[1] "Даданне файлаў..."
 msgstr[2] "Даданне файлаў..."
 
-#: kerfuffle/jobs.cpp:836
+#: kerfuffle/jobs.cpp:842
 #, fuzzy, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1007,13 +1007,13 @@ msgstr[0] "памылка да."
 msgstr[1] "памылка да."
 msgstr[2] "памылка да."
 
-#: kerfuffle/jobs.cpp:860
+#: kerfuffle/jobs.cpp:866
 #, fuzzy, kde-format
 #| msgid "Adding folder..."
 msgid "Adding comment"
 msgstr "Даданне тэчкі..."
 
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:891
 #, fuzzy, kde-format
 #| msgid "Creating archive..."
 msgid "Testing archive"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-07 01:02+0000\n"
+"POT-Creation-Date: 2023-02-28 01:02+0000\n"
 "PO-Revision-Date: 2022-07-19 10:02+0200\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -953,25 +953,25 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Načítava sa archív"
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:714
-#: kerfuffle/jobs.cpp:767 kerfuffle/jobs.cpp:805 kerfuffle/jobs.cpp:837
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:542 kerfuffle/jobs.cpp:720
+#: kerfuffle/jobs.cpp:773 kerfuffle/jobs.cpp:811 kerfuffle/jobs.cpp:843
+#: kerfuffle/jobs.cpp:891
 #, kde-format
 msgid "Archive"
 msgstr "Archív"
 
-#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:566
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:572
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Na zariadení <filename>%1</filename> nie je k dispozícii žiadne miesto"
 
-#: kerfuffle/jobs.cpp:536
+#: kerfuffle/jobs.cpp:538
 #, kde-format
 msgid "Extracting all files"
 msgstr "Rozbaľujú sa všetky súbory"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
+#: kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:646
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -979,13 +979,13 @@ msgstr[0] "Rozbaľuje sa jeden súbor"
 msgstr[1] "Rozbaľujú sa %1 súbory"
 msgstr[2] "Rozbaľuje sa %1 súborov"
 
-#: kerfuffle/jobs.cpp:540
+#: kerfuffle/jobs.cpp:542
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Cieľ"
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:546
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -994,7 +994,7 @@ msgstr ""
 "Nemôžem zapisovať do cieľa <filename>%1</filename>.<nl/>Skontrolujte, či "
 "máte dostatočné oprávnenia."
 
-#: kerfuffle/jobs.cpp:713
+#: kerfuffle/jobs.cpp:719
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
@@ -1002,7 +1002,7 @@ msgstr[0] "Komprimuje sa súbor"
 msgstr[1] "Kopírujú sa %1 súbory"
 msgstr[2] "Kopíruje sa %1 súborov"
 
-#: kerfuffle/jobs.cpp:766
+#: kerfuffle/jobs.cpp:772
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
@@ -1010,7 +1010,7 @@ msgstr[0] "Presúva sa súbor"
 msgstr[1] "Presúvanie %1 súborov"
 msgstr[2] "Presúvanie %1 súborov"
 
-#: kerfuffle/jobs.cpp:804
+#: kerfuffle/jobs.cpp:810
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
@@ -1018,7 +1018,7 @@ msgstr[0] "Kopíruje sa súbor"
 msgstr[1] "Kopírujú sa %1 súbory"
 msgstr[2] "Kopíruje sa %1 súborov"
 
-#: kerfuffle/jobs.cpp:836
+#: kerfuffle/jobs.cpp:842
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1026,12 +1026,12 @@ msgstr[0] "Odstraňuje sa súbor z archívu"
 msgstr[1] "Odstraňujú sa %1 súbory z archívu"
 msgstr[2] "Odstraňuje sa %1 súborov z archívu"
 
-#: kerfuffle/jobs.cpp:860
+#: kerfuffle/jobs.cpp:866
 #, kde-format
 msgid "Adding comment"
 msgstr "Pridávam komentár"
 
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:891
 #, kde-format
 msgid "Testing archive"
 msgstr "Testovanie archívu"

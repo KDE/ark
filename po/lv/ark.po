@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-07 01:02+0000\n"
+"POT-Creation-Date: 2023-02-28 01:02+0000\n"
 "PO-Revision-Date: 2011-03-09 22:52+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -1017,28 +1017,28 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Ielādē arhīvu..."
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:714
-#: kerfuffle/jobs.cpp:767 kerfuffle/jobs.cpp:805 kerfuffle/jobs.cpp:837
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:542 kerfuffle/jobs.cpp:720
+#: kerfuffle/jobs.cpp:773 kerfuffle/jobs.cpp:811 kerfuffle/jobs.cpp:843
+#: kerfuffle/jobs.cpp:891
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgid "Archive"
 msgstr "Atvērt arhīvu"
 
-#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:566
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:572
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Ark could not extract <filename>%1</filename>."
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Ark neizdevās atspiest <filename>%1</filename>."
 
-#: kerfuffle/jobs.cpp:536
+#: kerfuffle/jobs.cpp:538
 #, kde-format
 msgid "Extracting all files"
 msgstr "Atspiež visus failus"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
+#: kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:646
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1046,21 +1046,21 @@ msgstr[0] "Atspiež %1 failu"
 msgstr[1] "Atspiež %1 failus"
 msgstr[2] "Atspiež %1 failu"
 
-#: kerfuffle/jobs.cpp:540
+#: kerfuffle/jobs.cpp:542
 #, fuzzy, kde-format
 #| msgid "Destination"
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Mērķis"
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:546
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:713
+#: kerfuffle/jobs.cpp:719
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1070,7 +1070,7 @@ msgstr[0] "Pievieno %1 failu"
 msgstr[1] "Pievieno %1 failus"
 msgstr[2] "Pievieno %1 failu"
 
-#: kerfuffle/jobs.cpp:766
+#: kerfuffle/jobs.cpp:772
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1080,7 +1080,7 @@ msgstr[0] "Pievieno %1 failu"
 msgstr[1] "Pievieno %1 failus"
 msgstr[2] "Pievieno %1 failu"
 
-#: kerfuffle/jobs.cpp:804
+#: kerfuffle/jobs.cpp:810
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1090,7 +1090,7 @@ msgstr[0] "Pievieno %1 failu"
 msgstr[1] "Pievieno %1 failus"
 msgstr[2] "Pievieno %1 failu"
 
-#: kerfuffle/jobs.cpp:836
+#: kerfuffle/jobs.cpp:842
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1098,14 +1098,14 @@ msgstr[0] "Dzēš no arhīva %1 failu"
 msgstr[1] "Dzēš no arhīva %1 failus"
 msgstr[2] "Dzēš no arhīva %1 failu"
 
-#: kerfuffle/jobs.cpp:860
+#: kerfuffle/jobs.cpp:866
 #, fuzzy, kde-format
 #| msgctxt "File comment"
 #| msgid "Comment"
 msgid "Adding comment"
 msgstr "Komentārs"
 
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:891
 #, fuzzy, kde-format
 #| msgid "Loading archive..."
 msgid "Testing archive"
