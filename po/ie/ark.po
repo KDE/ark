@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-07 02:53+0000\n"
+"POT-Creation-Date: 2023-02-28 03:04+0000\n"
 "PO-Revision-Date: 2022-10-28 17:13+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -923,78 +923,78 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Un error evenit cargante li archive."
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:714
-#: kerfuffle/jobs.cpp:767 kerfuffle/jobs.cpp:805 kerfuffle/jobs.cpp:837
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:542 kerfuffle/jobs.cpp:720
+#: kerfuffle/jobs.cpp:773 kerfuffle/jobs.cpp:811 kerfuffle/jobs.cpp:843
+#: kerfuffle/jobs.cpp:891
 #, kde-format
 msgid "Archive"
 msgstr "Archive"
 
-#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:566
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:572
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr ""
 
-#: kerfuffle/jobs.cpp:536
+#: kerfuffle/jobs.cpp:538
 #, kde-format
 msgid "Extracting all files"
 msgstr "Extraente omni files"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
+#: kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:646
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "Extraente ún file"
 msgstr[1] "Extraente %1 files"
 
-#: kerfuffle/jobs.cpp:540
+#: kerfuffle/jobs.cpp:542
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Destination"
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:546
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:713
+#: kerfuffle/jobs.cpp:719
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "Compressente ún file"
 msgstr[1] "Compressente %1 files"
 
-#: kerfuffle/jobs.cpp:766
+#: kerfuffle/jobs.cpp:772
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "Movente ún file"
 msgstr[1] "Movente %1 files"
 
-#: kerfuffle/jobs.cpp:804
+#: kerfuffle/jobs.cpp:810
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "Copiante ún file"
 msgstr[1] "Copiante %1 file"
 
-#: kerfuffle/jobs.cpp:836
+#: kerfuffle/jobs.cpp:842
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "Removente ún file del archive"
 msgstr[1] "Removente %1 files"
 
-#: kerfuffle/jobs.cpp:860
+#: kerfuffle/jobs.cpp:866
 #, kde-format
 msgid "Adding comment"
 msgstr "Adjuntente un comenta"
 
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:891
 #, kde-format
 msgid "Testing archive"
 msgstr "Provante li archive"

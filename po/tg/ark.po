@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-07 02:53+0000\n"
+"POT-Creation-Date: 2023-02-28 03:04+0000\n"
 "PO-Revision-Date: 2005-09-23 17:40+0500\n"
 "Last-Translator: Victor Ibragimov <youth_opportunities@tajikngo.org>\n"
 "Language-Team: Tajik\n"
@@ -969,47 +969,47 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Офариданӣ бойгонӣ..."
 
-#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:714
-#: kerfuffle/jobs.cpp:767 kerfuffle/jobs.cpp:805 kerfuffle/jobs.cpp:837
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:542 kerfuffle/jobs.cpp:720
+#: kerfuffle/jobs.cpp:773 kerfuffle/jobs.cpp:811 kerfuffle/jobs.cpp:843
+#: kerfuffle/jobs.cpp:891
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
 msgid "Archive"
 msgstr "Кушодани 'архив'"
 
-#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:566
+#: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:572
 #, fuzzy, kde-kuit-format
 #| msgid "Folder to extract to"
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Феҳрист берункунӣ ба"
 
-#: kerfuffle/jobs.cpp:536
+#: kerfuffle/jobs.cpp:538
 #, fuzzy, kde-format
 msgid "Extracting all files"
 msgstr "Берункунии файлҳо аз %1"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:538 kerfuffle/jobs.cpp:640
+#: kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:646
 #, fuzzy, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "Берункунии файлҳо аз %1"
 msgstr[1] "Берункунии файлҳо аз %1"
 
-#: kerfuffle/jobs.cpp:540
+#: kerfuffle/jobs.cpp:542
 #, fuzzy, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Берункуни феҳрист"
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:546
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:713
+#: kerfuffle/jobs.cpp:719
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Compressing a file"
@@ -1017,7 +1017,7 @@ msgid_plural "Compressing %1 files"
 msgstr[0] "Иловакунии файлҳо..."
 msgstr[1] "Иловакунии файлҳо..."
 
-#: kerfuffle/jobs.cpp:766
+#: kerfuffle/jobs.cpp:772
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Moving a file"
@@ -1025,7 +1025,7 @@ msgid_plural "Moving %1 files"
 msgstr[0] "Иловакунии файлҳо..."
 msgstr[1] "Иловакунии файлҳо..."
 
-#: kerfuffle/jobs.cpp:804
+#: kerfuffle/jobs.cpp:810
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Copying a file"
@@ -1033,7 +1033,7 @@ msgid_plural "Copying %1 files"
 msgstr[0] "Иловакунии файлҳо..."
 msgstr[1] "Иловакунии файлҳо..."
 
-#: kerfuffle/jobs.cpp:836
+#: kerfuffle/jobs.cpp:842
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgid "Deleting a file from the archive"
@@ -1041,13 +1041,13 @@ msgid_plural "Deleting %1 files"
 msgstr[0] "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
 msgstr[1] "Ҳангоми иловакунии файл ба бойгонӣ хатогӣ рух дод."
 
-#: kerfuffle/jobs.cpp:860
+#: kerfuffle/jobs.cpp:866
 #, fuzzy, kde-format
 #| msgid "Adding folder..."
 msgid "Adding comment"
 msgstr "Иловакунии феҳрист..."
 
-#: kerfuffle/jobs.cpp:885
+#: kerfuffle/jobs.cpp:891
 #, fuzzy, kde-format
 #| msgid "Creating archive..."
 msgid "Testing archive"
