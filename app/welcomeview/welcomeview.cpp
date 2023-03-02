@@ -146,29 +146,26 @@ void WelcomeView::onRecentFilesContextMenuRequested(const QPoint &pos)
 
     QMenu contextMenu;
 
-    QAction *action = new QAction(i18n("Copy &Location"));
+    QAction *action = contextMenu.addAction(i18n("Copy &Location"));
     action->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy-path")));
     connect(action, &QAction::triggered, this, [url]() {
         qApp->clipboard()->setText(url.toString(QUrl::PreferLocalFile));
     });
-    contextMenu.addAction(action);
 
-    action = new QAction(i18n("&Open Containing Folder"));
+    action = contextMenu.addAction(i18n("&Open Containing Folder"));
     action->setEnabled(url.isLocalFile());
     action->setIcon(QIcon::fromTheme(QStringLiteral("document-open-folder")));
     connect(action, &QAction::triggered, this, [url]() {
         KIO::highlightInFileManager({ url });
     });
-    contextMenu.addAction(action);
 
-    action = new QAction(i18n("&Remove"));
+    action = contextMenu.addAction(i18n("&Remove"));
     action->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     connect(action, &QAction::triggered, this, [this, url]() {
         KRecentFilesMenu *recentFilesMenu = m_mainWindow->recentFilesMenu();
         recentFilesMenu->removeUrl(url);
         m_recentFilesModel->refresh(recentFilesMenu->recentFiles());
     });
-    contextMenu.addAction(action);
 
     contextMenu.exec(listViewRecentFiles->mapToGlobal(pos));
 }
