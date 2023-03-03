@@ -4,6 +4,7 @@ Name=Ark Extract Here
 Name[ar]=أرك استخرج هنا
 Name[ast]=Ark: estrayer equí
 Name[az]=Ark buraya çıxarır
+Name[be]=Распакаваць сюды
 Name[bg]=Извличане с Ark тук
 Name[bs]=Raspakuj Arkom ovde
 Name[ca]=Extracció de l'Ark aquí
