@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 01:02+0000\n"
-"PO-Revision-Date: 2023-02-01 00:28+0300\n"
+"PO-Revision-Date: 2023-03-04 18:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1040,7 +1040,7 @@ msgstr[1] "%1 dosya siliniyor"
 #: kerfuffle/jobs.cpp:866
 #, kde-format
 msgid "Adding comment"
-msgstr "Yorum ekleniyor"
+msgstr "Açıklama ekleniyor"
 
 #: kerfuffle/jobs.cpp:891
 #, kde-format
@@ -1165,7 +1165,7 @@ msgstr "Parola korumalı:"
 #: kerfuffle/propertiesdialog.ui:122
 #, kde-format
 msgid "Has comment:"
-msgstr "Yorumu var:"
+msgstr "Açıklaması var:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: kerfuffle/propertiesdialog.ui:139
@@ -1555,12 +1555,12 @@ msgstr ""
 #: part/part.cpp:112
 #, kde-format
 msgid "Comment"
-msgstr "Yorum"
+msgstr "Açıklama"
 
 #: part/part.cpp:123
 #, kde-format
 msgid "Comment has been modified."
-msgstr "Yorum değiştirildi."
+msgstr "Açıklama değiştirildi."
 
 #: part/part.cpp:128
 #, kde-format
@@ -1683,7 +1683,7 @@ msgstr "Arşiv özelliklerini görmek için tıklayın"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
-msgstr "Yorum eklemek veya düzenlemek için tıklayın"
+msgstr "Açıklama eklemek veya düzenlemek için tıklayın"
 
 #: part/part.cpp:439
 #, kde-format
@@ -1723,13 +1723,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
-msgstr "Yorumu &Düzenle"
+msgstr "Açıklamayı &Düzenle"
 
 #: part/part.cpp:539 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
-msgstr "Yorum &Ekle"
+msgstr "Açıklama &Ekle"
 
 #: part/part.cpp:648
 #, kde-format
