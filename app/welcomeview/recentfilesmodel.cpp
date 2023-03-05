@@ -53,10 +53,6 @@ void RecentFilesModel::refresh(const QList<QUrl> &urls)
     for (const QUrl &url : urls) {
         if (url.isLocalFile()) {
             const QFileInfo fileInfo(url.toLocalFile());
-            if (!fileInfo.exists()) {
-                continue;
-            }
-
             icon = QIcon::fromTheme(QMimeDatabase().mimeTypeForFile(fileInfo).iconName());
             name = fileInfo.fileName();
         } else {

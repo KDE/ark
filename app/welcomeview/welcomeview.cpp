@@ -84,17 +84,12 @@ WelcomeView::WelcomeView(MainWindow *mainWindow, QWidget *parent)
 
     connect(buttonNewArchive, SIGNAL(clicked()), m_mainWindow, SLOT(newArchive()));
     connect(buttonOpenArchive, SIGNAL(clicked()), m_mainWindow, SLOT(openArchive()));
-    connect(buttonClearRecentFiles, &QPushButton::clicked, this, [recentFilesMenu]() {
-        recentFilesMenu->clearRecentFiles();
-    });
+    connect(buttonClearRecentFiles, &QPushButton::clicked, recentFilesMenu, &KRecentFilesMenu::clearRecentFiles);
 
     connect(labelHomepage, qOverload<>(&KUrlLabel::leftClickedUrl), this, [aboutData]() {
         QDesktopServices::openUrl(QUrl(aboutData.homepage()));
     });
-    connect(labelHandbook, qOverload<>(&KUrlLabel::leftClickedUrl), this, [this]() {
-        m_mainWindow->appHelpActivated();
-    });
-
+    connect(labelHandbook, qOverload<>(&KUrlLabel::leftClickedUrl), m_mainWindow, &MainWindow::appHelpActivated);
     connect(buttonClose, &QPushButton::clicked, m_mainWindow, &MainWindow::hideWelcomeScreen);
 
     static const char showOnStartupKey[] = "ShowWelcomeScreenOnStartup";
