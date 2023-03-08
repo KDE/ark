@@ -1521,7 +1521,7 @@ msgstr "Destino:"
 #: part/jobtracker.ui:13
 #, kde-format
 msgid "Job Tracker"
-msgstr "Seguimento da Tarefa"
+msgstr "Seguimento das Tarefas"
 
 #. i18n: ectx: property (text), widget (QLabel, descriptionLabel)
 #: part/jobtracker.ui:43
