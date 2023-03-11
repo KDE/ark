@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-28 01:02+0000\n"
-"PO-Revision-Date: 2022-07-13 17:33+0300\n"
+"PO-Revision-Date: 2022-11-22 12:31+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -409,6 +409,9 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"Tämä vaihtaa <emphasis>valikkorivin</emphasis> ja "
+"<interface>valikkopainikkeen</interface> välillä. Kummassakin on suunnilleen "
+"samat komennot ja asetusmahdollisuudet."
 
 #: app/mainwindow.cpp:255
 #, kde-format
@@ -1588,7 +1591,7 @@ msgstr "Tallenna kopio nimellä…"
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr ""
+msgstr "Avaa &ulkoiseen sovellukseen"
 
 #: part/part.cpp:380
 #, kde-format
@@ -1656,11 +1659,10 @@ msgid "Click to add files to the archive"
 msgstr "Lisää tiedostoja arkistoon napsauttamalla"
 
 #: part/part.cpp:416
-#, fuzzy, kde-format
-#| msgid "Compress to Archive"
+#, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
-msgstr "Pakkaa arkistoon"
+msgstr "Poista arkistosta"
 
 #: part/part.cpp:426
 #, kde-format
@@ -1875,13 +1877,13 @@ msgstr "Tiedosto muuttunut"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Päivitä"
 
 #: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Sivuuta"
 
 #: part/part.cpp:1428
 #, kde-format
@@ -1992,32 +1994,30 @@ msgstr ""
 #: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "Vanha ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40-bittinen"
 
 #: plugins/cliarjplugin/cliplugin.cpp:338
-#, fuzzy, kde-format
-#| msgctxt "referred to compression method"
-#| msgid "unknown"
+#, kde-format
 msgid "unknown"
 msgstr "tuntematon"
 
