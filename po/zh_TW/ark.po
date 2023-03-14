@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-28 01:02+0000\n"
+"POT-Creation-Date: 2023-03-14 02:55+0000\n"
 "PO-Revision-Date: 2022-12-30 19:38+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
@@ -169,157 +169,157 @@ msgstr "KDE 封存工具"
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) 1997-2019, Ark 開發群"
 
-#: app/main.cpp:93
+#: app/main.cpp:95
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: app/main.cpp:94
+#: app/main.cpp:96
 #, kde-format
 msgid "Maintainer"
 msgstr "維護人"
 
-#: app/main.cpp:96
+#: app/main.cpp:98
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr "Ragnar Thomsen"
 
-#: app/main.cpp:97
+#: app/main.cpp:99
 #, kde-format
 msgid "Maintainer, KF5 port"
 msgstr "維護者，KF5 移植"
 
-#: app/main.cpp:99
+#: app/main.cpp:101
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr "Raphael Kubo da Costa"
 
-#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#: app/main.cpp:102 app/main.cpp:105 app/main.cpp:108
 #, kde-format
 msgid "Former Maintainer"
 msgstr "前任維護者"
 
-#: app/main.cpp:102
+#: app/main.cpp:104
 #, kde-format
 msgid "Harald Hvaal"
 msgstr "Harald Hvaal"
 
-#: app/main.cpp:105
+#: app/main.cpp:107
 #, kde-format
 msgid "Henrique Pinto"
 msgstr "Henrique Pinto"
 
-#: app/main.cpp:108
+#: app/main.cpp:110
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr "Helio Chissini de Castro"
 
-#: app/main.cpp:109
+#: app/main.cpp:111
 #, kde-format
 msgid "Former maintainer"
 msgstr "前維護人"
 
-#: app/main.cpp:111
+#: app/main.cpp:113
 #, kde-format
 msgid "Georg Robbers"
 msgstr "Georg Robbers"
 
-#: app/main.cpp:114
+#: app/main.cpp:116
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr "Roberto Selbach Teixeira"
 
-#: app/main.cpp:117
+#: app/main.cpp:119
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr "Francois-Xavier Duranceau"
 
-#: app/main.cpp:120
+#: app/main.cpp:122
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr "Emily Ezust (Corel Corporation)"
 
-#: app/main.cpp:123
+#: app/main.cpp:125
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr "Michael Jarrett (Corel Corporation)"
 
-#: app/main.cpp:126
+#: app/main.cpp:128
 #, kde-format
 msgid "Robert Palmbos"
 msgstr "Robert Palmbos"
 
-#: app/main.cpp:130
+#: app/main.cpp:132
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr "Vladyslav Batyrenko"
 
-#: app/main.cpp:131
+#: app/main.cpp:133
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr "進階編輯功能"
 
-#: app/main.cpp:134
+#: app/main.cpp:136
 #, kde-format
 msgid "Bryce Corkins"
 msgstr "Bryce Corkins"
 
-#: app/main.cpp:135
+#: app/main.cpp:137
 #, kde-format
 msgid "Icons"
 msgstr "圖示"
 
-#: app/main.cpp:137
+#: app/main.cpp:139
 #, kde-format
 msgid "Liam Smit"
 msgstr "Liam Smit"
 
-#: app/main.cpp:138
+#: app/main.cpp:140
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "概念、說明及圖示"
 
-#: app/main.cpp:140
+#: app/main.cpp:142
 #, kde-format
 msgid "Andrew Smith"
 msgstr "Andrew Smith"
 
-#: app/main.cpp:141
+#: app/main.cpp:143
 #, kde-format
 msgid "bkisofs code"
 msgstr "bkisofs 源碼"
 
-#: app/main.cpp:151
+#: app/main.cpp:153
 #, kde-format
 msgid "URLs to open."
 msgstr "要開啟的網址。"
 
-#: app/main.cpp:154
+#: app/main.cpp:156
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr "顯示對話框以指定操作選項"
 
-#: app/main.cpp:157
+#: app/main.cpp:159
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr "要解壓縮的目的資料夾。預設為目前的路徑。"
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:161 kerfuffle/ark.kcfg:23
+#: app/main.cpp:163 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "解壓後開啟目的資料夾"
 
-#: app/main.cpp:164
+#: app/main.cpp:166
 #, kde-format
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
 "when finished."
 msgstr "詢問使用者封存檔名稱，並將指定的檔案加入。完成後即離開。"
 
-#: app/main.cpp:167
+#: app/main.cpp:169
 #, kde-format
 msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
@@ -327,34 +327,34 @@ msgid ""
 msgstr ""
 "將指定的檔案加入 “filename” 中。若封存檔不存在，則建立新檔案。完成即離開。"
 
-#: app/main.cpp:171
+#: app/main.cpp:173
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
 "to this one."
 msgstr "變更目前的目錄到第一個項目，並將所有其它的項目都設為與此相關聯。"
 
-#: app/main.cpp:174
+#: app/main.cpp:176
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
 "tar.gz, zip or any other supported types)"
 msgstr "使用選取的後置字串（如 rar, tar.gz, zip 等等）來自動選擇檔名。"
 
-#: app/main.cpp:178
+#: app/main.cpp:180
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
 "if more than one url is specified."
 msgstr "使用批次介面，而不使用一般的對話框。這個選項用於指定一個以上的網址時。"
 
-#: app/main.cpp:181
+#: app/main.cpp:183
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr "目的地參數會設為第一個檔案的路徑。"
 
-#: app/main.cpp:184
+#: app/main.cpp:186
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -364,17 +364,28 @@ msgstr ""
 "將會讀取封存檔內容，如果偵測到裡面不只一個資料夾或檔案，則會建立名稱是此封存"
 "檔名稱的子資料夾。"
 
-#: app/main.cpp:187
+#: app/main.cpp:189
 #, kde-format
 msgid "List supported MIME types."
 msgstr "列出支援的 MIME 類型。"
 
-#: app/mainwindow.cpp:124
+#: app/mainwindow.cpp:123
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "無法找到 Ark 的部件，請檢查您的安裝。"
 
-#: app/mainwindow.cpp:196
+#: app/mainwindow.cpp:201
+#, fuzzy, kde-format
+#| msgid "Welcome to Ark"
+msgid "Welcome Page"
+msgstr "歡迎使用 Ark"
+
+#: app/mainwindow.cpp:203
+#, kde-format
+msgid "Show the welcome page"
+msgstr ""
+
+#: app/mainwindow.cpp:211
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -385,41 +396,85 @@ msgstr ""
 "這會在使用<emphasis>選單列</emphasis>或是使用<interface>三點選單</interface>"
 "按鈕之間切換。兩個選項都包含大致相同的命令與設定選項。"
 
-#: app/mainwindow.cpp:255
+#: app/mainwindow.cpp:270
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "開啟封存檔"
 
-#: app/mainwindow.cpp:363
+#: app/mainwindow.cpp:378
 #, kde-format
 msgid "Create New Archive"
 msgstr "建立新封存檔"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
-#: app/welcomescreen.ui:18
-#, kde-format
-msgid "Form"
-msgstr "表單"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: app/welcomescreen.ui:53
-#, kde-format
-msgid "Welcome to Ark"
+#. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
+#: app/welcomeview/welcomeview.ui:17
+#, fuzzy, kde-format
+#| msgid "Welcome to Ark"
+msgid "Welcome"
 msgstr "歡迎使用 Ark"
 
-#. i18n: ectx: property (text), widget (QPushButton, openButton)
-#: app/welcomescreen.ui:97
-#, kde-format
-msgctxt "to open an archive"
+#. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
+#: app/welcomeview/welcomeview.ui:179
+#, fuzzy, kde-format
+#| msgctxt "to open an archive"
+#| msgid "Open Archive..."
 msgid "Open Archive..."
 msgstr "開啟封存檔…"
 
-#. i18n: ectx: property (text), widget (QPushButton, newButton)
-#: app/welcomescreen.ui:107
+#. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
+#: app/welcomeview/welcomeview.ui:186
+#, fuzzy, kde-format
+#| msgctxt "to open an archive"
+#| msgid "Open Archive"
+msgid "New Archive"
+msgstr "開啟封存檔"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
+#: app/welcomeview/welcomeview.ui:193
 #, kde-format
-msgid "Create New Archive..."
-msgstr "建立新封存檔…"
+msgid "Clear Recent Files"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
+#: app/welcomeview/welcomeview.ui:223
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Delete File"
+#| msgid_plural "Delete Files"
+msgid "Recent Files"
+msgstr "刪除檔案"
+
+#. i18n: ectx: property (text), widget (QLabel, labelHelp)
+#: app/welcomeview/welcomeview.ui:264
+#, fuzzy, kde-format
+#| msgid "&Help"
+msgid "Help"
+msgstr "說明"
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
+#: app/welcomeview/welcomeview.ui:274
+#, kde-format
+msgid "Visit homepage"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
+#: app/welcomeview/welcomeview.ui:287
+#, kde-format
+msgid "Read handbook"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
+#: app/welcomeview/welcomeview.ui:346
+#, kde-format
+msgid "Show on startup"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
+#: app/welcomeview/welcomeview.ui:401
+#, kde-format
+msgid "Close Welcome Page"
+msgstr ""
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
@@ -2147,6 +2202,12 @@ msgstr "複製項目失敗：%1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "設定項目的後設資料時失敗：%1"
+
+#~ msgid "Form"
+#~ msgstr "表單"
+
+#~ msgid "Create New Archive..."
+#~ msgstr "建立新封存檔…"
 
 #~ msgctxt "@info"
 #~ msgid "Ark could not extract <filename>%1</filename>."

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-28 01:02+0000\n"
+"POT-Creation-Date: 2023-03-14 02:55+0000\n"
 "PO-Revision-Date: 2022-12-15 11:15-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -176,140 +176,140 @@ msgstr "Ferramenta de compactação do KDE"
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) 1997-2019, Os desenvolvedores do Ark"
 
-#: app/main.cpp:93
+#: app/main.cpp:95
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: app/main.cpp:94
+#: app/main.cpp:96
 #, kde-format
 msgid "Maintainer"
 msgstr "Mantenedor"
 
-#: app/main.cpp:96
+#: app/main.cpp:98
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr "Ragnar Thomsen"
 
-#: app/main.cpp:97
+#: app/main.cpp:99
 #, kde-format
 msgid "Maintainer, KF5 port"
 msgstr "Mantenedor e porte para o KF5"
 
-#: app/main.cpp:99
+#: app/main.cpp:101
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr "Raphael Kubo da Costa"
 
-#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#: app/main.cpp:102 app/main.cpp:105 app/main.cpp:108
 #, kde-format
 msgid "Former Maintainer"
 msgstr "Mantenedor anterior"
 
-#: app/main.cpp:102
+#: app/main.cpp:104
 #, kde-format
 msgid "Harald Hvaal"
 msgstr "Harald Hvaal"
 
-#: app/main.cpp:105
+#: app/main.cpp:107
 #, kde-format
 msgid "Henrique Pinto"
 msgstr "Henrique Pinto"
 
-#: app/main.cpp:108
+#: app/main.cpp:110
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr "Helio Chissini de Castro"
 
-#: app/main.cpp:109
+#: app/main.cpp:111
 #, kde-format
 msgid "Former maintainer"
 msgstr "Mantenedor anterior"
 
-#: app/main.cpp:111
+#: app/main.cpp:113
 #, kde-format
 msgid "Georg Robbers"
 msgstr "Georg Robbers"
 
-#: app/main.cpp:114
+#: app/main.cpp:116
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr "Roberto Selbach Teixeira"
 
-#: app/main.cpp:117
+#: app/main.cpp:119
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr "Francois-Xavier Duranceau"
 
-#: app/main.cpp:120
+#: app/main.cpp:122
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr "Emily Ezust (Corel Corporation)"
 
-#: app/main.cpp:123
+#: app/main.cpp:125
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr "Michael Jarrett (Corel Corporation)"
 
-#: app/main.cpp:126
+#: app/main.cpp:128
 #, kde-format
 msgid "Robert Palmbos"
 msgstr "Robert Palmbos"
 
-#: app/main.cpp:130
+#: app/main.cpp:132
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr "Vladyslav Batyrenko"
 
-#: app/main.cpp:131
+#: app/main.cpp:133
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr "Recursos de edição avançados"
 
-#: app/main.cpp:134
+#: app/main.cpp:136
 #, kde-format
 msgid "Bryce Corkins"
 msgstr "Bryce Corkins"
 
-#: app/main.cpp:135
+#: app/main.cpp:137
 #, kde-format
 msgid "Icons"
 msgstr "Ícones"
 
-#: app/main.cpp:137
+#: app/main.cpp:139
 #, kde-format
 msgid "Liam Smit"
 msgstr "Liam Smit"
 
-#: app/main.cpp:138
+#: app/main.cpp:140
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "Ideias e ajuda com os ícones"
 
-#: app/main.cpp:140
+#: app/main.cpp:142
 #, kde-format
 msgid "Andrew Smith"
 msgstr "Andrew Smith"
 
 # A inicial deve ser maiúscula. (Alvarenga)
-#: app/main.cpp:141
+#: app/main.cpp:143
 #, kde-format
 msgid "bkisofs code"
 msgstr "Código do bkisofs"
 
-#: app/main.cpp:151
+#: app/main.cpp:153
 #, kde-format
 msgid "URLs to open."
 msgstr "URLs a abrir."
 
-#: app/main.cpp:154
+#: app/main.cpp:156
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr ""
 "Mostrar um diálogo para especificar as opções da operação (extrair/adicionar)"
 
-#: app/main.cpp:157
+#: app/main.cpp:159
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
@@ -318,12 +318,12 @@ msgstr ""
 "será usado por padrão."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:161 kerfuffle/ark.kcfg:23
+#: app/main.cpp:163 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "Abrir a pasta de destino após a extração."
 
-#: app/main.cpp:164
+#: app/main.cpp:166
 #, kde-format
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
@@ -332,7 +332,7 @@ msgstr ""
 "Solicitar ao usuário um nome de arquivo compactado e adicionar a ele os "
 "arquivos especificados. Sair quando concluir."
 
-#: app/main.cpp:167
+#: app/main.cpp:169
 #, kde-format
 msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
@@ -341,7 +341,7 @@ msgstr ""
 "Adicionar os arquivos especificados ao 'arquivo'. Criar o arquivo se ele não "
 "existir. Sair quando concluir."
 
-#: app/main.cpp:171
+#: app/main.cpp:173
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
@@ -350,7 +350,7 @@ msgstr ""
 "Alterar a pasta atual para a primeira entrada e adicionar todas as outras "
 "entradas relativas a ela."
 
-#: app/main.cpp:174
+#: app/main.cpp:176
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
@@ -359,7 +359,7 @@ msgstr ""
 "Escolher automaticamente o nome do arquivo, com o sufixo selecionado (por "
 "exemplo, rar, tar.gz, zip ou quaisquer outros tipos suportados)"
 
-#: app/main.cpp:178
+#: app/main.cpp:180
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
@@ -368,7 +368,7 @@ msgstr ""
 "Usar a interface em lote, em vez do diálogo normal. Esta opção está "
 "implícita, se mais de uma URL for especificada."
 
-#: app/main.cpp:181
+#: app/main.cpp:183
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
@@ -376,7 +376,7 @@ msgstr ""
 "O argumento de destino será definido para o caminho do primeiro arquivo "
 "indicado."
 
-#: app/main.cpp:184
+#: app/main.cpp:186
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -386,19 +386,30 @@ msgstr ""
 "O conteúdo do arquivo será lido e, se for detectado que não é um arquivo com "
 "pasta única ou arquivo único, uma subpasta com o nome do arquivo será criada."
 
-#: app/main.cpp:187
+#: app/main.cpp:189
 #, kde-format
 msgid "List supported MIME types."
 msgstr "Lista dos tipos MIME suportados."
 
-#: app/mainwindow.cpp:124
+#: app/mainwindow.cpp:123
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr ""
 "Não foi possível encontrar o componente KPart do Ark. Por favor, verifique "
 "sua instalação."
 
-#: app/mainwindow.cpp:196
+#: app/mainwindow.cpp:201
+#, fuzzy, kde-format
+#| msgid "Welcome to Ark"
+msgid "Welcome Page"
+msgstr "Bem-vindo ao Ark"
+
+#: app/mainwindow.cpp:203
+#, kde-format
+msgid "Show the welcome page"
+msgstr ""
+
+#: app/mainwindow.cpp:211
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -410,41 +421,85 @@ msgstr ""
 "botão de <interface>menu hambúrguer</interface>. Ambos contêm os mesmos "
 "comandos e opções de configuração."
 
-#: app/mainwindow.cpp:255
+#: app/mainwindow.cpp:270
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Abrir arquivo"
 
-#: app/mainwindow.cpp:363
+#: app/mainwindow.cpp:378
 #, kde-format
 msgid "Create New Archive"
 msgstr "Criar novo arquivo"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
-#: app/welcomescreen.ui:18
-#, kde-format
-msgid "Form"
-msgstr "Formulário"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: app/welcomescreen.ui:53
-#, kde-format
-msgid "Welcome to Ark"
+#. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
+#: app/welcomeview/welcomeview.ui:17
+#, fuzzy, kde-format
+#| msgid "Welcome to Ark"
+msgid "Welcome"
 msgstr "Bem-vindo ao Ark"
 
-#. i18n: ectx: property (text), widget (QPushButton, openButton)
-#: app/welcomescreen.ui:97
-#, kde-format
-msgctxt "to open an archive"
+#. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
+#: app/welcomeview/welcomeview.ui:179
+#, fuzzy, kde-format
+#| msgctxt "to open an archive"
+#| msgid "Open Archive..."
 msgid "Open Archive..."
 msgstr "Abrir arquivo..."
 
-#. i18n: ectx: property (text), widget (QPushButton, newButton)
-#: app/welcomescreen.ui:107
+#. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
+#: app/welcomeview/welcomeview.ui:186
+#, fuzzy, kde-format
+#| msgctxt "to open an archive"
+#| msgid "Open Archive"
+msgid "New Archive"
+msgstr "Abrir arquivo"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
+#: app/welcomeview/welcomeview.ui:193
 #, kde-format
-msgid "Create New Archive..."
-msgstr "Criar novo arquivo..."
+msgid "Clear Recent Files"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
+#: app/welcomeview/welcomeview.ui:223
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Delete File"
+#| msgid_plural "Delete Files"
+msgid "Recent Files"
+msgstr "Excluir arquivo"
+
+#. i18n: ectx: property (text), widget (QLabel, labelHelp)
+#: app/welcomeview/welcomeview.ui:264
+#, fuzzy, kde-format
+#| msgid "&Help"
+msgid "Help"
+msgstr "Aj&uda"
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
+#: app/welcomeview/welcomeview.ui:274
+#, kde-format
+msgid "Visit homepage"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
+#: app/welcomeview/welcomeview.ui:287
+#, kde-format
+msgid "Read handbook"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
+#: app/welcomeview/welcomeview.ui:346
+#, kde-format
+msgid "Show on startup"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
+#: app/welcomeview/welcomeview.ui:401
+#, kde-format
+msgid "Close Welcome Page"
+msgstr ""
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
@@ -2262,6 +2317,12 @@ msgstr "Não foi possível copiar o item: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Não foi possível definir os metadados do item: %1"
+
+#~ msgid "Form"
+#~ msgstr "Formulário"
+
+#~ msgid "Create New Archive..."
+#~ msgstr "Criar novo arquivo..."
 
 #~ msgctxt "@info"
 #~ msgid "Ark could not extract <filename>%1</filename>."

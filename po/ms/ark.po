@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mimos\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-28 01:02+0000\n"
+"POT-Creation-Date: 2023-03-14 02:55+0000\n"
 "PO-Revision-Date: 2005-11-17 12:03+0800\n"
 "Last-Translator: MIMOS <opensource@mimos.my>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -169,153 +169,153 @@ msgstr "Alat Pengarkiban KDE"
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) 1997-2003, Pembangun Various Ark"
 
-#: app/main.cpp:93
+#: app/main.cpp:95
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr ""
 
-#: app/main.cpp:94
+#: app/main.cpp:96
 #, kde-format
 msgid "Maintainer"
 msgstr "Penyenggara"
 
-#: app/main.cpp:96
+#: app/main.cpp:98
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr ""
 
-#: app/main.cpp:97
+#: app/main.cpp:99
 #, fuzzy, kde-format
 #| msgid "Maintainer"
 msgid "Maintainer, KF5 port"
 msgstr "Penyenggara"
 
-#: app/main.cpp:99
+#: app/main.cpp:101
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr ""
 
-#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#: app/main.cpp:102 app/main.cpp:105 app/main.cpp:108
 #, fuzzy, kde-format
 #| msgid "Former maintainer"
 msgid "Former Maintainer"
 msgstr "Penyenggara Terdahulu"
 
-#: app/main.cpp:102
+#: app/main.cpp:104
 #, kde-format
 msgid "Harald Hvaal"
 msgstr ""
 
-#: app/main.cpp:105
+#: app/main.cpp:107
 #, kde-format
 msgid "Henrique Pinto"
 msgstr ""
 
-#: app/main.cpp:108
+#: app/main.cpp:110
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr ""
 
-#: app/main.cpp:109
+#: app/main.cpp:111
 #, kde-format
 msgid "Former maintainer"
 msgstr "Penyenggara Terdahulu"
 
-#: app/main.cpp:111
+#: app/main.cpp:113
 #, kde-format
 msgid "Georg Robbers"
 msgstr ""
 
-#: app/main.cpp:114
+#: app/main.cpp:116
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr ""
 
-#: app/main.cpp:117
+#: app/main.cpp:119
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr ""
 
-#: app/main.cpp:120
+#: app/main.cpp:122
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr ""
 
-#: app/main.cpp:123
+#: app/main.cpp:125
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr ""
 
-#: app/main.cpp:126
+#: app/main.cpp:128
 #, kde-format
 msgid "Robert Palmbos"
 msgstr ""
 
-#: app/main.cpp:130
+#: app/main.cpp:132
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr ""
 
-#: app/main.cpp:131
+#: app/main.cpp:133
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr ""
 
-#: app/main.cpp:134
+#: app/main.cpp:136
 #, kde-format
 msgid "Bryce Corkins"
 msgstr ""
 
-#: app/main.cpp:135
+#: app/main.cpp:137
 #, kde-format
 msgid "Icons"
 msgstr "Ikon"
 
-#: app/main.cpp:137
+#: app/main.cpp:139
 #, kde-format
 msgid "Liam Smit"
 msgstr ""
 
-#: app/main.cpp:138
+#: app/main.cpp:140
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "Idea, bantu dengan ikon"
 
-#: app/main.cpp:140
+#: app/main.cpp:142
 #, kde-format
 msgid "Andrew Smith"
 msgstr ""
 
-#: app/main.cpp:141
+#: app/main.cpp:143
 #, kde-format
 msgid "bkisofs code"
 msgstr ""
 
-#: app/main.cpp:151
+#: app/main.cpp:153
 #, kde-format
 msgid "URLs to open."
 msgstr ""
 
-#: app/main.cpp:154
+#: app/main.cpp:156
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr ""
 
-#: app/main.cpp:157
+#: app/main.cpp:159
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr ""
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:161 kerfuffle/ark.kcfg:23
+#: app/main.cpp:163 kerfuffle/ark.kcfg:23
 #, fuzzy, kde-format
 #| msgid "Open destination folder after extraction"
 msgid "Open destination folder after extraction."
 msgstr "Buka folder destinasi selepas pengekstrakan"
 
-#: app/main.cpp:164
+#: app/main.cpp:166
 #, fuzzy, kde-format
 #| msgid ""
 #| "Ask for the name of the archive to add 'files' to. Quit when finished."
@@ -324,7 +324,7 @@ msgid ""
 "when finished."
 msgstr "Minta nama arkib yang hendak ditambah 'fail'. Keluar apabila selesai."
 
-#: app/main.cpp:167
+#: app/main.cpp:169
 #, fuzzy, kde-format
 #| msgid ""
 #| "Ask for the name of the archive to add 'files' to. Quit when finished."
@@ -333,34 +333,34 @@ msgid ""
 "Quit when finished."
 msgstr "Minta nama arkib yang hendak ditambah 'fail'. Keluar apabila selesai."
 
-#: app/main.cpp:171
+#: app/main.cpp:173
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
 "to this one."
 msgstr ""
 
-#: app/main.cpp:174
+#: app/main.cpp:176
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
 "tar.gz, zip or any other supported types)"
 msgstr ""
 
-#: app/main.cpp:178
+#: app/main.cpp:180
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
 "if more than one url is specified."
 msgstr ""
 
-#: app/main.cpp:181
+#: app/main.cpp:183
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr ""
 
-#: app/main.cpp:184
+#: app/main.cpp:186
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -368,17 +368,27 @@ msgid ""
 "created."
 msgstr ""
 
-#: app/main.cpp:187
+#: app/main.cpp:189
 #, kde-format
 msgid "List supported MIME types."
 msgstr ""
 
-#: app/mainwindow.cpp:124
+#: app/mainwindow.cpp:123
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr ""
 
-#: app/mainwindow.cpp:196
+#: app/mainwindow.cpp:201
+#, kde-format
+msgid "Welcome Page"
+msgstr ""
+
+#: app/mainwindow.cpp:203
+#, kde-format
+msgid "Show the welcome page"
+msgstr ""
+
+#: app/mainwindow.cpp:211
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -387,45 +397,84 @@ msgid ""
 "commands and configuration options."
 msgstr ""
 
-#: app/mainwindow.cpp:255
+#: app/mainwindow.cpp:270
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Buka 'arkib'"
 
-#: app/mainwindow.cpp:363
+#: app/mainwindow.cpp:378
 #, fuzzy, kde-format
 #| msgid "Create New Archive"
 msgid "Create New Archive"
 msgstr "Cipta Arkib Baru"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
-#: app/welcomescreen.ui:18
+#. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
+#: app/welcomeview/welcomeview.ui:17
 #, kde-format
-msgid "Form"
+msgid "Welcome"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: app/welcomescreen.ui:53
-#, kde-format
-msgid "Welcome to Ark"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QPushButton, openButton)
-#: app/welcomescreen.ui:97
+#. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
+#: app/welcomeview/welcomeview.ui:179
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgctxt "to open an archive"
 msgid "Open Archive..."
 msgstr "Buka 'arkib'"
 
-#. i18n: ectx: property (text), widget (QPushButton, newButton)
-#: app/welcomescreen.ui:107
+#. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
+#: app/welcomeview/welcomeview.ui:186
 #, fuzzy, kde-format
-#| msgid "Create New Archive"
-msgid "Create New Archive..."
-msgstr "Cipta Arkib Baru"
+#| msgid "Open 'archive'"
+msgid "New Archive"
+msgstr "Buka 'arkib'"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
+#: app/welcomeview/welcomeview.ui:193
+#, fuzzy, kde-format
+#| msgctxt "folder for opening files (used as part of a sentence)"
+#| msgid "open folder"
+msgid "Clear Recent Files"
+msgstr "buka folder"
+
+#. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
+#: app/welcomeview/welcomeview.ui:223
+#, fuzzy, kde-format
+#| msgctxt "folder for opening files (used as part of a sentence)"
+#| msgid "open folder"
+msgid "Recent Files"
+msgstr "buka folder"
+
+#. i18n: ectx: property (text), widget (QLabel, labelHelp)
+#: app/welcomeview/welcomeview.ui:264
+#, kde-format
+msgid "Help"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
+#: app/welcomeview/welcomeview.ui:274
+#, kde-format
+msgid "Visit homepage"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
+#: app/welcomeview/welcomeview.ui:287
+#, kde-format
+msgid "Read handbook"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
+#: app/welcomeview/welcomeview.ui:346
+#, kde-format
+msgid "Show on startup"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
+#: app/welcomeview/welcomeview.ui:401
+#, kde-format
+msgid "Close Welcome Page"
+msgstr ""
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
@@ -2267,6 +2316,11 @@ msgid "Failed to set metadata for entry: %1"
 msgstr "Folder hendak diekstrak"
 
 #, fuzzy
+#~| msgid "Create New Archive"
+#~ msgid "Create New Archive..."
+#~ msgstr "Cipta Arkib Baru"
+
+#, fuzzy
 #~| msgid "Folder to extract to"
 #~ msgctxt "@info"
 #~ msgid "Ark could not extract <filename>%1</filename>."
@@ -2589,12 +2643,6 @@ msgstr "Folder hendak diekstrak"
 #~| msgid "An error occurred while adding the files to the archive."
 #~ msgid "Unable to open the file '%1', libarchive cannot handle it."
 #~ msgstr "Ralat berlaku semasa menambah fail ke dalam arkib."
-
-#, fuzzy
-#~| msgctxt "folder for opening files (used as part of a sentence)"
-#~| msgid "open folder"
-#~ msgid "Recent folders"
-#~ msgstr "buka folder"
 
 #, fuzzy
 #~| msgid "Open extract dialog, quit when finished"

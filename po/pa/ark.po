@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-28 01:02+0000\n"
+"POT-Creation-Date: 2023-03-14 02:55+0000\n"
 "PO-Revision-Date: 2022-01-01 09:22-0800\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -169,150 +169,150 @@ msgstr "KDE ਅਕਾਇਵਿੰਗ ਟੂਲ"
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) ੧੯੯੭-੨੦੧੯, ਕਈ ਆਰਕ ਡਿਵੈਲਪਰ"
 
-#: app/main.cpp:93
+#: app/main.cpp:95
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr ""
 
-#: app/main.cpp:94
+#: app/main.cpp:96
 #, kde-format
 msgid "Maintainer"
 msgstr "ਪਰਬੰਧਕ"
 
-#: app/main.cpp:96
+#: app/main.cpp:98
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr ""
 
-#: app/main.cpp:97
+#: app/main.cpp:99
 #, kde-format
 msgid "Maintainer, KF5 port"
 msgstr "ਪਰਬੰਧਕ, KF5 ਪੋਰਟ"
 
-#: app/main.cpp:99
+#: app/main.cpp:101
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr ""
 
-#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#: app/main.cpp:102 app/main.cpp:105 app/main.cpp:108
 #, kde-format
 msgid "Former Maintainer"
 msgstr "ਪਹਿਲਾਂ ਪਰਬੰਧਕ"
 
-#: app/main.cpp:102
+#: app/main.cpp:104
 #, kde-format
 msgid "Harald Hvaal"
 msgstr ""
 
-#: app/main.cpp:105
+#: app/main.cpp:107
 #, kde-format
 msgid "Henrique Pinto"
 msgstr "ਹੇਨਰੀਕਿਉ ਪਿੰਟੋ"
 
-#: app/main.cpp:108
+#: app/main.cpp:110
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr "ਹਿਲੀਓ ਚਿੱਸਨੀ ਡੀ ਕਾਸਟਰੋ"
 
-#: app/main.cpp:109
+#: app/main.cpp:111
 #, kde-format
 msgid "Former maintainer"
 msgstr "ਪਹਿਲਾਂ ਪਰਬੰਧਕ"
 
-#: app/main.cpp:111
+#: app/main.cpp:113
 #, kde-format
 msgid "Georg Robbers"
 msgstr "ਜਾਰਜ ਰੱਬੀਰਸ"
 
-#: app/main.cpp:114
+#: app/main.cpp:116
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr "Roberto Selbach Teixeira"
 
-#: app/main.cpp:117
+#: app/main.cpp:119
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr "Francois-Xavier Duranceau"
 
-#: app/main.cpp:120
+#: app/main.cpp:122
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr "Emily Ezust (Corel ਕਾਰਪੋਰੇਸ਼ਨ)"
 
-#: app/main.cpp:123
+#: app/main.cpp:125
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr "Michael Jarrett (Corel ਕਾਰਪੋਰੇਸ਼ਨ)"
 
-#: app/main.cpp:126
+#: app/main.cpp:128
 #, kde-format
 msgid "Robert Palmbos"
 msgstr "ਰਾਬਰਟ ਪਾਲਮਬੋਸ"
 
-#: app/main.cpp:130
+#: app/main.cpp:132
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr ""
 
-#: app/main.cpp:131
+#: app/main.cpp:133
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr "ਮਾਹਰ ਸੋਧਣ ਸਹੂਲਤਾਂ"
 
-#: app/main.cpp:134
+#: app/main.cpp:136
 #, kde-format
 msgid "Bryce Corkins"
 msgstr "Bryce Corkins"
 
-#: app/main.cpp:135
+#: app/main.cpp:137
 #, kde-format
 msgid "Icons"
 msgstr "ਆਈਕਾਨ"
 
-#: app/main.cpp:137
+#: app/main.cpp:139
 #, kde-format
 msgid "Liam Smit"
 msgstr "ਲੀਮ ਸਮਿਟ"
 
-#: app/main.cpp:138
+#: app/main.cpp:140
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "ਵਿਚਾਰ, ਆਈਕਾਨਾਂ ਲਈ ਮਦਦ"
 
-#: app/main.cpp:140
+#: app/main.cpp:142
 #, kde-format
 msgid "Andrew Smith"
 msgstr "ਐਡਰਿਊ ਸਮਿੱਥ"
 
-#: app/main.cpp:141
+#: app/main.cpp:143
 #, kde-format
 msgid "bkisofs code"
 msgstr "bkisofs ਕੋਡ"
 
-#: app/main.cpp:151
+#: app/main.cpp:153
 #, kde-format
 msgid "URLs to open."
 msgstr "ਖੋਲ੍ਹਣ ਲਈ URL।"
 
-#: app/main.cpp:154
+#: app/main.cpp:156
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr "ਓਪਰੇਸ਼ਨ ਵਾਸਤੇ ਚੋਣਾਂ ਦੇਣ ਲਈ ਇੱਕ ਡਾਈਲਾਗ ਖੋਲ੍ਹੋ (ਐਕਸਟਰੈਕਟ/ਸ਼ਾਮਲ)"
 
-#: app/main.cpp:157
+#: app/main.cpp:159
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr "ਖਿਲਾਰਨ ਲਈ ਟਿਕਾਣਾ ਫੋਲਡਰ। ਜੇ ਨਾ ਦਿੱਤਾ ਤਾਂ ਡਿਫਾਲਟ ਮੌਜੂਦਾ ਪਾਥ ਹੈ।"
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:161 kerfuffle/ark.kcfg:23
+#: app/main.cpp:163 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "ਖਿਲਾਰਨ ਬਾਅਦ ਟਿਕਾਣਾ ਫੋਲਡਰ ਖੋਲ੍ਹੋ।"
 
-#: app/main.cpp:164
+#: app/main.cpp:166
 #, kde-format
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
@@ -321,7 +321,7 @@ msgstr ""
 "ਵਰਤੋਂਕਾਰ ਨੂੰ ਅਕਾਇਵ ਫ਼ਾਇਲ ਨਾਂ ਅਤੇ ਇਸ ਵਿੱਚ ਸ਼ਾਮਲ ਕਰਨ ਵਾਸਤੇ ਫ਼ਾਇਲਾਂ ਲਈ ਕਿਊਰੀ ਕਰੋ। ਜਦੋਂ ਪੂਰਾ ਹੋਵੇ "
 "ਤਾਂ ਬੰਦ ਕਰੋ।"
 
-#: app/main.cpp:167
+#: app/main.cpp:169
 #, kde-format
 msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
@@ -330,14 +330,14 @@ msgstr ""
 "ਦਿੱਤੀਆਂ ਫ਼ਾਇਲਾਂ 'filename' ਵਿੱਚ ਸ਼ਾਮਲ ਕਰੋ। ਜੇ ਅਕਾਇਵ ਮੌਜੂਦ ਨਾ ਹੋਵੇ ਤਾਂ ਬਣਾਉ। ਜਦੋਂ ਮੁਕੰਮਲ ਹੋਵੇ ਤਾਂ "
 "ਬੰਦ ਕਰੋ।"
 
-#: app/main.cpp:171
+#: app/main.cpp:173
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
 "to this one."
 msgstr "ਮੌਜੂਦਾ ਡਾਇਰੈਕਟਰੀ ਨੂੰ ਪਹਿਲੀਂ ਐਂਟਰੀ ਲਈ ਬਦਲੋ ਅਤੇ ਬਾਕੀ ਸਭ ਐਂਟਰੀਆਂ ਨੂੰ ਉਸ ਇੱਕ ਮੁਤਾਬਕ।"
 
-#: app/main.cpp:174
+#: app/main.cpp:176
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
@@ -346,7 +346,7 @@ msgstr ""
 "ਚੁਣੇ ਸਿਫਿਕਸ ਨਾਲ ਆਟੋਮੈਟਿਕ ਫ਼ਾਇਲ-ਨਾਂ ਚੁਣੋ (ਜਿਵੇਂ ਕਿ rar, tar.gz, zip ਅਤੇ ਹੋਰ ਕੋਈ ਵੀ ਸਹਾਇਕ "
 "ਕਿਸਮ)।"
 
-#: app/main.cpp:178
+#: app/main.cpp:180
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
@@ -354,13 +354,13 @@ msgid ""
 msgstr ""
 "ਆਮ ਡਾਈਲਾਗ ਦੀ ਬਜਾਏ ਬੈਂਚ ਇੰਟਰਫੇਸ ਵਰਤੋਂ। ਇਹ ਚੋਣ ਤਾਂ ਲਾਗੂ ਹੁੰਦੀ ਹੈ, ਜੇ ਇੱਕ ਤੋਂ ਵੱਧ URL ਦਿੱਤੇ ਹੋਣ।"
 
-#: app/main.cpp:181
+#: app/main.cpp:183
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr ""
 
-#: app/main.cpp:184
+#: app/main.cpp:186
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -370,17 +370,28 @@ msgstr ""
 "ਅਕਾਇਵ ਸਮੱਗਰੀ ਨੂੰ ਪੜ੍ਹਿਆ ਜਾਵੇਗਾ ਅਤੇ ਜੇ ਇੱਕਲਾ ਫੋਲਡਰ ਜਾਂ ਇੱਕਲਾ ਫਾਇਲ ਅਕਾਇਵ ਨਾ ਖੋਜਿਆ ਗਿਆ ਤਾਂ "
 "ਅਕਾਇਵ ਦੇ ਨਾਂ ਨਾਲ ਇੱਕ ਸਬ-ਫੋਲਡਰ ਬਣਾਇਆ ਜਾਵੇਗਾ।"
 
-#: app/main.cpp:187
+#: app/main.cpp:189
 #, kde-format
 msgid "List supported MIME types."
 msgstr "ਸਹਾਇਕ MIME ਕਿਸਮਾਂ ਦੀ ਸੂਚੀ।"
 
-#: app/mainwindow.cpp:124
+#: app/mainwindow.cpp:123
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "ਆਰਕ ਦਾ KPart ਭਾਗ ਲੱਭਣ ਲਈ ਅਸਮਰੱਥ ਹੈ, ਆਪਣੀ ਇੰਸਟਾਲੇਸ਼ਨ ਵੇਖੋ ਜੀ।"
 
-#: app/mainwindow.cpp:196
+#: app/mainwindow.cpp:201
+#, fuzzy, kde-format
+#| msgid "Welcome to Ark"
+msgid "Welcome Page"
+msgstr "ਆਰਕ ਵਲੋਂ ਜੀ ਆਇਆਂ ਨੂੰ"
+
+#: app/mainwindow.cpp:203
+#, kde-format
+msgid "Show the welcome page"
+msgstr ""
+
+#: app/mainwindow.cpp:211
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -389,41 +400,84 @@ msgid ""
 "commands and configuration options."
 msgstr ""
 
-#: app/mainwindow.cpp:255
+#: app/mainwindow.cpp:270
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "ਅਕਾਇਵ ਖੋਲ੍ਹੋ"
 
-#: app/mainwindow.cpp:363
+#: app/mainwindow.cpp:378
 #, kde-format
 msgid "Create New Archive"
 msgstr "ਨਵਾਂ ਅਕਾਇਵ ਬਣਾਓ"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
-#: app/welcomescreen.ui:18
-#, kde-format
-msgid "Form"
-msgstr "ਤੋਂ"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: app/welcomescreen.ui:53
-#, kde-format
-msgid "Welcome to Ark"
+#. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
+#: app/welcomeview/welcomeview.ui:17
+#, fuzzy, kde-format
+#| msgid "Welcome to Ark"
+msgid "Welcome"
 msgstr "ਆਰਕ ਵਲੋਂ ਜੀ ਆਇਆਂ ਨੂੰ"
 
-#. i18n: ectx: property (text), widget (QPushButton, openButton)
-#: app/welcomescreen.ui:97
-#, kde-format
-msgctxt "to open an archive"
+#. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
+#: app/welcomeview/welcomeview.ui:179
+#, fuzzy, kde-format
+#| msgctxt "to open an archive"
+#| msgid "Open Archive..."
 msgid "Open Archive..."
 msgstr "...ਅਕਾਇਵ ਖੋਲ੍ਹੋ"
 
-#. i18n: ectx: property (text), widget (QPushButton, newButton)
-#: app/welcomescreen.ui:107
+#. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
+#: app/welcomeview/welcomeview.ui:186
+#, fuzzy, kde-format
+#| msgctxt "to open an archive"
+#| msgid "Open Archive"
+msgid "New Archive"
+msgstr "ਅਕਾਇਵ ਖੋਲ੍ਹੋ"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
+#: app/welcomeview/welcomeview.ui:193
+#, fuzzy, kde-format
+#| msgid "Recent folders"
+msgid "Clear Recent Files"
+msgstr "ਤਾਜ਼ਾ ਫੋਲਡਰ"
+
+#. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
+#: app/welcomeview/welcomeview.ui:223
+#, fuzzy, kde-format
+#| msgid "Recent folders"
+msgid "Recent Files"
+msgstr "ਤਾਜ਼ਾ ਫੋਲਡਰ"
+
+#. i18n: ectx: property (text), widget (QLabel, labelHelp)
+#: app/welcomeview/welcomeview.ui:264
+#, fuzzy, kde-format
+#| msgid "&Help"
+msgid "Help"
+msgstr "ਮਦਦ(&H)"
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
+#: app/welcomeview/welcomeview.ui:274
 #, kde-format
-msgid "Create New Archive..."
-msgstr "...ਨਵਾਂ ਅਕਾਇਵ ਬਣਾਓ"
+msgid "Visit homepage"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
+#: app/welcomeview/welcomeview.ui:287
+#, kde-format
+msgid "Read handbook"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
+#: app/welcomeview/welcomeview.ui:346
+#, kde-format
+msgid "Show on startup"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
+#: app/welcomeview/welcomeview.ui:401
+#, kde-format
+msgid "Close Welcome Page"
+msgstr ""
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
@@ -2219,6 +2273,12 @@ msgstr "ਐੰਟਰੀ ਕਾਪੀ ਕਰਨ ਲਈ ਫੇਲ੍ਹ: %1"
 msgid "Failed to set metadata for entry: %1"
 msgstr "ਡਿਸਕ ਉੱਤੇ <filename>%2</filename> ਪਰੋਗਰਾਮ ਲੱਭਣ ਲਈ ਫੇਲ੍ਹ ਹੈ"
 
+#~ msgid "Form"
+#~ msgstr "ਤੋਂ"
+
+#~ msgid "Create New Archive..."
+#~ msgstr "...ਨਵਾਂ ਅਕਾਇਵ ਬਣਾਓ"
+
 #~ msgctxt "@info"
 #~ msgid "Ark could not extract <filename>%1</filename>."
 #~ msgstr "ਆਕ <filename>%1</filename> ਨੂੰ ਖਿਲਾਰ ਨਹੀਂ ਸਕੀ।"
@@ -2682,9 +2742,6 @@ msgstr "ਡਿਸਕ ਉੱਤੇ <filename>%2</filename> ਪਰੋਗਰਾਮ 
 
 #~ msgid "Unable to open the file '%1', libarchive cannot handle it."
 #~ msgstr "'%1' ਫਾਇਲ ਖੋਲ੍ਹਣ ਲਈ ਅਸਮਰੱਥ, libarchive ਹੈਂਡਲ ਨਹੀਂ ਕਰ ਸਕਦੀ।"
-
-#~ msgid "Recent folders"
-#~ msgstr "ਤਾਜ਼ਾ ਫੋਲਡਰ"
 
 #~ msgid "Operation finished."
 #~ msgstr "ਓਪਰੇਸ਼ਨ ਫੇਲ੍ਹ ਹੋਇਆ।"
