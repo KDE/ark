@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-28 01:02+0000\n"
+"POT-Creation-Date: 2023-03-14 02:55+0000\n"
 "PO-Revision-Date: 2023-03-11 23:32+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -170,150 +170,150 @@ msgstr "Arkivverktøy frå KDE"
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "© 1997–2019 Ark-utviklarane"
 
-#: app/main.cpp:93
+#: app/main.cpp:95
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: app/main.cpp:94
+#: app/main.cpp:96
 #, kde-format
 msgid "Maintainer"
 msgstr "Vedlikehaldar"
 
-#: app/main.cpp:96
+#: app/main.cpp:98
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr "Ragnar Thomsen"
 
-#: app/main.cpp:97
+#: app/main.cpp:99
 #, kde-format
 msgid "Maintainer, KF5 port"
 msgstr "Vedlikehaldar og port til KF5"
 
-#: app/main.cpp:99
+#: app/main.cpp:101
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr "Raphael Kubo da Costa"
 
-#: app/main.cpp:100 app/main.cpp:103 app/main.cpp:106
+#: app/main.cpp:102 app/main.cpp:105 app/main.cpp:108
 #, kde-format
 msgid "Former Maintainer"
 msgstr "Tidlegare vedlikehaldar"
 
-#: app/main.cpp:102
+#: app/main.cpp:104
 #, kde-format
 msgid "Harald Hvaal"
 msgstr "Harald Hvaal"
 
-#: app/main.cpp:105
+#: app/main.cpp:107
 #, kde-format
 msgid "Henrique Pinto"
 msgstr "Henrique Pinto"
 
-#: app/main.cpp:108
+#: app/main.cpp:110
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr "Helio Chissini de Castro"
 
-#: app/main.cpp:109
+#: app/main.cpp:111
 #, kde-format
 msgid "Former maintainer"
 msgstr "Tidlegare vedlikehaldar"
 
-#: app/main.cpp:111
+#: app/main.cpp:113
 #, kde-format
 msgid "Georg Robbers"
 msgstr "Georg Robbers"
 
-#: app/main.cpp:114
+#: app/main.cpp:116
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr "Roberto Selbach Teixeira"
 
-#: app/main.cpp:117
+#: app/main.cpp:119
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr "Francois-Xavier Duranceau"
 
-#: app/main.cpp:120
+#: app/main.cpp:122
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr "Emily Ezust (Corel Corporation)"
 
-#: app/main.cpp:123
+#: app/main.cpp:125
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr "Michael Jarrett (Corel Corporation)"
 
-#: app/main.cpp:126
+#: app/main.cpp:128
 #, kde-format
 msgid "Robert Palmbos"
 msgstr "Robert Palmbos"
 
-#: app/main.cpp:130
+#: app/main.cpp:132
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr "Vladyslav Batyrenko"
 
-#: app/main.cpp:131
+#: app/main.cpp:133
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr "Avanserte redigeringsfunksjonar"
 
-#: app/main.cpp:134
+#: app/main.cpp:136
 #, kde-format
 msgid "Bryce Corkins"
 msgstr "Bryce Corkins"
 
-#: app/main.cpp:135
+#: app/main.cpp:137
 #, kde-format
 msgid "Icons"
 msgstr "Ikon"
 
-#: app/main.cpp:137
+#: app/main.cpp:139
 #, kde-format
 msgid "Liam Smit"
 msgstr "Liam Smit"
 
-#: app/main.cpp:138
+#: app/main.cpp:140
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "Idéar og hjelp med ikona"
 
-#: app/main.cpp:140
+#: app/main.cpp:142
 #, kde-format
 msgid "Andrew Smith"
 msgstr "Andrew Smith"
 
-#: app/main.cpp:141
+#: app/main.cpp:143
 #, kde-format
 msgid "bkisofs code"
 msgstr "bkisofs-kode"
 
-#: app/main.cpp:151
+#: app/main.cpp:153
 #, kde-format
 msgid "URLs to open."
 msgstr "Adresser som skal opnast."
 
-#: app/main.cpp:154
+#: app/main.cpp:156
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr "Vis eit vindauge med operasjonensval (utpakking/tillegging)."
 
-#: app/main.cpp:157
+#: app/main.cpp:159
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr "Målmappa å pakka ut til. Standard er gjeldande mappe."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:161 kerfuffle/ark.kcfg:23
+#: app/main.cpp:163 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "Opna målmappa etter utpakking."
 
-#: app/main.cpp:164
+#: app/main.cpp:166
 #, kde-format
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
@@ -322,7 +322,7 @@ msgstr ""
 "Spør brukaren kva filnamn som skal brukast på arkivet, og legg til valde "
 "filer. Avslutt etterpå."
 
-#: app/main.cpp:167
+#: app/main.cpp:169
 #, kde-format
 msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
@@ -331,7 +331,7 @@ msgstr ""
 "Legg dei valde filene til «filename». Opprett arkivfila om ho ikkje alt "
 "finst. Avslutt etterpå."
 
-#: app/main.cpp:171
+#: app/main.cpp:173
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
@@ -340,7 +340,7 @@ msgstr ""
 "Byt gjeldande mappe til den første oppføringa, og legg til dei andre "
 "oppføringane relativt til denne."
 
-#: app/main.cpp:174
+#: app/main.cpp:176
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
@@ -349,7 +349,7 @@ msgstr ""
 "Vel automatisk filnamn med det valde etternamnet (for eksempel «rar», «tar."
 "gz» eller «zip»)."
 
-#: app/main.cpp:178
+#: app/main.cpp:180
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
@@ -358,13 +358,13 @@ msgstr ""
 "Bruk fleirfilgrensesnittet i staden for det vanlege vindauget. Dette valet "
 "gjeld når meir enn éi adresse er oppgjeven."
 
-#: app/main.cpp:181
+#: app/main.cpp:183
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr "Målargumentet vert sett til adressa til den første oppgjevne fila."
 
-#: app/main.cpp:184
+#: app/main.cpp:186
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -374,19 +374,29 @@ msgstr ""
 "Arkivinnhaldet vert vist, og viss det ikkje består av éi mappe eller eitt "
 "filarkiv, vert det laga ei mappe basert på namnet til arkivfila."
 
-#: app/main.cpp:187
+#: app/main.cpp:189
 #, kde-format
 msgid "List supported MIME types."
 msgstr "Vis oversikt over støtta MIME-typar."
 
-#: app/mainwindow.cpp:124
+#: app/mainwindow.cpp:123
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr ""
 "Klarte ikkje finna KPart-komponenten til Ark. Sjå til at programmet er rett "
 "installert."
 
-#: app/mainwindow.cpp:196
+#: app/mainwindow.cpp:201
+#, kde-format
+msgid "Welcome Page"
+msgstr ""
+
+#: app/mainwindow.cpp:203
+#, kde-format
+msgid "Show the welcome page"
+msgstr ""
+
+#: app/mainwindow.cpp:211
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -397,41 +407,76 @@ msgstr ""
 "Byter mellom <emphasis>menylinje</emphasis> og <interface>hamburger­meny</"
 "interface>. Begge inneheld stort sett dei same kommandoane og vala."
 
-#: app/mainwindow.cpp:255
+#: app/mainwindow.cpp:270
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Opna arkiv"
 
-#: app/mainwindow.cpp:363
+#: app/mainwindow.cpp:378
 #, kde-format
 msgid "Create New Archive"
 msgstr "Lag nytt arkiv"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, WelcomeScreen)
-#: app/welcomescreen.ui:18
+#. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
+#: app/welcomeview/welcomeview.ui:17
 #, kde-format
-msgid "Form"
-msgstr "Skjema"
+msgid "Welcome"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: app/welcomescreen.ui:53
+#. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
+#: app/welcomeview/welcomeview.ui:179
 #, kde-format
-msgid "Welcome to Ark"
-msgstr "Velkommen til Ark"
-
-#. i18n: ectx: property (text), widget (QPushButton, openButton)
-#: app/welcomescreen.ui:97
-#, kde-format
-msgctxt "to open an archive"
 msgid "Open Archive..."
-msgstr "Opna arkiv …"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QPushButton, newButton)
-#: app/welcomescreen.ui:107
+#. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
+#: app/welcomeview/welcomeview.ui:186
 #, kde-format
-msgid "Create New Archive..."
-msgstr "Lag nytt arkiv …"
+msgid "New Archive"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
+#: app/welcomeview/welcomeview.ui:193
+#, kde-format
+msgid "Clear Recent Files"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
+#: app/welcomeview/welcomeview.ui:223
+#, kde-format
+msgid "Recent Files"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelHelp)
+#: app/welcomeview/welcomeview.ui:264
+#, kde-format
+msgid "Help"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
+#: app/welcomeview/welcomeview.ui:274
+#, kde-format
+msgid "Visit homepage"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
+#: app/welcomeview/welcomeview.ui:287
+#, kde-format
+msgid "Read handbook"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
+#: app/welcomeview/welcomeview.ui:346
+#, kde-format
+msgid "Show on startup"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
+#: app/welcomeview/welcomeview.ui:401
+#, kde-format
+msgid "Close Welcome Page"
+msgstr ""
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format

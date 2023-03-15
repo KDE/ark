@@ -1,9 +1,9 @@
 # Translation of ark.po to Catalan (Valencian)
-# Copyright (C) 1998-2022 This_file_is_part_of_KDE
+# Copyright (C) 1998-2023 This_file_is_part_of_KDE
 #
 # Sebastià Pla <sastia@redestb.es>, 1998.
 # Albert Astals Cid <aacid@kde.org>, 2002, 2003, 2004, 2005.
-# Josep M. Ferrer <txemaq@gmail.com>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Josep M. Ferrer <txemaq@gmail.com>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Joan Maspons <joanmaspons@gmail.com>, 2009.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2012, 2014, 2015, 2016, 2017, 2018, 2020, 2021, 2022.
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 02:55+0000\n"
-"PO-Revision-Date: 2022-10-21 13:14+0200\n"
+"PO-Revision-Date: 2023-03-14 08:40+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -393,15 +393,14 @@ msgstr ""
 "No s'ha pogut trobar el component KPart d'Ark, comproveu la instal·lació."
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr " Us donem la benvinguda a Ark"
+msgstr "Pàgina de benvinguda"
 
 #: app/mainwindow.cpp:203
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "Mostra la pàgina de benvinguda"
 
 #: app/mainwindow.cpp:211
 #, kde-kuit-format
@@ -428,72 +427,63 @@ msgstr "Crea un arxiu nou"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr " Us donem la benvinguda a Ark"
+msgstr "Us donem la benvinguda"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
 msgstr "Obri un arxiu..."
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "Obri un arxiu"
+msgstr "Arxiu nou"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
 #, kde-format
 msgid "Clear Recent Files"
-msgstr ""
+msgstr "Neteja els fitxers recents"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:223
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Delete File"
-#| msgid_plural "Delete Files"
+#, kde-format
 msgid "Recent Files"
-msgstr "Suprimix el fitxer"
+msgstr "Fitxers recents"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:264
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "A&juda"
+msgstr "Ajuda"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:274
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "Visita la pàgina web"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:287
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "Llegiu el manual"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:346
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "Mostra en iniciar"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:401
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "Tanca la pàgina de benvinguda"
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
@@ -2298,25 +2288,3 @@ msgstr "No s'ha pogut copiar l'entrada: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "No s'han pogut establir les metadades de l'entrada: %1"
-
-#~ msgid "Form"
-#~ msgstr "Formulari"
-
-#~ msgid "Create New Archive..."
-#~ msgstr "Crea un arxiu nou..."
-
-#~ msgctxt "@info"
-#~ msgid "Ark could not extract <filename>%1</filename>."
-#~ msgstr "Ark no ha pogut extraure <filename>%1</filename>."
-
-#~ msgctxt "@info"
-#~ msgid "Ark could not open <filename>%1</filename> for extraction."
-#~ msgstr "Ark no ha pogut obrir <filename>%1</filename> per a l'extracció."
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "There was an error while reading <filename>%1</filename> during "
-#~ "extraction."
-#~ msgstr ""
-#~ "S'ha produït un error en llegir <filename>%1</filename> durant "
-#~ "l'extracció."
