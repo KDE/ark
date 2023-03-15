@@ -3,21 +3,21 @@
 #
 # Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2003, 2004, 2005, 2006, 2009.
 # Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
-# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 00:49+0000\n"
-"PO-Revision-Date: 2022-11-26 13:31+0000\n"
+"PO-Revision-Date: 2023-03-14 20:57+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
-"Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
+"Language-Team: British English\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 23.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -386,15 +386,14 @@ msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "Unable to find Ark's KPart component, please check your installation."
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr "Welcome to Ark"
+msgstr "Welcome Page"
 
 #: app/mainwindow.cpp:203
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "Show the welcome page"
 
 #: app/mainwindow.cpp:211
 #, kde-kuit-format
@@ -421,71 +420,63 @@ msgstr "Create New Archive"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr "Welcome to Ark"
+msgstr "Welcome"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
 msgstr "Open Archive..."
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "Open Archive"
+msgstr "New Archive"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "Clear Recent Files"
-msgstr "Recent folders"
+msgstr "Clear Recent Files"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:223
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "Recent Files"
-msgstr "Recent folders"
+msgstr "Recent Files"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:264
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "&Help"
+msgstr "Help"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:274
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "Visit homepage"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:287
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "Read handbook"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:346
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "Show on startup"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:401
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "Close Welcome Page"
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
