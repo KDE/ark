@@ -8,13 +8,13 @@
 #
 # Ambalam <tamilpc@ambalam.com>, 2004.
 # root <root@localhost.localdomain>, 2004.
-# Kishore G <kishore96@gmail.com>, 2021, 2022.
+# Kishore G <kishore96@gmail.com>, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 02:55+0000\n"
-"PO-Revision-Date: 2022-10-25 21:37+0530\n"
+"PO-Revision-Date: 2023-03-19 12:55+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -390,15 +390,14 @@ msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "ஆர்க்கின் KPart கூறை கண்டுபிடிக்க முடியவில்லை. ஆர்க்கின் நிறுவலை சரிபாருங்கள்."
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr "ஆர்க்குக்கு நல்வரவு"
+msgstr "வரவேற்புப் பக்கம்"
 
 #: app/mainwindow.cpp:203
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "வரவேற்புப் பக்கத்தைக் காட்டு"
 
 #: app/mainwindow.cpp:211
 #, kde-kuit-format
@@ -425,73 +424,63 @@ msgstr "புதிய காப்பகத்தை உருவாக்க�
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr "ஆர்க்குக்கு நல்வரவு"
+msgstr "நல்வரவு"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
 msgstr "காப்பகத்தை திற..."
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "காப்பகத்தை திற"
+msgstr "புதிய காப்பகத்தை உருவாக்கு"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
-#, fuzzy, kde-format
-#| msgctxt "folder for opening files (used as part of a sentence)"
-#| msgid "open folder"
+#, kde-format
 msgid "Clear Recent Files"
-msgstr "திறக்கும் அடைவு"
+msgstr "சமீப கோப்புகளின் பட்டியலை காலியாக்கு"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:223
-#, fuzzy, kde-format
-#| msgctxt "folder for opening files (used as part of a sentence)"
-#| msgid "open folder"
+#, kde-format
 msgid "Recent Files"
-msgstr "திறக்கும் அடைவு"
+msgstr "சமீப கோப்புகள்"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:264
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "&உதவி"
+msgstr "உதவி"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:274
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "முகப்புப்பக்கத்திற்கு செல்"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:287
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "கையேட்டை காட்டு"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:346
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "துவங்கும்போது காட்டு"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:401
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "வரவேற்புப் பக்கத்தை மூடு"
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
