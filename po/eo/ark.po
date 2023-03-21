@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: arkn\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 00:49+0000\n"
-"PO-Revision-Date: 2023-02-19 19:18+0100\n"
+"PO-Revision-Date: 2023-03-20 22:31+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -385,10 +385,9 @@ msgstr ""
 "Ne eblas trovi la arkan KPart komponanton, bonvolu kontroli vian instalaĵon."
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr "Bonvenon al Ark"
+msgstr ""
 
 #: app/mainwindow.cpp:203
 #, kde-format
@@ -420,26 +419,21 @@ msgstr "Krei Novan Arkivon"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr "Bonvenon al Ark"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
 msgstr "Malfermi Arkivon..."
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "Malfermi Arkivon"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
@@ -449,19 +443,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:223
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Delete File"
-#| msgid_plural "Delete Files"
+#, kde-format
 msgid "Recent Files"
-msgstr "Forigi Dosieron"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:264
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "&Helpo"
+msgstr "Helpo"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:274
@@ -680,12 +670,11 @@ msgstr "Nivelo:"
 msgid "Min"
 msgstr "Min"
 
-# FUZZY MATCH (Method: / Method)
 #. i18n: ectx: property (text), widget (QLabel, lblCompMethod)
 #: kerfuffle/compressionoptionswidget.ui:83
 #, kde-format
 msgid "Method:"
-msgstr "Metodo"
+msgstr "Metodo:"
 
 #. i18n: ectx: property (text), widget (QLabel, lblCompLevel3)
 #: kerfuffle/compressionoptionswidget.ui:93
@@ -1534,14 +1523,12 @@ msgstr "Informa Panelo"
 msgid "Unknown file type"
 msgstr "Nekonata dosiertipo"
 
-# FUZZY MATCH (Owner: / Owner)
 #. i18n: ectx: property (text), widget (QLabel, m_ownerLabel)
 #: part/infopanel.ui:113
 #, kde-format
 msgid "Owner:"
 msgstr "Posedanto:"
 
-# FUZZY MATCH (Group: / Group)
 #. i18n: ectx: property (text), widget (QLabel, m_groupLabel)
 #: part/infopanel.ui:133
 #, kde-format
@@ -2282,9 +2269,3 @@ msgstr "Malsukcesis kopii eniron: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Malsukcesis agordi metadatenojn por enigo: %1"
-
-#~ msgid "Form"
-#~ msgstr "Formo"
-
-#~ msgid "Create New Archive..."
-#~ msgstr "Krei novan arkivon..."

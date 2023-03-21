@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 00:49+0000\n"
-"PO-Revision-Date: 2022-10-07 09:14+0100\n"
+"PO-Revision-Date: 2023-03-20 13:45+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -399,15 +399,14 @@ msgstr ""
 "sua instalação."
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr "Bem-vindo ao Ark"
+msgstr "Página de Boas-Vindas"
 
 #: app/mainwindow.cpp:203
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "Mostrar a página de boas-vindas"
 
 #: app/mainwindow.cpp:211
 #, kde-kuit-format
@@ -434,72 +433,63 @@ msgstr "Criar um Novo Pacote"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr "Bem-vindo ao Ark"
+msgstr "Bem-vindo"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
 msgstr "Abrir um Pacote..."
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "Abrir um Pacote"
+msgstr "Novo Pacote"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
 #, kde-format
 msgid "Clear Recent Files"
-msgstr ""
+msgstr "Limpar os Ficheiros Recentes"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:223
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Delete File"
-#| msgid_plural "Delete Files"
+#, kde-format
 msgid "Recent Files"
-msgstr "Apagar o Ficheiro"
+msgstr "Ficheiros Recentes"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:264
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "A&juda"
+msgstr "Ajuda"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:274
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "Visitar a página Web"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:287
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "Ler o manual"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:346
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "Mostrar no arranque"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:401
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "Fechar a Página de Boas-Vindas"
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
@@ -2305,34 +2295,3 @@ msgstr "Não foi possível copiar o elemento: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Não foi possível definir os meta-dados do elemento: %1"
-
-#~ msgid "Form"
-#~ msgstr "Formulário"
-
-#~ msgid "Create New Archive..."
-#~ msgstr "Criar um Novo Pacote..."
-
-#~ msgctxt "@info"
-#~ msgid "Ark could not extract <filename>%1</filename>."
-#~ msgstr "O Ark não conseguiu extrair o <filename>%1</filename>."
-
-#~ msgctxt "@info"
-#~ msgid "Ark could not open <filename>%1</filename> for extraction."
-#~ msgstr ""
-#~ "Não foi possível ao Ark aceder ao <filename>%1</filename> para o extrair."
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "There was an error while reading <filename>%1</filename> during "
-#~ "extraction."
-#~ msgstr ""
-#~ "Ocorreu um erro ao ler o <filename>%1</filename> durante a extracção."
-
-#~ msgid ""
-#~ "Internal config version of Ark, mainly used to determine whether an "
-#~ "updated version of Ark is running, so as to migrate config entries that "
-#~ "were removed/renamed ...etc"
-#~ msgstr ""
-#~ "Versão de configuração interna do Ark, principalmente para determinar se "
-#~ "está em execução uma versão actualizada do Ark, para migrar os itens de "
-#~ "configuração que foram removidos/renomeados ... etc"
