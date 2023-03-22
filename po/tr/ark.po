@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 02:55+0000\n"
-"PO-Revision-Date: 2023-03-14 14:45+0300\n"
+"PO-Revision-Date: 2023-03-21 15:05+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -667,7 +667,7 @@ msgstr "%1 biçimi için sıkıştırma yöntemi ayarlamak olanaklı değil."
 #: kerfuffle/compressionoptionswidget.cpp:199
 #, kde-format
 msgid "The %1 format does not support multi-volume archives."
-msgstr "%1 biçimi çok hacimli arşivleri desteklemiyor."
+msgstr "%1 biçimi çok parçalı arşivleri desteklemiyor."
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleCompression)
 #: kerfuffle/compressionoptionswidget.ui:20
@@ -729,19 +729,19 @@ msgstr ""
 #: kerfuffle/compressionoptionswidget.ui:183
 #, kde-format
 msgid "Multi-volume Archive"
-msgstr "Çok Hacimli Arşiv"
+msgstr "Çok Parçalı Arşiv"
 
 #. i18n: ectx: property (text), widget (QCheckBox, multiVolumeCheckbox)
 #: kerfuffle/compressionoptionswidget.ui:192
 #, kde-format
 msgid "Create multi-volume archive"
-msgstr "Çok hacimli arşiv oluştur"
+msgstr "Çok parçalı arşiv oluştur"
 
 #. i18n: ectx: property (text), widget (QLabel, lblVolumeSize)
 #: kerfuffle/compressionoptionswidget.ui:210
 #, kde-format
 msgid "Volume size:"
-msgstr "Hacim boyutu:"
+msgstr "Parça boyutu:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_previewFileSizeLimit)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, volumeSizeSpinbox)
@@ -1143,7 +1143,7 @@ msgstr "hayır"
 #: kerfuffle/propertiesdialog.cpp:49
 #, kde-format
 msgid "yes (%1 volumes)"
-msgstr "evet (%1 hacim)"
+msgstr "evet (%1 parça)"
 
 #: kerfuffle/propertiesdialog.cpp:51
 #, kde-format
@@ -1264,7 +1264,7 @@ msgstr "SHA-256 özeti:"
 #: kerfuffle/propertiesdialog.ui:278
 #, kde-format
 msgid "Multi-volume:"
-msgstr "Çoklu hacim:"
+msgstr "Çok parçalı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: kerfuffle/propertiesdialog.ui:295
@@ -2076,7 +2076,7 @@ msgstr "bilinmiyor"
 #: plugins/clirarplugin/cliplugin.cpp:553
 #, kde-format
 msgid "Failed to find all archive volumes."
-msgstr "Tüm arşiv hacimleri bulunamadı."
+msgstr "Tüm arşiv parçaları bulunamadı."
 
 #: plugins/clirarplugin/cliplugin.cpp:321
 #, kde-format
