@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 00:49+0000\n"
-"PO-Revision-Date: 2023-03-11 04:51\n"
+"PO-Revision-Date: 2023-03-26 02:18\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -372,15 +372,14 @@ msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "找不到 Ark 的 KPart 组件，请检查您的软件安装状态是否正确。"
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr "欢迎使用 Ark"
+msgstr "欢迎页面"
 
 #: app/mainwindow.cpp:203
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "显示欢迎页面"
 
 #: app/mainwindow.cpp:211
 #, kde-kuit-format
@@ -406,72 +405,63 @@ msgstr "新建压缩包"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr "欢迎使用 Ark"
+msgstr "欢迎使用"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
 msgstr "打开压缩包..."
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "打开压缩包"
+msgstr "新建压缩包"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
 #, kde-format
 msgid "Clear Recent Files"
-msgstr ""
+msgstr "清除最近文件"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:223
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Delete File"
-#| msgid_plural "Delete Files"
+#, kde-format
 msgid "Recent Files"
-msgstr "删除文件"
+msgstr "最近文件"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:264
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "帮助(&H)"
+msgstr "帮助"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:274
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "访问项目主页"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:287
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "查看使用手册"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:346
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "启动时显示"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:401
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "关闭欢迎页面"
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
@@ -1375,7 +1365,7 @@ msgstr "此压缩包不支持添加文件。"
 #: part/archivemodel.cpp:299
 #, kde-format
 msgid "You can only add local files to an archive."
-msgstr "您只能将本机文件添加到压缩包。"
+msgstr "您只能将本地文件添加到压缩包。"
 
 #. i18n: ectx: Menu (archive)
 #: part/ark_part.rc:5
@@ -2202,9 +2192,3 @@ msgstr "无法复制项目：%1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "无法设置项目的元数据：%1"
-
-#~ msgid "Form"
-#~ msgstr "表单"
-
-#~ msgid "Create New Archive..."
-#~ msgstr "新建压缩包..."
