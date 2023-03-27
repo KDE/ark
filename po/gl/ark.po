@@ -2,13 +2,13 @@
 # Xosé <xosecalvo@gmail.com>, 2008, 2012.
 # Marce Villarino <mvillarino@users.sourceforge.net>, 2009, 2014.
 # Adrian Chaves Fernandez <adriyetichaves@gmail.com>, 2013, 2015, 2016.
-# Adrián Chaves <adrian@chaves.io>, 2017, 2018, 2019.
+# Adrián Chaves <adrian@chaves.io>, 2017, 2018, 2019, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 02:55+0000\n"
-"PO-Revision-Date: 2019-10-26 13:54+0200\n"
+"PO-Revision-Date: 2023-03-26 12:38+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.08.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Adrián Chaves Fernández"
+msgstr "Adrian Chaves (Gallaecio)"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -30,8 +30,7 @@ msgstr "adrian@chaves.io"
 
 #. i18n: ectx: Menu (archive)
 #: app/arkui.rc:5
-#, fuzzy, kde-format
-#| msgid "&Archive"
+#, kde-format
 msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr "&Arquivar"
@@ -93,18 +92,14 @@ msgstr ""
 "message>"
 
 #: app/batchextract.cpp:294
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "The archive could not be saved as <filename>%1</filename>. Try saving it "
-#| "to another location."
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "The archive could not be extracted to <filename>%1</filename> because Ark "
 "can only extract to local destinations."
 msgstr ""
-"Non puido gardarse o arquivo como <filename>%1</filename>. Probe a gardalo "
-"noutro lugar."
+"O arquivo non puido extraerse en <filename>%1</filename> porque Ark só pode "
+"extraer en destinos locais."
 
 #: app/compressfileitemaction.cpp:77
 #, kde-format
@@ -119,13 +114,11 @@ msgid "Compress to..."
 msgstr "Comprimir en…"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Here (as ZIP)"
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Here as \"%1\""
-msgstr "Aquí (como ZIP)"
+msgstr "Aquí como «%1»"
 
 #: app/extractfileitemaction.cpp:63
 #, kde-format
@@ -397,12 +390,12 @@ msgstr ""
 #: app/mainwindow.cpp:201
 #, kde-format
 msgid "Welcome Page"
-msgstr ""
+msgstr "Páxina de benvida"
 
 #: app/mainwindow.cpp:203
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "Mostrar a páxina de benvida"
 
 #: app/mainwindow.cpp:211
 #, kde-kuit-format
@@ -412,6 +405,9 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"Isto cambia entre ter unha <emphasis>barra de menú</emphasis> e ter un botón "
+"de <interface>menú de hamburguesa</interface>. Ambos conteñen case as mesmas "
+"ordes e opcións de configuración."
 
 #: app/mainwindow.cpp:270
 #, kde-format
@@ -428,69 +424,61 @@ msgstr "Crear un arquivo novo"
 #: app/welcomeview/welcomeview.ui:17
 #, kde-format
 msgid "Welcome"
-msgstr ""
+msgstr "Benvida"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive..."
-msgstr "Abrir un arquivo"
+msgstr "Abrir un arquivo…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "Abrir un arquivo"
+msgstr "Novo arquivo"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
 #, kde-format
 msgid "Clear Recent Files"
-msgstr ""
+msgstr "Borrar a lista de ficheiros recentes"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:223
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Delete File"
-#| msgid_plural "Delete Files"
+#, kde-format
 msgid "Recent Files"
-msgstr "Eliminar o ficheiro"
+msgstr "Ficheiros recentes"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:264
 #, kde-format
 msgid "Help"
-msgstr ""
+msgstr "Axuda"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:274
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "Visitar a páxina web"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:287
-#, fuzzy, kde-format
-#| msgid "The &ark; Handbook"
+#, kde-format
 msgid "Read handbook"
-msgstr "Manual do &ark;"
+msgstr "Ler o manual"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:346
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "Mostrar no inicio"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:401
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "Pechar a páxina de benvida"
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
@@ -529,8 +517,7 @@ msgstr ""
 "gz») mediante o argumento <command>--autofilename</command>."
 
 #: kerfuffle/addtoarchive.cpp:243
-#, fuzzy, kde-format
-#| msgid "Archive"
+#, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
 msgstr "Arquivo"
@@ -1006,6 +993,8 @@ msgid ""
 "Could not load the archive because it contains ill-formed entries and might "
 "be a malicious archive."
 msgstr ""
+"Non se puido cargar o arquivo porque contén entradas en formato incorrecto e "
+"podería tratase dun arquivo malicioso."
 
 #: kerfuffle/jobs.cpp:253
 #, kde-format
@@ -1020,11 +1009,9 @@ msgid "Archive"
 msgstr "Arquivo"
 
 #: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:572
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Error creating directory <filename>%1</filename>"
+#, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
-msgstr "Produciuse un erro ao crear o directorio <filename>%1</filename>."
+msgstr "Non hai espazo dispoñíbel no dispositivo <filename>%1</filename>"
 
 #: kerfuffle/jobs.cpp:538
 #, kde-format
@@ -1351,15 +1338,13 @@ msgstr "Nome"
 #, kde-format
 msgctxt "Uncompressed size of a file inside an archive"
 msgid "Original Size"
-msgstr ""
+msgstr "Tamaño orixinal"
 
 #: part/archivemodel.cpp:159
-#, fuzzy, kde-format
-#| msgctxt "Compressed size of a file inside an archive"
-#| msgid "Compressed"
+#, kde-format
 msgctxt "Compressed size of a file inside an archive"
 msgid "Compressed Size"
-msgstr "Comprimido"
+msgstr "Tamaño comprimido"
 
 #: part/archivemodel.cpp:161
 #, kde-format
@@ -1459,7 +1444,7 @@ msgstr "Barra de ferramentas principal"
 #: part/ark_viewer.rc:5
 #, kde-format
 msgid "&Help"
-msgstr ""
+msgstr "&Axuda"
 
 #: part/arkviewer.cpp:55
 #, kde-format
@@ -1510,7 +1495,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
-msgstr ""
+msgstr "Sobre o compoñente de visualización"
 
 #: part/infopanel.cpp:52
 #, kde-format
@@ -1620,12 +1605,10 @@ msgid "Type to search..."
 msgstr "Escriba para buscar…"
 
 #: part/part.cpp:309
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Ark can only extract to local destinations."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
-msgstr "Ark só pode extraer a destinos locais."
+msgstr "Ark só pode extraer arquivos a destinos locais."
 
 #: part/part.cpp:364
 #, kde-format
@@ -1637,13 +1620,13 @@ msgstr "Mostrar o panel de información"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
-msgstr ""
+msgstr "Gardar unha copia como…"
 
 #: part/part.cpp:375
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr ""
+msgstr "&Abrir nunha aplicación externa"
 
 #: part/part.cpp:380
 #, kde-format
@@ -1711,11 +1694,10 @@ msgid "Click to add files to the archive"
 msgstr "Premer para engadir ficheiros ao arquivo."
 
 #: part/part.cpp:416
-#, fuzzy, kde-format
-#| msgid "Compress to Archive"
+#, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
-msgstr "Comprimir nun arquivo"
+msgstr "Retirar do arquivo"
 
 #: part/part.cpp:426
 #, kde-format
@@ -1932,13 +1914,13 @@ msgstr "Modificouse o ficheiro"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 #: part/part.cpp:1143
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Ignorar"
 
 #: part/part.cpp:1428
 #, kde-format
@@ -1999,7 +1981,7 @@ msgstr[1] "Eliminalos"
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
-msgstr ""
+msgstr "Gardar unha copia como"
 
 #: part/part.cpp:1739
 #, kde-kuit-format
@@ -2012,18 +1994,14 @@ msgstr ""
 "noutro lugar."
 
 #: part/part.cpp:1743
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "The archive <filename>%1</filename> cannot be copied to the specified "
-#| "location. The archive does not exist anymore."
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "The archive <filename>%1</filename> does not exist anymore, therefore it "
 "cannot be copied to the specified location."
 msgstr ""
-"Non se pode copiar o arquivo <filename>%1</filename> ao lugar indicado. O "
-"arquivo xa non existe."
+"O arquivo <filename>%1</filename> xa non existe, así que non se pode copiar "
+"á localización indicada."
 
 #: plugins/cli7zplugin/cliplugin.cpp:130
 #: plugins/cliunarchiverplugin/cliplugin.cpp:85
@@ -2046,46 +2024,41 @@ msgstr ""
 "extraído podería estar danado."
 
 #: plugins/cli7zplugin/cliplugin.cpp:326
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delete operation failed. Try upgrading p7zip or disabling the p7zip "
-#| "plugin in the configuration dialog."
+#, kde-format
 msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
 "configuration dialog."
 msgstr ""
-"A operación de eliminación fallou. Intente anovar p7zip ou desactivar o "
-"complemento de p7zip no diálogo de configuración."
+"A operación de eliminación fallou. Intente anovar 7z ou desactivar o "
+"complemento de 7z no diálogo de configuración."
 
 #: plugins/cliarjplugin/cliplugin.cpp:332
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ vello"
 
 #: plugins/cliarjplugin/cliplugin.cpp:333
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:334
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:335
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:336
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40-bit"
 
 #: plugins/cliarjplugin/cliplugin.cpp:338
-#, fuzzy, kde-format
-#| msgctxt "referred to compression method"
-#| msgid "unknown"
+#, kde-format
 msgid "unknown"
 msgstr "descoñecido"
 
