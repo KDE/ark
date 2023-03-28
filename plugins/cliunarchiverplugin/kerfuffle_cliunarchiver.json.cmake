@@ -18,6 +18,7 @@
         "Description[eu]": "Ireki eta erauzi RAR eta LHA artxiboak",
         "Description[fi]": "Avaa ja pura RAR- ja LHA-arkistoja",
         "Description[fr]": "Ouvre et extrait les archives « RAR » et « LHA »",
+        "Description[gl]": "Abrir e extraer arquivos RAR e LHA.",
         "Description[hu]": "RAR és LHA archívumok megnyitása és kibontása",
         "Description[ia]": "Aperir e extraher archivos RAR e LHA ",
         "Description[id]": "Buka dan ekstrak arsip RAR dan LHA",
