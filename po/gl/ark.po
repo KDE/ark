@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 00:49+0000\n"
-"PO-Revision-Date: 2023-03-26 12:38+0200\n"
+"PO-Revision-Date: 2023-04-06 22:38+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -284,7 +284,7 @@ msgstr "Andrew Smith"
 #: app/main.cpp:143
 #, kde-format
 msgid "bkisofs code"
-msgstr "Código para bkisifs."
+msgstr "Código para bkisofs."
 
 #: app/main.cpp:153
 #, kde-format
@@ -957,7 +957,8 @@ msgstr "Ao premer un ficheiro nun arquivo ou premer a tecla Intro:"
 #: kerfuffle/generalsettingspage.ui:33
 #, kde-format
 msgid "Pre&view the file with internal previewer"
-msgstr "Obter unha &vista previa do ficheiro co previsualizador interno"
+msgstr ""
+"Obter unha &vista previa do ficheiro coa ferramenta de vista previa interna"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: kerfuffle/generalsettingspage.ui:43
@@ -1739,7 +1740,7 @@ msgid ""
 msgstr ""
 "Non se permite actualmente engadir ficheiros a arquivos existentes "
 "protexidos por contrasinal sen cifrado de cabeceira.<nl/> <nl/> Extraia os "
-"ficheiros e creae un novo arquivo se quere engadir ficheiros."
+"ficheiros e cree un novo arquivo se quere engadir ficheiros."
 
 #: part/part.cpp:470
 #, kde-kuit-format
