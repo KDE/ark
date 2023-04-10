@@ -1,23 +1,24 @@
 # Albanian translation for kdeutils
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the kdeutils package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# Agron Selimaj <as9902613@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 00:49+0000\n"
-"PO-Revision-Date: 2009-09-14 12:35+0000\n"
-"Last-Translator: Vilson Gjeci <vilsongjeci@gmail.com>\n"
-"Language-Team: Albanian <sq@li.org>\n"
+"PO-Revision-Date: 2023-04-09 02:50-0400\n"
+"Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
+"Language-Team: sq\n"
 "Language: sq\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2011-04-21 22:14+0000\n"
-"X-Generator: Launchpad (build 12883)\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -97,20 +98,16 @@ msgid ""
 msgstr ""
 
 #: app/compressfileitemaction.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "Compressed size of a file inside an archive"
-#| msgid "Compressed"
+#, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
-msgstr "Ngjeshur"
+msgstr "Paketo"
 
 #: app/compressfileitemaction.cpp:90
-#, fuzzy, kde-format
-#| msgctxt "Compressed size of a file inside an archive"
-#| msgid "Compressed"
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
-msgstr "Ngjeshur"
+msgstr "Paketo në..."
 
 #: app/compressfileitemaction.cpp:97
 #, kde-format
@@ -141,18 +138,17 @@ msgid "Extract archive here, autodetect subfolder"
 msgstr "Ekstrakto të Gjithë Skedarët"
 
 #: app/extractfileitemaction.cpp:89
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"
-msgstr "Ekstrakto këtu"
+msgstr "Shpaketo"
 
 #: app/extractHereDndPlugin.cpp:55
 #, kde-format
 msgctxt ""
 "@action:inmenu Context menu shown when an archive is being drag'n'dropped"
 msgid "Extract here"
-msgstr ""
+msgstr "Shpaketo këtu"
 
 #: app/main.cpp:84
 #, kde-format
@@ -464,7 +460,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.ui:346
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "Paraqite në nisje"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:401
@@ -777,7 +773,7 @@ msgstr "Hap një arkiv"
 #: kerfuffle/createdialog.ui:61 part/infopanel.ui:93
 #, kde-format
 msgid "Type:"
-msgstr ""
+msgstr "Lloji:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: kerfuffle/createdialog.ui:78
@@ -870,7 +866,7 @@ msgstr "Ekstrakto të Gjithë Skedarët"
 #: kerfuffle/extractiondialog.ui:113
 #, kde-format
 msgid "Options"
-msgstr "Mundësi"
+msgstr "Opcionet"
 
 #. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
 #: kerfuffle/extractiondialog.ui:132
@@ -1094,9 +1090,7 @@ msgstr ""
 #. i18n: @title:column
 #. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
 #: kerfuffle/pluginsettingspage.ui:24
-#, fuzzy, kde-format
-#| msgctxt "Name of a file inside an archive"
-#| msgid "Name"
+#, kde-format
 msgid "Name"
 msgstr "Emri"
 
@@ -1125,18 +1119,18 @@ msgstr ""
 #: part/infopanel.ui:195
 #, kde-format
 msgid "yes"
-msgstr ""
+msgstr "po"
 
 #: kerfuffle/propertiesdialog.cpp:48 kerfuffle/propertiesdialog.cpp:49
 #: kerfuffle/propertiesdialog.cpp:50 kerfuffle/propertiesdialog.cpp:63
 #, kde-format
 msgid "no"
-msgstr ""
+msgstr "jo"
 
 #: kerfuffle/propertiesdialog.cpp:49
 #, kde-format
 msgid "yes (%1 volumes)"
-msgstr ""
+msgstr "po (%1 vëllime)"
 
 #: kerfuffle/propertiesdialog.cpp:51
 #, kde-format
@@ -1155,12 +1149,12 @@ msgstr[1] ""
 #: kerfuffle/propertiesdialog.cpp:66
 #, kde-format
 msgid "only file contents (%1)"
-msgstr ""
+msgstr "vetëm përmbajtja e skedës (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:69
 #, kde-format
 msgid "yes (%1)"
-msgstr ""
+msgstr "po (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
@@ -1219,10 +1213,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: kerfuffle/propertiesdialog.ui:156
-#, fuzzy, kde-format
-#| msgid "Unknown size"
+#, kde-format
 msgid "Unpacked size:"
-msgstr "Madhësi e panjohur"
+msgstr "Madhësi e shpaketuar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: kerfuffle/propertiesdialog.ui:173
@@ -1349,7 +1342,7 @@ msgstr "Emri"
 #, kde-format
 msgctxt "Uncompressed size of a file inside an archive"
 msgid "Original Size"
-msgstr ""
+msgstr "Madhësia origjinale"
 
 #: part/archivemodel.cpp:159
 #, fuzzy, kde-format
@@ -1842,12 +1835,10 @@ msgid "Plugins"
 msgstr "Par&apamja"
 
 #: part/part.cpp:818
-#, fuzzy, kde-format
-#| msgctxt "to preview a file inside an archive"
-#| msgid "Pre&view"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
-msgstr "Par&apamja"
+msgstr "Parapamjet"
 
 #: part/part.cpp:830
 #, kde-kuit-format
@@ -2075,10 +2066,9 @@ msgid "GOST 40-bit"
 msgstr ""
 
 #: plugins/cliarjplugin/cliplugin.cpp:338
-#, fuzzy, kde-format
-#| msgid "Unknown size"
+#, kde-format
 msgid "unknown"
-msgstr "Madhësi e panjohur"
+msgstr "e panjohur"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
@@ -2118,8 +2108,7 @@ msgid "Not enough memory for loading the archive."
 msgstr ""
 
 #: plugins/cliunarchiverplugin/cliplugin.cpp:183
-#, fuzzy, kde-format
-#| msgid "Incorrect password."
+#, kde-format
 msgid "Wrong password."
 msgstr "Fjalëkalim i gabuar."
 
@@ -2134,11 +2123,10 @@ msgid "Extraction failed due to unsupported encryption method."
 msgstr ""
 
 #: plugins/clizipplugin/cliplugin.cpp:311
-#, fuzzy, kde-format
-#| msgid "Unknown size"
+#, kde-format
 msgctxt "referred to compression method"
 msgid "unknown"
-msgstr "Madhësi e panjohur"
+msgstr "e panjohur"
 
 #: plugins/libarchive/libarchiveplugin.cpp:432
 #, kde-format
