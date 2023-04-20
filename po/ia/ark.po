@@ -573,13 +573,13 @@ msgstr "Si monstra pannello de information."
 #: kerfuffle/ark.kcfg:55
 #, kde-format
 msgid "Whether to limit the preview according to file size."
-msgstr "Si limitar le vista preliminari secundo le grandor de file."
+msgstr "Si limitar le vista preliminar secundo le grandor de file."
 
 #. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
 #: kerfuffle/ark.kcfg:59
 #, kde-format
 msgid "Preview file size limit in megabytes."
-msgstr "Limite de grandor de file de vista preliminari in megabytes."
+msgstr "Limite de grandor de file de vista preliminar in megabytes."
 
 #: kerfuffle/cliinterface.cpp:245
 #, kde-kuit-format
@@ -1454,12 +1454,12 @@ msgstr "Ad&juta"
 #: part/arkviewer.cpp:55
 #, kde-format
 msgid "Closing preview"
-msgstr "Claudente vista preliminari"
+msgstr "Claudente vista preliminar"
 
 #: part/arkviewer.cpp:56
 #, kde-format
 msgid "Please wait while the preview is being closed..."
-msgstr "Pro favor attende durante que le vista preliminari es claudite..."
+msgstr "Pro favor attende durante que le vista preliminar es claudite..."
 
 #: part/arkviewer.cpp:103
 #, kde-format
@@ -1472,14 +1472,14 @@ msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
-"Le visor interne non pote monstrar le vista preliminari de iste typo de file "
+"Le visor interne non pote monstrar le vista preliminar de iste typo de file "
 "<nl/>(%1).<nl/><nl/> Tu vole tentar vider lo como texto plan?"
 
 #: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
-msgstr "Il non pote monstrar vista preliminari de file"
+msgstr "Il non pote monstrar vista preliminar de file"
 
 #: part/arkviewer.cpp:121 part/arkviewer.cpp:133
 #, kde-format
@@ -1493,7 +1493,7 @@ msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
-"Le visor interne non pote monstrar le vista preliminari de iste typo "
+"Le visor interne non pote monstrar le vista preliminar de iste typo "
 "incognite de file <nl/><nl/> Tu vole tentar vider lo como texto plan?"
 
 #: part/arkviewer.cpp:232
@@ -1650,7 +1650,7 @@ msgstr "Pulsa pro aperir le file seligite on unprogramma externe"
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
-msgstr "&Vista preliminari"
+msgstr "&Vista preliminar"
 
 #: part/part.cpp:388
 #, kde-format
@@ -2365,7 +2365,7 @@ msgstr "Falleva fixar meta-datos per entrata: %1"
 
 #~ msgctxt "@title:tab"
 #~ msgid "Preview Settings"
-#~ msgstr "Preferentias de vista preliminari "
+#~ msgstr "Preferentias de vista preliminar "
 
 #~ msgctxt "CRC hash code"
 #~ msgid "CRC"
