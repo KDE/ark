@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 02:55+0000\n"
-"PO-Revision-Date: 2023-03-01 00:41+0100\n"
+"PO-Revision-Date: 2023-04-21 23:29+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -378,15 +378,14 @@ msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "Ark의 KPart 구성 요소를 찾을 수 없습니다. 설치 상태를 확인하십시오."
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr "Ark에 오신 것을 환영합니다"
+msgstr "환영 페이지"
 
 #: app/mainwindow.cpp:203
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "환영 페이지 표시"
 
 #: app/mainwindow.cpp:211
 #, kde-kuit-format
@@ -413,72 +412,63 @@ msgstr "새 압축 파일 만들기"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr "Ark에 오신 것을 환영합니다"
+msgstr "환영합니다"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
 msgstr "압축 파일 열기..."
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "압축 파일 열기"
+msgstr "새 압축 파일"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
 #, kde-format
 msgid "Clear Recent Files"
-msgstr ""
+msgstr "최근 파일 비우기"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:223
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Delete File"
-#| msgid_plural "Delete Files"
+#, kde-format
 msgid "Recent Files"
-msgstr "파일 삭제"
+msgstr "최근 파일"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:264
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "도움말(&H)"
+msgstr "도움말"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:274
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "홈페이지 보기"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:287
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "도움말 보기"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:346
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "시작할 때 표시"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:401
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "환영 페이지 닫기"
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
