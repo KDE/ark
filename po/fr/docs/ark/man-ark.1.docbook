@@ -124,7 +124,7 @@
 > dossier </replaceable
 ></group
 > <arg choice="opt"
->&kf5;  Options génériques</arg
+>&kf5; Options génériques</arg
 > <arg choice="opt"
 >Options génériques pour &Qt; </arg
 > </cmdsynopsis>
