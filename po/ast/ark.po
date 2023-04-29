@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the ark package.
 #
-# enolp <enolp@softastur.org>, 2022.
+# enolp <enolp@softastur.org>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 00:49+0000\n"
-"PO-Revision-Date: 2022-12-11 23:42+0100\n"
+"PO-Revision-Date: 2023-04-27 23:36+0200\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: \n"
 "Language: ast\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -361,10 +361,9 @@ msgstr ""
 "Nun ye posible atopar el componente KPart d'Ark, revisa la instalación."
 
 #: app/mainwindow.cpp:201
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr "Afáyate n'Ark"
+msgstr "Páxina d'acoyida"
 
 #: app/mainwindow.cpp:203
 #, kde-format
@@ -389,49 +388,43 @@ msgstr ""
 #: app/mainwindow.cpp:378
 #, kde-format
 msgid "Create New Archive"
-msgstr ""
+msgstr "Creación d'un ficheru"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr "Afáyate n'Ark"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
 msgstr "Abrir un archivu…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "Default name of a newly-created multi-file archive"
-#| msgid "Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "Archivu"
+msgstr "Archivu nuevu"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
 #, kde-format
 msgid "Clear Recent Files"
-msgstr ""
+msgstr "Borrar los ficheros de recién"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:223
 #, kde-format
 msgid "Recent Files"
-msgstr ""
+msgstr "Ficheros de recién"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:264
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "&Ayuda"
+msgstr "Ayuda"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:274
@@ -455,7 +448,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.ui:401
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "Zarrar la páxina d'acoyida"
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
@@ -644,7 +637,7 @@ msgstr "Nivel:"
 #: kerfuffle/compressionoptionswidget.ui:45
 #, kde-format
 msgid "Min"
-msgstr ""
+msgstr "Mín"
 
 #. i18n: ectx: property (text), widget (QLabel, lblCompMethod)
 #: kerfuffle/compressionoptionswidget.ui:83
@@ -656,7 +649,7 @@ msgstr "Métodu:"
 #: kerfuffle/compressionoptionswidget.ui:93
 #, kde-format
 msgid "Max"
-msgstr ""
+msgstr "Máx"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleEncryption)
 #: kerfuffle/compressionoptionswidget.ui:118
@@ -668,13 +661,14 @@ msgstr ""
 #: kerfuffle/compressionoptionswidget.ui:130
 #, kde-format
 msgid "Encryption method:"
-msgstr ""
+msgstr "Métodu de la encriptación:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, encryptHeaderCheckBox)
 #: kerfuffle/compressionoptionswidget.ui:160
 #, kde-format
 msgid "Ask for password before showing the list of files in the archive"
 msgstr ""
+"Pidir la contraseña enantes d'amosar la llista de ficheros del archivu."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
 #: kerfuffle/compressionoptionswidget.ui:170
@@ -682,8 +676,8 @@ msgstr ""
 msgid ""
 "This encryption method may not be supported by older archiving software."
 msgstr ""
-"Ye posible qu'esti métodu de cifráu nun seya compatible con software antiguo "
-"pa crear archivos."
+"Ye posible qu'esti métodu de cifráu nun seya compatible con software de "
+"creación d'archivos antiguo."
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleMultiVolume)
 #: kerfuffle/compressionoptionswidget.ui:183
@@ -701,7 +695,7 @@ msgstr ""
 #: kerfuffle/compressionoptionswidget.ui:210
 #, kde-format
 msgid "Volume size:"
-msgstr ""
+msgstr "Tamañu de los volúmenes:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_previewFileSizeLimit)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, volumeSizeSpinbox)
@@ -745,7 +739,7 @@ msgstr ""
 #: kerfuffle/createdialog.ui:61 part/infopanel.ui:93
 #, kde-format
 msgid "Type:"
-msgstr ""
+msgstr "Tipu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: kerfuffle/createdialog.ui:78
@@ -917,19 +911,19 @@ msgstr ""
 #: kerfuffle/generalsettingspage.ui:17
 #, kde-format
 msgid "When clicking a file in an archive or pressing the Return key:"
-msgstr ""
+msgstr "Al calcar nun ficheru d'un archivu o al primir la tecla Intro:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: kerfuffle/generalsettingspage.ui:33
 #, kde-format
 msgid "Pre&view the file with internal previewer"
-msgstr ""
+msgstr "Pre&visualizar el ficheru col previsualizador internu"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: kerfuffle/generalsettingspage.ui:43
 #, kde-format
 msgid "Open the fi&le with associated application"
-msgstr ""
+msgstr "Abrir el fic&heru cola aplicación asociada"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
 #: kerfuffle/generalsettingspage.ui:60
@@ -1665,7 +1659,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
-msgstr ""
+msgstr "&Probar la integridá"
 
 #: part/part.cpp:441 part/part.cpp:473
 #, kde-format
@@ -1700,7 +1694,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
-msgstr ""
+msgstr "Amestar un &comentariu"
 
 #: part/part.cpp:648
 #, kde-format
