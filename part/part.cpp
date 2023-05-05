@@ -219,12 +219,15 @@ Part::~Part()
 {
     qDeleteAll(m_tmpExtractDirList);
 
-    // Only save splitterSizes if infopanel is visible,
-    // because we don't want to store zero size for infopanel.
-    if (m_showInfoPanelAction->isChecked()) {
-        ArkSettings::setSplitterSizes(m_splitter->sizes());
+    // save the state of m_infoPanel only if it's embedded
+    if (m_splitter->indexOf(m_infoPanel) >= 0) {
+        // Only save splitterSizes if infopanel is visible,
+        // because we don't want to store zero size for infopanel.
+        if (m_showInfoPanelAction->isChecked()) {
+            ArkSettings::setSplitterSizes(m_splitter->sizes());
+        }
+        ArkSettings::setShowInfoPanel(m_showInfoPanelAction->isChecked());
     }
-    ArkSettings::setShowInfoPanel(m_showInfoPanelAction->isChecked());
     ArkSettings::self()->save();
 
     m_extractArchiveAction->menu()->deleteLater();
@@ -818,6 +821,11 @@ QList<Kerfuffle::SettingsPage*> Part::settingsPages(QWidget *parent) const
     pages.append(new PreviewSettingsPage(parent, i18nc("@title:tab", "Previews"), QStringLiteral("image-jpeg")));
 
     return pages;
+}
+
+QWidget* Part::infoPanel() const
+{
+    return m_infoPanel;
 }
 
 bool Part::isLocalFileValid()

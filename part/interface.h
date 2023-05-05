@@ -24,6 +24,7 @@ public:
     virtual bool isBusy() const = 0;
     virtual KConfigSkeleton *config() const = 0;
     virtual QList<Kerfuffle::SettingsPage*> settingsPages(QWidget *parent) const = 0;
+    virtual QWidget* infoPanel() const = 0;
 };
 
 Q_DECLARE_INTERFACE(Interface, "org.kde.kerfuffle.partinterface/0.43")

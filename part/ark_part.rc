@@ -57,4 +57,7 @@
 	<Separator/>
 	<Action name="add"/>
 </Menu>
+<ActionProperties scheme="Default">
+	<Action priority="0" name="show-infopanel"/>
+</ActionProperties>
 </gui>

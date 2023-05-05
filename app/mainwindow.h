@@ -20,6 +20,7 @@ class ReadWritePart;
 }
 
 class KRecentFilesMenu;
+class Sidebar;
 
 class MainWindow: public KParts::MainWindow
 {
@@ -66,6 +67,9 @@ private:
     KParts::OpenUrlArguments m_openArgs;
     WelcomeView           *m_welcomeView;
     QStackedWidget        *m_windowContents;
+    Sidebar               *m_sidebar = nullptr;
+    QAction               *m_showSidebarAction = nullptr;
+    QAction               *m_lockSidebarAction = nullptr;
 };
 
 #endif // MAINWINDOW_H

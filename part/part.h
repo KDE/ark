@@ -68,6 +68,8 @@ public:
     bool isBusy() const override;
     KConfigSkeleton *config() const override;
     QList<Kerfuffle::SettingsPage*> settingsPages(QWidget *parent) const override;
+    QWidget* infoPanel() const override;
+
     bool eventFilter(QObject *target, QEvent *event) override;
 
     /**
