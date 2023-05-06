@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-14 00:49+0000\n"
+"POT-Creation-Date: 2023-05-06 00:49+0000\n"
 "PO-Revision-Date: 2023-04-29 08:33\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -366,22 +366,27 @@ msgstr ""
 msgid "List supported MIME types."
 msgstr "列出支持的 MIME 类型。"
 
-#: app/mainwindow.cpp:123
+#: app/mainwindow.cpp:169
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "找不到 Ark 的 KPart 组件，请检查您的软件安装状态是否正确。"
 
-#: app/mainwindow.cpp:201
+#: app/mainwindow.cpp:184
+#, kde-format
+msgid "Sidebar"
+msgstr ""
+
+#: app/mainwindow.cpp:289
 #, kde-format
 msgid "Welcome Page"
 msgstr "欢迎页面"
 
-#: app/mainwindow.cpp:203
+#: app/mainwindow.cpp:291
 #, kde-format
 msgid "Show the welcome page"
 msgstr "显示欢迎页面"
 
-#: app/mainwindow.cpp:211
+#: app/mainwindow.cpp:299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -392,13 +397,18 @@ msgstr ""
 "这将在显示整个<emphasis>菜单栏</emphasis>和显示单个<interface>汉堡菜单</"
 "interface>按钮之间切换窗口布局。两种布局包含的命令和配置选项大致相同。"
 
-#: app/mainwindow.cpp:270
+#: app/mainwindow.cpp:313
+#, kde-format
+msgid "Lock Sidebar"
+msgstr ""
+
+#: app/mainwindow.cpp:370
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "打开压缩包"
 
-#: app/mainwindow.cpp:378
+#: app/mainwindow.cpp:484
 #, kde-format
 msgid "Create New Archive"
 msgstr "新建压缩包"
@@ -1551,61 +1561,61 @@ msgstr "保存"
 msgid "Type to search..."
 msgstr "请输入搜索条件..."
 
-#: part/part.cpp:309
+#: part/part.cpp:312
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark 只能将压缩包解压到本地目标位置。"
 
-#: part/part.cpp:364
+#: part/part.cpp:367
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "显示文件信息面板"
 
-#: part/part.cpp:371
+#: part/part.cpp:374
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "副本另存为..."
 
-#: part/part.cpp:375
+#: part/part.cpp:378
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "使用外部应用程序打开(&O)"
 
-#: part/part.cpp:380
+#: part/part.cpp:383
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "打开方式(&W)..."
 
-#: part/part.cpp:382
+#: part/part.cpp:385
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "点击即可使用外部程序打开选中的文件"
 
-#: part/part.cpp:386
+#: part/part.cpp:389
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "预览(&V)"
 
-#: part/part.cpp:388
+#: part/part.cpp:391
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "点击即可预览选中的文件"
 
-#: part/part.cpp:393
+#: part/part.cpp:396
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "解压所有(&X)"
 
-#: part/part.cpp:395
+#: part/part.cpp:398
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1613,67 +1623,67 @@ msgid ""
 msgstr ""
 "点击即可打开解压对话框，您可以从中选择如何对压缩包中的所有文件进行解压。"
 
-#: part/part.cpp:400
+#: part/part.cpp:403
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "解压(&E)"
 
-#: part/part.cpp:403
+#: part/part.cpp:406
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
 "all files or just the selected ones"
 msgstr "点击即可打开解压对话框，您可以从中选择解压所有文件还是仅解压选中的文件"
 
-#: part/part.cpp:408
+#: part/part.cpp:411
 #, kde-format
 msgid "Add &Files..."
 msgstr "添加文件(&F)..."
 
-#: part/part.cpp:409 part/part.cpp:472
+#: part/part.cpp:412 part/part.cpp:475
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "点击即可添加新文件到压缩包中"
 
-#: part/part.cpp:416
+#: part/part.cpp:419
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "从压缩包中移除"
 
-#: part/part.cpp:426
+#: part/part.cpp:429
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "属性(&P)"
 
-#: part/part.cpp:428
+#: part/part.cpp:431
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "点击即可查看压缩包属性"
 
-#: part/part.cpp:434
+#: part/part.cpp:437
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "单击添加或修改备注"
 
-#: part/part.cpp:439
+#: part/part.cpp:442
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "测试压缩包完整性(&T)"
 
-#: part/part.cpp:441 part/part.cpp:473
+#: part/part.cpp:444 part/part.cpp:476
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "点击即可测试压缩包的完整性"
 
-#: part/part.cpp:467
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1684,7 +1694,7 @@ msgstr ""
 "尚不支持向无加密文件头的加密压缩包添加文件。<nl/><nl/>如果您想要添加文件，请"
 "先解压文件，然后再重新创建压缩包。"
 
-#: part/part.cpp:470
+#: part/part.cpp:473
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1692,74 +1702,74 @@ msgid ""
 "not supported."
 msgstr "尚不支持向无加密文件头的加密压缩包添加文件。"
 
-#: part/part.cpp:538
+#: part/part.cpp:541
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "编辑备注(&C)"
 
-#: part/part.cpp:539 part/part.cpp:547
+#: part/part.cpp:542 part/part.cpp:550
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "添加备注(&C)"
 
-#: part/part.cpp:648
+#: part/part.cpp:651
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "压缩包成功通过完整性测试。"
 
-#: part/part.cpp:648 part/part.cpp:650
+#: part/part.cpp:651 part/part.cpp:653
 #, kde-format
 msgid "Test Results"
 msgstr "测试结果"
 
-#: part/part.cpp:650
+#: part/part.cpp:653
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "压缩包无法通过完整性测试。"
 
-#: part/part.cpp:671
+#: part/part.cpp:674
 #, kde-format
 msgid "Extract To..."
 msgstr "解压到..."
 
-#: part/part.cpp:685
+#: part/part.cpp:688
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "快速解压到..."
 
-#: part/part.cpp:815
+#: part/part.cpp:818
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "常规"
 
-#: part/part.cpp:816
+#: part/part.cpp:819
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "解压"
 
-#: part/part.cpp:817
+#: part/part.cpp:820
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "插件"
 
-#: part/part.cpp:818
+#: part/part.cpp:821
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "预览"
 
-#: part/part.cpp:830
+#: part/part.cpp:838
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> 是一个目录。"
 
-#: part/part.cpp:839
+#: part/part.cpp:847
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1767,7 +1777,7 @@ msgid ""
 "permission."
 msgstr "无法覆盖 <filename>%1</filename>。请检查您是否具备写入权限。"
 
-#: part/part.cpp:845
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1775,13 +1785,13 @@ msgid ""
 "file."
 msgstr "压缩包 <filename>%1</filename> 将在您添加文件后完成创建。"
 
-#: part/part.cpp:848
+#: part/part.cpp:856
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "无法找到压缩包 <filename>%1</filename>。"
 
-#: part/part.cpp:853
+#: part/part.cpp:861
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1789,7 +1799,7 @@ msgid ""
 "possible to read from it."
 msgstr "压缩包 <filename>%1</filename> 无法加载，无法对其进行读取。"
 
-#: part/part.cpp:871
+#: part/part.cpp:879
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1797,25 +1807,25 @@ msgid ""
 "it?"
 msgstr "压缩包 <filename>%1</filename> 已存在。您想要覆盖它吗？"
 
-#: part/part.cpp:872
+#: part/part.cpp:880
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "文件已存在"
 
-#: part/part.cpp:913
+#: part/part.cpp:921
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "压缩包为空，或者 Ark 无法打开其内容。"
 
-#: part/part.cpp:918
+#: part/part.cpp:926
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark 尚不支持 UDF 文件系统的 ISO 文件。"
 
-#: part/part.cpp:948
+#: part/part.cpp:956
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1824,69 +1834,69 @@ msgid ""
 msgstr ""
 "加载压缩包 <filename>%1</filename> 失败。错误消息：<nl/><message>%2</message>"
 
-#: part/part.cpp:1008
+#: part/part.cpp:1016
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark 无法打开符号链接。"
 
-#: part/part.cpp:1140
+#: part/part.cpp:1148
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
 "archive?"
 msgstr "文件 <filename>%1</filename> 已修改。您想要更新压缩文件吗？"
 
-#: part/part.cpp:1141
+#: part/part.cpp:1149
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "文件已修改"
 
-#: part/part.cpp:1142
+#: part/part.cpp:1150
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "更新"
 
-#: part/part.cpp:1143
+#: part/part.cpp:1151
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "忽略"
 
-#: part/part.cpp:1428
+#: part/part.cpp:1436
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "添加文件"
 
-#: part/part.cpp:1433
+#: part/part.cpp:1441
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "添加文件到 %1"
 
-#: part/part.cpp:1497
+#: part/part.cpp:1505
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "文件名不能包含斜杠，且不能为“.”或“..”"
 
-#: part/part.cpp:1541
+#: part/part.cpp:1549
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "文件夹不能被移动到自身之内。"
 
-#: part/part.cpp:1542
+#: part/part.cpp:1550
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "文件夹移动到自身之内"
 
-#: part/part.cpp:1570
+#: part/part.cpp:1578
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "同名项目不能粘贴到同一个目标位置。"
 
-#: part/part.cpp:1674
+#: part/part.cpp:1682
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1894,20 +1904,20 @@ msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr[0] "文件被删除后将无法恢复。您确定要删除吗？"
 
-#: part/part.cpp:1677
+#: part/part.cpp:1685
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
 msgid_plural "Delete Files"
 msgstr[0] "删除文件"
 
-#: part/part.cpp:1724
+#: part/part.cpp:1732
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "副本另存为"
 
-#: part/part.cpp:1739
+#: part/part.cpp:1747
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1915,7 +1925,7 @@ msgid ""
 "another location."
 msgstr "无法将压缩包保存为 <filename>%1</filename>。请尝试将其保存到其他位置。"
 
-#: part/part.cpp:1743
+#: part/part.cpp:1751
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-14 00:49+0000\n"
+"POT-Creation-Date: 2023-05-06 00:49+0000\n"
 "PO-Revision-Date: 2023-03-15 06:21+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -375,22 +375,27 @@ msgstr ""
 msgid "List supported MIME types."
 msgstr "მხარდაჭერილი MIME ტიპების სია."
 
-#: app/mainwindow.cpp:123
+#: app/mainwindow.cpp:169
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr "Ark-ის KPart კომპონენტი ვერ ვიპოვე. შეამოწმეთ KDE-ის ფაილები."
 
-#: app/mainwindow.cpp:201
+#: app/mainwindow.cpp:184
+#, kde-format
+msgid "Sidebar"
+msgstr ""
+
+#: app/mainwindow.cpp:289
 #, kde-format
 msgid "Welcome Page"
 msgstr "საწყისი გვერდი"
 
-#: app/mainwindow.cpp:203
+#: app/mainwindow.cpp:291
 #, kde-format
 msgid "Show the welcome page"
 msgstr "საწყისი გვერდის ჩვენება"
 
-#: app/mainwindow.cpp:211
+#: app/mainwindow.cpp:299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -401,13 +406,18 @@ msgstr ""
 "გადართვა <emphasis>მენიუს ზოლსა</emphasis> და <interface>ჰამბურგერის მენიუს</"
 "interface> შორის. მათი შემცველობა ერთი და იგივეა."
 
-#: app/mainwindow.cpp:270
+#: app/mainwindow.cpp:313
+#, kde-format
+msgid "Lock Sidebar"
+msgstr ""
+
+#: app/mainwindow.cpp:370
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "არქივის გახსნა"
 
-#: app/mainwindow.cpp:378
+#: app/mainwindow.cpp:484
 #, kde-format
 msgid "Create New Archive"
 msgstr "ახალი არქივის შექმნა"
@@ -1588,61 +1598,61 @@ msgstr "შენახვა"
 msgid "Type to search..."
 msgstr "მოსაძებნად აკრიფეთ…"
 
-#: part/part.cpp:309
+#: part/part.cpp:312
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark-ს არქივების გაშლა მხოლოდ ლოკალურ საქაღალდეებში შეუძლია."
 
-#: part/part.cpp:364
+#: part/part.cpp:367
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "ინფორმაციის პანელის გახსნა"
 
-#: part/part.cpp:371
+#: part/part.cpp:374
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "ასლის შენახვა, როგორც..."
 
-#: part/part.cpp:375
+#: part/part.cpp:378
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "გარე აპლიკაციაში &გახსნა"
 
-#: part/part.cpp:380
+#: part/part.cpp:383
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "&გამხსნელი პროგრამა…"
 
-#: part/part.cpp:382
+#: part/part.cpp:385
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "დააწკაპუნეთ მონიშნული ფაილის გარე პროგრამაში გასახსნელად"
 
-#: part/part.cpp:386
+#: part/part.cpp:389
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&გადახედვა"
 
-#: part/part.cpp:388
+#: part/part.cpp:391
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "დააწკაპუნეთ მონიშნული ფაილის გადასახედად"
 
-#: part/part.cpp:393
+#: part/part.cpp:396
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "ყველას &გაშლა"
 
-#: part/part.cpp:395
+#: part/part.cpp:398
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1651,13 +1661,13 @@ msgstr ""
 "დააწკაპუნეთ აქ გაშლის ფანჯრის საჩვენებლად, სადაც გასაშლელი ფაილები ხელით "
 "შეგიძლიათ, აირჩიოთ"
 
-#: part/part.cpp:400
+#: part/part.cpp:403
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&გაშლა"
 
-#: part/part.cpp:403
+#: part/part.cpp:406
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1666,54 +1676,54 @@ msgstr ""
 "დააწკაპუნეთ გაშლის ფანჯრის საჩვენებლად, სადაც შეგიძლიათ აირჩიოთ, მხოლოდ "
 "მონიშნული ფაილების გაშლა გნებავთ, თუ ყველასი"
 
-#: part/part.cpp:408
+#: part/part.cpp:411
 #, kde-format
 msgid "Add &Files..."
 msgstr "&ფაილების დამატება…"
 
-#: part/part.cpp:409 part/part.cpp:472
+#: part/part.cpp:412 part/part.cpp:475
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "დააწკაპუნეთ არქივში ფაილების დასამატებლად"
 
-#: part/part.cpp:416
+#: part/part.cpp:419
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "არქივიდან წაშლა"
 
-#: part/part.cpp:426
+#: part/part.cpp:429
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&თვისებები"
 
-#: part/part.cpp:428
+#: part/part.cpp:431
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "დააწკაპუნეთ არქივის თვისებების სანახავად"
 
-#: part/part.cpp:434
+#: part/part.cpp:437
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "დააწკაპუნეთ კომენტარის დასამატებლად ან ჩასასწორებლად"
 
-#: part/part.cpp:439
+#: part/part.cpp:442
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "&მთლიანობის შემოწმება"
 
-#: part/part.cpp:441 part/part.cpp:473
+#: part/part.cpp:444 part/part.cpp:476
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "დააწკაპუნეთ არქივის მთლიანობის შესამოწმებლად"
 
-#: part/part.cpp:467
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1725,7 +1735,7 @@ msgstr ""
 "ფაილების ჩამატება მხარდაჭერილი არაა.<nl/><nl/>თუ ფაილის ჩამატება "
 "აუცილებელია, გაშალეთ არქივი და თავიდან შექმენით ის."
 
-#: part/part.cpp:470
+#: part/part.cpp:473
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1735,74 +1745,74 @@ msgstr ""
 "პაროლით დაშიფრული არქივების ტესტირება, რომლებსაც თავსართის დაშიფვრა ჩართული "
 "არ აქვთ, მხარდაჭერილი არაა."
 
-#: part/part.cpp:538
+#: part/part.cpp:541
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "შენიშვნის &რედაქტირება"
 
-#: part/part.cpp:539 part/part.cpp:547
+#: part/part.cpp:542 part/part.cpp:550
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "კომენტარის &დამატება"
 
-#: part/part.cpp:648
+#: part/part.cpp:651
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "არქივის მთლიანობის შემოწმება წარმატებით დასრულდა."
 
-#: part/part.cpp:648 part/part.cpp:650
+#: part/part.cpp:651 part/part.cpp:653
 #, kde-format
 msgid "Test Results"
 msgstr "ტესტის შედეგები"
 
-#: part/part.cpp:650
+#: part/part.cpp:653
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "არქივის მთლიანობის შემოწმება წარუმატებელია."
 
-#: part/part.cpp:671
+#: part/part.cpp:674
 #, kde-format
 msgid "Extract To..."
 msgstr "გაშლის სამიზნე..."
 
-#: part/part.cpp:685
+#: part/part.cpp:688
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "სწრაფი გაშლა მისამართზე..."
 
-#: part/part.cpp:815
+#: part/part.cpp:818
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "ძირითადი"
 
-#: part/part.cpp:816
+#: part/part.cpp:819
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "ექსტრაქცია"
 
-#: part/part.cpp:817
+#: part/part.cpp:820
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "დამატებები"
 
-#: part/part.cpp:818
+#: part/part.cpp:821
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "გადახედვები"
 
-#: part/part.cpp:830
+#: part/part.cpp:838
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> საქაღლდეა."
 
-#: part/part.cpp:839
+#: part/part.cpp:847
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1812,7 +1822,7 @@ msgstr ""
 "<filename>%1</filename>-ის თავზე გადაწერის შეცდომა. გადაამოწმეთ, გაქვთ თუ "
 "არა ჩაწერის უფლება."
 
-#: part/part.cpp:845
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1820,13 +1830,13 @@ msgid ""
 "file."
 msgstr "არქივი <filename>%1</filename> შეიქმნება, როცა მასში ფაილს ჩაამატებთ."
 
-#: part/part.cpp:848
+#: part/part.cpp:856
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "არქივი <filename>%1</filename> ვერ ვიპოვე."
 
-#: part/part.cpp:853
+#: part/part.cpp:861
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1836,7 +1846,7 @@ msgstr ""
 "არქივის <filename>%1</filename> ჩატვირთვა შეუძლებელია, რადგან მისგან "
 "წაკითხვის მცდელობა შეცდომით დასრულდა."
 
-#: part/part.cpp:871
+#: part/part.cpp:879
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1846,19 +1856,19 @@ msgstr ""
 "არქივი სახელით <filename>%1</filename> უკვე არსებობს. გნებავთ, თავზე "
 "გადავაწერო?"
 
-#: part/part.cpp:872
+#: part/part.cpp:880
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "ფაილი უკვე არსებობს"
 
-#: part/part.cpp:913
+#: part/part.cpp:921
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "არქივი ცარიელია ან Ark-ს მისი შემცველობის წაკითხვა არ შეუძლია."
 
-#: part/part.cpp:918
+#: part/part.cpp:926
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
@@ -1866,7 +1876,7 @@ msgstr ""
 "Ark-ს ამჟამად UDF ფაილური სისტემის შემცველი ISO ფაილების მხარდაჭერა არ "
 "გააჩნია."
 
-#: part/part.cpp:948
+#: part/part.cpp:956
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1876,71 +1886,71 @@ msgstr ""
 "არქივის <filename>%1</filename> ჩატვირთვა შემდეგი შეცდომით დასრულდა:<nl/"
 "><message>%2</message>"
 
-#: part/part.cpp:1008
+#: part/part.cpp:1016
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark-ს სიმბმულების გახსნა არ შეუძლია."
 
-#: part/part.cpp:1140
+#: part/part.cpp:1148
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
 "archive?"
 msgstr "ფაილი <filename>%1</filename> შეიცვალა. გნებავთ, განაახლოთ არქივი?"
 
-#: part/part.cpp:1141
+#: part/part.cpp:1149
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "შეცვლილი ფაილი"
 
-#: part/part.cpp:1142
+#: part/part.cpp:1150
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "განახლება"
 
-#: part/part.cpp:1143
+#: part/part.cpp:1151
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "იგნორი"
 
-#: part/part.cpp:1428
+#: part/part.cpp:1436
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "ფაილების დამატება"
 
-#: part/part.cpp:1433
+#: part/part.cpp:1441
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "ფაილების დამატება %1-ში"
 
-#: part/part.cpp:1497
+#: part/part.cpp:1505
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "ფაილის სახელი არ შეიძლება შეიცავდეს დახრილ ხაზებს, ან უდრიდეს \".\" ან \"..\""
 
-#: part/part.cpp:1541
+#: part/part.cpp:1549
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "საქაღალდეებს საკუთარ თავში ვერ გადაიტანთ."
 
-#: part/part.cpp:1542
+#: part/part.cpp:1550
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "საქაღალდის თავის თავში გადატანა"
 
-#: part/part.cpp:1570
+#: part/part.cpp:1578
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "იგივე სახელის მქონე ჩანაწერები იგივე სამიზნე წერტილში ჩაწერილი ვერ იქნება."
 
-#: part/part.cpp:1674
+#: part/part.cpp:1682
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1952,7 +1962,7 @@ msgstr[1] ""
 "ფაილების წაშლა შეუქცევადია. დარწმუნებული ბრძანდებით, რომ გნებავთ, გააკეთოთ "
 "ეს?"
 
-#: part/part.cpp:1677
+#: part/part.cpp:1685
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1960,13 +1970,13 @@ msgid_plural "Delete Files"
 msgstr[0] "ფაილების წაშლა"
 msgstr[1] "ფაილის წაშლა"
 
-#: part/part.cpp:1724
+#: part/part.cpp:1732
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "ასლის შენახვა, როგორც"
 
-#: part/part.cpp:1739
+#: part/part.cpp:1747
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1976,7 +1986,7 @@ msgstr ""
 "შეცდომა არქივის შენახვისას, როგორც <filename>%1</filename>. სცადეთ, სხვა "
 "ადგილას შეინახოთ."
 
-#: part/part.cpp:1743
+#: part/part.cpp:1751
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
