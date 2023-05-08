@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 02:55+0000\n"
-"PO-Revision-Date: 2023-03-19 12:55+0530\n"
+"PO-Revision-Date: 2023-05-07 14:37+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -216,7 +216,7 @@ msgstr "ஹென்ரிக் பின்ட்டோ"
 #: app/main.cpp:110
 #, kde-format
 msgid "Helio Chissini de Castro"
-msgstr ""
+msgstr "ஹீலியோ சிஸ்ஸினி டி கெஸ்டுரோ"
 
 #: app/main.cpp:111
 #, kde-format
@@ -226,7 +226,7 @@ msgstr "முந்தைய பராமரிப்பாளர்"
 #: app/main.cpp:113
 #, kde-format
 msgid "Georg Robbers"
-msgstr ""
+msgstr "ஜோர்கு ராபர்ஸ்"
 
 #: app/main.cpp:116
 #, kde-format
@@ -291,7 +291,7 @@ msgstr ""
 #: app/main.cpp:143
 #, kde-format
 msgid "bkisofs code"
-msgstr ""
+msgstr "bkisofs நிரல்தொடர்கள்"
 
 #: app/main.cpp:153
 #, kde-format
