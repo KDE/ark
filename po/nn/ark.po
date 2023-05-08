@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-14 00:49+0000\n"
+"POT-Creation-Date: 2023-05-06 00:49+0000\n"
 "PO-Revision-Date: 2023-03-19 14:33+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -379,24 +379,29 @@ msgstr ""
 msgid "List supported MIME types."
 msgstr "Vis oversikt over støtta MIME-typar."
 
-#: app/mainwindow.cpp:123
+#: app/mainwindow.cpp:169
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr ""
 "Klarte ikkje finna KPart-komponenten til Ark. Sjå til at programmet er rett "
 "installert."
 
-#: app/mainwindow.cpp:201
+#: app/mainwindow.cpp:184
+#, kde-format
+msgid "Sidebar"
+msgstr ""
+
+#: app/mainwindow.cpp:289
 #, kde-format
 msgid "Welcome Page"
 msgstr "Velkomstside"
 
-#: app/mainwindow.cpp:203
+#: app/mainwindow.cpp:291
 #, kde-format
 msgid "Show the welcome page"
 msgstr "Vis velkomstsida"
 
-#: app/mainwindow.cpp:211
+#: app/mainwindow.cpp:299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -407,13 +412,18 @@ msgstr ""
 "Byter mellom <emphasis>menylinje</emphasis> og <interface>hamburger­meny</"
 "interface>. Begge inneheld stort sett dei same kommandoane og vala."
 
-#: app/mainwindow.cpp:270
+#: app/mainwindow.cpp:313
+#, kde-format
+msgid "Lock Sidebar"
+msgstr ""
+
+#: app/mainwindow.cpp:370
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Opna arkiv"
 
-#: app/mainwindow.cpp:378
+#: app/mainwindow.cpp:484
 #, kde-format
 msgid "Create New Archive"
 msgstr "Lag nytt arkiv"
@@ -1599,61 +1609,61 @@ msgstr "Lagra"
 msgid "Type to search..."
 msgstr "Skriv for å søkja …"
 
-#: part/part.cpp:309
+#: part/part.cpp:312
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark kan berre pakka ut til lokale mapper."
 
-#: part/part.cpp:364
+#: part/part.cpp:367
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Vis informasjonspanel"
 
-#: part/part.cpp:371
+#: part/part.cpp:374
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Lagra kopi som …"
 
-#: part/part.cpp:375
+#: part/part.cpp:378
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "&Opna i eksternt program"
 
-#: part/part.cpp:380
+#: part/part.cpp:383
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Opna &med …"
 
-#: part/part.cpp:382
+#: part/part.cpp:385
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Trykk for å opna den valde fila med eit eksternt program"
 
-#: part/part.cpp:386
+#: part/part.cpp:389
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&Førehandsvising"
 
-#: part/part.cpp:388
+#: part/part.cpp:391
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Trykk for å førehandsvisa den valde fila"
 
-#: part/part.cpp:393
+#: part/part.cpp:396
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "&Pakk ut alle"
 
-#: part/part.cpp:395
+#: part/part.cpp:398
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1662,13 +1672,13 @@ msgstr ""
 "Trykk for å opna eit utpakkingsvindauge, der du kan velja korleis du vil "
 "pakka ut alle filene i arkivet"
 
-#: part/part.cpp:400
+#: part/part.cpp:403
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&Pakk ut"
 
-#: part/part.cpp:403
+#: part/part.cpp:406
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1677,54 +1687,54 @@ msgstr ""
 "Trykk for å opna eit utpakkingsvindauge, der du kan pakka ut alle eller "
 "utvalde filer."
 
-#: part/part.cpp:408
+#: part/part.cpp:411
 #, kde-format
 msgid "Add &Files..."
 msgstr "Legg til &filer …"
 
-#: part/part.cpp:409 part/part.cpp:472
+#: part/part.cpp:412 part/part.cpp:475
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Trykk for å leggja filer til arkivet"
 
-#: part/part.cpp:416
+#: part/part.cpp:419
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Fjern frå arkivet"
 
-#: part/part.cpp:426
+#: part/part.cpp:429
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Eigenskapar"
 
-#: part/part.cpp:428
+#: part/part.cpp:431
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Trykk for å sjå eigenskapar for arkivet"
 
-#: part/part.cpp:434
+#: part/part.cpp:437
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Trykk for å leggja til eller redigera kommentar"
 
-#: part/part.cpp:439
+#: part/part.cpp:442
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "&Test integritet"
 
-#: part/part.cpp:441 part/part.cpp:473
+#: part/part.cpp:444 part/part.cpp:476
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Trykk for å testa arkivet for integritet"
 
-#: part/part.cpp:467
+#: part/part.cpp:470
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1736,7 +1746,7 @@ msgstr ""
 "filhovudkryptering er ikkje støtta.<nl/><nl/>Pakk ut filene og lag eit nytt "
 "arkiv viss du vil leggja til filer."
 
-#: part/part.cpp:470
+#: part/part.cpp:473
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1745,74 +1755,74 @@ msgid ""
 msgstr ""
 "Å testa passordverna arkivfiler utan filhovudkryptering er ikkje støtta."
 
-#: part/part.cpp:538
+#: part/part.cpp:541
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Rediger &kommentar"
 
-#: part/part.cpp:539 part/part.cpp:547
+#: part/part.cpp:542 part/part.cpp:550
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Legg til &kommentar"
 
-#: part/part.cpp:648
+#: part/part.cpp:651
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Integritetstesten var vellukka."
 
-#: part/part.cpp:648 part/part.cpp:650
+#: part/part.cpp:651 part/part.cpp:653
 #, kde-format
 msgid "Test Results"
 msgstr "Testresultat"
 
-#: part/part.cpp:650
+#: part/part.cpp:653
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Integritetstesten var mislukka."
 
-#: part/part.cpp:671
+#: part/part.cpp:674
 #, kde-format
 msgid "Extract To..."
 msgstr "Pakk ut til …"
 
-#: part/part.cpp:685
+#: part/part.cpp:688
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Pakk ut smart til …"
 
-#: part/part.cpp:815
+#: part/part.cpp:818
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Generelt"
 
-#: part/part.cpp:816
+#: part/part.cpp:819
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Utpakking"
 
-#: part/part.cpp:817
+#: part/part.cpp:820
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Programtillegg"
 
-#: part/part.cpp:818
+#: part/part.cpp:821
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Førehandsvising"
 
-#: part/part.cpp:830
+#: part/part.cpp:838
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> er ei mappe."
 
-#: part/part.cpp:839
+#: part/part.cpp:847
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1822,7 +1832,7 @@ msgstr ""
 "Klarte ikkje overskriva <filename>%1</filename>. Sjå til at du har "
 "skriveløyve."
 
-#: part/part.cpp:845
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1831,13 +1841,13 @@ msgid ""
 msgstr ""
 "Arkivfila <filename>%1</filename> vert oppretta når du legg til ei fil."
 
-#: part/part.cpp:848
+#: part/part.cpp:856
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Fann ikkje arkivfila <filename>%1</filename>."
 
-#: part/part.cpp:853
+#: part/part.cpp:861
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1847,7 +1857,7 @@ msgstr ""
 "Klarte ikkje opna <filename>%1</filename>, då det ikkje var mogleg å lesa "
 "frå ho."
 
-#: part/part.cpp:871
+#: part/part.cpp:879
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1856,25 +1866,25 @@ msgid ""
 msgstr ""
 "Arkivfila <filename>%1</filename> finst frå før. Vil du skriva over ho?"
 
-#: part/part.cpp:872
+#: part/part.cpp:880
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Fila finst alt"
 
-#: part/part.cpp:913
+#: part/part.cpp:921
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Arkivfila er tom eller så klarte ikkje Ark å opna innhaldet."
 
-#: part/part.cpp:918
+#: part/part.cpp:926
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark støttar ikkje ISO-filer med UDF-filsystemet."
 
-#: part/part.cpp:948
+#: part/part.cpp:956
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1884,70 +1894,70 @@ msgstr ""
 "Forsøk på å opna arkivfila <filename>%1</filename> gav denne feilmeldinga:"
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:1008
+#: part/part.cpp:1016
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark kan ikkje opna symbolske lenkjer."
 
-#: part/part.cpp:1140
+#: part/part.cpp:1148
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
 "archive?"
 msgstr "Fila <filename>%1</filename> vart endra. Vil du oppdatera arkivet?"
 
-#: part/part.cpp:1141
+#: part/part.cpp:1149
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fil endra"
 
-#: part/part.cpp:1142
+#: part/part.cpp:1150
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Oppdater"
 
-#: part/part.cpp:1143
+#: part/part.cpp:1151
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Ignorer"
 
-#: part/part.cpp:1428
+#: part/part.cpp:1436
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Legg til filer"
 
-#: part/part.cpp:1433
+#: part/part.cpp:1441
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Legg filer til %1"
 
-#: part/part.cpp:1497
+#: part/part.cpp:1505
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Filnamn kan ikkje innehalda skråstrekar og kan ikkje vera lik «.» eller «..»."
 
-#: part/part.cpp:1541
+#: part/part.cpp:1549
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Du kan ikkje flytta mapper til seg sjølve."
 
-#: part/part.cpp:1542
+#: part/part.cpp:1550
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Mappe flytta til seg sjølv"
 
-#: part/part.cpp:1570
+#: part/part.cpp:1578
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Oppføringar med same namn kan ikkje limast inn til same målmappe."
 
-#: part/part.cpp:1674
+#: part/part.cpp:1682
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1960,7 +1970,7 @@ msgstr[1] ""
 "Du kan ikkje angra slettinga av desse filene. Er du sikker på at du vil "
 "sletta dei?"
 
-#: part/part.cpp:1677
+#: part/part.cpp:1685
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1968,13 +1978,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Slett fila"
 msgstr[1] "Slett filene"
 
-#: part/part.cpp:1724
+#: part/part.cpp:1732
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Lagra kopi som"
 
-#: part/part.cpp:1739
+#: part/part.cpp:1747
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1984,7 +1994,7 @@ msgstr ""
 "Klarte ikkje lagra arkivfila som <filename>%1</filename>. Prøv å lagra ho i "
 "ei anna mappe."
 
-#: part/part.cpp:1743
+#: part/part.cpp:1751
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

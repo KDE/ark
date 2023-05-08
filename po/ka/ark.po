@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-06 00:49+0000\n"
-"PO-Revision-Date: 2023-03-15 06:21+0100\n"
+"PO-Revision-Date: 2023-05-07 06:28+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -383,7 +383,7 @@ msgstr "Ark-ის KPart კომპონენტი ვერ ვიპო�
 #: app/mainwindow.cpp:184
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "გვერდითი პანელი"
 
 #: app/mainwindow.cpp:289
 #, kde-format
@@ -409,7 +409,7 @@ msgstr ""
 #: app/mainwindow.cpp:313
 #, kde-format
 msgid "Lock Sidebar"
-msgstr ""
+msgstr "გვერდითი პანელის დაბლოკვა"
 
 #: app/mainwindow.cpp:370
 #, kde-format
