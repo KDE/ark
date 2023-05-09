@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-06 00:49+0000\n"
-"PO-Revision-Date: 2023-04-26 19:55+0200\n"
+"PO-Revision-Date: 2023-05-08 23:48+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -399,7 +399,7 @@ msgstr ""
 #: app/mainwindow.cpp:184
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "Seitenleiste"
 
 #: app/mainwindow.cpp:289
 #, kde-format
@@ -426,7 +426,7 @@ msgstr ""
 #: app/mainwindow.cpp:313
 #, kde-format
 msgid "Lock Sidebar"
-msgstr ""
+msgstr "Seitenleiste sperren"
 
 #: app/mainwindow.cpp:370
 #, kde-format
