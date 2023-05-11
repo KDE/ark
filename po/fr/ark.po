@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-06 00:49+0000\n"
-"PO-Revision-Date: 2023-03-15 14:52+0100\n"
+"PO-Revision-Date: 2023-05-09 13:19+0200\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -407,7 +407,7 @@ msgstr ""
 #: app/mainwindow.cpp:184
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "Barre latérale"
 
 #: app/mainwindow.cpp:289
 #, kde-format
@@ -435,7 +435,7 @@ msgstr ""
 #: app/mainwindow.cpp:313
 #, kde-format
 msgid "Lock Sidebar"
-msgstr ""
+msgstr "Verrouiller la barre latérale"
 
 #: app/mainwindow.cpp:370
 #, kde-format
