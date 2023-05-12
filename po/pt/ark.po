@@ -401,7 +401,7 @@ msgstr ""
 #: app/mainwindow.cpp:184
 #, kde-format
 msgid "Sidebar"
-msgstr "Barra Lateral"
+msgstr "Barra lateral"
 
 #: app/mainwindow.cpp:289
 #, kde-format
