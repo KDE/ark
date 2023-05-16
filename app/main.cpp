@@ -87,7 +87,7 @@ int main(int argc, char **argv)
                          KAboutLicense::GPL,
                          i18n("(c) 1997-2019, The Ark Developers"),
                          QString(),
-                         QStringLiteral("https://utils.kde.org/projects/ark")
+                         QStringLiteral("https://apps.kde.org/ark")
     );
 
     aboutData.setProgramLogo(QIcon::fromTheme(QStringLiteral(":/ark/ark.svgz")));
