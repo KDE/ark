@@ -15,7 +15,9 @@ namespace Util {
     //      /foo/bar/ -> bar
     QString lastPathSegment(const QString &path)
     {
-        if (path.endsWith(QLatin1Char('/'))) {
+        if (path == QLatin1String("/")) {
+            return path;
+        } else if (path.endsWith(QLatin1Char('/'))) {
             const int index = path.lastIndexOf(QLatin1Char('/'), -2);
             return path.mid(index + 1).chopped(1);
         } else {
