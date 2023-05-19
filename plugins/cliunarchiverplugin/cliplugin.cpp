@@ -252,6 +252,8 @@ void CliPlugin::readJsonOutput()
         }
         // TODO: missing fields
 
+        // FIXME: currently with multivolume archives we emit the same entry multiple times because they occur multiple times in the CLI output...
+        // This breaks at least the numberOfEntries() method, and possibly other things.
         Q_EMIT entry(currentEntry);
     }
 }
