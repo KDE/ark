@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-06 00:49+0000\n"
-"PO-Revision-Date: 2023-04-22 12:20+0400\n"
+"PO-Revision-Date: 2023-05-29 21:57+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
 "Language: az\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -386,7 +386,7 @@ msgstr ""
 #: app/mainwindow.cpp:184
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "Yan panel"
 
 #: app/mainwindow.cpp:289
 #, kde-format
@@ -413,18 +413,18 @@ msgstr ""
 #: app/mainwindow.cpp:313
 #, kde-format
 msgid "Lock Sidebar"
-msgstr ""
+msgstr "Yan paneli kilidləyin"
 
 #: app/mainwindow.cpp:370
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
-msgstr "Arxivi Açmaq"
+msgstr "Arxivi açın"
 
 #: app/mainwindow.cpp:484
 #, kde-format
 msgid "Create New Archive"
-msgstr "Yeni Arxiv Yaratmaq"
+msgstr "Yeni arxiv yaradın"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
@@ -448,7 +448,7 @@ msgstr "Yeni arxiv"
 #: app/welcomeview/welcomeview.ui:193
 #, kde-format
 msgid "Clear Recent Files"
-msgstr "Sonuncu faylları təmizlə"
+msgstr "Sonuncu faylları təmizləyin"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:223
@@ -466,13 +466,13 @@ msgstr "Kömək"
 #: app/welcomeview/welcomeview.ui:274
 #, kde-format
 msgid "Visit homepage"
-msgstr "Ev səhifəsinə bax"
+msgstr "Ev səhifəsinə baxın"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:287
 #, kde-format
 msgid "Read handbook"
-msgstr "Sorğu kitabını oxu"
+msgstr "Sorğu kitabını oxuyun"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:346
@@ -484,34 +484,34 @@ msgstr "Açılışda göstərilsin"
 #: app/welcomeview/welcomeview.ui:401
 #, kde-format
 msgid "Close Welcome Page"
-msgstr "Salamlama səhifəsini bağla"
+msgstr "Salamlama səhifəsini bağlayın"
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
 msgid "Advanced Options"
-msgstr "Əlavə Seçimlər"
+msgstr "Əlavə seçimlər"
 
 #: kerfuffle/adddialog.cpp:47
 #, kde-format
 msgctxt "@action:button"
 msgid "Add"
-msgstr "Əlavə etmək"
+msgstr "Əlavə edin"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupCompressFiles)
 #: kerfuffle/adddialog.ui:35
 #, kde-format
 msgid "Files/Folders to Compress"
-msgstr "Sıxılacaq Fayllar/Qovluqlar"
+msgstr "Sıxılacaq fayllar/qovluqlar"
 
 #: kerfuffle/addtoarchive.cpp:79
 #, kde-format
 msgid "Compress to Archive"
-msgstr "Arxivə Sıxlaşdırmaq"
+msgstr "Arxivdə sıxın"
 
 #: kerfuffle/addtoarchive.cpp:133
 #, kde-format
 msgid "No input files were given."
-msgstr "Giriş faylı göstərilməyib"
+msgstr "Giriş faylı göstərilməyib."
 
 #: kerfuffle/addtoarchive.cpp:140
 #, kde-kuit-format
@@ -534,7 +534,8 @@ msgstr "Arxiv"
 msgid ""
 "Whether to show a warning when creating zip archives with AES encryption."
 msgstr ""
-"AES şifrələnməsi ilə ZİP arxiv yaradılması zamanı xəbərdarlığı göstərmək"
+"AES şifrələnməsi ilə ZİP arxiv yaradılması zamanı xəbərdarlığın göstərilib, "
+"göstərilməməsi."
 
 #. i18n: ectx: label, entry (defaultOpenAction), group (General)
 #: kerfuffle/ark.kcfg:13
@@ -546,7 +547,7 @@ msgstr "Arxivdəki obyektlərin açılması zaman standart fəaliyyət."
 #: kerfuffle/ark.kcfg:27
 #, kde-format
 msgid "Close Ark after extraction."
-msgstr "Çıxarıldıqdan sonra Ark'ı bağlamaq"
+msgstr "Çıxarıldıqdan sonra Ark-ı bağlamaq"
 
 #. i18n: ectx: label, entry (preservePaths), group (Extraction)
 #: kerfuffle/ark.kcfg:31
@@ -567,13 +568,13 @@ msgstr ""
 #: kerfuffle/ark.kcfg:41
 #, kde-format
 msgid "How the main window is divided."
-msgstr "Əsas pəncərəni bölmə qaydası."
+msgstr "Əsas pəncərənin bölünməsi qaydası."
 
 #. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
 #: kerfuffle/ark.kcfg:45
 #, kde-format
 msgid "Whether to show the information panel."
-msgstr "Məlumat panelini göstərmək"
+msgstr "Məlumat panelinin göstərilib, göstərilməməsi."
 
 #. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
 #: kerfuffle/ark.kcfg:55
@@ -591,12 +592,12 @@ msgstr "Önizləmə faylının ölçüsü, meqabaytlarla."
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Failed to locate program <filename>%1</filename> on disk."
-msgstr "Diskdə <filename>%1</filename> proqramı tapılmadı"
+msgstr "Diskdə <filename>%1</filename> proqramı tapılmadı."
 
 #: kerfuffle/cliinterface.cpp:355
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
-msgstr "Çıxarılma baş tutmadı. Diskdə kifayət qədər yer olduğuna əmin olun."
+msgstr "Çıxarmaq mümkün olmadı. Diskdə kifayət qədər yer olduğuna əmin olun."
 
 #: kerfuffle/cliinterface.cpp:358
 #, kde-format
@@ -604,7 +605,7 @@ msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
 "enough space is available."
 msgstr ""
-"Çıxarılma baş tutmadı. Düzgün şifrəni daxil etdiyinizə və diskdə kifayət "
+"Çıxarmaq mümkün olmadı. Düzgün şifrəni daxil etdiyinizə və diskdə kifayət "
 "qədər yer olduğuna əmin olun."
 
 #: kerfuffle/cliinterface.cpp:369 kerfuffle/cliinterface.cpp:494
@@ -612,20 +613,20 @@ msgstr ""
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
 msgid_plural "Could not move the extracted files to the destination directory."
-msgstr[0] "Çıxarılan fayl təyinat qovluğuna köçürülə bilmədi."
-msgstr[1] "Çıxarılan fayllar təyinat qovluğuna köçürülə bilmədi."
+msgstr[0] "Çıxarılan faylı təyinat qovluğuna köçürmək mümkün olmadı."
+msgstr[1] "Çıxarılan faylları təyinat qovluğuna köçürmək mümkün olmadı."
 
 #: kerfuffle/cliinterface.cpp:857
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
-msgstr "Çıxarılma baş tutmadı, çünki disk doludur."
+msgstr "Çıxarmaq mümkün olmadı, çünki disk doludur."
 
 #: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:144
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
-msgstr "Çıxarılma baş tutmadı: şifrə səhvdir"
+msgstr "Çıxartmaq mümkün olmadı: Şifrə səhvdir"
 
 #: kerfuffle/cliinterface.cpp:898
 #, kde-format
