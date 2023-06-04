@@ -71,13 +71,19 @@ namespace Ark
 static quint32 s_instanceCounter = 1;
 
 Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaData, const QVariantList& args)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         : KParts::ReadWritePart(parent),
+#else
+        : KParts::ReadWritePart(parent, metaData),
+#endif
           m_splitter(nullptr),
           m_busy(false),
           m_jobTracker(nullptr)
 {
     Q_UNUSED(args)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     setMetaData(metaData);
+#endif
 
     new DndExtractAdaptor(this);
 
