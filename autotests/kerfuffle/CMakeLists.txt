@@ -18,12 +18,12 @@ ecm_add_tests(
     createdialogtest.cpp
     metadatatest.cpp
     mimetypetest.cpp
-    LINK_LIBRARIES testhelper kerfuffle Qt::Test KF5::ConfigCore KF5::KIOCore
+    LINK_LIBRARIES testhelper kerfuffle Qt::Test KF${QT_MAJOR_VERSION}::ConfigCore KF${QT_MAJOR_VERSION}::KIOCore
     NAME_PREFIX kerfuffle-)
 
 ecm_add_test(
     adddialogtest.cpp
-    LINK_LIBRARIES kerfuffle Qt::Test KF5::KIOFileWidgets
+    LINK_LIBRARIES kerfuffle Qt::Test KF${QT_MAJOR_VERSION}::KIOFileWidgets
     NAME_PREFIX kerfuffle-)
 
 ecm_add_tests(

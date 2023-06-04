@@ -58,15 +58,16 @@ endif()
 
 target_link_libraries(kerfuffle
 PUBLIC
-    KF5::Pty
-    KF5::I18n
-    KF5::WidgetsAddons
+    KF${QT_MAJOR_VERSION}::Pty
+    KF${QT_MAJOR_VERSION}::I18n
+    KF${QT_MAJOR_VERSION}::WidgetsAddons
 PRIVATE
     Qt::Concurrent
-    KF5::ConfigCore
-    KF5::KIOCore
-    KF5::KIOWidgets
-    KF5::KIOFileWidgets
+    KF${QT_MAJOR_VERSION}::ConfigCore
+    KF${QT_MAJOR_VERSION}::ConfigWidgets
+    KF${QT_MAJOR_VERSION}::KIOCore
+    KF${QT_MAJOR_VERSION}::KIOWidgets
+    KF${QT_MAJOR_VERSION}::KIOFileWidgets
 )
 
 set_target_properties(kerfuffle PROPERTIES VERSION ${KERFUFFLE_VERSION} SOVERSION ${KERFUFFLE_SOVERSION})
