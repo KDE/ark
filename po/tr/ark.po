@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-06 00:49+0000\n"
-"PO-Revision-Date: 2023-05-31 23:27+0300\n"
+"PO-Revision-Date: 2023-06-04 01:40+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -973,7 +973,7 @@ msgstr "Arşiv birden fazla üst düzey girdiye sahipse alt klasöre çıkar"
 #, kde-format
 msgid "When clicking a file in an archive or pressing the Return key:"
 msgstr ""
-"Bir dosyadaki bir dosyayı tıkladığınızda veya Enter düğmesine bastıktan "
+"Bir dosyadaki bir dosyayı tıkladığınızda veya Giriş düğmesine bastıktan "
 "sonra:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
