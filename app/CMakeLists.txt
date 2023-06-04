@@ -64,9 +64,12 @@ configure_file(
             ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop
 )
 
+list(POP_BACK SUPPORTED_ARK_MIMETYPES)
+list(JOIN SUPPORTED_ARK_MIMETYPES "\", \"" SUPPORTED_ARK_MIMETYPES_JSON)
+
 configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/ark_dndextract.desktop.cmake
-            ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop
+            ${CMAKE_CURRENT_SOURCE_DIR}/ark_dndextract.json.cmake
+            ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.json
 )
 
 install(TARGETS ark  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
@@ -81,8 +84,6 @@ set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp ark_debug.cpp)
 kcoreaddons_add_plugin(extracthere
     SOURCES ${extracthere_SRCS}
     INSTALL_NAMESPACE kf${QT_MAJOR_VERSION}/kio_dnd)
-
-kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop)
 
 target_link_libraries(extracthere kerfuffle KF${QT_MAJOR_VERSION}::KIOWidgets KF${QT_MAJOR_VERSION}::KIOFileWidgets)
 
