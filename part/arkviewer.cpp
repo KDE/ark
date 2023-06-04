@@ -17,7 +17,6 @@
 #include <KIO/JobUiDelegateFactory>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KMimeTypeTrader>
 #include <KParts/OpenUrlArguments>
 #include <KParts/PartLoader>
 #include <KPluginMetaData>
