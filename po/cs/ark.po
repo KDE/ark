@@ -386,7 +386,7 @@ msgstr "Nelze najít komponentu Ark, prosím zkontrolujte svou instalaci."
 #: app/mainwindow.cpp:184
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "Postranní panel"
 
 #: app/mainwindow.cpp:289
 #, kde-format
@@ -410,7 +410,7 @@ msgstr ""
 #: app/mainwindow.cpp:313
 #, kde-format
 msgid "Lock Sidebar"
-msgstr ""
+msgstr "Zamknout postranní panel"
 
 #: app/mainwindow.cpp:370
 #, kde-format
