@@ -28,7 +28,7 @@ set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${PLUGIN_SUPPORTED_MIMETY
 
 kerfuffle_add_plugin(kerfuffle_libzip ${kerfuffle_libzip_SRCS})
 
-target_link_libraries(kerfuffle_libzip KF5::KIOCore LibZip::LibZip ZLIB::ZLIB)
+target_link_libraries(kerfuffle_libzip KF${KF_MAJOR_VERSION}::KIOCore LibZip::LibZip ZLIB::ZLIB)
 
 set(INSTALLED_LIBZIP_PLUGINS "${INSTALLED_LIBZIP_PLUGINS}kerfuffle_libzip;")
 

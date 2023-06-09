@@ -31,11 +31,11 @@ ecm_add_app_icon(ark_SRCS ICONS ${ICONS_SRCS})
 
 target_link_libraries(ark
     kerfuffle
-    KF5::Crash
-    KF5::DBusAddons
-    KF5::KIOFileWidgets
-    KF5::Parts
-    KF5::IconThemes)
+    KF${KF_MAJOR_VERSION}::Crash
+    KF${KF_MAJOR_VERSION}::DBusAddons
+    KF${KF_MAJOR_VERSION}::KIOFileWidgets
+    KF${KF_MAJOR_VERSION}::Parts
+    KF${KF_MAJOR_VERSION}::IconThemes)
 
 # we provide our own Info.plist containing a simple "we open anything" instruction.
 if(APPLE)
@@ -83,7 +83,7 @@ kcoreaddons_add_plugin(extracthere
 
 kcoreaddons_desktop_to_json(extracthere ${CMAKE_CURRENT_BINARY_DIR}/ark_dndextract.desktop)
 
-target_link_libraries(extracthere kerfuffle KF5::KIOWidgets KF5::KIOFileWidgets)
+target_link_libraries(extracthere kerfuffle KF${KF_MAJOR_VERSION}::KIOWidgets KF${KF_MAJOR_VERSION}::KIOFileWidgets)
 
 # compressfileitemaction plugin
 
@@ -93,8 +93,8 @@ kcoreaddons_add_plugin(compressfileitemaction
 
 target_link_libraries(compressfileitemaction
     kerfuffle
-    KF5::I18n
-    KF5::KIOWidgets)
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::KIOWidgets)
 
 # extractfileitemaction plugin
 
@@ -104,6 +104,6 @@ kcoreaddons_add_plugin(extractfileitemaction
 
 target_link_libraries(extractfileitemaction
     kerfuffle
-    KF5::I18n
-    KF5::KIOWidgets
-    KF5::KIOFileWidgets)
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::KIOWidgets
+    KF${KF_MAJOR_VERSION}::KIOFileWidgets)

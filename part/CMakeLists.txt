@@ -26,7 +26,7 @@ ki18n_wrap_ui(arkpart
     jobtracker.ui)
 
 
-target_link_libraries(arkpart kerfuffle KF5::Parts KF5::KIOFileWidgets KF5::ItemModels)
+target_link_libraries(arkpart kerfuffle KF${KF_MAJOR_VERSION}::Parts KF${KF_MAJOR_VERSION}::KIOFileWidgets KF${KF_MAJOR_VERSION}::ItemModels)
 
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/ark_part.desktop.cmake
