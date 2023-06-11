@@ -51,7 +51,7 @@ file</replaceable></group>
 <group choice="opt"><option>-m</option></group>
 <group choice="opt"><option>-o</option> <replaceable>
 directory</replaceable></group>
-<arg choice="opt">&kf5; Generic Options</arg>
+<arg choice="opt">&kde-frameworks; Generic Options</arg>
 <arg choice="opt">&Qt; Generic Options</arg>
 </cmdsynopsis>
 </refsynopsisdiv>
