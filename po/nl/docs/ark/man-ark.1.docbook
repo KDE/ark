@@ -124,7 +124,7 @@
 > map</replaceable
 ></group
 > <arg choice="opt"
->&kf5; algemene opties</arg
+>&kde-frameworks; algemene opties</arg
 > <arg choice="opt"
 >&Qt; algemene opties</arg
 > </cmdsynopsis>

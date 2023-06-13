@@ -124,7 +124,7 @@
 > directorio</replaceable
 ></group
 > <arg choice="opt"
->Opciones generales de &kf5;</arg
+>Opciones generales de &kde-frameworks;</arg
 > <arg choice="opt"
 >Opciones generales de &Qt;</arg
 > </cmdsynopsis>

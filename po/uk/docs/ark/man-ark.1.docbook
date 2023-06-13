@@ -124,7 +124,7 @@
 > каталог</replaceable
 ></group
 > <arg choice="opt"
->Загальні параметри &kf5;</arg
+>Загальні параметри &kde-frameworks;</arg
 > <arg choice="opt"
 >Загальні параметри &Qt;</arg
 > </cmdsynopsis>

@@ -124,9 +124,9 @@
 > directori</replaceable
 ></group
 > <arg choice="opt"
->Opcions genèriques dels &kf5;</arg
+>Opcions genèriques dels &kde-frameworks;</arg
 > <arg choice="opt"
->Opcions genèriques de les &Qt; Generic Options</arg
+>Opcions genèriques de les &Qt;</arg
 > </cmdsynopsis>
 </refsynopsisdiv>
 
