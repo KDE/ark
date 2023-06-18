@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-05-06 00:49+0000\n"
-"PO-Revision-Date: 2023-06-05 12:52+0200\n"
+"PO-Revision-Date: 2023-06-17 10:05+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1004,8 +1004,8 @@ msgid ""
 "Could not load the archive because it contains ill-formed entries and might "
 "be a malicious archive."
 msgstr ""
-"Non se puido cargar o arquivo porque contén entradas en formato incorrecto e "
-"podería tratase dun arquivo malicioso."
+"Non se puido cargar o arquivo porque contén entradas malformadas e podería "
+"tratase dun arquivo malicioso."
 
 #: kerfuffle/jobs.cpp:253
 #, kde-format
@@ -1226,7 +1226,7 @@ msgstr "Tamaño extraído:"
 #: kerfuffle/propertiesdialog.ui:173
 #, kde-format
 msgid "Packed size:"
-msgstr "Tamaño arquivado:"
+msgstr "Tamaño empaquetado:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: kerfuffle/propertiesdialog.ui:190
