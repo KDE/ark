@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 02:55+0000\n"
-"PO-Revision-Date: 2023-05-22 14:04\n"
+"PO-Revision-Date: 2023-06-17 04:14\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -37,7 +37,7 @@ msgstr ""
 #, kde-format
 msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
-msgstr "压缩包(&A)"
+msgstr "压缩文件(&A)"
 
 #: app/batchextract.cpp:103 app/batchextract.cpp:167
 #, kde-format
@@ -47,7 +47,7 @@ msgstr "正在解压文件"
 #: app/batchextract.cpp:104 app/batchextract.cpp:168
 #, kde-format
 msgid "Source archive"
-msgstr "来源压缩包"
+msgstr "来源压缩文件"
 
 #: app/batchextract.cpp:105 app/batchextract.cpp:169
 #, kde-format
@@ -65,7 +65,7 @@ msgctxt "@info"
 msgid ""
 "There was an error while extracting <filename>%1</filename>. Any further "
 "archive will not be extracted."
-msgstr "解压 <filename>%1</filename> 时出错。后续压缩包将不会被解压。"
+msgstr "解压 <filename>%1</filename> 时出错。压缩文件的后续部分将不会被解压。"
 
 #: app/batchextract.cpp:138
 #, kde-kuit-format
@@ -74,8 +74,8 @@ msgid ""
 "There was an error while extracting <filename>%1</filename>:<nl/><message>"
 "%2</message><nl/>Any further archive will not be extracted."
 msgstr ""
-"解压 <filename>%1</filename> 时出错：<nl/><message>%2</message><nl/>后续压缩"
-"包将不会被解压。"
+"解压 <filename>%1</filename> 时出错：<nl/><message>%2</message><nl/>压缩文件"
+"的后续部分将不会被解压。"
 
 #: app/batchextract.cpp:142
 #, kde-kuit-format
@@ -98,7 +98,7 @@ msgid ""
 "The archive could not be extracted to <filename>%1</filename> because Ark "
 "can only extract to local destinations."
 msgstr ""
-"该压缩包无法被解压到 <filename>%1</filename>，因为 Ark 只能将文件解压到本地目"
+"压缩文件无法被解压到 <filename>%1</filename>，因为 Ark 只能将文件解压到本地目"
 "标位置。"
 
 #: app/compressfileitemaction.cpp:77
@@ -159,12 +159,12 @@ msgstr "Ark"
 #: app/main.cpp:86
 #, kde-format
 msgid "KDE Archiving tool"
-msgstr "KDE 压缩包文件管理工具"
+msgstr "KDE 压缩文件管理工具"
 
 #: app/main.cpp:88
 #, kde-format
 msgid "(c) 1997-2019, The Ark Developers"
-msgstr "(c) 1997-2019，Ark 开发者"
+msgstr "(c) 1997-2019, The Ark Developers"
 
 #: app/main.cpp:95
 #, kde-format
@@ -314,7 +314,7 @@ msgstr "解压后打开目标文件夹。"
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
 "when finished."
-msgstr "询问用户压缩包的文件名，并向其添加指定的文件。完成后退出。"
+msgstr "询问用户压缩文件的文件名，并向其添加指定的文件。完成后退出。"
 
 #: app/main.cpp:169
 #, kde-format
@@ -322,7 +322,8 @@ msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
 "Quit when finished."
 msgstr ""
-"将选定的文件添加到“文件名”压缩包。如果不存在则创建该压缩包。完成后退出。"
+"将选定的文件添加到指定文件名的压缩文件。如果不存在则创建该压缩文件。完成后退"
+"出。"
 
 #: app/main.cpp:173
 #, kde-format
@@ -337,7 +338,7 @@ msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
 "tar.gz, zip or any other supported types)"
 msgstr ""
-"自动选择文件名，包括所选后缀 (如 rar、tar.gz、zip 或其他支持的压缩包类型)"
+"自动选择文件名，包括所选后缀 (如 rar、tar.gz、zip 或其他支持的压缩文件类型)"
 
 #: app/main.cpp:180
 #, kde-format
@@ -359,7 +360,8 @@ msgid ""
 "a single file archive, a subfolder with the name of the archive will be "
 "created."
 msgstr ""
-"解压时如果检测到压缩包内含多个文件/文件夹，将按照压缩包文件名创建子文件夹。"
+"解压时如果检测到压缩文件中包含多个文件/文件夹，Ark 将按照压缩文件的文件名创建"
+"一个子文件夹。"
 
 #: app/main.cpp:189
 #, kde-format
@@ -396,12 +398,12 @@ msgstr ""
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
-msgstr "打开压缩包"
+msgstr "打开压缩文件"
 
 #: app/mainwindow.cpp:378
 #, kde-format
 msgid "Create New Archive"
-msgstr "新建压缩包"
+msgstr "新建压缩文件"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
@@ -413,13 +415,13 @@ msgstr "欢迎使用"
 #: app/welcomeview/welcomeview.ui:179
 #, kde-format
 msgid "Open Archive..."
-msgstr "打开压缩包..."
+msgstr "打开压缩文件..."
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
 #, kde-format
 msgid "New Archive"
-msgstr "新建压缩包"
+msgstr "新建压缩文件"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
@@ -483,7 +485,7 @@ msgstr "要压缩的文件/文件夹"
 #: kerfuffle/addtoarchive.cpp:79
 #, kde-format
 msgid "Compress to Archive"
-msgstr "添加到压缩包"
+msgstr "添加到压缩文件"
 
 #: kerfuffle/addtoarchive.cpp:133
 #, kde-format
@@ -496,27 +498,27 @@ msgid ""
 "You need to either supply a filename for the archive or a suffix (such as "
 "rar, tar.gz) with the <command>--autofilename</command> argument."
 msgstr ""
-"您需要为压缩包指定一个文件名，或者通过 <command>--autofilename</command> 参数"
-"指定一个后缀名(如 rar、tar.gz)。"
+"您需要为压缩文件指定一个文件名，或者通过 <command>--autofilename</command> 参"
+"数指定一个后缀名(如 rar、tar.gz)。"
 
 #: kerfuffle/addtoarchive.cpp:243
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
-msgstr "压缩包"
+msgstr "压缩文件"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9
 #, kde-format
 msgid ""
 "Whether to show a warning when creating zip archives with AES encryption."
-msgstr "是否在创建 AES 加密的 ZIP 压缩包时显示警告信息。"
+msgstr "是否在创建 AES 加密的 ZIP 压缩文件时显示警告信息。"
 
 #. i18n: ectx: label, entry (defaultOpenAction), group (General)
 #: kerfuffle/ark.kcfg:13
 #, kde-format
 msgid "Default action when opening archive entries."
-msgstr "打开压缩包文件时的默认操作。"
+msgstr "打开压缩文件时的默认操作。"
 
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
 #: kerfuffle/ark.kcfg:27
@@ -535,7 +537,7 @@ msgstr "解压时保留路径。"
 #, kde-format
 msgid ""
 "Extract to a subfolder if the archive has more than one top-level entry."
-msgstr "如果压缩包含多个顶层目录，将它们解压到子文件夹中。"
+msgstr "如果压缩文件含多个顶层目录，将它们解压到子文件夹中。"
 
 #. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
 #: kerfuffle/ark.kcfg:41
@@ -606,7 +608,7 @@ msgstr "密码错误。"
 #: kerfuffle/cliinterface.cpp:921
 #, kde-format
 msgid "Ark does not currently support testing this archive."
-msgstr "Ark 尚不支持测试此类型的压缩包文件。"
+msgstr "Ark 尚不支持测试此类型的压缩文件。"
 
 #: kerfuffle/compressionoptionswidget.cpp:132
 #, kde-format
@@ -617,7 +619,7 @@ msgstr "%1 格式不支持文件列表加密保护。"
 #, kde-format
 msgid ""
 "Protection of the archive with password is not possible with the %1 format."
-msgstr "%1 格式不支持压缩包加密保护。"
+msgstr "%1 格式不支持压缩文件的密码保护。"
 
 #: kerfuffle/compressionoptionswidget.cpp:156
 #, kde-format
@@ -632,7 +634,7 @@ msgstr "%1 格式不支持设置压缩方式。"
 #: kerfuffle/compressionoptionswidget.cpp:199
 #, kde-format
 msgid "The %1 format does not support multi-volume archives."
-msgstr "%1 格式不支持分卷压缩包。"
+msgstr "%1 格式不支持分卷压缩。"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleCompression)
 #: kerfuffle/compressionoptionswidget.ui:20
@@ -742,7 +744,7 @@ msgstr "文件名："
 #: kerfuffle/createdialog.ui:54
 #, kde-format
 msgid "Type archive name..."
-msgstr "输入压缩包文件名..."
+msgstr "输入压缩文件的文件名..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -816,7 +818,7 @@ msgstr "请检查您是否具备创建该文件的权限。"
 #: kerfuffle/extractiondialog.cpp:177
 #, kde-format
 msgid "Extract multiple archives"
-msgstr "解压多个压缩包"
+msgstr "解压多个压缩文件"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ExtractionDialog)
 #: kerfuffle/extractiondialog.ui:21
@@ -910,19 +912,20 @@ msgid ""
 "Whether to check by default the extraction into subfolder checkbox in the "
 "Extraction Dialog, when the archive has more than one top-level entry."
 msgstr ""
-"当压缩包含多个顶层文件夹时，是否默认勾选解压对话框的“解压到子文件夹”选项。"
+"当压缩文件包含多个顶层文件夹时，是否默认勾选解压对话框的“解压到子文件夹”选"
+"项。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
 #: kerfuffle/extractionsettingspage.ui:44
 #, kde-format
 msgid "Extract to a subfolder if the archive has more than one top-level entry"
-msgstr "如果压缩包含多个顶层目录，将它们解压到子文件夹中。"
+msgstr "如果压缩文件含多个顶层目录，将它们解压到子文件夹中。"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/generalsettingspage.ui:17
 #, kde-format
 msgid "When clicking a file in an archive or pressing the Return key:"
-msgstr "点击压缩包中的文件或按下回车键时："
+msgstr "点击压缩文件中的文件或按下回车键时："
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: kerfuffle/generalsettingspage.ui:33
@@ -940,7 +943,7 @@ msgstr "打开文件 - 使用关联应用程序(&L)"
 #: kerfuffle/generalsettingspage.ui:60
 #, kde-format
 msgid "Show a warning when creating zip archives with AES encryption"
-msgstr "创建 AES 加密的 ZIP 压缩包时显示警告"
+msgstr "创建 AES 加密的 ZIP 压缩文件时显示警告"
 
 #: kerfuffle/jobs.cpp:99
 #, kde-format
@@ -952,26 +955,26 @@ msgstr "无法找到所需插件。Ark 不支持此文件类型。"
 msgid ""
 "Failed to load a suitable plugin. Make sure any executables needed to handle "
 "the archive type are installed."
-msgstr "无法加载所需插件。请确保处理该类型压缩包的程序已被正确安装。"
+msgstr "无法加载所需插件。请确保处理该类型压缩文件的程序已被正确安装。"
 
 #: kerfuffle/jobs.cpp:168
 #, kde-format
 msgid ""
 "Could not load the archive because it contains ill-formed entries and might "
 "be a malicious archive."
-msgstr "无法加载压缩包。它包含了异常项目，不排除是恶意压缩包。"
+msgstr "无法加载压缩文件。它包含了异常项目，不排除是恶意压缩文件。"
 
 #: kerfuffle/jobs.cpp:253
 #, kde-format
 msgid "Loading archive"
-msgstr "正在加载压缩包"
+msgstr "正在加载压缩文件"
 
 #: kerfuffle/jobs.cpp:253 kerfuffle/jobs.cpp:542 kerfuffle/jobs.cpp:720
 #: kerfuffle/jobs.cpp:773 kerfuffle/jobs.cpp:811 kerfuffle/jobs.cpp:843
 #: kerfuffle/jobs.cpp:891
 #, kde-format
 msgid "Archive"
-msgstr "压缩包"
+msgstr "压缩文件"
 
 #: kerfuffle/jobs.cpp:405 kerfuffle/jobs.cpp:572
 #, kde-kuit-format
@@ -1036,7 +1039,7 @@ msgstr "正在添加备注"
 #: kerfuffle/jobs.cpp:891
 #, kde-format
 msgid "Testing archive"
-msgstr "正在测试压缩包"
+msgstr "正在测试压缩文件"
 
 #: kerfuffle/pluginsettingspage.cpp:34
 #, kde-format
@@ -1122,13 +1125,13 @@ msgstr "正在计算..."
 #: kerfuffle/propertiesdialog.ui:37
 #, kde-format
 msgid "Archive name:"
-msgstr "压缩包名称："
+msgstr "压缩文件名称："
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: kerfuffle/propertiesdialog.ui:54
 #, kde-format
 msgid "Archive type:"
-msgstr "压缩包类型："
+msgstr "压缩文件类型："
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: kerfuffle/propertiesdialog.ui:71
@@ -1227,7 +1230,7 @@ msgctxt "@info"
 msgid ""
 "The archive <filename>%1</filename> is password protected. Please enter the "
 "password."
-msgstr "压缩包 <filename>%1</filename> 受密码保护。请输入密码。"
+msgstr "压缩文件 <filename>%1</filename> 使用密码保护。请输入密码。"
 
 #: kerfuffle/queries.cpp:161
 #, kde-format
@@ -1240,13 +1243,13 @@ msgctxt "@info"
 msgid ""
 "The archive you're trying to open is corrupt.<nl/>Some files may be missing "
 "or damaged."
-msgstr "正在尝试打开的压缩包已经损坏。<nl/>部分文件可能丢失或者损坏。"
+msgstr "正在尝试打开的压缩文件已经损坏。<nl/>部分文件可能丢失或者损坏。"
 
 #: kerfuffle/queries.cpp:203
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
-msgstr "压缩包数据损坏"
+msgstr "压缩文件数据损坏"
 
 #: kerfuffle/queries.cpp:204
 #, kde-format
@@ -1360,7 +1363,7 @@ msgstr "??"
 #: part/archivemodel.cpp:291
 #, kde-format
 msgid "Adding files is not supported for this archive."
-msgstr "此压缩包不支持添加文件。"
+msgstr "此压缩文件不支持添加文件。"
 
 #: part/archivemodel.cpp:299
 #, kde-format
@@ -1371,7 +1374,7 @@ msgstr "您只能将本机文件添加到压缩包。"
 #: part/ark_part.rc:5
 #, kde-format
 msgid "&Archive"
-msgstr "压缩包(&A)"
+msgstr "压缩文件(&A)"
 
 #. i18n: ectx: Menu (ark_file)
 #: part/ark_part.rc:15
@@ -1451,7 +1454,7 @@ msgstr "关于查看器组件"
 #: part/infopanel.cpp:52
 #, kde-format
 msgid "No archive loaded"
-msgstr "没有加载压缩包"
+msgstr "没有加载压缩文件"
 
 #: part/infopanel.cpp:103
 #, kde-format
@@ -1555,7 +1558,7 @@ msgstr "请输入搜索条件..."
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
-msgstr "Ark 只能将压缩包解压到本地目标位置。"
+msgstr "Ark 只能将压缩文件解压到本地目标位置。"
 
 #: part/part.cpp:364
 #, kde-format
@@ -1611,7 +1614,7 @@ msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
 "the files in the archive"
 msgstr ""
-"点击即可打开解压对话框，您可以从中选择如何对压缩包中的所有文件进行解压。"
+"点击以打开解压对话框，您可以从中选择如何对压缩文件中的所有文件进行解压。"
 
 #: part/part.cpp:400
 #, kde-format
@@ -1635,13 +1638,13 @@ msgstr "添加文件(&F)..."
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
-msgstr "点击即可添加新文件到压缩包中"
+msgstr "点击以添加新文件到该压缩文件中"
 
 #: part/part.cpp:416
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
-msgstr "从压缩包中移除"
+msgstr "从压缩文件中移除"
 
 #: part/part.cpp:426
 #, kde-format
@@ -1653,7 +1656,7 @@ msgstr "属性(&P)"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
-msgstr "点击即可查看压缩包属性"
+msgstr "点击以查看压缩文件属性"
 
 #: part/part.cpp:434
 #, kde-format
@@ -1665,13 +1668,13 @@ msgstr "单击添加或修改备注"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
-msgstr "测试压缩包完整性(&T)"
+msgstr "测试压缩文件完整性(&T)"
 
 #: part/part.cpp:441 part/part.cpp:473
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
-msgstr "点击即可测试压缩包的完整性"
+msgstr "点击以测试压缩文件的完整性"
 
 #: part/part.cpp:467
 #, kde-kuit-format
@@ -1681,8 +1684,8 @@ msgid ""
 "encryption is currently not supported.<nl/><nl/>Extract the files and create "
 "a new archive if you want to add files."
 msgstr ""
-"尚不支持向无加密文件头的加密压缩包添加文件。<nl/><nl/>如果您想要添加文件，请"
-"先解压文件，然后再重新创建压缩包。"
+"尚不支持向使用密码加密，但没有加密文件头的压缩文件添加文件。<nl/><nl/>如果您"
+"想要添加文件，请先解压文件，然后再重新创建压缩文件。"
 
 #: part/part.cpp:470
 #, kde-kuit-format
@@ -1690,7 +1693,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "Testing password-protected archives with no header-encryption is currently "
 "not supported."
-msgstr "尚不支持向无加密文件头的加密压缩包添加文件。"
+msgstr "尚不支持测试使用密码保护，但没有加密文件头的压缩文件。"
 
 #: part/part.cpp:538
 #, kde-format
@@ -1707,7 +1710,7 @@ msgstr "添加备注(&C)"
 #: part/part.cpp:648
 #, kde-format
 msgid "The archive passed the integrity test."
-msgstr "压缩包成功通过完整性测试。"
+msgstr "压缩文件已成功通过完整性测试。"
 
 #: part/part.cpp:648 part/part.cpp:650
 #, kde-format
@@ -1717,7 +1720,7 @@ msgstr "测试结果"
 #: part/part.cpp:650
 #, kde-format
 msgid "The archive failed the integrity test."
-msgstr "压缩包无法通过完整性测试。"
+msgstr "压缩文件无法通过完整性测试。"
 
 #: part/part.cpp:671
 #, kde-format
@@ -1773,13 +1776,13 @@ msgctxt "@info"
 msgid ""
 "The archive <filename>%1</filename> will be created as soon as you add a "
 "file."
-msgstr "压缩包 <filename>%1</filename> 将在您添加文件后完成创建。"
+msgstr "压缩文件 <filename>%1</filename> 将在您添加文件之后创建。"
 
 #: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
-msgstr "无法找到压缩包 <filename>%1</filename>。"
+msgstr "无法找到压缩文件 <filename>%1</filename>。"
 
 #: part/part.cpp:853
 #, kde-kuit-format
@@ -1787,7 +1790,7 @@ msgctxt "@info"
 msgid ""
 "The archive <filename>%1</filename> could not be loaded, as it was not "
 "possible to read from it."
-msgstr "压缩包 <filename>%1</filename> 无法加载，无法对其进行读取。"
+msgstr "压缩文件 <filename>%1</filename> 无法加载，因为无法对其进行读取。"
 
 #: part/part.cpp:871
 #, kde-kuit-format
@@ -1795,7 +1798,7 @@ msgctxt "@info"
 msgid ""
 "The archive <filename>%1</filename> already exists. Do you wish to overwrite "
 "it?"
-msgstr "压缩包 <filename>%1</filename> 已存在。您想要覆盖它吗？"
+msgstr "压缩文件 <filename>%1</filename> 已存在。您想要覆盖它吗？"
 
 #: part/part.cpp:872
 #, kde-format
@@ -1807,7 +1810,7 @@ msgstr "文件已存在"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
-msgstr "压缩包为空，或者 Ark 无法打开其内容。"
+msgstr "压缩文件为空，或者 Ark 无法打开其内容。"
 
 #: part/part.cpp:918
 #, kde-kuit-format
@@ -1822,7 +1825,8 @@ msgid ""
 "Loading the archive <filename>%1</filename> failed with the following error:"
 "<nl/><message>%2</message>"
 msgstr ""
-"加载压缩包 <filename>%1</filename> 失败。错误消息：<nl/><message>%2</message>"
+"加载压缩文件 <filename>%1</filename> 失败。错误消息：<nl/><message>%2</"
+"message>"
 
 #: part/part.cpp:1008
 #, kde-format
@@ -1913,7 +1917,8 @@ msgctxt "@info"
 msgid ""
 "The archive could not be saved as <filename>%1</filename>. Try saving it to "
 "another location."
-msgstr "无法将压缩包保存为 <filename>%1</filename>。请尝试将其保存到其他位置。"
+msgstr ""
+"无法将压缩文件保存为 <filename>%1</filename>。请尝试将其保存到其他位置。"
 
 #: part/part.cpp:1743
 #, kde-kuit-format
@@ -1921,13 +1926,13 @@ msgctxt "@info"
 msgid ""
 "The archive <filename>%1</filename> does not exist anymore, therefore it "
 "cannot be copied to the specified location."
-msgstr "压缩包 <filename>%1</filename> 已不存在，无法将其复制到指定位置。"
+msgstr "压缩文件 <filename>%1</filename> 已不存在，无法将其复制到指定位置。"
 
 #: plugins/cli7zplugin/cliplugin.cpp:130
 #: plugins/cliunarchiverplugin/cliplugin.cpp:85
 #, kde-format
 msgid "Listing the archive failed."
-msgstr "获取压缩包内容列表失败。"
+msgstr "压缩文件内容列出失败。"
 
 #: plugins/cli7zplugin/cliplugin.cpp:309
 #, kde-format
@@ -1939,7 +1944,9 @@ msgstr "解压失败。发生了一个未知错误。"
 msgid ""
 "Extraction failed due to one or more corrupt files. Any extracted files may "
 "be damaged."
-msgstr "解压失败。压缩包中存在已损坏的文件。已经解压的文件也有可能损坏。"
+msgstr ""
+"解压失败，因为压缩文件中存在损坏的文件。已经解压的文件也有可能包含损坏的数"
+"据。"
 
 #: plugins/cli7zplugin/cliplugin.cpp:326
 #, kde-format
@@ -1983,7 +1990,7 @@ msgstr "未知"
 #: plugins/clirarplugin/cliplugin.cpp:553
 #, kde-format
 msgid "Failed to find all archive volumes."
-msgstr "无法找齐压缩包的所有分卷。"
+msgstr "无法全部找到压缩文件的所有分卷。"
 
 #: plugins/clirarplugin/cliplugin.cpp:321
 #, kde-format
@@ -1991,8 +1998,8 @@ msgid ""
 "Your unrar executable is version %1, which is too old to handle this "
 "archive. Please update to a more recent version."
 msgstr ""
-"本机安装的 unrar 程序是 %1 版，它的版本太旧，无法处理此压缩包。请升级到新版程"
-"序。"
+"本机安装的 unrar 程序是 %1 版，它的版本太旧，无法处理此压缩文件。请升级到新版"
+"程序。"
 
 #: plugins/clirarplugin/cliplugin.cpp:328
 #, kde-format
@@ -2000,7 +2007,7 @@ msgid ""
 "Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
 "Try updating your unrar."
 msgstr ""
-"unrar 程序无法识别此 RAR 压缩包。本机安装的 unrar 版本太旧 (%1)。请升级 "
+"unrar 程序无法识别此 RAR 压缩文件。本机安装的 unrar 版本太旧 (%1)。请升级 "
 "unrar 程序。"
 
 #: plugins/clirarplugin/cliplugin.cpp:548
@@ -2016,7 +2023,7 @@ msgstr "解压失败。"
 #: plugins/cliunarchiverplugin/cliplugin.cpp:131
 #, kde-format
 msgid "Not enough memory for loading the archive."
-msgstr "内存不足，无法加载该压缩包。"
+msgstr "内存不足，无法加载该压缩文件。"
 
 #: plugins/cliunarchiverplugin/cliplugin.cpp:183
 #, kde-format
@@ -2048,13 +2055,13 @@ msgstr "发生严重错误，解压操作已中止。"
 #: plugins/libarchive/libarchiveplugin.cpp:466
 #, kde-format
 msgid "The archive reader could not be initialized."
-msgstr "压缩包读取程序无法初始化。"
+msgstr "压缩文件读取程序无法初始化。"
 
 #: plugins/libarchive/libarchiveplugin.cpp:488
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
-msgstr "压缩包损坏或者用户权限不足。"
+msgstr "压缩文件损坏或者用户权限不足。"
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:209
 #, kde-format
@@ -2065,13 +2072,13 @@ msgstr "无法创建用于写入数据的临时文件。"
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:215
 #, kde-format
 msgid "The archive writer could not be initialized."
-msgstr "压缩包写入程序无法初始化。"
+msgstr "压缩文件写入程序无法初始化。"
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:233
 #, kde-format
 msgctxt "@info"
 msgid "Could not open the archive for writing entries."
-msgstr "无法打开用于写入项目的压缩包。"
+msgstr "无法打开要写入项目的压缩文件。"
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:280
 #, kde-format
@@ -2112,7 +2119,7 @@ msgstr "无法压缩项目。"
 #: plugins/libzipplugin/libzipplugin.cpp:881
 #, kde-kuit-format
 msgid "Failed to open archive: %1"
-msgstr "无法打开压缩包：%1"
+msgstr "无法打开压缩文件：%1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:176
 #: plugins/libzipplugin/libzipplugin.cpp:448
@@ -2121,7 +2128,7 @@ msgstr "无法打开压缩包：%1"
 #: plugins/libzipplugin/libzipplugin.cpp:951
 #, kde-kuit-format
 msgid "Failed to write archive."
-msgstr "无法写入压缩包。"
+msgstr "无法写入压缩文件。"
 
 #: plugins/libzipplugin/libzipplugin.cpp:225
 #: plugins/libzipplugin/libzipplugin.cpp:918
