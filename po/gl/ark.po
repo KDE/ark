@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 02:55+0000\n"
-"PO-Revision-Date: 2023-06-17 10:05+0200\n"
+"PO-Revision-Date: 2023-06-19 12:53+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -296,7 +296,7 @@ msgstr "Enderezos URL para abrir."
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr ""
-"Mostrar un diálogo para indicar as opcións para a operación, extraer ou "
+"Amosar un diálogo para indicar as opcións para a operación, extraer ou "
 "engadir."
 
 #: app/main.cpp:159
@@ -328,8 +328,8 @@ msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
 "Quit when finished."
 msgstr ""
-"Engadir os ficheiros especificados á ruta “filename”. Crear un arquivo se "
-"non existe xa un. Ao rematar, saír."
+"Engadir os ficheiros indicados á ruta «filename». Crear un arquivo se non "
+"existe xa un. Ao rematar, saír."
 
 #: app/main.cpp:173
 #, kde-format
@@ -362,7 +362,8 @@ msgstr ""
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
-msgstr "O argumento de destino será a ruta do primeiro ficheiro fornecido."
+msgstr ""
+"O argumento de destino definirase como a ruta do primeiro ficheiro fornecido."
 
 #: app/main.cpp:186
 #, kde-format
@@ -395,7 +396,7 @@ msgstr "Páxina de benvida"
 #: app/mainwindow.cpp:203
 #, kde-format
 msgid "Show the welcome page"
-msgstr "Mostrar a páxina de benvida"
+msgstr "Amosar a páxina de benvida"
 
 #: app/mainwindow.cpp:211
 #, kde-kuit-format
@@ -472,7 +473,7 @@ msgstr "Ler o manual"
 #: app/welcomeview/welcomeview.ui:346
 #, kde-format
 msgid "Show on startup"
-msgstr "Mostrar no inicio"
+msgstr "Amosar no inicio"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:401
@@ -527,7 +528,7 @@ msgstr "Arquivo"
 #, kde-format
 msgid ""
 "Whether to show a warning when creating zip archives with AES encryption."
-msgstr "Se mostrar un aviso ao crear arquivos zip con cifrado AES."
+msgstr "Se amosar un aviso ao crear arquivos zip con cifrado AES."
 
 #. i18n: ectx: label, entry (defaultOpenAction), group (General)
 #: kerfuffle/ark.kcfg:13
@@ -566,7 +567,7 @@ msgstr "Como se divide a xanela principal."
 #: kerfuffle/ark.kcfg:45
 #, kde-format
 msgid "Whether to show the information panel."
-msgstr "Se mostrar ou non o panel de información."
+msgstr "Se amosar ou non o panel de información."
 
 #. i18n: ectx: label, entry (limitPreviewFileSize), group (Preview)
 #: kerfuffle/ark.kcfg:55
@@ -645,12 +646,12 @@ msgstr "O formato %1 non permite protexer o arquivo cun contrasinal."
 #: kerfuffle/compressionoptionswidget.cpp:156
 #, kde-format
 msgid "It is not possible to set compression level for the %1 format."
-msgstr "Non é posíbel estabelecer o nivel de compresión no formato %1."
+msgstr "Non é posíbel definir o nivel de compresión no formato %1."
 
 #: kerfuffle/compressionoptionswidget.cpp:176
 #, kde-format
 msgid "It is not possible to set compression method for the %1 format."
-msgstr "Non é posíbel estabelecer o método de compresión no formato %1."
+msgstr "Non é posíbel definir o método de compresión no formato %1."
 
 #: kerfuffle/compressionoptionswidget.cpp:199
 #, kde-format
@@ -703,7 +704,7 @@ msgstr "Método de cifrado:"
 #: kerfuffle/compressionoptionswidget.ui:160
 #, kde-format
 msgid "Ask for password before showing the list of files in the archive"
-msgstr "Pedir o contrasinal antes de mostrar a lista de ficheiros do arquivo."
+msgstr "Pedir o contrasinal antes de amosar a lista de ficheiros do arquivo."
 
 #. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
 #: kerfuffle/compressionoptionswidget.ui:170
@@ -970,7 +971,7 @@ msgstr "Abrir o ficheiro coa ap&licación asociada"
 #: kerfuffle/generalsettingspage.ui:60
 #, kde-format
 msgid "Show a warning when creating zip archives with AES encryption"
-msgstr "Mostrar un aviso ao crear arquivos zip con cifrado AES."
+msgstr "Amosar un aviso ao crear arquivos zip con cifrado AES."
 
 #: kerfuffle/jobs.cpp:99
 #, kde-format
@@ -1615,7 +1616,7 @@ msgstr "Ark só pode extraer arquivos a destinos locais."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
-msgstr "Mostrar o panel de información"
+msgstr "Amosar o panel de información"
 
 #: part/part.cpp:371
 #, kde-format
@@ -2167,13 +2168,13 @@ msgstr "Ark non permite o tipo de compresión «%1»."
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression method."
-msgstr "Non se puido estabelecer o método de compresión."
+msgstr "Non se puido definir o método de compresión."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:353
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression level."
-msgstr "Non se puido estabelecer o nivel de compresión."
+msgstr "Non se puido definir o nivel de compresión."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:472
 #, kde-format
@@ -2216,8 +2217,7 @@ msgstr "Non se puido engadir a entrada: %1"
 #: plugins/libzipplugin/libzipplugin.cpp:280
 #, kde-kuit-format
 msgid "Failed to set compression options for entry: %1"
-msgstr ""
-"Non se puideron estabelecer as opcións de compresión para a entrada: %1"
+msgstr "Non se puideron definir as opcións de compresión para a entrada: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:385
 #: plugins/libzipplugin/libzipplugin.cpp:776
@@ -2276,7 +2276,7 @@ msgstr "Non se puido copiar a entrada: %1"
 #: plugins/libzipplugin/libzipplugin.cpp:934
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
-msgstr "Non se puideron estabelecer os metadatos para a entrada: %1"
+msgstr "Non se puideron definir os metadatos para a entrada: %1"
 
 #, fuzzy
 #~| msgid "Form"
