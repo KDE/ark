@@ -78,7 +78,7 @@
   <summary xml:lang="eu">Artxibatzeko tresna</summary>
   <summary xml:lang="fi">Pakkausohjelma</summary>
   <summary xml:lang="fr">Outil d'archivage</summary>
-  <summary xml:lang="gl">Ferramenta para arquivar</summary>
+  <summary xml:lang="gl">Ferramenta para arquivar.</summary>
   <summary xml:lang="he">כלי לניהול ארכיונים</summary>
   <summary xml:lang="hu">Fájltömörítő</summary>
   <summary xml:lang="ia">Instrumento per archivar</summary>
@@ -352,7 +352,7 @@
       <caption xml:lang="eu">Ark erabiliz artxiboak kudeatzea</caption>
       <caption xml:lang="fi">Hallitse arkistoja Arkilla</caption>
       <caption xml:lang="fr">Gestion d'archives avec Ark</caption>
-      <caption xml:lang="gl">Xestionando arquivos con Ark</caption>
+      <caption xml:lang="gl">Xestionando arquivos con Ark.</caption>
       <caption xml:lang="hu">Archívumok kezelése az Arkkal</caption>
       <caption xml:lang="ia">Gerer archivos con Ark</caption>
       <caption xml:lang="id">Mengelola arsip dengan Ark</caption>
