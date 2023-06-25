@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-14 02:55+0000\n"
-"PO-Revision-Date: 2023-06-19 12:53+0200\n"
+"PO-Revision-Date: 2023-06-24 10:53+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -337,8 +337,8 @@ msgid ""
 "Change the current dir to the first entry and add all other entries relative "
 "to this one."
 msgstr ""
-"Cambiar o directorio actual á primeira entrada e engadir o resto das "
-"entradas relativas a el."
+"Cambiar o cartafol actual á primeira entrada e engadir o resto das entradas "
+"relativas a el."
 
 #: app/main.cpp:176
 #, kde-format
@@ -443,7 +443,7 @@ msgstr "Novo arquivo"
 #: app/welcomeview/welcomeview.ui:193
 #, kde-format
 msgid "Clear Recent Files"
-msgstr "Borrar a lista de ficheiros recentes"
+msgstr "Borrar a lista de ficheiros recentes."
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:223
@@ -479,7 +479,7 @@ msgstr "Amosar no inicio"
 #: app/welcomeview/welcomeview.ui:401
 #, kde-format
 msgid "Close Welcome Page"
-msgstr "Pechar a páxina de benvida"
+msgstr "Pechar a páxina de benvida."
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
@@ -606,9 +606,9 @@ msgstr ""
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
 msgid_plural "Could not move the extracted files to the destination directory."
-msgstr[0] "Non se puido mover o ficheiro extraído ao directorio de destino."
+msgstr[0] "Non se puido mover o ficheiro extraído ao cartafol de destino."
 msgstr[1] ""
-"Non se puideron mover os ficheiros extraídos ao directorio de destino."
+"Non se puideron mover os ficheiros extraídos ao cartafol de destino."
 
 #: kerfuffle/cliinterface.cpp:857
 #, kde-format
@@ -1757,13 +1757,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
-msgstr "Editar o &comentario"
+msgstr "Editar o &comentario."
 
 #: part/part.cpp:539 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
-msgstr "Engadir un &comentario"
+msgstr "Engadir un &comentario."
 
 #: part/part.cpp:648
 #, kde-format
@@ -1818,7 +1818,7 @@ msgstr "Vistas previas"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
-msgstr "<filename>%1</filename> é un directorio."
+msgstr "<filename>%1</filename> é un cartafol."
 
 #: part/part.cpp:839
 #, kde-kuit-format
@@ -2235,7 +2235,7 @@ msgstr "Non se puido eliminar a entrada: %1"
 #: plugins/libzipplugin/libzipplugin.cpp:659
 #, kde-kuit-format
 msgid "Failed to create directory: %1"
-msgstr "Non se puido crear o directorio: %1"
+msgstr "Non se puido crear o cartafol: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:732
 #, kde-kuit-format
