@@ -101,7 +101,11 @@ if(BUILD_TESTING)
 endif()
 
 ki18n_install(po)
-kdoctools_install(po)
+
+# TODO re-enable for Qt6 when all translated docbooks are ported away from the &kf5; entity
+if(QT_MAJOR_VERSION STREQUAL "5")
+    kdoctools_install(po)
+endif()
 
 ecm_qt_install_logging_categories(EXPORT ARK FILE ark.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
