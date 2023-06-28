@@ -79,3 +79,5 @@ QUrl RecentFilesModel::url(const QModelIndex &index) const
 
     return QUrl();
 }
+
+#include "moc_recentfilesmodel.cpp"

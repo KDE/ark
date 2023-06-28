@@ -269,3 +269,5 @@ void AddToArchive::setImmediateProgressReporting(bool immediateProgressReporting
     m_immediateProgressReporting = immediateProgressReporting;
 }
 }
+
+#include "moc_addtoarchive.cpp"

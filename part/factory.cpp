@@ -22,3 +22,4 @@ QObject *Factory::create(const char *iface, QWidget *parentWidget, QObject *pare
     return part;
 }
 
+#include "moc_factory.cpp"

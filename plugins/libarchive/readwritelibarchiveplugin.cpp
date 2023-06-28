@@ -531,4 +531,5 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString &relativeName, const QSt
     return true;
 }
 
+#include "moc_readwritelibarchiveplugin.cpp"
 #include "readwritelibarchiveplugin.moc"

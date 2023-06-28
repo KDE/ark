@@ -314,3 +314,4 @@ void ExtractionDialog::restoreWindowSize()
 }
 
 #include "extractiondialog.moc"
+#include "moc_extractiondialog.cpp"

@@ -264,3 +264,4 @@ bool CliPlugin::isPasswordPrompt(const QString &line)
 }
 
 #include "cliplugin.moc"
+#include "moc_cliplugin.cpp"

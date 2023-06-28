@@ -115,3 +115,5 @@ bool JSONArchiveInterface::testArchive()
 {
     return true;
 }
+
+#include "moc_jsonarchiveinterface.cpp"

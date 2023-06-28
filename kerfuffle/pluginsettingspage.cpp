@@ -86,3 +86,4 @@ void PluginSettingsPage::slotItemChanged(QTreeWidgetItem *item)
 
 }
 
+#include "moc_pluginsettingspage.cpp"

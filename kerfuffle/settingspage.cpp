@@ -34,3 +34,4 @@ void SettingsPage::slotDefaultsButtonClicked()
 
 }
 
+#include "moc_settingspage.cpp"

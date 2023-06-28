@@ -130,3 +130,4 @@ QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent
 }
 
 #include "compressfileitemaction.moc"
+#include "moc_compressfileitemaction.cpp"

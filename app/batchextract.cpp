@@ -299,3 +299,4 @@ bool BatchExtract::showExtractDialog()
     return false;
 }
 
+#include "moc_batchextract.cpp"

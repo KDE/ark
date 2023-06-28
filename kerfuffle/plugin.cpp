@@ -98,3 +98,5 @@ bool Plugin::findExecutables(const QStringList &executables)
 }
 
 }
+
+#include "moc_plugin.cpp"

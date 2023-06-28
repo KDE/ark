@@ -262,3 +262,5 @@ QDebug operator<<(QDebug d, const Kerfuffle::Archive::Entry *entry)
 }
 
 }
+
+#include "moc_archiveentry.cpp"

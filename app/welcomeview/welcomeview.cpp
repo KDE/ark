@@ -239,3 +239,5 @@ bool WelcomeView::updateLayout()
 
     return result;
 }
+
+#include "moc_welcomeview.cpp"

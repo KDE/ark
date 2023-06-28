@@ -410,3 +410,5 @@ void CliUnarchiverTest::testExtractArgs()
 
     plugin->deleteLater();
 }
+
+#include "moc_cliunarchivertest.cpp"

@@ -91,3 +91,5 @@ QWidget* JobTracker::widget(KJob *)
 {
     return m_ui;
 }
+
+#include "moc_jobtracker.cpp"

@@ -127,3 +127,4 @@ QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& n
 }
 
 #include "extractfileitemaction.moc"
+#include "moc_extractfileitemaction.cpp"

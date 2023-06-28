@@ -991,3 +991,4 @@ bool LibzipPlugin::hasBatchExtractionProgress() const
 }
 
 #include "libzipplugin.moc"
+#include "moc_libzipplugin.cpp"

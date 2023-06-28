@@ -873,3 +873,5 @@ QMap<int, QByteArray> ArchiveModel::propertiesMap() const
 {
     return m_propertiesMap;
 }
+
+#include "moc_archivemodel.cpp"

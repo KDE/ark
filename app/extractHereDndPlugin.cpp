@@ -66,3 +66,4 @@ QList<QAction *> ExtractHereDndPlugin::setup(const KFileItemListProperties& popu
 }
 
 #include "extractHereDndPlugin.moc"
+#include "moc_extractHereDndPlugin.cpp"

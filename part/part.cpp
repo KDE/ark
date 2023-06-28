@@ -1826,3 +1826,4 @@ void Part::displayMsgWidget(KMessageWidget::MessageType type, const QString& msg
 
 } // namespace Ark
 
+#include "moc_part.cpp"

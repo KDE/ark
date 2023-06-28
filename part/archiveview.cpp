@@ -175,3 +175,5 @@ void NoHighlightSelectionDelegate::paint(QPainter *painter, const QStyleOptionVi
         QStyledItemDelegate::paint(painter, option, index);
     }
 }
+
+#include "moc_archiveview.cpp"

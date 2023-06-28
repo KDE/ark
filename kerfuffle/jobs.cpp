@@ -913,3 +913,4 @@ bool TestJob::testSucceeded()
 } // namespace Kerfuffle
 
 #include "jobs.moc"
+#include "moc_jobs.cpp"

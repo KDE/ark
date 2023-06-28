@@ -44,3 +44,5 @@ OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Ent
 OverwriteDialog::~OverwriteDialog()
 {
 }
+
+#include "moc_overwritedialog.cpp"

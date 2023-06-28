@@ -227,3 +227,5 @@ void CliArjTest::testExtractArgs()
 
     plugin->deleteLater();
 }
+
+#include "moc_cliarjtest.cpp"

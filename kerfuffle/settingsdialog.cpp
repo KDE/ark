@@ -20,3 +20,4 @@ void SettingsDialog::updateWidgetsDefault()
 
 }
 
+#include "moc_settingsdialog.cpp"

@@ -237,3 +237,4 @@ bool CreateDialog::setMimeType(const QString &mimeTypeName)
 }
 
 #include "createdialog.moc"
+#include "moc_createdialog.cpp"

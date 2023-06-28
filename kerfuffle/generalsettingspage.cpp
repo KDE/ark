@@ -15,3 +15,4 @@ GeneralSettingsPage::GeneralSettingsPage(QWidget *parent, const QString &name, c
 }
 }
 
+#include "moc_generalsettingspage.cpp"

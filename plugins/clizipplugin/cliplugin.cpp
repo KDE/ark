@@ -348,3 +348,4 @@ bool CliPlugin::isFileExistsFileName(const QString &line)
 }
 
 #include "cliplugin.moc"
+#include "moc_cliplugin.cpp"

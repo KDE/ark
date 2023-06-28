@@ -23,6 +23,5 @@ ReadOnlyLibarchivePlugin::~ReadOnlyLibarchivePlugin()
 {
 }
 
-
-
+#include "moc_readonlylibarchiveplugin.cpp"
 #include "readonlylibarchiveplugin.moc"

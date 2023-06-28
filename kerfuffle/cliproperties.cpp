@@ -287,3 +287,5 @@ bool CliProperties::isTestPassedMsg(const QString &line)
 }
 
 }
+
+#include "moc_cliproperties.cpp"

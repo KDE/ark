@@ -523,3 +523,5 @@ bool Archive::hasMultipleTopLevelEntries() const
 }
 
 } // namespace Kerfuffle
+
+#include "moc_archive_kerfuffle.cpp"

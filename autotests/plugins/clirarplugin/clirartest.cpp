@@ -508,3 +508,5 @@ void CliRarTest::testExtractArgs()
 
     plugin->deleteLater();
 }
+
+#include "moc_clirartest.cpp"

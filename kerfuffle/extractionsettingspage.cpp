@@ -15,3 +15,4 @@ ExtractionSettingsPage::ExtractionSettingsPage(QWidget *parent, const QString &n
 }
 }
 
+#include "moc_extractionsettingspage.cpp"

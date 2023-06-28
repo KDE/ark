@@ -226,3 +226,5 @@ void CliZipTest::testExtractArgs()
 
     plugin->deleteLater();
 }
+
+#include "moc_cliziptest.cpp"

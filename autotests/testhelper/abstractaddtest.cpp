@@ -45,3 +45,5 @@ void AbstractAddTest::setupRows(const QString &testName, const QString &archiveN
         }
     }
 }
+
+#include "moc_abstractaddtest.cpp"

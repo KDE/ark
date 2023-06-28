@@ -122,6 +122,7 @@ void PropertiesDialog::showChecksum(QCryptographicHash::Algorithm algorithm, con
 #endif
     futureWatcher->setFuture(future);
 }
-
-#include "propertiesdialog.moc"
 }
+
+#include "moc_propertiesdialog.cpp"
+#include "propertiesdialog.moc"

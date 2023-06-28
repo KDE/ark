@@ -328,3 +328,5 @@ void ReadWriteArchiveInterface::onEntryRemoved(const QString &path)
 }
 
 } // namespace Kerfuffle
+
+#include "moc_archiveinterface.cpp"

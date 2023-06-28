@@ -100,3 +100,5 @@ void AddDialog::slotOpenOptions()
 }
 
 }
+
+#include "moc_adddialog.cpp"

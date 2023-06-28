@@ -311,3 +311,5 @@ void ArkViewer::aboutKPart()
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
 }
+
+#include "moc_arkviewer.cpp"

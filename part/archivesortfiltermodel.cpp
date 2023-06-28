@@ -51,3 +51,5 @@ bool ArchiveSortFilterModel::lessThan(const QModelIndex &leftIndex,
     }
     return false;
 }
+
+#include "moc_archivesortfiltermodel.cpp"

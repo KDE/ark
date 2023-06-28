@@ -202,3 +202,5 @@ void InfoPanel::showMetaDataFor(const QModelIndex &index)
         m_passwordValueLabel->hide();
     }
 }
+
+#include "moc_infopanel.cpp"

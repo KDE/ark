@@ -650,3 +650,4 @@ QString LibarchivePlugin::convertCompressionName(const QString &method)
     return QString();
 }
 
+#include "moc_libarchiveplugin.cpp"

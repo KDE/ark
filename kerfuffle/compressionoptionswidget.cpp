@@ -293,3 +293,5 @@ void CompressionOptionsWidget::slotEncryptionMethodChanged(const QString &value)
 }
 
 }
+
+#include "moc_compressionoptionswidget.cpp"

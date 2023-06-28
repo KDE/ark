@@ -263,3 +263,5 @@ bool PluginManager::libarchiveHasLzo()
 }
 
 }
+
+#include "moc_pluginmanager.cpp"

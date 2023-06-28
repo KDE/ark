@@ -21,3 +21,4 @@ void PreviewSettingsPage::slotToggled(bool enabled)
 }
 }
 
+#include "moc_previewsettingspage.cpp"

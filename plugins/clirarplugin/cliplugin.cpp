@@ -607,3 +607,4 @@ bool CliPlugin::isLocked() const
 }
 
 #include "cliplugin.moc"
+#include "moc_cliplugin.cpp"

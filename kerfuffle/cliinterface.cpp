@@ -1142,3 +1142,5 @@ bool CliInterface::isNewMovedFileNamesMsg(const QString &line)
 }
 
 }
+
+#include "moc_cliinterface.cpp"

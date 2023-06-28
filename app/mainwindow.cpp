@@ -528,3 +528,4 @@ void MainWindow::newArchive()
 }
 
 #include "mainwindow.moc"
+#include "moc_mainwindow.cpp"

@@ -475,3 +475,4 @@ void Cli7zTest::testRDAAttributes()
     QCOMPARE(numberOfFolders, 2);
 }
 
+#include "moc_cli7ztest.cpp"
