@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -602,6 +602,7 @@ msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
 msgid_plural "Could not move the extracted files to the destination directory."
 msgstr[0] "فشار برای حذف پرونده‌های برگزیده"
+msgstr[1] ""
 
 #: kerfuffle/cliinterface.cpp:857
 #, kde-format
@@ -1022,10 +1023,11 @@ msgstr "استخراج همه پرونده‌ها"
 
 #. i18np on purpose so this translation may properly be reused.
 #: kerfuffle/jobs.cpp:540 kerfuffle/jobs.cpp:646
-#, kde-format
+#, fuzzy, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "استخراج %1 پرونده"
+msgstr[1] ""
 
 #: kerfuffle/jobs.cpp:542
 #, kde-format
@@ -1047,6 +1049,7 @@ msgstr ""
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "افزودن %1 پرونده"
+msgstr[1] ""
 
 #: kerfuffle/jobs.cpp:772
 #, fuzzy, kde-format
@@ -1055,6 +1058,7 @@ msgstr[0] "افزودن %1 پرونده"
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "افزودن %1 پرونده"
+msgstr[1] ""
 
 #: kerfuffle/jobs.cpp:810
 #, fuzzy, kde-format
@@ -1063,12 +1067,14 @@ msgstr[0] "افزودن %1 پرونده"
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "افزودن %1 پرونده"
+msgstr[1] ""
 
 #: kerfuffle/jobs.cpp:842
-#, kde-format
+#, fuzzy, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "حذف %1 پرونده"
+msgstr[1] ""
 
 #: kerfuffle/jobs.cpp:866
 #, kde-format
@@ -1139,12 +1145,14 @@ msgstr ""
 msgid "%1 file"
 msgid_plural "%1 files"
 msgstr[0] ""
+msgstr[1] ""
 
 #: kerfuffle/propertiesdialog.cpp:52
 #, kde-format
 msgid ", %1 folder"
 msgid_plural ", %1 folders"
 msgstr[0] ""
+msgstr[1] ""
 
 #: kerfuffle/propertiesdialog.cpp:66
 #, kde-format
@@ -1519,6 +1527,7 @@ msgstr ""
 msgid "One file selected"
 msgid_plural "%1 files selected"
 msgstr[0] ""
+msgstr[1] ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, InformationPanel)
 #: part/infopanel.ui:20
@@ -1964,6 +1973,7 @@ msgid "Deleting this file is not undoable. Are you sure you want to do this?"
 msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr[0] ""
+msgstr[1] ""
 
 #: part/part.cpp:1685
 #, fuzzy, kde-format
@@ -1972,6 +1982,7 @@ msgctxt "@title:window"
 msgid "Delete File"
 msgid_plural "Delete Files"
 msgstr[0] "افزودن پرونده‌ها"
+msgstr[1] ""
 
 #: part/part.cpp:1732
 #, kde-format
