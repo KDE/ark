@@ -222,7 +222,7 @@ QVector<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const 
     QVector<Archive::Entry*> filteredEntries;
     QString lastFolder;
     for (Archive::Entry *entry : std::as_const(sortedEntries)) {
-        if (lastFolder.count() > 0 && entry->fullPath().startsWith(lastFolder)) {
+        if (!lastFolder.isEmpty() && entry->fullPath().startsWith(lastFolder)) {
             continue;
         }
 
@@ -243,9 +243,9 @@ QStringList ReadOnlyArchiveInterface::entryPathsFromDestination(QStringList entr
     QString newPath;
     int nameLength = 0;
     for (const QString &entryPath : std::as_const(entries)) {
-        if (lastFolder.count() > 0 && entryPath.startsWith(lastFolder)) {
+        if (!lastFolder.isEmpty() && entryPath.startsWith(lastFolder)) {
             // Replace last moved or copied folder path with destination path.
-            int charsCount = entryPath.count() - lastFolder.count();
+            int charsCount = entryPath.length() - lastFolder.length();
             if (entriesWithoutChildren != 1) {
                 charsCount += nameLength;
             }
@@ -263,7 +263,7 @@ QStringList ReadOnlyArchiveInterface::entryPathsFromDestination(QStringList entr
                 newPath = destinationPath;
             }
             if (entryPath.right(1) == QLatin1String("/")) {
-                nameLength = name.count() + 1; // plus slash
+                nameLength = name.length() + 1; // plus slash
                 lastFolder = entryPath;
             } else {
                 nameLength = 0;

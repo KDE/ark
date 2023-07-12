@@ -264,7 +264,7 @@ bool CliPlugin::setMovingAddedFiles()
     const QString destinationPath = m_passedDestination->fullPath();
     const int slashCount = destinationPath.count(QLatin1Char('/'));
     if (slashCount > 1 || (slashCount == 1 && !destinationPath.endsWith(QLatin1Char('/')))) {
-        int destinationLength = destinationPath.count();
+        int destinationLength = destinationPath.length();
         bool iteratedChar = false;
         do {
             destinationLength--;

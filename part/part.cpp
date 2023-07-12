@@ -1516,7 +1516,7 @@ void Part::slotRenameFile(const QString &name)
 
     m_destination = new Archive::Entry();
     const QString &entryPath = entry->fullPath(NoTrailingSlash);
-    const QString rootPath = entryPath.left(entryPath.count() - entry->name().count());
+    const QString rootPath = entryPath.left(entryPath.length() - entry->name().length());
     QString path = rootPath + name;
     if (entry->isDir()) {
         path += QLatin1Char('/');

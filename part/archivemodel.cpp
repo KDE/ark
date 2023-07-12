@@ -716,7 +716,7 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry*> &conflictingE
     QString skippedDirPath;
 
     for (const QString &entry : entries) {
-        if (skippedDirPath.count() > 0 && entry.startsWith(skippedDirPath)) {
+        if (!skippedDirPath.isEmpty() && entry.startsWith(skippedDirPath)) {
             continue;
         } else {
             skippedDirPath.clear();

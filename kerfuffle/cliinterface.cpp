@@ -629,9 +629,9 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
     QString newPath;
     int nameLength = 0;
     for (const Archive::Entry* entry : std::as_const(entryMap)) {
-        if (lastFolder.count() > 0 && entry->fullPath().startsWith(lastFolder)) {
+        if (!lastFolder.isEmpty() && entry->fullPath().startsWith(lastFolder)) {
             // Replace last moved or copied folder path with destination path.
-            int charsCount = entry->fullPath().count() - lastFolder.count();
+            int charsCount = entry->fullPath().length() - lastFolder.length();
             if (entriesWithoutChildren > 1) {
                 charsCount += nameLength;
             }
@@ -646,7 +646,7 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
             }
             if (entry->isDir()) {
                 newPath += QLatin1Char('/');
-                nameLength = entry->name().count() + 1; // plus slash
+                nameLength = entry->name().length() + 1; // plus slash
                 lastFolder = entry->fullPath();
             } else {
                 nameLength = 0;
