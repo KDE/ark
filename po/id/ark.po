@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-06 00:49+0000\n"
+"POT-Creation-Date: 2023-07-13 00:51+0000\n"
 "PO-Revision-Date: 2022-09-27 17:54+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -1467,22 +1467,22 @@ msgstr "Bilah Alat Utama"
 msgid "&Help"
 msgstr "Ba&ntuan"
 
-#: part/arkviewer.cpp:55
+#: part/arkviewer.cpp:54
 #, kde-format
 msgid "Closing preview"
 msgstr "Menutup pratinjau"
 
-#: part/arkviewer.cpp:56
+#: part/arkviewer.cpp:55
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Mohon tunggu sembari pratinjau ditutup..."
 
-#: part/arkviewer.cpp:103
+#: part/arkviewer.cpp:102
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "Penampil internal tidak dapat membuka pratinjau untuk file ini."
 
-#: part/arkviewer.cpp:119
+#: part/arkviewer.cpp:118
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1491,19 +1491,19 @@ msgstr ""
 "Penampil internal tak bisa mempratinjau tipe file<nl/>(%1) ini.<nl/><nl/"
 ">Apakah kamu ingin mencoba untuk menampilkannya sebagai teks plain?"
 
-#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
+#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "Tak Bisa Mempratinjau File"
 
-#: part/arkviewer.cpp:121 part/arkviewer.cpp:133
+#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "Pratinjau sebagai Teks"
 
-#: part/arkviewer.cpp:131
+#: part/arkviewer.cpp:130
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1512,7 +1512,7 @@ msgstr ""
 "Penampil internal tak bisa mempratinjau tipe file yang tak diketahui ini.<nl/"
 "><nl/>Apakah kamu ingin mencoba untuk menampilkannya sebagai teks plain?"
 
-#: part/arkviewer.cpp:232
+#: part/arkviewer.cpp:231
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1606,81 +1606,81 @@ msgstr ""
 "File-file dengan alur berikut sudah ada. Apakah kamu ingin meneruskan "
 "penimpaannya?"
 
-#: part/part.cpp:112
+#: part/part.cpp:118
 #, kde-format
 msgid "Comment"
 msgstr "Komentar"
 
-#: part/part.cpp:123
+#: part/part.cpp:129
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Komentar telah dimodifikasi."
 
-#: part/part.cpp:128
+#: part/part.cpp:134
 #, kde-format
 msgid "Save"
 msgstr "Simpan"
 
-#: part/part.cpp:151
+#: part/part.cpp:157
 #, kde-format
 msgid "Type to search..."
 msgstr "Ketik untuk pencarian..."
 
-#: part/part.cpp:312
+#: part/part.cpp:318
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark hanya bisa mengekstrak ke tujuan lokal saja."
 
-#: part/part.cpp:367
+#: part/part.cpp:373
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Tampilkan Panel Informasi"
 
-#: part/part.cpp:374
+#: part/part.cpp:380
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Simpan Salinan Sebagai..."
 
-#: part/part.cpp:378
+#: part/part.cpp:384
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr ""
 
-#: part/part.cpp:383
+#: part/part.cpp:389
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Buka &Dengan..."
 
-#: part/part.cpp:385
+#: part/part.cpp:391
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Klik untuk membuka file yang dipilih dengan program eksternal"
 
-#: part/part.cpp:389
+#: part/part.cpp:395
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "Pra&tinjau"
 
-#: part/part.cpp:391
+#: part/part.cpp:397
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Klik untuk mempratinjau file yang dipilih"
 
-#: part/part.cpp:396
+#: part/part.cpp:402
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "E&kstrak Semuanya"
 
-#: part/part.cpp:398
+#: part/part.cpp:404
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1689,13 +1689,13 @@ msgstr ""
 "Klik untuk membuka dialog pengekstrakan, sehingga kamu bisa memilih "
 "bagaimana mengekstrak semua file dalam arsip"
 
-#: part/part.cpp:403
+#: part/part.cpp:409
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&Ekstrak"
 
-#: part/part.cpp:406
+#: part/part.cpp:412
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1704,55 +1704,55 @@ msgstr ""
 "Klik untuk membuka dialog ekstraksi, sehingga Anda bisa memilih untuk "
 "mengekstrak semua atau beberapa file saja."
 
-#: part/part.cpp:411
+#: part/part.cpp:417
 #, kde-format
 msgid "Add &Files..."
 msgstr "Tambah &File..."
 
-#: part/part.cpp:412 part/part.cpp:475
+#: part/part.cpp:418 part/part.cpp:481
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Klik untuk menambahkan file-file ke arsip"
 
-#: part/part.cpp:419
+#: part/part.cpp:425
 #, fuzzy, kde-format
 #| msgid "Compress to Archive"
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Kompres ke Arsip"
 
-#: part/part.cpp:429
+#: part/part.cpp:435
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Properti"
 
-#: part/part.cpp:431
+#: part/part.cpp:437
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Klik untuk melihat properti arsip"
 
-#: part/part.cpp:437
+#: part/part.cpp:443
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Klik untuk menambah atau mengedit komentar"
 
-#: part/part.cpp:442
+#: part/part.cpp:448
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "&Uji Ketangguhan"
 
-#: part/part.cpp:444 part/part.cpp:476
+#: part/part.cpp:450 part/part.cpp:482
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Klik untuk menguji ketangguhan arsip"
 
-#: part/part.cpp:470
+#: part/part.cpp:476
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1764,7 +1764,7 @@ msgstr ""
 "header enkripsi saat ini tidaklah didukung.<nl/><nl/> Ekstrak file dan "
 "ciptakan arsip baru jika kamu ingin menambahkan file."
 
-#: part/part.cpp:473
+#: part/part.cpp:479
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1774,74 +1774,74 @@ msgstr ""
 "Pengujian arsip yang diproteksi sandi dengan tidak adanya header enkripsi "
 "saat ini tidaklah didukung."
 
-#: part/part.cpp:541
+#: part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Edit &Komentar"
 
-#: part/part.cpp:542 part/part.cpp:550
+#: part/part.cpp:548 part/part.cpp:556
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Tambahkan &Komentar"
 
-#: part/part.cpp:651
+#: part/part.cpp:657
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Arsip lulus dalam uji ketangguhan."
 
-#: part/part.cpp:651 part/part.cpp:653
+#: part/part.cpp:657 part/part.cpp:659
 #, kde-format
 msgid "Test Results"
 msgstr "Hasil Uji"
 
-#: part/part.cpp:653
+#: part/part.cpp:659
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Arsip gagal dalam uji ketangguhan."
 
-#: part/part.cpp:674
+#: part/part.cpp:680
 #, kde-format
 msgid "Extract To..."
 msgstr "Ekstrak Ke..."
 
-#: part/part.cpp:688
+#: part/part.cpp:694
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Ekstrak Cepat ke..."
 
-#: part/part.cpp:818
+#: part/part.cpp:824
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Umum"
 
-#: part/part.cpp:819
+#: part/part.cpp:825
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Pengekstrakan"
 
-#: part/part.cpp:820
+#: part/part.cpp:826
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Plugin"
 
-#: part/part.cpp:821
+#: part/part.cpp:827
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Penampilan"
 
-#: part/part.cpp:838
+#: part/part.cpp:844
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> adalah sebuah direktori."
 
-#: part/part.cpp:847
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1851,7 +1851,7 @@ msgstr ""
 "Tidak bisa menimpa <filename>%1</filename>. Periksalah apakah kamu memiliki "
 "perizinan tulis."
 
-#: part/part.cpp:853
+#: part/part.cpp:859
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1861,13 +1861,13 @@ msgstr ""
 "Arsip <filename>%1</filename> akan diciptakan segera setelah kamu "
 "menambahkan file."
 
-#: part/part.cpp:856
+#: part/part.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Arsip <filename>%1</filename> tidak ditemukan."
 
-#: part/part.cpp:861
+#: part/part.cpp:867
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1877,7 +1877,7 @@ msgstr ""
 "Arsip <filename>%1</filename> tidak bisa dimuat, oleh karena itu tidak "
 "mungkin untuk membaca darinya."
 
-#: part/part.cpp:879
+#: part/part.cpp:885
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1885,25 +1885,25 @@ msgid ""
 "it?"
 msgstr "Arsip <filename>%1</filename> sudah ada. Apaka kamu ingin menimpanya?"
 
-#: part/part.cpp:880
+#: part/part.cpp:886
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "File Sudah Ada"
 
-#: part/part.cpp:921
+#: part/part.cpp:927
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Arsipnya kosong atau Ark tidak bisa membuka isinya."
 
-#: part/part.cpp:926
+#: part/part.cpp:932
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark saat ini tidak mendukung file-file ISO dengan sistem file UDF."
 
-#: part/part.cpp:956
+#: part/part.cpp:962
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1913,12 +1913,12 @@ msgstr ""
 "Memuat arsip <filename>%1</filename> gagal dengan error berikut ini:<nl/"
 "><message>%2</message>"
 
-#: part/part.cpp:1016
+#: part/part.cpp:1022
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark tak bisa membuka symlinks."
 
-#: part/part.cpp:1148
+#: part/part.cpp:1154
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1927,61 +1927,61 @@ msgstr ""
 "File <filename>%1</filename> telah dimodifikasi. Apakah kamu ingin "
 "memperbarui arsip?"
 
-#: part/part.cpp:1149
+#: part/part.cpp:1155
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "File Dimodifikasi"
 
-#: part/part.cpp:1150
+#: part/part.cpp:1156
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1151
+#: part/part.cpp:1157
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1436
+#: part/part.cpp:1442
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Tambah File"
 
-#: part/part.cpp:1441
+#: part/part.cpp:1447
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Tambahkan File-file ke %1"
 
-#: part/part.cpp:1505
+#: part/part.cpp:1511
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Nama file tidak boleh berisi garis miring dan tidak boleh sama dengan \".\" "
 "atau \"..\""
 
-#: part/part.cpp:1549
+#: part/part.cpp:1555
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Folder tidak boleh dipindah ke dalam dirinya sendiri."
 
-#: part/part.cpp:1550
+#: part/part.cpp:1556
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Memindah sebuah folder ke dalam dirinya sendiri"
 
-#: part/part.cpp:1578
+#: part/part.cpp:1584
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Entri-entri dengan nama-nama yang sama tidak boleh ditempel ke tujuan yang "
 "sama."
 
-#: part/part.cpp:1682
+#: part/part.cpp:1688
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1995,7 +1995,7 @@ msgstr[1] ""
 "ingin melakukan ini?"
 
 # Ini nama dialog.
-#: part/part.cpp:1685
+#: part/part.cpp:1691
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2003,13 +2003,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Hapus File"
 msgstr[1] "Hapus File-file"
 
-#: part/part.cpp:1732
+#: part/part.cpp:1738
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Simpan Salinan Sebagai"
 
-#: part/part.cpp:1747
+#: part/part.cpp:1753
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2020,7 +2020,7 @@ msgstr ""
 "menyimpannya ke lokasi yang lain."
 
 # Sengaja diperpendek.
-#: part/part.cpp:1751
+#: part/part.cpp:1757
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

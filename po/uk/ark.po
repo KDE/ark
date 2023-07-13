@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-06 00:49+0000\n"
+"POT-Creation-Date: 2023-07-13 00:51+0000\n"
 "PO-Revision-Date: 2023-05-06 08:44+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -1486,22 +1486,22 @@ msgstr "Головний пенал"
 msgid "&Help"
 msgstr "&Довідка"
 
-#: part/arkviewer.cpp:55
+#: part/arkviewer.cpp:54
 #, kde-format
 msgid "Closing preview"
 msgstr "Закриття попереднього перегляду"
 
-#: part/arkviewer.cpp:56
+#: part/arkviewer.cpp:55
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Будь ласка, зачекайте доки вікно попереднього перегляду буде закрито…"
 
-#: part/arkviewer.cpp:103
+#: part/arkviewer.cpp:102
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "Внутрішній переглядач не може показати цей файл."
 
-#: part/arkviewer.cpp:119
+#: part/arkviewer.cpp:118
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1511,19 +1511,19 @@ msgstr ""
 "переглянути файл цього типу<nl/>(%1).<nl/><nl/>Хочете переглянути вміст "
 "файла у форматі звичайного тексту?"
 
-#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
+#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "Попередній перегляд файла неможливий"
 
-#: part/arkviewer.cpp:121 part/arkviewer.cpp:133
+#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "Переглянути як текст"
 
-#: part/arkviewer.cpp:131
+#: part/arkviewer.cpp:130
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1533,7 +1533,7 @@ msgstr ""
 "переглянути файл цього невідомого типу.<nl/><nl/>Хочете переглянути вміст "
 "файла у форматі звичайного тексту?"
 
-#: part/arkviewer.cpp:232
+#: part/arkviewer.cpp:231
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1629,81 +1629,81 @@ msgstr ""
 "Файли за вказаними нижче адресами вже існують. Хочете продовжити перезапис "
 "цих файлів?"
 
-#: part/part.cpp:112
+#: part/part.cpp:118
 #, kde-format
 msgid "Comment"
 msgstr "Коментар"
 
-#: part/part.cpp:123
+#: part/part.cpp:129
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Коментар було змінено."
 
-#: part/part.cpp:128
+#: part/part.cpp:134
 #, kde-format
 msgid "Save"
 msgstr "Зберегти"
 
-#: part/part.cpp:151
+#: part/part.cpp:157
 #, kde-format
 msgid "Type to search..."
 msgstr "Введіть ключ пошуку…"
 
-#: part/part.cpp:312
+#: part/part.cpp:318
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark може видобувати дані лише до локальних каталогів."
 
-#: part/part.cpp:367
+#: part/part.cpp:373
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Показати інформаційну панель"
 
-#: part/part.cpp:374
+#: part/part.cpp:380
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Зберегти копію як…"
 
-#: part/part.cpp:378
+#: part/part.cpp:384
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "&Відкрити у зовнішній програмі"
 
-#: part/part.cpp:383
+#: part/part.cpp:389
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Відкрити &за допомогою…"
 
-#: part/part.cpp:385
+#: part/part.cpp:391
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Клацніть, щоб відкрити позначений файл у зовнішній програмі"
 
-#: part/part.cpp:389
+#: part/part.cpp:395
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&Переглянути"
 
-#: part/part.cpp:391
+#: part/part.cpp:397
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Клацніть, щоб переглянути файл"
 
-#: part/part.cpp:396
+#: part/part.cpp:402
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "Ви&добути усе"
 
-#: part/part.cpp:398
+#: part/part.cpp:404
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1712,13 +1712,13 @@ msgstr ""
 "Клацніть, щоб відкрити вікно видобування, в якому ви зможете вказати, у який "
 "спосіб слід розпакувати усі файли у архіві"
 
-#: part/part.cpp:403
+#: part/part.cpp:409
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "Ви&добути"
 
-#: part/part.cpp:406
+#: part/part.cpp:412
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1727,54 +1727,54 @@ msgstr ""
 "Клацніть, щоб відкрити вікно видобування, в якому ви зможете вказати, "
 "видобути всі файли чи лише вибрані"
 
-#: part/part.cpp:411
+#: part/part.cpp:417
 #, kde-format
 msgid "Add &Files..."
 msgstr "&Додати файли…"
 
-#: part/part.cpp:412 part/part.cpp:475
+#: part/part.cpp:418 part/part.cpp:481
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Клацніть, щоб додати файли в архів"
 
-#: part/part.cpp:419
+#: part/part.cpp:425
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Вилучити з архіву"
 
-#: part/part.cpp:429
+#: part/part.cpp:435
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "В&ластивості"
 
-#: part/part.cpp:431
+#: part/part.cpp:437
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Клацніть, щоб переглянути властивості архіву"
 
-#: part/part.cpp:437
+#: part/part.cpp:443
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Клацніть, щоб додати або змінити коментар"
 
-#: part/part.cpp:442
+#: part/part.cpp:448
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "П&еревірити цілісність"
 
-#: part/part.cpp:444 part/part.cpp:476
+#: part/part.cpp:450 part/part.cpp:482
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Натисніть, щоб перевірити архів на цілісність"
 
-#: part/part.cpp:470
+#: part/part.cpp:476
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1787,7 +1787,7 @@ msgstr ""
 "потрібно додати файли, доведеться розпакувати архів, додати файли і знову "
 "запакувати дані до нового архіву."
 
-#: part/part.cpp:473
+#: part/part.cpp:479
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1797,74 +1797,74 @@ msgstr ""
 "У поточній версії не передбачено можливості перевірки захищених паролями "
 "архівів без шифрування заголовків."
 
-#: part/part.cpp:541
+#: part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Змінити &коментар"
 
-#: part/part.cpp:542 part/part.cpp:550
+#: part/part.cpp:548 part/part.cpp:556
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Додати &коментар"
 
-#: part/part.cpp:651
+#: part/part.cpp:657
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Архів пройшов перевірку на цілісність."
 
-#: part/part.cpp:651 part/part.cpp:653
+#: part/part.cpp:657 part/part.cpp:659
 #, kde-format
 msgid "Test Results"
 msgstr "Результати перевірки"
 
-#: part/part.cpp:653
+#: part/part.cpp:659
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Архів не пройшов перевірку на цілісність."
 
-#: part/part.cpp:674
+#: part/part.cpp:680
 #, kde-format
 msgid "Extract To..."
 msgstr "Видобути до…"
 
-#: part/part.cpp:688
+#: part/part.cpp:694
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Швидко видобути до…"
 
-#: part/part.cpp:818
+#: part/part.cpp:824
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Загальне"
 
-#: part/part.cpp:819
+#: part/part.cpp:825
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Видобування"
 
-#: part/part.cpp:820
+#: part/part.cpp:826
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Додатки"
 
-#: part/part.cpp:821
+#: part/part.cpp:827
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Перегляд"
 
-#: part/part.cpp:838
+#: part/part.cpp:844
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> є каталогом."
 
-#: part/part.cpp:847
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1874,7 +1874,7 @@ msgstr ""
 "Не вдалося перезаписати <filename>%1</filename>. Перевірте, чи маєте ви "
 "право на перезапис."
 
-#: part/part.cpp:853
+#: part/part.cpp:859
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1883,13 +1883,13 @@ msgid ""
 msgstr ""
 "Архів <filename>%1</filename> буде створено, щойно ви додасте якийсь файл."
 
-#: part/part.cpp:856
+#: part/part.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Архіву з назвою <filename>%1</filename> не знайдено."
 
-#: part/part.cpp:861
+#: part/part.cpp:867
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1899,7 +1899,7 @@ msgstr ""
 "Не вдалося завантажити архів з назвою <filename>%1</filename>, оскільки не "
 "вдалося виконати читання даних з нього."
 
-#: part/part.cpp:879
+#: part/part.cpp:885
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1908,19 +1908,19 @@ msgid ""
 msgstr ""
 "Архів із назвою <filename>%1</filename> вже існує. Хочете його перезаписати?"
 
-#: part/part.cpp:880
+#: part/part.cpp:886
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Файл існує"
 
-#: part/part.cpp:921
+#: part/part.cpp:927
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Архів є порожнім або Ark не вдалося відкрити його вміст."
 
-#: part/part.cpp:926
+#: part/part.cpp:932
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
@@ -1928,7 +1928,7 @@ msgstr ""
 "У поточній версії Ark не передбачено підтримки файлів ISO із файловою "
 "системою UDF."
 
-#: part/part.cpp:956
+#: part/part.cpp:962
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1938,12 +1938,12 @@ msgstr ""
 "Спроба завантаження архіву <filename>%1</filename> завершилася повідомленням "
 "про помилку<nl/><message>%2</message>"
 
-#: part/part.cpp:1016
+#: part/part.cpp:1022
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark не може відкривати символічні посилання."
 
-#: part/part.cpp:1148
+#: part/part.cpp:1154
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1952,59 +1952,59 @@ msgstr ""
 "До файла <filename>%1</filename> було внесено зміни. Хочете оновити вміст "
 "архіву з цим файлом?"
 
-#: part/part.cpp:1149
+#: part/part.cpp:1155
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Файл змінено"
 
-#: part/part.cpp:1150
+#: part/part.cpp:1156
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Оновити"
 
-#: part/part.cpp:1151
+#: part/part.cpp:1157
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Ігнорувати"
 
-#: part/part.cpp:1436
+#: part/part.cpp:1442
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Додати файли"
 
-#: part/part.cpp:1441
+#: part/part.cpp:1447
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Додавання файлів до %1"
 
-#: part/part.cpp:1505
+#: part/part.cpp:1511
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "У назві файла не повинно міститися символів похилої риски, назвою файла не "
 "може бути «.» або «..»"
 
-#: part/part.cpp:1549
+#: part/part.cpp:1555
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Не можна пересувати теки всередину тих сами тек."
 
-#: part/part.cpp:1550
+#: part/part.cpp:1556
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Пересування теки до самої себе"
 
-#: part/part.cpp:1578
+#: part/part.cpp:1584
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Не можна вставляти до одного каталогу записи із однаковими назвами."
 
-#: part/part.cpp:1682
+#: part/part.cpp:1688
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2016,7 +2016,7 @@ msgstr[2] "Вилучення цих файлів є незворотним. В�
 msgstr[3] ""
 "Вилучення цього файла є незворотним. Ви справді бажаєте його вилучити?"
 
-#: part/part.cpp:1685
+#: part/part.cpp:1691
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2026,13 +2026,13 @@ msgstr[1] "Вилучення файлів"
 msgstr[2] "Вилучення файлів"
 msgstr[3] "Вилучення файла"
 
-#: part/part.cpp:1732
+#: part/part.cpp:1738
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Зберегти копію із новою назвою"
 
-#: part/part.cpp:1747
+#: part/part.cpp:1753
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2042,7 +2042,7 @@ msgstr ""
 "Не вдалося зберегти архів під назвою <filename>%1</filename>. Спробуйте "
 "зберегти його за іншою адресою."
 
-#: part/part.cpp:1751
+#: part/part.cpp:1757
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

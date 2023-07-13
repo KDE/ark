@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-06 00:49+0000\n"
+"POT-Creation-Date: 2023-07-13 00:51+0000\n"
 "PO-Revision-Date: 2022-01-01 09:22-0800\n"
 "Last-Translator: A S Alam <aalam@satluj.org>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -1442,22 +1442,22 @@ msgstr "ਮੁੱਖ ਟੂਲਬਾਰ"
 msgid "&Help"
 msgstr "ਮਦਦ(&H)"
 
-#: part/arkviewer.cpp:55
+#: part/arkviewer.cpp:54
 #, kde-format
 msgid "Closing preview"
 msgstr "ਝਲਕ ਬੰਦ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ"
 
-#: part/arkviewer.cpp:56
+#: part/arkviewer.cpp:55
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "...ਝਲਕ ਬੰਦ ਹੋਣ ਤੱਕ ਉਡੀਕੋ ਜੀ"
 
-#: part/arkviewer.cpp:103
+#: part/arkviewer.cpp:102
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "ਅੰਦਰੂਨੀ ਦਰਸ਼ਕ ਇਹ ਫ਼ਾਇਲ ਦੀ ਝਲਕ ਨਹੀਂ ਦੇ ਸਕਦਾ।"
 
-#: part/arkviewer.cpp:119
+#: part/arkviewer.cpp:118
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1466,19 +1466,19 @@ msgstr ""
 "ਅੰਦਰੂਨੀ ਦਰਸ਼ਕ ਇਹ ਕਿਸਮ ਦੀ ਫ਼ਾਇਲ ਨਹੀਂ ਵੇਖਾ ਸਕਦਾ ਹੈ<nl/>(%1)।<nl/><nl/>ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ "
 "ਇਕਸਾਰ ਲਿਖਤ ਵਜੋਂ ਵੇਖਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
+#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "ਫ਼ਾਇਲ ਝਲਕ ਵੇਖਾਈ ਨਹੀਂ ਜਾ ਸਕਦੀ"
 
-#: part/arkviewer.cpp:121 part/arkviewer.cpp:133
+#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "ਲਿਖਤ ਵਜੋਂ ਝਲਕ"
 
-#: part/arkviewer.cpp:131
+#: part/arkviewer.cpp:130
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1487,7 +1487,7 @@ msgstr ""
 "ਅੰਦਰੂਨੀ ਦਰਸ਼ਕ ਇਹ ਅਣਜਾਣ ਕਿਸਮ ਦੀ ਫ਼ਾਇਲ ਨਹੀਂ ਵੇਖਾ ਸਕਦਾ ਹੈ।<nl/><nl/>ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ ਇਕਸਾਰ "
 "ਲਿਖਤ ਵਜੋਂ ਵੇਖਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: part/arkviewer.cpp:232
+#: part/arkviewer.cpp:231
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1577,81 +1577,81 @@ msgid ""
 "overwriting them?"
 msgstr ""
 
-#: part/part.cpp:112
+#: part/part.cpp:118
 #, kde-format
 msgid "Comment"
 msgstr "ਟਿੱਪਣੀ"
 
-#: part/part.cpp:123
+#: part/part.cpp:129
 #, kde-format
 msgid "Comment has been modified."
 msgstr "ਟਿੱਪਣੀ ਸੋਧੀ ਗਈ ਸੀ।"
 
-#: part/part.cpp:128
+#: part/part.cpp:134
 #, kde-format
 msgid "Save"
 msgstr "ਸੰਭਾਲੋ"
 
-#: part/part.cpp:151
+#: part/part.cpp:157
 #, kde-format
 msgid "Type to search..."
 msgstr "...ਲੱਭਣ ਲਈ ਲਿਖੋ"
 
-#: part/part.cpp:312
+#: part/part.cpp:318
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr ""
 
-#: part/part.cpp:367
+#: part/part.cpp:373
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "ਜਾਣਕਾਰੀ ਪੈਨਲ ਵੇਖੋ"
 
-#: part/part.cpp:374
+#: part/part.cpp:380
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "... ਵਜੋਂ ਕਾਪੀ ਸੰਭਾਲੋ"
 
-#: part/part.cpp:378
+#: part/part.cpp:384
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr ""
 
-#: part/part.cpp:383
+#: part/part.cpp:389
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "...ਨਾਲ ਖੋਲ੍ਹੋ(&W)"
 
-#: part/part.cpp:385
+#: part/part.cpp:391
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "ਚੁਣੀ ਫਾਇਲ ਨੂੰ ਬਾਹਰੀ ਪਰੋਗਰਾਮ ਨਾਲ ਖੋਲ੍ਹਣ ਲਈ ਕਲਿੱਕ ਕਰੋ"
 
-#: part/part.cpp:389
+#: part/part.cpp:395
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "ਝਲਕ(&v)"
 
-#: part/part.cpp:391
+#: part/part.cpp:397
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "ਚੁਣੀ ਫਾਇਲ ਦੀ ਝਲਕ ਵੇਖਣ ਲਈ ਕਲਿੱਕ ਕਰੋ"
 
-#: part/part.cpp:396
+#: part/part.cpp:402
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "ਸਭ ਨੂੰ ਐਕਸਟਰੈਕਟ ਕਰੋ(&x)"
 
-#: part/part.cpp:398
+#: part/part.cpp:404
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1660,13 +1660,13 @@ msgstr ""
 "ਖਿਲਾਰਨ ਡਾਈਲਾਗ ਵੇਖਣ ਲਈ ਕਲਿੱਕ ਕਰੋ, ਜਿੱਥੇ ਤੁਸੀਂ ਸਭ ਫ਼ਾਇਲਾਂ ਨੂੰ ਕਿਵੇਂ ਖਿਲਾਰਨਾ ਹੈ ਦੀ ਲਈ ਚੋਣ ਕਰ "
 "ਸਕਦੇ ਹੋ"
 
-#: part/part.cpp:403
+#: part/part.cpp:409
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "ਖਿਲਾਰੋ(&E)"
 
-#: part/part.cpp:406
+#: part/part.cpp:412
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1675,55 +1675,55 @@ msgstr ""
 "ਖਿਲਾਰਨ ਡਾਈਲਾਗ ਵੇਖਣ ਲਈ ਕਲਿੱਕ ਕਰੋ, ਜਿੱਥੇ ਤੁਸੀਂ ਸਭ ਫ਼ਾਇਲਾਂ ਨੂੰ ਖਿਲਾਰਨ ਜਾਂ ਚੁਣੀ ਹੀ ਖੋਲ੍ਹਣ ਲਈ ਚੋਣ "
 "ਕਰ ਸਕਦੇ"
 
-#: part/part.cpp:411
+#: part/part.cpp:417
 #, kde-format
 msgid "Add &Files..."
 msgstr "...ਫ਼ਾਇਲਾਂ ਨੂੰ ਜੋੜੋ(&F)"
 
-#: part/part.cpp:412 part/part.cpp:475
+#: part/part.cpp:418 part/part.cpp:481
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "ਫਾਇਲਾਂ ਅਕਾਇਵ ਵਿੱਚ ਜੋੜਨ ਲਈ ਕਲਿੱਕ ਕਰੋ"
 
-#: part/part.cpp:419
+#: part/part.cpp:425
 #, fuzzy, kde-format
 #| msgid "Compress to Archive"
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "ਅਕਾਇਵ ਬਣਾਉਣ ਲਈ ਕੰਪਰੈੱਸ"
 
-#: part/part.cpp:429
+#: part/part.cpp:435
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ(&P)"
 
-#: part/part.cpp:431
+#: part/part.cpp:437
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "ਅਕਾਇਵ ਦੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਵੇਖਣ ਲਈ ਕਲਿੱਕ ਕਰੋ"
 
-#: part/part.cpp:437
+#: part/part.cpp:443
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "ਟਿੱਪਣੀ ਜੋੜਨ ਜਾਂ ਸੋਧਣ ਲਈ ਕਲਿੱਕ ਕਰੋ"
 
-#: part/part.cpp:442
+#: part/part.cpp:448
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "ਇਕਸਾਰਤਾ ਦੀ ਜਾਂਚ ਕਰੋ(&T)"
 
-#: part/part.cpp:444 part/part.cpp:476
+#: part/part.cpp:450 part/part.cpp:482
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "ਅਕਾਇਵ ਦੀ ਇਕਸਾਰਤਾ ਦੀ ਜਾਂਚ ਲਈ ਕਲਿੱਕ ਕਰੋ"
 
-#: part/part.cpp:470
+#: part/part.cpp:476
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1732,7 +1732,7 @@ msgid ""
 "a new archive if you want to add files."
 msgstr ""
 
-#: part/part.cpp:473
+#: part/part.cpp:479
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1740,74 +1740,74 @@ msgid ""
 "not supported."
 msgstr ""
 
-#: part/part.cpp:541
+#: part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "ਟਿੱਪਣੀ ਨੂੰ ਸੋਧੋ(&C)"
 
-#: part/part.cpp:542 part/part.cpp:550
+#: part/part.cpp:548 part/part.cpp:556
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "ਟਿੱਪਣੀ ਜੋੜੋ(&C)"
 
-#: part/part.cpp:651
+#: part/part.cpp:657
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "ਅਰਕਾਇਵ ਨੇ ਇਕਸਾਰਤਾ ਜਾਂਚ ਪਾਸ ਕੀਤੀ।"
 
-#: part/part.cpp:651 part/part.cpp:653
+#: part/part.cpp:657 part/part.cpp:659
 #, kde-format
 msgid "Test Results"
 msgstr "ਜਾਂਚ ਨਤੀਜੇ"
 
-#: part/part.cpp:653
+#: part/part.cpp:659
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "ਅਰਕਾਇਵ ਇਕਸਾਰਤਾ ਜਾਂਚ ਲਈ ਫੇਲ੍ਹ ਹੈ।"
 
-#: part/part.cpp:674
+#: part/part.cpp:680
 #, kde-format
 msgid "Extract To..."
 msgstr "...ਇੱਥੇ ਖਿਲਾਰੋ"
 
-#: part/part.cpp:688
+#: part/part.cpp:694
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "...ਇੱਥੇ ਤੁਰੰਤ ਖਿਲਾਰੋ"
 
-#: part/part.cpp:818
+#: part/part.cpp:824
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "ਆਮ"
 
-#: part/part.cpp:819
+#: part/part.cpp:825
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "ਖਿਲਾਰਨਾ"
 
-#: part/part.cpp:820
+#: part/part.cpp:826
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "ਪਲੱਗਇਨ"
 
-#: part/part.cpp:821
+#: part/part.cpp:827
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "ਝਲਕ"
 
-#: part/part.cpp:838
+#: part/part.cpp:844
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> ਡਾਇਰੈਕਟਰੀ ਹੈ।"
 
-#: part/part.cpp:847
+#: part/part.cpp:853
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Could not open the archive <filename>%1</filename> for reading"
@@ -1817,7 +1817,7 @@ msgid ""
 "permission."
 msgstr "ਪੜ੍ਹਨ ਲਈ ਅਕਾਇਵ <filename>%1</filename> ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ"
 
-#: part/part.cpp:853
+#: part/part.cpp:859
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "The archive <filename>%1</filename> was not found."
@@ -1827,13 +1827,13 @@ msgid ""
 "file."
 msgstr "ਅਕਾਇਵ <filename>%1</filename> ਨਹੀਂ ਲੱਭਿਆ।"
 
-#: part/part.cpp:856
+#: part/part.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "ਅਕਾਇਵ <filename>%1</filename> ਨਹੀਂ ਲੱਭਿਆ।"
 
-#: part/part.cpp:861
+#: part/part.cpp:867
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -1846,7 +1846,7 @@ msgid ""
 msgstr ""
 "ਅਕਾਇਵ <filename>%1</filename> ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ ਬਜਾਏ ਖੋਲ੍ਹਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: part/part.cpp:879
+#: part/part.cpp:885
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -1859,26 +1859,26 @@ msgid ""
 msgstr ""
 "ਅਕਾਇਵ <filename>%1</filename> ਪਹਿਲਾਂ ਹੀ ਮੌਜੂਦ ਹੈ। ਕੀ ਤੁਸੀਂ ਇਸ ਨੂੰ ਬਜਾਏ ਖੋਲ੍ਹਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: part/part.cpp:880
+#: part/part.cpp:886
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "ਫ਼ਾਇਲ ਮੌਜੂਦ ਹੈ"
 
-#: part/part.cpp:921
+#: part/part.cpp:927
 #, fuzzy, kde-kuit-format
 #| msgid "The archive writer could not be initialized."
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "ਅਕਾਇਵ ਰਾਇਟਰ ਸ਼ੁਰੂ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।"
 
-#: part/part.cpp:926
+#: part/part.cpp:932
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 
-#: part/part.cpp:956
+#: part/part.cpp:962
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1888,12 +1888,12 @@ msgstr ""
 "ਅਕਾਇਵ <filename>%1</filename> ਲੋਡ ਕਰਨ ਅੱਗੇ ਦਿੱਤੀ ਗਲਤੀ ਨਾਲ ਫੇਲ੍ਹ: <nl/><message>%2</"
 "message>"
 
-#: part/part.cpp:1016
+#: part/part.cpp:1022
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "ਅਕਾਇਵ ਸਿਮਲਿੰਕ ਨਹੀਂ ਖੋਲ੍ਹ ਸਕਦੀ ਹੈ।"
 
-#: part/part.cpp:1148
+#: part/part.cpp:1154
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1901,57 +1901,57 @@ msgid ""
 msgstr ""
 "ਫਾਇਲ <filename>%1</filename> ਸੋਧੀ ਗਈ ਸੀ। ਕੀ ਤੁਸੀਂ ਅਕਾਇਵ ਨੂੰ ਅੱਪਡੇਟ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ।"
 
-#: part/part.cpp:1149
+#: part/part.cpp:1155
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "ਫਾਇਲ ਸੋਧੀ ਗਈ"
 
-#: part/part.cpp:1150
+#: part/part.cpp:1156
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1151
+#: part/part.cpp:1157
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1436
+#: part/part.cpp:1442
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "ਫ਼ਾਇਲਾਂ ਜੋੜੋ"
 
-#: part/part.cpp:1441
+#: part/part.cpp:1447
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "%1 'ਚ ਫ਼ਾਇਲਾਂ ਜੋੜੋ"
 
-#: part/part.cpp:1505
+#: part/part.cpp:1511
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "ਫਾਇਲ-ਨਾਂ ਵਿੱਚ ਸਲੈਸ਼ ਨਹੀਂ ਹੋ ਸਕਦੀ ਅਤੇ  \".\" ਜਾਂ \"..\" ਦੇ ਬਰਾਬਰ ਨਹੀਂ ਹੋ ਸਕਦਾ ਹੈ"
 
-#: part/part.cpp:1549
+#: part/part.cpp:1555
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "ਫੋਲਡਰਾਂ ਨੂੰ ਖੁਦ ਵਿੱਚ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
 
-#: part/part.cpp:1550
+#: part/part.cpp:1556
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "ਫੋਲਡਰ ਨੂੰ ਖੁਦ ਵਿੱਚ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ"
 
-#: part/part.cpp:1578
+#: part/part.cpp:1584
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1682
+#: part/part.cpp:1688
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1960,7 +1960,7 @@ msgid_plural ""
 msgstr[0] "ਇਹ ਫ਼ਾਇਲਾਂ ਦੇ ਹਟਾਉਣ ਨੂੰ ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਕੀ ਤੁਸੀਂ ਇਹ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 msgstr[1] "ਇਹ ਫ਼ਾਇਲਾਂ ਦੇ ਹਟਾਉਣਾ ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਕੀ ਤੁਸੀਂ ਇਹ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: part/part.cpp:1685
+#: part/part.cpp:1691
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1968,13 +1968,13 @@ msgid_plural "Delete Files"
 msgstr[0] "ਫ਼ਾਇਲ ਨੂੰ ਹਟਾਓ"
 msgstr[1] "ਫ਼ਾਇਲਾਂ ਨੂੰ ਹਟਾਓ"
 
-#: part/part.cpp:1732
+#: part/part.cpp:1738
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "ਕਾਪੀ ਵਜੋਂ ਇੰਝ ਸੰਭਾਲੋ"
 
-#: part/part.cpp:1747
+#: part/part.cpp:1753
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1984,7 +1984,7 @@ msgstr ""
 "ਅਕਾਇਵ ਨੂੰ <filename>%1</filename> ਉੱਤੇ ਸੰਭਾਲਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ। ਇਸ ਨੂੰ ਹੋਰ ਟਿਕਾਣੇ ਉੱਤੇ "
 "ਸੰਭਾਲਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
 
-#: part/part.cpp:1751
+#: part/part.cpp:1757
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""

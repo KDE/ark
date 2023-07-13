@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-05-06 00:49+0000\n"
+"POT-Creation-Date: 2023-07-13 00:51+0000\n"
 "PO-Revision-Date: 2022-06-01 15:37+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -1473,22 +1473,22 @@ msgstr "Bara de unelte principală"
 msgid "&Help"
 msgstr "&Ajutor"
 
-#: part/arkviewer.cpp:55
+#: part/arkviewer.cpp:54
 #, kde-format
 msgid "Closing preview"
 msgstr "Se închide previzualizarea"
 
-#: part/arkviewer.cpp:56
+#: part/arkviewer.cpp:55
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Așteptați să se închidă previzualizarea..."
 
-#: part/arkviewer.cpp:103
+#: part/arkviewer.cpp:102
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "Vizualizatorul intern nu poate previzualiza acest fișier."
 
-#: part/arkviewer.cpp:119
+#: part/arkviewer.cpp:118
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1497,19 +1497,19 @@ msgstr ""
 "Vizualizatorul intern nu poate previzualiza acest fișier<nl/>(%1).<nl/><nl/> "
 "Încercați să îl vizualizați ca text simplu?"
 
-#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
+#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "Fișierul nu poate fi previzualizat"
 
-#: part/arkviewer.cpp:121 part/arkviewer.cpp:133
+#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "Previzualizează ca text"
 
-#: part/arkviewer.cpp:131
+#: part/arkviewer.cpp:130
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1518,7 +1518,7 @@ msgstr ""
 "Vizualizatorul intern nu poate previzualiza acest tip necunoscut de fișier."
 "<nl/><nl/>Încercați să îl vizualizați ca text simplu?"
 
-#: part/arkviewer.cpp:232
+#: part/arkviewer.cpp:231
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1613,81 +1613,81 @@ msgstr ""
 "Fișiere cu aceste căi există deja. Sigur doriți să continuați suprascrierea "
 "acestora?"
 
-#: part/part.cpp:112
+#: part/part.cpp:118
 #, kde-format
 msgid "Comment"
 msgstr "Comentariu"
 
-#: part/part.cpp:123
+#: part/part.cpp:129
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Comentariul a fost modificat."
 
-#: part/part.cpp:128
+#: part/part.cpp:134
 #, kde-format
 msgid "Save"
 msgstr "Salvează"
 
-#: part/part.cpp:151
+#: part/part.cpp:157
 #, kde-format
 msgid "Type to search..."
 msgstr "Tastați pentru a căuta..."
 
-#: part/part.cpp:312
+#: part/part.cpp:318
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark poate extrage arhive doar spre destinații locale."
 
-#: part/part.cpp:367
+#: part/part.cpp:373
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Arată panoul informativ"
 
-#: part/part.cpp:374
+#: part/part.cpp:380
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Salvează copia ca..."
 
-#: part/part.cpp:378
+#: part/part.cpp:384
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr ""
 
-#: part/part.cpp:383
+#: part/part.cpp:389
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Des&chide cu..."
 
-#: part/part.cpp:385
+#: part/part.cpp:391
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Apăsați pentru a deschide fișierul ales cu un program extern"
 
-#: part/part.cpp:389
+#: part/part.cpp:395
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "Pre&vizualizează"
 
-#: part/part.cpp:391
+#: part/part.cpp:397
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Apăsați pentru a previzualiza fișierul ales"
 
-#: part/part.cpp:396
+#: part/part.cpp:402
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "E&xtrage tot"
 
-#: part/part.cpp:398
+#: part/part.cpp:404
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1696,13 +1696,13 @@ msgstr ""
 "Apăsați pentru a deschide dialogul de extragere, în care puteți alege cum să "
 "extrageți toate fișierele din arhivă"
 
-#: part/part.cpp:403
+#: part/part.cpp:409
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&Extrage"
 
-#: part/part.cpp:406
+#: part/part.cpp:412
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1711,55 +1711,55 @@ msgstr ""
 "Apăsați pentru a deschide dialogul de extragere, în care puteți alege să "
 "extrageți toate fișierele sau numai pe cele alese"
 
-#: part/part.cpp:411
+#: part/part.cpp:417
 #, kde-format
 msgid "Add &Files..."
 msgstr "Adaugă &fișiere…"
 
-#: part/part.cpp:412 part/part.cpp:475
+#: part/part.cpp:418 part/part.cpp:481
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Apăsați pentru a adăuga fișiere în arhivă"
 
-#: part/part.cpp:419
+#: part/part.cpp:425
 #, fuzzy, kde-format
 #| msgid "Compress to Archive"
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Comprimă în arhivă"
 
-#: part/part.cpp:429
+#: part/part.cpp:435
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Proprietăți"
 
-#: part/part.cpp:431
+#: part/part.cpp:437
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Apăsați pentru a vedea proprietățile arhivei"
 
-#: part/part.cpp:437
+#: part/part.cpp:443
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Apăsați pentru a adăuga sau modifica comentariul"
 
-#: part/part.cpp:442
+#: part/part.cpp:448
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "Verifică in&tegritatea"
 
-#: part/part.cpp:444 part/part.cpp:476
+#: part/part.cpp:450 part/part.cpp:482
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Apăsați pentru a verifica integritatea arhivei"
 
-#: part/part.cpp:470
+#: part/part.cpp:476
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1771,7 +1771,7 @@ msgstr ""
 "criptarea antetului nu e susținută momentan.<nl/>Extrageți fișierele și "
 "creați o arhivă nouă dacă doriți să adăugați fișiere."
 
-#: part/part.cpp:473
+#: part/part.cpp:479
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1781,74 +1781,74 @@ msgstr ""
 "Testarea arhivelor protejate prin parolă fără criptarea antetului nu este "
 "susținută momentan."
 
-#: part/part.cpp:541
+#: part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Modifică &comentariul"
 
-#: part/part.cpp:542 part/part.cpp:550
+#: part/part.cpp:548 part/part.cpp:556
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Adaugă &comentariu"
 
-#: part/part.cpp:651
+#: part/part.cpp:657
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Arhiva a trecut testul de integritate."
 
-#: part/part.cpp:651 part/part.cpp:653
+#: part/part.cpp:657 part/part.cpp:659
 #, kde-format
 msgid "Test Results"
 msgstr "Rezultatele testului"
 
-#: part/part.cpp:653
+#: part/part.cpp:659
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Arhiva a picat testul de integritate."
 
-#: part/part.cpp:674
+#: part/part.cpp:680
 #, kde-format
 msgid "Extract To..."
 msgstr "Extrage la…"
 
-#: part/part.cpp:688
+#: part/part.cpp:694
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Extrage rapid la…"
 
-#: part/part.cpp:818
+#: part/part.cpp:824
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Generale"
 
-#: part/part.cpp:819
+#: part/part.cpp:825
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Extragere"
 
-#: part/part.cpp:820
+#: part/part.cpp:826
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Extensii"
 
-#: part/part.cpp:821
+#: part/part.cpp:827
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Previzualizări"
 
-#: part/part.cpp:838
+#: part/part.cpp:844
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> este un dosar."
 
-#: part/part.cpp:847
+#: part/part.cpp:853
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1858,7 +1858,7 @@ msgstr ""
 "Nu s-a putut suprascrie <filename>%1</filename>. Verificați dacă aveți "
 "permisiuni de scriere."
 
-#: part/part.cpp:853
+#: part/part.cpp:859
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1867,13 +1867,13 @@ msgid ""
 msgstr ""
 "Arhiva <filename>%1</filename> va fi creată imediat ce adăugați un fișier."
 
-#: part/part.cpp:856
+#: part/part.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Arhiva <filename>%1</filename> nu a fost găsită."
 
-#: part/part.cpp:861
+#: part/part.cpp:867
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1883,7 +1883,7 @@ msgstr ""
 "Arhiva <filename>%1</filename> nu a putut fi încărcată deoarece nu s-a putut "
 "citi din ea."
 
-#: part/part.cpp:879
+#: part/part.cpp:885
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1891,25 +1891,25 @@ msgid ""
 "it?"
 msgstr "Arhiva <filename>%1</filename> există deja. Doriți să o suprascrieți?"
 
-#: part/part.cpp:880
+#: part/part.cpp:886
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Fișierul există"
 
-#: part/part.cpp:921
+#: part/part.cpp:927
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Arhiva e goală sau Ark nu i-a putut deschide conținutul."
 
-#: part/part.cpp:926
+#: part/part.cpp:932
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark nu susține încă fișiere ISO cu sistem de fișiere UDF."
 
-#: part/part.cpp:956
+#: part/part.cpp:962
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1919,12 +1919,12 @@ msgstr ""
 "Încărcarea arhivei <filename>%1</filename> a eșuat cu următoarea eroare:<nl/"
 "><message>%2</message>"
 
-#: part/part.cpp:1016
+#: part/part.cpp:1022
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark nu poate deschide legături simbolice."
 
-#: part/part.cpp:1148
+#: part/part.cpp:1154
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1933,59 +1933,59 @@ msgstr ""
 "Fișierul <filename>%1</filename> a fost modificat. Doriți să actualizați "
 "arhiva?"
 
-#: part/part.cpp:1149
+#: part/part.cpp:1155
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fișier modificat"
 
-#: part/part.cpp:1150
+#: part/part.cpp:1156
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1151
+#: part/part.cpp:1157
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1436
+#: part/part.cpp:1442
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Adaugă fișiere"
 
-#: part/part.cpp:1441
+#: part/part.cpp:1447
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Adaugă fișiere la %1"
 
-#: part/part.cpp:1505
+#: part/part.cpp:1511
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Denumirile de fișiere nu pot conține „/” și nu pot fi egale cu „.” sau „..”"
 
-#: part/part.cpp:1549
+#: part/part.cpp:1555
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Dosarele nu pot fi mutate în ele însele."
 
-#: part/part.cpp:1550
+#: part/part.cpp:1556
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Mutare dosar în sine însuși"
 
-#: part/part.cpp:1578
+#: part/part.cpp:1584
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Înregistrări cu aceleași denumiri nu pot fi lipite la aceeași destinație."
 
-#: part/part.cpp:1682
+#: part/part.cpp:1688
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1998,7 +1998,7 @@ msgstr[1] ""
 msgstr[2] ""
 "Ștergerea acestor fișiere nu e revocabilă. Sigur doriți să faceți asta?"
 
-#: part/part.cpp:1685
+#: part/part.cpp:1691
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2007,13 +2007,13 @@ msgstr[0] "Șterge fișierul"
 msgstr[1] "Șterge fișierele"
 msgstr[2] "Șterge fișierele"
 
-#: part/part.cpp:1732
+#: part/part.cpp:1738
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Salvează copia ca"
 
-#: part/part.cpp:1747
+#: part/part.cpp:1753
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2023,7 +2023,7 @@ msgstr ""
 "Arhiva nu a putut fi salvată ca <filename>%1</filename>. Încercați să o "
 "salvați în altă parte."
 
-#: part/part.cpp:1751
+#: part/part.cpp:1757
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
