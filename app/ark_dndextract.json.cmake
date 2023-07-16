@@ -4,7 +4,9 @@
             "@SUPPORTED_ARK_MIMETYPES_JSON@"
         ],
         "Name": "Ark Extract Here",
+        "Name[ca@valencia]": "Extracció d'Ark ací",
         "Name[ca]": "Extracció de l'Ark aquí",
+        "Name[eo]": "Ark-Extrakti ĉi tie",
         "Name[es]": "Ark - Extraer aquí",
         "Name[eu]": "Ark Erauzi hemen",
         "Name[ia]": "Ark Extrahe Hic",
