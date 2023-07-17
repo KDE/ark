@@ -33,6 +33,7 @@
         "Name[pt]": "Ark",
         "Name[ru]": "Архиватор",
         "Name[sl]": "Arhivar",
+        "Name[ta]": "காப்பக உருவாக்கி",
         "Name[tr]": "Arşivleyici",
         "Name[uk]": "Архіватор",
         "Name[x-test]": "xxArchiverxx",
