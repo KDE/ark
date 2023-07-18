@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-13 00:51+0000\n"
+"POT-Creation-Date: 2023-07-18 08:38+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -459,6 +459,32 @@ msgstr "Oscail cartlann"
 #| msgid "Create New Archive"
 msgid "Create New Archive"
 msgstr "Cruthaigh Cartlann Nua"
+
+#: app/welcomeview/welcomeview.cpp:50
+#, kde-format
+msgid "Welcome to %1"
+msgstr ""
+
+#: app/welcomeview/welcomeview.cpp:55
+#, fuzzy, kde-format
+#| msgid "Recent folders"
+msgid "No recent files"
+msgstr "Fillteáin le déanaí"
+
+#: app/welcomeview/welcomeview.cpp:144
+#, kde-format
+msgid "Copy &Location"
+msgstr ""
+
+#: app/welcomeview/welcomeview.cpp:150
+#, kde-format
+msgid "&Open Containing Folder"
+msgstr ""
+
+#: app/welcomeview/welcomeview.cpp:157
+#, kde-format
+msgid "&Remove"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17

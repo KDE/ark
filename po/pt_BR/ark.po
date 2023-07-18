@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-13 00:51+0000\n"
+"POT-Creation-Date: 2023-07-18 08:38+0000\n"
 "PO-Revision-Date: 2023-05-31 14:24-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -440,6 +440,33 @@ msgstr "Abrir arquivo"
 #, kde-format
 msgid "Create New Archive"
 msgstr "Criar novo arquivo"
+
+#: app/welcomeview/welcomeview.cpp:50
+#, fuzzy, kde-format
+#| msgid "Welcome"
+msgid "Welcome to %1"
+msgstr "Bem-vindo"
+
+#: app/welcomeview/welcomeview.cpp:55
+#, fuzzy, kde-format
+#| msgid "Recent Files"
+msgid "No recent files"
+msgstr "Arquivos recentes"
+
+#: app/welcomeview/welcomeview.cpp:144
+#, kde-format
+msgid "Copy &Location"
+msgstr ""
+
+#: app/welcomeview/welcomeview.cpp:150
+#, kde-format
+msgid "&Open Containing Folder"
+msgstr ""
+
+#: app/welcomeview/welcomeview.cpp:157
+#, kde-format
+msgid "&Remove"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
