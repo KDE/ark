@@ -17,6 +17,7 @@
         "Name[sl]": "Arkov ekstrakt tukaj",
         "Name[tr]": "Ark Buraya Çıkar",
         "Name[uk]": "Розпакувати сюди за допомогою Ark",
-        "Name[x-test]": "xxArk Extract Herexx"
+        "Name[x-test]": "xxArk Extract Herexx",
+        "Name[zh_CN]": "Ark 解压到此位置"
     }
 }

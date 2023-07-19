@@ -15,6 +15,7 @@
         "Description[tr]": "Arşiv İşleme Aracı",
         "Description[uk]": "Інструмент для роботи з архівами",
         "Description[x-test]": "xxArchive Handling Toolxx",
+        "Description[zh_CN]": "压缩文件管理工具",
         "Icon": "ark",
         "License": "GPL v2+",
         "MimeTypes": [
@@ -37,6 +38,7 @@
         "Name[tr]": "Arşivleyici",
         "Name[uk]": "Архіватор",
         "Name[x-test]": "xxArchiverxx",
+        "Name[zh_CN]": "压缩文件管理工具",
         "ServiceTypes": [
             "KParts/ReadOnlyPart",
             "Browser/View"
