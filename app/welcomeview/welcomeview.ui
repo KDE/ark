@@ -193,8 +193,7 @@
                <string>Clear Recent Files</string>
               </property>
               <property name="icon">
-               <iconset theme="edit-clear-all">
-                <normaloff>.</normaloff>.</iconset>
+		      <iconset theme="edit-clear-all"/>
               </property>
              </widget>
             </item>
@@ -401,8 +400,7 @@
           <string>Close Welcome Page</string>
          </property>
          <property name="icon">
-          <iconset theme="window-close">
-           <normaloff>.</normaloff>.</iconset>
+		 <iconset theme="window-close"/>
          </property>
          <property name="flat">
           <bool>true</bool>
