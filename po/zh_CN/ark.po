@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-18 08:38+0000\n"
-"PO-Revision-Date: 2023-07-03 11:38\n"
+"PO-Revision-Date: 2023-07-18 11:15\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-trunk/messages/ark/ark.pot\n"
-"X-Crowdin-File-ID: 5716\n"
+"X-Crowdin-File: /kf5-stable/messages/ark/ark.pot\n"
+"X-Crowdin-File-ID: 4449\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1405,7 +1405,7 @@ msgstr "此压缩文件不支持添加文件。"
 #: part/archivemodel.cpp:299
 #, kde-format
 msgid "You can only add local files to an archive."
-msgstr "您只能将本地文件添加到压缩文件。"
+msgstr "您只能将本机文件添加到压缩包。"
 
 #. i18n: ectx: Menu (archive)
 #: part/ark_part.rc:5
