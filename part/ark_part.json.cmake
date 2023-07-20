@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Archive Handling Tool",
+        "Description[bg]": "Инструмент за обработка на архиви",
         "Description[ca@valencia]": "Eina de gestió d'arxius",
         "Description[ca]": "Eina de gestió d'arxius",
         "Description[eo]": "Arkivpritrakta Ilo",
@@ -15,12 +16,14 @@
         "Description[tr]": "Arşiv İşleme Aracı",
         "Description[uk]": "Інструмент для роботи з архівами",
         "Description[x-test]": "xxArchive Handling Toolxx",
+        "Description[zh_CN]": "压缩文件管理工具",
         "Icon": "ark",
         "License": "GPL v2+",
         "MimeTypes": [
             "@SUPPORTED_ARK_MIMETYPES_JSON@"
         ],
         "Name": "Archiver",
+        "Name[bg]": "Архиватор",
         "Name[ca@valencia]": "Arxivador",
         "Name[ca]": "Arxivador",
         "Name[eo]": "Arkivilo",
@@ -37,6 +40,7 @@
         "Name[tr]": "Arşivleyici",
         "Name[uk]": "Архіватор",
         "Name[x-test]": "xxArchiverxx",
+        "Name[zh_CN]": "压缩文件管理工具",
         "ServiceTypes": [
             "KParts/ReadOnlyPart",
             "Browser/View"

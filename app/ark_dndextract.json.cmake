@@ -4,6 +4,7 @@
             "@SUPPORTED_ARK_MIMETYPES_JSON@"
         ],
         "Name": "Ark Extract Here",
+        "Name[bg]": "Извличане с Ark тук",
         "Name[ca@valencia]": "Extracció d'Ark ací",
         "Name[ca]": "Extracció de l'Ark aquí",
         "Name[eo]": "Ark-Extrakti ĉi tie",
@@ -17,6 +18,7 @@
         "Name[sl]": "Arkov ekstrakt tukaj",
         "Name[tr]": "Ark Buraya Çıkar",
         "Name[uk]": "Розпакувати сюди за допомогою Ark",
-        "Name[x-test]": "xxArk Extract Herexx"
+        "Name[x-test]": "xxArk Extract Herexx",
+        "Name[zh_CN]": "Ark 解压到此位置"
     }
 }
