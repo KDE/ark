@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-19 00:53+0000\n"
+"POT-Creation-Date: 2023-07-21 00:53+0000\n"
 "PO-Revision-Date: 2023-05-06 11:49+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -493,37 +493,37 @@ msgid "Clear Recent Files"
 msgstr "Limpar os Ficheiros Recentes"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
-#: app/welcomeview/welcomeview.ui:223
+#: app/welcomeview/welcomeview.ui:222
 #, kde-format
 msgid "Recent Files"
 msgstr "Ficheiros Recentes"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
-#: app/welcomeview/welcomeview.ui:264
+#: app/welcomeview/welcomeview.ui:263
 #, kde-format
 msgid "Help"
 msgstr "Ajuda"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
-#: app/welcomeview/welcomeview.ui:274
+#: app/welcomeview/welcomeview.ui:273
 #, kde-format
 msgid "Visit homepage"
 msgstr "Visitar a página Web"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
-#: app/welcomeview/welcomeview.ui:287
+#: app/welcomeview/welcomeview.ui:286
 #, kde-format
 msgid "Read handbook"
 msgstr "Ler o manual"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
-#: app/welcomeview/welcomeview.ui:346
+#: app/welcomeview/welcomeview.ui:345
 #, kde-format
 msgid "Show on startup"
 msgstr "Mostrar no arranque"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
-#: app/welcomeview/welcomeview.ui:401
+#: app/welcomeview/welcomeview.ui:400
 #, kde-format
 msgid "Close Welcome Page"
 msgstr "Fechar a Página de Boas-Vindas"

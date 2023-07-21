@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-19 00:53+0000\n"
-"PO-Revision-Date: 2023-05-07 06:28+0200\n"
+"POT-Creation-Date: 2023-07-21 00:53+0000\n"
+"PO-Revision-Date: 2023-07-20 06:50+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -423,31 +423,29 @@ msgid "Create New Archive"
 msgstr "ახალი არქივის შექმნა"
 
 #: app/welcomeview/welcomeview.cpp:50
-#, fuzzy, kde-format
-#| msgid "Welcome"
+#, kde-format
 msgid "Welcome to %1"
-msgstr "კეთილი იყოს თქვენი მობრძანება"
+msgstr "მოგესალმებით %1-ში"
 
 #: app/welcomeview/welcomeview.cpp:55
-#, fuzzy, kde-format
-#| msgid "Recent Files"
+#, kde-format
 msgid "No recent files"
-msgstr "უახლესი ფაილები"
+msgstr "ახლახანს გასნილი დოკუმენტების გარეშე"
 
 #: app/welcomeview/welcomeview.cpp:144
 #, kde-format
 msgid "Copy &Location"
-msgstr ""
+msgstr "&მდებარეობის კოპირება"
 
 #: app/welcomeview/welcomeview.cpp:150
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "შემცველი საქაღალდის &გახსნა"
 
 #: app/welcomeview/welcomeview.cpp:157
 #, kde-format
 msgid "&Remove"
-msgstr ""
+msgstr "&წაშლა"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
@@ -474,37 +472,37 @@ msgid "Clear Recent Files"
 msgstr "ბოლო ფაილების გასუფთავება"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
-#: app/welcomeview/welcomeview.ui:223
+#: app/welcomeview/welcomeview.ui:222
 #, kde-format
 msgid "Recent Files"
 msgstr "უახლესი ფაილები"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
-#: app/welcomeview/welcomeview.ui:264
+#: app/welcomeview/welcomeview.ui:263
 #, kde-format
 msgid "Help"
 msgstr "დახმარება"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
-#: app/welcomeview/welcomeview.ui:274
+#: app/welcomeview/welcomeview.ui:273
 #, kde-format
 msgid "Visit homepage"
 msgstr "ეწვიეთ მთავარ გვერდს"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
-#: app/welcomeview/welcomeview.ui:287
+#: app/welcomeview/welcomeview.ui:286
 #, kde-format
 msgid "Read handbook"
 msgstr "სახელმძღვანელოს წაკითხვა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
-#: app/welcomeview/welcomeview.ui:346
+#: app/welcomeview/welcomeview.ui:345
 #, kde-format
 msgid "Show on startup"
 msgstr "გაშვებისას ჩვენება"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
-#: app/welcomeview/welcomeview.ui:401
+#: app/welcomeview/welcomeview.ui:400
 #, kde-format
 msgid "Close Welcome Page"
 msgstr "მისალმების გვერდის დახურვა"

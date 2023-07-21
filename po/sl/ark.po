@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-19 00:53+0000\n"
+"POT-Creation-Date: 2023-07-21 00:53+0000\n"
 "PO-Revision-Date: 2023-07-19 06:54+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -21,8 +21,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
-"%100<=4 ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "X-Generator: Poedit 3.3.2\n"
 
@@ -484,37 +484,37 @@ msgid "Clear Recent Files"
 msgstr "Počisti nedavne datoteke"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
-#: app/welcomeview/welcomeview.ui:223
+#: app/welcomeview/welcomeview.ui:222
 #, kde-format
 msgid "Recent Files"
 msgstr "Nedavne datoteke"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
-#: app/welcomeview/welcomeview.ui:264
+#: app/welcomeview/welcomeview.ui:263
 #, kde-format
 msgid "Help"
 msgstr "Pomoč"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
-#: app/welcomeview/welcomeview.ui:274
+#: app/welcomeview/welcomeview.ui:273
 #, kde-format
 msgid "Visit homepage"
 msgstr "Obišči domačo stran"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
-#: app/welcomeview/welcomeview.ui:287
+#: app/welcomeview/welcomeview.ui:286
 #, kde-format
 msgid "Read handbook"
 msgstr "Preberi priročnik"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
-#: app/welcomeview/welcomeview.ui:346
+#: app/welcomeview/welcomeview.ui:345
 #, kde-format
 msgid "Show on startup"
 msgstr "Prikaži ob zagonu"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
-#: app/welcomeview/welcomeview.ui:401
+#: app/welcomeview/welcomeview.ui:400
 #, kde-format
 msgid "Close Welcome Page"
 msgstr "Zapri stran dobrodošlice"

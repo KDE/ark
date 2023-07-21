@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-19 00:53+0000\n"
+"POT-Creation-Date: 2023-07-21 00:53+0000\n"
 "PO-Revision-Date: 2023-02-27 19:31\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian\n"
@@ -493,39 +493,39 @@ msgid "Clear Recent Files"
 msgstr "Стварыць тэчку"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
-#: app/welcomeview/welcomeview.ui:223
+#: app/welcomeview/welcomeview.ui:222
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Recent Files"
 msgstr "Стварыць тэчку"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
-#: app/welcomeview/welcomeview.ui:264
+#: app/welcomeview/welcomeview.ui:263
 #, fuzzy, kde-format
 #| msgid "&Help"
 msgid "Help"
 msgstr "&Даведка"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
-#: app/welcomeview/welcomeview.ui:274
+#: app/welcomeview/welcomeview.ui:273
 #, kde-format
 msgid "Visit homepage"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
-#: app/welcomeview/welcomeview.ui:287
+#: app/welcomeview/welcomeview.ui:286
 #, kde-format
 msgid "Read handbook"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
-#: app/welcomeview/welcomeview.ui:346
+#: app/welcomeview/welcomeview.ui:345
 #, kde-format
 msgid "Show on startup"
 msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
-#: app/welcomeview/welcomeview.ui:401
+#: app/welcomeview/welcomeview.ui:400
 #, kde-format
 msgid "Close Welcome Page"
 msgstr ""
