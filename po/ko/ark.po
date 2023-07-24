@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-21 00:53+0000\n"
-"PO-Revision-Date: 2023-04-21 23:29+0200\n"
+"PO-Revision-Date: 2023-07-22 22:53+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -380,7 +380,7 @@ msgstr "Ark의 KPart 구성 요소를 찾을 수 없습니다. 설치 상태를 
 #: app/mainwindow.cpp:184
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "사이드바"
 
 #: app/mainwindow.cpp:289
 #, kde-format
@@ -407,7 +407,7 @@ msgstr ""
 #: app/mainwindow.cpp:313
 #, kde-format
 msgid "Lock Sidebar"
-msgstr ""
+msgstr "사이드바 잠금"
 
 #: app/mainwindow.cpp:370
 #, kde-format
@@ -421,31 +421,29 @@ msgid "Create New Archive"
 msgstr "새 압축 파일 만들기"
 
 #: app/welcomeview/welcomeview.cpp:50
-#, fuzzy, kde-format
-#| msgid "Welcome"
+#, kde-format
 msgid "Welcome to %1"
-msgstr "환영합니다"
+msgstr "%1에 오신 것을 환영합니다"
 
 #: app/welcomeview/welcomeview.cpp:55
-#, fuzzy, kde-format
-#| msgid "Recent Files"
+#, kde-format
 msgid "No recent files"
-msgstr "최근 파일"
+msgstr "최근 파일 없음"
 
 #: app/welcomeview/welcomeview.cpp:144
 #, kde-format
 msgid "Copy &Location"
-msgstr ""
+msgstr "위치 복사(&L)"
 
 #: app/welcomeview/welcomeview.cpp:150
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "포함하는 폴더 열기(&O)"
 
 #: app/welcomeview/welcomeview.cpp:157
 #, kde-format
 msgid "&Remove"
-msgstr ""
+msgstr "삭제(&R)"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
@@ -983,7 +981,7 @@ msgstr "내부에서 미리 보기(&V)"
 #: kerfuffle/generalsettingspage.ui:43
 #, kde-format
 msgid "Open the fi&le with associated application"
-msgstr "연결된 프로그램으로 파일 열기(&L)"
+msgstr "연결된 앱으로 파일 열기(&L)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
 #: kerfuffle/generalsettingspage.ui:60
@@ -1634,7 +1632,7 @@ msgstr "복사본을 다른 이름으로 저장..."
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr "외부 프로그램으로 열기(&O)"
+msgstr "외부 앱으로 열기(&O)"
 
 #: part/part.cpp:389
 #, kde-format

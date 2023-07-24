@@ -11,14 +11,14 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-21 00:53+0000\n"
-"PO-Revision-Date: 2023-05-06 11:08+0200\n"
+"PO-Revision-Date: 2023-07-19 20:33+0300\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -436,31 +436,29 @@ msgid "Create New Archive"
 msgstr "Crea un arxiu nou"
 
 #: app/welcomeview/welcomeview.cpp:50
-#, fuzzy, kde-format
-#| msgid "Welcome"
+#, kde-format
 msgid "Welcome to %1"
-msgstr "Us donem la benvinguda"
+msgstr "Us donem la benvinguda a %1"
 
 #: app/welcomeview/welcomeview.cpp:55
-#, fuzzy, kde-format
-#| msgid "Recent Files"
+#, kde-format
 msgid "No recent files"
-msgstr "Fitxers recents"
+msgstr "Ni hi ha cap fitxer recent"
 
 #: app/welcomeview/welcomeview.cpp:144
 #, kde-format
 msgid "Copy &Location"
-msgstr ""
+msgstr "Copia la &ubicació"
 
 #: app/welcomeview/welcomeview.cpp:150
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "O&bri la carpeta contenidora"
 
 #: app/welcomeview/welcomeview.cpp:157
 #, kde-format
 msgid "&Remove"
-msgstr ""
+msgstr "&Elimina"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17

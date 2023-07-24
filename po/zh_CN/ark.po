@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-21 00:53+0000\n"
-"PO-Revision-Date: 2023-07-18 11:10\n"
+"PO-Revision-Date: 2023-07-23 12:28\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -416,31 +416,29 @@ msgid "Create New Archive"
 msgstr "新建压缩文件"
 
 #: app/welcomeview/welcomeview.cpp:50
-#, fuzzy, kde-format
-#| msgid "Welcome"
+#, kde-format
 msgid "Welcome to %1"
-msgstr "欢迎使用"
+msgstr "欢迎使用 %1"
 
 #: app/welcomeview/welcomeview.cpp:55
-#, fuzzy, kde-format
-#| msgid "Recent Files"
+#, kde-format
 msgid "No recent files"
-msgstr "最近文件"
+msgstr "没有最近文件"
 
 #: app/welcomeview/welcomeview.cpp:144
 #, kde-format
 msgid "Copy &Location"
-msgstr ""
+msgstr "复制位置(&L)"
 
 #: app/welcomeview/welcomeview.cpp:150
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "打开所在文件夹(&O)"
 
 #: app/welcomeview/welcomeview.cpp:157
 #, kde-format
 msgid "&Remove"
-msgstr ""
+msgstr "移除(&R)"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
