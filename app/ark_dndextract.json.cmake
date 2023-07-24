@@ -11,6 +11,7 @@
         "Name[eu]": "Ark Erauzi hemen",
         "Name[ia]": "Ark Extrahe Hic",
         "Name[ka]": "Ark აქ გაშლა",
+        "Name[ko]": "Ark 여기에 압축 풀기",
         "Name[nl]": "Ark: hier uitpakken",
         "Name[pt]": "Ark - Extrair Aqui",
         "Name[ru]": "Распаковать в эту папку",
