@@ -14,25 +14,26 @@
 # Stelios <sstavra@gmail.com>, 2012, 2014, 2017, 2019, 2020, 2021, 2023.
 # Dimitris Kardarakos <dimkard@gmail.com>, 2016.
 # Petros Vidalis <pvidalis@gmail.com>, 2016, 2017, 2018.
+# George Stefanakis <george.stefanakis@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-21 00:53+0000\n"
-"PO-Revision-Date: 2023-01-04 09:58+0200\n"
-"Last-Translator: Stelios <sstavra@gmail.com>\n"
-"Language-Team: Greek <kde-i18n-el@kde.org>\n"
+"PO-Revision-Date: 2023-07-24 13:26+0300\n"
+"Last-Translator: George Stefanakis <george.stefanakis@gmail.com>\n"
+"Language-Team: Greek <kde-i18n-doc@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Τούσης Μανώλης, Βιδάλης Πέτρος"
+msgstr "Τούσης Μανώλης, Βιδάλης Πέτρος, Στεφανάκης Γιώργος"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -401,18 +402,17 @@ msgstr ""
 #: app/mainwindow.cpp:184
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "Πλευρική μπάρα"
 
 #: app/mainwindow.cpp:289
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr "Καλωσορίσατε στο Ark"
+msgstr "Σελίδα υποδοχής"
 
 #: app/mainwindow.cpp:291
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "Εμφάνιση σελίδας υποδοχής"
 
 #: app/mainwindow.cpp:299
 #, kde-kuit-format
@@ -429,7 +429,7 @@ msgstr ""
 #: app/mainwindow.cpp:313
 #, kde-format
 msgid "Lock Sidebar"
-msgstr ""
+msgstr "Κλείδωμα πλευρικής μπάρας"
 
 #: app/mainwindow.cpp:370
 #, kde-format
@@ -443,99 +443,89 @@ msgid "Create New Archive"
 msgstr "Δημιουργία νέας αρχειοθήκης"
 
 #: app/welcomeview/welcomeview.cpp:50
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome to %1"
-msgstr "Καλωσορίσατε στο Ark"
+msgstr "Καλωσορίσατε στο %1"
 
 #: app/welcomeview/welcomeview.cpp:55
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "No recent files"
-msgstr "Πρόσφατοι φάκελοι"
+msgstr "Δεν υπάρχουν πρόσφατα αρχεία"
 
 #: app/welcomeview/welcomeview.cpp:144
 #, kde-format
 msgid "Copy &Location"
-msgstr ""
+msgstr "Αντιγραφή &Τοποθεσίας"
 
 #: app/welcomeview/welcomeview.cpp:150
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Άνοιγμα περιέχοντος φακέλου"
 
 #: app/welcomeview/welcomeview.cpp:157
 #, kde-format
 msgid "&Remove"
-msgstr ""
+msgstr "Α&φαίρεση"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr "Καλωσορίσατε στο Ark"
+msgstr "Καλωσορίσατε"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
 msgstr "Άνοιγμα αρχειοθήκης..."
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "Άνοιγμα αρχειοθήκης"
+msgstr "Νέα αρχειοθήκη"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "Clear Recent Files"
-msgstr "Πρόσφατοι φάκελοι"
+msgstr "Εκκαθάριση Πρόσφατων Αρχείων"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:222
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "Recent Files"
-msgstr "Πρόσφατοι φάκελοι"
+msgstr "Πρόσφατα Αρχεία"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:263
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "&Βοήθεια"
+msgstr "Βοήθεια"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:273
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "Επισκεφθείτε την αρχική σελίδα"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:286
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "Διαβάστε το εγχειρίδιο"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:345
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "Εμφάνιση στην εκκίνηση"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:400
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "Κλείσιμο Σελίδας Υποδοχής"
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
