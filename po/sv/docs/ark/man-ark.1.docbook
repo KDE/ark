@@ -124,7 +124,7 @@
 > katalog</replaceable
 ></group
 > <arg choice="opt"
->Generella väljare för KF5</arg
+>Generella väljare för KDE ramverk</arg
 > <arg choice="opt"
 >Generella väljare för &Qt;</arg
 > </cmdsynopsis>
