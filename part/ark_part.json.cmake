@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Archive Handling Tool",
+        "Description[bg]": "Инструмент за обработка на архиви",
         "Description[ca@valencia]": "Eina de gestió d'arxius",
         "Description[ca]": "Eina de gestió d'arxius",
         "Description[el]": "Εργαλείο χειρισμού αρχειοθηκών",
@@ -26,8 +27,10 @@
             "@SUPPORTED_ARK_MIMETYPES_JSON@"
         ],
         "Name": "Archiver",
+        "Name[bg]": "Архиватор",
         "Name[ca@valencia]": "Arxivador",
         "Name[ca]": "Arxivador",
+        "Name[cs]": "Archivátor",
         "Name[el]": "Αρχειοθέτης",
         "Name[eo]": "Arkivilo",
         "Name[es]": "Archivador",
