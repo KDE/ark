@@ -15,6 +15,7 @@
         "Name[ka]": "Ark აქ გაშლა",
         "Name[ko]": "Ark 여기에 압축 풀기",
         "Name[nl]": "Ark: hier uitpakken",
+        "Name[nn]": "Pakk ut med Ark her",
         "Name[pt]": "Ark - Extrair Aqui",
         "Name[pt_BR]": "Extrair com o Ark aqui",
         "Name[ru]": "Распаковать в эту папку",
