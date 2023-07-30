@@ -30,6 +30,7 @@
         "Name[bg]": "Архиватор",
         "Name[ca@valencia]": "Arxivador",
         "Name[ca]": "Arxivador",
+        "Name[cs]": "Archivátor",
         "Name[eo]": "Arkivilo",
         "Name[es]": "Archivador",
         "Name[eu]": "Artxibatzailea",
