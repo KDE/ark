@@ -11,6 +11,7 @@
         "Name[eo]": "Ark-Extrakti ĉi tie",
         "Name[es]": "Ark - Extraer aquí",
         "Name[eu]": "Ark Erauzi hemen",
+        "Name[gl]": "Extraer aquí con Ark",
         "Name[ia]": "Ark Extrahe Hic",
         "Name[it]": "Ark estrai qui",
         "Name[ka]": "Ark აქ გაშლა",
