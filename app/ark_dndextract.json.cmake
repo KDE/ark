@@ -23,6 +23,7 @@
         "Name[pt_BR]": "Extrair com o Ark aqui",
         "Name[ru]": "Распаковать в эту папку",
         "Name[sl]": "Arkov ekstrakt tukaj",
+        "Name[sv]": "Ark packa upp här",
         "Name[tr]": "Ark Buraya Çıkar",
         "Name[uk]": "Розпакувати сюди за допомогою Ark",
         "Name[x-test]": "xxArk Extract Herexx",
