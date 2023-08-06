@@ -609,7 +609,7 @@
 >xxx.part1.rar</filename
 >, <filename
 >xxx.part2.rar </filename
-> &etc;.</para>
+> &etc;</para>
 <para
 >Per extreure un arxiu multivolum, poseu tots els fitxers d'arxiu en una carpeta i obriu el fitxer amb el número d'extensió més baix a l'&ark; i totes les altres parts de l'arxiu dividit s'obriran automàticament.</para>
 </sect2>
