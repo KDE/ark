@@ -116,6 +116,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
     m_commentView->setReadOnly(true);
     m_commentView->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     m_commentBox = new QGroupBox(i18n("Comment"));
+    m_commentBox->setFlat(true);
     m_commentBox->hide();
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(m_commentView);
@@ -177,8 +178,16 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
     m_commentSplitter->setOpaqueResize(false);
     m_commentSplitter->addWidget(m_view);
 
+    m_commentSeparator = new QFrame(parentWidget);
+    m_commentSeparator->setLineWidth(1);
+    m_commentSeparator->setFixedHeight(1);
+    m_commentSeparator->setFrameShape(QFrame::HLine);
+    m_commentSeparator->hide();
+
+    m_commentSplitter->addWidget(m_commentSeparator);
+
     m_commentSplitter->addWidget(m_commentBox);
-    m_commentSplitter->setCollapsible(0, false);
+    m_commentSplitter->setCollapsible(1, false);
 
     // Horizontal QSplitter for the file view and infopanel.
     m_splitter->addWidget(m_commentSplitter);
@@ -577,7 +586,8 @@ void Part::slotShowComment()
 {
     if (!m_commentBox->isVisible()) {
         m_commentBox->show();
-        m_commentSplitter->setSizes(QList<int>() << static_cast<int>(m_view->height() * 0.6) << 1);
+        m_commentSeparator->show();
+        m_commentSplitter->setSizes({static_cast<int>(m_view->height() * 0.6), 1, 1});
     }
     m_commentView->setFocus();
 }

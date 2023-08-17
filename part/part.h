@@ -232,6 +232,7 @@ private:
     QVBoxLayout *m_vlayout;
     std::unique_ptr<QFileSystemWatcher> m_fileWatcher;
     QSplitter *m_commentSplitter;
+    QFrame *m_commentSeparator;
     QGroupBox *m_commentBox;
     QPlainTextEdit *m_commentView;
     KMessageWidget *m_commentMsgWidget;
