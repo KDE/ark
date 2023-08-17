@@ -48,7 +48,6 @@
         "Description[x-test]": "xxFull support for the zip and 7z archive formatsxx",
         "Description[zh_CN]": "完整支持 ZIP 和 7z 压缩文件格式",
         "Description[zh_TW]": "對 zip 與 7z 壓縮檔格式的完整支援",
-        "Id": "kerfuffle_cli7z",
         "MimeTypes": [
             "application/x-7z-compressed",
             "application/zip"

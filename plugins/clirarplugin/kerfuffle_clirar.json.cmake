@@ -48,7 +48,6 @@
         "Description[x-test]": "xxFull support for the RAR archive formatxx",
         "Description[zh_CN]": "完整支持 RAR 压缩文件格式",
         "Description[zh_TW]": "對 RAR 壓縮檔格式的完整支援",
-        "Id": "kerfuffle_clirar",
         "MimeTypes": [
             "application/vnd.rar"
         ],

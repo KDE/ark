@@ -36,7 +36,6 @@
         "Description[x-test]": "xxFull support for the ARJ archive formatsxx",
         "Description[zh_CN]": "完整支持 ARJ 压缩文件格式",
         "Description[zh_TW]": "對 ARJ 壓縮檔格式的完整支援",
-        "Id": "kerfuffle_cliarj",
         "MimeTypes": [
             "application/x-arj",
             "application/arj"

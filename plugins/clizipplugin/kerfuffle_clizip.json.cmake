@@ -48,7 +48,6 @@
         "Description[x-test]": "xxLegacy support for the zip archive formatxx",
         "Description[zh_CN]": "支持旧式 ZIP 压缩文件格式",
         "Description[zh_TW]": "對 zip 壓縮格式的舊版支援",
-        "Id": "kerfuffle_clizip",
         "MimeTypes": [
             "application/x-java-archive",
             "application/zip"

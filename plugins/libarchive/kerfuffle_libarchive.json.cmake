@@ -48,7 +48,6 @@
         "Description[x-test]": "xxFull support for compressed TAR archivesxx",
         "Description[zh_CN]": "完整支持 TAR 压缩文件",
         "Description[zh_TW]": "對壓縮過的 TAR 壓縮檔的完整支援",
-        "Id": "kerfuffle_libarchive",
         "MimeTypes": [
             "application/x-tar",
             "application/x-compressed-tar",
