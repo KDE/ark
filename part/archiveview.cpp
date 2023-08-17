@@ -26,6 +26,7 @@ ArchiveView::ArchiveView(QWidget *parent)
     setSortingEnabled(true);
     setDragEnabled(true);
     setDropIndicatorShown(true);
+    setFrameShape(QFrame::NoFrame);
     // #368807: drops must be initially disabled, otherwise they will override the MainWindow's ones.
     // They will be enabled in Part::slotLoadingFinished().
     setDropsEnabled(false);

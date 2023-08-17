@@ -176,18 +176,31 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
     m_commentSplitter = new QSplitter(Qt::Vertical, parentWidget);
     m_commentSplitter->setOpaqueResize(false);
     m_commentSplitter->addWidget(m_view);
+
     m_commentSplitter->addWidget(m_commentBox);
     m_commentSplitter->setCollapsible(0, false);
 
     // Horizontal QSplitter for the file view and infopanel.
     m_splitter->addWidget(m_commentSplitter);
+
+    auto separator = new QFrame(parentWidget);
+    separator->setLineWidth(1);
+    separator->setFixedWidth(1);
+    separator->setFrameShape(QFrame::VLine);
+
+    m_splitter->addWidget(separator);
     m_splitter->addWidget(m_infoPanel);
 
     // Read settings from config file and show/hide infoPanel.
     if (!ArkSettings::showInfoPanel()) {
         m_infoPanel->hide();
     } else {
-        m_splitter->setSizes(ArkSettings::splitterSizes());
+        auto sizes = ArkSettings::splitterSizes();
+        if (sizes.count() == 3) {
+            m_splitter->setSizes(sizes);
+        } else {
+            m_splitter->setSizes({200, 1, 100});
+        }
     }
 
     setupView();

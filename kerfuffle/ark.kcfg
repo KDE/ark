@@ -39,7 +39,7 @@
 	<group name="MainWindow">
 		<entry name="splitterSizes" type="IntList">
 			<label>How the main window is divided.</label>
-			<default>200,100</default>
+			<default>200,1,100</default>
 		</entry>
 		<entry name="showInfoPanel" type="Bool">
 			<label>Whether to show the information panel.</label>
