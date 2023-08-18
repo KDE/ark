@@ -178,19 +178,6 @@ bool MainWindow::loadPart()
     QWidget *infoPanel = iface->infoPanel();
     infoPanel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    m_sidebar = new Sidebar;
-    m_sidebar->setObjectName(QStringLiteral("ark_sidebar"));
-    m_sidebar->setContextMenuPolicy(Qt::ActionsContextMenu);
-    m_sidebar->setWindowTitle(i18n("Sidebar"));
-    connect(m_sidebar, &QDockWidget::visibilityChanged, this, [this](bool visible) {
-        // sync sidebar visibility with the m_showSidebarAction only if welcome screen is hidden
-        if (m_showSidebarAction && m_windowContents->currentWidget() != m_welcomeView) {
-            m_showSidebarAction->setChecked(visible);
-        }
-    });
-    m_sidebar->setWidget(infoPanel);
-    addDockWidget(Qt::RightDockWidgetArea, m_sidebar);
-
     setupActions();
 
     m_welcomeView = new WelcomeView(this);
@@ -219,23 +206,12 @@ bool MainWindow::loadPart()
     setXMLFile(QStringLiteral("arkui.rc"));
     setupGUI(ToolBar | Keys | Save);
 
-    // NOTE : apply default sidebar width only after calling setupGUI(...)
-    // and before calling createGUI(...)
-    resizeDocks({m_sidebar}, {m_sidebar->sizeHint().width()}, Qt::Horizontal);
-
     createGUI(m_part);
 
     // FIXME: workaround for BUG 171080
     showMenuBarAction->setChecked(!menuBar()->isHidden());
 
     statusBar()->hide();
-
-    KConfigGroup configGroup = KSharedConfig::openConfig()->group("General");
-    m_sidebar->setLocked(configGroup.readEntry(SIDEBAR_LOCKED_KEY, true));
-    m_sidebar->setVisible(configGroup.readEntry(SIDEBAR_VISIBLE_KEY, true));
-
-    m_showSidebarAction->setChecked(m_sidebar->isVisibleTo(this));
-    m_lockSidebarAction->setChecked(m_sidebar->isLocked());
 
     connect(m_part, SIGNAL(ready()), this, SLOT(updateActions()));
     connect(m_part, SIGNAL(ready()), this, SLOT(hideWelcomeScreen()));
@@ -247,6 +223,7 @@ bool MainWindow::loadPart()
 
     updateActions();
 
+    KConfigGroup configGroup = KSharedConfig::openConfig()->group("General");
     configGroup = KSharedConfig::openConfig()->group("General");
     if (configGroup.readEntry("ShowWelcomeScreenOnStartup", true)) {
         showWelcomeScreen();
@@ -262,17 +239,13 @@ KRecentFilesMenu *MainWindow::recentFilesMenu() const
 
 void MainWindow::showWelcomeScreen()
 {
-    m_showSidebarAction->setEnabled(false);
     m_windowContents->setCurrentWidget(m_welcomeView);
-    m_sidebar->setVisible(false);
 }
 
 void MainWindow::hideWelcomeScreen()
 {
     Q_ASSERT(m_part->widget());
-    m_sidebar->setVisible(m_showSidebarAction->isChecked());
     m_windowContents->setCurrentWidget(m_part->widget());
-    m_showSidebarAction->setEnabled(true);
 }
 
 void MainWindow::setupActions()
@@ -305,18 +278,6 @@ void MainWindow::setupActions()
             "contain mostly the same commands and configuration options."));
     connect(showMenuBar, &KToggleAction::triggered,                   // Fixes #286822
             this, [this]{ menuBar()->setVisible(!menuBar()->isVisible()); }, Qt::QueuedConnection);
-
-    m_showSidebarAction = m_part->actionCollection()->action(QStringLiteral("show-infopanel"));
-    m_showSidebarAction->setIcon(QIcon::fromTheme(QStringLiteral("sidebar-show-symbolic")));
-    m_showSidebarAction->disconnect();
-    connect(m_showSidebarAction, &QAction::triggered, m_sidebar, &Sidebar::setVisible);
-
-    m_lockSidebarAction = actionCollection()->addAction(QStringLiteral("ark_lock_sidebar"));
-    m_lockSidebarAction->setCheckable(true);
-    m_lockSidebarAction->setIcon(QIcon::fromTheme(QStringLiteral("lock")));
-    m_lockSidebarAction->setText(i18n("Lock Sidebar"));
-    connect(m_lockSidebarAction, &QAction::triggered, m_sidebar, &Sidebar::setLocked);
-    m_sidebar->addAction(m_lockSidebarAction);
 }
 
 void MainWindow::updateHamburgerMenu()
@@ -417,12 +378,6 @@ void MainWindow::setShowExtractDialog(bool option)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    KConfigGroup configGroup = KSharedConfig::openConfig()->group("General");
-    configGroup.writeEntry(SIDEBAR_LOCKED_KEY, m_sidebar->isLocked());
-    // NOTE : Consider whether the m_showSidebarAction is checked, because
-    // the sidebar can be forcibly hidden if the welcome screen is displayed
-    configGroup.writeEntry(SIDEBAR_VISIBLE_KEY, m_sidebar->isVisibleTo(this) || m_showSidebarAction->isChecked());
-
     // Preview windows don't have a parent, so we need to manually close them.
     const auto topLevelWidgets = qApp->topLevelWidgets();
     for (QWidget *widget : topLevelWidgets) {

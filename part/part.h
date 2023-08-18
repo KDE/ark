@@ -240,6 +240,7 @@ private:
     Kerfuffle::CompressionOptions m_compressionOptions;
     ArchiveSortFilterModel *m_filterModel;
     QWidget *m_searchWidget;
+    QFrame *m_searchSeparator = nullptr;
     QLineEdit *m_searchLineEdit;
     QPushButton *m_searchCloseButton;
 };

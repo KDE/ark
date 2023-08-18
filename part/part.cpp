@@ -108,6 +108,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
     m_model = new ArchiveModel(pathName, this);
     m_filterModel = new ArchiveSortFilterModel(this);
     m_splitter = new QSplitter(Qt::Horizontal, parentWidget);
+    m_splitter->setProperty("_breeze_show_handle", true);
     m_view = new ArchiveView;
     m_infoPanel = new InfoPanel(m_model);
 
@@ -164,9 +165,17 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
     searchLayout->addWidget(m_searchLineEdit);
     connect(m_searchCloseButton, &QPushButton::clicked, this, [=]() {
         m_searchWidget->hide();
+        m_searchSeparator->hide();
         m_searchLineEdit->clear();
     });
     connect(m_searchLineEdit, &QLineEdit::textChanged, this, &Part::searchEdited);
+
+    m_searchSeparator = new QFrame(parentWidget);
+    m_searchSeparator->setLineWidth(1);
+    m_searchSeparator->setFixedHeight(1);
+    m_searchSeparator->setFrameShape(QFrame::HLine);
+    m_searchSeparator->hide();
+    m_vlayout->addWidget(m_searchSeparator);
 
     // Configure the QVBoxLayout and add widgets
     m_vlayout->setContentsMargins(0,0,0,0);
@@ -175,8 +184,10 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
 
     // Vertical QSplitter for the file view and comment field.
     m_commentSplitter = new QSplitter(Qt::Vertical, parentWidget);
+    m_commentSplitter->setObjectName(QStringLiteral("Splitter between file view and comment field"));
     m_commentSplitter->setOpaqueResize(false);
     m_commentSplitter->addWidget(m_view);
+    m_commentSplitter->setProperty("_breeze_show_handle", true);
 
     m_commentSeparator = new QFrame(parentWidget);
     m_commentSeparator->setLineWidth(1);
@@ -191,13 +202,6 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
 
     // Horizontal QSplitter for the file view and infopanel.
     m_splitter->addWidget(m_commentSplitter);
-
-    auto separator = new QFrame(parentWidget);
-    separator->setLineWidth(1);
-    separator->setFixedWidth(1);
-    separator->setFrameShape(QFrame::VLine);
-
-    m_splitter->addWidget(separator);
     m_splitter->addWidget(m_infoPanel);
 
     // Read settings from config file and show/hide infoPanel.
@@ -205,10 +209,10 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
         m_infoPanel->hide();
     } else {
         auto sizes = ArkSettings::splitterSizes();
-        if (sizes.count() == 3) {
+        if (sizes.count() == 2) {
             m_splitter->setSizes(sizes);
         } else {
-            m_splitter->setSizes({200, 1, 100});
+            m_splitter->setSizes({200, 100});
         }
     }
 
@@ -586,7 +590,7 @@ void Part::slotShowComment()
 {
     if (!m_commentBox->isVisible()) {
         m_commentBox->show();
-        m_commentSeparator->show();
+        //m_commentSeparator->show();
         m_commentSplitter->setSizes({static_cast<int>(m_view->height() * 0.6), 1, 1});
     }
     m_commentView->setFocus();
@@ -1792,6 +1796,7 @@ bool Part::eventFilter(QObject *target, QEvent *event)
         QKeyEvent *e = static_cast<QKeyEvent *>(event);
         if (e->key() == Qt::Key_Escape) {
             m_searchWidget->hide();
+            m_searchSeparator->hide();
             m_searchLineEdit->clear();
             return true;
         }
@@ -1805,6 +1810,7 @@ void Part::slotShowFind()
         m_searchLineEdit->selectAll();
     } else {
         m_searchWidget->show();
+        m_searchSeparator->show();
     }
     m_searchLineEdit->setFocus();
 }
