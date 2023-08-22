@@ -116,6 +116,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
     m_commentView->setReadOnly(true);
     m_commentView->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     m_commentBox = new QGroupBox(i18n("Comment"));
+    m_commentBox->setFlat(true);
     m_commentBox->hide();
     QVBoxLayout *vbox = new QVBoxLayout;
     vbox->addWidget(m_commentView);
