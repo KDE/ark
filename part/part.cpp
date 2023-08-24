@@ -46,7 +46,6 @@
 #include <KStandardGuiItem>
 #include <KToggleAction>
 #include <KXMLGUIFactory>
-#include <kwidgetsaddons_version.h>
 
 #include <QAction>
 #include <QCursor>
@@ -879,23 +878,14 @@ bool Part::isLocalFileValid()
 bool Part::confirmAndDelete(const QString &targetFile)
 {
     QFileInfo targetInfo(targetFile);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     const auto buttonCode = KMessageBox::warningTwoActions(
         widget(),
-#else
-    const auto buttonCode =
-        KMessageBox::warningYesNo(widget(),
-#endif
         xi18nc("@info", "The archive <filename>%1</filename> already exists. Do you wish to overwrite it?", targetInfo.fileName()),
         i18nc("@title:window", "File Exists"),
         KStandardGuiItem::overwrite(),
         KStandardGuiItem::cancel());
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     if (buttonCode != KMessageBox::PrimaryAction || !targetInfo.isWritable()) {
-#else
-    if (buttonCode != KMessageBox::Yes || !targetInfo.isWritable()) {
-#endif
         return false;
     }
 
@@ -1150,20 +1140,12 @@ void Part::slotWatchedFileModified(const QString& file)
         prettyFilename = relPath + QLatin1Char('/') + file.section(QLatin1Char('/'), -1);
     }
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     if (KMessageBox::questionTwoActions(widget(),
-#else
-    if (KMessageBox::questionYesNo(widget(),
-#endif
                                         xi18n("The file <filename>%1</filename> was modified. Do you want to update the archive?", prettyFilename),
                                         i18nc("@title:window", "File Modified"),
                                         KGuiItem(i18nc("@action:button", "Update"), QStringLiteral("view-refresh")),
                                         KGuiItem(i18nc("@action:button", "Ignore"), QStringLiteral("dialog-cancel")))
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
         == KMessageBox::PrimaryAction) {
-#else
-        == KMessageBox::Yes) {
-#endif
         QStringList list = QStringList() << file;
 
         qCDebug(ARK) << "Updating file" << file << "with path" << relPath;
@@ -1683,11 +1665,7 @@ void Part::slotDeleteFilesDone(KJob* job)
 void Part::slotDeleteFiles()
 {
     const int selectionsCount = m_view->selectionModel()->selectedRows().count();
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     const auto reallyDelete = KMessageBox::questionTwoActions(widget(),
-#else
-    const auto reallyDelete = KMessageBox::questionYesNo(widget(),
-#endif
                                                               i18ncp("@info",
                                                                      "Deleting this file is not undoable. Are you sure you want to do this?",
                                                                      "Deleting these files is not undoable. Are you sure you want to do this?",
@@ -1698,11 +1676,7 @@ void Part::slotDeleteFiles()
                                                               QString(),
                                                               KMessageBox::Dangerous | KMessageBox::Notify);
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     if (reallyDelete == KMessageBox::SecondaryAction) {
-#else
-    if (reallyDelete == KMessageBox::No) {
-#endif
         return;
     }
 

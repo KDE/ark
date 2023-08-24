@@ -11,7 +11,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KPasswordDialog>
-#include <kwidgetsaddons_version.h>
 
 #include <QApplication>
 #include <QDir>
@@ -192,11 +191,7 @@ void LoadCorruptQuery::execute()
     qCDebug(ARK) << "Executing prompt";
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     setResponse(KMessageBox::warningTwoActions(nullptr,
-#else
-    setResponse(KMessageBox::warningYesNo(nullptr,
-#endif
                                                xi18nc("@info",
                                                       "The archive you're trying to open is corrupt.<nl/>"
                                                       "Some files may be missing or damaged."),
@@ -206,12 +201,9 @@ void LoadCorruptQuery::execute()
     QApplication::restoreOverrideCursor();
 }
 
-bool LoadCorruptQuery::responseYes() {
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+bool LoadCorruptQuery::responseYes()
+{
     return (m_data.value(QStringLiteral("response")).toInt() == KMessageBox::PrimaryAction);
-#else
-    return (m_data.value(QStringLiteral("response")).toInt() == KMessageBox::Yes);
-#endif
 }
 
 ContinueExtractionQuery::ContinueExtractionQuery(const QString& error, const QString& archiveEntry)

@@ -22,8 +22,6 @@
 #include <KPluginMetaData>
 #include <KXMLGUIFactory>
 
-#include <kparts_version.h>
-
 #include <QFile>
 #include <QMimeDatabase>
 #include <QProgressDialog>
@@ -170,34 +168,6 @@ void ArkViewer::view(const QString& fileName, const QString& entryPath, const QM
     qCDebug(ARK) << "Removing temporary file:" << fileName;
     QFile::remove(fileName);
 }
-
-#if KPARTS_VERSION < QT_VERSION_CHECK(5, 100, 0)
-// Copied from kparts/partloader.h
-namespace KParts::PartLoader {
-template<typename T>
-static KPluginFactory::Result<T>
-instantiatePart(const KPluginMetaData &data, QWidget *parentWidget = nullptr, QObject *parent = nullptr, const QVariantList &args = {})
-{
-    KPluginFactory::Result<T> result;
-    KPluginFactory::Result<KPluginFactory> factoryResult = KPluginFactory::loadFactory(data);
-    if (!factoryResult.plugin) {
-        result.errorString = factoryResult.errorString;
-        result.errorReason = factoryResult.errorReason;
-        return result;
-    }
-    T *instance = factoryResult.plugin->create<T>(parentWidget, parent, args);
-    if (!instance) {
-        const QString fileName = data.fileName();
-        result.errorString = QObject::tr("KPluginFactory could not load the plugin: %1").arg(fileName);
-        result.errorText = QStringLiteral("KPluginFactory could not load the plugin: %1").arg(fileName);
-        result.errorReason = KPluginFactory::INVALID_KPLUGINFACTORY_INSTANTIATION;
-    } else {
-        result.plugin = instance;
-    }
-    return result;
-}
-}
-#endif
 
 bool ArkViewer::viewInInternalViewer(const KPluginMetaData& viewer, const QString& fileName, const QString& entryPath, const QMimeType &mimeType)
 {
