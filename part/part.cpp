@@ -105,6 +105,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
     // m_vlayout is needed for later insertion of QMessageWidget
     QWidget *mainWidget = new QWidget;
     m_vlayout = new QVBoxLayout;
+    m_vlayout->setSpacing(0);
     m_model = new ArchiveModel(pathName, this);
     m_filterModel = new ArchiveSortFilterModel(this);
     m_splitter = new QSplitter(Qt::Horizontal, parentWidget);
@@ -123,6 +124,9 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
 
     m_messageWidget = new KMessageWidget(parentWidget);
     m_messageWidget->setWordWrap(true);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    m_messageWidget->setPosition(KMessageWidget::Header);
+#endif
     m_messageWidget->hide();
 
     m_commentMsgWidget = new KMessageWidget();
