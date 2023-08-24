@@ -7,7 +7,6 @@
 #include "pluginmanager.h"
 #include "ark_debug.h"
 #include "settings.h"
-#include "kcoreaddons_version.h"
 
 #include <KSharedConfig>
 

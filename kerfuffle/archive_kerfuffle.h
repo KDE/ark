@@ -13,7 +13,6 @@
 #include "options.h"
 
 #include <KJob>
-#include <kcoreaddons_version.h>
 
 #include <QHash>
 #include <QMimeType>
