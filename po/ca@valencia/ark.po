@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-21 00:53+0000\n"
+"POT-Creation-Date: 2023-08-26 00:48+0000\n"
 "PO-Revision-Date: 2023-07-19 20:33+0300\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -827,23 +827,23 @@ msgstr "Tipus:"
 msgid "Extension:"
 msgstr "Extensió:"
 
-#: kerfuffle/extractiondialog.cpp:41
+#: kerfuffle/extractiondialog.cpp:40
 #, kde-format
 msgctxt "@title:window"
 msgid "Extract"
 msgstr "Extracció"
 
-#: kerfuffle/extractiondialog.cpp:55
+#: kerfuffle/extractiondialog.cpp:54
 #, kde-format
 msgid "Extract"
 msgstr "Extrau"
 
-#: kerfuffle/extractiondialog.cpp:98
+#: kerfuffle/extractiondialog.cpp:97
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "El nom de subcarpeta no pot contindre el caràcter «/»."
 
-#: kerfuffle/extractiondialog.cpp:114
+#: kerfuffle/extractiondialog.cpp:108
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -852,39 +852,39 @@ msgid ""
 msgstr ""
 "La carpeta <filename>%1</filename> ja existix. Segur que voleu extraure ací?"
 
-#: kerfuffle/extractiondialog.cpp:115
+#: kerfuffle/extractiondialog.cpp:109
 #, kde-format
 msgid "Folder exists"
 msgstr "La carpeta existix"
 
-#: kerfuffle/extractiondialog.cpp:116
+#: kerfuffle/extractiondialog.cpp:110
 #, kde-format
 msgid "Extract here"
 msgstr "Extrau ací"
 
-#: kerfuffle/extractiondialog.cpp:117
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-format
 msgid "Retry"
 msgstr "Reintenta"
 
-#: kerfuffle/extractiondialog.cpp:131 kerfuffle/extractiondialog.cpp:137
+#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "No s'ha pogut crear la carpeta <filename>%1</filename>."
 
-#: kerfuffle/extractiondialog.cpp:132
+#: kerfuffle/extractiondialog.cpp:122
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> ja existix, però no és una carpeta."
 
-#: kerfuffle/extractiondialog.cpp:138
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Verifiqueu els vostres permisos per a crear-la."
 
-#: kerfuffle/extractiondialog.cpp:177
+#: kerfuffle/extractiondialog.cpp:167
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Extrau múltiples arxius"
@@ -1305,13 +1305,13 @@ msgstr "Multivolum:"
 msgid "Compression method(s):"
 msgstr "Mètodes de compressió:"
 
-#: kerfuffle/queries.cpp:74
+#: kerfuffle/queries.cpp:73
 #, kde-format
 msgctxt "@title:window"
 msgid "File Already Exists"
 msgstr "El fitxer ja existix"
 
-#: kerfuffle/queries.cpp:157
+#: kerfuffle/queries.cpp:156
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1320,12 +1320,12 @@ msgid ""
 msgstr ""
 "L'arxiu <filename>%1</filename> està protegit amb contrasenya. Introduïu-la."
 
-#: kerfuffle/queries.cpp:161
+#: kerfuffle/queries.cpp:160
 #, kde-format
 msgid "Incorrect password, please try again."
 msgstr "Contrasenya incorrecta, torneu-ho a provar."
 
-#: kerfuffle/queries.cpp:201
+#: kerfuffle/queries.cpp:196
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1335,35 +1335,35 @@ msgstr ""
 "L'arxiu que esteu intentant obrir s'ha corromput.<nl/>Poden faltar alguns "
 "fitxers o estar malmesos."
 
-#: kerfuffle/queries.cpp:203
+#: kerfuffle/queries.cpp:198
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
 msgstr "Arxiu malmés"
 
-#: kerfuffle/queries.cpp:204
+#: kerfuffle/queries.cpp:199
 #, kde-format
 msgctxt "@action:button"
 msgid "Open as Read-Only"
 msgstr "Obri com a només lectura"
 
-#: kerfuffle/queries.cpp:205
+#: kerfuffle/queries.cpp:200
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
 msgstr "No òbrigues"
 
-#: kerfuffle/queries.cpp:218
+#: kerfuffle/queries.cpp:210
 #, kde-format
 msgid "Don't ask again."
 msgstr "No ho tornes a preguntar."
 
-#: kerfuffle/queries.cpp:230
+#: kerfuffle/queries.cpp:222
 #, kde-format
 msgid "Error during extraction"
 msgstr "Error durant l'extracció"
 
-#: kerfuffle/queries.cpp:231
+#: kerfuffle/queries.cpp:223
 #, kde-kuit-format
 msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
@@ -1490,22 +1490,22 @@ msgstr "Barra d'eines principal"
 msgid "&Help"
 msgstr "A&juda"
 
-#: part/arkviewer.cpp:54
+#: part/arkviewer.cpp:52
 #, kde-format
 msgid "Closing preview"
 msgstr "S'està tancant la vista prèvia"
 
-#: part/arkviewer.cpp:55
+#: part/arkviewer.cpp:53
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Espereu mentre es tanca la vista prèvia..."
 
-#: part/arkviewer.cpp:102
+#: part/arkviewer.cpp:100
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "El visor intern no pot previsualitzar este fitxer."
 
-#: part/arkviewer.cpp:118
+#: part/arkviewer.cpp:116
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
@@ -1514,19 +1514,19 @@ msgstr ""
 "El visor intern no pot previsualitzar este tipus de fitxer<nl/>(%1).<nl/><nl/"
 ">Voleu intentar visualitzar-lo com a text?"
 
-#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
+#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr "No es pot previsualitzar el fitxer"
 
-#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "Vista prèvia com a text"
 
-#: part/arkviewer.cpp:130
+#: part/arkviewer.cpp:128
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
@@ -1535,7 +1535,7 @@ msgstr ""
 "El visor intern no pot previsualitzar este tipus de fitxer desconegut.<nl/"
 "><nl/>Voleu intentar visualitzar-lo com a text?"
 
-#: part/arkviewer.cpp:231
+#: part/arkviewer.cpp:201
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1634,76 +1634,76 @@ msgstr ""
 msgid "Comment"
 msgstr "Comentari"
 
-#: part/part.cpp:129
+#: part/part.cpp:132
 #, kde-format
 msgid "Comment has been modified."
 msgstr "S'ha modificat el comentari."
 
-#: part/part.cpp:134
+#: part/part.cpp:137
 #, kde-format
 msgid "Save"
 msgstr "Guarda"
 
-#: part/part.cpp:157
+#: part/part.cpp:160
 #, kde-format
 msgid "Type to search..."
 msgstr "Teclegeu per a buscar..."
 
-#: part/part.cpp:318
+#: part/part.cpp:321
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark només pot extraure arxius en destinacions locals."
 
-#: part/part.cpp:373
+#: part/part.cpp:376
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Mostra el quadro d'informació"
 
-#: part/part.cpp:380
+#: part/part.cpp:383
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Anomena i guarda una còpia..."
 
-#: part/part.cpp:384
+#: part/part.cpp:387
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "O&bri en una aplicació externa"
 
-#: part/part.cpp:389
+#: part/part.cpp:392
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Obri &amb..."
 
-#: part/part.cpp:391
+#: part/part.cpp:394
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Cliqueu per a obrir el fitxer seleccionat amb un programa extern"
 
-#: part/part.cpp:395
+#: part/part.cpp:398
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&Vista prèvia"
 
-#: part/part.cpp:397
+#: part/part.cpp:400
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Cliqueu per a previsualitzar el fitxer seleccionat"
 
-#: part/part.cpp:402
+#: part/part.cpp:405
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "E&xtrau-ho tot"
 
-#: part/part.cpp:404
+#: part/part.cpp:407
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1712,13 +1712,13 @@ msgstr ""
 "Cliqueu per a obrir un diàleg d'extracció, a on podreu seleccionar com "
 "extraure tots els fitxers de l'arxiu"
 
-#: part/part.cpp:409
+#: part/part.cpp:412
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "E&xtrau"
 
-#: part/part.cpp:412
+#: part/part.cpp:415
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1727,54 +1727,54 @@ msgstr ""
 "Cliqueu per a obrir un diàleg d'extracció, a on podreu seleccionar si "
 "extraure tots els fitxers o només els seleccionats"
 
-#: part/part.cpp:417
+#: part/part.cpp:420
 #, kde-format
 msgid "Add &Files..."
 msgstr "Afig fi&txers..."
 
-#: part/part.cpp:418 part/part.cpp:481
+#: part/part.cpp:421 part/part.cpp:484
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Cliqueu per a afegir fitxers a l'arxiu"
 
-#: part/part.cpp:425
+#: part/part.cpp:428
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Elimina de l'arxiu"
 
-#: part/part.cpp:435
+#: part/part.cpp:438
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Propietats"
 
-#: part/part.cpp:437
+#: part/part.cpp:440
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Cliqueu per a veure les propietats de l'arxiu"
 
-#: part/part.cpp:443
+#: part/part.cpp:446
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Cliqueu per a afegir o editar un comentari"
 
-#: part/part.cpp:448
+#: part/part.cpp:451
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "Prova la in&tegritat"
 
-#: part/part.cpp:450 part/part.cpp:482
+#: part/part.cpp:453 part/part.cpp:485
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Cliqueu per a provar la integritat de l'arxiu"
 
-#: part/part.cpp:476
+#: part/part.cpp:479
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1786,7 +1786,7 @@ msgstr ""
 "contrasenya sense capçalera d'encriptació.<nl/><nl/>Si voleu afegir fitxers, "
 "extraeu els fitxers i creeu un arxiu nou."
 
-#: part/part.cpp:479
+#: part/part.cpp:482
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1796,74 +1796,74 @@ msgstr ""
 "Actualment no s'admeten les proves amb arxius protegits amb contrasenya "
 "sense capçalera d'encriptació."
 
-#: part/part.cpp:547
+#: part/part.cpp:550
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Edita el &comentari"
 
-#: part/part.cpp:548 part/part.cpp:556
+#: part/part.cpp:551 part/part.cpp:559
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Afig un &comentari"
 
-#: part/part.cpp:657
+#: part/part.cpp:660
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "L'arxiu ha superat la prova d'integritat."
 
-#: part/part.cpp:657 part/part.cpp:659
+#: part/part.cpp:660 part/part.cpp:662
 #, kde-format
 msgid "Test Results"
 msgstr "Resultats de la prova"
 
-#: part/part.cpp:659
+#: part/part.cpp:662
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "L'arxiu ha fallat en la prova d'integritat."
 
-#: part/part.cpp:680
+#: part/part.cpp:683
 #, kde-format
 msgid "Extract To..."
 msgstr "Extrau a..."
 
-#: part/part.cpp:694
+#: part/part.cpp:697
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Extracció ràpida a..."
 
-#: part/part.cpp:824
+#: part/part.cpp:827
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "General"
 
-#: part/part.cpp:825
+#: part/part.cpp:828
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Extracció"
 
-#: part/part.cpp:826
+#: part/part.cpp:829
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Connectors"
 
-#: part/part.cpp:827
+#: part/part.cpp:830
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Vistes prèvies"
 
-#: part/part.cpp:844
+#: part/part.cpp:847
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> és un directori."
 
-#: part/part.cpp:853
+#: part/part.cpp:856
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1873,7 +1873,7 @@ msgstr ""
 "No s'ha pogut sobreescriure <filename>%1</filename>. Comproveu si teniu "
 "permís d'escriptura."
 
-#: part/part.cpp:859
+#: part/part.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1882,13 +1882,13 @@ msgid ""
 msgstr ""
 "L'arxiu <filename>%1</filename> es crearà tan prompte com afegiu un fitxer."
 
-#: part/part.cpp:862
+#: part/part.cpp:865
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "No s'ha trobat l'arxiu <filename>%1</filename>."
 
-#: part/part.cpp:867
+#: part/part.cpp:870
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1898,7 +1898,7 @@ msgstr ""
 "L'arxiu <filename>%1</filename> no s'ha pogut carregar, ja que no s'ha pogut "
 "llegir."
 
-#: part/part.cpp:885
+#: part/part.cpp:883
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1906,26 +1906,26 @@ msgid ""
 "it?"
 msgstr "L'arxiu <filename>%1</filename> ja existix. Voleu sobreescriure'l?"
 
-#: part/part.cpp:886
+#: part/part.cpp:884
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "El fitxer ja existix"
 
-#: part/part.cpp:927
+#: part/part.cpp:921
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "L'arxiu està buit o Ark no ha pogut obrir el seu contingut."
 
-#: part/part.cpp:932
+#: part/part.cpp:926
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 "Actualment Ark no permet l'ús de fitxers ISO amb el sistema de fitxers UDF."
 
-#: part/part.cpp:962
+#: part/part.cpp:956
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1935,12 +1935,12 @@ msgstr ""
 "La càrrega de l'arxiu <filename>%1</filename> ha fallat amb l'error següent: "
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:1022
+#: part/part.cpp:1016
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark no pot obrir enllaços simbòlics."
 
-#: part/part.cpp:1154
+#: part/part.cpp:1144
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1949,60 +1949,60 @@ msgstr ""
 "El fitxer <filename>%1</filename> s'ha modificat. Segur que voleu "
 "actualitzar l'arxiu?"
 
-#: part/part.cpp:1155
+#: part/part.cpp:1145
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fitxer modificat"
 
-#: part/part.cpp:1156
+#: part/part.cpp:1146
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Actualitza"
 
-#: part/part.cpp:1157
+#: part/part.cpp:1147
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Ignora"
 
-#: part/part.cpp:1442
+#: part/part.cpp:1428
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Afig fitxers"
 
-#: part/part.cpp:1447
+#: part/part.cpp:1433
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Afig fitxers a %1"
 
-#: part/part.cpp:1511
+#: part/part.cpp:1497
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "El nom de fitxer no pot contindre barres i no pot ser igual que «.» o «..»"
 
-#: part/part.cpp:1555
+#: part/part.cpp:1541
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Les carpetes no es poden moure en si mateixes."
 
-#: part/part.cpp:1556
+#: part/part.cpp:1542
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "S'està movent la carpeta en si mateixa"
 
-#: part/part.cpp:1584
+#: part/part.cpp:1570
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Les entrades amb els mateixos noms no es poden apegar a la mateixa "
 "destinació."
 
-#: part/part.cpp:1688
+#: part/part.cpp:1670
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2013,7 +2013,7 @@ msgstr[0] ""
 msgstr[1] ""
 "La supressió d'estos fitxers no es pot desfer. Segur que voleu fer açò?"
 
-#: part/part.cpp:1691
+#: part/part.cpp:1673
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2021,13 +2021,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Suprimix el fitxer"
 msgstr[1] "Suprimix els fitxers"
 
-#: part/part.cpp:1738
+#: part/part.cpp:1716
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Anomeneu i guardeu una còpia"
 
-#: part/part.cpp:1753
+#: part/part.cpp:1731
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2037,7 +2037,7 @@ msgstr ""
 "L'arxiu no es pot guardar com a <filename>%1</filename>. Intenteu guardar-lo "
 "a una altra ubicació."
 
-#: part/part.cpp:1757
+#: part/part.cpp:1735
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

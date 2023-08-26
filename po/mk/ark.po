@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-21 00:53+0000\n"
+"POT-Creation-Date: 2023-08-26 00:48+0000\n"
 "PO-Revision-Date: 2006-05-08 10:32+0200\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -838,25 +838,25 @@ msgstr ""
 msgid "Extension:"
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:41
+#: kerfuffle/extractiondialog.cpp:40
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@title:window"
 msgid "Extract"
 msgstr "Отпакување"
 
-#: kerfuffle/extractiondialog.cpp:55
+#: kerfuffle/extractiondialog.cpp:54
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract"
 msgstr "Отпакување"
 
-#: kerfuffle/extractiondialog.cpp:98
+#: kerfuffle/extractiondialog.cpp:97
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:114
+#: kerfuffle/extractiondialog.cpp:108
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
@@ -865,43 +865,43 @@ msgid ""
 "extract here?"
 msgstr "Архивата веќе постои. Дали сакате да запишам врз неа?"
 
-#: kerfuffle/extractiondialog.cpp:115
+#: kerfuffle/extractiondialog.cpp:109
 #, fuzzy, kde-format
 #| msgid "Archive Already Exists"
 msgid "Folder exists"
 msgstr "Архивата веќе постои"
 
-#: kerfuffle/extractiondialog.cpp:116
+#: kerfuffle/extractiondialog.cpp:110
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract here"
 msgstr "Отпакување"
 
-#: kerfuffle/extractiondialog.cpp:117
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-format
 msgid "Retry"
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:131 kerfuffle/extractiondialog.cpp:137
+#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
 #, fuzzy, kde-kuit-format
 #| msgid "The folder could not be created. Please check permissions."
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Не можеше да се создаде папката. Проверете ги дозволите."
 
-#: kerfuffle/extractiondialog.cpp:132
+#: kerfuffle/extractiondialog.cpp:122
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "Архивата веќе постои. Дали сакате да запишам врз неа?"
 
-#: kerfuffle/extractiondialog.cpp:138
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:177
+#: kerfuffle/extractiondialog.cpp:167
 #, fuzzy, kde-format
 #| msgid "Extract all files"
 msgid "Extract multiple archives"
@@ -1352,14 +1352,14 @@ msgstr ""
 msgid "Compression method(s):"
 msgstr "Едноставна компресирана архива"
 
-#: kerfuffle/queries.cpp:74
+#: kerfuffle/queries.cpp:73
 #, fuzzy, kde-format
 #| msgid "Archive Already Exists"
 msgctxt "@title:window"
 msgid "File Already Exists"
 msgstr "Архивата веќе постои"
 
-#: kerfuffle/queries.cpp:157
+#: kerfuffle/queries.cpp:156
 #, fuzzy, kde-kuit-format
 #| msgid "You must enter a password to extract the file:"
 msgctxt "@info"
@@ -1368,12 +1368,12 @@ msgid ""
 "password."
 msgstr "Мора да внесете лозинка да да ја распакувате датотеката:"
 
-#: kerfuffle/queries.cpp:161
+#: kerfuffle/queries.cpp:160
 #, kde-format
 msgid "Incorrect password, please try again."
 msgstr ""
 
-#: kerfuffle/queries.cpp:201
+#: kerfuffle/queries.cpp:196
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1381,37 +1381,37 @@ msgid ""
 "or damaged."
 msgstr ""
 
-#: kerfuffle/queries.cpp:203
+#: kerfuffle/queries.cpp:198
 #, fuzzy, kde-format
 #| msgid "Save Archive?"
 msgctxt "@title:window"
 msgid "Corrupt archive"
 msgstr "Да зачувам архива?"
 
-#: kerfuffle/queries.cpp:204
+#: kerfuffle/queries.cpp:199
 #, kde-format
 msgctxt "@action:button"
 msgid "Open as Read-Only"
 msgstr ""
 
-#: kerfuffle/queries.cpp:205
+#: kerfuffle/queries.cpp:200
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
 msgstr ""
 
-#: kerfuffle/queries.cpp:218
+#: kerfuffle/queries.cpp:210
 #, kde-format
 msgid "Don't ask again."
 msgstr ""
 
-#: kerfuffle/queries.cpp:230
+#: kerfuffle/queries.cpp:222
 #, fuzzy, kde-format
 #| msgid "Open destination folder after extraction"
 msgid "Error during extraction"
 msgstr "Отвори ја одредишната папка по отпакувањето"
 
-#: kerfuffle/queries.cpp:231
+#: kerfuffle/queries.cpp:223
 #, kde-kuit-format
 msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
@@ -1544,35 +1544,35 @@ msgstr ""
 msgid "&Help"
 msgstr ""
 
-#: part/arkviewer.cpp:54
+#: part/arkviewer.cpp:52
 #, kde-format
 msgid "Closing preview"
 msgstr ""
 
-#: part/arkviewer.cpp:55
+#: part/arkviewer.cpp:53
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr ""
 
-#: part/arkviewer.cpp:102
+#: part/arkviewer.cpp:100
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr ""
 
-#: part/arkviewer.cpp:118
+#: part/arkviewer.cpp:116
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
 
-#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
+#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr ""
 
-#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, fuzzy, kde-format
 #| msgctxt "to view something"
 #| msgid "&View"
@@ -1580,14 +1580,14 @@ msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "&Преглед"
 
-#: part/arkviewer.cpp:130
+#: part/arkviewer.cpp:128
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
 
-#: part/arkviewer.cpp:231
+#: part/arkviewer.cpp:201
 #, fuzzy, kde-format
 #| msgid "Ark KParts Component"
 msgctxt "@action"
@@ -1687,61 +1687,61 @@ msgstr ""
 msgid "Comment"
 msgstr ""
 
-#: part/part.cpp:129
+#: part/part.cpp:132
 #, kde-format
 msgid "Comment has been modified."
 msgstr ""
 
-#: part/part.cpp:134
+#: part/part.cpp:137
 #, kde-format
 msgid "Save"
 msgstr ""
 
-#: part/part.cpp:157
+#: part/part.cpp:160
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
 msgid "Type to search..."
 msgstr "Отвори „архива“"
 
-#: part/part.cpp:318
+#: part/part.cpp:321
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr ""
 
-#: part/part.cpp:373
+#: part/part.cpp:376
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr ""
 
-#: part/part.cpp:380
+#: part/part.cpp:383
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr ""
 
-#: part/part.cpp:384
+#: part/part.cpp:387
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr ""
 
-#: part/part.cpp:389
+#: part/part.cpp:392
 #, fuzzy, kde-format
 #| msgid "&Open With..."
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "&Отвори со..."
 
-#: part/part.cpp:391
+#: part/part.cpp:394
 #, fuzzy, kde-format
 #| msgid "Do you really want to delete the selected items?"
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Дали навистина сакате да ги избришетен избраните елементи?"
 
-#: part/part.cpp:395
+#: part/part.cpp:398
 #, fuzzy, kde-format
 #| msgctxt "to view something"
 #| msgid "&View"
@@ -1749,95 +1749,95 @@ msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&Преглед"
 
-#: part/part.cpp:397
+#: part/part.cpp:400
 #, fuzzy, kde-format
 #| msgid "Do you really want to delete the selected items?"
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Дали навистина сакате да ги избришетен избраните елементи?"
 
-#: part/part.cpp:402
+#: part/part.cpp:405
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "Отпакување"
 
-#: part/part.cpp:404
+#: part/part.cpp:407
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
 "the files in the archive"
 msgstr ""
 
-#: part/part.cpp:409
+#: part/part.cpp:412
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "Отпакување"
 
-#: part/part.cpp:412
+#: part/part.cpp:415
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
 "all files or just the selected ones"
 msgstr ""
 
-#: part/part.cpp:417
+#: part/part.cpp:420
 #, fuzzy, kde-format
 #| msgid "Add &File..."
 msgid "Add &Files..."
 msgstr "Додај &датотека..."
 
-#: part/part.cpp:418 part/part.cpp:481
+#: part/part.cpp:421 part/part.cpp:484
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Се случи грешка при додавањето на датотеките во архивата."
 
-#: part/part.cpp:425
+#: part/part.cpp:428
 #, fuzzy, kde-format
 #| msgid "Simple Compressed Archive"
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Едноставна компресирана архива"
 
-#: part/part.cpp:435
+#: part/part.cpp:438
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr ""
 
-#: part/part.cpp:437
+#: part/part.cpp:440
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Се случи грешка при додавањето на датотеките во архивата."
 
-#: part/part.cpp:443
+#: part/part.cpp:446
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Се случи грешка при додавањето на датотеките во архивата."
 
-#: part/part.cpp:448
+#: part/part.cpp:451
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr ""
 
-#: part/part.cpp:450 part/part.cpp:482
+#: part/part.cpp:453 part/part.cpp:485
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Се случи грешка при додавањето на датотеките во архивата."
 
-#: part/part.cpp:476
+#: part/part.cpp:479
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1846,7 +1846,7 @@ msgid ""
 "a new archive if you want to add files."
 msgstr ""
 
-#: part/part.cpp:479
+#: part/part.cpp:482
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1854,64 +1854,64 @@ msgid ""
 "not supported."
 msgstr ""
 
-#: part/part.cpp:547
+#: part/part.cpp:550
 #, fuzzy, kde-format
 #| msgid "Adding folder..."
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Додавам папка..."
 
-#: part/part.cpp:548 part/part.cpp:556
+#: part/part.cpp:551 part/part.cpp:559
 #, fuzzy, kde-format
 #| msgid "Adding folder..."
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Додавам папка..."
 
-#: part/part.cpp:657
+#: part/part.cpp:660
 #, fuzzy, kde-format
 #| msgid "The archive %1 does not exist."
 msgid "The archive passed the integrity test."
 msgstr "Архивата %1 не постои."
 
-#: part/part.cpp:657 part/part.cpp:659
+#: part/part.cpp:660 part/part.cpp:662
 #, kde-format
 msgid "Test Results"
 msgstr ""
 
-#: part/part.cpp:659
+#: part/part.cpp:662
 #, fuzzy, kde-format
 #| msgid "The archive %1 does not exist."
 msgid "The archive failed the integrity test."
 msgstr "Архивата %1 не постои."
 
-#: part/part.cpp:680
+#: part/part.cpp:683
 #, fuzzy, kde-format
 #| msgid "E&xtract..."
 msgid "Extract To..."
 msgstr "О&тпакувај..."
 
-#: part/part.cpp:694
+#: part/part.cpp:697
 #, fuzzy, kde-format
 #| msgid "E&xtract..."
 msgid "Quick Extract To..."
 msgstr "О&тпакувај..."
 
-#: part/part.cpp:824
+#: part/part.cpp:827
 #, fuzzy, kde-format
 #| msgid "General"
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Општо"
 
-#: part/part.cpp:825
+#: part/part.cpp:828
 #, fuzzy, kde-format
 #| msgid "&Extracting"
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "&Отпакување"
 
-#: part/part.cpp:826
+#: part/part.cpp:829
 #, fuzzy, kde-format
 #| msgctxt "to view something"
 #| msgid "&View"
@@ -1919,7 +1919,7 @@ msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "&Преглед"
 
-#: part/part.cpp:827
+#: part/part.cpp:830
 #, fuzzy, kde-format
 #| msgctxt "to view something"
 #| msgid "&View"
@@ -1927,13 +1927,13 @@ msgctxt "@title:tab"
 msgid "Previews"
 msgstr "&Преглед"
 
-#: part/part.cpp:844
+#: part/part.cpp:847
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr ""
 
-#: part/part.cpp:853
+#: part/part.cpp:856
 #, fuzzy, kde-kuit-format
 #| msgid "Could not create the folder %1"
 msgctxt "@info"
@@ -1942,7 +1942,7 @@ msgid ""
 "permission."
 msgstr "Не може да се создаде папката %1"
 
-#: part/part.cpp:859
+#: part/part.cpp:862
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
@@ -1951,13 +1951,13 @@ msgid ""
 "file."
 msgstr "Архивата веќе постои. Дали сакате да запишам врз неа?"
 
-#: part/part.cpp:862
+#: part/part.cpp:865
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr ""
 
-#: part/part.cpp:867
+#: part/part.cpp:870
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
@@ -1966,7 +1966,7 @@ msgid ""
 "possible to read from it."
 msgstr "Архивата веќе постои. Дали сакате да запишам врз неа?"
 
-#: part/part.cpp:885
+#: part/part.cpp:883
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
@@ -1975,27 +1975,27 @@ msgid ""
 "it?"
 msgstr "Архивата веќе постои. Дали сакате да запишам врз неа?"
 
-#: part/part.cpp:886
+#: part/part.cpp:884
 #, fuzzy, kde-format
 #| msgid "Archive Already Exists"
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Архивата веќе постои"
 
-#: part/part.cpp:927
+#: part/part.cpp:921
 #, fuzzy, kde-kuit-format
 #| msgid "The archive %1 does not exist."
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Архивата %1 не постои."
 
-#: part/part.cpp:932
+#: part/part.cpp:926
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 
-#: part/part.cpp:962
+#: part/part.cpp:956
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2003,12 +2003,12 @@ msgid ""
 "<nl/><message>%2</message>"
 msgstr ""
 
-#: part/part.cpp:1022
+#: part/part.cpp:1016
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr ""
 
-#: part/part.cpp:1154
+#: part/part.cpp:1144
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgid ""
@@ -2016,60 +2016,60 @@ msgid ""
 "archive?"
 msgstr "Архивата веќе постои. Дали сакате да запишам врз неа?"
 
-#: part/part.cpp:1155
+#: part/part.cpp:1145
 #, fuzzy, kde-format
 #| msgid "Files to be added"
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Датотеки за додавање"
 
-#: part/part.cpp:1156
+#: part/part.cpp:1146
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1157
+#: part/part.cpp:1147
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1442
+#: part/part.cpp:1428
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Сите датотеки"
 
-#: part/part.cpp:1447
+#: part/part.cpp:1433
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Сите датотеки"
 
-#: part/part.cpp:1511
+#: part/part.cpp:1497
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1555
+#: part/part.cpp:1541
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr ""
 
-#: part/part.cpp:1556
+#: part/part.cpp:1542
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr ""
 
-#: part/part.cpp:1584
+#: part/part.cpp:1570
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1688
+#: part/part.cpp:1670
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2079,7 +2079,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: part/part.cpp:1691
+#: part/part.cpp:1673
 #, fuzzy, kde-format
 #| msgid "Selected files only"
 msgctxt "@title:window"
@@ -2089,13 +2089,13 @@ msgstr[0] "Само избраните датотеки"
 msgstr[1] "Само избраните датотеки"
 msgstr[2] "Само избраните датотеки"
 
-#: part/part.cpp:1738
+#: part/part.cpp:1716
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1753
+#: part/part.cpp:1731
 #, fuzzy, kde-kuit-format
 #| msgid "Last folders used for extraction"
 msgctxt "@info"
@@ -2104,7 +2104,7 @@ msgid ""
 "another location."
 msgstr "Последните папки користени за распакување"
 
-#: part/part.cpp:1757
+#: part/part.cpp:1735
 #, fuzzy, kde-kuit-format
 #| msgid "You must enter a password to extract the file:"
 msgctxt "@info"

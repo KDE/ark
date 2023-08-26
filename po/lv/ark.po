@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-21 00:53+0000\n"
+"POT-Creation-Date: 2023-08-26 00:48+0000\n"
 "PO-Revision-Date: 2011-03-09 22:52+0200\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -870,25 +870,25 @@ msgstr ""
 msgid "Extension:"
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:41
+#: kerfuffle/extractiondialog.cpp:40
 #, kde-format
 msgctxt "@title:window"
 msgid "Extract"
 msgstr "Atspiest"
 
-#: kerfuffle/extractiondialog.cpp:55
+#: kerfuffle/extractiondialog.cpp:54
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Extract"
 msgid "Extract"
 msgstr "Atspiest"
 
-#: kerfuffle/extractiondialog.cpp:98
+#: kerfuffle/extractiondialog.cpp:97
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "Apakšmapes nosaukums nedrīks saturēt rakstzīmi '/'."
 
-#: kerfuffle/extractiondialog.cpp:114
+#: kerfuffle/extractiondialog.cpp:108
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -897,39 +897,39 @@ msgid ""
 msgstr ""
 "Mape <filename>%1</filename> jau pastāv. Vai tiešām vēlaties atspiest tajā?"
 
-#: kerfuffle/extractiondialog.cpp:115
+#: kerfuffle/extractiondialog.cpp:109
 #, kde-format
 msgid "Folder exists"
 msgstr "Mape pastāv"
 
-#: kerfuffle/extractiondialog.cpp:116
+#: kerfuffle/extractiondialog.cpp:110
 #, kde-format
 msgid "Extract here"
 msgstr "Atspiest šeit"
 
-#: kerfuffle/extractiondialog.cpp:117
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-format
 msgid "Retry"
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:131 kerfuffle/extractiondialog.cpp:137
+#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Neizdevās izveidot mapi <filename>%1</filename>."
 
-#: kerfuffle/extractiondialog.cpp:132
+#: kerfuffle/extractiondialog.cpp:122
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> jau eksistē, bet nav mape."
 
-#: kerfuffle/extractiondialog.cpp:138
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Lūdzu, pārbaudiet atļaujas to izveidot."
 
-#: kerfuffle/extractiondialog.cpp:177
+#: kerfuffle/extractiondialog.cpp:167
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Atspiest vairākus arhīvus"
@@ -1386,14 +1386,14 @@ msgstr ""
 msgid "Compression method(s):"
 msgstr "Saspiest arhīvā"
 
-#: kerfuffle/queries.cpp:74
+#: kerfuffle/queries.cpp:73
 #, fuzzy, kde-format
 #| msgid "File already exists"
 msgctxt "@title:window"
 msgid "File Already Exists"
 msgstr "Fails jau pastāv"
 
-#: kerfuffle/queries.cpp:157
+#: kerfuffle/queries.cpp:156
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -1407,12 +1407,12 @@ msgstr ""
 "Arhīvs <filename>%1</filename> ir aizsargāts ar paroli. Lai atspiestu, "
 "lūdzu, ievadiet paroli."
 
-#: kerfuffle/queries.cpp:161
+#: kerfuffle/queries.cpp:160
 #, kde-format
 msgid "Incorrect password, please try again."
 msgstr "Nepareiza parole, lūdzu, mēģiniet vēlreiz."
 
-#: kerfuffle/queries.cpp:201
+#: kerfuffle/queries.cpp:196
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1420,37 +1420,37 @@ msgid ""
 "or damaged."
 msgstr ""
 
-#: kerfuffle/queries.cpp:203
+#: kerfuffle/queries.cpp:198
 #, fuzzy, kde-format
 #| msgid "Source archive"
 msgctxt "@title:window"
 msgid "Corrupt archive"
 msgstr "Avota arhīvs"
 
-#: kerfuffle/queries.cpp:204
+#: kerfuffle/queries.cpp:199
 #, kde-format
 msgctxt "@action:button"
 msgid "Open as Read-Only"
 msgstr ""
 
-#: kerfuffle/queries.cpp:205
+#: kerfuffle/queries.cpp:200
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
 msgstr ""
 
-#: kerfuffle/queries.cpp:218
+#: kerfuffle/queries.cpp:210
 #, kde-format
 msgid "Don't ask again."
 msgstr ""
 
-#: kerfuffle/queries.cpp:230
+#: kerfuffle/queries.cpp:222
 #, fuzzy, kde-format
 #| msgid "There was an error during extraction."
 msgid "Error during extraction"
 msgstr "Gadījās kļūda atspiešanā."
 
-#: kerfuffle/queries.cpp:231
+#: kerfuffle/queries.cpp:223
 #, kde-kuit-format
 msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
@@ -1579,35 +1579,35 @@ msgstr "Galvenā rīkjosla"
 msgid "&Help"
 msgstr ""
 
-#: part/arkviewer.cpp:54
+#: part/arkviewer.cpp:52
 #, kde-format
 msgid "Closing preview"
 msgstr "Aizver priekšskatījumu"
 
-#: part/arkviewer.cpp:55
+#: part/arkviewer.cpp:53
 #, kde-format
 msgid "Please wait while the preview is being closed..."
 msgstr "Lūdzu, uzgaidiet līdz aizvērs pierkšskatījumu..."
 
-#: part/arkviewer.cpp:102
+#: part/arkviewer.cpp:100
 #, kde-format
 msgid "The internal viewer cannot preview this file."
 msgstr "Iekšējais skatītājs nespēj priekšskatīt šo failu."
 
-#: part/arkviewer.cpp:118
+#: part/arkviewer.cpp:116
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
 
-#: part/arkviewer.cpp:119 part/arkviewer.cpp:131
+#: part/arkviewer.cpp:117 part/arkviewer.cpp:129
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
 msgstr ""
 
-#: part/arkviewer.cpp:120 part/arkviewer.cpp:132
+#: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, fuzzy, kde-format
 #| msgctxt "to preview a file inside an archive"
 #| msgid "Pre&view"
@@ -1615,14 +1615,14 @@ msgctxt "@action:button"
 msgid "Preview as Text"
 msgstr "Prie&kšskatīt"
 
-#: part/arkviewer.cpp:130
+#: part/arkviewer.cpp:128
 #, kde-kuit-format
 msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
 
-#: part/arkviewer.cpp:231
+#: part/arkviewer.cpp:201
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
@@ -1724,29 +1724,29 @@ msgstr ""
 msgid "Comment"
 msgstr "Komentārs"
 
-#: part/part.cpp:129
+#: part/part.cpp:132
 #, kde-format
 msgid "Comment has been modified."
 msgstr ""
 
-#: part/part.cpp:134
+#: part/part.cpp:137
 #, kde-format
 msgid "Save"
 msgstr ""
 
-#: part/part.cpp:157
+#: part/part.cpp:160
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgid "Type to search..."
 msgstr "Atvērt arhīvu"
 
-#: part/part.cpp:318
+#: part/part.cpp:321
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr ""
 
-#: part/part.cpp:373
+#: part/part.cpp:376
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Show information panel"
@@ -1754,53 +1754,53 @@ msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Rādīt informācijas paneli"
 
-#: part/part.cpp:380
+#: part/part.cpp:383
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr ""
 
-#: part/part.cpp:384
+#: part/part.cpp:387
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr ""
 
-#: part/part.cpp:389
+#: part/part.cpp:392
 #, fuzzy, kde-format
 #| msgid "Open File"
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Atvērt failu"
 
-#: part/part.cpp:391
+#: part/part.cpp:394
 #, fuzzy, kde-format
 #| msgid "Click to preview the selected file"
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Nospiediet, lai priekšskatītu izvēlēto failu"
 
-#: part/part.cpp:395
+#: part/part.cpp:398
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "Prie&kšskatīt"
 
-#: part/part.cpp:397
+#: part/part.cpp:400
 #, fuzzy, kde-format
 #| msgid "Click to preview the selected file"
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Nospiediet, lai priekšskatītu izvēlēto failu"
 
-#: part/part.cpp:402
+#: part/part.cpp:405
 #, fuzzy, kde-format
 #| msgid "E&xtract"
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "&Atspiest"
 
-#: part/part.cpp:404
+#: part/part.cpp:407
 #, fuzzy, kde-format
 #| msgid ""
 #| "Click to open an extraction dialog, where you can choose to extract "
@@ -1812,7 +1812,7 @@ msgstr ""
 "Nospiediet, lai atvērtu atspiešanas logu, kurā var izvēlēties - atspiest "
 "visus failus vai tikai izvēlētos."
 
-#: part/part.cpp:409
+#: part/part.cpp:412
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Extract"
@@ -1820,7 +1820,7 @@ msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "Atspiest"
 
-#: part/part.cpp:412
+#: part/part.cpp:415
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1829,60 +1829,60 @@ msgstr ""
 "Nospiediet, lai atvērtu atspiešanas logu, kurā var izvēlēties - atspiest "
 "visus failus vai tikai izvēlētos."
 
-#: part/part.cpp:417
+#: part/part.cpp:420
 #, fuzzy, kde-format
 #| msgid "Add &File..."
 msgid "Add &Files..."
 msgstr "Pievienot &failu..."
 
-#: part/part.cpp:418 part/part.cpp:481
+#: part/part.cpp:421 part/part.cpp:484
 #, fuzzy, kde-format
 #| msgid "Click to add files to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Nospiediet, lai arhīvam pievienotu failus"
 
-#: part/part.cpp:425
+#: part/part.cpp:428
 #, fuzzy, kde-format
 #| msgid "Compress to Archive"
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Saspiest arhīvā"
 
-#: part/part.cpp:435
+#: part/part.cpp:438
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr ""
 
-#: part/part.cpp:437
+#: part/part.cpp:440
 #, fuzzy, kde-format
 #| msgid "Click to add files to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Nospiediet, lai arhīvam pievienotu failus"
 
-#: part/part.cpp:443
+#: part/part.cpp:446
 #, fuzzy, kde-format
 #| msgid "Click to add a folder to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Nospiediet, lai pievienotu arhīvam mapi"
 
-#: part/part.cpp:448
+#: part/part.cpp:451
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr ""
 
-#: part/part.cpp:450 part/part.cpp:482
+#: part/part.cpp:453 part/part.cpp:485
 #, fuzzy, kde-format
 #| msgid "Click to add files to the archive"
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Nospiediet, lai arhīvam pievienotu failus"
 
-#: part/part.cpp:476
+#: part/part.cpp:479
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1891,7 +1891,7 @@ msgid ""
 "a new archive if you want to add files."
 msgstr ""
 
-#: part/part.cpp:479
+#: part/part.cpp:482
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1899,7 +1899,7 @@ msgid ""
 "not supported."
 msgstr ""
 
-#: part/part.cpp:547
+#: part/part.cpp:550
 #, fuzzy, kde-format
 #| msgctxt "File comment"
 #| msgid "Comment"
@@ -1907,7 +1907,7 @@ msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Komentārs"
 
-#: part/part.cpp:548 part/part.cpp:556
+#: part/part.cpp:551 part/part.cpp:559
 #, fuzzy, kde-format
 #| msgctxt "File comment"
 #| msgid "Comment"
@@ -1915,34 +1915,34 @@ msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Komentārs"
 
-#: part/part.cpp:657
+#: part/part.cpp:660
 #, fuzzy, kde-format
 #| msgid "The archive reader could not be initialized."
 msgid "The archive passed the integrity test."
 msgstr "Neizdevās inicializēt arhīva lasītāju."
 
-#: part/part.cpp:657 part/part.cpp:659
+#: part/part.cpp:660 part/part.cpp:662
 #, kde-format
 msgid "Test Results"
 msgstr ""
 
-#: part/part.cpp:659
+#: part/part.cpp:662
 #, fuzzy, kde-format
 #| msgid "The archive reader could not be initialized."
 msgid "The archive failed the integrity test."
 msgstr "Neizdevās inicializēt arhīva lasītāju."
 
-#: part/part.cpp:680
+#: part/part.cpp:683
 #, kde-format
 msgid "Extract To..."
 msgstr "Atspiest uz..."
 
-#: part/part.cpp:694
+#: part/part.cpp:697
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Ātri atspiest uz..."
 
-#: part/part.cpp:824
+#: part/part.cpp:827
 #, fuzzy, kde-format
 #| msgctxt "to preview a file inside an archive"
 #| msgid "Pre&view"
@@ -1950,7 +1950,7 @@ msgctxt "@title:tab"
 msgid "General"
 msgstr "Prie&kšskatīt"
 
-#: part/part.cpp:825
+#: part/part.cpp:828
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Extract"
@@ -1958,7 +1958,7 @@ msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Atspiest"
 
-#: part/part.cpp:826
+#: part/part.cpp:829
 #, fuzzy, kde-format
 #| msgctxt "to preview a file inside an archive"
 #| msgid "Pre&view"
@@ -1966,7 +1966,7 @@ msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Prie&kšskatīt"
 
-#: part/part.cpp:827
+#: part/part.cpp:830
 #, fuzzy, kde-format
 #| msgctxt "to preview a file inside an archive"
 #| msgid "Pre&view"
@@ -1974,13 +1974,13 @@ msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Prie&kšskatīt"
 
-#: part/part.cpp:844
+#: part/part.cpp:847
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> ir mape."
 
-#: part/part.cpp:853
+#: part/part.cpp:856
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Could not open the archive <filename>%1</filename> for reading"
@@ -1990,7 +1990,7 @@ msgid ""
 "permission."
 msgstr "Neizdevās atvērt lasīšanai arhīvu <filename>%1</filename>."
 
-#: part/part.cpp:859
+#: part/part.cpp:862
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "The archive <filename>%1</filename> was not found."
@@ -2000,13 +2000,13 @@ msgid ""
 "file."
 msgstr "Arhīvs <filename>%1</filename> netika atrasts."
 
-#: part/part.cpp:862
+#: part/part.cpp:865
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Arhīvs <filename>%1</filename> netika atrasts."
 
-#: part/part.cpp:867
+#: part/part.cpp:870
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -2018,7 +2018,7 @@ msgid ""
 "possible to read from it."
 msgstr "Arhīvs <filename>%1</filename> jau pastāv. Vai vēlaties to atvērt?"
 
-#: part/part.cpp:885
+#: part/part.cpp:883
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -2030,26 +2030,26 @@ msgid ""
 "it?"
 msgstr "Arhīvs <filename>%1</filename> jau pastāv. Vai vēlaties to atvērt?"
 
-#: part/part.cpp:886
+#: part/part.cpp:884
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Fails pastāv"
 
-#: part/part.cpp:927
+#: part/part.cpp:921
 #, fuzzy, kde-kuit-format
 #| msgid "The archive writer could not be initialized."
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Neizdevās inicializēt arhīva rakstītāju."
 
-#: part/part.cpp:932
+#: part/part.cpp:926
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 
-#: part/part.cpp:962
+#: part/part.cpp:956
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -2062,12 +2062,12 @@ msgid ""
 msgstr ""
 "Arhīva <filename>%1</filename> ielādē radās šāda kļūda: <message>%2</message>"
 
-#: part/part.cpp:1022
+#: part/part.cpp:1016
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr ""
 
-#: part/part.cpp:1154
+#: part/part.cpp:1144
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -2079,31 +2079,31 @@ msgid ""
 msgstr ""
 "Mape <filename>%1</filename> jau pastāv. Vai tiešām vēlaties atspiest tajā?"
 
-#: part/part.cpp:1155
+#: part/part.cpp:1145
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr ""
 
-#: part/part.cpp:1156
+#: part/part.cpp:1146
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1157
+#: part/part.cpp:1147
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1442
+#: part/part.cpp:1428
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Pievienot failus"
 
-#: part/part.cpp:1447
+#: part/part.cpp:1433
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Add Files"
@@ -2111,27 +2111,27 @@ msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Pievienot failus"
 
-#: part/part.cpp:1511
+#: part/part.cpp:1497
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1555
+#: part/part.cpp:1541
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr ""
 
-#: part/part.cpp:1556
+#: part/part.cpp:1542
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr ""
 
-#: part/part.cpp:1584
+#: part/part.cpp:1570
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1688
+#: part/part.cpp:1670
 #, fuzzy, kde-format
 #| msgid ""
 #| "Deleting these files is not undoable. Are you sure you want to do this?"
@@ -2143,7 +2143,7 @@ msgstr[0] "Šo failu dzēšana nebūs atsaucama. Vai tiešām dzēst?"
 msgstr[1] "Šo failu dzēšana nebūs atsaucama. Vai tiešām dzēst?"
 msgstr[2] "Šo failu dzēšana nebūs atsaucama. Vai tiešām dzēst?"
 
-#: part/part.cpp:1691
+#: part/part.cpp:1673
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Delete files"
@@ -2154,13 +2154,13 @@ msgstr[0] "Dzēst failus"
 msgstr[1] "Dzēst failus"
 msgstr[2] "Dzēst failus"
 
-#: part/part.cpp:1738
+#: part/part.cpp:1716
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1753
+#: part/part.cpp:1731
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2170,7 +2170,7 @@ msgstr ""
 "Arhīvu neizdevās saglabāt kā <filename>%1</filename>. Mēģiniet to saglabāt "
 "citā vietā."
 
-#: part/part.cpp:1757
+#: part/part.cpp:1735
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
