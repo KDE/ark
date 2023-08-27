@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-26 00:48+0000\n"
-"PO-Revision-Date: 2023-07-19 13:35+0300\n"
+"PO-Revision-Date: 2023-08-26 12:36+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.07.70\n"
+"X-Generator: Lokalize 23.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -625,7 +625,7 @@ msgstr "Dosya boyutuna göre önizlemenin sınırlanıp sınırlanmayacağı."
 #: kerfuffle/ark.kcfg:59
 #, kde-format
 msgid "Preview file size limit in megabytes."
-msgstr "Megabayt türünden önizleme dosya boyutu sınırı."
+msgstr "Megabayt türünden dosya önizleme boyutu sınırı."
 
 #: kerfuffle/cliinterface.cpp:245
 #, kde-kuit-format
@@ -998,14 +998,13 @@ msgstr "Arşiv birden fazla üst düzey girdiye sahipse alt klasöre çıkar"
 #, kde-format
 msgid "When clicking a file in an archive or pressing the Return key:"
 msgstr ""
-"Bir dosyadaki bir dosyayı tıkladığınızda veya Giriş düğmesine bastıktan "
-"sonra:"
+"Arşivdeki bir dosyaya tıkladığınızda veya Dönüş düğmesine bastıktan sonra:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: kerfuffle/generalsettingspage.ui:33
 #, kde-format
 msgid "Pre&view the file with internal previewer"
-msgstr "Dosyayı dosyayı dahili görüntüleyici ile ö&nizle"
+msgstr "Dosyayı iç görüntüleyici ile ö&nizle"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: kerfuffle/generalsettingspage.ui:43
@@ -1506,7 +1505,7 @@ msgstr "Önizleme kapatılırken lütfen bekleyin..."
 #: part/arkviewer.cpp:100
 #, kde-format
 msgid "The internal viewer cannot preview this file."
-msgstr "Dahili gösterici bu dosyanın önizlemesini gösteremiyor."
+msgstr "İç görüntüleyici bu dosyayı önizleyemiyor."
 
 #: part/arkviewer.cpp:116
 #, kde-kuit-format
@@ -1514,14 +1513,14 @@ msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
-"Dahili gösterici bu dosyanın önizlemesini gösteremiyor<nl/>(%1).<nl/><nl/"
-">Dosya önizlemesinin düz metin olarak yapılmasını ister misiniz?"
+"İç görüntüleyici bu türdeki dosyaları önizleyemiyor<nl/>(%1).<nl/><nl/>Düz "
+"metin olarak görüntülemeyi denemek ister misiniz?"
 
 #: part/arkviewer.cpp:117 part/arkviewer.cpp:129
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
-msgstr "Dosya Önizlemesi Yapılamadı"
+msgstr "Dosya Önizlenemiyor"
 
 #: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, kde-format
@@ -1535,8 +1534,8 @@ msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
-"Dahili gösterici bu dosyanın önizlemesini gösteremiyor.<nl/><nl/>Dosya "
-"önizlemesinin düz metin olarak yapılmasını ister misiniz?"
+"İç görüntüleyici bu bilinmeyen dosya türünü önizleyemiyor.<nl/><nl/>Düz "
+"metin olarak görüntülemeyi denemek ister misiniz?"
 
 #: part/arkviewer.cpp:201
 #, kde-format
@@ -1686,7 +1685,7 @@ msgstr "&Birlikte Aç..."
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
-msgstr "Seçili dosyayı harici bir programla açmak için tıklayın"
+msgstr "Seçili dosyayı harici bir programla açmak için tıkla"
 
 #: part/part.cpp:398
 #, kde-format
@@ -1698,7 +1697,7 @@ msgstr "&Önizleme"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
-msgstr "Seçili dosyayı önizlemek için tıklayın"
+msgstr "Seçili dosyayı önizlemek için tıkla"
 
 #: part/part.cpp:405
 #, kde-format
@@ -1713,7 +1712,7 @@ msgid ""
 "the files in the archive"
 msgstr ""
 "Arşivdeki tüm dosyaların nasıl çıkarılacağını seçebileceğiniz bir çıkarma "
-"iletişim kutusunu açmak için tıklayın."
+"iletişim kutusunu açmak için tıklayın"
 
 #: part/part.cpp:412
 #, kde-format
@@ -1727,8 +1726,8 @@ msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
 "all files or just the selected ones"
 msgstr ""
-"Çıkarma penceresi açmak için tıklayın, bu pencereden tüm dosyaları ya da "
-"seçtiğiniz dosyaları nereye çıkaracağınızı belirleyebilirsiniz"
+"Çıkarma iletişim kutusunu açmak için tıklayın, bu pencereden tüm dosyaları "
+"veya seçtiğiniz dosyaları nereye çıkaracağınızı belirleyebilirsiniz"
 
 #: part/part.cpp:420
 #, kde-format
@@ -1739,7 +1738,7 @@ msgstr "Dosyalar &Ekle..."
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
-msgstr "Arşive dosya eklemek için tıklayın"
+msgstr "Arşive dosya eklemek için tıkla"
 
 #: part/part.cpp:428
 #, kde-format
@@ -1757,13 +1756,13 @@ msgstr "Ö&zellikler"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
-msgstr "Arşiv özelliklerini görmek için tıklayın"
+msgstr "Arşiv özelliklerini görmek için tıkla"
 
 #: part/part.cpp:446
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
-msgstr "Açıklama eklemek veya düzenlemek için tıklayın"
+msgstr "Açıklama eklemek veya düzenlemek için tıkla"
 
 #: part/part.cpp:451
 #, kde-format
@@ -1775,7 +1774,7 @@ msgstr "&Bütünlüğü Sına"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
-msgstr "Arşivin bütünlüğünü sınamak için tıklayın"
+msgstr "Arşivin bütünlüğünü sınamak için tıkla"
 
 #: part/part.cpp:479
 #, kde-kuit-format
@@ -1977,7 +1976,7 @@ msgstr "Dosya Ekle"
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
-msgstr "Dosyaları %1 İçine Ekle"
+msgstr "Dosyaları Şuraya Ekle: %1"
 
 #: part/part.cpp:1497
 #, kde-format
