@@ -5,6 +5,7 @@
         "Description[bg]": "Инструмент за обработка на архиви",
         "Description[ca@valencia]": "Eina de gestió d'arxius",
         "Description[ca]": "Eina de gestió d'arxius",
+        "Description[cs]": "Program pro práci s archivy",
         "Description[el]": "Εργαλείο χειρισμού αρχειοθηκών",
         "Description[eo]": "Arkivpritrakta Ilo",
         "Description[es]": "Herramienta de gestión de archivos comprimidos",
