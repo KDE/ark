@@ -13,6 +13,7 @@
         "Name[eo]": "Ark-Extrakti ĉi tie",
         "Name[es]": "Ark - Extraer aquí",
         "Name[eu]": "Ark Erauzi hemen",
+        "Name[fr]": "Extraire ici avec Ark",
         "Name[gl]": "Extraer aquí con Ark",
         "Name[ia]": "Ark Extrahe Hic",
         "Name[it]": "Ark estrai qui",
@@ -29,6 +30,7 @@
         "Name[tr]": "Ark Buraya Çıkar",
         "Name[uk]": "Розпакувати сюди за допомогою Ark",
         "Name[x-test]": "xxArk Extract Herexx",
-        "Name[zh_CN]": "Ark 解压到此位置"
+        "Name[zh_CN]": "Ark 解压到此位置",
+        "Name[zh_TW]": "Ark 在此解壓縮"
     }
 }
