@@ -9,6 +9,7 @@
         "Description[eo]": "Arkivpritrakta Ilo",
         "Description[es]": "Herramienta de gestión de archivos comprimidos",
         "Description[eu]": "Artxiboak kudeatzeko tresna",
+        "Description[fr]": "Outil de manipulation d'archives",
         "Description[gl]": "Utilidade de manexo de arquivos.",
         "Description[ia]": "Instrumento de manear archivo",
         "Description[it]": "Strumento di gestione degli archivi",
@@ -25,6 +26,7 @@
         "Description[uk]": "Інструмент для роботи з архівами",
         "Description[x-test]": "xxArchive Handling Toolxx",
         "Description[zh_CN]": "压缩文件管理工具",
+        "Description[zh_TW]": "封存檔處理工具",
         "Icon": "ark",
         "License": "GPL v2+",
         "MimeTypes": [
@@ -39,6 +41,7 @@
         "Name[eo]": "Arkivilo",
         "Name[es]": "Archivador",
         "Name[eu]": "Artxibatzailea",
+        "Name[fr]": "Archiveur",
         "Name[gl]": "Arquivador",
         "Name[ia]": "Archivaor",
         "Name[it]": "Utilità di archiviazione",
@@ -57,6 +60,7 @@
         "Name[uk]": "Архіватор",
         "Name[x-test]": "xxArchiverxx",
         "Name[zh_CN]": "压缩文件管理工具",
+        "Name[zh_TW]": "封存工具",
         "ServiceTypes": [
             "KParts/ReadOnlyPart",
             "Browser/View"
