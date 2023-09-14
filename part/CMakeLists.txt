@@ -26,7 +26,7 @@ ki18n_wrap_ui(arkpart
     jobtracker.ui)
 
 
-target_link_libraries(arkpart kerfuffle KF${QT_MAJOR_VERSION}::Parts KF${QT_MAJOR_VERSION}::KIOFileWidgets KF${QT_MAJOR_VERSION}::ItemModels)
+target_link_libraries(arkpart kerfuffle KF${QT_MAJOR_VERSION}::Parts KF${QT_MAJOR_VERSION}::KIOFileWidgets)
 
 if(QT_MAJOR_VERSION STREQUAL "5")
     configure_file(
