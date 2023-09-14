@@ -18,6 +18,7 @@ Dependencies:
     'frameworks/kparts': '@stable'
     'frameworks/kpty': '@stable'
     'frameworks/kwidgetsaddons': '@stable'
+    'frameworks/kwindowsystem': '@stable'
     'frameworks/kiconthemes': '@stable'
 
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6']
@@ -36,6 +37,7 @@ Dependencies:
     'frameworks/kparts': '@latest-kf6'
     'frameworks/kpty': '@latest-kf6'
     'frameworks/kwidgetsaddons': '@latest-kf6'
+    'frameworks/kwindowsystem': '@latest-kf6'
     'frameworks/kiconthemes': '@latest-kf6'
 
 Options:
