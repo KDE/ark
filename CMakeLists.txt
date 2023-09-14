@@ -46,6 +46,7 @@ find_package(KF${QT_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS Config
                                                         Parts
                                                         Pty
                                                         WidgetsAddons
+                                                        WindowSystem
                                                         IconThemes)
 
 find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG QUIET)
