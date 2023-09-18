@@ -149,6 +149,34 @@ const QString LibarchivePlugin::uncompressedFileName() const
     return uncompressedName + QLatin1String(".uncompressed");
 }
 
+void LibarchivePlugin::copyDataBlock(const QString &filename, archive *source, archive *dest, bool partialprogress)
+{
+    while (!QThread::currentThread()->isInterruptionRequested()) {
+        const void *buff;
+        size_t size;
+        la_int64_t offset;
+        int returnCode = archive_read_data_block(source, &buff, &size, &offset);
+        if (returnCode == ARCHIVE_EOF) {
+            return;
+        }
+        if (returnCode < ARCHIVE_OK) {
+            qCCritical(ARK) << "Error while extracting" << filename << ":" << archive_error_string(source)
+                            << "(error no =" << archive_errno(source) << ')';
+            return;
+        }
+        returnCode = archive_write_data_block(dest, buff, size, offset);
+        if (returnCode < ARCHIVE_OK) {
+            qCCritical(ARK) << "Error while writing" << filename << ":" << archive_error_string(dest)
+                            << "(error no =" << archive_errno(dest) << ')';
+            return;
+        }
+        if (partialprogress) {
+            m_currentExtractedFilesSize += size;
+            Q_EMIT progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
+        }
+    }
+}
+
 bool LibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd)
 {
     Q_UNUSED(files)
@@ -402,7 +430,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
             case ARCHIVE_OK:
                 // If the whole archive is extracted and the total filesize is
                 // available, we use partial progress.
-                copyData(entryName, m_archiveReader.data(), writer.data(), (extractAll && m_extractedFilesSize));
+                copyDataBlock(entryName, m_archiveReader.data(), writer.data(), (extractAll && m_extractedFilesSize));
                 break;
 
             case ARCHIVE_FAILED:
