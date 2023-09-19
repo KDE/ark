@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-26 00:48+0000\n"
+"POT-Creation-Date: 2023-09-19 00:48+0000\n"
 "PO-Revision-Date: 2023-09-16 10:08\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2081,18 +2081,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "未知"
 
-#: plugins/libarchive/libarchiveplugin.cpp:432
+#: plugins/libarchive/libarchiveplugin.cpp:460
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "发生严重错误，解压操作已中止。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:466
+#: plugins/libarchive/libarchiveplugin.cpp:494
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "压缩文件读取程序无法初始化。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:488
+#: plugins/libarchive/libarchiveplugin.cpp:516
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-26 00:48+0000\n"
+"POT-Creation-Date: 2023-09-19 00:48+0000\n"
 "PO-Revision-Date: 2023-09-12 01:52+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
@@ -2074,18 +2074,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "未知"
 
-#: plugins/libarchive/libarchiveplugin.cpp:432
+#: plugins/libarchive/libarchiveplugin.cpp:460
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "發生嚴重錯誤，中止解壓縮。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:466
+#: plugins/libarchive/libarchiveplugin.cpp:494
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "封存讀取器無法初始化。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:488
+#: plugins/libarchive/libarchiveplugin.cpp:516
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

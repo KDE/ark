@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-26 00:48+0000\n"
+"POT-Creation-Date: 2023-09-19 00:48+0000\n"
 "PO-Revision-Date: 2022-02-07 14:09+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -2173,18 +2173,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "ismeretlen"
 
-#: plugins/libarchive/libarchiveplugin.cpp:432
+#: plugins/libarchive/libarchiveplugin.cpp:460
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Végzetes hiba, kibontás megszakítva."
 
-#: plugins/libarchive/libarchiveplugin.cpp:466
+#: plugins/libarchive/libarchiveplugin.cpp:494
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Nem sikerült inicializálni az archívumbeolvasót."
 
-#: plugins/libarchive/libarchiveplugin.cpp:488
+#: plugins/libarchive/libarchiveplugin.cpp:516
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

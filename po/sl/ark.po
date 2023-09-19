@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-26 00:48+0000\n"
+"POT-Creation-Date: 2023-09-19 00:48+0000\n"
 "PO-Revision-Date: 2023-07-19 06:54+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -2178,18 +2178,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "neznan"
 
-#: plugins/libarchive/libarchiveplugin.cpp:432
+#: plugins/libarchive/libarchiveplugin.cpp:460
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Usodna napaka, razširjanje prekinjeno."
 
-#: plugins/libarchive/libarchiveplugin.cpp:466
+#: plugins/libarchive/libarchiveplugin.cpp:494
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Bralnika arhivov ni bilo mogoče začeti."
 
-#: plugins/libarchive/libarchiveplugin.cpp:488
+#: plugins/libarchive/libarchiveplugin.cpp:516
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

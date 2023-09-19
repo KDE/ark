@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-26 00:48+0000\n"
+"POT-Creation-Date: 2023-09-19 00:48+0000\n"
 "PO-Revision-Date: 2023-07-24 13:26+0300\n"
 "Last-Translator: George Stefanakis <george.stefanakis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
@@ -2199,18 +2199,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "άγνωστο"
 
-#: plugins/libarchive/libarchiveplugin.cpp:432
+#: plugins/libarchive/libarchiveplugin.cpp:460
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Μοιραίο σφάλμα, η εξαγωγή ματαιώθηκε."
 
-#: plugins/libarchive/libarchiveplugin.cpp:466
+#: plugins/libarchive/libarchiveplugin.cpp:494
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Ο αναγνώστης αρχειοθήκης δεν μπορεί να αρχικοποιηθεί."
 
-#: plugins/libarchive/libarchiveplugin.cpp:488
+#: plugins/libarchive/libarchiveplugin.cpp:516
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
