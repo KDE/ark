@@ -7,20 +7,20 @@
 # Svanur Palsson <svanur@tern.is>, 2004.
 # Þröstur Svanbergsson <throstur@bylur.net>, 2004.
 # Arnar Leosson <leosson@frisurf.no>, 2005.
-# Sveinn í Felli <sveinki@nett.is>, 2009, 2010, 2015, 2021, 2022.
+# Sveinn í Felli <sveinki@nett.is>, 2009, 2010, 2015, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-19 00:48+0000\n"
-"PO-Revision-Date: 2022-11-11 09:25+0000\n"
+"PO-Revision-Date: 2023-09-19 13:54+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.04.3\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n != 1;\n"
 "\n"
 "\n"
@@ -401,18 +401,17 @@ msgstr "Gat ekki fundið KPart-einingu Ark, athugaðu uppsetninguna þína."
 #: app/mainwindow.cpp:184
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "Hliðarspjald"
 
 #: app/mainwindow.cpp:289
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr "Velkomin í Ark"
+msgstr "Upphafssíða"
 
 #: app/mainwindow.cpp:291
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "Birta upphafssíðuna"
 
 #: app/mainwindow.cpp:299
 #, kde-kuit-format
@@ -426,7 +425,7 @@ msgstr ""
 #: app/mainwindow.cpp:313
 #, kde-format
 msgid "Lock Sidebar"
-msgstr ""
+msgstr "Læsa hliðarspjaldi"
 
 #: app/mainwindow.cpp:370
 #, kde-format
@@ -440,99 +439,89 @@ msgid "Create New Archive"
 msgstr "Búa til nýja safnskrá"
 
 #: app/welcomeview/welcomeview.cpp:50
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome to %1"
-msgstr "Velkomin í Ark"
+msgstr "Velkomin í %1"
 
 #: app/welcomeview/welcomeview.cpp:55
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "No recent files"
-msgstr "Nýlegar möppur"
+msgstr "Engar nýlegar skrár"
 
 #: app/welcomeview/welcomeview.cpp:144
 #, kde-format
 msgid "Copy &Location"
-msgstr ""
+msgstr "A&frita staðsetningu"
 
 #: app/welcomeview/welcomeview.cpp:150
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Opna umlykjandi möppu"
 
 #: app/welcomeview/welcomeview.cpp:157
 #, kde-format
 msgid "&Remove"
-msgstr ""
+msgstr "Fja&rlægja"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr "Velkomin í Ark"
+msgstr "Velkomin"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
 msgstr "Opna safnskrá..."
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "Opna safnskrá"
+msgstr "Ný safnskrá"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "Clear Recent Files"
-msgstr "Nýlegar möppur"
+msgstr "Hreinsa nýlegar skrár"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:222
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "Recent Files"
-msgstr "Nýlegar möppur"
+msgstr "Nýlegar skrár"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:263
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "&Hjálp"
+msgstr "Hjálp"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:273
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "Skoða heimasíðu"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:286
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "Lesa handbók"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:345
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "Sýna við ræsingu"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:400
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "Loka upphafssíðu"
 
 #: kerfuffle/adddialog.cpp:38 kerfuffle/adddialog.cpp:76
 #, kde-format
@@ -588,7 +577,7 @@ msgstr ""
 #: kerfuffle/ark.kcfg:13
 #, kde-format
 msgid "Default action when opening archive entries."
-msgstr ""
+msgstr "Sjálfgefin aðgerð við að opna færslur í safnskrá."
 
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
 #: kerfuffle/ark.kcfg:27
@@ -1445,7 +1434,7 @@ msgstr "??"
 #: part/archivemodel.cpp:291
 #, kde-format
 msgid "Adding files is not supported for this archive."
-msgstr ""
+msgstr "Ekki er stutt að bæta skrám við í þessa safnskrá."
 
 #: part/archivemodel.cpp:299
 #, kde-format
@@ -1503,6 +1492,8 @@ msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
+"Innbyggði skoðarinn ræður ekki við að forskoða þessa skráategund<nl/>(%1)."
+"<nl/><nl/>Viltu reyna að skoða hana sem hreinan texta?"
 
 #: part/arkviewer.cpp:117 part/arkviewer.cpp:129
 #, kde-format
@@ -1522,6 +1513,8 @@ msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
+"Innbyggði skoðarinn ræður ekki við að forskoða þessa óþekktu skráategund.<nl/"
+"><nl/>Viltu reyna að skoða hana sem hreinan texta?"
 
 #: part/arkviewer.cpp:201
 #, kde-format
@@ -1903,7 +1896,7 @@ msgstr "Safnskráin er tóm eða að Ark tókst ekki að opna efni hennar."
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
-msgstr ""
+msgstr "Ark styður ekki í augnablikinu ISO-skrár með UDF-skráakerfi."
 
 #: part/part.cpp:956
 #, kde-kuit-format
@@ -1961,7 +1954,7 @@ msgstr "Bæta skrám í %1"
 #: part/part.cpp:1497
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
-msgstr ""
+msgstr "Skráarheiti mega ekki innihalda skástrik eða samsvara \".\" eða \"..\""
 
 #: part/part.cpp:1541
 #, kde-format
