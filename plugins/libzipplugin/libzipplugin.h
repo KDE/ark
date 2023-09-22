@@ -14,6 +14,8 @@
 
 using namespace Kerfuffle;
 
+class ZipSource;
+
 class LibzipPlugin : public ReadWriteArchiveInterface
 {
     Q_OBJECT
@@ -34,6 +36,9 @@ public:
     bool testArchive() override;
     bool hasBatchExtractionProgress() const override;
 
+    bool isReadOnly() const override;
+    QString multiVolumeName() const override;
+
 private:
     bool extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths, bool removeRootNode);
     bool writeEntry(zip_t *archive, const QString &entry, const Archive::Entry* destination, const CompressionOptions& options, bool isDir = false);
@@ -49,6 +54,8 @@ private:
     bool m_skipAll;
     bool m_listAfterAdd;
     bool m_backslashedZip;
+    QString m_multiVolumeName;
+    std::unique_ptr<ZipSource> m_zipSource;
 };
 
 #endif // LIBZIPPLUGIN_H
