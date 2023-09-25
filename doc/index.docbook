@@ -383,23 +383,23 @@ will be opened automatically.</para>
 </chapter>
 
 <chapter id="ark-in_filemanager">
-<title>Using &ark; in the Filemanager</title>
+<title>Using &ark; in the File Manager</title>
 
-<para>Clicking with the &RMB; on an archive in a filemanager like &dolphin;
-displays a context menu with an item <guimenuitem>Open with Ark</guimenuitem>.
+<para>Clicking with the &RMB; on an archive in a file manager like &dolphin;
+displays a context menu with an item <guimenuitem>Extract</guimenuitem>.
 The menu has these additional items to extract an archive using &ark;:
 </para>
 
 <itemizedlist>
 <listitem>
-<para><guimenuitem>Extract Archive Here, Autodetect Subfolder</guimenuitem> creates a 
+<para><guimenuitem>Extract archive here, autodetect subfolder</guimenuitem> creates a 
 subfolder in the folder with the archive and extracts the folders and files into it.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>Extract Archive To...</guimenuitem> opens the Extract dialog where you can choose destination folder and various extraction options.</para>
+<para><guimenuitem>Extract archive to...</guimenuitem> opens the Extract dialog where you can choose the destination folder and various extraction options.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>Extract Archive Here</guimenuitem> extracts the content of the archive into the same folder.</para>
+<para><guimenuitem>Extract archive here</guimenuitem> extracts the content of the archive into the same folder.</para>
 </listitem>
 </itemizedlist>
 
@@ -410,7 +410,7 @@ subfolder in the folder with the archive and extracts the folders and files into
 
 <itemizedlist>
 <listitem>
-<para><guimenuitem>Here (as TAR.GZ)</guimenuitem> or <guimenuitem>Here (as ZIP)</guimenuitem> creates these archive types in the current folder.</para>
+<para><guimenuitem>Here as "Archive.tar.gz"</guimenuitem> and <guimenuitem>Here as "Archive.zip"</guimenuitem> creates these archive types in the current folder.</para>
 </listitem>
 <listitem>
 <para><guimenuitem>Compress to...</guimenuitem> opens a dialog where you can select folder, name and archive type.</para>
