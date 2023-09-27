@@ -12,6 +12,7 @@
         "Name[eo]": "Ark-Extrakti ĉi tie",
         "Name[es]": "Ark - Extraer aquí",
         "Name[eu]": "Ark Erauzi hemen",
+        "Name[fi]": "Ark: pura tähän",
         "Name[fr]": "Extraire ici avec Ark",
         "Name[gl]": "Extraer aquí con Ark",
         "Name[ia]": "Ark Extrahe Hic",
