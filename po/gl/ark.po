@@ -53,7 +53,7 @@ msgstr "Destino"
 #: app/batchextract.cpp:118
 #, kde-format
 msgid "The following files could not be extracted:"
-msgstr "Non se puideron extraer os seguintes ficheiros:"
+msgstr "Non foi posíbel extraer os seguintes ficheiros:"
 
 #: app/batchextract.cpp:137
 #, kde-kuit-format
@@ -385,7 +385,7 @@ msgstr "Listar os tipos MIME compatíbeis."
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
 msgstr ""
-"Non se pode atopar o compoñente KPart de Ark, comprobe que está instalado "
+"Non é posíbel atopar o compoñente KPart de Ark, comprobe que está instalado "
 "correctamente."
 
 #: app/mainwindow.cpp:184
@@ -620,7 +620,7 @@ msgstr "Límite do tamaño do ficheiro da vista previa en megabytes."
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Failed to locate program <filename>%1</filename> on disk."
-msgstr "Non se puido atopar o programa <filename>%1</filename>."
+msgstr "Non foi posíbel atopar o programa <filename>%1</filename>."
 
 #: kerfuffle/cliinterface.cpp:355
 #, kde-format
@@ -641,9 +641,9 @@ msgstr ""
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
 msgid_plural "Could not move the extracted files to the destination directory."
-msgstr[0] "Non se puido mover o ficheiro extraído ao cartafol de destino."
+msgstr[0] "Non foi posíbel mover o ficheiro extraído ao cartafol de destino."
 msgstr[1] ""
-"Non se puideron mover os ficheiros extraídos ao cartafol de destino."
+"Non foi posíbel mover os ficheiros extraídos ao cartafol de destino."
 
 #: kerfuffle/cliinterface.cpp:857
 #, kde-format
@@ -862,7 +862,7 @@ msgstr "Volvelo intentar"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
-msgstr "Non se puido crear o cartafol <filename>%1</filename>."
+msgstr "Non foi posíbel crear o cartafol <filename>%1</filename>."
 
 #: kerfuffle/extractiondialog.cpp:122
 #, kde-kuit-format
@@ -1022,8 +1022,8 @@ msgid ""
 "Failed to load a suitable plugin. Make sure any executables needed to handle "
 "the archive type are installed."
 msgstr ""
-"Non se puido cargar un complemento axeitado. Asegúrese de que ten instalados "
-"todos os executábeis necesarios para manexar arquivos deste tipo."
+"Non foi posíbel cargar un complemento axeitado. Asegúrese de que ten "
+"instalados todos os executábeis necesarios para manexar arquivos deste tipo."
 
 #: kerfuffle/jobs.cpp:168
 #, kde-format
@@ -1031,8 +1031,8 @@ msgid ""
 "Could not load the archive because it contains ill-formed entries and might "
 "be a malicious archive."
 msgstr ""
-"Non se puido cargar o arquivo porque contén entradas malformadas e podería "
-"tratase dun arquivo malicioso."
+"Non foi posíbel cargar o arquivo porque contén entradas malformadas e "
+"podería tratase dun arquivo malicioso."
 
 #: kerfuffle/jobs.cpp:253
 #, kde-format
@@ -1076,7 +1076,7 @@ msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
-"Non se puido escribir en <filename>%1</filename>.<nl/> Comprobe que ten "
+"Non foi posíbel escribir en <filename>%1</filename>.<nl/> Comprobe que ten "
 "permisos de abondo."
 
 #: kerfuffle/jobs.cpp:719
@@ -1512,7 +1512,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
-msgstr "Non se pode previsualizar o ficheiro"
+msgstr "Non é posíbel previsualizar o ficheiro"
 
 #: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, kde-format
@@ -1888,8 +1888,8 @@ msgid ""
 "The archive <filename>%1</filename> could not be loaded, as it was not "
 "possible to read from it."
 msgstr ""
-"Non se puido cargar o arquivo <filename>%1</filename>, non foi posíbel ler o "
-"seu contido."
+"Non foi posíbel cargar o arquivo <filename>%1</filename>, non foi posíbel "
+"ler o seu contido."
 
 #: part/part.cpp:883
 #, kde-kuit-format
@@ -2103,7 +2103,7 @@ msgstr "descoñecido"
 #: plugins/clirarplugin/cliplugin.cpp:553
 #, kde-format
 msgid "Failed to find all archive volumes."
-msgstr "Non se puideron atopar todos os volumes do arquivo."
+msgstr "Non foi posíbel atopar todos os volumes do arquivo."
 
 #: plugins/clirarplugin/cliplugin.cpp:321
 #, kde-format
@@ -2169,7 +2169,7 @@ msgstr "Erro fatal, interrompeuse a extracción."
 #: plugins/libarchive/libarchiveplugin.cpp:494
 #, kde-format
 msgid "The archive reader could not be initialized."
-msgstr "Non se puido inicializar o lector do arquivo."
+msgstr "Non foi posíbel inicializar o lector do arquivo."
 
 #: plugins/libarchive/libarchiveplugin.cpp:516
 #, kde-format
@@ -2181,18 +2181,18 @@ msgstr "O arquivo está corrompido ou non dispón dos permisos necesarios."
 #, kde-format
 msgctxt "@info"
 msgid "Failed to create a temporary file for writing data."
-msgstr "Non se puido crear un ficheiro temporal para escribir os datos."
+msgstr "Non foi posíbel crear un ficheiro temporal para escribir os datos."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:215
 #, kde-format
 msgid "The archive writer could not be initialized."
-msgstr "Non se puido inicializar o escritor do arquivo."
+msgstr "Non foi posíbel inicializar o escritor do arquivo."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:233
 #, kde-format
 msgctxt "@info"
 msgid "Could not open the archive for writing entries."
-msgstr "Non se puido abrir o arquivo para escribir entradas."
+msgstr "Non foi posíbel abrir o arquivo para escribir entradas."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:280
 #, kde-format
@@ -2204,25 +2204,25 @@ msgstr "Ark non permite o tipo de compresión «%1»."
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression method."
-msgstr "Non se puido definir o método de compresión."
+msgstr "Non foi posíbel definir o método de compresión."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:353
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression level."
-msgstr "Non se puido definir o nivel de compresión."
+msgstr "Non foi posíbel definir o nivel de compresión."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:472
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
-msgstr "Non se puido comprimir a entrada, interrompeuse a operación."
+msgstr "Non foi posíbel comprimir a entrada, interrompeuse a operación."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:513
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
-msgstr "Non se puido comprimir a entrada."
+msgstr "Non foi posíbel comprimir a entrada."
 
 #: plugins/libzipplugin/libzipplugin.cpp:76
 #: plugins/libzipplugin/libzipplugin.cpp:118
@@ -2233,7 +2233,7 @@ msgstr "Non se puido comprimir a entrada."
 #: plugins/libzipplugin/libzipplugin.cpp:881
 #, kde-kuit-format
 msgid "Failed to open archive: %1"
-msgstr "Non se puido abrir o arquivo: %1"
+msgstr "Non foi posíbel abrir o arquivo: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:176
 #: plugins/libzipplugin/libzipplugin.cpp:448
@@ -2242,77 +2242,77 @@ msgstr "Non se puido abrir o arquivo: %1"
 #: plugins/libzipplugin/libzipplugin.cpp:951
 #, kde-kuit-format
 msgid "Failed to write archive."
-msgstr "Non se puido escribir o arquivo."
+msgstr "Non foi posíbel escribir o arquivo."
 
 #: plugins/libzipplugin/libzipplugin.cpp:225
 #: plugins/libzipplugin/libzipplugin.cpp:918
 #, kde-kuit-format
 msgid "Failed to add entry: %1"
-msgstr "Non se puido engadir a entrada: %1"
+msgstr "Non foi posíbel engadir a entrada: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:280
 #, kde-kuit-format
 msgid "Failed to set compression options for entry: %1"
-msgstr "Non se puideron definir as opcións de compresión para a entrada: %1"
+msgstr "Non foi posíbel definir as opcións de compresión para a entrada: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:385
 #: plugins/libzipplugin/libzipplugin.cpp:776
 #: plugins/libzipplugin/libzipplugin.cpp:927
 #, kde-kuit-format
 msgid "Failed to read metadata for entry: %1"
-msgstr "Non se puideron ler os metadatos para a entrada: %1"
+msgstr "Non foi posíbel ler os metadatos para a entrada: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:429
 #: plugins/libzipplugin/libzipplugin.cpp:434
 #, kde-kuit-format
 msgid "Failed to delete entry: %1"
-msgstr "Non se puido eliminar a entrada: %1"
+msgstr "Non foi posíbel eliminar a entrada: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:659
 #, kde-kuit-format
 msgid "Failed to create directory: %1"
-msgstr "Non se puido crear o cartafol: %1"
+msgstr "Non foi posíbel crear o cartafol: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:732
 #, kde-kuit-format
 msgid "Failed to open '%1':<nl/>%2"
-msgstr "Non se puido abrir «%1»:<nl/> %2"
+msgstr "Non foi posíbel abrir «%1»:<nl/> %2"
 
 #: plugins/libzipplugin/libzipplugin.cpp:740
 #, kde-kuit-format
 msgid "Failed to open file for writing: %1"
-msgstr "Non se puido abrir o ficheiro para escritura: %1"
+msgstr "Non foi posíbel abrir o ficheiro para escritura: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:753
 #, kde-kuit-format
 msgid "Failed to read data for entry: %1"
-msgstr "Non se puideron ler os datos para a entrada: %1"
+msgstr "Non foi posíbel ler os datos para a entrada: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:758
 #, kde-kuit-format
 msgid "Failed to write data for entry: %1"
-msgstr "Non se puideron escribir os datos para a entrada: %1"
+msgstr "Non foi posíbel escribir os datos para a entrada: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:768
 #, kde-kuit-format
 msgid "Failed to locate entry: %1"
-msgstr "Non se puido atopar a entrada: %1"
+msgstr "Non foi posíbel atopar a entrada: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:840
 #: plugins/libzipplugin/libzipplugin.cpp:846
 #, kde-kuit-format
 msgid "Failed to move entry: %1"
-msgstr "Non se puido mover a entrada: %1"
+msgstr "Non foi posíbel mover a entrada: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:904
 #, kde-kuit-format
 msgid "Failed to copy entry: %1"
-msgstr "Non se puido copiar a entrada: %1"
+msgstr "Non foi posíbel copiar a entrada: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:934
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
-msgstr "Non se puideron definir os metadatos para a entrada: %1"
+msgstr "Non foi posíbel definir os metadatos para a entrada: %1"
 
 #, fuzzy
 #~| msgid "Form"
