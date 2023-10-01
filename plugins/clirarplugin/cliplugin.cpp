@@ -494,8 +494,10 @@ void CliPlugin::handleUnrar4Entry()
                                          QStringLiteral("dd-MM-yy hh:mm"));
     // Unrar 3 & 4 output dates with a 2-digit year but QDateTime takes it as
     // 19??. Let's take 1950 as cut-off; similar to KDateTime.
+    // Hopefully no one will create rar archives in 2051 with unrar 4...
     if (ts.date().year() < 1950) {
-        ts = ts.addYears(100);
+        // NOTE: only change the date. QDateTime::addYears() might also change the time because of DST changes.
+        ts.setDate(ts.date().addYears(100));
     }
     e->setProperty("timestamp", ts);
 

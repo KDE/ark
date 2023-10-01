@@ -269,8 +269,7 @@ void CliRarTest::testList()
     QCOMPARE(entry->property("compressedSize").toULongLong(), expectedCompressedSize);
 
     QFETCH(QDateTime, expectedTimestamp);
-
-    QCOMPARE(entry->property("timestamp"), expectedTimestamp);
+    QCOMPARE(entry->property("timestamp").toDateTime(), expectedTimestamp);
 
     rarPlugin->deleteLater();
 }
