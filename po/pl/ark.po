@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-18 08:38+0000\n"
-"PO-Revision-Date: 2023-09-09 10:54+0200\n"
+"PO-Revision-Date: 2023-09-30 10:14+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -395,7 +395,7 @@ msgstr "Pasek boczny"
 #: app/mainwindow.cpp:289
 #, kde-format
 msgid "Welcome Page"
-msgstr "Stronę powitalna"
+msgstr "Strona powitalna"
 
 #: app/mainwindow.cpp:291
 #, kde-format
