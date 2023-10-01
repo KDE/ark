@@ -99,7 +99,7 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
 QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, AdditionalJobOptions option)
 {
     QAction *action = new QAction(icon, name, parent);
-    connect(action, &QAction::triggered, this, [urls,name, option, parent,this]() {
+    connect(action, &QAction::triggered, this, [urls, option, this]() {
         // Don't pass a parent to the job, otherwise it will be killed if dolphin gets closed.
         auto *batchExtractJob = new BatchExtract(nullptr);
         batchExtractJob->setDestinationFolder(QFileInfo(urls.first().toLocalFile()).path());

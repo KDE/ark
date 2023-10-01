@@ -99,7 +99,7 @@ QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent
 
     QAction *action = new QAction(icon, name, parent);
 
-    connect(action, &QAction::triggered, this, [fileExtension, urls, name, parent, this]() {
+    connect(action, &QAction::triggered, this, [fileExtension, urls, parent, this]() {
         // Don't pass a parent to the job, otherwise it will be killed if dolphin gets closed.
         auto *addToArchiveJob = new AddToArchive(nullptr);
         addToArchiveJob->setImmediateProgressReporting(true);
