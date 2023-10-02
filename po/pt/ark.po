@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-19 00:48+0000\n"
+"POT-Creation-Date: 2023-10-02 00:44+0000\n"
 "PO-Revision-Date: 2023-05-06 11:49+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -2116,7 +2116,7 @@ msgstr "desconhecido"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
-#: plugins/clirarplugin/cliplugin.cpp:553
+#: plugins/clirarplugin/cliplugin.cpp:555
 #, kde-format
 msgid "Failed to find all archive volumes."
 msgstr "Não foi possível encontrar todos os volumes do pacote."
@@ -2139,7 +2139,7 @@ msgstr ""
 "O Unrar indicou que é um pacote não-RAR. A versão instalada do 'unrar' (%1) "
 "é antiga. Tente actualizar o seu 'unrar'."
 
-#: plugins/clirarplugin/cliplugin.cpp:548
+#: plugins/clirarplugin/cliplugin.cpp:550
 #, kde-format
 msgid "One or more wrong checksums"
 msgstr "Um ou mais códigos de validação inválidos"

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-19 00:48+0000\n"
+"POT-Creation-Date: 2023-10-02 00:44+0000\n"
 "PO-Revision-Date: 2023-07-19 10:06+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -2138,7 +2138,7 @@ msgstr "onbekend"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
-#: plugins/clirarplugin/cliplugin.cpp:553
+#: plugins/clirarplugin/cliplugin.cpp:555
 #, kde-format
 msgid "Failed to find all archive volumes."
 msgstr "Kon niet alle archiefvolumes vinden."
@@ -2161,7 +2161,7 @@ msgstr ""
 "Unrar rapporteerde een niet-RAR archief. De geïnstalleerde unrar versie (%1) "
 "is oud. Probeer uw unrar bij te werken."
 
-#: plugins/clirarplugin/cliplugin.cpp:548
+#: plugins/clirarplugin/cliplugin.cpp:550
 #, kde-format
 msgid "One or more wrong checksums"
 msgstr "Een of meer foute controlesommen"

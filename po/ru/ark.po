@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-19 00:48+0000\n"
+"POT-Creation-Date: 2023-10-02 00:44+0000\n"
 "PO-Revision-Date: 2023-07-22 14:51+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -2132,7 +2132,7 @@ msgstr "неизвестный"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
-#: plugins/clirarplugin/cliplugin.cpp:553
+#: plugins/clirarplugin/cliplugin.cpp:555
 #, kde-format
 msgid "Failed to find all archive volumes."
 msgstr "Не удалось найти все тома архива."
@@ -2156,7 +2156,7 @@ msgstr ""
 "версия unrar (%1) — слишком старая. Обновите программу unrar до более новой "
 "версии."
 
-#: plugins/clirarplugin/cliplugin.cpp:548
+#: plugins/clirarplugin/cliplugin.cpp:550
 #, kde-format
 msgid "One or more wrong checksums"
 msgstr "Одна или несколько контрольных сумм не сходятся."

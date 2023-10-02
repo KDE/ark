@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-19 00:48+0000\n"
+"POT-Creation-Date: 2023-10-02 00:44+0000\n"
 "PO-Revision-Date: 2022-09-27 17:54+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -2120,7 +2120,7 @@ msgstr "Tak diketahui"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
-#: plugins/clirarplugin/cliplugin.cpp:553
+#: plugins/clirarplugin/cliplugin.cpp:555
 #, kde-format
 msgid "Failed to find all archive volumes."
 msgstr "Gagal menemukan semua volume arsip."
@@ -2143,7 +2143,7 @@ msgstr ""
 "Unrar melaporkan sebuah arsip non-RAR. Unrar yang terinstal versinya (%1) "
 "adalah lawas. Cobalah memperbarui unrar-mu."
 
-#: plugins/clirarplugin/cliplugin.cpp:548
+#: plugins/clirarplugin/cliplugin.cpp:550
 #, kde-format
 msgid "One or more wrong checksums"
 msgstr "Satu atau lebih checksums salah"

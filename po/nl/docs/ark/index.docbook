@@ -625,7 +625,7 @@
 
 <para
 >Met de &RMB; op een archief klikken in een bestandsbeheerder zoals &dolphin; toont een contextmenu met een item <guimenuitem
->Openen met Ark</guimenuitem
+>Uitpakken</guimenuitem
 >. Het menu heeft deze extra items om een archief uit te pakken met &ark;: </para>
 
 <itemizedlist>
@@ -658,9 +658,9 @@
 <listitem>
 <para
 ><guimenuitem
->Hier (als TAR.GZ)</guimenuitem
-> of <guimenuitem
->Hier (als ZIP)</guimenuitem
+>Hier als "Archief.tar.gz"</guimenuitem
+> en <guimenuitem
+>Hier als "Archief.zip"</guimenuitem
 > maakt deze typen archief aan in de huidige map.</para>
 </listitem>
 <listitem>

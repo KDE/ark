@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-19 00:48+0000\n"
+"POT-Creation-Date: 2023-10-02 00:44+0000\n"
 "PO-Revision-Date: 2023-07-30 14:44+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -2081,7 +2081,7 @@ msgstr "தெரியாதது"
 
 #: plugins/clirarplugin/cliplugin.cpp:157
 #: plugins/clirarplugin/cliplugin.cpp:300
-#: plugins/clirarplugin/cliplugin.cpp:553
+#: plugins/clirarplugin/cliplugin.cpp:555
 #, kde-format
 msgid "Failed to find all archive volumes."
 msgstr "காப்பகத்தின் சில பகுதிகளை (volume-களை) கண்டுபிடிக்க முடியவில்லை."
@@ -2104,7 +2104,7 @@ msgstr ""
 "இது RAR காப்பகமே இல்லையென unrar கூறுகிறது. நிறுவப்பட்டுள்ள unrar பதிப்பு (%1) "
 "பழையதாக இருந்தால் இவ்வாறு ஆகும். unrar-ஐ புதுப்பித்து பாருங்கள்."
 
-#: plugins/clirarplugin/cliplugin.cpp:548
+#: plugins/clirarplugin/cliplugin.cpp:550
 #, kde-format
 msgid "One or more wrong checksums"
 msgstr "தவறான சரிகாண்தொகை(கள்)"

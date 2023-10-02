@@ -651,7 +651,7 @@
 
 <para
 >Якщо ви наведете вказівник миші на пункт архіву у програмі для керування файлами, зокрема &dolphin;, буде показано контекстне меню з пунктом <guimenuitem
->Відкрити за допомогою Ark</guimenuitem
+>Видобути</guimenuitem
 >. У цьому меню будуть додаткові пункти, призначені для видобування архіву за допомогою &ark;: </para>
 
 <itemizedlist>
@@ -684,9 +684,9 @@
 <listitem>
 <para
 ><guimenuitem
->Сюди (як TAR.GZ)</guimenuitem
+>Сюди як «Archive.tar.gz»</guimenuitem
 > або <guimenuitem
->Сюди (як ZIP)</guimenuitem
+>Сюди як «Archive.zip»</guimenuitem
 > створює відповідні типи архівів у поточній теці.</para>
 </listitem>
 <listitem>

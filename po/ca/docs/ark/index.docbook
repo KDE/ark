@@ -624,7 +624,7 @@
 
 <para
 >En fer clic amb el &BDR; sobre un arxiu en un gestor de fitxers com el &dolphin; es mostra un menú contextual amb un element <guimenuitem
->Obre amb l'Ark</guimenuitem
+>Extreu</guimenuitem
 >. El menú té aquests elements addicionals per extreure un arxiu utilitzant l'&ark;: </para>
 
 <itemizedlist>
@@ -657,9 +657,9 @@
 <listitem>
 <para
 ><guimenuitem
->Aquí (com a «tar.gz»)</guimenuitem
-> o <guimenuitem
->Aquí (com a «zip»)</guimenuitem
+>Aquí com a «Arxiu.tar.gz»)</guimenuitem
+> i <guimenuitem
+>Aquí com a «Arxiu.zip»)</guimenuitem
 > crea aquests tipus d'arxiu a la carpeta actual.</para>
 </listitem>
 <listitem>

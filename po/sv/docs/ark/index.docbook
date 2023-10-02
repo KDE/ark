@@ -635,11 +635,11 @@
 
 <chapter id="ark-in_filemanager">
 <title
->Använda &ark; i filhanteraren</title>
+>Använder &ark; i filhanteraren</title>
 
 <para
 >Att klicka med höger musknapp på ett arkiv i en filhanterare som &dolphin; visar en sammanhangsberoende meny med alternativet <guimenuitem
->Öppna med Ark</guimenuitem
+>Packa upp</guimenuitem
 >. Menyn har följande ytterligare alternativ för att packa upp ett arkiv med användning av &ark;: </para>
 
 <itemizedlist>
@@ -653,7 +653,7 @@
 <para
 ><guimenuitem
 >Packa upp arkiv i...</guimenuitem
-> visar dialogrutan Packa upp, där du kan ange målkatalog och diverse uppackningsalternativ.</para>
+> visar dialogrutan Packa upp, där du kan ange målkatalogen och diverse uppackningsalternativ.</para>
 </listitem>
 <listitem>
 <para
@@ -672,10 +672,10 @@
 <listitem>
 <para
 ><guimenuitem
->Här (som TAR.GZ)</guimenuitem
+>Här som "Arkiv.tar.gz")</guimenuitem
 > eller <guimenuitem
->Här (som ZIP)</guimenuitem
-> skapar dessa typer av arkiv i den nuvarande katalogen.</para>
+>Här som "Arkiv.zip")</guimenuitem
+> skapar dessa typer av arkiv i arbetskatalogen.</para>
 </listitem>
 <listitem>
 <para

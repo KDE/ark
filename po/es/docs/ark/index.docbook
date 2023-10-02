@@ -29,7 +29,7 @@
 
 <bookinfo>
 <title
->El manual de &ark;</title>
+>Manual de &ark;</title>
 
 <authorgroup>
 <author
@@ -650,9 +650,9 @@
 >Uso de &ark; en el gestor de archivos</title>
 
 <para
->Si pulsa con el &RMB; sobre un archivo en un gestor de archivos (como &dolphin;) se muestra un menú de contexto que contiene un elemento <guimenuitem
->Abrir con Ark</guimenuitem
->. El menú posee elementos adicionales para extraer un archivo comprimido usando &ark;: </para>
+>Si pulsa el &RMB; sobre un archivo en un gestor de archivos (como &dolphin;) se muestra un menú de contexto que contiene el elemento <guimenuitem
+>Extraer</guimenuitem
+>. Este menú posee elementos adicionales para extraer un archivo comprimido usando &ark;: </para>
 
 <itemizedlist>
 <listitem>
@@ -684,9 +684,9 @@
 <listitem>
 <para
 ><guimenuitem
->Aquí (como TAR.GZ)</guimenuitem
-> o <guimenuitem
->Aquí (como ZIP)</guimenuitem
+>Aquí como «Archivo.tar.gz»</guimenuitem
+> y <guimenuitem
+>Aquí como «Archivo.zip»</guimenuitem
 > crea estos tipos de archivos en la carpeta actual.</para>
 </listitem>
 <listitem>
