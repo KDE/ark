@@ -112,7 +112,7 @@ parts:
         - zstd
         - unrar
         - p7zip-full
-        - to amd64: rar
+        - to amd64: [rar]
         - unzip
         - zip
         - unar
