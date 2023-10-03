@@ -6,3 +6,7 @@ Source: https://invent.kde.org/utilities/ark
 Files: app/icons/*
 Copyright: KDE Community
 License: LGPL-3.0-only
+
+Files: snapcraft.yaml
+Copyright: Scarlett Moore
+License: GPL-2.0-or-later
