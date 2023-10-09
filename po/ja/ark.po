@@ -2347,9 +2347,3 @@ msgstr "エントリをコピーできません: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "エントリにメタデータを設定できません: %1"
-
-# @info:tooltip
-#, fuzzy
-#~| msgid "Create New Archive"
-#~ msgid "Create New Archive..."
-#~ msgstr "新しいアーカイブを作成"
