@@ -2314,9 +2314,3 @@ msgstr "Грешка при копиране на запис: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Грешка при задаване метаданните за запис: %1"
-
-#~ msgid "Form"
-#~ msgstr "Формуляр"
-
-#~ msgid "Create New Archive..."
-#~ msgstr "Създаване на нов архив..."
