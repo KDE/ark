@@ -22,7 +22,7 @@ Supported read-write formats
 | RAR                   | `application/vnd.rar`                      | can only create RAR archives with the proprietary `rar` binary                                |
 | TAR                   | `application/x-tar`                        |                                                                                               |
 | GZip-compressed TAR   | `application/x-compressed-tar`             |                                                                                               |
-| BZip-compressed TAR   | `application/x-bzip-compressed-tar`        |                                                                                               |
+| BZip2-compressed TAR  | `application/x-bzip2-compressed-tar`       | (`application/x-bzip-compressed-tar` with shared-mime-info < 2.3)                             |
 | UNIX-compressed TAR   | `application/x-tarz`                       |                                                                                               |
 | XZ-compressed TAR     | `application/x-xz-compressed-tar`          |                                                                                               |
 | LZMA-compressed TAR   | `application/x-lzma-compressed-tar`        |                                                                                               |
@@ -43,12 +43,12 @@ Supported read-only formats
 | LHA                       | `application/x-lha`                                                                                                            |
 | AppImage                  | `application/x-iso9660-appimage`                                                                                               |
 | DEB package               | `application/vnd.debian.binary-package`, `application/x-deb`                                                                   |
-| Raw CD image              | `application/x-cd-image`                                                                                                       |
+| Raw CD image              | `application/vnd.efi.img`, `application/x-cd-image`                                                                            |
 | CPIO variants             | `application/x-cpio`, `application/x-bcpio`, `application/x-cpio-compressed`, `application/x-sv4cpio`, `application/x-sv4crc`  |
 | RPM (source) package      | `application/x-rpm`, `application/x-source-rpm`                                                                                |
 | UNIX-compressed TAR       | `application/x-compress`                                                                                                       |
 | GZip-compressed file      | `application/gzip`                                                                                                             |
-| BZip-compressed file      | `application/x-bzip`                                                                                                           |
+| BZip2-compressed file     | `application/x-bzip2` (`application/x-bzip` with shared-mime-info < 2.3)                                                       |
 | LZMA-compressed file      | `application/x-lzma`                                                                                                           |
 | XZ-compressed file        | `application/x-xz`                                                                                                             |
 | Zlib-compressed file      | `application/zlib`                                                                                                             |
