@@ -61,6 +61,7 @@
             "application/x-compress",
             "application/gzip",
             "application/x-bzip",
+            "application/x-bzip2",
             "application/x-lzma",
             "application/x-xz",
             "application/zlib",

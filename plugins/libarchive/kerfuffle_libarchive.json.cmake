@@ -53,6 +53,7 @@
             "application/x-tar",
             "application/x-compressed-tar",
             "application/x-bzip-compressed-tar",
+            "application/x-bzip2-compressed-tar",
             "application/x-tarz",
             "application/x-xz-compressed-tar",
             "application/x-lzma-compressed-tar",
@@ -116,6 +117,11 @@
     "X-KDE-Kerfuffle-ReadWrite": true,
     "X-KDE-Priority": 100,
     "application/x-bzip-compressed-tar": {
+        "CompressionLevelDefault": 9,
+        "CompressionLevelMax": 9,
+        "CompressionLevelMin": 1
+    },
+    "application/x-bzip2-compressed-tar": {
         "CompressionLevelDefault": 9,
         "CompressionLevelMax": 9,
         "CompressionLevelMin": 1

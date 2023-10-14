@@ -76,6 +76,8 @@ QMimeType determineMimeType(const QString& filename, MimePreference mp)
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/gzip"))) ||
         (mimeFromExtension.inherits(QStringLiteral("application/x-bzip-compressed-tar")) &&
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip"))) ||
+        (mimeFromExtension.inherits(QStringLiteral("application/x-bzip2-compressed-tar")) &&
+         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip2"))) ||
         (mimeFromExtension.inherits(QStringLiteral("application/x-xz-compressed-tar")) &&
          mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz"))) ||
         (mimeFromExtension.inherits(QStringLiteral("application/x-tarz")) &&

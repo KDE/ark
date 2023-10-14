@@ -13,6 +13,7 @@
 
 #include <KLocalizedString>
 
+#include <QMimeDatabase>
 #include <QThread>
 #include <QFileInfo>
 #include <QDir>
@@ -34,6 +35,17 @@ LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList &args)
 
 #ifdef LIBARCHIVE_RAW_MIMETYPES
     m_rawMimetypes = QStringLiteral(LIBARCHIVE_RAW_MIMETYPES).split(QLatin1Char(':'), Qt::SkipEmptyParts);
+    // shared-mime-info 2.3 explicitly separated application/x-bzip2 from application/x-bzip
+    // since bzip2 is not compatible with the old (and deprecated) bzip format.
+    // See https://gitlab.freedesktop.org/xdg/shared-mime-info/-/merge_requests/239
+    // With shared-mime-info 2.3 (or newer) we can't have both mimetypes at the same time, since libarchive does not support
+    // the old deprecated bzip format. Also we can't know which version of shared-mime-info the system is actually using.
+    // For these reasons, just take the mimetype from QMimeDatabase to keep the compatibility with any shared-mime-info version.
+    if (m_rawMimetypes.contains(QLatin1String("application/x-bzip")) && m_rawMimetypes.contains(QLatin1String("application/x-bzip2"))) {
+        m_rawMimetypes.removeAll(QLatin1String("application/x-bzip"));
+        m_rawMimetypes.removeAll(QLatin1String("application/x-bzip2"));
+        m_rawMimetypes.append(QMimeDatabase().mimeTypeForFile(QStringLiteral("dummy.bz2"), QMimeDatabase::MatchExtension).name());
+    }
     qCDebug(ARK) << "# available raw mimetypes:" << m_rawMimetypes.count();
 #endif
 }

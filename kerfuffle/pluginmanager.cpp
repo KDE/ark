@@ -164,6 +164,18 @@ QStringList PluginManager::supportedWriteMimeTypes(MimeSortingMode mode) const
         supported.remove(QStringLiteral("application/x-tzo"));
     }
 
+    // shared-mime-info 2.3 explicitly separated application/x-bzip2-compressed-tar from application/x-bzip-compressed-tar
+    // since bzip2 is not compatible with the old (and deprecated) bzip format.
+    // See https://gitlab.freedesktop.org/xdg/shared-mime-info/-/merge_requests/239
+    // With shared-mime-info 2.3 (or newer) we can't have both mimetypes at the same time, since libarchive does not support
+    // the old deprecated bzip format. Also we can't know which version of shared-mime-info the system is actually using.
+    // For these reasons, just take the mimetype from QMimeDatabase to keep the compatibility with any shared-mime-info version.
+    if (supported.contains(QLatin1String("application/x-bzip-compressed-tar")) && supported.contains(QLatin1String("application/x-bzip2-compressed-tar"))) {
+        supported.remove(QLatin1String("application/x-bzip-compressed-tar"));
+        supported.remove(QLatin1String("application/x-bzip2-compressed-tar"));
+        supported.insert(QMimeDatabase().mimeTypeForFile(QStringLiteral("dummy.tar.bz2"), QMimeDatabase::MatchExtension).name());
+    }
+
     if (mode == SortByComment) {
         return sortByComment(supported);
     }
