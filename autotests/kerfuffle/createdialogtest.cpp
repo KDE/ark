@@ -38,7 +38,7 @@ void CreateDialogTest::testBasicWidgets_data()
 
     QTest::newRow("tar") << QStringLiteral("application/x-tar");
     QTest::newRow("targzip") << QStringLiteral("application/x-compressed-tar");
-    QTest::newRow("tarbzip") << QStringLiteral("application/x-bzip-compressed-tar");
+    QTest::newRow("tarbzip") << QMimeDatabase().mimeTypeForFile(QStringLiteral("dummy.tar.bz2"), QMimeDatabase::MatchExtension).name();
     QTest::newRow("tarZ") << QStringLiteral("application/x-tarz");
     QTest::newRow("tarxz") << QStringLiteral("application/x-xz-compressed-tar");
     QTest::newRow("tarlzma") << QStringLiteral("application/x-lzma-compressed-tar");
