@@ -71,6 +71,7 @@
             "application/x-lzop",
             "application/x-source-rpm",
             "application/vnd.debian.binary-package",
+            "application/vnd.efi.iso",
             "application/vnd.ms-cab-compressed",
             "application/x-xar",
             "application/x-iso9660-appimage",
