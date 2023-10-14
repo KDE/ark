@@ -4,7 +4,7 @@ include_directories(${LibArchive_INCLUDE_DIRS})
 
 # NOTE: These are the mimetypes for "single-file" archives. They must be defined in the JSON metadata together with the "normal" mimetypes.
 # However they need to be duplicated here because we need to pass them as C++ define to the plugin (see LIBARCHIVE_RAW_MIMETYPES define below).
-set(SUPPORTED_LIBARCHIVE_RAW_MIMETYPES "application/x-compress;application/gzip;application/x-bzip;application/zlib;application/zstd;application/x-lzma;application/x-xz;application/x-lz4;application/x-lzip;application/x-lrzip;application/x-lzop;")
+set(SUPPORTED_LIBARCHIVE_RAW_MIMETYPES "application/x-compress;application/gzip;application/x-bzip;application/x-bzip2;application/zlib;application/zstd;application/x-lzma;application/x-xz;application/x-lz4;application/x-lzip;application/x-lrzip;application/x-lzop;")
 
 set(INSTALLED_LIBARCHIVE_PLUGINS "")
 
