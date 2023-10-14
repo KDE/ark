@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-02 00:44+0000\n"
+"POT-Creation-Date: 2023-10-14 00:45+0000\n"
 "PO-Revision-Date: 2002-11-06 11:55+0200\n"
 "Last-Translator: Fundile Majola <fundile@translate.org.za>\n"
 "Language-Team: xhosa <fundile@translate.org.za>\n"
@@ -2202,92 +2202,91 @@ msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
 msgstr "Ikhangela impazamo kwindawo yokugcina...."
 
-#: plugins/libzipplugin/libzipplugin.cpp:76
-#: plugins/libzipplugin/libzipplugin.cpp:118
-#: plugins/libzipplugin/libzipplugin.cpp:415
-#: plugins/libzipplugin/libzipplugin.cpp:464
-#: plugins/libzipplugin/libzipplugin.cpp:555
-#: plugins/libzipplugin/libzipplugin.cpp:826
-#: plugins/libzipplugin/libzipplugin.cpp:881
+#: plugins/libzipplugin/libzipplugin.cpp:195
+#: plugins/libzipplugin/libzipplugin.cpp:292
+#: plugins/libzipplugin/libzipplugin.cpp:589
+#: plugins/libzipplugin/libzipplugin.cpp:638
+#: plugins/libzipplugin/libzipplugin.cpp:990
+#: plugins/libzipplugin/libzipplugin.cpp:1045
 #, kde-kuit-format
 msgid "Failed to open archive: %1"
 msgstr ""
 
-#: plugins/libzipplugin/libzipplugin.cpp:176
-#: plugins/libzipplugin/libzipplugin.cpp:448
-#: plugins/libzipplugin/libzipplugin.cpp:480
-#: plugins/libzipplugin/libzipplugin.cpp:861
-#: plugins/libzipplugin/libzipplugin.cpp:951
+#: plugins/libzipplugin/libzipplugin.cpp:350
+#: plugins/libzipplugin/libzipplugin.cpp:622
+#: plugins/libzipplugin/libzipplugin.cpp:654
+#: plugins/libzipplugin/libzipplugin.cpp:1025
+#: plugins/libzipplugin/libzipplugin.cpp:1115
 #, fuzzy, kde-kuit-format
 msgid "Failed to write archive."
 msgstr "Ikhangela impazamo kwindawo yokugcina...."
 
-#: plugins/libzipplugin/libzipplugin.cpp:225
-#: plugins/libzipplugin/libzipplugin.cpp:918
+#: plugins/libzipplugin/libzipplugin.cpp:399
+#: plugins/libzipplugin/libzipplugin.cpp:1082
 #, kde-kuit-format
 msgid "Failed to add entry: %1"
 msgstr ""
 
-#: plugins/libzipplugin/libzipplugin.cpp:280
+#: plugins/libzipplugin/libzipplugin.cpp:454
 #, fuzzy, kde-kuit-format
 msgid "Failed to set compression options for entry: %1"
 msgstr "Ukungaphumeleli Kocatshulo"
 
-#: plugins/libzipplugin/libzipplugin.cpp:385
-#: plugins/libzipplugin/libzipplugin.cpp:776
-#: plugins/libzipplugin/libzipplugin.cpp:927
+#: plugins/libzipplugin/libzipplugin.cpp:559
+#: plugins/libzipplugin/libzipplugin.cpp:940
+#: plugins/libzipplugin/libzipplugin.cpp:1091
 #, fuzzy, kde-kuit-format
 msgid "Failed to read metadata for entry: %1"
 msgstr "Ukungaphumeleli Kocatshulo"
 
-#: plugins/libzipplugin/libzipplugin.cpp:429
-#: plugins/libzipplugin/libzipplugin.cpp:434
+#: plugins/libzipplugin/libzipplugin.cpp:603
+#: plugins/libzipplugin/libzipplugin.cpp:608
 #, kde-kuit-format
 msgid "Failed to delete entry: %1"
 msgstr ""
 
-#: plugins/libzipplugin/libzipplugin.cpp:659
+#: plugins/libzipplugin/libzipplugin.cpp:823
 #, kde-kuit-format
 msgid "Failed to create directory: %1"
 msgstr ""
 
-#: plugins/libzipplugin/libzipplugin.cpp:732
+#: plugins/libzipplugin/libzipplugin.cpp:896
 #, kde-kuit-format
 msgid "Failed to open '%1':<nl/>%2"
 msgstr ""
 
-#: plugins/libzipplugin/libzipplugin.cpp:740
+#: plugins/libzipplugin/libzipplugin.cpp:904
 #, fuzzy, kde-kuit-format
 msgid "Failed to open file for writing: %1"
 msgstr "Ukungaphumeleli Kocatshulo"
 
-#: plugins/libzipplugin/libzipplugin.cpp:753
+#: plugins/libzipplugin/libzipplugin.cpp:917
 #, kde-kuit-format
 msgid "Failed to read data for entry: %1"
 msgstr ""
 
-#: plugins/libzipplugin/libzipplugin.cpp:758
+#: plugins/libzipplugin/libzipplugin.cpp:922
 #, kde-kuit-format
 msgid "Failed to write data for entry: %1"
 msgstr ""
 
-#: plugins/libzipplugin/libzipplugin.cpp:768
+#: plugins/libzipplugin/libzipplugin.cpp:932
 #, fuzzy, kde-kuit-format
 msgid "Failed to locate entry: %1"
 msgstr "Ukungaphumeleli Kocatshulo"
 
-#: plugins/libzipplugin/libzipplugin.cpp:840
-#: plugins/libzipplugin/libzipplugin.cpp:846
+#: plugins/libzipplugin/libzipplugin.cpp:1004
+#: plugins/libzipplugin/libzipplugin.cpp:1010
 #, kde-kuit-format
 msgid "Failed to move entry: %1"
 msgstr ""
 
-#: plugins/libzipplugin/libzipplugin.cpp:904
+#: plugins/libzipplugin/libzipplugin.cpp:1068
 #, kde-kuit-format
 msgid "Failed to copy entry: %1"
 msgstr ""
 
-#: plugins/libzipplugin/libzipplugin.cpp:934
+#: plugins/libzipplugin/libzipplugin.cpp:1098
 #, fuzzy, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Ukungaphumeleli Kocatshulo"
