@@ -30,7 +30,7 @@ void MimeTypeTest::testMimeTypeDetection_data()
     QTest::addColumn<QString>("expectedMimeType");
 
     const QString compressedGzipTarMime = QStringLiteral("application/x-compressed-tar");
-    const QString compressedBzip2TarMime = QStringLiteral("application/x-bzip-compressed-tar");
+    const QString compressedBzip2TarMime = QMimeDatabase().mimeTypeForFile(QStringLiteral("dummy.tar.bz2"), QMimeDatabase::MatchExtension).name();
     const QString compressedXzTarMime = QStringLiteral("application/x-xz-compressed-tar");
     const QString compressedLzmaTarMime = QStringLiteral("application/x-lzma-compressed-tar");
     const QString compressedZTarMime = QStringLiteral("application/x-tarz");
