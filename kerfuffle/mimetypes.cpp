@@ -104,7 +104,8 @@ QMimeType determineMimeType(const QString& filename, MimePreference mp)
         }
 
         // #354344: ISO files are currently wrongly detected-by-content.
-        if (mimeFromExtension.inherits(QStringLiteral("application/x-cd-image"))) {
+        // TODO: drop application/x-cd-image once all distributions ship shared-mime-info >= 2.3
+        if (mimeFromExtension.inherits(QStringLiteral("application/vnd.efi.img")) || mimeFromExtension.inherits(QStringLiteral("application/x-cd-image"))) {
             return mimeFromExtension;
         }
 
