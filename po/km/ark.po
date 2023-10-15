@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-14 00:45+0000\n"
+"POT-Creation-Date: 2023-10-15 00:44+0000\n"
 "PO-Revision-Date: 2012-06-11 15:59+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -2018,13 +2018,13 @@ msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "មិនអាច​ចាប់ផ្ដើម​កម្មវិធី​សរសេរ​ប័ណ្ណសារ​បានទេ ។"
 
-#: part/part.cpp:926
+#: part/part.cpp:928
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 
-#: part/part.cpp:956
+#: part/part.cpp:958
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -2038,12 +2038,12 @@ msgstr ""
 "បាន​បរាជ័យ​ក្នុងការ​ផ្ទុកប័ណ្ណសារ <filename>%1</filename> ដោយ​មាន​កំហុស​ដូច​ខាងក្រោម ៖<message>"
 "%2</message>"
 
-#: part/part.cpp:1016
+#: part/part.cpp:1018
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr ""
 
-#: part/part.cpp:1144
+#: part/part.cpp:1146
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -2054,31 +2054,31 @@ msgid ""
 "archive?"
 msgstr "មាន​ថត <filename>%1</filename> រួច​ហើយ ។ តើ​អ្នក​ប្រាកដ​ជា​ចង់​ស្រង់​ចេញ​នៅ​ទីនេះ​ឬ ?"
 
-#: part/part.cpp:1145
+#: part/part.cpp:1147
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr ""
 
-#: part/part.cpp:1146
+#: part/part.cpp:1148
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr ""
 
-#: part/part.cpp:1147
+#: part/part.cpp:1149
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1428
+#: part/part.cpp:1430
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "បន្ថែម​ឯកសារ"
 
-#: part/part.cpp:1433
+#: part/part.cpp:1435
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Add Files"
@@ -2086,27 +2086,27 @@ msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "បន្ថែម​ឯកសារ"
 
-#: part/part.cpp:1497
+#: part/part.cpp:1499
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1541
+#: part/part.cpp:1543
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr ""
 
-#: part/part.cpp:1542
+#: part/part.cpp:1544
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr ""
 
-#: part/part.cpp:1570
+#: part/part.cpp:1572
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1670
+#: part/part.cpp:1672
 #, fuzzy, kde-format
 #| msgid ""
 #| "Deleting these files is not undoable. Are you sure you want to do this?"
@@ -2116,7 +2116,7 @@ msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr[0] "លុប​ឯកសារ​ទាំង​នេះ​មិនអាច​ធ្វើវិញ​បានទេ ។ តើអ្នកប្រាកដ​ជា​ចង់​ធ្វើ​ដូច្នេះ​ឬ ?"
 
-#: part/part.cpp:1673
+#: part/part.cpp:1675
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Delete files"
@@ -2125,13 +2125,13 @@ msgid "Delete File"
 msgid_plural "Delete Files"
 msgstr[0] "លុប​ឯកសារ"
 
-#: part/part.cpp:1716
+#: part/part.cpp:1718
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1731
+#: part/part.cpp:1733
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2141,7 +2141,7 @@ msgstr ""
 "មិន​អាច​រក្សា​ទុក​ប័ណ្ណសារ​ជា <filename>%1</filename>បាន​ទេ ។ ព្យាយាម​រក្សាទុក​វា​ក្នុង​ទីតាំង​"
 "ផ្សេង ។"
 
-#: part/part.cpp:1735
+#: part/part.cpp:1737
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -2275,18 +2275,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "មិនស្គាល់ទំហំ"
 
-#: plugins/libarchive/libarchiveplugin.cpp:460
+#: plugins/libarchive/libarchiveplugin.cpp:472
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:494
+#: plugins/libarchive/libarchiveplugin.cpp:506
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "មិនអាច​ចាប់ផ្ដើម​កម្មវិធី​អាន​ប័ណ្ណសារ​បាន​ទេ ។"
 
-#: plugins/libarchive/libarchiveplugin.cpp:516
+#: plugins/libarchive/libarchiveplugin.cpp:528
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
