@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-18 08:38+0000\n"
+"POT-Creation-Date: 2023-10-15 02:26+0000\n"
 "PO-Revision-Date: 2023-07-19 10:06+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: Dutch <kde-i18n-nl@kde.org>\n"
@@ -1946,14 +1946,14 @@ msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Het archiefis leeg of Ark kon de inhoud niet openen."
 
-#: part/part.cpp:932
+#: part/part.cpp:934
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 "Ark ondersteunt op dit moment geen ISO-bestanden met het UDF-bestandssysteem."
 
-#: part/part.cpp:962
+#: part/part.cpp:964
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1963,12 +1963,12 @@ msgstr ""
 "Het archief <filename>%1</filename> laden is mislukt met de volgende fout:"
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:1022
+#: part/part.cpp:1024
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark kan geen symlinks openen."
 
-#: part/part.cpp:1154
+#: part/part.cpp:1156
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1977,60 +1977,60 @@ msgstr ""
 "Het bestand <filename>%1</filename> is gewijzigd. Wilt u het archief "
 "bijwerken?"
 
-#: part/part.cpp:1155
+#: part/part.cpp:1157
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Bestand gewijzigd"
 
-#: part/part.cpp:1156
+#: part/part.cpp:1158
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Bijwerken"
 
-#: part/part.cpp:1157
+#: part/part.cpp:1159
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Negeren"
 
-#: part/part.cpp:1442
+#: part/part.cpp:1444
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Bestanden toevoegen"
 
-#: part/part.cpp:1447
+#: part/part.cpp:1449
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Bestanden toevoegen aan %1"
 
-#: part/part.cpp:1511
+#: part/part.cpp:1513
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Bestandsnaam kan geen slashes bevatten en kan niet gelijk zijn aan \".\" of "
 "\"..\""
 
-#: part/part.cpp:1555
+#: part/part.cpp:1557
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Mappen kunnen niet verplaatst worden in zichzelf."
 
-#: part/part.cpp:1556
+#: part/part.cpp:1558
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Een map in zichzelf verplaatsen"
 
-#: part/part.cpp:1584
+#: part/part.cpp:1586
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Items met dezelfde namen kunnen niet geplakt worden naar dezelfde bestemming."
 
-#: part/part.cpp:1688
+#: part/part.cpp:1690
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2043,7 +2043,7 @@ msgstr[1] ""
 "Het verwijderen van deze bestanden niet ongedaan te maken. Wilt u dit toch "
 "doen?"
 
-#: part/part.cpp:1691
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2051,13 +2051,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Bestand verwijderen"
 msgstr[1] "Bestanden verwijderen"
 
-#: part/part.cpp:1738
+#: part/part.cpp:1740
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Kopie opslaan als"
 
-#: part/part.cpp:1753
+#: part/part.cpp:1755
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2067,7 +2067,7 @@ msgstr ""
 "Het archief kon niet worden opgeslagen als <filename>%1</filename>. Probeer "
 "het op te slaan in een andere locatie."
 
-#: part/part.cpp:1757
+#: part/part.cpp:1759
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2199,18 +2199,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "onbekend"
 
-#: plugins/libarchive/libarchiveplugin.cpp:432
+#: plugins/libarchive/libarchiveplugin.cpp:444
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Fatale fout, uitpakken afgebroken."
 
-#: plugins/libarchive/libarchiveplugin.cpp:466
+#: plugins/libarchive/libarchiveplugin.cpp:478
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "De archieflezer kon niet worden geïnitialiseerd."
 
-#: plugins/libarchive/libarchiveplugin.cpp:488
+#: plugins/libarchive/libarchiveplugin.cpp:500
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

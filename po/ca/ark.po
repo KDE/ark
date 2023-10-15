@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-18 08:38+0000\n"
+"POT-Creation-Date: 2023-10-15 02:26+0000\n"
 "PO-Revision-Date: 2023-07-18 15:09+0300\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -1919,14 +1919,14 @@ msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "L'arxiu està buit o l'Ark no ha pogut obrir el seu contingut."
 
-#: part/part.cpp:932
+#: part/part.cpp:934
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 "Actualment l'Ark no permet l'ús de fitxers ISO amb el sistema de fitxers UDF."
 
-#: part/part.cpp:962
+#: part/part.cpp:964
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1936,12 +1936,12 @@ msgstr ""
 "La càrrega de l'arxiu <filename>%1</filename> ha fallat amb l'error següent: "
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:1022
+#: part/part.cpp:1024
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "L'Ark no pot obrir enllaços simbòlics."
 
-#: part/part.cpp:1154
+#: part/part.cpp:1156
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1950,60 +1950,60 @@ msgstr ""
 "El fitxer <filename>%1</filename> s'ha modificat. Esteu segur que voleu "
 "actualitzar l'arxiu?"
 
-#: part/part.cpp:1155
+#: part/part.cpp:1157
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fitxer modificat"
 
-#: part/part.cpp:1156
+#: part/part.cpp:1158
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Actualitza"
 
-#: part/part.cpp:1157
+#: part/part.cpp:1159
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Ignora"
 
-#: part/part.cpp:1442
+#: part/part.cpp:1444
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Afegeix fitxers"
 
-#: part/part.cpp:1447
+#: part/part.cpp:1449
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Afegeix fitxers a %1"
 
-#: part/part.cpp:1511
+#: part/part.cpp:1513
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "El nom de fitxer no pot contenir barres i no pot ser igual que «.» o «..»"
 
-#: part/part.cpp:1555
+#: part/part.cpp:1557
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Les carpetes no es poden moure en si mateixes."
 
-#: part/part.cpp:1556
+#: part/part.cpp:1558
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "S'està movent la carpeta en si mateixa"
 
-#: part/part.cpp:1584
+#: part/part.cpp:1586
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Les entrades amb els mateixos noms no es poden enganxar a la mateixa "
 "destinació."
 
-#: part/part.cpp:1688
+#: part/part.cpp:1690
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2014,7 +2014,7 @@ msgstr[0] ""
 msgstr[1] ""
 "La supressió d'aquests fitxers no es pot desfer. Segur que voleu fer això?"
 
-#: part/part.cpp:1691
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2022,13 +2022,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Suprimeix el fitxer"
 msgstr[1] "Suprimeix els fitxers"
 
-#: part/part.cpp:1738
+#: part/part.cpp:1740
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Desa una còpia com a"
 
-#: part/part.cpp:1753
+#: part/part.cpp:1755
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2038,7 +2038,7 @@ msgstr ""
 "L'arxiu no es pot desar com a <filename>%1</filename>. Intenteu desar-lo a "
 "una altra ubicació."
 
-#: part/part.cpp:1757
+#: part/part.cpp:1759
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2168,18 +2168,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "desconegut"
 
-#: plugins/libarchive/libarchiveplugin.cpp:432
+#: plugins/libarchive/libarchiveplugin.cpp:444
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Error fatal, s'ha interromput l'extracció."
 
-#: plugins/libarchive/libarchiveplugin.cpp:466
+#: plugins/libarchive/libarchiveplugin.cpp:478
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "No s'ha pogut inicialitzar el lector d'arxius."
 
-#: plugins/libarchive/libarchiveplugin.cpp:488
+#: plugins/libarchive/libarchiveplugin.cpp:500
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

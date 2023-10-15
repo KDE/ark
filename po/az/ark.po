@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-18 08:38+0000\n"
+"POT-Creation-Date: 2023-10-15 02:26+0000\n"
 "PO-Revision-Date: 2023-05-29 21:57+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -1907,13 +1907,13 @@ msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Arxiv boşdur və ya Ark onun tərkiblərini aça bilmir."
 
-#: part/part.cpp:932
+#: part/part.cpp:934
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark hal-hazırda UDF fayl sistemli İSO fayllarını dəstəkləmir."
 
-#: part/part.cpp:962
+#: part/part.cpp:964
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1923,12 +1923,12 @@ msgstr ""
 "<filename>%1</filename> arxivinin yüklənməsi aşağıdakı xəta ilə baş tutmadı:"
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:1022
+#: part/part.cpp:1024
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark simvolik keçidləri aça bilmir."
 
-#: part/part.cpp:1154
+#: part/part.cpp:1156
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1936,57 +1936,57 @@ msgid ""
 msgstr ""
 "<filename>%1</filename> faylı dəyişdirildi. Arxivi yeniləmək istəyirsiniz?"
 
-#: part/part.cpp:1155
+#: part/part.cpp:1157
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fayl dəyişdirildi"
 
-#: part/part.cpp:1156
+#: part/part.cpp:1158
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Yenilə"
 
-#: part/part.cpp:1157
+#: part/part.cpp:1159
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Ötürün"
 
-#: part/part.cpp:1442
+#: part/part.cpp:1444
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Fayllar əlavə etmək"
 
-#: part/part.cpp:1447
+#: part/part.cpp:1449
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Faylları %1 arxivinə əlavə etmək"
 
-#: part/part.cpp:1511
+#: part/part.cpp:1513
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "Fayl-adı kəsir və \".\" və ya \"..\" işarələrindən ibarət ola bilməz"
 
-#: part/part.cpp:1555
+#: part/part.cpp:1557
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Qovluq öz daxilinə köçürülə bilməz."
 
-#: part/part.cpp:1556
+#: part/part.cpp:1558
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Qovluğu öz daxilinə köçürmək"
 
-#: part/part.cpp:1584
+#: part/part.cpp:1586
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Eyni adlı obyektlər eyni təyinat yerinə yerləşdirilə bilməz."
 
-#: part/part.cpp:1688
+#: part/part.cpp:1690
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1997,7 +1997,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Bu faylların silinməsini ləğv etmək olmaz. Silmək istədiyinizə əminsiniz?"
 
-#: part/part.cpp:1691
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2005,13 +2005,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Faylı silmək"
 msgstr[1] "Faylları silmək"
 
-#: part/part.cpp:1738
+#: part/part.cpp:1740
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Kopyanı belə saxla"
 
-#: part/part.cpp:1753
+#: part/part.cpp:1755
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2021,7 +2021,7 @@ msgstr ""
 "Arxiv <filename>%1</filename> kimi saxlanıla bilməz. Başqa yerdə saxlamağa "
 "cəhd edin."
 
-#: part/part.cpp:1757
+#: part/part.cpp:1759
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2151,18 +2151,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "naməlum"
 
-#: plugins/libarchive/libarchiveplugin.cpp:432
+#: plugins/libarchive/libarchiveplugin.cpp:444
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Ciddi xəta, çıxarılma ləğv edilidi."
 
-#: plugins/libarchive/libarchiveplugin.cpp:466
+#: plugins/libarchive/libarchiveplugin.cpp:478
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Arxiv oxuyucusu başladıla bilmədi."
 
-#: plugins/libarchive/libarchiveplugin.cpp:488
+#: plugins/libarchive/libarchiveplugin.cpp:500
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

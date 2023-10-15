@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: arkn\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-18 08:38+0000\n"
+"POT-Creation-Date: 2023-10-15 02:26+0000\n"
 "PO-Revision-Date: 2023-06-26 07:00+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
@@ -1904,13 +1904,13 @@ msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "La arkivo estas malplena aŭ Ark ne povis malfermi ĝian enhavon."
 
-#: part/part.cpp:932
+#: part/part.cpp:934
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark nuntempe ne subtenas ISO-dosierojn kun UDF-dosiersistemo."
 
-#: part/part.cpp:962
+#: part/part.cpp:964
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1920,12 +1920,12 @@ msgstr ""
 "Ŝargado de la arkivo <filename>%1</filename> malsukcesis kun la jena eraro: "
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:1022
+#: part/part.cpp:1024
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark ne povas malfermi simbolligojn."
 
-#: part/part.cpp:1154
+#: part/part.cpp:1156
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1934,60 +1934,60 @@ msgstr ""
 "La dosiero <filename>%1</filename> estis modifita. Ĉu vi volas ĝisdatigi la "
 "arkivon?"
 
-#: part/part.cpp:1155
+#: part/part.cpp:1157
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Dosiero Modifita"
 
-#: part/part.cpp:1156
+#: part/part.cpp:1158
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Ĝisdatigo"
 
-#: part/part.cpp:1157
+#: part/part.cpp:1159
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Ignori"
 
-#: part/part.cpp:1442
+#: part/part.cpp:1444
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Aldoni dosierojn"
 
-#: part/part.cpp:1447
+#: part/part.cpp:1449
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Aldoni dosierojn al %1"
 
-#: part/part.cpp:1511
+#: part/part.cpp:1513
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Dosiernomo ne povas enhavi oblikvojn kaj ne povas esti egala al \".\" aŭ \".."
 "\""
 
-#: part/part.cpp:1555
+#: part/part.cpp:1557
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Dosierujoj ne povas esti movitaj en si mem."
 
-#: part/part.cpp:1556
+#: part/part.cpp:1558
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Movante dosierujon en si mem"
 
-#: part/part.cpp:1584
+#: part/part.cpp:1586
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Enskriboj kun la samaj nomoj ne povas esti algluitaj al la sama celloko."
 
-#: part/part.cpp:1688
+#: part/part.cpp:1690
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1999,7 +1999,7 @@ msgstr[1] ""
 "Forigo de ĉi dosieroj ne estas malfarebla. Ĉu vi certas ke vi volas fari "
 "tion?"
 
-#: part/part.cpp:1691
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2007,13 +2007,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Forigi Dosieron"
 msgstr[1] "Forigi Dosierojn"
 
-#: part/part.cpp:1738
+#: part/part.cpp:1740
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Konservi Kopion Kiel"
 
-#: part/part.cpp:1753
+#: part/part.cpp:1755
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2023,7 +2023,7 @@ msgstr ""
 "La arkivo ne povis esti konservita kiel <filename>%1</filename>. Provu "
 "konservi ĝin al alia loko."
 
-#: part/part.cpp:1757
+#: part/part.cpp:1759
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2153,18 +2153,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "nekonata"
 
-#: plugins/libarchive/libarchiveplugin.cpp:432
+#: plugins/libarchive/libarchiveplugin.cpp:444
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Fatala eraro, eltiro ĉesigita."
 
-#: plugins/libarchive/libarchiveplugin.cpp:466
+#: plugins/libarchive/libarchiveplugin.cpp:478
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "La arkiva leganto ne eblis pravalorizita."
 
-#: plugins/libarchive/libarchiveplugin.cpp:488
+#: plugins/libarchive/libarchiveplugin.cpp:500
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

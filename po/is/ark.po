@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-18 08:38+0000\n"
+"POT-Creation-Date: 2023-10-15 02:26+0000\n"
 "PO-Revision-Date: 2022-11-11 09:25+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -1899,13 +1899,13 @@ msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Safnskráin er tóm eða að Ark tókst ekki að opna efni hennar."
 
-#: part/part.cpp:932
+#: part/part.cpp:934
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr ""
 
-#: part/part.cpp:962
+#: part/part.cpp:964
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1915,12 +1915,12 @@ msgstr ""
 "Lestur safnskrárinnar <filename>%1</filename> mistókst með eftirfarandi "
 "villuboðum:<nl/><message>%2</message>"
 
-#: part/part.cpp:1022
+#: part/part.cpp:1024
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark getur ekki opnað tákntengi (symlinks)."
 
-#: part/part.cpp:1154
+#: part/part.cpp:1156
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1928,57 +1928,57 @@ msgid ""
 msgstr ""
 "Skránni <filename>%1</filename> hefur verið breytt. Viltu uppfæra safnskrána?"
 
-#: part/part.cpp:1155
+#: part/part.cpp:1157
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Skrá breytt"
 
-#: part/part.cpp:1156
+#: part/part.cpp:1158
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Uppfæra"
 
-#: part/part.cpp:1157
+#: part/part.cpp:1159
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Hunsa"
 
-#: part/part.cpp:1442
+#: part/part.cpp:1444
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Bæta við skrám"
 
-#: part/part.cpp:1447
+#: part/part.cpp:1449
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Bæta skrám í %1"
 
-#: part/part.cpp:1511
+#: part/part.cpp:1513
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1555
+#: part/part.cpp:1557
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Möppur má ekki færa inn í sjálfar sig."
 
-#: part/part.cpp:1556
+#: part/part.cpp:1558
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Mappa færð inn í sjálfa sig"
 
-#: part/part.cpp:1584
+#: part/part.cpp:1586
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1688
+#: part/part.cpp:1690
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1991,7 +1991,7 @@ msgstr[1] ""
 "Ekki er hægt að afturkalla eyðingu þessara skráa. Ertu viss um að þú viljir "
 "gera þetta?"
 
-#: part/part.cpp:1691
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1999,13 +1999,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Eyða skrá"
 msgstr[1] "Eyða skrám"
 
-#: part/part.cpp:1738
+#: part/part.cpp:1740
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Vista afrit sem"
 
-#: part/part.cpp:1753
+#: part/part.cpp:1755
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2015,7 +2015,7 @@ msgstr ""
 "Ekki var hægt að vista safnskrána sem <filename>%1</filename>. Reyndu að "
 "vista hana á einhverjum öðrum stað."
 
-#: part/part.cpp:1757
+#: part/part.cpp:1759
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2137,18 +2137,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "óþekkt"
 
-#: plugins/libarchive/libarchiveplugin.cpp:432
+#: plugins/libarchive/libarchiveplugin.cpp:444
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Alvarleg villa, hætt við afþjöppun."
 
-#: plugins/libarchive/libarchiveplugin.cpp:466
+#: plugins/libarchive/libarchiveplugin.cpp:478
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Ekki tókst að ræsa safnskrárlesarann."
 
-#: plugins/libarchive/libarchiveplugin.cpp:488
+#: plugins/libarchive/libarchiveplugin.cpp:500
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

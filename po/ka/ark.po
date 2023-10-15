@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-18 08:38+0000\n"
+"POT-Creation-Date: 2023-10-15 02:26+0000\n"
 "PO-Revision-Date: 2023-07-19 06:25+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -1893,7 +1893,7 @@ msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "არქივი ცარიელია ან Ark-ს მისი შემცველობის წაკითხვა არ შეუძლია."
 
-#: part/part.cpp:932
+#: part/part.cpp:934
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
@@ -1901,7 +1901,7 @@ msgstr ""
 "Ark-ს ამჟამად UDF ფაილური სისტემის შემცველი ISO ფაილების მხარდაჭერა არ "
 "გააჩნია."
 
-#: part/part.cpp:962
+#: part/part.cpp:964
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1911,71 +1911,71 @@ msgstr ""
 "არქივის <filename>%1</filename> ჩატვირთვა შემდეგი შეცდომით დასრულდა:<nl/"
 "><message>%2</message>"
 
-#: part/part.cpp:1022
+#: part/part.cpp:1024
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark-ს სიმბმულების გახსნა არ შეუძლია."
 
-#: part/part.cpp:1154
+#: part/part.cpp:1156
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
 "archive?"
 msgstr "ფაილი <filename>%1</filename> შეიცვალა. გნებავთ, განაახლოთ არქივი?"
 
-#: part/part.cpp:1155
+#: part/part.cpp:1157
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "შეცვლილი ფაილი"
 
-#: part/part.cpp:1156
+#: part/part.cpp:1158
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "განახლება"
 
-#: part/part.cpp:1157
+#: part/part.cpp:1159
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "იგნორი"
 
-#: part/part.cpp:1442
+#: part/part.cpp:1444
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "ფაილების დამატება"
 
-#: part/part.cpp:1447
+#: part/part.cpp:1449
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "ფაილების დამატება %1-ში"
 
-#: part/part.cpp:1511
+#: part/part.cpp:1513
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "ფაილის სახელი არ შეიძლება შეიცავდეს დახრილ ხაზებს, ან უდრიდეს \".\" ან \"..\""
 
-#: part/part.cpp:1555
+#: part/part.cpp:1557
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "საქაღალდეებს საკუთარ თავში ვერ გადაიტანთ."
 
-#: part/part.cpp:1556
+#: part/part.cpp:1558
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "საქაღალდის თავის თავში გადატანა"
 
-#: part/part.cpp:1584
+#: part/part.cpp:1586
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "იგივე სახელის მქონე ჩანაწერები იგივე სამიზნე წერტილში ჩაწერილი ვერ იქნება."
 
-#: part/part.cpp:1688
+#: part/part.cpp:1690
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1987,7 +1987,7 @@ msgstr[1] ""
 "ფაილების წაშლა შეუქცევადია. დარწმუნებული ბრძანდებით, რომ გნებავთ, გააკეთოთ "
 "ეს?"
 
-#: part/part.cpp:1691
+#: part/part.cpp:1693
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1995,13 +1995,13 @@ msgid_plural "Delete Files"
 msgstr[0] "ფაილების წაშლა"
 msgstr[1] "ფაილის წაშლა"
 
-#: part/part.cpp:1738
+#: part/part.cpp:1740
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "ასლის შენახვა, როგორც"
 
-#: part/part.cpp:1753
+#: part/part.cpp:1755
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2011,7 +2011,7 @@ msgstr ""
 "შეცდომა არქივის შენახვისას, როგორც <filename>%1</filename>. სცადეთ, სხვა "
 "ადგილას შეინახოთ."
 
-#: part/part.cpp:1757
+#: part/part.cpp:1759
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2139,18 +2139,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "unknown"
 
-#: plugins/libarchive/libarchiveplugin.cpp:432
+#: plugins/libarchive/libarchiveplugin.cpp:444
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "ფატალური შეცდომა. გაშლა გაუქმებულია."
 
-#: plugins/libarchive/libarchiveplugin.cpp:466
+#: plugins/libarchive/libarchiveplugin.cpp:478
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "არქივის წამკითხველის ინიციალიზაციის შეცდომა."
 
-#: plugins/libarchive/libarchiveplugin.cpp:488
+#: plugins/libarchive/libarchiveplugin.cpp:500
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
