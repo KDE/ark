@@ -155,7 +155,7 @@
 </mediaobject>
 
 <para
->&ark;'ı başarıyla kullanmak için KDE Framework 5'e gereksiniminiz vardır. Tarayıcı, sıkıştırılmış tar, rpm, deb ve cab arşivleri gibi çoğu arşiv çeşidini işlemek etmek için libarchive kütüphanenesini 3.1 sürümü veya üstü gereklidir. Diğer dosya biçimlerini işlemek için uygun komut satırı programları gereklidir, bunlar <command
+>&ark;'ı başarıyla kullanmak için KDE Framework 5'e gereksiniminiz vardır. libarchive kitaplığının 3.1 veya üzeri sürümü; tar, sıkıştırılmış tar, rpm, deb ve cab arşivleri de dahil olmak üzere çoğu arşiv türünü işlemek için gereklidir. Diğer dosya biçimlerini işlemek için uygun komut satırı programları gerekir; bunlar <command
 >zipinfo</command
 >, <command
 >zip</command
@@ -183,7 +183,7 @@
 
 <sect1 id="ark-open">
 <title
->Arşivleri Açma</title>
+>Arşivleri Açmak</title>
 
 <para
 >&ark; içinde bir arşivi açmak için, <guimenuitem
@@ -196,14 +196,14 @@
 >Arşiv</guimenu
 > menüsünü seçin. Ayrıca, &dolphin; içinden dosyaları sürükleyip bırakarak ta arşivi açabilirsiniz. Arşiv dosyaları &ark; ile ilişkilendirilmelidir, &dolphin;'de bir dosyayı tıklayıp açabilmeniz için <mousebutton
 >sağ</mousebutton
-> düğmeye tıklayıp <guimenuitem
+> fare düğmesine tıklayıp <guimenuitem
 >&ark; ile Aç</guimenuitem
-> seçebilir veya bu dosya için bir çıkarma eylemi seçebilirsiniz.</para>
+> ögesini seçebilir veya bu dosya için bir çıkarma eylemi seçebilirsiniz.</para>
 
 <para
 ><guimenu
 >Ayarlar</guimenu
-> menüsünden bilgi panosunu etkinleştirdiyseniz arşiv içinde seçili klasörler veya dosyalar hakkında ek bilgi görüntülenir.</para>
+> menüsünden bilgi panelini etkinleştirdiyseniz arşiv içinde seçili klasörler veya dosyalar hakkında ek bilgi görüntülenir.</para>
 
 <sect2 id="ark-archive-operations">
 <title
@@ -245,7 +245,7 @@
 <para
 ><literal role="extension"
 >zip</literal
-> içinde gömülü olan açıklamalar otomatik olarak gösterilirler.</para>
+> içinde gömülü olan açıklamalar kendiliğinden görüntülenirler.</para>
 
 <para
 ><literal role="extension"
@@ -268,7 +268,7 @@
 </imageobject>
 <textobject>
 <phrase
->Bir açıklamayı düzenleme</phrase>
+>Bir açıklamayı düzenlemek</phrase>
 </textobject>
 </mediaobject>
 
@@ -290,7 +290,7 @@
 
 <sect1 id="ark-work-files">
 <title
->Dosyalarla Çalışma</title>
+>Dosyalarla Çalışmak</title>
 
 <para
 >Bir arşiv açıldıktan sonra, arşiv içindeki dosyalar üzerinde çeşitli işlemler gerçekleştirebilirsiniz. <guimenu
@@ -306,13 +306,13 @@
 >&Ctrl;<keycap
 >P</keycap
 ></keycombo
->) &ark;'ın dahili görüntüleyicisiyle açılır. Bu hızlı bir saltokunur görüntüleyicidir; ancak tüm dosya türlerini desteklemez.</para>
+>), &ark;'ın içsel görüntüleyicisiyle açılır. Bu hızlı bir saltokunur görüntüleyicidir; ancak tüm dosya türlerini desteklemez.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
 >Aç</guimenuitem
-> ögesi, dosyayı o dosya türü için ilişkili uygulamada açacaktır.</para>
+> ögesi, dosyayı o dosya türü için ilişkili uygulamada açar.</para>
 </listitem>
 <listitem>
 <para
@@ -341,8 +341,8 @@
 ><guimenuitem
 >Sil</guimenuitem
 > (<keycap
->Del</keycap
->) seçili olan dosyaları arşivden kaldırır. Bu eylemin geri alınamaz olduğunu unutmayın.</para>
+>Sil</keycap
+>), seçili olan dosyaları arşivden kaldırır. Bu eylemin geri alınamaz olduğunu unutmayın.</para>
 </listitem>
 <listitem>
 <para
@@ -374,17 +374,17 @@
 >&Ctrl;<keycap
 >V</keycap
 ></keycombo
->): Tipik dosya yöneticilerinde olduğu gibi taşı, yapıştır ve kopyalama yapılabilir. Kullanıcılar dosyaları farklı klasörlerdeki (ağaç görünümünde genişletilebilir) taşıyabilir veya kopyalayabilir ve aynı anda aynı hedefe yapıştırabilirler. Bir klasör kendisine kopyalanabilir, ancak taşınamaz. Çakışan dosya adları için de denetimler bulunmaktadır: Dosyaları, aynı ada sahip girdileri olan ve veri kaybına neden olabilecek bir klasöre kopyalayamaz veya taşıyamazsınız.</para>
+>): Tipik dosya yöneticilerinde olduğu gibi taşı, yapıştır ve kopyalama yapılabilir. Kullanıcılar dosyaları farklı klasörlerdeki (ağaç görünümünde genişletilebilir) taşıyabilir veya kopyalayabilir ve aynı anda aynı hedefe yapıştırabilirler. Bir klasör kendisine kopyalanabilir; ancak taşınamaz. Çakışan dosya adları için de denetimler bulunmaktadır: Dosyaları, aynı ada sahip girdileri olan ve veri kaybına neden olabilecek bir klasöre kopyalayamaz veya taşıyamazsınız.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
->Dosyları Ekle</guimenuitem
+>Dosyalar Ekle</guimenuitem
 > (<keycombo action="simul"
 >&Alt;<keycap
 >A</keycap
 ></keycombo
->) Bu eylem, arşivin herhangi bir yerine dosyalar eklemek için kullanılabilir. Bir klasör seçip bu eylemi kullanırsanız, dosyalar seçilen klasöre eklenir. Aksi takdirde, yeni dosyalar arşivin kök dizinine eklenir. </para>
+>) Bu eylem, arşivin herhangi bir yerine dosyalar eklemek için kullanılabilir. Bir klasör seçip bu eylemi kullanırsanız dosyalar seçili klasöre eklenir. Aksi takdirde, yeni dosyalar arşivin kök dizinine eklenir. </para>
 </listitem>
 </itemizedlist>
 
@@ -396,25 +396,25 @@
 >Aç</guimenuitem
 > veya <guimenuitem
 >Birlikte Aç...</guimenuitem
-> kullanılarak açtığınız dosyaları düzenleyebilir ve kaydedebilirsiniz, Ark, arşivdeki dosyayı güncellemek isteyip istemediğinizi soracaktır. Evet cevabı verirseniz, arşiv kaydedilen dosya ile güncellenecektir.</para>
+> kullanılarak açtığınız dosyaları düzenleyebilir ve kaydedebilirsiniz, Ark, arşivdeki dosyayı güncellemek isteyip istemediğinizi soracaktır. Evet yanıtı verirseniz, arşiv kaydedilen dosya ile güncellenecektir.</para>
 
 </sect2>
 </sect1>
 
 <sect1 id="ark-extract">
 <title
->Dosyaları Çıkartmak</title>
+>Dosyaları Çıkarmak</title>
 
 <para
->&ark; içinde bir arşiv açıldığında, bu arşiv çıkartılabilir. Bu, <guimenu
+>&ark; içinde bir arşiv açıldığında, bu arşiv çıkarılabilir. Bu, <guimenu
 >Dosya</guimenu
 > menüsünden <guisubmenu
 > Çıkar</guisubmenu
-> seçeneği seçilerek yapılabilir. Daha önce erişilen klasörleri içeren bir alt menü açar ve bunlardan herhangi birine hızla eklemeyi seçebilirsiniz. Alternatif olarak, çıkarmayı etkileyen çeşitli seçenekleri ayarlayabileceğiniz <guilabel
+> seçeneği seçilerek yapılır. Daha önce erişilen klasörleri içeren bir alt menü açar ve bunlardan herhangi birine hızla eklemeyi seçebilirsiniz. Alternatif olarak, çıkarmayı etkileyen çeşitli seçenekleri ayarlayabileceğiniz <guilabel
 >Çıkar</guilabel
 > iletişim penceresini açmak için <guisubmenu
 >Şuraya Çıkar...</guisubmenu
-> alt menü ögesini seçin. Çıkar iletişim penceresinde olan mevcut seçenekler hakkında bilgiler için aşağıya gözatın.</para>
+> alt menü ögesini seçin. Çıkar iletişim penceresinde olan kullanılabilir seçenekler hakkında bilgi için aşağıya bir göz atın.</para>
 
 <para
 >Aynı çıkarma seçeneklerine erişmek için araç çubuğundaki <guibutton
@@ -429,23 +429,23 @@
 > ögesini seçebilirsiniz. Bu eylem koşulsuz olarak arşivdeki tüm dosyaları çıkaracaktır.</para>
 
 <para
->Dosyaları ve klasörleri fare ile &dolphin;'deki bir klasöre sürükleyerek çıkarmak mümkündür.</para>
+>Dosyaları ve klasörleri fare ile &dolphin;'deki bir klasöre sürükleyerek çıkarmak olanaklıdır.</para>
 
 <para
 >Not: Dosyaları bir arşivden çıkarmak, arşivi ve içeriğini değiştirmez.</para>
 
 <sect2 id="ark-extract-dialog">
 <title
->Çıkar Penceresi</title>
+>Çıkar iletişim kutusu</title>
 
 <para
 ><guilabel
 >Çıkar</guilabel
-> iletişim penceresi, dosyaların nereye çıkarılacağını seçmenize olanak sağlar. Varsayılan konum, arşivin bulunduğu klasördür. Ayrıca, bu pencere <keycombo action="simul"
+> iletişim kutusu, dosyaların nereye çıkarılacağını seçmenize olanak sağlar. Öntanımlı konum, arşivin bulunduğu klasördür. Ayrıca, bu pencere <keycombo action="simul"
 >&Ctrl;<keycap
 >E</keycap
 ></keycombo
-> tuşuna basılarak ta açılabilir.</para>
+> düğmesine basılarak da açılabilir.</para>
 
 <mediaobject>
 <imageobject>
@@ -453,29 +453,29 @@
 </imageobject>
 <textobject>
 <phrase
->&ark; Çıkar iletişim penceresi</phrase>
+>&ark; Çıkar iletişim kutusu</phrase>
 </textobject>
 </mediaobject>
 
 <para
->Dosyaları bir alt klasöre çıkarmayı belirtebilirsiniz. Bu alt klasörün varsayılan adı, dosya adı uzantısına sahip olmayan arşiv adını ancak ihtiyaçlarınıza göre düzenleyebilirsiniz. Çıkarırken yolları korumak isterseniz <guilabel
->Çıkarırken yolları koru</guilabel
-> seçeneğini seçin. Ayrıca &dolphin;'de hedef klasörü açmayı seçebilirsiniz veya çıkarma tamamlandıktan sonra &ark;'ı kapatabilirsiniz.</para>
+>Dosyaların bir alt klasöre çıkarılmasını belirtebilirsiniz. Bu alt klasörün öntanımlı adı, dosya adı uzantısı olmayan arşiv adıdır; ancak bunu gereksinimlerinize göre düzenleyebilirsiniz. Çıkarma sırasında yolları korumak istiyorsanız <guilabel
+>Çıkarırken dosya yollarını koru</guilabel
+> seçeneğini seçin. Hedef klasörü &dolphin;'de açmayı veya çıkarma işlemi tamamlandıktan sonra &ark;'ı kapatmayı da seçebilirsiniz.</para>
 
 <para
->Arşiv listesindeki bir veya daha fazla dosya vurgulandıysa, hangi dosyaların çıkraılacağını da seçebilirsiniz:</para>
+>Arşiv listesinde bir veya daha fazla dosya vurgulanmışsa hangi dosyaların çıkarılacağını da seçebilirsiniz:</para>
 <itemizedlist>
 <listitem>
 <para
 ><guilabel
->Sadece seçili dosyalar</guilabel
->, sadece seçilmiş olan dosyaları çıkarır.</para>
+>Yalnızca seçili dosyalar</guilabel
+> yalnızca seçili dosyaları çıkarır.</para>
 </listitem>
 <listitem>
 <para
 ><guilabel
 >Tüm dosyalar</guilabel
-> arşivin tüm içeriğini çıkaracaktır.</para>
+> arşivin tüm içeriğini çıkarır.</para>
 </listitem>
 </itemizedlist>
 
@@ -487,9 +487,9 @@
 >Arşivler Oluşturmak ve Dosyalar Eklemek</title>
 
 <para
->&ark; içinde yeni bir arşiv oluşturmak için <guimenu
+>&ark; ile yeni bir arşiv oluşturmak için <guimenu
 >Arşiv</guimenu
-> menüsünden, <guimenuitem
+> menüsünden <guimenuitem
 >Yeni</guimenuitem
 > (<keycombo action="simul"
 >&Ctrl;<keycap
@@ -503,7 +503,7 @@
 </imageobject>
 <textobject>
 <phrase
->Arşiv oluştur</phrase>
+>Bir arşiv oluştur</phrase>
 </textobject>
 </mediaobject>
 
@@ -518,49 +518,49 @@
 >Süzgeç</guilabel
 > kutusundan ve <guilabel
 ><replaceable
->Dosya uzantısını otomatik</replaceable
+>Dosya uzantısını kendiliğinden</replaceable
 > ekle</guilabel
 > seçeneğiyle yapabilirsiniz.</para>
 
 <para
->Yeni arşive dosya ve klasörleri eklemek için, <guimenu
+>Yeni arşive dosya veya klasörler eklemek için <guimenu
 >Arşiv</guimenu
 > menüsünden <guimenuitem
 >Dosyalar Ekle...</guimenuitem
 > ögesini seçin.</para>
 
 <para
->Dosyaları bir arşive eklemenin bir diğer bir yolu, bir veya daha fazla dosyayı örn, &ark; ana penceresindeki &dolphin; üzerinden sürükleyebilirsiniz. Bu şekilde eklenen dosyaların her zaman arşivin kök dizinine ekleneceğini unutmayın.</para>
+>Dosyaları arşive eklemenin başka bir yolu ise bir veya daha çok dosyayı; örn, &dolphin; üzerinden &ark; ana penceresine sürüklemektir. Böyle eklenen dosyaların her zaman arşivin kök dizinine ekleneceğini unutmayın.</para>
 
 <para
->Ek seçenekler iletişim penceresinin altında katlanır gruplar halinde sunulmaktadır. </para>
+>Ek seçenekler iletişim kutusunun alt kısmında daraltılabilir gruplar halinde sunulur. </para>
 
 <sect2 id="ark-compression">
 <title
 >Sıkıştırma</title>
 <para
->Daha yüksek bir değer, daha küçük arşivler üretir, ancak daha uzun sıkıştırma ve açma zamanlarına neden olur. &ark; tarafından önerilen varsayılan sıkıştırma seviyesi genellikle boyut ve sıkıştırma hızı arasında iyi bir değerdir. Çoğu biçim için minimum sıkıştırma düzeyi, yalnızca dosyaları depolamaya eşdeğerdir, &ie; sıkıştırma uygulama. </para>
+>Daha yüksek bir değer daha küçük arşivler oluşturur; ancak daha uzun sıkıştırma ve açma süreleri ile sonuçlanır. &ark; tarafından önerilen öntanımlı sıkıştırma düzeyi; genellikle boyut ve sıkıştırma (açma) hızı arasında iyi bir uzlaşmadır. Çoğu biçim için minimum sıkıştırma düzeyi yalnızca dosyaların saklanmasına eşdeğerdir; &ie; hiçbir sıkıştırma uygulanmaz. </para>
 <para
 ><literal role="extension"
 >rar</literal
 >, <literal role="extension"
 >7z</literal
-> and <literal role="extension"
+> ve <literal role="extension"
 >zip</literal
-> arşivleri için, farklı sıkıştırma yöntemleri arasında seçim yapabilirsiniz. </para>
+> arşivleri için farklı sıkıştırma yöntemleri arasından seçim yapabilirsiniz. </para>
 <para
->Önceden seçilmiş varsayılanlar dışındaki sıkıştırma yöntemlerini kullanmanın dosya arşivleyicileriyle olan uyumluluğu sınırlandırabileceğini unutmayın. Örneğin, <literal role="extension"
+>Önceden seçili öntanımlılar dışındaki sıkıştırma yöntemlerinin kullanılmasının dosya arşivleyicilerle uyumluluğu sınırlayabileceğini unutmayın. Örneğin, <literal role="extension"
 >zip</literal
 > arşivlerini <quote
 >Deflate</quote
-> dışındaki sıkıştırma yöntemleriyle açmanız daha yeni arşivleme yazılımı gerektirir.</para>
+> dışındaki sıkıştırma yöntemleriyle açmanız daha yeni arşivleme yazılımları gerektirir.</para>
 </sect2>
 
 <sect2 id="ark-password-protection">
 <title
 >Parola Koruması</title>
 <para
->Eğer bir <literal role="extension"
+>Bir <literal role="extension"
 >zip</literal
 >, <literal role="extension"
 >rar</literal
@@ -568,13 +568,13 @@
 >7zip</literal
 > ve <literal role="extension"
 >jar</literal
-> arşivi oluşturduysanız, bunu bir parola ile koruyabilirsiniz. Şua anda sadece <literal role="extension"
+> arşivi oluşturduysanız bunu bir parola ile koruyabilirsiniz. Şu anda yalnızca <literal role="extension"
 >zip</literal
-> biçimi, çoklu şifrelemeyi desteklemektedir. Yalnızca bir şifreleme yöntemini destekleyen diğer biçimler için yöntem, açılır kutuda gösterilecektir.</para>
+> biçimi çoklu şifrelemeyi desteklemektedir. Yalnızca bir şifreleme yöntemini destekleyen diğer biçimler için yöntem, açılır kutuda gösterilir.</para>
 <para
-><guilabel
+>Öntanımlı <guilabel
 >ZipCrypto</guilabel
-> yöntemi dışında diğer şifreleme yöntemleri, tüm dosya arşivleyicileri tarafından desteklenmeyebilir.</para>
+> dışındaki diğer şifreleme yöntemleri tüm dosya arşivleyicileri tarafından desteklenmeyebilir.</para>
 
 <mediaobject>
 <imageobject>
@@ -582,16 +582,16 @@
 </imageobject>
 <textobject>
 <phrase
->Parola korumal bir arşim oluştur</phrase>
+>Parola korumalı bir arşiv oluştur</phrase>
 </textobject>
 </mediaobject>
 
 <para
->Dosya listesini göstermeden önce parola isteyip istemediğinizi seçin. Buna başlık parolası denir ve yalnızca <literal role="extension"
+>Dosya listesini göstermeden önce şifre istenip istenmeyeceğini seçin. Buna üstbilgi şifrelemesi denir ve yalnızca <literal role="extension"
 >rar</literal
 > ve <literal role="extension"
 >7zip</literal
-> biçimleriyle kullanılabilirdir. Acemi kullanıcılarda azami korumayı sunmak için, üstbilgi şifrelemesi varsayılan olarak etkinleştirilir (kullanılabilirse).</para>
+> biçimleri tarafından desteklenir. Acemi kullanıcılara en yüksek korumayı sağlamak amacıyla üstbilgi şifrelemesi öntanımlı olarak etkindir (kullanılabilir olduğunda).</para>
 </sect2>
 
 <sect2 id="ark-multi-volume">
@@ -604,15 +604,15 @@
 >rar</literal
 > ve <literal role="extension"
 >7z</literal
-> biçileriyle, çok parçalı arşivler oluşturabilirsiniz, çok bölümlü veya bölümmüş arşivler olarak da bilinirler.</para>
+> biçimleriyle çok parçalı arşivler oluşturabilirsiniz. Bunlara çok kısımlı veya bölünmüş arşivler de denir.</para>
 <para
->Çok parçalı bir arşiv, bir çok sıkıştırılmış arşivin birkaç dosyaya bölünmesidir. Bu özellik, azami dosya boyutu sınırlıysa, &eg; bir depolama ortamının kapasitesi veya ekli bir e-postanın azami boyutu gibi durumlarda kullanışlıdır.</para>
+>Çok parçalı bir arşiv, birkaç dosyaya bölünmüş büyük bir sıkıştırılmış arşivdir. Bu özellik, en büyük dosya boyutu sınırlıysa kullanışlıdır; örneğin, depolama ortamının kapasitesine veya ekleri olan bir e-postanın en büyük boyutuna göre.</para>
 <para
 >Çok parçalı bir arşiv oluşturmak için <guilabel
 >Çok parçalı arşiv oluştur</guilabel
-> işaret kutusunu seçin ve pencerede azami <guilabel
+> onay kutusunu işaretleyin ve iletişim kutusunda en büyük <guilabel
 >Parça boyutu</guilabel
-> ögesini ayarlaın. Ardından tüm dosyaları arşive ekleyin, &ark; gerekli sayıdaki arşiv parçalarını otomatik olarak oluşturacaktır. Seçili biçime bağlı olarak, ardışık olarak numaralandırma düzenine sahip bir uzantıya sahip şema kullanılır &eg; <filename
+>'nu ayarlayın. Sonrasında bütün dosyaları arşive ekleyin ve &ark; gereken arşiv parçası sayısını üretecektir. Seçilen biçime göre, dosyalar artan sıralı bir numaralandırma şemasına iye olabilir; örneğin, <filename
 >xxx.7z.001</filename
 >, <filename
 >xxx.7z.002</filename
@@ -621,12 +621,12 @@
 >, <filename
 >xxx.zip.002</filename
 > veya <filename
->xxx.bolum1.rar</filename
+>xxx.kısım1.rar</filename
 >, <filename
->xxx.bolum2.rar</filename
-> &etc;</para>
+>xxx.kısım2.rar</filename
+> gibi.</para>
 <para
->Çok parçalı arşivi çıkartmak için, tüm arşiv dosyalarını bir klasöre yerleştirin ve en düşük numarayla arşivdeki dosyayı açın, böylece bölünmüş arşivin diğer parçaları otomatik olarak açılacaktır.</para>
+>Çok parçalı bir arşivi çıkarmak için tüm arşiv dosyalarını tek bir klasöre koyun ve &ark; içindeki en düşük uzantı numarasına sahip dosyayı açın. Bölünmüş arşivin diğer tüm bölümleri kendiliğinden açılacaktır.</para>
 </sect2>
 
 </sect1>
@@ -638,50 +638,50 @@
 >&ark;'ı Dosya Yöneticisinde Kullanmak</title>
 
 <para
->&dolphin; gibi bir dosya yöneticisinde, bir arşivin üstüne &RMB; ile tıklanırsa <guimenuitem
->Ark ile Aç</guimenuitem
-> ögesini barındıran bir bağlam menüsü görüntülenir. Bu menü, &ark; kullanarak bir arşivi çıkarmak için ek ögelere sahiptir: </para>
+>&dolphin; gibi bir dosya yöneticisinde bir arşive &RMB; ile tıklamak, <guimenuitem
+>Çıkar</guimenuitem
+> ögesini içeren bir bağlam menüsü açar. Menüde, arşivi &ark; ile açmak için bu ek ögeler bulunur: </para>
 
 <itemizedlist>
 <listitem>
 <para
 ><guimenuitem
->Arşivi Buraya Çıkar, Alt Klasörü Otomatik Algılar</guimenuitem
->, arşiv ile birlikte klasörün içinde bir alt klasör oluşturur ve tüm dosya, klasörleri içine çıkarır.</para>
+>Arşivi Buraya Çıkar, Alt Klasörü Otomatik Algıla</guimenuitem
+>, arşivin bulunduğu klasörde bir alt klasör oluşturur ve klasörleri ve dosyaları bu klasöre çıkarır.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
 >Arşivi Şuraya Çıkar...</guimenuitem
->, hedef klasörü ve çeşitli çıkarma seçeneklerini seçebildiğiniz bir Cıkar penceresini açar.</para>
+>, hedef klasörü ve çeşitli çıkarma seçeneklerini seçebileceğiniz Çıkar iletişim kutusunu açar.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
 >Arşivi Buraya Çıkar</guimenuitem
-> arşivin içeriğini, aynı klasöre çıkarır.</para>
+>, arşivin içeriğini aynı klasöre çıkarır.</para>
 </listitem>
 </itemizedlist>
 
 <para
->&dolphin;'in bir dosya ve/veya klasör seçimi için bağlam menüsü  eylemleri <guimenu
+>&dolphin;'in çeşitli dosya ve/veya klasörlere ilişkin bağlam menüsü, <guimenu
 >Sıkıştır</guimenu
-> alt menüsünde görüntülenir: </para>
+> alt menüsünde şu eylemleri görüntüler: </para>
 
 <itemizedlist>
 <listitem>
 <para
 ><guimenuitem
->Buraya (TAR.GZ olarak)</guimenuitem
-> veya <guimenuitem
->Buraya (ZIP olarak)</guimenuitem
->, geçerli klasörde bu arşiv türlerini oluşturur.</para>
+>Buraya "Arşiv.tar.gz" Olarak</guimenuitem
+> ve <guimenuitem
+>Buraya "Arşiv.zip" Olarak</guimenuitem
+>, bu arşiv türlerini geçerli klasörde oluşturur.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
->Sıkıştır...</guimenuitem
->, klasör, ad ve arşiv türünü seçebildiğiniz bir pencere açar.</para>
+>Şuraya Sıkıştır...</guimenuitem
+>, klasörü, adı ve arşiv türünü seçebileceğiniz bir iletişim kutusu açar.</para>
 </listitem>
 </itemizedlist>
 
@@ -691,10 +691,10 @@
 <title
 >Gelişmiş Toplu İş Kipi</title>
 <para
->&ark; grafik kullanıcı arayüzü başlatmadan arşivleri yönetmek için gelişmiş bir toplu iş kipine sahiptir. Bu kip, arşivleri çıkarmanıza, oluşturmanıza ve onlara dosya eklemenize izin verir.</para>
+>&ark;, grafiksel kullanıcı arayüzünü başlatmadan arşivleri yönetmek için gelişmiş bir toplu iş kipine iyedir. Bu kip, arşiv çıkarmanıza veya oluşturmanıza ve bunlara dosya eklemenize olanak tanır.</para>
 
 <para
->Toplu iş kipi <ulink url="man:/ark"
+>Toplu iş kipi, <ulink url="man:/ark"
 >&ark; kılavuz sayfası</ulink
 > altında belgelendirilmiştir. </para>
 </chapter>
@@ -702,10 +702,10 @@
 <chapter id="credits">
 
 <title
->Hazırlayanlar ve Lisans</title>
+>Emeği Geçenler ve Lisans</title>
 
 <para
->&ark; Telif Hakkı &copy; 1997-2016, &ark; Geliştirme Ekibi.</para>
+>&ark; Telif hakkı &copy; 1997-2016, &ark; Geliştirme Takımı.</para>
 
 <itemizedlist>
 <title
@@ -772,30 +772,34 @@
 ></listitem>
 <listitem
 ><para
->Corel Corporation (author: Emily Ezust) <email
+>Corel Corporation (Yazar: Emily Ezust) <email
 >emilye@corel.com</email
 ></para
 ></listitem>
 <listitem
 ><para
->Corel Corporation (author: Michael Jarrett) <email
+>Corel Corporation (Yazar: Michael Jarrett) <email
 >michaelj@corel.com</email
 ></para
 ></listitem>
 </itemizedlist>
 
 <para
->Belgelendirme Telif Hakkı &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
+>Belgelendirme telif hakkı &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
 
 <para
->Belgelendirme güncelleme, &kde; 3.3 - &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
+>Belgelendirme güncellemesi, &kde; 3.3 - &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
 
 <para
->Belgelendirme günelleme, KDE Uygulamalar 16.04 - &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
+>Belgelendirme güncellemesi, KDE Uygulamalar 16.04 - &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
 
 <para
->Çeviren Kaan Özdinçer <email
+>Çeviri: Kaan Özdinçer <email
 >kaanozdincer@gmail.com</email
+></para
+> <para
+>Çeviri: Emir SARI <email
+>emir_sari@icloud.com</email
 ></para
 > &underFDL; &underGPL; </chapter>
 

@@ -1,0 +1,427 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Turkish "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>&ark; Kullanıcı Kılavuzu</title>
+
+<author
+><firstname
+>Lauri</firstname
+><surname
+>Watts</surname
+> <contrib
+>İlk &ark; kılavuz sayfası sürümü, 2005.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Raphael</firstname
+><surname
+>Kubo da Costa</surname
+> <contrib
+>&ark; kılavuz sayfası güncelleme, 2009.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+> <contrib
+>&ark; kılavuz sayfası güncelleme, 2015 ve 2016.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>2018-08-08</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>18.12</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>KDE Uygulamaları</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>&kde; arşivleme aracı</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+> sonek</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+> dosya</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-m</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+> dizin</replaceable
+></group
+> <arg choice="opt"
+>&kde-frameworks; Genel Seçenekleri</arg
+> <arg choice="opt"
+>&Qt; Genel Seçenekleri</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Açıklama</title>
+<para
+>&ark;, &kde; için bir çok farklı sıkıştırılmış dosya biçimi yönetimini yapan bir programdır. &ark; ile arşivler görüntülenebilir, çıkarılabilir, oluşturulabilir ve düzenlenebilir. Program, <application
+>tar</application
+>, <application
+>gzip</application
+>, <application
+>bzip2</application
+>, <application
+>zip</application
+>, <application
+>rar</application
+> gibi birçok farklı biçimi (uygun kitaplık veya komut satırı programları kuruluysa) desteklemektedir.</para>
+</refsect1>
+
+<refsect1>
+<title
+>İşlem kipleri</title>
+<para
+>&ark;, tek başına bir grafiksel program olarak kullanılabileceği gibi, bazı belirli görevleri gerçekleştirmek için bir komut satırı programı olarak da kullanılabilir.</para>
+<para
+>-b (--batch) veya -c (--add) seçenekleri olmadan çağrılırsa &ark;, normal bir grafiksel program olarak başlatılır.</para>
+<para
+>-b (--batch) seçeneği kullanıldığında &ark;, grafik arayüzünü başlatmadan bir veya daha çok dosyanın içeriğini doğrudan komut satırından çıkarmak için kullanılabilir.</para>
+<para
+>-c (--add) seçeneği kullanıldığında &ark;, yeni veya var olan bir arşive eklenmesi gereken dosyaları ister.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Seçenekler</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>Toplu iş veya ekleme işlemine ilişkin seçenekleri belirlemek için bir iletişim kutusu gösterin.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-m, --mimetypes</option
+></term>
+<listitem>
+<para
+>Desteklenen &MIME; türlerini listele.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>dizin</replaceable
+></option
+></term>
+<listitem
+><para
+>Çıkarma dizinini öntanımlı olarak <replaceable
+>dizin</replaceable
+>'e ayarla. Geçirilmezse geçerli yol kullanılır.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>Dosyalar eklemek için seçenekler</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>Kullanıcıyı bir arşiv dosya adı için sorgula ve belirtilen dosyaları buna ekle. İş bitince çıkılır.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>dosyaadı</replaceable
+></option
+></term>
+<listitem>
+<para
+>Belirtilen dosyaları <replaceable
+>dosyaadı</replaceable
+>'na ekle. Yoksa arşiv dosyası oluştur. İş bitince çıkılır.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>Geçerli dizini ilk girdiyle değiştir ve buna göre diğer tüm girdileri ekle.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>sonek</replaceable
+></option
+></term>
+<listitem>
+<para
+>Bir <replaceable
+>sonek</replaceable
+> kullanarak kendiliğinden bir dosya adı seç (örneğin, rar, tar.gz, zip veya desteklenen diğer dosya türleri).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Toplu çıkarma işlemleri için seçenekler</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>Her zamanki iletişim kutusu yerine toplu arabirimi kullan. Birden fazla URL belirtilmişse bu seçenek belirtilir.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --autodestination</option
+></term>
+<listitem>
+<para
+>Hedef argümanı, sağlanan ilk dosyanın yoluna ayarlanacaktır.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>Arşiv içeriği okunur ve tek klasör arşivi olmadığı algılanırsa arşivin adına göre bir alt klasör oluşturulur.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>Çıkarma işlemi tamamlandığında hedef klasörü aç.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Ayrıca</title>
+<simplelist>
+<member
+>Ayrıntılı kullanıcı belgelendirmesine <ulink url="help:/ark"
+>help:/ark</ulink
+> bölümünden ulaşabilirsiniz (ya bu &URL;'yi &konqueror;'a girin ya da <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+> komutunu çalıştırın).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Örnekler</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>arşiv.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+><replaceable
+>arşiv.tar.bz2</replaceable
+> dosyasını, herhangi bir grafik arayüz göstermeden geçerli dizine çıkarır. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>arşiv.tar.bz2</replaceable
+> <replaceable
+>arşiv2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Önce çıkarma seçenekleri iletişim kutusunu gösterip <replaceable
+>arşiv.tar.bz2</replaceable
+> ve <replaceable
+>arşiv2.zip</replaceable
+> dosyalarını iletişim kutusunda seçili dizine çıkarır.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>arşivim.zip</replaceable
+> <replaceable
+>fotoğraf.jpg</replaceable
+> <replaceable
+>metin.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Yoksa <replaceable
+>arşivim.zip</replaceable
+> dosyasını oluşturulur, ardından <replaceable
+>fotoğraf.jpg</replaceable
+> ve <replaceable
+>metin.txt</replaceable
+> dosyaları içine eklenir. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>Proje Yönetimi</title>
+<para
+>&ark; bakımı şu anda <emphasis role="bold"
+>Elvis Angelaccio</emphasis
+> ve <emphasis role="bold"
+>Ragnar Thomsen</emphasis
+> tarafından yapılmaktadır.</para>
+</refsect1>
+
+</refentry>
