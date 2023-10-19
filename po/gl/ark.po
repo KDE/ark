@@ -1611,8 +1611,8 @@ msgid ""
 "Files with the following paths already exist. Remove them if you really want "
 "to overwrite."
 msgstr ""
-"Os ficheiros nas seguintes rutas xa existen. Retíreos se está seguro de que "
-"quere substituílos."
+"Os ficheiros nas seguintes rutas xa existen. Retíreos se seguro que quere "
+"substituílos."
 
 #: part/overwritedialog.cpp:28
 #, kde-format
