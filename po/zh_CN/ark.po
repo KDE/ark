@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-15 02:26+0000\n"
-"PO-Revision-Date: 2023-10-10 14:34\n"
+"PO-Revision-Date: 2023-10-21 13:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -966,13 +966,13 @@ msgstr "点击压缩文件中的文件或按下回车键时："
 #: kerfuffle/generalsettingspage.ui:33
 #, kde-format
 msgid "Pre&view the file with internal previewer"
-msgstr "预览文件 - 使用内建查看器(&V)"
+msgstr "预览 - 使用 Ark 的内建查看程序预览文件(&V)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: kerfuffle/generalsettingspage.ui:43
 #, kde-format
 msgid "Open the fi&le with associated application"
-msgstr "打开文件 - 使用关联应用程序(&L)"
+msgstr "打开 - 使用关联的应用程序打开文件(&L)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
 #: kerfuffle/generalsettingspage.ui:60
@@ -1102,7 +1102,7 @@ msgstr "描述"
 #: kerfuffle/previewsettingspage.ui:22
 #, kde-format
 msgid "Disable preview for files larger than:"
-msgstr "禁用预览 - 如果文件体积大于："
+msgstr "禁用预览，如果文件体积大于："
 
 #: kerfuffle/propertiesdialog.cpp:40
 #, kde-format
