@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-15 00:44+0000\n"
+"POT-Creation-Date: 2023-10-24 00:44+0000\n"
 "PO-Revision-Date: 2023-07-24 13:26+0300\n"
 "Last-Translator: George Stefanakis <george.stefanakis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
@@ -404,17 +404,17 @@ msgstr ""
 msgid "Sidebar"
 msgstr "Πλευρική μπάρα"
 
-#: app/mainwindow.cpp:289
+#: app/mainwindow.cpp:293
 #, kde-format
 msgid "Welcome Page"
 msgstr "Σελίδα υποδοχής"
 
-#: app/mainwindow.cpp:291
+#: app/mainwindow.cpp:295
 #, kde-format
 msgid "Show the welcome page"
 msgstr "Εμφάνιση σελίδας υποδοχής"
 
-#: app/mainwindow.cpp:299
+#: app/mainwindow.cpp:303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -426,18 +426,18 @@ msgstr ""
 "και για το <interface>Hamburger μενού</interface>. Και τα δύο περιέχουν τις "
 "ίδιες λίγο πολύ εντολές και επιλογές διαμόρφωσης."
 
-#: app/mainwindow.cpp:313
+#: app/mainwindow.cpp:317
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "Κλείδωμα πλευρικής μπάρας"
 
-#: app/mainwindow.cpp:370
+#: app/mainwindow.cpp:382
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Άνοιγμα αρχειοθήκης"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:496
 #, kde-format
 msgid "Create New Archive"
 msgstr "Δημιουργία νέας αρχειοθήκης"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-15 00:44+0000\n"
+"POT-Creation-Date: 2023-10-24 00:44+0000\n"
 "PO-Revision-Date: 2023-02-27 19:31\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian\n"
@@ -396,18 +396,18 @@ msgstr ""
 msgid "Sidebar"
 msgstr ""
 
-#: app/mainwindow.cpp:289
+#: app/mainwindow.cpp:293
 #, fuzzy, kde-format
 #| msgid "Welcome to Ark"
 msgid "Welcome Page"
 msgstr "Вітаем у Ark"
 
-#: app/mainwindow.cpp:291
+#: app/mainwindow.cpp:295
 #, kde-format
 msgid "Show the welcome page"
 msgstr ""
 
-#: app/mainwindow.cpp:299
+#: app/mainwindow.cpp:303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -419,18 +419,18 @@ msgstr ""
 "меню</interface>. У абодвух выпадках прыкладна аднолькавыя загады і "
 "параметры канфігурацыі."
 
-#: app/mainwindow.cpp:313
+#: app/mainwindow.cpp:317
 #, kde-format
 msgid "Lock Sidebar"
 msgstr ""
 
-#: app/mainwindow.cpp:370
+#: app/mainwindow.cpp:382
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Адкрыць архіў"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:496
 #, kde-format
 msgid "Create New Archive"
 msgstr "Стварыць новы архіў"

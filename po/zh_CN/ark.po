@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-15 00:44+0000\n"
+"POT-Creation-Date: 2023-10-24 00:44+0000\n"
 "PO-Revision-Date: 2023-10-21 13:54\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -378,17 +378,17 @@ msgstr "找不到 Ark 的 KPart 组件，请检查您的软件安装状态是否
 msgid "Sidebar"
 msgstr "侧边栏"
 
-#: app/mainwindow.cpp:289
+#: app/mainwindow.cpp:293
 #, kde-format
 msgid "Welcome Page"
 msgstr "欢迎页面"
 
-#: app/mainwindow.cpp:291
+#: app/mainwindow.cpp:295
 #, kde-format
 msgid "Show the welcome page"
 msgstr "显示欢迎页面"
 
-#: app/mainwindow.cpp:299
+#: app/mainwindow.cpp:303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -399,18 +399,18 @@ msgstr ""
 "这将在显示整个<emphasis>菜单栏</emphasis>和显示单个<interface>汉堡菜单</"
 "interface>按钮之间切换窗口布局。两种布局包含的命令和配置选项大致相同。"
 
-#: app/mainwindow.cpp:313
+#: app/mainwindow.cpp:317
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "锁定侧边栏"
 
-#: app/mainwindow.cpp:370
+#: app/mainwindow.cpp:382
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "打开压缩文件"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:496
 #, kde-format
 msgid "Create New Archive"
 msgstr "新建压缩文件"

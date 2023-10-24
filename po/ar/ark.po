@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-15 00:44+0000\n"
+"POT-Creation-Date: 2023-10-24 00:44+0000\n"
 "PO-Revision-Date: 2023-08-19 22:03+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -393,17 +393,17 @@ msgstr "غير قادر عن إيجاد مكون KPart الخاص بأرك، ا�
 msgid "Sidebar"
 msgstr "الشريط الجانبي"
 
-#: app/mainwindow.cpp:289
+#: app/mainwindow.cpp:293
 #, kde-format
 msgid "Welcome Page"
 msgstr "صفحة الترحيب"
 
-#: app/mainwindow.cpp:291
+#: app/mainwindow.cpp:295
 #, kde-format
 msgid "Show the welcome page"
 msgstr "أظهر صفحة الترحيب"
 
-#: app/mainwindow.cpp:299
+#: app/mainwindow.cpp:303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -414,18 +414,18 @@ msgstr ""
 "هذا يبدل بين <emphasis> شريط القائمة </emphasis> و زر <interface> القائمة "
 "المزدوجة </interface>. كلاهما يحتوي في الغالب على نفس الأوامر وخيارات الضبط."
 
-#: app/mainwindow.cpp:313
+#: app/mainwindow.cpp:317
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "اقفل الشريط الجانبي"
 
-#: app/mainwindow.cpp:370
+#: app/mainwindow.cpp:382
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "افتح أرشيفاً"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:496
 #, kde-format
 msgid "Create New Archive"
 msgstr "أنشئ أرشيفًا"
