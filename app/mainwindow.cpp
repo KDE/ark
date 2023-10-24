@@ -208,8 +208,12 @@ bool MainWindow::loadPart()
             this, &MainWindow::updateHamburgerMenu);
     hamburgerMenu->setMenuBar(menuBar());
 
-    QAction * const showMenuBarAction = actionCollection()->action(
-                                    QLatin1String(KStandardAction::name(KStandardAction::ShowMenubar)));
+    QAction *const showMenuBarAction = actionCollection()->action(
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        QLatin1String(KStandardAction::name(KStandardAction::ShowMenubar)));
+#else
+        KStandardAction::name(KStandardAction::ShowMenubar));
+#endif
     hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
 
     setXMLFile(QStringLiteral("arkui.rc"));
@@ -319,7 +323,11 @@ void MainWindow::updateHamburgerMenu()
 {
     const KActionCollection* ac = m_part->actionCollection();
     auto hamburgerMenu = static_cast<KHamburgerMenu *>(
-                    ac->action(QLatin1String(KStandardAction::name(KStandardAction::HamburgerMenu))));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        ac->action(QLatin1String(KStandardAction::name(KStandardAction::HamburgerMenu))));
+#else
+        ac->action(KStandardAction::name(KStandardAction::HamburgerMenu)));
+#endif
     auto menu = hamburgerMenu->menu();
     if (!menu) {
         menu = new QMenu(this);
@@ -330,7 +338,11 @@ void MainWindow::updateHamburgerMenu()
 
     if (!toolBar()->isVisible()) {
         // If neither the menu bar nor the toolbar are visible, these actions should be available.
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         menu->addAction(actionCollection()->action(QLatin1String(KStandardAction::name(KStandardAction::ShowMenubar))));
+#else
+        menu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar)));
+#endif
         menu->addAction(toolBarMenuAction());
         menu->addSeparator();
     }

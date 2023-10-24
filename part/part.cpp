@@ -1750,7 +1750,12 @@ void Part::slotShowContextMenu()
     }
 
     QMenu *popup = static_cast<QMenu *>(factory()->container(QStringLiteral("context_menu"), this));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (KHamburgerMenu * const hamburgerMenu = static_cast<KHamburgerMenu *>(actionCollection()->action(QLatin1String(KStandardAction::name(KStandardAction::HamburgerMenu))))) {
+#else
+    if (KHamburgerMenu *const hamburgerMenu =
+            static_cast<KHamburgerMenu *>(actionCollection()->action(KStandardAction::name(KStandardAction::HamburgerMenu)))) {
+#endif
         hamburgerMenu->insertIntoMenuBefore(popup, popup->actions().constFirst());
     }
     popup->popup(QCursor::pos());
