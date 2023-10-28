@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-15 00:44+0000\n"
+"POT-Creation-Date: 2023-10-24 00:44+0000\n"
 "PO-Revision-Date: 2007-09-11 22:44+0200\n"
 "Last-Translator: Northern Sami translation team <l10n-no@lister.huftis.org>\n"
 "Language-Team: Northern Sami <l10n-no@lister.huftis.org>\n"
@@ -365,17 +365,17 @@ msgstr ""
 msgid "Sidebar"
 msgstr ""
 
-#: app/mainwindow.cpp:289
+#: app/mainwindow.cpp:293
 #, kde-format
 msgid "Welcome Page"
 msgstr ""
 
-#: app/mainwindow.cpp:291
+#: app/mainwindow.cpp:295
 #, kde-format
 msgid "Show the welcome page"
 msgstr ""
 
-#: app/mainwindow.cpp:299
+#: app/mainwindow.cpp:303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -384,18 +384,18 @@ msgid ""
 "commands and configuration options."
 msgstr ""
 
-#: app/mainwindow.cpp:313
+#: app/mainwindow.cpp:317
 #, kde-format
 msgid "Lock Sidebar"
 msgstr ""
 
-#: app/mainwindow.cpp:370
+#: app/mainwindow.cpp:382
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr ""
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:496
 #, kde-format
 msgid "Create New Archive"
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-15 00:44+0000\n"
+"POT-Creation-Date: 2023-10-24 00:44+0000\n"
 "PO-Revision-Date: 2023-07-27 21:59+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -391,17 +391,17 @@ msgstr ""
 msgid "Sidebar"
 msgstr "Sidestolpe"
 
-#: app/mainwindow.cpp:289
+#: app/mainwindow.cpp:293
 #, kde-format
 msgid "Welcome Page"
 msgstr "Velkomstside"
 
-#: app/mainwindow.cpp:291
+#: app/mainwindow.cpp:295
 #, kde-format
 msgid "Show the welcome page"
 msgstr "Vis velkomstsida"
 
-#: app/mainwindow.cpp:299
+#: app/mainwindow.cpp:303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -412,18 +412,18 @@ msgstr ""
 "Byter mellom <emphasis>menylinje</emphasis> og <interface>hamburger­meny</"
 "interface>. Begge inneheld stort sett dei same kommandoane og vala."
 
-#: app/mainwindow.cpp:313
+#: app/mainwindow.cpp:317
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "Lås sidestolpen"
 
-#: app/mainwindow.cpp:370
+#: app/mainwindow.cpp:382
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Opna arkiv"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:496
 #, kde-format
 msgid "Create New Archive"
 msgstr "Lag nytt arkiv"

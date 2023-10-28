@@ -649,12 +649,12 @@
 
 <chapter id="ark-in_filemanager">
 <title
->Usare &ark; nel gestore dei file</title>
+>Uso di &ark; nel gestore dei file</title>
 
 <para
->Se fai clic con il &RMB; su un archivio in un gestore di file come &dolphin; ti verrà mostrato un menu contestuale con l'elemento <guimenuitem
->Apri con Ark</guimenuitem
->. Il menu ha questi elementi aggiuntivi: </para>
+>Se fai clic con il &RMB; su un archivio in un gestore di file come &dolphin; verrà visualizzato un menu contestuale con un elemento <guimenuitem
+>Estrai</guimenuitem
+>. Il menu ha tre elementi aggiuntivi per estrarre un archivio usando &ark;: </para>
 
 <itemizedlist>
 <listitem>
@@ -686,9 +686,9 @@
 <listitem>
 <para
 ><guimenuitem
->Qui (come TAR.GZ)</guimenuitem
-> o <guimenuitem
->Qui (come ZIP)</guimenuitem
+>Qui come «Archivio.tar.gz»</guimenuitem
+> e <guimenuitem
+>Qui come «Archivio.zip»</guimenuitem
 > crea questi tipi di archivio nella cartella attuale.</para>
 </listitem>
 <listitem>
