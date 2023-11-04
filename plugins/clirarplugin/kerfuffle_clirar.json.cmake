@@ -46,7 +46,6 @@
         "Description[sv]": "Fullt stöd för arkivformatet RAR",
         "Description[tr]": "RAR arşiv biçimi için tam destek",
         "Description[uk]": "Повноцінна підтримка архівів у форматі RAR",
-        "Description[x-test]": "xxFull support for the RAR archive formatxx",
         "Description[zh_CN]": "完整支持 RAR 压缩文件格式",
         "Description[zh_TW]": "對 RAR 壓縮檔格式的完整支援",
         "MimeTypes": [
@@ -99,7 +98,6 @@
         "Name[ta]": "RAR செருகுநிரல்",
         "Name[tr]": "RAR eklentisi",
         "Name[uk]": "Додаток RAR",
-        "Name[x-test]": "xxRAR pluginxx",
         "Name[zh_CN]": "RAR 插件",
         "Name[zh_TW]": "RAR 外掛程式",
         "Version": "@RELEASE_SERVICE_VERSION@"

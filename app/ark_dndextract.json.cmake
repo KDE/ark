@@ -32,7 +32,6 @@
         "Name[sv]": "Ark packa upp här",
         "Name[tr]": "Ark Buraya Çıkar",
         "Name[uk]": "Розпакувати сюди за допомогою Ark",
-        "Name[x-test]": "xxArk Extract Herexx",
         "Name[zh_CN]": "Ark 解压到此位置",
         "Name[zh_TW]": "Ark 在此解壓縮"
     }
