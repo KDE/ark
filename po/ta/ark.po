@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-24 00:44+0000\n"
+"POT-Creation-Date: 2023-11-05 12:39+0000\n"
 "PO-Revision-Date: 2023-07-30 14:44+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -2181,25 +2181,25 @@ msgid "The compression type '%1' is not supported by Ark."
 msgstr "'%1' என்ற சுருக்க முறை, ஆர்க்கால் ஆதரிக்கப்படாத‍து."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:289
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:343
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:361
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression method."
 msgstr "சுருக்க முறையை அமைக்க முடியவில்லை."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:353
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:371
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression level."
 msgstr "சுருக்க அளவை அமைக்க முடியவில்லை."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:472
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:490
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr "உருப்படியை சுருக்க முடியவில்லை, பணி கைவிடப்பட்டது."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:513
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:531
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."

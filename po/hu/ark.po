@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-24 00:44+0000\n"
+"POT-Creation-Date: 2023-11-05 12:39+0000\n"
 "PO-Revision-Date: 2022-02-07 14:09+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -2213,25 +2213,25 @@ msgid "The compression type '%1' is not supported by Ark."
 msgstr "Az Ark nem támogatja ezt a tömörítési típust: „%1”"
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:289
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:343
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:361
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression method."
 msgstr "Nem sikerült beállítani a tömörítési eljárást."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:353
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:371
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression level."
 msgstr "Nem sikerült beállítani a tömörítési szintet."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:472
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:490
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr "A bejegyzés tömörítése nem sikerült, művelet megszakítva."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:513
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:531
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."

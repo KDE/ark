@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: arkn\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-24 00:44+0000\n"
+"POT-Creation-Date: 2023-11-05 12:39+0000\n"
 "PO-Revision-Date: 2023-07-21 20:51+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
@@ -2191,25 +2191,25 @@ msgid "The compression type '%1' is not supported by Ark."
 msgstr "La kunprema tipo '%1' ne estas subtenata de Ark."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:289
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:343
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:361
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression method."
 msgstr "Ne eblis agordi la kunpreman metodon."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:353
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:371
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression level."
 msgstr "Ne eblis agordi la kunpreman nivelon."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:472
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:490
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr "Ne eblis kunpremi eniron, operacio ĉesigita."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:513
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:531
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."

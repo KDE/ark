@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-24 00:44+0000\n"
+"POT-Creation-Date: 2023-11-05 12:39+0000\n"
 "PO-Revision-Date: 2008-03-11 11:41+0200\n"
 "Last-Translator: Petri Jooste <Petri.Jooste@nwu.ac.za>\n"
 "Language-Team: Afrikaans <translate-discuss-af@lists.sourceforge.net>\n"
@@ -2221,27 +2221,27 @@ msgid "The compression type '%1' is not supported by Ark."
 msgstr ""
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:289
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:343
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:361
 #, fuzzy, kde-format
 #| msgid "Could not locate file '%1' in the archive"
 msgctxt "@info"
 msgid "Could not set the compression method."
 msgstr "Kon nie die lêer '%1' opspoor in die argief nie"
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:353
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:371
 #, fuzzy, kde-format
 #| msgid "Could not locate file '%1' in the archive"
 msgctxt "@info"
 msgid "Could not set the compression level."
 msgstr "Kon nie die lêer '%1' opspoor in die argief nie"
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:472
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:490
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr ""
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:513
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:531
 #, fuzzy, kde-format
 #| msgid "Could not locate file '%1' in the archive"
 msgctxt "@info Error in a message box"
