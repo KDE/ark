@@ -297,6 +297,8 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
 {
     int ret;
     bool requiresExecutable = false;
+    const auto threads = std::to_string(static_cast<unsigned>(std::thread::hardware_concurrency() * 0.8));
+
     if (filename().right(2).toUpper() == QLatin1String("GZ")) {
         qCDebug(ARK) << "Detected gzip compression for new file";
         ret = archive_write_add_filter_gzip(m_archiveWriter.data());
@@ -306,6 +308,14 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
     } else if (filename().right(2).toUpper() == QLatin1String("XZ")) {
         qCDebug(ARK) << "Detected xz compression for new file";
         ret = archive_write_add_filter_xz(m_archiveWriter.data());
+
+        // Set number of threads.
+        ret = archive_write_set_filter_option(m_archiveWriter.data(), "xz", "threads",
+                                              threads.c_str());
+        if (ret != ARCHIVE_OK) {
+            qCWarning(ARK) << "Failed to set number of threads, fallback to single thread mode"
+                           << archive_error_string(m_archiveWriter.data());
+        }
     } else if (filename().right(4).toUpper() == QLatin1String("LZMA")) {
         qCDebug(ARK) << "Detected lzma compression for new file";
         ret = archive_write_add_filter_lzma(m_archiveWriter.data());
@@ -328,6 +338,14 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
     } else if (filename().right(3).toUpper() == QLatin1String("ZST")) {
         qCDebug(ARK) << "Detected zstd compression for new file";
         ret = archive_write_add_filter_zstd(m_archiveWriter.data());
+
+        // Set number of threads.
+        ret = archive_write_set_filter_option(m_archiveWriter.data(), "zstd", "threads",
+                                              threads.c_str());
+        if (ret != ARCHIVE_OK) {
+            qCWarning(ARK) << "Failed to set number of threads, fallback to single thread mode"
+                           << archive_error_string(m_archiveWriter.data());
+        }
     } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
         qCDebug(ARK) << "Detected no compression for new file (pure tar)";
         ret = archive_write_add_filter_none(m_archiveWriter.data());
