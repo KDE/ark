@@ -93,7 +93,7 @@ WelcomeView::WelcomeView(MainWindow *mainWindow, QWidget *parent)
     connect(buttonClose, &QPushButton::clicked, m_mainWindow, &MainWindow::hideWelcomeScreen);
 
     static const char showOnStartupKey[] = "ShowWelcomeScreenOnStartup";
-    KConfigGroup configGroup = KSharedConfig::openConfig()->group("General");
+    KConfigGroup configGroup = KSharedConfig::openConfig()->group(QStringLiteral("General"));
     checkBoxShowOnStartup->setChecked(configGroup.readEntry(showOnStartupKey, true));
     connect(checkBoxShowOnStartup, &QCheckBox::toggled, this, [configGroup](bool checked) mutable {
         configGroup.writeEntry(showOnStartupKey, checked);

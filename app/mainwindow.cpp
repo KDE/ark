@@ -230,7 +230,7 @@ bool MainWindow::loadPart()
 
     statusBar()->hide();
 
-    KConfigGroup configGroup = KSharedConfig::openConfig()->group("General");
+    KConfigGroup configGroup = KSharedConfig::openConfig()->group(QStringLiteral("General"));
     m_sidebar->setLocked(configGroup.readEntry(SIDEBAR_LOCKED_KEY, true));
     m_sidebar->setVisible(configGroup.readEntry(SIDEBAR_VISIBLE_KEY, true));
 
@@ -247,7 +247,7 @@ bool MainWindow::loadPart()
 
     updateActions();
 
-    configGroup = KSharedConfig::openConfig()->group("General");
+    configGroup = KSharedConfig::openConfig()->group(QStringLiteral("General"));
     if (configGroup.readEntry("ShowWelcomeScreenOnStartup", true)) {
         showWelcomeScreen();
     }
@@ -417,7 +417,7 @@ void MainWindow::setShowExtractDialog(bool option)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    KConfigGroup configGroup = KSharedConfig::openConfig()->group("General");
+    KConfigGroup configGroup = KSharedConfig::openConfig()->group(QStringLiteral("General"));
     configGroup.writeEntry(SIDEBAR_LOCKED_KEY, m_sidebar->isLocked());
     // NOTE : Consider whether the m_showSidebarAction is checked, because
     // the sidebar can be forcibly hidden if the welcome screen is displayed

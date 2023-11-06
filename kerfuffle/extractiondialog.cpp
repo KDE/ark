@@ -134,7 +134,7 @@ void ExtractionDialog::slotAccepted()
     }
 
     // Add new destination value to arkrc for quickExtractMenu.
-    KConfigGroup conf(KSharedConfig::openConfig(), "ExtractDialog");
+    KConfigGroup conf(KSharedConfig::openConfig(), QStringLiteral("ExtractDialog"));
     QStringList destHistory = conf.readPathEntry("DirHistory", QStringList());
     destHistory.prepend(destinationPath);
     destHistory.removeDuplicates();
@@ -285,7 +285,7 @@ void ExtractionDialog::writeSettings()
     ArkSettings::self()->save();
 
     // Save dialog window size
-    KConfigGroup group(KSharedConfig::openConfig(), "ExtractDialog");
+    KConfigGroup group(KSharedConfig::openConfig(), QStringLiteral("ExtractDialog"));
     KWindowConfig::saveWindowSize(windowHandle(), group, KConfigBase::Persistent);
 }
 
@@ -297,7 +297,7 @@ void ExtractionDialog::setCurrentUrl(const QUrl &url)
 void ExtractionDialog::restoreWindowSize()
 {
   // Restore window size from config file, needs a windowHandle so must be called after show()
-  KConfigGroup group(KSharedConfig::openConfig(), "ExtractDialog");
+  KConfigGroup group(KSharedConfig::openConfig(), QStringLiteral("ExtractDialog"));
   KWindowConfig::restoreWindowSize(windowHandle(), group);
 }
 

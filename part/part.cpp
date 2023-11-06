@@ -704,7 +704,7 @@ void Part::updateQuickExtractMenu(QAction *extractAction)
         menu->removeAction(menu->actions().constLast());
     }
 
-    const KConfigGroup conf(KSharedConfig::openConfig(), "ExtractDialog");
+    const KConfigGroup conf(KSharedConfig::openConfig(), QStringLiteral("ExtractDialog"));
     const QStringList dirHistory = conf.readPathEntry("DirHistory", QStringList());
 
     for (int i = 0; i < qMin(10, dirHistory.size()); ++i) {

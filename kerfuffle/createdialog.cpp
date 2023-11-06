@@ -209,7 +209,7 @@ void CreateDialog::slotUpdateDefaultMimeType()
 
 void CreateDialog::loadConfiguration()
 {
-    m_config = KConfigGroup(KSharedConfig::openStateConfig()->group("CreateDialog"));
+    m_config = KConfigGroup(KSharedConfig::openStateConfig()->group(QStringLiteral("CreateDialog")));
     QMimeType lastUsedMime = QMimeDatabase().mimeTypeForName(m_config.readEntry("LastMimeType", QStringLiteral("application/x-compressed-tar")));
     setMimeType(lastUsedMime.name());
 }
