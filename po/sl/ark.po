@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2023-11-07 01:25+0000\n"
 "PO-Revision-Date: 2023-07-19 06:54+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -1638,76 +1638,76 @@ msgstr ""
 msgid "Comment"
 msgstr "Opomba"
 
-#: part/part.cpp:132
+#: part/part.cpp:133
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Opomba je bila spremenjena."
 
-#: part/part.cpp:137
+#: part/part.cpp:138
 #, kde-format
 msgid "Save"
 msgstr "Shrani"
 
-#: part/part.cpp:160
+#: part/part.cpp:161
 #, kde-format
 msgid "Type to search..."
 msgstr "Tipkajte za iskanje..."
 
-#: part/part.cpp:321
+#: part/part.cpp:322
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark lahko izvleče arhive samo v krajevne cilje."
 
-#: part/part.cpp:376
+#: part/part.cpp:377
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Pokaži pult s podrobnostmi"
 
-#: part/part.cpp:383
+#: part/part.cpp:384
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "Shrani kopijo kot..."
 
-#: part/part.cpp:387
+#: part/part.cpp:388
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "&Odpri v zunanji aplikaciji"
 
-#: part/part.cpp:392
+#: part/part.cpp:393
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Odpri z..."
 
-#: part/part.cpp:394
+#: part/part.cpp:395
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Kliknite za odprtje izbrane datoteke z zunanjim programom"
 
-#: part/part.cpp:398
+#: part/part.cpp:399
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "Predogled"
 
-#: part/part.cpp:400
+#: part/part.cpp:401
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Kliknite za predogled izbrane datoteke"
 
-#: part/part.cpp:405
+#: part/part.cpp:406
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "Razširi vse"
 
-#: part/part.cpp:407
+#: part/part.cpp:408
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1716,13 +1716,13 @@ msgstr ""
 "Kliknite za odprtje pogovornega okna za razširjanje, kjer lahko izberete "
 "kako razširiti vse datoteke iz arhiva"
 
-#: part/part.cpp:412
+#: part/part.cpp:413
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "Razširi"
 
-#: part/part.cpp:415
+#: part/part.cpp:416
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1731,54 +1731,54 @@ msgstr ""
 "Kliknite za odprtje pogovornega okna za razširjanje, kjer lahko razširite "
 "vse ali pa samo izbrane datoteke"
 
-#: part/part.cpp:420
+#: part/part.cpp:421
 #, kde-format
 msgid "Add &Files..."
 msgstr "Dodaj datoteke..."
 
-#: part/part.cpp:421 part/part.cpp:484
+#: part/part.cpp:422 part/part.cpp:485
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Kliknite za dodajanje datotek v arhiv"
 
-#: part/part.cpp:428
+#: part/part.cpp:429
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Odstrani iz arhiva"
 
-#: part/part.cpp:438
+#: part/part.cpp:439
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "Lastnosti"
 
-#: part/part.cpp:440
+#: part/part.cpp:441
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Kliknite za ogled lastnosti arhiva"
 
-#: part/part.cpp:446
+#: part/part.cpp:447
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Kliknite za dodajanje ali urejanje opombe"
 
-#: part/part.cpp:451
+#: part/part.cpp:452
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "Preizkusi celovi&tost"
 
-#: part/part.cpp:453 part/part.cpp:485
+#: part/part.cpp:454 part/part.cpp:486
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Kliknite za preizkus celovitosti arhiva"
 
-#: part/part.cpp:479
+#: part/part.cpp:480
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1790,7 +1790,7 @@ msgstr ""
 "glav, trenutno ni podprto.<nl/><nl/>Razširite datoteke in ustvarite nov "
 "arhiv, če želite dodati datoteke."
 
-#: part/part.cpp:482
+#: part/part.cpp:483
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1800,74 +1800,74 @@ msgstr ""
 "Preizkušanje arhivov zaščitenih z geslom, a brez šifriranja glav, trenutno "
 "ni podprto."
 
-#: part/part.cpp:550
+#: part/part.cpp:551
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Uredi opombo"
 
-#: part/part.cpp:551 part/part.cpp:559
+#: part/part.cpp:552 part/part.cpp:560
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Dodaj opombo"
 
-#: part/part.cpp:660
+#: part/part.cpp:661
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Arhiv je prestal preizkus celovitosti."
 
-#: part/part.cpp:660 part/part.cpp:662
+#: part/part.cpp:661 part/part.cpp:663
 #, kde-format
 msgid "Test Results"
 msgstr "Rezultati preizkusa"
 
-#: part/part.cpp:662
+#: part/part.cpp:663
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Arhiv ni prestal preizkusa celovitosti."
 
-#: part/part.cpp:683
+#: part/part.cpp:684
 #, kde-format
 msgid "Extract To..."
 msgstr "Razširi v..."
 
-#: part/part.cpp:697
+#: part/part.cpp:698
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Hitro razširi v..."
 
-#: part/part.cpp:827
+#: part/part.cpp:828
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Splošno"
 
-#: part/part.cpp:828
+#: part/part.cpp:829
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Razširjanje"
 
-#: part/part.cpp:829
+#: part/part.cpp:830
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Vtičniki"
 
-#: part/part.cpp:830
+#: part/part.cpp:831
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Predogledi"
 
-#: part/part.cpp:847
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> je mapa."
 
-#: part/part.cpp:856
+#: part/part.cpp:857
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1877,7 +1877,7 @@ msgstr ""
 "Ni bilo mogoče prepisati <filename>%1</filename>.Preverite, ali imate "
 "dovoljenja za zapisovanje."
 
-#: part/part.cpp:862
+#: part/part.cpp:863
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1886,13 +1886,13 @@ msgid ""
 msgstr ""
 "Arhiv <filename>%1</filename> bo ustvarjen, ko dodate vsaj eno datoteko."
 
-#: part/part.cpp:865
+#: part/part.cpp:866
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Arhiva <filename>%1</filename> ni bilo mogoče najti."
 
-#: part/part.cpp:870
+#: part/part.cpp:871
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1902,7 +1902,7 @@ msgstr ""
 "Arhiva <filename>%1</filename> ni bilo mogoče naložiti, ker iz njega ni bilo "
 "mogoče brati."
 
-#: part/part.cpp:883
+#: part/part.cpp:884
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1910,25 +1910,25 @@ msgid ""
 "it?"
 msgstr "Arhiv <filename>%1</filename> že obstaja. Ali ga želite prepisati?"
 
-#: part/part.cpp:884
+#: part/part.cpp:885
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Datoteka obstaja"
 
-#: part/part.cpp:921
+#: part/part.cpp:922
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Arhiv je prazen ali pa Ark ne more odpreti njegove vsebine."
 
-#: part/part.cpp:928
+#: part/part.cpp:929
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark trenutno ne podpira datotek ISO z datotečnim sistemom UDF."
 
-#: part/part.cpp:958
+#: part/part.cpp:959
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1938,12 +1938,12 @@ msgstr ""
 "Nalaganje arhiva <filename>%1</filename> je spodletelo z naslednjo napako: "
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:1018
+#: part/part.cpp:1019
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark ne more odpreti simbolnih povezav."
 
-#: part/part.cpp:1146
+#: part/part.cpp:1147
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1952,58 +1952,58 @@ msgstr ""
 "Datoteka <filename>%1</filename> je bila spremenjena. Ali želite posodobiti "
 "arhiv?"
 
-#: part/part.cpp:1147
+#: part/part.cpp:1148
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Datoteka spremenjena"
 
-#: part/part.cpp:1148
+#: part/part.cpp:1149
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Posodobi"
 
-#: part/part.cpp:1149
+#: part/part.cpp:1150
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Prezri"
 
-#: part/part.cpp:1430
+#: part/part.cpp:1431
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Dodaj datoteke"
 
-#: part/part.cpp:1435
+#: part/part.cpp:1436
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Dodaj datoteke v %1"
 
-#: part/part.cpp:1499
+#: part/part.cpp:1500
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Ime datoteke ne sme vsebovati poševnic in ne sme biti enako \".\" ali \"..\""
 
-#: part/part.cpp:1543
+#: part/part.cpp:1544
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Map ni mogoče premakniti samih vase."
 
-#: part/part.cpp:1544
+#: part/part.cpp:1545
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Premikanje mape same vase"
 
-#: part/part.cpp:1572
+#: part/part.cpp:1573
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Vnosov z enakim imenom ni mogoče prilepiti v isti cilj."
 
-#: part/part.cpp:1672
+#: part/part.cpp:1673
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2022,7 +2022,7 @@ msgstr[3] ""
 "Izbrisa teh datotek ni mogoče razveljaviti. Ali ste prepričani, da želite to "
 "storiti?"
 
-#: part/part.cpp:1675
+#: part/part.cpp:1676
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2032,13 +2032,13 @@ msgstr[1] "Izbriši datoteki"
 msgstr[2] "Izbriši datoteke"
 msgstr[3] "Izbriši datoteke"
 
-#: part/part.cpp:1718
+#: part/part.cpp:1719
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Shrani kopijo kot"
 
-#: part/part.cpp:1733
+#: part/part.cpp:1734
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2048,7 +2048,7 @@ msgstr ""
 "Arhiva ni bilo mogoče shraniti kot <filename>%1</filename>. Poskusite ga "
 "shraniti na drugo mesto."
 
-#: part/part.cpp:1737
+#: part/part.cpp:1738
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
