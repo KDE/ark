@@ -46,6 +46,7 @@
         "Description[sv]": "Fullt stöd för komprimerade TAR-arkiv",
         "Description[tr]": "Sıkıştırılmış TAR arşivleri için tam destek",
         "Description[uk]": "Повноцінна підтримка стиснених архівів TAR",
+        "Description[x-test]": "xxFull support for compressed TAR archivesxx",
         "Description[zh_CN]": "完整支持 TAR 压缩文件",
         "Description[zh_TW]": "對壓縮過的 TAR 壓縮檔的完整支援",
         "MimeTypes": [
@@ -108,6 +109,7 @@
         "Name[sv]": "Libarchive-insticksprogram",
         "Name[tr]": "Libarchive eklentisi",
         "Name[uk]": "Додаток libarchive",
+        "Name[x-test]": "xxLibarchive pluginxx",
         "Name[zh_CN]": "Libarchive 插件",
         "Name[zh_TW]": "Libarchive 外掛程式",
         "Version": "@RELEASE_SERVICE_VERSION@"

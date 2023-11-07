@@ -28,6 +28,7 @@
         "Description[sv]": "Arkivhanteringsverktyg",
         "Description[tr]": "Arşiv İşleme Aracı",
         "Description[uk]": "Інструмент для роботи з архівами",
+        "Description[x-test]": "xxArchive Handling Toolxx",
         "Description[zh_CN]": "压缩文件管理工具",
         "Description[zh_TW]": "封存檔處理工具",
         "Icon": "ark",
@@ -65,6 +66,7 @@
         "Name[ta]": "காப்பக உருவாக்கி",
         "Name[tr]": "Arşivleyici",
         "Name[uk]": "Архіватор",
+        "Name[x-test]": "xxArchiverxx",
         "Name[zh_CN]": "压缩文件管理工具",
         "Name[zh_TW]": "封存工具",
         "ServiceTypes": [
