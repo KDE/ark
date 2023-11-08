@@ -4,14 +4,12 @@
 | Gitlab Builds | [![Gitlab Builds Status](https://invent.kde.org/utilities/ark/badges/master/pipeline.svg)](https://invent.kde.org/utilities/ark/-/pipelines)                                                            |
 | Flatpak Build | [![FlatPak Build Status](https://binary-factory.kde.org/view/Flatpak/job/Ark_x86_64_flatpak/badge/icon)](https://binary-factory.kde.org/view/Flatpak/job/Ark_x86_64_flatpak/)                           |
 
-What is it
-----------
+## What is it
 
 Ark is a graphical file compression/decompression utility with support for multiple formats.
 Ark can be used to browse, extract, create, and modify archives.
 
-Supported read-write formats
-----------------------------
+## Supported read-write formats
 
 | Format                | Supported Mimetype                         | Notes                                                                                         |
 |-----------------------|--------------------------------------------|-----------------------------------------------------------------------------------------------|
@@ -33,8 +31,7 @@ Supported read-write formats
 | ZSTD-compressed TAR   | `application/x-zstd-compressed-tar`        | requires the `zstd` binary if libarchive >= 3.3 has been compiled without libzstd support     |
 
 
-Supported read-only formats
----------------------------
+## Supported read-only formats
 
 | Format                    | Supported Mimetype                                                                                                             |
 |---------------------------|--------------------------------------------------------------------------------------------------------------------------------|
@@ -63,8 +60,7 @@ Supported read-only formats
 
 The notes about `lrzip`, `lzop` and `zstd` binaries apply also here.
 
-Plugins
--------
+## Plugins
 
 The support for all the above formats in Ark is implemented in a number of plugins that can be enabled/disabled by the user.
 More than one plugin can support the same format. An archive whose format is supported by more than one plugin, will be open using the enabled plugin with higher priority.
@@ -81,9 +77,6 @@ The plugins currently available in ark are the following:
 * Libarchive plugin: supports everything else by using the libarchive library and optionally the `lrzip`, `lzop` and `zstd` binaries.
 
 
-How to build
--------------
+## Contributing to ARK
 
-Please refer to the instructions in the KDE community wiki: https://community.kde.org/KDE_Utils/Ark
-
-In the same page you will also find information on how to contribute to Ark development.
+Please refer to the [contributing document](CONTRIBUTING.md) for everything you need to know to get started contributing to ARK.
