@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>JobTrackerWidget</class>
- <widget class="QWidget" name="JobTrackerWidget" >
-  <property name="geometry" >
+ <widget class="QWidget" name="JobTrackerWidget">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,79 +10,82 @@
     <height>16</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Job Tracker</string>
   </property>
-  <layout class="QHBoxLayout" >
-   <property name="leftMargin" >
+  <layout class="QHBoxLayout">
+   <property name="leftMargin">
     <number>4</number>
    </property>
-   <property name="topMargin" >
+   <property name="topMargin">
     <number>1</number>
    </property>
-   <property name="rightMargin" >
+   <property name="rightMargin">
     <number>4</number>
    </property>
-   <property name="bottomMargin" >
+   <property name="bottomMargin">
     <number>1</number>
    </property>
    <item>
-    <widget class="QLabel" name="descriptionLabel" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+    <widget class="QLabel" name="descriptionLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="minimumSize" >
+     <property name="minimumSize">
       <size>
        <width>50</width>
        <height>0</height>
       </size>
      </property>
-     <property name="text" >
-      <string>&lt;b>Job Description&lt;/b></string>
+     <property name="text">
+      <string>&lt;b&gt;Job Description&lt;/b&gt;</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="informationLabel" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+    <widget class="QLabel" name="informationLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="minimumSize" >
+     <property name="minimumSize">
       <size>
        <width>50</width>
        <height>0</height>
       </size>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Some Information about the job</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QProgressBar" name="progressBar" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+    <widget class="QProgressBar" name="progressBar">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="minimumSize" >
+     <property name="minimumSize">
       <size>
        <width>50</width>
        <height>0</height>
       </size>
      </property>
-     <property name="maximum" >
+     <property name="maximum">
       <number>100</number>
      </property>
-     <property name="value" >
+     <property name="value">
       <number>-1</number>
+     </property>
+     <property name="format">
+      <string>%p%</string>
      </property>
     </widget>
    </item>
