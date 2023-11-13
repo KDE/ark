@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-07 01:25+0000\n"
+"POT-Creation-Date: 2023-11-13 00:44+0000\n"
 "PO-Revision-Date: 2023-04-27 23:36+0200\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: \n"
@@ -1530,21 +1530,27 @@ msgid "Target:"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, JobTrackerWidget)
-#: part/jobtracker.ui:13
+#: part/jobtracker.ui:14
 #, kde-format
 msgid "Job Tracker"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, descriptionLabel)
-#: part/jobtracker.ui:43
+#: part/jobtracker.ui:44
 #, kde-format
 msgid "<b>Job Description</b>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, informationLabel)
-#: part/jobtracker.ui:62
+#: part/jobtracker.ui:63
 #, kde-format
 msgid "Some Information about the job"
+msgstr ""
+
+#. i18n: ectx: property (format), widget (QProgressBar, progressBar)
+#: part/jobtracker.ui:88
+#, no-c-format, kde-format
+msgid "%p%"
 msgstr ""
 
 #: part/overwritedialog.cpp:26
