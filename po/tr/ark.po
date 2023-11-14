@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-13 00:44+0000\n"
-"PO-Revision-Date: 2023-10-17 21:48+0300\n"
+"PO-Revision-Date: 2023-11-13 05:23+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1617,7 +1617,7 @@ msgstr "Görev hakkında bazı bilgiler"
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%​%p"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
