@@ -1,14 +1,14 @@
 # translation of ark.po to Galician
+# SPDX-FileCopyrightText: 2017, 2018, 2019, 2023 Adrián Chaves <adrian@chaves.io>
 # Xosé <xosecalvo@gmail.com>, 2008, 2012.
 # Marce Villarino <mvillarino@users.sourceforge.net>, 2009, 2014.
 # Adrian Chaves Fernandez <adriyetichaves@gmail.com>, 2013, 2015, 2016.
-# Adrián Chaves <adrian@chaves.io>, 2017, 2018, 2019, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-13 00:44+0000\n"
-"PO-Revision-Date: 2023-07-29 08:31+0200\n"
+"PO-Revision-Date: 2023-11-15 18:39+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1609,7 +1609,7 @@ msgstr "Información sobre o traballo."
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
