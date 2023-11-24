@@ -241,7 +241,7 @@ bool BatchExtract::showExtractDialog()
 
     dialog.data()->setModal(true);
     dialog.data()->setAutoSubfolder(autoSubfolder());
-    dialog.data()->setCurrentUrl(QUrl::fromUserInput(destinationFolder(), QString(), QUrl::AssumeLocalFile));
+    dialog.data()->setCurrentUrl(QUrl::fromUserInput(destinationFolder(), QDir::currentPath(), QUrl::AssumeLocalFile));
     dialog.data()->setPreservePaths(preservePaths());
 
     // Only one archive, we need a LoadJob to get the single-folder and subfolder properties.

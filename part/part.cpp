@@ -291,7 +291,7 @@ void Part::extractSelectedFilesTo(const QString& localPath)
         return;
     }
 
-    const QUrl url = QUrl::fromUserInput(localPath, QString());
+    const QUrl url = QUrl::fromUserInput(localPath, QDir::currentPath());
 
     auto doExtract = [this](const QString &destination) {
         qCDebug(ARK) << "Extract to" << destination;
@@ -1062,7 +1062,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
             QFile::setPermissions(fullName, QFileDevice::ReadOwner | QFileDevice::ReadGroup | QFileDevice::ReadOther);
         }
 
-        const QUrl url = QUrl::fromUserInput(fullName, QString(), QUrl::AssumeLocalFile);
+        const QUrl url = QUrl::fromUserInput(fullName, QDir::currentPath(), QUrl::AssumeLocalFile);
         if (qobject_cast<OpenWithJob*>(job)) {
             // Constructing an ApplicationLauncherJob without an argument will
             // trigger the openWith dialog
