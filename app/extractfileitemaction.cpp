@@ -10,6 +10,8 @@
 #include <QFileInfo>
 #include <QMenu>
 
+#include <KIO/CopyJob>
+#include <KIO/JobUiDelegate>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -60,7 +62,7 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
     }
 
     QAction *extractToAction = createAction(icon,
-                                                 i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive to..."),
+                                                 i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract to…"),
                                                  parentWidget,
                                                  supportedUrls,
                                                  AdditionalJobOptions::ShowDialog);
@@ -72,19 +74,18 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
         QMenu *extractMenu = new QMenu(parentWidget);
 
         extractMenu->addAction(createAction(icon,
-                                            i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive here"),
+                                            i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract here"),
                                             parentWidget,
                                             supportedUrls,
                                             AdditionalJobOptions::None));
 
-        extractMenu->addAction(extractToAction);
-
-        extractMenu->addAction(createAction(icon,
-                                            i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract archive here, autodetect subfolder"),
+        extractMenu->addAction(createAction(QIcon::fromTheme(QStringLiteral("archive-remove")),
+                                            i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract here and delete archive"),
                                             parentWidget,
                                             supportedUrls,
-                                            AdditionalJobOptions::AutoSubfolder));
+                                            AdditionalJobOptions::AutoDelete));
 
+        extractMenu->addAction(extractToAction);
 
         QAction *extractMenuAction = new QAction(i18nc("@action:inmenu Extract submenu in Dolphin context menu", "Extract"), parentWidget);
         extractMenuAction->setMenu(extractMenu);
@@ -104,21 +105,24 @@ QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& n
         auto *batchExtractJob = new BatchExtract(nullptr);
         batchExtractJob->setDestinationFolder(QFileInfo(urls.first().toLocalFile()).path());
         batchExtractJob->setOpenDestinationAfterExtraction(ArkSettings::openDestinationFolderAfterExtraction());
-        if (option == AutoSubfolder) {
-            batchExtractJob->setAutoSubfolder(true);
-        } else if (option == ShowDialog) {
+        if (option == ShowDialog) {
             if (!batchExtractJob->showExtractDialog()) {
                 delete batchExtractJob;
                 return;
             }
+        } else {
+            batchExtractJob->setAutoSubfolder(true);
         }
         for (const QUrl &url : urls) {
             batchExtractJob->addInput(url);
         }
         batchExtractJob->start();
-        connect(batchExtractJob, &KJob::finished, this, [this, batchExtractJob](){
-            if (!batchExtractJob->errorString().isEmpty()) {
+        connect(batchExtractJob, &KJob::finished, this, [this, batchExtractJob, option, urls]() {
+            if (batchExtractJob->error()) {
                 Q_EMIT error(batchExtractJob->errorString());
+            } else if (option == AutoDelete) {
+                KIO::Job *job = KIO::trash(urls);
+                job->uiDelegate()->setAutoErrorHandlingEnabled(true);
             }
             batchExtractJob->deleteLater();
         });

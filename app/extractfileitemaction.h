@@ -34,7 +34,7 @@ private:
     enum AdditionalJobOptions {
         None,
         ShowDialog,
-        AutoSubfolder,
+        AutoDelete,
     };
     QAction *createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, AdditionalJobOptions option);
 

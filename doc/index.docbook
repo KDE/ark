@@ -392,14 +392,15 @@ The menu has these additional items to extract an archive using &ark;:
 
 <itemizedlist>
 <listitem>
-<para><guimenuitem>Extract archive here, autodetect subfolder</guimenuitem> creates a 
+<para><guimenuitem>Extract here</guimenuitem> creates a 
 subfolder in the folder with the archive and extracts the folders and files into it.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>Extract archive to...</guimenuitem> opens the Extract dialog where you can choose the destination folder and various extraction options.</para>
+<para><guimenuitem>Extract here and delete archive</guimenuitem> creates a 
+subfolder in the folder with the archive, extracts the folders and files into it and deletes the archive.</para>
 </listitem>
 <listitem>
-<para><guimenuitem>Extract archive here</guimenuitem> extracts the content of the archive into the same folder.</para>
+<para><guimenuitem>Extract to…</guimenuitem> opens the Extract dialog where you can choose the destination folder and various extraction options.</para>
 </listitem>
 </itemizedlist>
 
