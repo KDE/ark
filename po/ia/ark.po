@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-13 00:44+0000\n"
+"POT-Creation-Date: 2023-11-25 00:43+0000\n"
 "PO-Revision-Date: 2023-11-13 14:52+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -150,154 +150,154 @@ msgctxt ""
 msgid "Extract here"
 msgstr "Extrahe hic"
 
-#: app/main.cpp:84
+#: app/main.cpp:85
 #, kde-format
 msgid "Ark"
 msgstr "Ark"
 
-#: app/main.cpp:86
+#: app/main.cpp:87
 #, kde-format
 msgid "KDE Archiving tool"
 msgstr "Instrumento per archivar de KDE"
 
-#: app/main.cpp:88
+#: app/main.cpp:89
 #, kde-format
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) 1997-2019, Le disveloppatores de  Ark"
 
-#: app/main.cpp:95
+#: app/main.cpp:96
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: app/main.cpp:96
+#: app/main.cpp:97
 #, kde-format
 msgid "Maintainer"
 msgstr "Mantenitor"
 
-#: app/main.cpp:98
+#: app/main.cpp:99
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr "Ragnar Thomsen"
 
-#: app/main.cpp:99
+#: app/main.cpp:100
 #, kde-format
 msgid "Maintainer, KF5 port"
 msgstr "Mantenitor,KF5 port"
 
-#: app/main.cpp:101
+#: app/main.cpp:102
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr "Raphael Kubo da Costa"
 
-#: app/main.cpp:102 app/main.cpp:105 app/main.cpp:108
+#: app/main.cpp:103 app/main.cpp:106 app/main.cpp:109
 #, kde-format
 msgid "Former Maintainer"
 msgstr "Mantenitor Precedente"
 
-#: app/main.cpp:104
+#: app/main.cpp:105
 #, kde-format
 msgid "Harald Hvaal"
 msgstr "Harald Hvaal"
 
-#: app/main.cpp:107
+#: app/main.cpp:108
 #, kde-format
 msgid "Henrique Pinto"
 msgstr "Henrique Pinto"
 
-#: app/main.cpp:110
+#: app/main.cpp:111
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr "Helio Chissini de Castro"
 
-#: app/main.cpp:111
+#: app/main.cpp:112
 #, kde-format
 msgid "Former maintainer"
 msgstr "Mantenitor Precedente"
 
-#: app/main.cpp:113
+#: app/main.cpp:114
 #, kde-format
 msgid "Georg Robbers"
 msgstr "Georg Robbers"
 
-#: app/main.cpp:116
+#: app/main.cpp:117
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr "Roberto Selbach Teixeira"
 
-#: app/main.cpp:119
+#: app/main.cpp:120
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr "Francois-Xavier Duranceau"
 
-#: app/main.cpp:122
+#: app/main.cpp:123
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr "Emily Ezust (Corel Corporation)"
 
-#: app/main.cpp:125
+#: app/main.cpp:126
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr "Michael Jarrett (Corel Corporation)"
 
-#: app/main.cpp:128
+#: app/main.cpp:129
 #, kde-format
 msgid "Robert Palmbos"
 msgstr "Robert Palmbos"
 
-#: app/main.cpp:132
+#: app/main.cpp:133
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr "Vladyslav Batyrenko"
 
-#: app/main.cpp:133
+#: app/main.cpp:134
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr "Functionalitates avantiate de modificar"
 
-#: app/main.cpp:136
+#: app/main.cpp:137
 #, kde-format
 msgid "Bryce Corkins"
 msgstr "Bryce Corkins"
 
-#: app/main.cpp:137
+#: app/main.cpp:138
 #, kde-format
 msgid "Icons"
 msgstr "Icones"
 
-#: app/main.cpp:139
+#: app/main.cpp:140
 #, kde-format
 msgid "Liam Smit"
 msgstr "Liam Smit"
 
-#: app/main.cpp:140
+#: app/main.cpp:141
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "Ideas,adjuta con le icones"
 
-#: app/main.cpp:142
+#: app/main.cpp:143
 #, kde-format
 msgid "Andrew Smith"
 msgstr "Andrew Smith"
 
-#: app/main.cpp:143
+#: app/main.cpp:144
 #, kde-format
 msgid "bkisofs code"
 msgstr "codice bkisofs"
 
-#: app/main.cpp:153
+#: app/main.cpp:154
 #, kde-format
 msgid "URLs to open."
 msgstr "URLs de aperir"
 
-#: app/main.cpp:156
+#: app/main.cpp:157
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr ""
 "Monstra un dialogo pro specificar le optiones per le operation (extrahe/adde)"
 
-#: app/main.cpp:159
+#: app/main.cpp:160
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
@@ -306,12 +306,12 @@ msgstr ""
 "non specificate."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:163 kerfuffle/ark.kcfg:23
+#: app/main.cpp:164 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "Aperi dossier de destination postea extraction."
 
-#: app/main.cpp:166
+#: app/main.cpp:167
 #, kde-format
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
@@ -320,7 +320,7 @@ msgstr ""
 "Demanda al usator un nomine de file de archivo e adde a illo files "
 "specificate. Abandona quando il ha terminate."
 
-#: app/main.cpp:169
+#: app/main.cpp:170
 #, kde-format
 msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
@@ -329,7 +329,7 @@ msgstr ""
 "Adde le specificate files a 'nomine de file'. Crea archivo si il non existe. "
 "Abandona quando il ha terminate."
 
-#: app/main.cpp:173
+#: app/main.cpp:174
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
@@ -338,7 +338,7 @@ msgstr ""
 "Modifica le dir currente al prime entrata e adde omne altere entratas "
 "relativemente a isto."
 
-#: app/main.cpp:176
+#: app/main.cpp:177
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
@@ -347,7 +347,7 @@ msgstr ""
 "Selige automaticamente un nomine de file, con le suffixo specificate (pro "
 "exemplo rar,tar.gz o omne altere typos supportate)"
 
-#: app/main.cpp:180
+#: app/main.cpp:181
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
@@ -356,14 +356,14 @@ msgstr ""
 "Usa le interfacie de batch in loco del dialogo usual. Iste opinion es "
 "suggerite si plus que un url es specificate."
 
-#: app/main.cpp:183
+#: app/main.cpp:184
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr ""
 "Le argumento d edestination essera fixate a percurso del prime file fornite."
 
-#: app/main.cpp:186
+#: app/main.cpp:187
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -374,7 +374,7 @@ msgstr ""
 "singule archivo de dossier, un subdossier con le nomine del archivo essera "
 "create."
 
-#: app/main.cpp:189
+#: app/main.cpp:190
 #, kde-format
 msgid "List supported MIME types."
 msgstr "Lista typos MIME supportate."

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-13 00:44+0000\n"
+"POT-Creation-Date: 2023-11-25 00:43+0000\n"
 "PO-Revision-Date: 2023-07-30 14:44+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -158,154 +158,154 @@ msgctxt ""
 msgid "Extract here"
 msgstr "இங்கு பிரித்தெடு"
 
-#: app/main.cpp:84
+#: app/main.cpp:85
 #, kde-format
 msgid "Ark"
 msgstr "ஆர்க்"
 
-#: app/main.cpp:86
+#: app/main.cpp:87
 #, kde-format
 msgid "KDE Archiving tool"
 msgstr "KDE காப்பகச் செயலி"
 
-#: app/main.cpp:88
+#: app/main.cpp:89
 #, kde-format
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) 1997-2019, ஆர்க் நிரலாளர்கள்"
 
-#: app/main.cpp:95
+#: app/main.cpp:96
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr "எல்விஸ் ஆஞ்செலாசியோ"
 
-#: app/main.cpp:96
+#: app/main.cpp:97
 #, kde-format
 msgid "Maintainer"
 msgstr "பராமரிப்பாளர்"
 
-#: app/main.cpp:98
+#: app/main.cpp:99
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr "ராக்னார் தாம்ஸன்"
 
-#: app/main.cpp:99
+#: app/main.cpp:100
 #, kde-format
 msgid "Maintainer, KF5 port"
 msgstr "பராமரிப்பாளர், KF5 ஆக்கம்"
 
-#: app/main.cpp:101
+#: app/main.cpp:102
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr "ராஃபெல் குபோ டா கோஸ்தா"
 
-#: app/main.cpp:102 app/main.cpp:105 app/main.cpp:108
+#: app/main.cpp:103 app/main.cpp:106 app/main.cpp:109
 #, kde-format
 msgid "Former Maintainer"
 msgstr "முந்தைய பராமரிப்பாளர்"
 
-#: app/main.cpp:104
+#: app/main.cpp:105
 #, kde-format
 msgid "Harald Hvaal"
 msgstr "ஹாரல்டு ஹவால்"
 
-#: app/main.cpp:107
+#: app/main.cpp:108
 #, kde-format
 msgid "Henrique Pinto"
 msgstr "ஹென்ரிக் பின்ட்டோ"
 
-#: app/main.cpp:110
+#: app/main.cpp:111
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr "ஹீலியோ சிஸ்ஸினி டி கெஸ்டுரோ"
 
-#: app/main.cpp:111
+#: app/main.cpp:112
 #, kde-format
 msgid "Former maintainer"
 msgstr "முந்தைய பராமரிப்பாளர்"
 
-#: app/main.cpp:113
+#: app/main.cpp:114
 #, kde-format
 msgid "Georg Robbers"
 msgstr "ஜோர்கு ராபர்ஸ்"
 
-#: app/main.cpp:116
+#: app/main.cpp:117
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr ""
 
-#: app/main.cpp:119
+#: app/main.cpp:120
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr ""
 
-#: app/main.cpp:122
+#: app/main.cpp:123
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr ""
 
-#: app/main.cpp:125
+#: app/main.cpp:126
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr ""
 
-#: app/main.cpp:128
+#: app/main.cpp:129
 #, kde-format
 msgid "Robert Palmbos"
 msgstr ""
 
-#: app/main.cpp:132
+#: app/main.cpp:133
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr ""
 
-#: app/main.cpp:133
+#: app/main.cpp:134
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr "மேம்பட்ட திருத்த அம்சங்கள்"
 
-#: app/main.cpp:136
+#: app/main.cpp:137
 #, kde-format
 msgid "Bryce Corkins"
 msgstr ""
 
-#: app/main.cpp:137
+#: app/main.cpp:138
 #, kde-format
 msgid "Icons"
 msgstr "சின்னங்கள்"
 
-#: app/main.cpp:139
+#: app/main.cpp:140
 #, kde-format
 msgid "Liam Smit"
 msgstr ""
 
-#: app/main.cpp:140
+#: app/main.cpp:141
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "யோசனைகள், சின்னங்களுக்கு உதவி"
 
-#: app/main.cpp:142
+#: app/main.cpp:143
 #, kde-format
 msgid "Andrew Smith"
 msgstr ""
 
-#: app/main.cpp:143
+#: app/main.cpp:144
 #, kde-format
 msgid "bkisofs code"
 msgstr "bkisofs நிரல்தொடர்கள்"
 
-#: app/main.cpp:153
+#: app/main.cpp:154
 #, kde-format
 msgid "URLs to open."
 msgstr "திறக்க வேண்டிய முகவரிகள்."
 
-#: app/main.cpp:156
+#: app/main.cpp:157
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr ""
 "செயல்பாட்டிற்கான விருப்பங்களை அமைப்பதற்கான சாளரத்தை காட்டு (பிரித்தெடுப்பது/சேர்ப்பது)"
 
-#: app/main.cpp:159
+#: app/main.cpp:160
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
@@ -314,12 +314,12 @@ msgstr ""
 "இருக்கும்."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:163 kerfuffle/ark.kcfg:23
+#: app/main.cpp:164 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "பிரித்தெடுத்தபின் சேருமிட அடைவைத் திற."
 
-#: app/main.cpp:166
+#: app/main.cpp:167
 #, kde-format
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
@@ -328,7 +328,7 @@ msgstr ""
 "காப்பகத்தின் பெயரை பயனரிடம் கோரி அதில் குறிப்பிட்ட கோப்புகளை சேர்க்கவிடும். முடிந்தபின் "
 "வெளியேறும்"
 
-#: app/main.cpp:169
+#: app/main.cpp:170
 #, kde-format
 msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
@@ -337,14 +337,14 @@ msgstr ""
 "குறிப்படப்படும் கோப்புகளை 'filename' என்பதில் சேர்க்கும். அப்பெயரில் ஓர் காப்பகம் இல்லையேல், "
 "அதை உருவாக்கும். முடிந்தபின் வெளியேறும்."
 
-#: app/main.cpp:173
+#: app/main.cpp:174
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
 "to this one."
 msgstr "முதல் பதிவுக்கு மாறி, மற்றப் பதிவுகளை அதைச் சார்ந்து புரிந்துகொள்ளும்."
 
-#: app/main.cpp:176
+#: app/main.cpp:177
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
@@ -353,7 +353,7 @@ msgstr ""
 "உரிய பின்னொட்டுடன் (எ.கா. rar, tar.gz, zip, போன்ற ஆதரிக்கப்படும் வகைகள்) தானாக "
 "கோப்புப்பெயரை தேர்ந்தெடுக்கும்"
 
-#: app/main.cpp:180
+#: app/main.cpp:181
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
@@ -363,13 +363,13 @@ msgstr ""
 "பயன்படுத்தும். ஒன்றுக்கு மேற்பட்ட முகவரிகள் குறிப்பிடப்பட்டிருந்தால், இத்தேர்வு தானாக "
 "இயக்கப்படும்."
 
-#: app/main.cpp:183
+#: app/main.cpp:184
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr "தரப்படும் முதல் கோப்பின் இருப்பிடம், சேருமிடமாக அமைக்கப்படும்."
 
-#: app/main.cpp:186
+#: app/main.cpp:187
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -379,7 +379,7 @@ msgstr ""
 "காப்பகத்தின் உள்ளடக்கம் படிக்கப்பட்டு, ஒரே கோப்பாகவோ ஒரே அடைவாகவோ அது கண்டறியப்படாத "
 "பட்சத்தில், காப்பகத்தின் பெயரில் ஓர் புதிய சார்-அடைவு உருவாக்கப்படும்."
 
-#: app/main.cpp:189
+#: app/main.cpp:190
 #, kde-format
 msgid "List supported MIME types."
 msgstr "ஆதரிக்கப்படும் மைம்வகைகளை பட்டியலிடும்."

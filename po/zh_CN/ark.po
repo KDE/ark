@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-13 00:44+0000\n"
+"POT-Creation-Date: 2023-11-25 00:43+0000\n"
 "PO-Revision-Date: 2023-11-19 03:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -151,172 +151,172 @@ msgctxt ""
 msgid "Extract here"
 msgstr "解压到当前文件夹"
 
-#: app/main.cpp:84
+#: app/main.cpp:85
 #, kde-format
 msgid "Ark"
 msgstr "Ark"
 
-#: app/main.cpp:86
+#: app/main.cpp:87
 #, kde-format
 msgid "KDE Archiving tool"
 msgstr "KDE 压缩文件管理工具"
 
-#: app/main.cpp:88
+#: app/main.cpp:89
 #, kde-format
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) 1997-2019, The Ark Developers"
 
-#: app/main.cpp:95
+#: app/main.cpp:96
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: app/main.cpp:96
+#: app/main.cpp:97
 #, kde-format
 msgid "Maintainer"
 msgstr "项目负责人"
 
-#: app/main.cpp:98
+#: app/main.cpp:99
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr "Ragnar Thomsen"
 
-#: app/main.cpp:99
+#: app/main.cpp:100
 #, kde-format
 msgid "Maintainer, KF5 port"
 msgstr "项目负责人，KF5 移植工程"
 
-#: app/main.cpp:101
+#: app/main.cpp:102
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr "Raphael Kubo da Costa"
 
-#: app/main.cpp:102 app/main.cpp:105 app/main.cpp:108
+#: app/main.cpp:103 app/main.cpp:106 app/main.cpp:109
 #, kde-format
 msgid "Former Maintainer"
 msgstr "前任项目负责人"
 
-#: app/main.cpp:104
+#: app/main.cpp:105
 #, kde-format
 msgid "Harald Hvaal"
 msgstr "Harald Hvaal"
 
-#: app/main.cpp:107
+#: app/main.cpp:108
 #, kde-format
 msgid "Henrique Pinto"
 msgstr "Henrique Pinto"
 
-#: app/main.cpp:110
+#: app/main.cpp:111
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr "Helio Chissini de Castro"
 
-#: app/main.cpp:111
+#: app/main.cpp:112
 #, kde-format
 msgid "Former maintainer"
 msgstr "前任项目负责人"
 
-#: app/main.cpp:113
+#: app/main.cpp:114
 #, kde-format
 msgid "Georg Robbers"
 msgstr "Georg Robbers"
 
-#: app/main.cpp:116
+#: app/main.cpp:117
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr "Roberto Selbach Teixeira"
 
-#: app/main.cpp:119
+#: app/main.cpp:120
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr "Francois-Xavier Duranceau"
 
-#: app/main.cpp:122
+#: app/main.cpp:123
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr "Emily Ezust (Corel 公司)"
 
-#: app/main.cpp:125
+#: app/main.cpp:126
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr "Michael Jarrett (Corel 公司)"
 
-#: app/main.cpp:128
+#: app/main.cpp:129
 #, kde-format
 msgid "Robert Palmbos"
 msgstr "Robert Palmbos"
 
-#: app/main.cpp:132
+#: app/main.cpp:133
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr "Vladyslav Batyrenko"
 
-#: app/main.cpp:133
+#: app/main.cpp:134
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr "高级编辑功能"
 
-#: app/main.cpp:136
+#: app/main.cpp:137
 #, kde-format
 msgid "Bryce Corkins"
 msgstr "Bryce Corkins"
 
-#: app/main.cpp:137
+#: app/main.cpp:138
 #, kde-format
 msgid "Icons"
 msgstr "图标"
 
-#: app/main.cpp:139
+#: app/main.cpp:140
 #, kde-format
 msgid "Liam Smit"
 msgstr "Liam Smit"
 
-#: app/main.cpp:140
+#: app/main.cpp:141
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "创意，协助图标制作"
 
-#: app/main.cpp:142
+#: app/main.cpp:143
 #, kde-format
 msgid "Andrew Smith"
 msgstr "Andrew Smith"
 
-#: app/main.cpp:143
+#: app/main.cpp:144
 #, kde-format
 msgid "bkisofs code"
 msgstr "bkisofs 代码"
 
-#: app/main.cpp:153
+#: app/main.cpp:154
 #, kde-format
 msgid "URLs to open."
 msgstr "要打开的 URL。"
 
-#: app/main.cpp:156
+#: app/main.cpp:157
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr "显示用于指定操作选项的对话框 (解压/添加)"
 
-#: app/main.cpp:159
+#: app/main.cpp:160
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr "解压的目标文件夹。如果没有指定，则默认为当前文件夹。"
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:163 kerfuffle/ark.kcfg:23
+#: app/main.cpp:164 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "解压后打开目标文件夹。"
 
-#: app/main.cpp:166
+#: app/main.cpp:167
 #, kde-format
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
 "when finished."
 msgstr "询问用户压缩文件的文件名，并向其添加指定的文件。完成后退出。"
 
-#: app/main.cpp:169
+#: app/main.cpp:170
 #, kde-format
 msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
@@ -325,14 +325,14 @@ msgstr ""
 "将选定的文件添加到指定文件名的压缩文件。如果不存在则创建该压缩文件。完成后退"
 "出。"
 
-#: app/main.cpp:173
+#: app/main.cpp:174
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
 "to this one."
 msgstr "更改当前目录为第一项并相对于该项位置添加所有其他项目。"
 
-#: app/main.cpp:176
+#: app/main.cpp:177
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
@@ -340,20 +340,20 @@ msgid ""
 msgstr ""
 "自动选择文件名，包括所选后缀 (如 rar、tar.gz、zip 或其他支持的压缩文件类型)"
 
-#: app/main.cpp:180
+#: app/main.cpp:181
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
 "if more than one url is specified."
 msgstr "使用批量处理界面而不是常规对话框。此选项在指定了多个 URL 时默认启用。"
 
-#: app/main.cpp:183
+#: app/main.cpp:184
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr "目标位置将被设定为首个指定文件的路径。"
 
-#: app/main.cpp:186
+#: app/main.cpp:187
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -363,7 +363,7 @@ msgstr ""
 "解压时如果检测到压缩文件中包含多个文件/文件夹，Ark 将按照压缩文件的文件名创建"
 "一个子文件夹。"
 
-#: app/main.cpp:189
+#: app/main.cpp:190
 #, kde-format
 msgid "List supported MIME types."
 msgstr "列出支持的 MIME 类型。"
