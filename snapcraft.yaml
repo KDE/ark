@@ -14,11 +14,11 @@ apps:
         command: usr/bin/ark
         plugs:
         - desktop
-        - desktop-accessibility
         - desktop-legacy
         - opengl
         - wayland
         - x11
+        - unity7
         - home
         - network
         - network-bind
