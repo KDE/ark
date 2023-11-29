@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 00:44+0000\n"
-"PO-Revision-Date: 2023-11-13 17:52+0200\n"
+"PO-Revision-Date: 2023-11-29 09:32+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -127,25 +127,22 @@ msgid "Here as \"%1\""
 msgstr "Сюди як «%1»"
 
 #: app/extractfileitemaction.cpp:65
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "Видобути"
+msgstr "Видобути до…"
 
 #: app/extractfileitemaction.cpp:77
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
-msgstr "Видобути до цієї теки"
+msgstr "Видобути сюди"
 
 #: app/extractfileitemaction.cpp:83
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "Розпакувати декілька архівів"
+msgstr "Видобути сюди і вилучити архів"
 
 #: app/extractfileitemaction.cpp:90
 #, kde-format
