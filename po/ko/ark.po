@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2023-07-22 22:53+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -122,25 +122,28 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr "여기에 \"%1\"(으)로"
 
-#: app/extractfileitemaction.cpp:63
-#, kde-format
+#: app/extractfileitemaction.cpp:65
+#, fuzzy, kde-format
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "다음 경로에 압축 풀기..."
+msgid "Extract to…"
+msgstr "압축 풀기"
 
-#: app/extractfileitemaction.cpp:75
-#, kde-format
+#: app/extractfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
+msgid "Extract here"
 msgstr "여기에 압축 풀기"
 
 #: app/extractfileitemaction.cpp:83
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "하위 폴더를 감지해서 여기에 압축 풀기"
+msgid "Extract here and delete archive"
+msgstr "여러 압축 파일에서 풀기"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"
@@ -2277,6 +2280,18 @@ msgstr "항목을 복사할 수 없음: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "항목의 메타데이터를 설정할 수 없음: %1"
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "다음 경로에 압축 풀기..."
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "여기에 압축 풀기"
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "하위 폴더를 감지해서 여기에 압축 풀기"
 
 #~ msgid "Form"
 #~ msgstr "폼"

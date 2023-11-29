@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2012-08-03 07:39+0600\n"
 "Last-Translator: Sairan Kikkarin\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -140,28 +140,29 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr ""
 
-#: app/extractfileitemaction.cpp:63
+#: app/extractfileitemaction.cpp:65
 #, fuzzy, kde-format
-#| msgid "Extract To..."
+#| msgctxt "@title:window"
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "Қайда тарқату..."
+msgid "Extract to…"
+msgstr "Тарқату"
 
-#: app/extractfileitemaction.cpp:75
+#: app/extractfileitemaction.cpp:77
 #, fuzzy, kde-format
 #| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
+msgid "Extract here"
 msgstr "Мында тарқату"
 
 #: app/extractfileitemaction.cpp:83
 #, fuzzy, kde-format
-#| msgid "&Extraction into subfolder:"
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "Файлдарды &тарқататын қапшығы:"
+msgid "Extract here and delete archive"
+msgstr "Бірнеше архивтерді тарқату"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Extract"
@@ -2468,6 +2469,24 @@ msgstr ""
 #| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
 msgid "Failed to set metadata for entry: %1"
 msgstr "Дискіде <filename>%2</filename> бағдарламасы табылған жоқ."
+
+#, fuzzy
+#~| msgid "Extract To..."
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "Қайда тарқату..."
+
+#, fuzzy
+#~| msgid "Extract here"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "Мында тарқату"
+
+#, fuzzy
+#~| msgid "&Extraction into subfolder:"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "Файлдарды &тарқататын қапшығы:"
 
 #, fuzzy
 #~| msgid "Create New Archive"

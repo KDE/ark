@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2023-11-13 13:15+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -124,25 +124,28 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr "Aquí com a «%1»"
 
-#: app/extractfileitemaction.cpp:63
-#, kde-format
+#: app/extractfileitemaction.cpp:65
+#, fuzzy, kde-format
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "Extreu l'arxiu a..."
+msgid "Extract to…"
+msgstr "Extreu"
 
-#: app/extractfileitemaction.cpp:75
-#, kde-format
+#: app/extractfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
-msgstr "Extreu l'arxiu aquí"
+msgid "Extract here"
+msgstr "Extreu aquí"
 
 #: app/extractfileitemaction.cpp:83
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "Extreu l'arxiu aquí, detecta automàticament la subcarpeta"
+msgid "Extract here and delete archive"
+msgstr "Extreu múltiples arxius"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"
@@ -2326,3 +2329,15 @@ msgstr "Ha fallat en copiar l'entrada: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Ha fallat en establir les metadades de l'entrada: %1"
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "Extreu l'arxiu a..."
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "Extreu l'arxiu aquí"
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "Extreu l'arxiu aquí, detecta automàticament la subcarpeta"

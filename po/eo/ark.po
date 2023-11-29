@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2023-11-26 20:12+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
@@ -122,25 +122,28 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr "Ĉi tie kiel \"%1\""
 
-#: app/extractfileitemaction.cpp:63
-#, kde-format
+#: app/extractfileitemaction.cpp:65
+#, fuzzy, kde-format
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "Ĉerpi arkivon al..."
+msgid "Extract to…"
+msgstr "Ekstrakti"
 
-#: app/extractfileitemaction.cpp:75
-#, kde-format
+#: app/extractfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
-msgstr "Ekstrakti arkivon ĉi tie"
+msgid "Extract here"
+msgstr "Ekstrakti ĉi tie"
 
 #: app/extractfileitemaction.cpp:83
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "Ekstrakti arkivon ĉi tie, aŭtomate detekti subdosierujon"
+msgid "Extract here and delete archive"
+msgstr "Ĉerpi plurajn arkivojn"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"
@@ -2309,3 +2312,15 @@ msgstr "Malsukcesis kopii eniron: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Malsukcesis agordi metadatenojn por enigo: %1"
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "Ĉerpi arkivon al..."
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "Ekstrakti arkivon ĉi tie"
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "Ekstrakti arkivon ĉi tie, aŭtomate detekti subdosierujon"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2023-04-09 02:50-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -116,28 +116,28 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr ""
 
-#: app/extractfileitemaction.cpp:63
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
-msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "Hap shumë arkiva"
-
-#: app/extractfileitemaction.cpp:75
+#: app/extractfileitemaction.cpp:65
 #, fuzzy, kde-format
 #| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
+msgid "Extract to…"
+msgstr "Ekstrakto këtu"
+
+#: app/extractfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Extract here"
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract here"
 msgstr "Ekstrakto këtu"
 
 #: app/extractfileitemaction.cpp:83
 #, fuzzy, kde-format
-#| msgid "Extract All Files"
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "Ekstrakto të Gjithë Skedarët"
+msgid "Extract here and delete archive"
+msgstr "Hap shumë arkiva"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"
@@ -2345,6 +2345,24 @@ msgstr ""
 msgid "Failed to set metadata for entry: %1"
 msgstr ""
 "Dështuam në krijimin e arkivit të ri. Lejet mund të mos jenë të mjaftueshme."
+
+#, fuzzy
+#~| msgid "Extract multiple archives"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "Hap shumë arkiva"
+
+#, fuzzy
+#~| msgid "Extract here"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "Ekstrakto këtu"
+
+#, fuzzy
+#~| msgid "Extract All Files"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "Ekstrakto të Gjithë Skedarët"
 
 #, fuzzy
 #~| msgid "Open an archive"

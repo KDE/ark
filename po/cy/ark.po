@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ../cy/messages//kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2004-09-20 15:44+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandrakesoft.com>\n"
 "Language-Team: cy <LL@li.org>\n"
@@ -109,28 +109,27 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr ""
 
-#: app/extractfileitemaction.cpp:63
-#, fuzzy, kde-format
-#| msgid "All files"
-msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "Pob Ffeil"
-
-#: app/extractfileitemaction.cpp:75
+#: app/extractfileitemaction.cpp:65
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
+msgid "Extract to…"
+msgstr "Alldynnu"
+
+#: app/extractfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract here"
 msgstr "Alldynnu"
 
 #: app/extractfileitemaction.cpp:83
-#, fuzzy, kde-format
-#| msgid "All files"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "Pob Ffeil"
+msgid "Extract here and delete archive"
+msgstr ""
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
@@ -2282,6 +2281,24 @@ msgstr ""
 #| msgid "Open with:"
 msgid "Failed to set metadata for entry: %1"
 msgstr "Agor Efo:"
+
+#, fuzzy
+#~| msgid "All files"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "Pob Ffeil"
+
+#, fuzzy
+#~| msgid "Extract"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "Alldynnu"
+
+#, fuzzy
+#~| msgid "All files"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "Pob Ffeil"
 
 #, fuzzy
 #~| msgid "Open with:"

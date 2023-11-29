@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -143,28 +143,29 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr ""
 
-#: app/extractfileitemaction.cpp:63
+#: app/extractfileitemaction.cpp:65
 #, fuzzy, kde-format
-#| msgid "Extract To..."
+#| msgctxt "@title:window"
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "Bain Amach Go..."
+msgid "Extract to…"
+msgstr "Bain Amach"
 
-#: app/extractfileitemaction.cpp:75
+#: app/extractfileitemaction.cpp:77
 #, fuzzy, kde-format
 #| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
+msgid "Extract here"
 msgstr "Bain amach anseo"
 
 #: app/extractfileitemaction.cpp:83
 #, fuzzy, kde-format
-#| msgid "&Extraction into subfolder:"
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "&Baint amach i bhfofhillteán:"
+msgid "Extract here and delete archive"
+msgstr "Bain cartlanna éagsúla amach"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Extract"
@@ -2540,6 +2541,24 @@ msgstr ""
 msgid "Failed to set metadata for entry: %1"
 msgstr ""
 "Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
+
+#, fuzzy
+#~| msgid "Extract To..."
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "Bain Amach Go..."
+
+#, fuzzy
+#~| msgid "Extract here"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "Bain amach anseo"
+
+#, fuzzy
+#~| msgid "&Extraction into subfolder:"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "&Baint amach i bhfofhillteán:"
 
 #, fuzzy
 #~| msgid "Create New Archive"

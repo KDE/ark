@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2013-03-05 14:53+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -118,28 +118,29 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr ""
 
-#: app/extractfileitemaction.cpp:63
+#: app/extractfileitemaction.cpp:65
 #, fuzzy, kde-format
-#| msgid "Extract To..."
+#| msgctxt "@title:window"
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "येथे बाहेर काढा..."
+msgid "Extract to…"
+msgstr "बाहेर काढा"
 
-#: app/extractfileitemaction.cpp:75
+#: app/extractfileitemaction.cpp:77
 #, fuzzy, kde-format
 #| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
+msgid "Extract here"
 msgstr "येथे बाहेर काढा"
 
 #: app/extractfileitemaction.cpp:83
 #, fuzzy, kde-format
-#| msgid "&Extraction into subfolder:"
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "उपसंचयीका अंतर्गत बाहेर काढणे (&E):"
+msgid "Extract here and delete archive"
+msgstr "अनेक संग्रहातून बाहेर काढा"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Extract"
@@ -2337,6 +2338,24 @@ msgstr ""
 #| msgid "Source archive"
 msgid "Failed to set metadata for entry: %1"
 msgstr "स्रोत संग्रह"
+
+#, fuzzy
+#~| msgid "Extract To..."
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "येथे बाहेर काढा..."
+
+#, fuzzy
+#~| msgid "Extract here"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "येथे बाहेर काढा"
+
+#, fuzzy
+#~| msgid "&Extraction into subfolder:"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "उपसंचयीका अंतर्गत बाहेर काढणे (&E):"
 
 #, fuzzy
 #~| msgid "Open an archive"

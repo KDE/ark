@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2022-10-28 17:13+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -119,25 +119,28 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr "Ci quam «%1»"
 
-#: app/extractfileitemaction.cpp:63
-#, kde-format
+#: app/extractfileitemaction.cpp:65
+#, fuzzy, kde-format
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "Extraer li archive a..."
+msgid "Extract to…"
+msgstr "Extraer"
 
-#: app/extractfileitemaction.cpp:75
-#, kde-format
+#: app/extractfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
-msgstr "Extraer li archive ad ci"
+msgid "Extract here"
+msgstr "Extraer ad ci"
 
 #: app/extractfileitemaction.cpp:83
 #, fuzzy, kde-format
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "Extraer li archive ad ci"
+msgid "Extract here and delete archive"
+msgstr "Extraer multiplic archives"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"
@@ -2261,6 +2264,19 @@ msgstr "Ne successat copiar un element: %1"
 #, fuzzy, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Ne successat leer data de un element: %1"
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "Extraer li archive a..."
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "Extraer li archive ad ci"
+
+#, fuzzy
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "Extraer li archive ad ci"
 
 #, fuzzy
 #~ msgid "Form"

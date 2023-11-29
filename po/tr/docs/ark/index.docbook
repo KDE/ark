@@ -646,20 +646,20 @@
 <listitem>
 <para
 ><guimenuitem
->Arşivi Buraya Çıkar, Alt Klasörü Otomatik Algıla</guimenuitem
->, arşivin bulunduğu klasörde bir alt klasör oluşturur ve klasörleri ve dosyaları bu klasöre çıkarır.</para>
+>Extract here</guimenuitem
+> creates a subfolder in the folder with the archive and extracts the folders and files into it.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
->Arşivi Şuraya Çıkar...</guimenuitem
->, hedef klasörü ve çeşitli çıkarma seçeneklerini seçebileceğiniz Çıkar iletişim kutusunu açar.</para>
+>Extract here and delete archive</guimenuitem
+> creates a subfolder in the folder with the archive, extracts the folders and files into it and deletes the archive.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
->Arşivi Buraya Çıkar</guimenuitem
->, arşivin içeriğini aynı klasöre çıkarır.</para>
+>Extract to…</guimenuitem
+> opens the Extract dialog where you can choose the destination folder and various extraction options.</para>
 </listitem>
 </itemizedlist>
 

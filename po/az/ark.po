@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2023-11-18 18:04+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -119,25 +119,28 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr "Burada \"%1\" kimi"
 
-#: app/extractfileitemaction.cpp:63
-#, kde-format
+#: app/extractfileitemaction.cpp:65
+#, fuzzy, kde-format
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "Bu qovluğa çıxartmaq..."
+msgid "Extract to…"
+msgstr "Çıxartmaq"
 
-#: app/extractfileitemaction.cpp:75
-#, kde-format
+#: app/extractfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
-msgstr "Seçilmiş qovluğa çıxartmaq"
+msgid "Extract here"
+msgstr "Buraya çıxartmaq"
 
 #: app/extractfileitemaction.cpp:83
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "Yaradılan qovluğa çıxartmaq"
+msgid "Extract here and delete archive"
+msgstr "Çoxsaylı arxivləri çıxartmaq"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"
@@ -2307,6 +2310,18 @@ msgstr "Obyekti kopyalamaq mümkün olmadı: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Obyektin meta məlumatlarını təyin etmək mümkün olmadı: %1"
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "Bu qovluğa çıxartmaq..."
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "Seçilmiş qovluğa çıxartmaq"
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "Yaradılan qovluğa çıxartmaq"
 
 #~ msgid "Form"
 #~ msgstr "Forma"

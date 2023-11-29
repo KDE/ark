@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2012-06-11 15:59+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -140,28 +140,29 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr ""
 
-#: app/extractfileitemaction.cpp:63
+#: app/extractfileitemaction.cpp:65
 #, fuzzy, kde-format
-#| msgid "Extract To..."
+#| msgctxt "@title:window"
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "ស្រង់ចេញ​​ទៅ..."
+msgid "Extract to…"
+msgstr "ស្រង់​ចេញ"
 
-#: app/extractfileitemaction.cpp:75
+#: app/extractfileitemaction.cpp:77
 #, fuzzy, kde-format
 #| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
+msgid "Extract here"
 msgstr "ស្រង់​ចេញ​នៅ​ទីនេះ"
 
 #: app/extractfileitemaction.cpp:83
 #, fuzzy, kde-format
-#| msgid "&Extraction into subfolder:"
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "ការ​ស្រង់ចេញ​ទៅ​ថត​រង ៖"
+msgid "Extract here and delete archive"
+msgstr "ស្រង់​ប័ណ្ណសារ​ជា​ច្រើន​ចេញ"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Extract"
@@ -2456,6 +2457,24 @@ msgstr ""
 #| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
 msgid "Failed to set metadata for entry: %1"
 msgstr "បាន​បរាជ័យ​ក្នុងការ​កំណត់​ទីតាំង​កម្មវិធី <filename>%2</filename> នៅ​លើ​ថាស ។"
+
+#, fuzzy
+#~| msgid "Extract To..."
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "ស្រង់ចេញ​​ទៅ..."
+
+#, fuzzy
+#~| msgid "Extract here"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "ស្រង់​ចេញ​នៅ​ទីនេះ"
+
+#, fuzzy
+#~| msgid "&Extraction into subfolder:"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "ការ​ស្រង់ចេញ​ទៅ​ថត​រង ៖"
 
 #, fuzzy
 #~| msgid "Open an archive"

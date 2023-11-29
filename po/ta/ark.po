@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2023-07-30 14:44+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -127,25 +127,28 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr "\"%1\" என இங்கேயே"
 
-#: app/extractfileitemaction.cpp:63
-#, kde-format
+#: app/extractfileitemaction.cpp:65
+#, fuzzy, kde-format
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "காப்பகத்தை இவ்வாறு பிரித்தெடு..."
+msgid "Extract to…"
+msgstr "பிரித்தெடு"
 
-#: app/extractfileitemaction.cpp:75
-#, kde-format
+#: app/extractfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
-msgstr "காப்பகத்தை இங்கேயே பிரித்தெடு"
+msgid "Extract here"
+msgstr "இங்கு பிரித்தெடு"
 
 #: app/extractfileitemaction.cpp:83
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "சார் அடைவை தானாக அமைத்து, காப்பகத்தை இங்கேயே பிரித்தெடு"
+msgid "Extract here and delete archive"
+msgstr "பல காப்பகங்களை பிரித்தெடுப்பது"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"
@@ -2299,6 +2302,18 @@ msgstr "பதிவை நகலெடுக்க முடியவில்�
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "பதிவின் மேனிலைத் தரவை (metadata-வை) அமைக்க முடியவில்லை: %1"
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "காப்பகத்தை இவ்வாறு பிரித்தெடு..."
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "காப்பகத்தை இங்கேயே பிரித்தெடு"
+
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "சார் அடைவை தானாக அமைத்து, காப்பகத்தை இங்கேயே பிரித்தெடு"
 
 #~ msgid "Create New Archive..."
 #~ msgstr "புதிய காப்பகத்தை உருவாக்கு..."

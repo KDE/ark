@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2008-03-11 11:41+0200\n"
 "Last-Translator: Petri Jooste <Petri.Jooste@nwu.ac.za>\n"
 "Language-Team: Afrikaans <translate-discuss-af@lists.sourceforge.net>\n"
@@ -123,29 +123,28 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr ""
 
-#: app/extractfileitemaction.cpp:63
-#, fuzzy, kde-format
-#| msgid "E&xtract..."
-msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "Pak &uit..."
-
-#: app/extractfileitemaction.cpp:75
+#: app/extractfileitemaction.cpp:65
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
+msgid "Extract to…"
+msgstr "Pak uit"
+
+#: app/extractfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract here"
 msgstr "Pak uit"
 
 #: app/extractfileitemaction.cpp:83
 #, fuzzy, kde-format
-#| msgid "Extracting one file"
-#| msgid_plural "Extracting %1 files"
+#| msgid "Extracting all files"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "Een lêer word uitgepak"
+msgid "Extract here and delete archive"
+msgstr "Alle lêers word uitgepak"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
@@ -2348,6 +2347,25 @@ msgstr ""
 #| msgid "Could not open the archive '%1' for writing."
 msgid "Failed to set metadata for entry: %1"
 msgstr "Kon nie die argief '%1' oopmaak om daarin te skryf nie."
+
+#, fuzzy
+#~| msgid "E&xtract..."
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "Pak &uit..."
+
+#, fuzzy
+#~| msgid "Extract"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "Pak uit"
+
+#, fuzzy
+#~| msgid "Extracting one file"
+#~| msgid_plural "Extracting %1 files"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "Een lêer word uitgepak"
 
 #, fuzzy
 #~| msgid "Open an archive"

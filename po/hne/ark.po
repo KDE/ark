@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2009-03-01 12:04+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -125,28 +125,28 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr ""
 
-#: app/extractfileitemaction.cpp:63
+#: app/extractfileitemaction.cpp:65
 #, fuzzy, kde-format
-#| msgid "E&xtract..."
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "एक्सट्रेक्ट... (&x)"
+msgid "Extract to…"
+msgstr "निकालें"
 
-#: app/extractfileitemaction.cpp:75
+#: app/extractfileitemaction.cpp:77
 #, fuzzy, kde-format
 #| msgid "Extract here"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
+msgid "Extract here"
 msgstr "इहां निकालव"
 
 #: app/extractfileitemaction.cpp:83
 #, fuzzy, kde-format
-#| msgid "&Extraction into subfolder..."
+#| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
-msgstr "सब-फोल्डर मं निकालव... (&E)"
+msgid "Extract here and delete archive"
+msgstr "बहुत अकन अभिलेख मन ल बाहिर निकाव"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
@@ -2368,6 +2368,24 @@ msgstr ""
 #| msgid "Could not open the archive '%1' for writing."
 msgid "Failed to set metadata for entry: %1"
 msgstr "अभिलेख '%1' ल लिखे बर खोल नइ सकिस."
+
+#, fuzzy
+#~| msgid "E&xtract..."
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "एक्सट्रेक्ट... (&x)"
+
+#, fuzzy
+#~| msgid "Extract here"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "इहां निकालव"
+
+#, fuzzy
+#~| msgid "&Extraction into subfolder..."
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "सब-फोल्डर मं निकालव... (&E)"
 
 #, fuzzy
 #~| msgid "Open an archive"

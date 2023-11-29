@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-25 00:43+0000\n"
+"POT-Creation-Date: 2023-11-29 00:44+0000\n"
 "PO-Revision-Date: 2005-09-23 17:40+0500\n"
 "Last-Translator: Victor Ibragimov <youth_opportunities@tajikngo.org>\n"
 "Language-Team: Tajik\n"
@@ -129,27 +129,27 @@ msgctxt ""
 msgid "Here as \"%1\""
 msgstr ""
 
-#: app/extractfileitemaction.cpp:63
-#, fuzzy, kde-format
-#| msgid "E&xtract..."
-msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive to..."
-msgstr "&Баровардан..."
-
-#: app/extractfileitemaction.cpp:75
+#: app/extractfileitemaction.cpp:65
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here"
+msgid "Extract to…"
+msgstr "Берункунӣ"
+
+#: app/extractfileitemaction.cpp:77
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+msgid "Extract here"
 msgstr "Берункунӣ"
 
 #: app/extractfileitemaction.cpp:83
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract archive here, autodetect subfolder"
+msgid "Extract here and delete archive"
 msgstr "Берункунии файлҳо аз %1"
 
-#: app/extractfileitemaction.cpp:89
+#: app/extractfileitemaction.cpp:90
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
@@ -2371,6 +2371,23 @@ msgstr ""
 #| msgid "Folder to extract to"
 msgid "Failed to set metadata for entry: %1"
 msgstr "Феҳрист берункунӣ ба"
+
+#, fuzzy
+#~| msgid "E&xtract..."
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive to..."
+#~ msgstr "&Баровардан..."
+
+#, fuzzy
+#~| msgid "Extract"
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here"
+#~ msgstr "Берункунӣ"
+
+#, fuzzy
+#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#~ msgid "Extract archive here, autodetect subfolder"
+#~ msgstr "Берункунии файлҳо аз %1"
 
 #, fuzzy
 #~| msgid "Create New Archive"
