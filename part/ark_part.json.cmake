@@ -21,6 +21,7 @@
         "Description[pl]": "Program obsługi archiwów",
         "Description[pt]": "Ferramenta de Tratamento de Pacotes",
         "Description[pt_BR]": "Ferramenta de manipulação de arquivos",
+        "Description[ru]": "Программа для работы с архивами",
         "Description[sl]": "Orodje za upravljanje arhivov",
         "Description[sv]": "Arkivhanteringsverktyg",
         "Description[tr]": "Arşiv İşleme Aracı",
