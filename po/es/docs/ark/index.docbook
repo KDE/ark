@@ -658,20 +658,20 @@
 <listitem>
 <para
 ><guimenuitem
->Extraer archivo comprimido aquí, autodetectar subcarpeta</guimenuitem
-> crea una subcarpeta en la carpeta que contiene el archivo comprimido y extrae las carpetas y archivos en ella.</para>
+>Extraer aquí</guimenuitem
+> crea una subcarpeta en la carpeta que contiene el archivo comprimido y extrae las carpetas y los archivos en ella.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
->Extraer archivo comprimido en...</guimenuitem
+>Extraer aquí y borrar archivo comprimido</guimenuitem
+>, crea una subcarpeta en la carpeta que contiene el archivo comprimido y extrae las carpetas y los archivos en ella, borrando después el archivo comprimido.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Extraer en...</guimenuitem
 > abre un diálogo de extracción en el que podrá escoger la carpeta de destino y varias opciones de extracción.</para>
-</listitem>
-<listitem>
-<para
-><guimenuitem
->Extraer archivo comprimido aquí</guimenuitem
-> extrae el contenido completo del archivo comprimido en la misma carpeta.</para>
 </listitem>
 </itemizedlist>
 

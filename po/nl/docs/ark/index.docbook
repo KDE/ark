@@ -621,31 +621,31 @@
 
 <chapter id="ark-in_filemanager">
 <title
->&ark; in de bestandsbeheerder gebruiken</title>
+>Using &ark; in the Filemanager</title>
 
 <para
->Met de &RMB; op een archief klikken in een bestandsbeheerder zoals &dolphin; toont een contextmenu met een item <guimenuitem
->Uitpakken</guimenuitem
->. Het menu heeft deze extra items om een archief uit te pakken met &ark;: </para>
+>Clicking with the &RMB; on an archive in a filemanager like &dolphin; displays a context menu with an item <guimenuitem
+>Open with Ark</guimenuitem
+>. The menu has these additional items to extract an archive using &ark;: </para>
 
 <itemizedlist>
 <listitem>
 <para
 ><guimenuitem
->Archief hier uitpakken, submap autodetecteren</guimenuitem
-> maakt een submap in de map aan met het archief en pakt de mappen en bestanden erin uit.</para>
+>Extract Archive Here, Autodetect Subfolder</guimenuitem
+> creates a subfolder in the folder with the archive and extracts the folders and files into it.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
->Archief uitpakken naar...</guimenuitem
-> opent de dialoog Uitpakken waar u de doelmap kunt kiezen en verschillende uitpakopties.</para>
+>Extract Archive To...</guimenuitem
+> opens the Extract dialog where you can choose destination folder and various extraction options.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
->Archief hier uitpakken</guimenuitem
-> pakt de inhoud van het archief uit in dezelfde map.</para>
+>Extract Archive Here</guimenuitem
+> extracts the content of the archive into the same folder.</para>
 </listitem>
 </itemizedlist>
 
@@ -658,10 +658,10 @@
 <listitem>
 <para
 ><guimenuitem
->Hier als "Archief.tar.gz"</guimenuitem
-> en <guimenuitem
->Hier als "Archief.zip"</guimenuitem
-> maakt deze typen archief aan in de huidige map.</para>
+>Here (as TAR.GZ)</guimenuitem
+> or <guimenuitem
+>Here (as ZIP)</guimenuitem
+> creates these archive types in the current folder.</para>
 </listitem>
 <listitem>
 <para

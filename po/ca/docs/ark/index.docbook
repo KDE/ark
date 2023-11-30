@@ -631,20 +631,20 @@
 <listitem>
 <para
 ><guimenuitem
->Extreu l'arxiu aquí, detecta automàticament la subcarpeta</guimenuitem
-> crea una subcarpeta a la carpeta amb l'arxiu i hi extreu les carpetes i els arxius.</para>
+>Extreu aquí</guimenuitem
+> crea una subcarpeta a la carpeta amb l'arxiu i hi extreu les carpetes i els fitxers.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
->Extreu l'arxiu a...</guimenuitem
+>Extreu l'arxiu aquí i suprimeix l'arxiu</guimenuitem
+> crea una subcarpeta a la carpeta amb l'arxiu, i hi extreu les carpetes i els fitxers i suprimeix l'arxiu.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Extreu a…</guimenuitem
 > obre el diàleg Extreu on podreu triar la carpeta de destinació i diverses opcions d'extracció.</para>
-</listitem>
-<listitem>
-<para
-><guimenuitem
->Extreu l'arxiu aquí</guimenuitem
-> extreu el contingut de l'arxiu a la mateixa carpeta.</para>
 </listitem>
 </itemizedlist>
 
