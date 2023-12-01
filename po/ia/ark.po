@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 00:44+0000\n"
-"PO-Revision-Date: 2023-11-13 14:52+0100\n"
+"PO-Revision-Date: 2023-11-30 09:38+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -120,25 +120,22 @@ msgid "Here as \"%1\""
 msgstr "Hic  como \"%1\""
 
 #: app/extractfileitemaction.cpp:65
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "Extrahe"
+msgstr "Extrahe a…"
 
 #: app/extractfileitemaction.cpp:77
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Extrahe hic"
 
 #: app/extractfileitemaction.cpp:83
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "Extrahe archivos multiple"
+msgstr "Extrahe hic e dele archivo"
 
 #: app/extractfileitemaction.cpp:90
 #, kde-format
