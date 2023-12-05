@@ -8,13 +8,13 @@
 #
 # Ambalam <tamilpc@ambalam.com>, 2004.
 # root <root@localhost.localdomain>, 2004.
-# Kishore G <kishore96@gmail.com>, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2021, 2022, 2023 Kishore G <kishore96@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 00:44+0000\n"
-"PO-Revision-Date: 2023-07-30 14:44+0530\n"
+"PO-Revision-Date: 2023-12-04 20:57+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -128,25 +128,22 @@ msgid "Here as \"%1\""
 msgstr "\"%1\" என இங்கேயே"
 
 #: app/extractfileitemaction.cpp:65
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "பிரித்தெடு"
+msgstr "வேறிடத்திற்கு பிரித்தெடு…"
 
 #: app/extractfileitemaction.cpp:77
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "இங்கு பிரித்தெடு"
 
 #: app/extractfileitemaction.cpp:83
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "பல காப்பகங்களை பிரித்தெடுப்பது"
+msgstr "இங்கு பிரித்தெடுத்து காப்பகத்தை நீக்கு"
 
 #: app/extractfileitemaction.cpp:90
 #, kde-format
@@ -1606,7 +1603,7 @@ msgstr "பணியை பற்றிய சில விவரங்கள்
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
