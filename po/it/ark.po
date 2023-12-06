@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 00:44+0000\n"
-"PO-Revision-Date: 2023-11-14 11:03+0100\n"
+"PO-Revision-Date: 2023-11-30 13:01+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -125,25 +125,22 @@ msgid "Here as \"%1\""
 msgstr "Qui come «%1»"
 
 #: app/extractfileitemaction.cpp:65
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "Estrazione"
+msgstr "Estrai in…"
 
 #: app/extractfileitemaction.cpp:77
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Estrai qui"
 
 #: app/extractfileitemaction.cpp:83
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "Estrazione archivi multipli"
+msgstr "Estrai qui ed elimina l'archivio"
 
 #: app/extractfileitemaction.cpp:90
 #, kde-format
