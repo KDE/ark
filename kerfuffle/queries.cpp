@@ -11,11 +11,13 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KPasswordDialog>
+#include <KPasswordLineEdit>
 
 #include <QApplication>
 #include <QDir>
 #include <QMessageBox>
 #include <QPointer>
+#include <QPushButton>
 #include <QUrl>
 
 namespace Kerfuffle
@@ -153,6 +155,24 @@ void PasswordNeededQuery::execute()
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
     QPointer<KPasswordDialog> dlg = new KPasswordDialog;
+
+    // Disabling Ok button on dialog open
+    dlg.data()->buttonBox()->button(QDialogButtonBox::Ok)->setEnabled(false);
+
+    auto linePassword =
+        dlg.data()->findChild<KPasswordLineEdit *>(QStringLiteral("passEdit"));
+
+    // If password is non empty, enable submit button
+    QObject::connect(linePassword->lineEdit(), &QLineEdit::textChanged, [=] {
+      if (linePassword->lineEdit()->text().isEmpty())
+        dlg.data()
+            ->buttonBox()
+            ->button(QDialogButtonBox::Ok)
+            ->setEnabled(false);
+      else
+        dlg.data()->buttonBox()->button(QDialogButtonBox::Ok)->setEnabled(true);
+    });
+
     dlg.data()->setPrompt(xi18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password.",
                                  m_data.value(QStringLiteral("archiveFilename")).toString()));
 
