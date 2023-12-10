@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 00:44+0000\n"
-"PO-Revision-Date: 2023-11-25 02:28\n"
+"PO-Revision-Date: 2023-12-09 09:26\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -121,25 +121,22 @@ msgid "Here as \"%1\""
 msgstr "压缩为“%1”到此位置"
 
 #: app/extractfileitemaction.cpp:65
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "解压"
+msgstr "解压到…"
 
 #: app/extractfileitemaction.cpp:77
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
-msgstr "解压到此文件夹"
+msgstr "解压到当前文件夹"
 
 #: app/extractfileitemaction.cpp:83
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "解压多个压缩文件"
+msgstr "解压到当前文件夹并删除压缩文件"
 
 #: app/extractfileitemaction.cpp:90
 #, kde-format
@@ -2242,15 +2239,3 @@ msgstr "无法复制项目：%1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "无法设置项目的元数据：%1"
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive to..."
-#~ msgstr "解压到..."
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive here"
-#~ msgstr "解压到当前文件夹"
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive here, autodetect subfolder"
-#~ msgstr "解压到当前文件夹，自动创建子文件夹"
