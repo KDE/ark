@@ -163,14 +163,15 @@ void PasswordNeededQuery::execute()
         dlg.data()->findChild<KPasswordLineEdit *>(QStringLiteral("passEdit"));
 
     // If password is non empty, enable submit button
-    QObject::connect(linePassword->lineEdit(), &QLineEdit::textChanged, [=] {
-      if (linePassword->lineEdit()->text().isEmpty())
-        dlg.data()
-            ->buttonBox()
-            ->button(QDialogButtonBox::Ok)
-            ->setEnabled(false);
-      else
-        dlg.data()->buttonBox()->button(QDialogButtonBox::Ok)->setEnabled(true);
+    QObject::connect(linePassword->lineEdit(), &QLineEdit::textChanged, linePassword->lineEdit(), [=] {
+        if (linePassword->lineEdit()->text().isEmpty()) {
+            dlg.data()
+                ->buttonBox()
+                ->button(QDialogButtonBox::Ok)
+                ->setEnabled(false);
+        } else {
+            dlg.data()->buttonBox()->button(QDialogButtonBox::Ok)->setEnabled(true);
+        }
     });
 
     dlg.data()->setPrompt(xi18nc("@info", "The archive <filename>%1</filename> is password protected. Please enter the password.",
