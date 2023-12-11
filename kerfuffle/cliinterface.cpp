@@ -821,11 +821,7 @@ bool CliInterface::handleLine(const QString& line)
         //read the percentage
         int pos = line.indexOf(QLatin1Char( '%' ));
         if (pos > 1) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            int percentage = line.midRef(pos - 2, 2).toInt();
-#else
-            int percentage = QStringView(line).mid(pos - 2, 2).toInt();
-#endif
+            const int percentage = QStringView(line).mid(pos - 2, 2).toInt();
             Q_EMIT progress(float(percentage) / 100);
             return true;
         }

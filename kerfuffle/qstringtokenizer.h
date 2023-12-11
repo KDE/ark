@@ -14,12 +14,8 @@
 QT_BEGIN_NAMESPACE
 
 template <typename, typename> class QStringBuilder;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-template <typename> class QVector;
-#else
 template<typename>
 class QList;
-#endif
 
 QT_END_NAMESPACE
 
@@ -148,9 +144,6 @@ namespace Tok {
     template <> struct ViewForImpl<QLatin1String> { using type = QLatin1String; };
     template <> struct ViewForImpl<QChar>         { using type = QChar; };
     template <> struct ViewForImpl<QString>     : ViewForImpl<QStringView> {};
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    template <> struct ViewForImpl<QStringRef>  : ViewForImpl<QStringView> {};
-#endif
     template <> struct ViewForImpl<QLatin1Char> : ViewForImpl<QChar> {};
     template <> struct ViewForImpl<char16_t>    : ViewForImpl<QChar> {};
     template <> struct ViewForImpl<char16_t*>   : ViewForImpl<QStringView> {};

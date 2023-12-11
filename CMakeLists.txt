@@ -30,12 +30,12 @@ ecm_setup_version(${RELEASE_SERVICE_VERSION}
 ecm_setup_version(PROJECT
                   VARIABLE_PREFIX KERFUFFLE)
 
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED
+find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED
     Concurrent
     Core
     Gui
     Widgets)
-find_package(KF${QT_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS Config
+find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS Config
                                                         Crash
                                                         DBusAddons
                                                         DocTools
@@ -48,12 +48,12 @@ find_package(KF${QT_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS Config
                                                         WindowSystem
                                                         IconThemes)
 
-find_package(Qt${QT_MAJOR_VERSION}Test ${QT_MIN_VERSION} CONFIG QUIET)
-set_package_properties(Qt${QT_MAJOR_VERSION}Test PROPERTIES
+find_package(Qt6Test ${QT_MIN_VERSION} CONFIG QUIET)
+set_package_properties(Qt6Test PROPERTIES
     PURPOSE "Required for tests"
     TYPE OPTIONAL)
 
-if(NOT Qt${QT_MAJOR_VERSION}Test_FOUND)
+if(NOT TARGET Qt6::Test)
     set(BUILD_TESTING OFF CACHE BOOL "Build the testing tree.")
 endif()
 

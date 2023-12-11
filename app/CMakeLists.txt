@@ -31,12 +31,12 @@ ecm_add_app_icon(ark_SRCS ICONS ${ICONS_SRCS})
 
 target_link_libraries(ark
     kerfuffle
-    KF${QT_MAJOR_VERSION}::Crash
-    KF${QT_MAJOR_VERSION}::DBusAddons
-    KF${QT_MAJOR_VERSION}::KIOFileWidgets
-    KF${QT_MAJOR_VERSION}::Parts
-    KF${QT_MAJOR_VERSION}::WindowSystem
-    KF${QT_MAJOR_VERSION}::IconThemes)
+    KF6::Crash
+    KF6::DBusAddons
+    KF6::KIOFileWidgets
+    KF6::Parts
+    KF6::WindowSystem
+    KF6::IconThemes)
 
 # we provide our own Info.plist containing a simple "we open anything" instruction.
 if(APPLE)
@@ -83,30 +83,30 @@ set(extracthere_SRCS batchextract.cpp extractHereDndPlugin.cpp ark_debug.cpp)
 
 kcoreaddons_add_plugin(extracthere
     SOURCES ${extracthere_SRCS}
-    INSTALL_NAMESPACE kf${QT_MAJOR_VERSION}/kio_dnd)
+    INSTALL_NAMESPACE kf6/kio_dnd)
 
-target_link_libraries(extracthere kerfuffle KF${QT_MAJOR_VERSION}::KIOWidgets KF${QT_MAJOR_VERSION}::KIOFileWidgets)
+target_link_libraries(extracthere kerfuffle KF6::KIOWidgets KF6::KIOFileWidgets)
 
 # compressfileitemaction plugin
 
 kcoreaddons_add_plugin(compressfileitemaction
     SOURCES compressfileitemaction.cpp
-    INSTALL_NAMESPACE "kf${QT_MAJOR_VERSION}/kfileitemaction")
+    INSTALL_NAMESPACE "kf6/kfileitemaction")
 
 target_link_libraries(compressfileitemaction
     kerfuffle
-    KF${QT_MAJOR_VERSION}::I18n
-    KF${QT_MAJOR_VERSION}::KIOWidgets)
+    KF6::I18n
+    KF6::KIOWidgets)
 
 # extractfileitemaction plugin
 
 kcoreaddons_add_plugin(extractfileitemaction
     SOURCES extractfileitemaction.cpp batchextract.cpp ${CMAKE_CURRENT_BINARY_DIR}/ark_debug.cpp
-    INSTALL_NAMESPACE "kf${QT_MAJOR_VERSION}/kfileitemaction")
+    INSTALL_NAMESPACE "kf6/kfileitemaction")
 
 target_link_libraries(extractfileitemaction
     kerfuffle
-    KF${QT_MAJOR_VERSION}::I18n
-    KF${QT_MAJOR_VERSION}::ConfigGui
-    KF${QT_MAJOR_VERSION}::KIOWidgets
-    KF${QT_MAJOR_VERSION}::KIOFileWidgets)
+    KF6::I18n
+    KF6::ConfigGui
+    KF6::KIOWidgets
+    KF6::KIOFileWidgets)

@@ -247,29 +247,17 @@ bool CliPlugin::tryAddCurFileProperties(const QString &line)
         return false;
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_currentParsedFile->m_origSize = line.midRef(13, 10).toULongLong(&ok);
-#else
     m_currentParsedFile->m_origSize = QStringView(line).mid(13, 10).toULongLong(&ok);
-#endif
     if (!ok) {
         return false;
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_currentParsedFile->m_compressedSize = line.midRef(24, 10).toULongLong(&ok);
-#else
     m_currentParsedFile->m_compressedSize = QStringView(line).mid(24, 10).toULongLong(&ok);
-#endif
     if (!ok) {
         return false;
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_currentParsedFile->m_ratio = line.midRef(35, 5).toDouble(&ok);
-#else
     m_currentParsedFile->m_ratio = QStringView(line).mid(35, 5).toDouble(&ok);
-#endif
     if (!ok) {
         return false;
     }

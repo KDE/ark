@@ -70,19 +70,12 @@ namespace Ark
 static quint32 s_instanceCounter = 1;
 
 Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaData, const QVariantList& args)
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        : KParts::ReadWritePart(parent),
-#else
         : KParts::ReadWritePart(parent, metaData),
-#endif
           m_splitter(nullptr),
           m_busy(false),
           m_jobTracker(nullptr)
 {
     Q_UNUSED(args)
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    setMetaData(metaData);
-#endif
 
     new DndExtractAdaptor(this);
 
@@ -124,9 +117,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
 
     m_messageWidget = new KMessageWidget(parentWidget);
     m_messageWidget->setWordWrap(true);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     m_messageWidget->setPosition(KMessageWidget::Header);
-#endif
     m_messageWidget->hide();
 
     m_commentMsgWidget = new KMessageWidget();
@@ -1751,12 +1742,8 @@ void Part::slotShowContextMenu()
     }
 
     QMenu *popup = static_cast<QMenu *>(factory()->container(QStringLiteral("context_menu"), this));
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    if (KHamburgerMenu * const hamburgerMenu = static_cast<KHamburgerMenu *>(actionCollection()->action(QLatin1String(KStandardAction::name(KStandardAction::HamburgerMenu))))) {
-#else
     if (KHamburgerMenu *const hamburgerMenu =
             static_cast<KHamburgerMenu *>(actionCollection()->action(KStandardAction::name(KStandardAction::HamburgerMenu)))) {
-#endif
         hamburgerMenu->insertIntoMenuBefore(popup, popup->actions().constFirst());
     }
     popup->popup(QCursor::pos());

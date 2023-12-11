@@ -39,22 +39,14 @@ void JobTracker::description(KJob *job, const QString &title, const QPair< QStri
     m_ui->descriptionLabel->show();
 }
 
-#if QT_VERSION_MAJOR == 5
-void JobTracker::infoMessage(KJob *job, const QString &message, const QString & /*rich*/)
-#else
 void JobTracker::infoMessage(KJob *job, const QString &message)
-#endif
 {
     Q_UNUSED(job)
     m_ui->informationLabel->setText(message);
     m_ui->informationLabel->show();
 }
 
-#if QT_VERSION_MAJOR == 5
-void JobTracker::warning(KJob *job, const QString &message, const QString & /*rich*/)
-#else
 void JobTracker::warning(KJob *job, const QString &message)
-#endif
 {
     Q_UNUSED(job)
     m_ui->informationLabel->setText(message);

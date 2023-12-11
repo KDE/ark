@@ -37,13 +37,8 @@ public Q_SLOTS:
 
 protected Q_SLOTS:
     void description(KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2)  override;
-#if QT_VERSION_MAJOR == 5
-    void infoMessage(KJob *job, const QString &plain, const QString &rich) override;
-    void warning(KJob *job, const QString &plain, const QString &rich) override;
-#else
     void infoMessage(KJob *job, const QString &message) override;
     void warning(KJob *job, const QString &message) override;
-#endif
 
     void percent(KJob *job, unsigned long  percent) override;
 

@@ -22,9 +22,6 @@
 #include <KAboutData>
 #include <KCrash>
 #include <KDBusService>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <Kdelibs4ConfigMigrator>
-#endif
 #include <KLocalizedString>
 
 #include <iostream>
@@ -58,13 +55,6 @@ private:
 
 int main(int argc, char **argv)
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    /**
-     * enable high dpi support
-     */
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
-#endif
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts); // Required for the webengine part.
     QApplication application(argc, argv);
 
@@ -72,12 +62,6 @@ int main(int argc, char **argv)
 
     // Debug output can be turned on here:
     //QLoggingCategory::setFilterRules(QStringLiteral("ark.debug = true"));
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    Kdelibs4ConfigMigrator migrate(QStringLiteral("ark"));
-    migrate.setConfigFiles(QStringList() << QStringLiteral("arkrc"));
-    migrate.setUiFiles(QStringList() << QStringLiteral("arkuirc"));
-    migrate.migrate();
-#endif
 
     KLocalizedString::setApplicationDomain("ark");
 

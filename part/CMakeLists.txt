@@ -26,16 +26,7 @@ ki18n_wrap_ui(arkpart
     jobtracker.ui)
 
 
-target_link_libraries(arkpart kerfuffle KF${QT_MAJOR_VERSION}::Parts KF${QT_MAJOR_VERSION}::KIOFileWidgets)
-
-if(QT_MAJOR_VERSION STREQUAL "5")
-    configure_file(
-                ${CMAKE_CURRENT_SOURCE_DIR}/ark_part.desktop.cmake
-                ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop
-    )
-
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ark_part.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR})
-endif()
+target_link_libraries(arkpart kerfuffle KF6::Parts KF6::KIOFileWidgets)
 
 list(POP_BACK SUPPORTED_ARK_MIMETYPES)
 list(JOIN SUPPORTED_ARK_MIMETYPES "\", \"" SUPPORTED_ARK_MIMETYPES_JSON)
@@ -45,4 +36,4 @@ configure_file(
             ${CMAKE_CURRENT_BINARY_DIR}/ark_part.json
 )
 
-install(TARGETS arkpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf${QT_MAJOR_VERSION}/parts)
+install(TARGETS arkpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf6/parts)
