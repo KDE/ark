@@ -73,8 +73,8 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"There was an error while extracting <filename>%1</filename>:<nl/"
-"><message>%2</message><nl/>Any further archive will not be extracted."
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message><nl/>Any further archive will not be extracted."
 msgstr ""
 
 #: app/batchextract.cpp:142
@@ -87,8 +87,8 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"There was an error while extracting <filename>%1</filename>:<nl/"
-"><message>%2</message>"
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message>"
 msgstr ""
 
 #: app/batchextract.cpp:294

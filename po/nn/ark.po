@@ -73,11 +73,11 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"There was an error while extracting <filename>%1</filename>:<nl/"
-"><message>%2</message><nl/>Any further archive will not be extracted."
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message><nl/>Any further archive will not be extracted."
 msgstr ""
-"Det oppstod ein feil ved utpakking av <filename>%1</filename>:<nl/"
-"><message>%2</message><nl/>Vidare arkivinnhald vert ikkje pakka ut."
+"Det oppstod ein feil ved utpakking av <filename>%1</filename>:<nl/><message>"
+"%2</message><nl/>Vidare arkivinnhald vert ikkje pakka ut."
 
 #: app/batchextract.cpp:142
 #, kde-kuit-format
@@ -89,11 +89,11 @@ msgstr "Det oppstod ein feil ved utpakking av <filename>%1</filename>."
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
-"There was an error while extracting <filename>%1</filename>:<nl/"
-"><message>%2</message>"
+"There was an error while extracting <filename>%1</filename>:<nl/><message>"
+"%2</message>"
 msgstr ""
-"Det oppstod ein feil ved utpakking av <filename>%1</filename>:<nl/"
-"><message>%2</message>"
+"Det oppstod ein feil ved utpakking av <filename>%1</filename>:<nl/><message>"
+"%2</message>"
 
 #: app/batchextract.cpp:294
 #, kde-kuit-format

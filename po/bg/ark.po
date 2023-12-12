@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 00:44+0000\n"
-"PO-Revision-Date: 2023-11-13 13:18+0100\n"
+"PO-Revision-Date: 2023-12-11 10:47+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 23.08.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #, kde-format
@@ -123,25 +123,22 @@ msgid "Here as \"%1\""
 msgstr "Тук като \"%1\""
 
 #: app/extractfileitemaction.cpp:65
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "Извличане"
+msgstr "Извличане в…"
 
 #: app/extractfileitemaction.cpp:77
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Извличане тук"
 
 #: app/extractfileitemaction.cpp:83
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "Извличане на множество архиви"
+msgstr "Извличане тук и изтриване на архива"
 
 #: app/extractfileitemaction.cpp:90
 #, kde-format
