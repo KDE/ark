@@ -141,7 +141,7 @@
 </mediaobject>
 
 <para
->Per tal d'usar amb èxit l'&ark;, necessiteu els Frameworks 5 de KDE. La versió 3.1 o superior de la biblioteca «libarchive» és necessària per gestionar la majoria dels tipus d'arxius, incloent-hi els arxius «tar», els «tar» comprimits, els «rpm», els «deb» i els «cab». Per gestionar altres formats de fitxer, calen els programes de línia d'ordres apropiats, com <command
+>Per tal d'usar amb èxit l'&ark;, necessiteu els Frameworks 5 de KDE. La versió 3.1 o superior de la biblioteca «libarchive» és necessària per a gestionar la majoria dels tipus d'arxius, incloent-hi els arxius «tar», els «tar» comprimits, els «rpm», els «deb» i els «cab». Per a gestionar altres formats de fitxer, calen els programes de línia d'ordres apropiats, com <command
 >zipinfo</command
 >, <command
 >unzip</command
@@ -170,7 +170,7 @@
 >Obertura d'arxius</title>
 
 <para
->Per obrir un arxiu a l'&ark;, trieu <guimenuitem
+>Per a obrir un arxiu a l'&ark;, trieu <guimenuitem
 >Obre...</guimenuitem
 > (<keycombo action="simul"
 >&Ctrl;<keycap
@@ -182,7 +182,7 @@
 >dret</mousebutton
 > a un fitxer del &dolphin; i seleccionar <guimenuitem
 >Obre amb l'&ark;</guimenuitem
-> per obrir-lo o seleccionar una acció d'extracció per a aquest fitxer.</para>
+> per a obrir-lo o seleccionar una acció d'extracció per a aquest fitxer.</para>
 
 <para
 >Si heu habilitat el plafó d'informació en el menú <guimenu
@@ -265,7 +265,7 @@
 ></note>
 
 <para
->Per eliminar un comentari d'un arxiu <literal role="extension"
+>Per a eliminar un comentari d'un arxiu <literal role="extension"
 >rar</literal
 > suprimiu el text a la finestra de comentaris.</para>
 
@@ -280,7 +280,7 @@
 <para
 >Un cop s'ha obert un arxiu, es poden realitzar diverses operacions amb els fitxers dins de l'arxiu. Seleccionant un fitxer i utilitzant el menú <guimenu
 >Fitxer</guimenu
->, es poden escollir diferents operacions per realitzar:</para>
+>, es poden escollir diferents operacions per a realitzar:</para>
 
 <itemizedlist>
 <listitem>
@@ -317,7 +317,7 @@
 >/</userinput
 >, <userinput
 >.</userinput
-> i <userinput
+> o <userinput
 >..</userinput
 > en els noms dels fitxers.</para>
 </listitem>
@@ -369,7 +369,7 @@
 >&Alt;<keycap
 >A</keycap
 ></keycombo
->) Aquesta acció es pot utilitzar per afegir fitxers en qualsevol ubicació dins de l'arxiu. Si seleccioneu una carpeta i utilitzeu aquesta acció, els fitxers s'afegiran a la carpeta seleccionada. En cas contrari, els fitxers nous s'afegiran a l'arrel de l'arxiu. </para>
+>) Aquesta acció es pot utilitzar per a afegir fitxers en qualsevol ubicació dins de l'arxiu. Si seleccioneu una carpeta i utilitzeu aquesta acció, els fitxers s'afegiran a la carpeta seleccionada. En cas contrari, els fitxers nous s'afegiran a l'arrel de l'arxiu. </para>
 </listitem>
 </itemizedlist>
 
@@ -395,19 +395,19 @@
 >Extreu</guisubmenu
 > des del menú <guimenu
 >Fitxer</guimenu
->. Això obre un submenú amb carpetes accedides anteriorment, i podeu optar per extreure ràpidament qualsevol d'aquestes. Alternativament, seleccioneu l'element de submenú <guisubmenu
+>. Això obre un submenú amb carpetes accedides anteriorment, i podeu optar per a extreure ràpidament qualsevol d'aquestes. Alternativament, seleccioneu l'element de submenú <guisubmenu
 >Extreu a...</guisubmenu
-> per obrir el diàleg <guilabel
+> per a obrir el diàleg <guilabel
 >Extreu</guilabel
->, on podeu establir diverses opcions que afecten l'extracció. Vegeu a continuació per obtenir informació sobre les opcions disponibles al diàleg Extreu.</para>
+>, on podeu establir diverses opcions que afecten l'extracció. Vegeu a continuació per a obtenir informació sobre les opcions disponibles al diàleg Extreu.</para>
 
 <para
 >També podeu utilitzar el botó <guibutton
 >Extreu</guibutton
-> de la barra d'eines per accedir a les mateixes opcions d'extracció.</para>
+> de la barra d'eines per a accedir a les mateixes opcions d'extracció.</para>
 
 <para
->Per extreure tot l'arxiu, podeu seleccionar <guisubmenu
+>Per a extreure tot l'arxiu, podeu seleccionar <guisubmenu
 >Extreu-ho tot</guisubmenu
 > del menú <guimenu
 >Arxiu</guimenu
@@ -472,7 +472,7 @@
 >Crear arxius i afegir fitxers</title>
 
 <para
->Per crear un arxiu nou a l'&ark;, trieu <guimenuitem
+>Per a crear un arxiu nou a l'&ark;, trieu <guimenuitem
 >Nou</guimenuitem
 > (<keycombo action="simul"
 >&Ctrl;<keycap
@@ -508,7 +508,7 @@
 >.</para>
 
 <para
->Per afegir fitxers o carpetes a l'arxiu nou, trieu <guimenuitem
+>Per a afegir fitxers o carpetes a l'arxiu nou, trieu <guimenuitem
 >Afegeix fitxers...</guimenuitem
 > del menú <guimenu
 >Arxiu</guimenu
@@ -536,9 +536,7 @@
 <para
 >Tingueu en compte que l'ús de mètodes de compressió diferents dels predeterminats preseleccionats poden limitar la compatibilitat amb els arxivadors de fitxers. Per exemple, l'obertura d'arxius <literal role="extension"
 >zip</literal
-> amb mètodes de compressió diferents de <quote
->Desinflat</quote
-> requereix un programari d'arxivament més nou.</para>
+> amb mètodes de compressió diferents de «Desinflat» requereix un programari d'arxivament més nou.</para>
 </sect2>
 
 <sect2 id="ark-password-protection">
@@ -593,7 +591,7 @@
 <para
 >Un arxiu multivolum és un arxiu comprimit gran dividit en diversos fitxers. Aquesta característica és útil si la mida màxima del fitxer és limitada, &pex;, per la capacitat d'un mitjà d'emmagatzematge o la mida màxima d'un correu electrònic amb adjunts.</para>
 <para
->Per crear un arxiu multivolum, activeu la casella de selecció <guilabel
+>Per a crear un arxiu multivolum, activeu la casella de selecció <guilabel
 >Crea un arxiu multivolum</guilabel
 > i establiu la <guilabel
 >Mida del volum</guilabel
@@ -611,7 +609,7 @@
 >xxx.part2.rar </filename
 > &etc;</para>
 <para
->Per extreure un arxiu multivolum, poseu tots els fitxers d'arxiu en una carpeta i obriu el fitxer amb el número d'extensió més baix a l'&ark; i totes les altres parts de l'arxiu dividit s'obriran automàticament.</para>
+>Per a extreure un arxiu multivolum, poseu tots els fitxers d'arxiu en una carpeta i obriu el fitxer amb el número d'extensió més baix a l'&ark; i totes les altres parts de l'arxiu dividit s'obriran automàticament.</para>
 </sect2>
 
 </sect1>
@@ -625,7 +623,7 @@
 <para
 >En fer clic amb el &BDR; sobre un arxiu en un gestor de fitxers com el &dolphin; es mostra un menú contextual amb un element <guimenuitem
 >Extreu</guimenuitem
->. El menú té aquests elements addicionals per extreure un arxiu utilitzant l'&ark;: </para>
+>. El menú té aquests elements addicionals per a extreure un arxiu utilitzant l'&ark;: </para>
 
 <itemizedlist>
 <listitem>
@@ -676,7 +674,7 @@
 <title
 >Mode avançat per lots</title>
 <para
->L'&ark; té un mode avançat per lots per gestionar arxius sense llançar una interfície gràfica d'usuari. Aquest mode permet extreure o crear arxius i afegir-hi fitxers.</para>
+>L'&ark; té un mode avançat per lots per a gestionar arxius sense llançar una interfície gràfica d'usuari. Aquest mode permet extreure o crear arxius i afegir-hi fitxers.</para>
 
 <para
 >El mode per lots està documentat a la pàgina «man» de l'<ulink url="man:/ark"

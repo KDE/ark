@@ -20,14 +20,15 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-29 00:44+0000\n"
-"PO-Revision-Date: 2023-11-29 22:24+0200\n"
+"PO-Revision-Date: 2023-12-12 15:45+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
+"n % 10 == 0) ? 2 : 3));\n"
 "X-Generator: Lokalize 23.08.3\n"
 
 #, kde-format
@@ -633,7 +634,9 @@ msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
 msgid_plural "Could not move the extracted files to the destination directory."
 msgstr[0] "לא ניתן להעביר את הקובץ שחולץ לתיקיית היעד."
-msgstr[1] "לא ניתן להעביר את הקבצים המחולצים לתיקיית היעד."
+msgstr[1] "לא ניתן להעביר את שני הקבצים המחולצים לתיקיית היעד."
+msgstr[2] "לא ניתן להעביר את הקבצים המחולצים לתיקיית היעד."
+msgstr[3] "לא ניתן להעביר את הקבצים המחולצים לתיקיית היעד."
 
 #: kerfuffle/cliinterface.cpp:857
 #, kde-format
@@ -1043,7 +1046,9 @@ msgstr "כל הקבצים מחולצים"
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "קובץ מחולץ"
-msgstr[1] "%1 קבצים מחולצים"
+msgstr[1] "שני קבצים מחולצים"
+msgstr[2] "%1 קבצים מחולצים"
+msgstr[3] "%1 קבצים מחולצים"
 
 #: kerfuffle/jobs.cpp:542
 #, kde-format
@@ -1065,28 +1070,36 @@ msgstr ""
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "קובץ נדחס"
-msgstr[1] "%1 קבצים נדחסים"
+msgstr[1] "שני קבצים נדחסים"
+msgstr[2] "%1 קבצים נדחסים"
+msgstr[3] "%1 קבצים נדחסים"
 
 #: kerfuffle/jobs.cpp:772
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "קובץ מועבר"
-msgstr[1] "%1 קבצים מועברים"
+msgstr[1] "שני קבצים מועברים"
+msgstr[2] "%1 קבצים מועברים"
+msgstr[3] "%1 קבצים מועברים"
 
 #: kerfuffle/jobs.cpp:810
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
-msgstr[0] "מעתיק קובץ אחד"
-msgstr[1] "%1 קבצים מועתקים"
+msgstr[0] "קובץ מועתק"
+msgstr[1] "שני קבצים מועתקים"
+msgstr[2] "%1 קבצים מועתקים"
+msgstr[3] "%1 קבצים מועתקים"
 
 #: kerfuffle/jobs.cpp:842
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "קובץ נמחק מארכיון"
-msgstr[1] "%1 קבצים נמחקים מארכיון"
+msgstr[1] "שני קבצים נמחקים מארכיון"
+msgstr[2] "%1 קבצים נמחקים מארכיון"
+msgstr[3] "%1 קבצים נמחקים מארכיון"
 
 #: kerfuffle/jobs.cpp:866
 #, kde-format
@@ -1155,15 +1168,19 @@ msgstr "כן (%1 כרכים)"
 #, kde-format
 msgid "%1 file"
 msgid_plural "%1 files"
-msgstr[0] "קובץ אחד"
-msgstr[1] "%1 קבצים"
+msgstr[0] "קובץ"
+msgstr[1] "שני קבצים"
+msgstr[2] "%1 קבצים"
+msgstr[3] "%1 קבצים"
 
 #: kerfuffle/propertiesdialog.cpp:52
 #, kde-format
 msgid ", %1 folder"
 msgid_plural ", %1 folders"
-msgstr[0] ", תיקייה אחת"
-msgstr[1] ", %1 תיקיות"
+msgstr[0] ", תיקייה"
+msgstr[1] ", שתי תיקיות"
+msgstr[2] ", %1 תיקיות"
+msgstr[3] ", %1 תיקיות"
 
 #: kerfuffle/propertiesdialog.cpp:66
 #, kde-format
@@ -1528,7 +1545,9 @@ msgstr "גודל לא ידוע"
 msgid "One file selected"
 msgid_plural "%1 files selected"
 msgstr[0] "קובץ נבחר"
-msgstr[1] "%1 קבצים נבחרו"
+msgstr[1] "שני קבצים נבחרו"
+msgstr[2] "%1 קבצים נבחרו"
+msgstr[3] "%1 קבצים נבחרו"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, InformationPanel)
 #: part/infopanel.ui:20
@@ -1964,8 +1983,10 @@ msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
 msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
-msgstr[0] "מחיקת הקובץ הזאת לא בלתי ניתנת לביצוע. להמשיך?"
-msgstr[1] "מחיקת הקבצים האלה לא בלתי ניתנת לביצוע. להמשיך?"
+msgstr[0] "מחיקת הקובץ הזאת בלתי הפיכה. להמשיך?"
+msgstr[1] "מחיקת שני הקבצים האלה בלתי הפיכה. להמשיך?"
+msgstr[2] "מחיקת הקבצים האלה בלתי הפיכה. להמשיך?"
+msgstr[3] "מחיקת שני הקבצים האלה בלתי הפיכה. להמשיך?"
 
 #: part/part.cpp:1676
 #, kde-format
@@ -1973,7 +1994,9 @@ msgctxt "@title:window"
 msgid "Delete File"
 msgid_plural "Delete Files"
 msgstr[0] "מחיקת קובץ"
-msgstr[1] "מחיקת קבצים"
+msgstr[1] "מחיקת שני קבצים"
+msgstr[2] "מחיקת קבצים"
+msgstr[3] "מחיקת קבצים"
 
 #: part/part.cpp:1719
 #, kde-format

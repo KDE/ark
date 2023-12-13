@@ -155,7 +155,7 @@
 <para
 >Si es crida sense les opcions «-b (--batch)» o «-c (-add)», l'&ark; s'inicia com un programa &IGU; normal.</para>
 <para
->Quan s'utilitza l'opció «-b (--batch)», &ark; es pot utilitzar per extreure el contingut d'un o més fitxers directament des de la línia d'ordres, sense llançar la seva &IGU;.</para>
+>Quan s'utilitza l'opció «-b (--batch)», &ark; es pot utilitzar per a extreure el contingut d'un o més fitxers directament des de la línia d'ordres, sense llançar la seva &IGU;.</para>
 <para
 >Quan s'utilitza l'opció «-c (-add)», l'&ark; demana pels fitxers que s'afegiran a un arxiu comprimit nou o ja existent.</para>
 <para
@@ -176,7 +176,7 @@
 ></term>
 <listitem>
 <para
->Mostra un diàleg per especificar les opcions d'una operació per lots o d'afegir.</para>
+>Mostra un diàleg per a especificar les opcions d'una operació per lots o d'afegir.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -207,7 +207,7 @@
 
 <refsect2>
 <title
->Opcions per afegir fitxers</title>
+>Opcions per a afegir fitxers</title>
 <variablelist>
 <varlistentry>
 <term
