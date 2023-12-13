@@ -70,6 +70,7 @@
         "Name[pt]": "'Plugin' do ARJ",
         "Name[pt_BR]": "Plugin ARJ",
         "Name[ru]": "Модуль ARJ",
+        "Name[sk]": "Plugin ARJ",
         "Name[sl]": "Vstavek ARJ",
         "Name[sv]": "ARJ-insticksprogram",
         "Name[ta]": "ARJ செருகுநிரல்",

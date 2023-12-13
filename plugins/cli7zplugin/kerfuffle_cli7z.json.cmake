@@ -86,6 +86,7 @@
         "Name[pt_BR]": "Plugin 7z",
         "Name[ro]": "Extensie 7z",
         "Name[ru]": "Модуль 7z",
+        "Name[sk]": "Plugin 7z",
         "Name[sl]": "Vstavek 7z",
         "Name[sv]": "7z-insticksprogram",
         "Name[ta]": "7z செருகுநிரல்",
