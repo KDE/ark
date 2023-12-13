@@ -42,7 +42,7 @@ ArkViewer::ArkViewer()
     closeAction->setShortcut(Qt::Key_Escape);
 
     setXMLFile(QStringLiteral("ark_viewer.rc"));
-    setupGUI(ToolBar | Save);
+    setupGUI(ToolBar);
 }
 
 ArkViewer::~ArkViewer()
