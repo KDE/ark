@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-29 00:44+0000\n"
+"POT-Creation-Date: 2023-12-14 01:36+0000\n"
 "PO-Revision-Date: 2023-08-19 22:03+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -163,153 +163,153 @@ msgctxt ""
 msgid "Extract here"
 msgstr "استخرج هنا"
 
-#: app/main.cpp:85
+#: app/main.cpp:69
 #, kde-format
 msgid "Ark"
 msgstr "أرك"
 
-#: app/main.cpp:87
+#: app/main.cpp:71
 #, kde-format
 msgid "KDE Archiving tool"
 msgstr "أداة كدى للأرشفة"
 
-#: app/main.cpp:89
+#: app/main.cpp:73
 #, kde-format
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "الحقوق محفوظة 1997-2019(c)، مطورو برنامج أرك "
 
-#: app/main.cpp:96
+#: app/main.cpp:80
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: app/main.cpp:97
+#: app/main.cpp:81
 #, kde-format
 msgid "Maintainer"
 msgstr "المشرف"
 
-#: app/main.cpp:99
+#: app/main.cpp:83
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr "Ragnar Thomsen"
 
-#: app/main.cpp:100
+#: app/main.cpp:84
 #, kde-format
 msgid "Maintainer, KF5 port"
 msgstr "المشرف والنقل إلى KF5"
 
-#: app/main.cpp:102
+#: app/main.cpp:86
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr "Raphael Kubo da Costa"
 
-#: app/main.cpp:103 app/main.cpp:106 app/main.cpp:109
+#: app/main.cpp:87 app/main.cpp:90 app/main.cpp:93
 #, kde-format
 msgid "Former Maintainer"
 msgstr "المشرف السابق"
 
-#: app/main.cpp:105
+#: app/main.cpp:89
 #, kde-format
 msgid "Harald Hvaal"
 msgstr "Harald Hvaal"
 
-#: app/main.cpp:108
+#: app/main.cpp:92
 #, kde-format
 msgid "Henrique Pinto"
 msgstr "Henrique Pinto"
 
-#: app/main.cpp:111
+#: app/main.cpp:95
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr "Helio Chissini de Castro"
 
-#: app/main.cpp:112
+#: app/main.cpp:96
 #, kde-format
 msgid "Former maintainer"
 msgstr "المشرف السابق"
 
-#: app/main.cpp:114
+#: app/main.cpp:98
 #, kde-format
 msgid "Georg Robbers"
 msgstr "Georg Robbers"
 
-#: app/main.cpp:117
+#: app/main.cpp:101
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr "Roberto Selbach Teixeira"
 
-#: app/main.cpp:120
+#: app/main.cpp:104
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr "Francois-Xavier Duranceau"
 
-#: app/main.cpp:123
+#: app/main.cpp:107
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr "Emily Ezust (Corel شركة)"
 
-#: app/main.cpp:126
+#: app/main.cpp:110
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr "Michael Jarrett (Corel شركة)"
 
-#: app/main.cpp:129
+#: app/main.cpp:113
 #, kde-format
 msgid "Robert Palmbos"
 msgstr "Robert Palmbos"
 
-#: app/main.cpp:133
+#: app/main.cpp:117
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr "Vladyslav Batyrenko"
 
-#: app/main.cpp:134
+#: app/main.cpp:118
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr "وظائف تحرير متقدمة"
 
-#: app/main.cpp:137
+#: app/main.cpp:121
 #, kde-format
 msgid "Bryce Corkins"
 msgstr "Bryce Corkins"
 
-#: app/main.cpp:138
+#: app/main.cpp:122
 #, kde-format
 msgid "Icons"
 msgstr "الأيقونات"
 
-#: app/main.cpp:140
+#: app/main.cpp:124
 #, kde-format
 msgid "Liam Smit"
 msgstr "Liam Smit"
 
-#: app/main.cpp:141
+#: app/main.cpp:125
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "أفكار، ومساعدة مع الأيقونات"
 
-#: app/main.cpp:143
+#: app/main.cpp:127
 #, kde-format
 msgid "Andrew Smith"
 msgstr "Andrew Smith"
 
-#: app/main.cpp:144
+#: app/main.cpp:128
 #, kde-format
 msgid "bkisofs code"
 msgstr "bkisofs code"
 
-#: app/main.cpp:154
+#: app/main.cpp:138
 #, kde-format
 msgid "URLs to open."
 msgstr "العناوين لفتحِها"
 
-#: app/main.cpp:157
+#: app/main.cpp:141
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr "اعرض حوار لتحديد خيارات العملية (استخرج/أضف)"
 
-#: app/main.cpp:160
+#: app/main.cpp:144
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
@@ -317,12 +317,12 @@ msgstr ""
 "المجلد المقصد الذي سيفك الضغط إليه. المبدئي هو المسار الحالي إذا لم يحدد."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:164 kerfuffle/ark.kcfg:23
+#: app/main.cpp:148 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "افتح مجلد المقصد بعد الاستخراج."
 
-#: app/main.cpp:167
+#: app/main.cpp:151
 #, kde-format
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
@@ -330,7 +330,7 @@ msgid ""
 msgstr ""
 "اسأل المستخدم عن اسم الأرشيف و أضف الملفات المحددة إليه. اخرج عندما تنتهي."
 
-#: app/main.cpp:170
+#: app/main.cpp:154
 #, kde-format
 msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
@@ -339,7 +339,7 @@ msgstr ""
 "أضف الملفات المحددة إلى 'اسم الملف'. و أنشئ أرشيف إذا لم يكن موجود. اخرج "
 "عندما تنتهي."
 
-#: app/main.cpp:174
+#: app/main.cpp:158
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
@@ -347,7 +347,7 @@ msgid ""
 msgstr ""
 "غيّر الدليل الحالي إلى أول مدخلة و أضف جميع المدخلات الباقية ذات الصلة إليها."
 
-#: app/main.cpp:177
+#: app/main.cpp:161
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
@@ -356,7 +356,7 @@ msgstr ""
 "اختر اسم الملف بشكل تلقائي باللاحقة المختارة (على سبيل المثال rar  أو tar."
 "gz  أو أي نوع مدعوم)"
 
-#: app/main.cpp:181
+#: app/main.cpp:165
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
@@ -365,13 +365,13 @@ msgstr ""
 "استخدم واجهة الدفعات بدلا عن الواجهة المعتادة. هذا الخيار  سيطبق إذا كان "
 "هناك أكثر من عنوان محدد."
 
-#: app/main.cpp:184
+#: app/main.cpp:168
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr "ستوضع معاملات المقصد إلى مسار أول ملف معطى."
 
-#: app/main.cpp:187
+#: app/main.cpp:171
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -381,7 +381,7 @@ msgstr ""
 "ستُقرأ محتويات الأرشيف ، فإذا وجد أنها ليس أرشيف مجلد واحد أو ملف واحد ، "
 "فسينشئ مجلد فرعي باسم الأرشيف."
 
-#: app/main.cpp:190
+#: app/main.cpp:174
 #, kde-format
 msgid "List supported MIME types."
 msgstr "قائمة الأنواع MIME المدعومة."
@@ -396,17 +396,17 @@ msgstr "غير قادر عن إيجاد مكون KPart الخاص بأرك، ا�
 msgid "Sidebar"
 msgstr "الشريط الجانبي"
 
-#: app/mainwindow.cpp:293
+#: app/mainwindow.cpp:289
 #, kde-format
 msgid "Welcome Page"
 msgstr "صفحة الترحيب"
 
-#: app/mainwindow.cpp:295
+#: app/mainwindow.cpp:291
 #, kde-format
 msgid "Show the welcome page"
 msgstr "أظهر صفحة الترحيب"
 
-#: app/mainwindow.cpp:303
+#: app/mainwindow.cpp:299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -417,18 +417,18 @@ msgstr ""
 "هذا يبدل بين <emphasis> شريط القائمة </emphasis> و زر <interface> القائمة "
 "المزدوجة </interface>. كلاهما يحتوي في الغالب على نفس الأوامر وخيارات الضبط."
 
-#: app/mainwindow.cpp:317
+#: app/mainwindow.cpp:313
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "اقفل الشريط الجانبي"
 
-#: app/mainwindow.cpp:382
+#: app/mainwindow.cpp:370
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "افتح أرشيفاً"
 
-#: app/mainwindow.cpp:496
+#: app/mainwindow.cpp:484
 #, kde-format
 msgid "Create New Archive"
 msgstr "أنشئ أرشيفًا"
@@ -647,24 +647,24 @@ msgstr[3] "تعذر نقل الملفات المستخرجة إلى الدليل
 msgstr[4] "تعذر نقل الملفات المستخرجة إلى الدليل الوجهة."
 msgstr[5] "تعذر نقل الملفات المستخرجة إلى الدليل الوجهة."
 
-#: kerfuffle/cliinterface.cpp:857
+#: kerfuffle/cliinterface.cpp:853
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "فشل الاستخراج بسبب أن القرص ممتلئ."
 
-#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:144
+#: kerfuffle/cliinterface.cpp:860 plugins/cliarjplugin/cliplugin.cpp:144
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
 msgstr "فشل الاستخراج: كلمة سر خاطئة."
 
-#: kerfuffle/cliinterface.cpp:898
+#: kerfuffle/cliinterface.cpp:894
 #, kde-format
 msgid "Incorrect password."
 msgstr "كلمة سر خاطئة."
 
-#: kerfuffle/cliinterface.cpp:921
+#: kerfuffle/cliinterface.cpp:917
 #, kde-format
 msgid "Ark does not currently support testing this archive."
 msgstr "لا يدعم أرك حاليًا اختبار هذا الأرشيف."
@@ -1319,13 +1319,13 @@ msgstr "متعدد الأجزاء:"
 msgid "Compression method(s):"
 msgstr "طريقة (طرق) الضغط:"
 
-#: kerfuffle/queries.cpp:73
+#: kerfuffle/queries.cpp:75
 #, kde-format
 msgctxt "@title:window"
 msgid "File Already Exists"
 msgstr "الملفّ موجود فعلًا"
 
-#: kerfuffle/queries.cpp:156
+#: kerfuffle/queries.cpp:177
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1333,12 +1333,12 @@ msgid ""
 "password."
 msgstr "الأرشيف <filename>%1</filename> محمي بكلمة سر. الرجاء إدخال كلمة السر."
 
-#: kerfuffle/queries.cpp:160
+#: kerfuffle/queries.cpp:181
 #, kde-format
 msgid "Incorrect password, please try again."
 msgstr "كلمة سر خاطئة ، الرجاء المحاولة مرة أخرى."
 
-#: kerfuffle/queries.cpp:196
+#: kerfuffle/queries.cpp:217
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1347,35 +1347,35 @@ msgid ""
 msgstr ""
 "الأرشيف الذي تحاول فتحه تالف. <nl/> قد تكون بعض الملفات مفقودة أو تالفة."
 
-#: kerfuffle/queries.cpp:198
+#: kerfuffle/queries.cpp:219
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
 msgstr "أرشيف تالف"
 
-#: kerfuffle/queries.cpp:199
+#: kerfuffle/queries.cpp:220
 #, kde-format
 msgctxt "@action:button"
 msgid "Open as Read-Only"
 msgstr "افتح بوضع القراءة فقط"
 
-#: kerfuffle/queries.cpp:200
+#: kerfuffle/queries.cpp:221
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
 msgstr "لا افتح"
 
-#: kerfuffle/queries.cpp:210
+#: kerfuffle/queries.cpp:231
 #, kde-format
 msgid "Don't ask again."
 msgstr "لا تسأل ثانيةً."
 
-#: kerfuffle/queries.cpp:222
+#: kerfuffle/queries.cpp:243
 #, kde-format
 msgid "Error during extraction"
 msgstr "خطأ أثناء الاستخراج."
 
-#: kerfuffle/queries.cpp:223
+#: kerfuffle/queries.cpp:244
 #, kde-kuit-format
 msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
@@ -1652,81 +1652,81 @@ msgstr ""
 "الملفات ذات المسارات التالية موجودة بالفعل. هل تريد الاستمرار في الكتابة "
 "فوقها؟"
 
-#: part/part.cpp:118
+#: part/part.cpp:111
 #, kde-format
 msgid "Comment"
 msgstr "الملاحظة"
 
-#: part/part.cpp:133
+#: part/part.cpp:124
 #, kde-format
 msgid "Comment has been modified."
 msgstr "عُدلj الملاحظة"
 
-#: part/part.cpp:138
+#: part/part.cpp:129
 #, kde-format
 msgid "Save"
 msgstr "احفظ"
 
-#: part/part.cpp:161
+#: part/part.cpp:152
 #, kde-format
 msgid "Type to search..."
 msgstr "اكتب لتبحث…"
 
-#: part/part.cpp:322
+#: part/part.cpp:313
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "يمكن لأرك استخراج الأرشيفات إلى الوجهات المحلية فقط."
 
-#: part/part.cpp:377
+#: part/part.cpp:368
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "أظهر لوحة المعلومات"
 
-#: part/part.cpp:384
+#: part/part.cpp:375
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "احفظ نسخة ك‍..."
 
-#: part/part.cpp:388
+#: part/part.cpp:379
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "ا&فتح في تطبيق خارجي"
 
-#: part/part.cpp:393
+#: part/part.cpp:384
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "افتح ف&ي..."
 
-#: part/part.cpp:395
+#: part/part.cpp:386
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "انقر لفتح الملف المحدد بتطبيق خارجي"
 
-#: part/part.cpp:399
+#: part/part.cpp:390
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "&عاين"
 
-#: part/part.cpp:401
+#: part/part.cpp:392
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "انقر لمعاينة الملف المحدد"
 
-#: part/part.cpp:406
+#: part/part.cpp:397
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "ا&ستخراج الكل"
 
-#: part/part.cpp:408
+#: part/part.cpp:399
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1735,13 +1735,13 @@ msgstr ""
 "انقر لفتح الحوار استخراج، حيث يمكنك اختيار كيفية استخراج كافة الملفات في "
 "الأرشيف"
 
-#: part/part.cpp:413
+#: part/part.cpp:404
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&استخراج"
 
-#: part/part.cpp:416
+#: part/part.cpp:407
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1749,54 +1749,54 @@ msgid ""
 msgstr ""
 "انقر لفتح حوار استخراج، حيث يمكنك اختيار لاستخراج كل الملفات أو المحددة فقط"
 
-#: part/part.cpp:421
+#: part/part.cpp:412
 #, kde-format
 msgid "Add &Files..."
 msgstr "أ&ضف ملفّات..."
 
-#: part/part.cpp:422 part/part.cpp:485
+#: part/part.cpp:413 part/part.cpp:476
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "انقر لإضافة ملفات إلى الأرشيف"
 
-#: part/part.cpp:429
+#: part/part.cpp:420
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "أزل من الأرشيف"
 
-#: part/part.cpp:439
+#: part/part.cpp:430
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&خصائص"
 
-#: part/part.cpp:441
+#: part/part.cpp:432
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "انقر لرؤية خصائص الأرشيف"
 
-#: part/part.cpp:447
+#: part/part.cpp:438
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "انقر لإضافة أو تحرير ملاحظة"
 
-#: part/part.cpp:452
+#: part/part.cpp:443
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "ا&ختبر السلامة"
 
-#: part/part.cpp:454 part/part.cpp:486
+#: part/part.cpp:445 part/part.cpp:477
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "انقر لاختبار سلامة الأرشيف"
 
-#: part/part.cpp:480
+#: part/part.cpp:471
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1808,7 +1808,7 @@ msgstr ""
 "مدعومة حاليًا. <nl/><nl/>استخراج الملفات وإنشاء أرشيف جديد إذا كنت تريد إضافة "
 "ملفات."
 
-#: part/part.cpp:483
+#: part/part.cpp:474
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1816,74 +1816,74 @@ msgid ""
 "not supported."
 msgstr "اختبار الأرشيفات المحمية بكلمة مرور بدون تشفير الرأس غير مدعوم حاليًا."
 
-#: part/part.cpp:551
+#: part/part.cpp:542
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "&حرر التعليق"
 
-#: part/part.cpp:552 part/part.cpp:560
+#: part/part.cpp:543 part/part.cpp:551
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "أ&ضف تعليقًا"
 
-#: part/part.cpp:661
+#: part/part.cpp:652
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "اجتاز الأرشيف اختبار السلامة"
 
-#: part/part.cpp:661 part/part.cpp:663
+#: part/part.cpp:652 part/part.cpp:654
 #, kde-format
 msgid "Test Results"
 msgstr "نتائج الاختبار"
 
-#: part/part.cpp:663
+#: part/part.cpp:654
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "فشل الأرشيف في اختبار السلامة"
 
-#: part/part.cpp:684
+#: part/part.cpp:675
 #, kde-format
 msgid "Extract To..."
 msgstr "ا&ستخرج إلى..."
 
-#: part/part.cpp:698
+#: part/part.cpp:689
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "استخرج سريع إلى..."
 
-#: part/part.cpp:828
+#: part/part.cpp:819
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "عامّ"
 
-#: part/part.cpp:829
+#: part/part.cpp:820
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "استخلاص"
 
-#: part/part.cpp:830
+#: part/part.cpp:821
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "الملحقات"
 
-#: part/part.cpp:831
+#: part/part.cpp:822
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "المعاينات"
 
-#: part/part.cpp:848
+#: part/part.cpp:839
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> مجلَّد"
 
-#: part/part.cpp:857
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1892,7 +1892,7 @@ msgid ""
 msgstr ""
 "تعذرت الكتابة فوق <filename>%1</filename>. تحقق مما إذا كان لديك إذن الكتابة."
 
-#: part/part.cpp:863
+#: part/part.cpp:854
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1900,13 +1900,13 @@ msgid ""
 "file."
 msgstr "سينشأ الأرشيف <filename>%1</filename> بمجرد إضافة ملف."
 
-#: part/part.cpp:866
+#: part/part.cpp:857
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "تعذر إيجاد الأرشيف <filename>%1</filename>."
 
-#: part/part.cpp:871
+#: part/part.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1914,7 +1914,7 @@ msgid ""
 "possible to read from it."
 msgstr "تعذّر تحميل الأرشيف <filename>%1</filename> ، إذ لم يكن ممكنًا قراءته."
 
-#: part/part.cpp:884
+#: part/part.cpp:875
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1922,25 +1922,25 @@ msgid ""
 "it?"
 msgstr "الأرشيف <filename>%1</filename> موجود. هل تريد فتحه عوضا عن ذلك؟"
 
-#: part/part.cpp:885
+#: part/part.cpp:876
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "الملف موجود"
 
-#: part/part.cpp:922
+#: part/part.cpp:913
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "الأرشيف فارغ أو تعذر على أرك فتح محتواه."
 
-#: part/part.cpp:929
+#: part/part.cpp:920
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "لا يدعم أرك حاليًا ملفات ISO مع نظام ملفات UDF."
 
-#: part/part.cpp:959
+#: part/part.cpp:950
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1950,71 +1950,71 @@ msgstr ""
 "فشل تحميل الأرشيف <filename>%1</filename>، معطياً الخطأ التالي:<nl/><message>"
 "%2</message>"
 
-#: part/part.cpp:1019
+#: part/part.cpp:1010
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "لا يستطيع أرك فتح روابط النظام."
 
-#: part/part.cpp:1147
+#: part/part.cpp:1138
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
 "archive?"
 msgstr "الملف <filename>%1</filename> عُدل. هل تريد تحديثه؟"
 
-#: part/part.cpp:1148
+#: part/part.cpp:1139
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "عُدل الملف"
 
-#: part/part.cpp:1149
+#: part/part.cpp:1140
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "حدّث"
 
-#: part/part.cpp:1150
+#: part/part.cpp:1141
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "تجاهل"
 
-#: part/part.cpp:1431
+#: part/part.cpp:1422
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "أضف ملفات"
 
-#: part/part.cpp:1436
+#: part/part.cpp:1427
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "أضف ملفات إلى %1"
 
-#: part/part.cpp:1500
+#: part/part.cpp:1491
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "لا يمكن أن يحتوي اسم الملف على شرطات ولا يمكن أن يكون مساويًا لـ \".\" أو \".."
 "\""
 
-#: part/part.cpp:1544
+#: part/part.cpp:1535
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "لا يمكن نقل المجلدات إلى نفسها."
 
-#: part/part.cpp:1545
+#: part/part.cpp:1536
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "ينقل مجلد إلى نفسه"
 
-#: part/part.cpp:1573
+#: part/part.cpp:1564
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "لا يمكن لصق إدخالات بنفس الأسماء في نفس المقصد."
 
-#: part/part.cpp:1673
+#: part/part.cpp:1664
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2027,7 +2027,7 @@ msgstr[3] "لا يمكن حذف هذه الملفات ، هل أنت متأكد 
 msgstr[4] "لا يمكن حذف هذه الملفات ، هل أنت متأكد أنك تريد فعل هذا؟"
 msgstr[5] "لا يمكن حذف هذه الملفات ، هل أنت متأكد أنك تريد فعل هذا؟"
 
-#: part/part.cpp:1676
+#: part/part.cpp:1667
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2039,13 +2039,13 @@ msgstr[3] "احذف الملفات"
 msgstr[4] "احذف الملفات"
 msgstr[5] "احذف الملفات"
 
-#: part/part.cpp:1719
+#: part/part.cpp:1710
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "احفظ نسخة ك‍..."
 
-#: part/part.cpp:1734
+#: part/part.cpp:1725
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2054,7 +2054,7 @@ msgid ""
 msgstr ""
 "تعذر حفظ الأرشيف بالاسم <filename>%1</filename>. حاول أن تحفظه في مكان أخر."
 
-#: part/part.cpp:1738
+#: part/part.cpp:1729
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2091,32 +2091,32 @@ msgstr ""
 "فشلت عملية الحذف. حاول ترقية 7z أو تعطيل المكون الإضافي 7z في مربع حوار "
 "الضبط."
 
-#: plugins/cliarjplugin/cliplugin.cpp:332
+#: plugins/cliarjplugin/cliplugin.cpp:320
 #, kde-format
 msgid "ARJ old"
 msgstr "نسق ARJ القديم"
 
-#: plugins/cliarjplugin/cliplugin.cpp:333
+#: plugins/cliarjplugin/cliplugin.cpp:321
 #, kde-format
 msgid "ARJ"
 msgstr "ARJ"
 
-#: plugins/cliarjplugin/cliplugin.cpp:334
+#: plugins/cliarjplugin/cliplugin.cpp:322
 #, kde-format
 msgid "GOST256"
 msgstr "GOST256"
 
-#: plugins/cliarjplugin/cliplugin.cpp:335
+#: plugins/cliarjplugin/cliplugin.cpp:323
 #, kde-format
 msgid "GOST256L"
 msgstr "GOST256L"
 
-#: plugins/cliarjplugin/cliplugin.cpp:336
+#: plugins/cliarjplugin/cliplugin.cpp:324
 #, kde-format
 msgid "GOST 40-bit"
 msgstr "GOST 40-bit"
 
-#: plugins/cliarjplugin/cliplugin.cpp:338
+#: plugins/cliarjplugin/cliplugin.cpp:326
 #, kde-format
 msgid "unknown"
 msgstr "مجهول"

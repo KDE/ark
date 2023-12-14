@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-29 00:44+0000\n"
+"POT-Creation-Date: 2023-12-14 01:36+0000\n"
 "PO-Revision-Date: 2023-11-18 18:04+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -153,147 +153,147 @@ msgctxt ""
 msgid "Extract here"
 msgstr "Buraya çıxartmaq"
 
-#: app/main.cpp:85
+#: app/main.cpp:69
 #, kde-format
 msgid "Ark"
 msgstr "Ark"
 
-#: app/main.cpp:87
+#: app/main.cpp:71
 #, kde-format
 msgid "KDE Archiving tool"
 msgstr "KDE Arxivləmə Aləti"
 
-#: app/main.cpp:89
+#: app/main.cpp:73
 #, kde-format
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) 1997-2019, Ark Tərtibatçıları"
 
-#: app/main.cpp:96
+#: app/main.cpp:80
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: app/main.cpp:97
+#: app/main.cpp:81
 #, kde-format
 msgid "Maintainer"
 msgstr "Himayəçi"
 
-#: app/main.cpp:99
+#: app/main.cpp:83
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr "Ragnar Thomsen"
 
-#: app/main.cpp:100
+#: app/main.cpp:84
 #, kde-format
 msgid "Maintainer, KF5 port"
 msgstr "Himayəçi, KF5 port"
 
-#: app/main.cpp:102
+#: app/main.cpp:86
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr "Raphael Kubo da Costa"
 
-#: app/main.cpp:103 app/main.cpp:106 app/main.cpp:109
+#: app/main.cpp:87 app/main.cpp:90 app/main.cpp:93
 #, kde-format
 msgid "Former Maintainer"
 msgstr "Əvvəlki Himayəçi"
 
-#: app/main.cpp:105
+#: app/main.cpp:89
 #, kde-format
 msgid "Harald Hvaal"
 msgstr "Harald Hvaal"
 
-#: app/main.cpp:108
+#: app/main.cpp:92
 #, kde-format
 msgid "Henrique Pinto"
 msgstr "Henrique Pinto"
 
-#: app/main.cpp:111
+#: app/main.cpp:95
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr "Helio Chissini de Castro"
 
-#: app/main.cpp:112
+#: app/main.cpp:96
 #, kde-format
 msgid "Former maintainer"
 msgstr "Əvvəlki Himayəçi"
 
-#: app/main.cpp:114
+#: app/main.cpp:98
 #, kde-format
 msgid "Georg Robbers"
 msgstr "Georg Robbers"
 
-#: app/main.cpp:117
+#: app/main.cpp:101
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr "Roberto Selbach Teixeira"
 
-#: app/main.cpp:120
+#: app/main.cpp:104
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr "Francois-Xavier Duranceau"
 
-#: app/main.cpp:123
+#: app/main.cpp:107
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr "Emily Ezust (Corel Corporation)"
 
-#: app/main.cpp:126
+#: app/main.cpp:110
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr "Michael Jarrett (Corel Corporation)"
 
-#: app/main.cpp:129
+#: app/main.cpp:113
 #, kde-format
 msgid "Robert Palmbos"
 msgstr "Robert Palmbos"
 
-#: app/main.cpp:133
+#: app/main.cpp:117
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr "Vladyslav Batyrenko"
 
-#: app/main.cpp:134
+#: app/main.cpp:118
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr "Qabaqcıl redaktə funksiyaları"
 
-#: app/main.cpp:137
+#: app/main.cpp:121
 #, kde-format
 msgid "Bryce Corkins"
 msgstr "Bryce Corkins"
 
-#: app/main.cpp:138
+#: app/main.cpp:122
 #, kde-format
 msgid "Icons"
 msgstr "Nişanlar"
 
-#: app/main.cpp:140
+#: app/main.cpp:124
 #, kde-format
 msgid "Liam Smit"
 msgstr "Liam Smit"
 
-#: app/main.cpp:141
+#: app/main.cpp:125
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "İdeyalar, nişanlar üçün kömək"
 
-#: app/main.cpp:143
+#: app/main.cpp:127
 #, kde-format
 msgid "Andrew Smith"
 msgstr "Andrew Smith"
 
-#: app/main.cpp:144
+#: app/main.cpp:128
 #, kde-format
 msgid "bkisofs code"
 msgstr "bkisofs kodu"
 
-#: app/main.cpp:154
+#: app/main.cpp:138
 #, kde-format
 msgid "URLs to open."
 msgstr "Açılacaq URL-lar."
 
-#: app/main.cpp:157
+#: app/main.cpp:141
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
@@ -301,7 +301,7 @@ msgstr ""
 "Əməliyyatın parametrlərini dəqiqləşdirmək üçün dialoqu göstərmək (çıxartmaq/"
 "əlavə etmək)"
 
-#: app/main.cpp:160
+#: app/main.cpp:144
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
@@ -310,12 +310,12 @@ msgstr ""
 "qovluq istifadə olunur."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:164 kerfuffle/ark.kcfg:23
+#: app/main.cpp:148 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "Çıxarıldıqdan sonra təyinat qovluğunu açmaq."
 
-#: app/main.cpp:167
+#: app/main.cpp:151
 #, kde-format
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
@@ -324,7 +324,7 @@ msgstr ""
 "Arxivin adını soruşmaq, ona göstərilmiş faylları əlavə etmək. Bitirdikdən "
 "sonra çıxmaq."
 
-#: app/main.cpp:170
+#: app/main.cpp:154
 #, kde-format
 msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
@@ -333,14 +333,14 @@ msgstr ""
 "Göstərilmiş faylları 'fayl_adı'na əlavə etmək. Əgər mövcud deyilsə arxiv "
 "yaratmaq. Bitirdikdən sonra çıxmaq."
 
-#: app/main.cpp:174
+#: app/main.cpp:158
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
 "to this one."
 msgstr "Hədəf faylının yerləşdiyi qovluğu dəyişdirmək."
 
-#: app/main.cpp:177
+#: app/main.cpp:161
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
@@ -349,7 +349,7 @@ msgstr ""
 "Seçilmiş sonluqla fayl_adını avtomatik seçmək (məs,. rar, tar.gz, zip və ya "
 "başqa dəstəklənən növlər)"
 
-#: app/main.cpp:181
+#: app/main.cpp:165
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
@@ -358,13 +358,13 @@ msgstr ""
 "Dialoq əvəzinə paket rejimini istifadə etmək. Bu seçim birdən artıq url "
 "göstərildiyi halda nəzərdə tutulur."
 
-#: app/main.cpp:184
+#: app/main.cpp:168
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr "Təyina arqumenti ilk verilən sənədin yoluna qurulacaqdır."
 
-#: app/main.cpp:187
+#: app/main.cpp:171
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -374,7 +374,7 @@ msgstr ""
 "Arxivin tərkibi oxunacaq və əgər bir qovluq və ya bir fayl arxivi olmadığı "
 "aşkar edilərsə, arxiv adı ilə bir alt qovluq yaradılacaqdır."
 
-#: app/main.cpp:190
+#: app/main.cpp:174
 #, kde-format
 msgid "List supported MIME types."
 msgstr "Dəstəklənən MİME növlərinin siyahısı."
@@ -391,17 +391,17 @@ msgstr ""
 msgid "Sidebar"
 msgstr "Yan panel"
 
-#: app/mainwindow.cpp:293
+#: app/mainwindow.cpp:289
 #, kde-format
 msgid "Welcome Page"
 msgstr "Salamlama səhifəsi"
 
-#: app/mainwindow.cpp:295
+#: app/mainwindow.cpp:291
 #, kde-format
 msgid "Show the welcome page"
 msgstr "Salamlama səhifəsi göstərilsin"
 
-#: app/mainwindow.cpp:303
+#: app/mainwindow.cpp:299
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -413,18 +413,18 @@ msgstr ""
 "<interface>Qamburger menyu</interface> düymələri arasında seçim edir. Hər "
 "iki variant eyni əmrlər toplusu və tənzimləmə parametrlərindən ibarətdir."
 
-#: app/mainwindow.cpp:317
+#: app/mainwindow.cpp:313
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "Yan paneli kilidləyin"
 
-#: app/mainwindow.cpp:382
+#: app/mainwindow.cpp:370
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Arxivi açın"
 
-#: app/mainwindow.cpp:496
+#: app/mainwindow.cpp:484
 #, kde-format
 msgid "Create New Archive"
 msgstr "Yeni arxiv yaradın"
@@ -644,24 +644,24 @@ msgid_plural "Could not move the extracted files to the destination directory."
 msgstr[0] "Çıxarılan faylı təyinat qovluğuna köçürmək mümkün olmadı."
 msgstr[1] "Çıxarılan faylları təyinat qovluğuna köçürmək mümkün olmadı."
 
-#: kerfuffle/cliinterface.cpp:857
+#: kerfuffle/cliinterface.cpp:853
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "Çıxarmaq mümkün olmadı, çünki disk doludur."
 
-#: kerfuffle/cliinterface.cpp:864 plugins/cliarjplugin/cliplugin.cpp:144
+#: kerfuffle/cliinterface.cpp:860 plugins/cliarjplugin/cliplugin.cpp:144
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
 msgstr "Çıxartmaq mümkün olmadı: Şifrə səhvdir"
 
-#: kerfuffle/cliinterface.cpp:898
+#: kerfuffle/cliinterface.cpp:894
 #, kde-format
 msgid "Incorrect password."
 msgstr "Şifrə səhvdir."
 
-#: kerfuffle/cliinterface.cpp:921
+#: kerfuffle/cliinterface.cpp:917
 #, kde-format
 msgid "Ark does not currently support testing this archive."
 msgstr "Ark hal-hazırda bu arxivin sınaqdan keçirilməsini dəstəkləmir."
@@ -1293,13 +1293,13 @@ msgstr "Çoxsaylı cild:"
 msgid "Compression method(s):"
 msgstr "Sıxma qaydası:"
 
-#: kerfuffle/queries.cpp:73
+#: kerfuffle/queries.cpp:75
 #, kde-format
 msgctxt "@title:window"
 msgid "File Already Exists"
 msgstr "Fayl artıq mövcuddur"
 
-#: kerfuffle/queries.cpp:156
+#: kerfuffle/queries.cpp:177
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1308,12 +1308,12 @@ msgid ""
 msgstr ""
 "<filename>%1</filename> arxivi şifrə ilə qorunur. Lütfən şifrəni daxil edin."
 
-#: kerfuffle/queries.cpp:160
+#: kerfuffle/queries.cpp:181
 #, kde-format
 msgid "Incorrect password, please try again."
 msgstr "Şifrə səhvdir, yenidən cəhd edin."
 
-#: kerfuffle/queries.cpp:196
+#: kerfuffle/queries.cpp:217
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1323,35 +1323,35 @@ msgstr ""
 "Açmaq istədiyiniz arxiv korlanıb.<nl/>Ola bilsin ki, bəzi fayllar çatışmır "
 "və zədələnmişdir."
 
-#: kerfuffle/queries.cpp:198
+#: kerfuffle/queries.cpp:219
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
 msgstr "Korlanmış arxiv"
 
-#: kerfuffle/queries.cpp:199
+#: kerfuffle/queries.cpp:220
 #, kde-format
 msgctxt "@action:button"
 msgid "Open as Read-Only"
 msgstr "Yalnız oxumaq üçün açmaq"
 
-#: kerfuffle/queries.cpp:200
+#: kerfuffle/queries.cpp:221
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
 msgstr "Açmamaq"
 
-#: kerfuffle/queries.cpp:210
+#: kerfuffle/queries.cpp:231
 #, kde-format
 msgid "Don't ask again."
 msgstr "Yenidən soruşmamaq."
 
-#: kerfuffle/queries.cpp:222
+#: kerfuffle/queries.cpp:243
 #, kde-format
 msgid "Error during extraction"
 msgstr "Çıxarılma zamanı xəta"
 
-#: kerfuffle/queries.cpp:223
+#: kerfuffle/queries.cpp:244
 #, kde-kuit-format
 msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
@@ -1624,81 +1624,81 @@ msgstr ""
 "Aşağıdakı yollarla fayllar artıq mövcuddur. Siz onları yenidən yazmaq "
 "istəyirsiniz?"
 
-#: part/part.cpp:118
+#: part/part.cpp:111
 #, kde-format
 msgid "Comment"
 msgstr "Şərh"
 
-#: part/part.cpp:133
+#: part/part.cpp:124
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Şərh dəyişdirilidi."
 
-#: part/part.cpp:138
+#: part/part.cpp:129
 #, kde-format
 msgid "Save"
 msgstr "Saxlayın"
 
-#: part/part.cpp:161
+#: part/part.cpp:152
 #, kde-format
 msgid "Type to search..."
 msgstr "Axtarış sözünü yazın..."
 
-#: part/part.cpp:322
+#: part/part.cpp:313
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark arxivləri yalnız yerli qovluğa çıxara bilər."
 
-#: part/part.cpp:377
+#: part/part.cpp:368
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Məlumat panelini göstərmək"
 
-#: part/part.cpp:384
+#: part/part.cpp:375
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
 msgstr "&Kopyanı belə saxla..."
 
-#: part/part.cpp:388
+#: part/part.cpp:379
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "Xarici tətbiqdə &açın"
 
-#: part/part.cpp:393
+#: part/part.cpp:384
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
 msgstr "Bununla açı&n..."
 
-#: part/part.cpp:395
+#: part/part.cpp:386
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Seçilmiş faylı xarici tətbiqdə açmaq üçün vurun"
 
-#: part/part.cpp:399
+#: part/part.cpp:390
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "Ö&nbaxış"
 
-#: part/part.cpp:401
+#: part/part.cpp:392
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Seçilmiş faylı göstərmək üçün vurun"
 
-#: part/part.cpp:406
+#: part/part.cpp:397
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "Hamısını çı&xartmaq"
 
-#: part/part.cpp:408
+#: part/part.cpp:399
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1707,13 +1707,13 @@ msgstr ""
 "Çıxarma dialoqunu açmaq üçün vurun, burada arxivdəki bütün faylları necə "
 "çıxara biləcəyinizi seçə bilərsiniz"
 
-#: part/part.cpp:413
+#: part/part.cpp:404
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&Çıxartmaq"
 
-#: part/part.cpp:416
+#: part/part.cpp:407
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1722,54 +1722,54 @@ msgstr ""
 "Çıxarma dialoqunu açmaq üçün vurun, burada arxivdəki bütün faylları və ya "
 "hər hansı bir faylı necə çıxara biləcəyinizi seçə bilərsiniz"
 
-#: part/part.cpp:421
+#: part/part.cpp:412
 #, kde-format
 msgid "Add &Files..."
 msgstr "&Fayllar əlavə etmək..."
 
-#: part/part.cpp:422 part/part.cpp:485
+#: part/part.cpp:413 part/part.cpp:476
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Faylları arxivə əlavə etmək üçün vurun"
 
-#: part/part.cpp:429
+#: part/part.cpp:420
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Arxivdən silin"
 
-#: part/part.cpp:439
+#: part/part.cpp:430
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Xüsusiyyətlər"
 
-#: part/part.cpp:441
+#: part/part.cpp:432
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Arxivin xüsusiyyətlərini görmək üçün vurun"
 
-#: part/part.cpp:447
+#: part/part.cpp:438
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Şərhlər əlavə etmək və ya onlara düzəliş üçün vurun"
 
-#: part/part.cpp:452
+#: part/part.cpp:443
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "Bü&tövlüyünü yoxlamaq"
 
-#: part/part.cpp:454 part/part.cpp:486
+#: part/part.cpp:445 part/part.cpp:477
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Srxivin bütövlüyünü yoxlamaq üçün vurun"
 
-#: part/part.cpp:480
+#: part/part.cpp:471
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1781,7 +1781,7 @@ msgstr ""
 "etmək dəstəklənmir.<nl/><nl/>Əgər fayllar əlavə etmək istəyirsinizsə "
 "faylları şıxardın və yeni arxiv yaradın."
 
-#: part/part.cpp:483
+#: part/part.cpp:474
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1791,74 +1791,74 @@ msgstr ""
 "Başlığı şifrələnməmiş, şifrə ilə qorunan arxivlərin test edilməsi hal-"
 "hazırda dəstəklənmir."
 
-#: part/part.cpp:551
+#: part/part.cpp:542
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Şərhə &düzəliş"
 
-#: part/part.cpp:552 part/part.cpp:560
+#: part/part.cpp:543 part/part.cpp:551
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Şərh əlavə e&tmək"
 
-#: part/part.cpp:661
+#: part/part.cpp:652
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "Arxiv bütövlüyün yoxlanılması testindən keçdi."
 
-#: part/part.cpp:661 part/part.cpp:663
+#: part/part.cpp:652 part/part.cpp:654
 #, kde-format
 msgid "Test Results"
 msgstr "Testin nəticələri"
 
-#: part/part.cpp:663
+#: part/part.cpp:654
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "Arxivin bütövlük yoxlaması baş tutmadı."
 
-#: part/part.cpp:684
+#: part/part.cpp:675
 #, kde-format
 msgid "Extract To..."
 msgstr "Buraya çıxartmaq..."
 
-#: part/part.cpp:698
+#: part/part.cpp:689
 #, kde-format
 msgid "Quick Extract To..."
 msgstr "Cəld çıxartma hədəfi..."
 
-#: part/part.cpp:828
+#: part/part.cpp:819
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "Əsas"
 
-#: part/part.cpp:829
+#: part/part.cpp:820
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Çıxarılma"
 
-#: part/part.cpp:830
+#: part/part.cpp:821
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Qoşmalar"
 
-#: part/part.cpp:831
+#: part/part.cpp:822
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Miniatürlər"
 
-#: part/part.cpp:848
+#: part/part.cpp:839
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> qovluqdur."
 
-#: part/part.cpp:857
+#: part/part.cpp:848
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1868,7 +1868,7 @@ msgstr ""
 "<filename>%1</filename> üzərinə yazmaq mümkün olmadı. Bunu yazmağa "
 "imtiyazınızın olmasını yoxlayın."
 
-#: part/part.cpp:863
+#: part/part.cpp:854
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1877,13 +1877,13 @@ msgid ""
 msgstr ""
 "<filename>%1</filename> arxivi, fayl əlavə etdiyinizdə dərhal yaradılacaqdır."
 
-#: part/part.cpp:866
+#: part/part.cpp:857
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "<filename>%1</filename> arxivi tapılmadı."
 
-#: part/part.cpp:871
+#: part/part.cpp:862
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1893,7 +1893,7 @@ msgstr ""
 "<filename>%1</filename> arxivini yükləmək mümkün olmadı, ona görə arxiv "
 "açılmadı."
 
-#: part/part.cpp:884
+#: part/part.cpp:875
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1902,25 +1902,25 @@ msgid ""
 msgstr ""
 "<filename>%1</filename> arxivi artıq mövcuddur. Üzərinə yazmaq istəyirsiniz?"
 
-#: part/part.cpp:885
+#: part/part.cpp:876
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Fayl mövcuddur"
 
-#: part/part.cpp:922
+#: part/part.cpp:913
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Arxiv boşdur və ya Ark onun tərkiblərini aça bilmir."
 
-#: part/part.cpp:929
+#: part/part.cpp:920
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark hal-hazırda UDF fayl sistemli İSO fayllarını dəstəkləmir."
 
-#: part/part.cpp:959
+#: part/part.cpp:950
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1930,12 +1930,12 @@ msgstr ""
 "<filename>%1</filename> arxivinin yüklənməsi aşağıdakı xəta ilə baş tutmadı:"
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:1019
+#: part/part.cpp:1010
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark simvolik keçidləri aça bilmir."
 
-#: part/part.cpp:1147
+#: part/part.cpp:1138
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1943,57 +1943,57 @@ msgid ""
 msgstr ""
 "<filename>%1</filename> faylı dəyişdirildi. Arxivi yeniləmək istəyirsiniz?"
 
-#: part/part.cpp:1148
+#: part/part.cpp:1139
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "Fayl dəyişdirildi"
 
-#: part/part.cpp:1149
+#: part/part.cpp:1140
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Yenilə"
 
-#: part/part.cpp:1150
+#: part/part.cpp:1141
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Ötürün"
 
-#: part/part.cpp:1431
+#: part/part.cpp:1422
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Fayllar əlavə etmək"
 
-#: part/part.cpp:1436
+#: part/part.cpp:1427
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Faylları %1 arxivinə əlavə etmək"
 
-#: part/part.cpp:1500
+#: part/part.cpp:1491
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "Fayl-adı kəsir və \".\" və ya \"..\" işarələrindən ibarət ola bilməz"
 
-#: part/part.cpp:1544
+#: part/part.cpp:1535
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Qovluq öz daxilinə köçürülə bilməz."
 
-#: part/part.cpp:1545
+#: part/part.cpp:1536
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Qovluğu öz daxilinə köçürmək"
 
-#: part/part.cpp:1573
+#: part/part.cpp:1564
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Eyni adlı obyektlər eyni təyinat yerinə yerləşdirilə bilməz."
 
-#: part/part.cpp:1673
+#: part/part.cpp:1664
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2004,7 +2004,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Bu faylların silinməsini ləğv etmək olmaz. Silmək istədiyinizə əminsiniz?"
 
-#: part/part.cpp:1676
+#: part/part.cpp:1667
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2012,13 +2012,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Faylı silmək"
 msgstr[1] "Faylları silmək"
 
-#: part/part.cpp:1719
+#: part/part.cpp:1710
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Kopyanı belə saxla"
 
-#: part/part.cpp:1734
+#: part/part.cpp:1725
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2028,7 +2028,7 @@ msgstr ""
 "Arxiv <filename>%1</filename> kimi saxlanıla bilməz. Başqa yerdə saxlamağa "
 "cəhd edin."
 
-#: part/part.cpp:1738
+#: part/part.cpp:1729
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2067,32 +2067,32 @@ msgstr ""
 "Silinmə baş tutmadı. Tənzimləmə dialoqunda 7z-i ən son versiyaya yeniləməyə "
 "və ya 7z-i söndürməyə cəhd edin."
 
-#: plugins/cliarjplugin/cliplugin.cpp:332
+#: plugins/cliarjplugin/cliplugin.cpp:320
 #, kde-format
 msgid "ARJ old"
 msgstr "Köhnə ARJ"
 
-#: plugins/cliarjplugin/cliplugin.cpp:333
+#: plugins/cliarjplugin/cliplugin.cpp:321
 #, kde-format
 msgid "ARJ"
 msgstr "ARJ"
 
-#: plugins/cliarjplugin/cliplugin.cpp:334
+#: plugins/cliarjplugin/cliplugin.cpp:322
 #, kde-format
 msgid "GOST256"
 msgstr "GOST256"
 
-#: plugins/cliarjplugin/cliplugin.cpp:335
+#: plugins/cliarjplugin/cliplugin.cpp:323
 #, kde-format
 msgid "GOST256L"
 msgstr "GOST256L"
 
-#: plugins/cliarjplugin/cliplugin.cpp:336
+#: plugins/cliarjplugin/cliplugin.cpp:324
 #, kde-format
 msgid "GOST 40-bit"
 msgstr "40 bitlik GOST"
 
-#: plugins/cliarjplugin/cliplugin.cpp:338
+#: plugins/cliarjplugin/cliplugin.cpp:326
 #, kde-format
 msgid "unknown"
 msgstr "naməlum"
