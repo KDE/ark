@@ -660,20 +660,20 @@
 <listitem>
 <para
 ><guimenuitem
->Estrai l'archivio qui, autorileva la sottocartella</guimenuitem
-> crea una sottocartella nella cartella con l'archivio e ci estrae le cartelle e i file.</para>
+>Estrai qui</guimenuitem
+> crea una sottocartella nella cartella con l'archivio, e ci estrae le cartelle e i file.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
->Estrai archivio in...</guimenuitem
-> apre la finestra Estrazione, che ti permette di scegliere la cartella di destinazione, oltre a varie opzioni di estrazione.</para>
+>Estrai qui ed elimina l'archivio</guimenuitem
+> crea una sottocartella nella cartella con l'archivio, estrae le cartelle e i file ed elimina l'archivio.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
->Estrai l'archivio qui</guimenuitem
-> estrae il contenuto dell'archivio nella stessa cartella.</para>
+>Estrai in…</guimenuitem
+> apre la finestra Estrai, dove puoi scegliere la cartella di destinazione e varie opzioni di estrazione.</para>
 </listitem>
 </itemizedlist>
 
