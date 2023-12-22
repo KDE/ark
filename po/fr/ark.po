@@ -1,7 +1,7 @@
 # translation of ark.po to french
 # traduction de ark.po en français
 #
-# SPDX-FileCopyrightText: 2012, 2013, 2020, 2021, 2022, 2023 xavier <xavier.besnard@neuf.fr>
+# SPDX-FileCopyrightText: 2012, 2013, 2020, 2021, 2022, 2023 xavier <xavier.besnard@kde.org>
 # Robert Jacolin <rjacolin@ifrance.com>, 2003, 2004.
 # Gérard Delafond <gerard@delafond.org>, 2003.
 # Matthieu Robin <kde@macolu.org>, 2004, 2005, 2006.
@@ -12,14 +12,14 @@
 # Thomas Vergnaud <thomas.vergnaud@gmx.fr>, 2014, 2015, 2016, 2017, 2018, 2019, 2022.
 # Vincent Pinon <vpinon@kde.org>, 2017.
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019.
-# Xavier BESNARD <xavier.besnard@neuf.fr>, 2023.
+# Xavier Besnard <xavier.besnard@kde.org>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-15 02:26+0000\n"
-"PO-Revision-Date: 2023-09-10 20:13+0200\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
+"PO-Revision-Date: 2023-11-30 09:18+0100\n"
+"Last-Translator: Xavier BESNARD <xavier.besnard@kde.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Xavier Besnard, Jean-Jacques Finazzi, Thomas Vergnaud, Simon Depiets"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
-"xavier.besnard@neuf.fr, mrjay01@users.sourceforge.net, thomas.vergnaud@mailo."
+"xavier.besnard@kde.org, mrjay01@users.sourceforge.net, thomas.vergnaud@mailo."
 "eu, sdepiets@gmail.com"
 
 #. i18n: ectx: Menu (archive)
