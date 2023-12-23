@@ -1,21 +1,21 @@
-# Copyright (C) YEAR This file is copyright:
+# Copyright (C) 2023 This file is copyright:
 # This file is distributed under the same license as the ark package.
 #
-# enolp <enolp@softastur.org>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023 enolp <enolp@softastur.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-14 01:36+0000\n"
-"PO-Revision-Date: 2023-04-27 23:36+0200\n"
+"PO-Revision-Date: 2023-12-19 21:15+0100\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
-"Language-Team: \n"
+"Language-Team: Asturian <alministradores@softastur.org>\n"
 "Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -112,20 +112,16 @@ msgid "Here as \"%1\""
 msgstr "Equí como «%1»"
 
 #: app/extractfileitemaction.cpp:65
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "Estraición"
+msgstr ""
 
 #: app/extractfileitemaction.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
-msgstr "Estraición"
+msgstr ""
 
 #: app/extractfileitemaction.cpp:83
 #, kde-format
@@ -356,7 +352,7 @@ msgstr ""
 #: app/main.cpp:174
 #, kde-format
 msgid "List supported MIME types."
-msgstr "Llista los tipos MIME compatibles."
+msgstr "Llista los tipos MIME sofitaos."
 
 #: app/mainwindow.cpp:169
 #, kde-format
@@ -405,16 +401,14 @@ msgid "Create New Archive"
 msgstr "Creación d'un ficheru"
 
 #: app/welcomeview/welcomeview.cpp:50
-#, fuzzy, kde-format
-#| msgid "Welcome Page"
+#, kde-format
 msgid "Welcome to %1"
-msgstr "Páxina d'acoyida"
+msgstr "Afáyate n'%1"
 
 #: app/welcomeview/welcomeview.cpp:55
-#, fuzzy, kde-format
-#| msgid "Recent Files"
+#, kde-format
 msgid "No recent files"
-msgstr "Ficheros de recién"
+msgstr ""
 
 #: app/welcomeview/welcomeview.cpp:144
 #, kde-format
@@ -471,19 +465,19 @@ msgstr "Ayuda"
 #: app/welcomeview/welcomeview.ui:273
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "Visitar la páxina d'aniciu"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:286
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "Lleer el manual"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:345
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "Amosar nel aniciu"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:400
@@ -717,8 +711,8 @@ msgstr ""
 msgid ""
 "This encryption method may not be supported by older archiving software."
 msgstr ""
-"Ye posible qu'esti métodu de cifráu nun seya compatible con software de "
-"creación d'archivos antiguo."
+"Ye posible qu'esti métodu de cifráu nun tea sofitáu en software de creación "
+"d'archivos antiguo."
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleMultiVolume)
 #: kerfuffle/compressionoptionswidget.ui:183
@@ -947,6 +941,8 @@ msgstr ""
 #, kde-format
 msgid "Extract to a subfolder if the archive has more than one top-level entry"
 msgstr ""
+"Estrayer a una socarpeta si l'archivu tien más d'una entrada de nivel "
+"superior"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/generalsettingspage.ui:17
@@ -1033,6 +1029,8 @@ msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
+"Nun se pudo escribir nel destín <filename>%1</filename>.<nl/>Comprueba si "
+"tienes abondos permisos."
 
 #: kerfuffle/jobs.cpp:719
 #, kde-format
@@ -1398,7 +1396,7 @@ msgstr ""
 #: part/archivemodel.cpp:299
 #, kde-format
 msgid "You can only add local files to an archive."
-msgstr "Namás pues amestar ficheros llocales a los archivos."
+msgstr "A los archivos namás pues amestar ficheros llocales."
 
 #. i18n: ectx: Menu (archive)
 #: part/ark_part.rc:5
@@ -1555,7 +1553,7 @@ msgstr ""
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
@@ -1579,7 +1577,7 @@ msgstr ""
 #: part/part.cpp:124
 #, kde-format
 msgid "Comment has been modified."
-msgstr ""
+msgstr "Modificóse'l comentariu."
 
 #: part/part.cpp:129
 #, kde-format
@@ -2038,8 +2036,8 @@ msgid ""
 "Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
 "Try updating your unrar."
 msgstr ""
-"Unrar informó d'un archivu que nun ye RAR. La versión instalada d'unrar (%1) "
-"ye vieya. Prueba a anovar unrar"
+"Unrar informó d'un archivu que nun ye RAR. La versión instalada "
+"d'«unrar» (%1) ye antigua. Prueba a anovar unrar."
 
 #: plugins/clirarplugin/cliplugin.cpp:550
 #, kde-format
@@ -2065,14 +2063,13 @@ msgstr "La contraseña ye incorreuta."
 #, kde-format
 msgid "Extraction failed due to unsupported compression method (%1)."
 msgstr ""
-"La estraición falló pola mor d'un métodu de compresión que nun ye compatible "
+"La estraición falló pola mor d'un métodu de compresión que nun ta sofitáu "
 "(%1)."
 
 #: plugins/clizipplugin/cliplugin.cpp:183
 #, kde-format
 msgid "Extraction failed due to unsupported encryption method."
-msgstr ""
-"La estraición falló pola mor d'un métodu de cifráu que nun ye compatible."
+msgstr "La estraición falló pola mor d'un métodu de cifráu que nun ta sofitáu."
 
 #: plugins/clizipplugin/cliplugin.cpp:311
 #, kde-format
@@ -2095,7 +2092,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
-msgstr ""
+msgstr "L'archivu ta toyíu o nun tienes abondos permisos."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:209
 #, kde-format
@@ -2117,20 +2114,20 @@ msgstr ""
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:280
 #, kde-format
 msgid "The compression type '%1' is not supported by Ark."
-msgstr "El tipu de compresión «%1» nun ye compatible con Ark"
+msgstr "El tipu de compresión «%1» nun ta sofitáu n'Ark"
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:289
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:361
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression method."
-msgstr ""
+msgstr "Nun se pudo afitar el métodu de la compresión."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:371
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression level."
-msgstr ""
+msgstr "Nun se pudo afitar el nivel de la compresión."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:490
 #, kde-format
