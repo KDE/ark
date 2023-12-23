@@ -5,6 +5,7 @@
         ],
         "Name": "Ark Extract Here",
         "Name[ar]": "أرك استخرج هنا",
+        "Name[ast]": "«Estrayer equí» d'Ark",
         "Name[az]": "Buraya çıxarın",
         "Name[bg]": "Извличане с Ark тук",
         "Name[ca@valencia]": "Extracció d'Ark ací",
