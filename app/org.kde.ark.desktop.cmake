@@ -197,6 +197,7 @@ Comment[ko]=압축 파일로 작업하기
 Comment[lt]=Dirbti su failų archyvais
 Comment[nl]=Mert bestandsarchieven werken
 Comment[nn]=Arbeid med filarkiv
+Comment[pa]=ਫਾਇਲ ਅਕਾਇਵਾਂ ਨਾਲ ਕੰਮ ਕਰੋ
 Comment[pl]=Pracuj z archiwami plików
 Comment[pt]=Lidar com pacotes em ficheiros
 Comment[pt_BR]=Manipulação de arquivos compactados
