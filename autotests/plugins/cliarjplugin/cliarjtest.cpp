@@ -105,10 +105,10 @@ void CliArjTest::testExtractArgs_data()
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("preserve paths, encrypted") << QStringLiteral("/tmp/foo.arj")
-                                               << QVector<Archive::Entry *>{
-                                                    new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
-                                                    new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
-                                               }
+                                               << (QVector<Archive::Entry *>{
+                                                      new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                                                      new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
+                                                  })
                                                << true << QStringLiteral("1234")
                                                << QStringList{
                                                       QStringLiteral("x"),
@@ -121,10 +121,10 @@ void CliArjTest::testExtractArgs_data()
                                                   };
 
     QTest::newRow("preserve paths, unencrypted") << QStringLiteral("/tmp/foo.arj")
-                                                 << QVector<Archive::Entry *>{new Archive::Entry(this,
-                                                                                                 QStringLiteral("aDir/textfile2.txt"),
-                                                                                                 QStringLiteral("aDir")),
-                                                                              new Archive::Entry(this, QStringLiteral("c.txt"), QString()),}
+                                                 << (QVector<Archive::Entry *>{
+                                                        new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                                                        new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
+                                                    })
                                                  << true << QString()
                                                  << QStringList{
                                                         QStringLiteral("x"),
@@ -136,10 +136,10 @@ void CliArjTest::testExtractArgs_data()
                                                     };
 
     QTest::newRow("without paths, encrypted") << QStringLiteral("/tmp/foo.arj")
-                                              << QVector<Archive::Entry *>{new Archive::Entry(this,
-                                                                                              QStringLiteral("aDir/textfile2.txt"),
-                                                                                              QStringLiteral("aDir")),
-                                                                           new Archive::Entry(this, QStringLiteral("c.txt"), QString()),}
+                                              << (QVector<Archive::Entry *>{
+                                                     new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                                                     new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
+                                                 })
                                               << false << QStringLiteral("1234")
                                               << QStringList{
                                                      QStringLiteral("e"),
@@ -150,10 +150,10 @@ void CliArjTest::testExtractArgs_data()
                                                  };
 
     QTest::newRow("without paths, unencrypted") << QStringLiteral("/tmp/foo.arj")
-                                                << QVector<Archive::Entry *>{new Archive::Entry(this,
-                                                                                                QStringLiteral("aDir/textfile2.txt"),
-                                                                                                QStringLiteral("aDir")),
-                                                                             new Archive::Entry(this, QStringLiteral("c.txt"), QString()),}
+                                                << (QVector<Archive::Entry *>{
+                                                       new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
+                                                       new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
+                                                   })
                                                 << false << QString()
                                                 << QStringList{
                                                        QStringLiteral("e"),

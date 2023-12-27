@@ -250,28 +250,36 @@ void JobsTest::testRemoveEntries_data()
     QTest::addColumn<QVector<Archive::Entry *>>("entriesToDelete");
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("c.txt")),}
+                                     << (QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("a.txt")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                                            new Archive::Entry(this, QStringLiteral("c.txt")),
+                                        })
                                      << QVector<Archive::Entry *>{
                                             new Archive::Entry(this, QStringLiteral("c.txt")),
                                         };
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("c.txt")),}
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("c.txt")),};
+                                     << (QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("a.txt")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                                            new Archive::Entry(this, QStringLiteral("c.txt")),
+                                        })
+                                     << QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("a.txt")),
+                                            new Archive::Entry(this, QStringLiteral("c.txt")),
+                                        };
 
     // Error test: if we delete non-existent entries, the archive must not change.
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("c.txt")),}
+                                     << (QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("a.txt")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                                            new Archive::Entry(this, QStringLiteral("c.txt")),
+                                        })
                                      << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("foo.txt"))};
 }
 
@@ -313,44 +321,61 @@ void JobsTest::testAddEntries_data()
     QTest::addColumn<Archive::Entry *>("destinationEntry");
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("c.txt"))}
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("foo.txt")),} << new Archive::Entry(this);
-
-    QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("c.txt")),}
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("foo.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("bar.txt")),}
+                                     << (QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("a.txt")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                                            new Archive::Entry(this, QStringLiteral("c.txt")),
+                                        })
+                                     << (QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("foo.txt")),
+                                        })
                                      << new Archive::Entry(this);
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("c.txt")),}
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("foo.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("bar.txt"))}
+                                     << (QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("a.txt")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                                            new Archive::Entry(this, QStringLiteral("c.txt")),
+                                        })
+                                     << (QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("foo.txt")),
+                                            new Archive::Entry(this, QStringLiteral("bar.txt")),
+                                        })
+                                     << new Archive::Entry(this);
+
+    QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
+                                     << (QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("a.txt")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                                            new Archive::Entry(this, QStringLiteral("c.txt")),
+                                        })
+                                     << (QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("foo.txt")),
+                                            new Archive::Entry(this, QStringLiteral("bar.txt")),
+                                        })
                                      << new Archive::Entry(this, QStringLiteral("aDir/"));
 
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("c.txt")),}
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("c.txt")),}
+                                     << (QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("a.txt")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                                            new Archive::Entry(this, QStringLiteral("c.txt")),
+                                        })
+                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("c.txt"))}
                                      << new Archive::Entry(this, QStringLiteral("aDir/"));
 
     // Error test: if we add an already existent entry, the archive must not change.
     QTest::newRow("archive001.json") << QFINDTESTDATA("data/archive001.json")
-                                     << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/")),
-                                                                  new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
-                                                                  new Archive::Entry(this, QStringLiteral("c.txt")),}
+                                     << (QVector<Archive::Entry *>{
+                                            new Archive::Entry(this, QStringLiteral("a.txt")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/")),
+                                            new Archive::Entry(this, QStringLiteral("aDir/b.txt")),
+                                            new Archive::Entry(this, QStringLiteral("c.txt")),
+                                        })
                                      << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("c.txt"))} << new Archive::Entry(this);
 }
 

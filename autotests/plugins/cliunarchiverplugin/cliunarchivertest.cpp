@@ -227,18 +227,20 @@ void CliUnarchiverTest::testExtraction_data()
 
     QTest::newRow("extract selected entries from a rar, preserve paths")
         << QFINDTESTDATA("data/one_toplevel_folder.rar")
-        << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
-                                     new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))}
+        << (QVector<Archive::Entry *>{
+               new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+               new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")),
+           })
         << defaultOptions << 4;
 
     QTest::newRow("extract selected entries from a rar, drag-and-drop")
         << QFINDTESTDATA("data/one_toplevel_folder.rar")
-        << QVector<Archive::Entry *>{
+        << (QVector<Archive::Entry *>{
                new Archive::Entry(this, QStringLiteral("A/B/C/"), QStringLiteral("A/B/")),
                new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A/")),
                new Archive::Entry(this, QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/")),
                new Archive::Entry(this, QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/")),
-           }
+           })
         << dragAndDropOptions << 4;
 
     QTest::newRow("rar with empty folders") << QFINDTESTDATA("data/empty_folders.rar") << QVector<Archive::Entry *>() << defaultOptions << 5;
