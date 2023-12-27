@@ -23,6 +23,7 @@ include(ECMQtDeclareLoggingCategory)
 include(ECMSetupVersion)
 include(ECMDeprecationSettings)
 include(KDEClangFormat)
+include(KDEGitCommitHooks)
 
 ecm_setup_version(${RELEASE_SERVICE_VERSION}
                   VARIABLE_PREFIX ARK
@@ -111,3 +112,4 @@ feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAG
 # add clang-format target for all our real source files
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h)
 kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
+kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
