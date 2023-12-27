@@ -19,10 +19,9 @@ private Q_SLOTS:
     void slotTriggered();
 
 public:
-    ExtractHereDndPlugin(QObject* parent, const QVariantList&);
+    ExtractHereDndPlugin(QObject *parent, const QVariantList &);
 
-    QList<QAction *> setup(const KFileItemListProperties& popupMenuInfo,
-                                   const QUrl& destination) override;
+    QList<QAction *> setup(const KFileItemListProperties &popupMenuInfo, const QUrl &destination) override;
 
 private:
     QUrl m_dest;

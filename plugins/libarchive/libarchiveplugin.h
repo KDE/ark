@@ -27,19 +27,21 @@ public:
 
     bool list() override;
     bool doKill() override;
-    bool extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options) override;
+    bool extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options) override;
 
-    bool addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd = 0) override;
-    bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) override;
-    bool copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options) override;
-    bool deleteFiles(const QVector<Archive::Entry*> &files) override;
+    bool addFiles(const QVector<Archive::Entry *> &files,
+                  const Archive::Entry *destination,
+                  const CompressionOptions &options,
+                  uint numberOfEntriesToAdd = 0) override;
+    bool moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options) override;
+    bool copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options) override;
+    bool deleteFiles(const QVector<Archive::Entry *> &files) override;
     bool addComment(const QString &comment) override;
     bool testArchive() override;
     bool hasBatchExtractionProgress() const override;
 
 protected:
-    struct ArchiveReadCustomDeleter
-    {
+    struct ArchiveReadCustomDeleter {
         static inline void cleanup(struct archive *a)
         {
             if (a) {
@@ -48,8 +50,7 @@ protected:
         }
     };
 
-    struct ArchiveWriteCustomDeleter
-    {
+    struct ArchiveWriteCustomDeleter {
         static inline void cleanup(struct archive *a)
         {
             if (a) {
@@ -63,8 +64,8 @@ protected:
 
     bool initializeReader();
     void emitEntryFromArchiveEntry(struct archive_entry *entry, bool isRawFormat = false);
-    void copyData(const QString& filename, struct archive *dest, bool partialprogress = true);
-    void copyData(const QString& filename, struct archive *source, struct archive *dest, bool partialprogress = true);
+    void copyData(const QString &filename, struct archive *dest, bool partialprogress = true);
+    void copyData(const QString &filename, struct archive *source, struct archive *dest, bool partialprogress = true);
 
     ArchiveRead m_archiveReader;
     ArchiveRead m_archiveReadDisk;
@@ -83,7 +84,7 @@ private:
     qlonglong m_currentExtractedFilesSize;
     bool m_emitNoEntries;
     qlonglong m_extractedFilesSize;
-    QVector<Archive::Entry*> m_emittedEntries;
+    QVector<Archive::Entry *> m_emittedEntries;
     QString m_oldWorkingDir;
     QStringList m_rawMimetypes;
 };

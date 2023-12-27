@@ -15,7 +15,6 @@
 
 namespace Kerfuffle
 {
-
 class KERFUFFLE_EXPORT Plugin : public QObject
 {
     Q_OBJECT
@@ -53,8 +52,7 @@ class KERFUFFLE_EXPORT Plugin : public QObject
     Q_PROPERTY(KPluginMetaData metaData READ metaData MEMBER m_metaData CONSTANT)
 
 public:
-    explicit Plugin(QObject *parent = nullptr, const KPluginMetaData& metaData = KPluginMetaData());
-
+    explicit Plugin(QObject *parent = nullptr, const KPluginMetaData &metaData = KPluginMetaData());
 
     int priority() const;
     bool isEnabled() const;
@@ -81,7 +79,6 @@ Q_SIGNALS:
     void enabledChanged();
 
 private:
-
     /**
      * @return Whether all the given executables are found in $PATH.
      */

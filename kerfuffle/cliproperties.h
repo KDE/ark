@@ -9,11 +9,9 @@
 #include "archiveinterface.h"
 #include "kerfuffle_export.h"
 
-
 namespace Kerfuffle
 {
-
-class KERFUFFLE_EXPORT CliProperties: public QObject
+class KERFUFFLE_EXPORT CliProperties : public QObject
 {
     Q_OBJECT
 
@@ -36,8 +34,8 @@ class KERFUFFLE_EXPORT CliProperties: public QObject
     Q_PROPERTY(QStringList passwordSwitch MEMBER m_passwordSwitch)
     Q_PROPERTY(QStringList passwordSwitchHeaderEnc MEMBER m_passwordSwitchHeaderEnc)
     Q_PROPERTY(QString compressionLevelSwitch MEMBER m_compressionLevelSwitch)
-    Q_PROPERTY(QHash<QString,QVariant> compressionMethodSwitch MEMBER m_compressionMethodSwitch)
-    Q_PROPERTY(QHash<QString,QVariant> encryptionMethodSwitch MEMBER m_encryptionMethodSwitch)
+    Q_PROPERTY(QHash<QString, QVariant> compressionMethodSwitch MEMBER m_compressionMethodSwitch)
+    Q_PROPERTY(QHash<QString, QVariant> encryptionMethodSwitch MEMBER m_encryptionMethodSwitch)
     Q_PROPERTY(QString multiVolumeSwitch MEMBER m_multiVolumeSwitch)
 
     Q_PROPERTY(QStringList testPassedPatterns MEMBER m_testPassedPatterns)
@@ -60,7 +58,7 @@ public:
                         const QString &encryptionMethod,
                         ulong volumeSize);
     QStringList commentArgs(const QString &archive, const QString &commentfile);
-    QStringList deleteArgs(const QString &archive, const QVector<Archive::Entry*> &files, const QString &password);
+    QStringList deleteArgs(const QString &archive, const QVector<Archive::Entry *> &files, const QString &password);
     QStringList extractArgs(const QString &archive, const QStringList &files, bool preservePaths, const QString &password);
     QStringList listArgs(const QString &archive, const QString &password);
     QStringList moveArgs(const QString &archive, const QVector<Archive::Entry *> &entries, Archive::Entry *destination, const QString &password);
@@ -95,8 +93,8 @@ private:
     QStringList m_passwordSwitch;
     QStringList m_passwordSwitchHeaderEnc;
     QString m_compressionLevelSwitch;
-    QHash<QString,QVariant> m_compressionMethodSwitch;
-    QHash<QString,QVariant> m_encryptionMethodSwitch;
+    QHash<QString, QVariant> m_compressionMethodSwitch;
+    QHash<QString, QVariant> m_encryptionMethodSwitch;
     QString m_multiVolumeSwitch;
 
     QStringList m_testPassedPatterns;

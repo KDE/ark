@@ -16,22 +16,23 @@
 #include <KLocalizedString>
 #include <KPluginFactory>
 
-#include <algorithm>
 #include <KIO/OpenFileManagerWindowJob>
+#include <algorithm>
 
-#include "pluginmanager.h"
 #include "addtoarchive.h"
+#include "pluginmanager.h"
 
 K_PLUGIN_CLASS_WITH_JSON(CompressFileItemAction, "compressfileitemaction.json")
 
 using namespace Kerfuffle;
 
-CompressFileItemAction::CompressFileItemAction(QObject* parent, const QVariantList&)
+CompressFileItemAction::CompressFileItemAction(QObject *parent, const QVariantList &)
     : KAbstractFileItemActionPlugin(parent)
     , m_pluginManager(new PluginManager(this))
-{}
+{
+}
 
-QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& fileItemInfos, QWidget* parentWidget)
+QList<QAction *> CompressFileItemAction::actions(const KFileItemListProperties &fileItemInfos, QWidget *parentWidget)
 {
     // #268163: don't offer compression on already compressed archives, unless the user selected 2 or more of them.
     if (fileItemInfos.items().count() == 1 && m_pluginManager->supportedMimeTypes().contains(fileItemInfos.mimeType())) {
@@ -48,31 +49,20 @@ QList<QAction*> CompressFileItemAction::actions(const KFileItemListProperties& f
         return {};
     }
 
-    QList<QAction*> actions;
+    QList<QAction *> actions;
     const QIcon icon = QIcon::fromTheme(QStringLiteral("archive-insert"));
 
     QMenu *compressMenu = new QMenu(parentWidget);
 
-    compressMenu->addAction(
-        createAction(icon,
-                     parentWidget,
-                     urlList,
-                     QStringLiteral("tar.gz")));
+    compressMenu->addAction(createAction(icon, parentWidget, urlList, QStringLiteral("tar.gz")));
 
     const QMimeType zipMime = QMimeDatabase().mimeTypeForName(QStringLiteral("application/zip"));
     // Don't offer zip compression if no zip plugin is available.
     if (!m_pluginManager->preferredWritePluginsFor(zipMime).isEmpty()) {
-        compressMenu->addAction(
-            createAction(icon,
-                         parentWidget,
-                         urlList,
-                         QStringLiteral("zip")));
+        compressMenu->addAction(createAction(icon, parentWidget, urlList, QStringLiteral("zip")));
     }
 
-    compressMenu->addAction(createAction(icon,
-                                         parentWidget,
-                                         urlList,
-                                         QString()));
+    compressMenu->addAction(createAction(icon, parentWidget, urlList, QString()));
 
     QAction *compressMenuAction = new QAction(i18nc("@action:inmenu Compress submenu in Dolphin context menu", "Compress"), parentWidget);
     compressMenuAction->setMenu(compressMenu);
@@ -116,7 +106,7 @@ QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent
             }
         }
         addToArchiveJob->start();
-        connect(addToArchiveJob, &KJob::finished, this, [this, addToArchiveJob](){
+        connect(addToArchiveJob, &KJob::finished, this, [this, addToArchiveJob]() {
             if (addToArchiveJob->error() == 0) {
                 KIO::highlightInFileManager({QUrl::fromLocalFile(addToArchiveJob->fileName())});
             } else if (!addToArchiveJob->errorString().isEmpty()) {

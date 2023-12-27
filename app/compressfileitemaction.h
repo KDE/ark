@@ -14,7 +14,6 @@
 class QAction;
 class QWidget;
 
-
 namespace Kerfuffle
 {
 class PluginManager;
@@ -22,13 +21,12 @@ class PluginManager;
 
 class CompressFileItemAction : public KAbstractFileItemActionPlugin
 {
-
-Q_OBJECT
+    Q_OBJECT
 
 public:
-    CompressFileItemAction(QObject* parent, const QVariantList& args);
+    CompressFileItemAction(QObject *parent, const QVariantList &args);
 
-    QList<QAction*> actions(const KFileItemListProperties& fileItemInfos, QWidget* parentWidget) override;
+    QList<QAction *> actions(const KFileItemListProperties &fileItemInfos, QWidget *parentWidget) override;
 
 private:
     QAction *createAction(const QIcon &icon, QWidget *parent, const QList<QUrl> &urls, const QString &fileExtension);

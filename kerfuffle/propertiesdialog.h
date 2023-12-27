@@ -16,7 +16,6 @@ class QLabel;
 
 namespace Kerfuffle
 {
-
 class Archive;
 
 class KERFUFFLE_EXPORT PropertiesDialog : public QDialog

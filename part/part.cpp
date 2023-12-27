@@ -8,26 +8,26 @@
 */
 
 #include "part.h"
-#include "ark_debug.h"
 #include "adddialog.h"
-#include "overwritedialog.h"
 #include "archiveformat.h"
 #include "archivemodel.h"
 #include "archivesortfiltermodel.h"
 #include "archiveview.h"
+#include "ark_debug.h"
 #include "arkviewer.h"
 #include "dnddbusinterfaceadaptor.h"
-#include "infopanel.h"
-#include "jobtracker.h"
-#include "generalsettingspage.h"
 #include "extractiondialog.h"
 #include "extractionsettingspage.h"
+#include "generalsettingspage.h"
+#include "infopanel.h"
 #include "jobs.h"
-#include "settings.h"
+#include "jobtracker.h"
+#include "overwritedialog.h"
+#include "pluginmanager.h"
+#include "pluginsettingspage.h"
 #include "previewsettingspage.h"
 #include "propertiesdialog.h"
-#include "pluginsettingspage.h"
-#include "pluginmanager.h"
+#include "settings.h"
 
 #include <KActionCollection>
 #include <KConfigGroup>
@@ -51,31 +51,30 @@
 
 #include <QAction>
 #include <QCursor>
-#include <QHeaderView>
-#include <QMenu>
-#include <QStatusBar>
-#include <QPointer>
-#include <QSplitter>
 #include <QFileDialog>
-#include <QIcon>
 #include <QFileSystemWatcher>
 #include <QGroupBox>
-#include <QPlainTextEdit>
-#include <QPushButton>
+#include <QHeaderView>
+#include <QIcon>
 #include <QLineEdit>
+#include <QMenu>
+#include <QPlainTextEdit>
+#include <QPointer>
+#include <QPushButton>
+#include <QSplitter>
+#include <QStatusBar>
 
 using namespace Kerfuffle;
 
 namespace Ark
 {
-
 static quint32 s_instanceCounter = 1;
 
-Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaData, const QVariantList& args)
-        : KParts::ReadWritePart(parent, metaData),
-          m_splitter(nullptr),
-          m_busy(false),
-          m_jobTracker(nullptr)
+Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaData, const QVariantList &args)
+    : KParts::ReadWritePart(parent, metaData)
+    , m_splitter(nullptr)
+    , m_busy(false)
+    , m_jobTracker(nullptr)
 {
     Q_UNUSED(args)
 
@@ -162,7 +161,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
     connect(m_searchLineEdit, &QLineEdit::textChanged, this, &Part::searchEdited);
 
     // Configure the QVBoxLayout and add widgets
-    m_vlayout->setContentsMargins(0,0,0,0);
+    m_vlayout->setContentsMargins(0, 0, 0, 0);
     m_vlayout->addWidget(m_messageWidget);
     m_vlayout->addWidget(m_splitter);
 
@@ -187,30 +186,19 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
     setupView();
     setupActions();
 
-    connect(m_view, &ArchiveView::entryChanged,
-            this, &Part::slotRenameFile);
+    connect(m_view, &ArchiveView::entryChanged, this, &Part::slotRenameFile);
 
-    connect(m_model, &ArchiveModel::loadingStarted,
-            this, &Part::slotLoadingStarted);
-    connect(m_model, &ArchiveModel::loadingFinished,
-            this, &Part::slotLoadingFinished);
-    connect(m_model, &ArchiveModel::droppedFiles,
-            this, &Part::slotDroppedFiles);
-    connect(m_model, &ArchiveModel::error,
-            this, &Part::slotError);
-    connect(m_model, &ArchiveModel::messageWidget,
-            this, &Part::displayMsgWidget);
+    connect(m_model, &ArchiveModel::loadingStarted, this, &Part::slotLoadingStarted);
+    connect(m_model, &ArchiveModel::loadingFinished, this, &Part::slotLoadingFinished);
+    connect(m_model, &ArchiveModel::droppedFiles, this, &Part::slotDroppedFiles);
+    connect(m_model, &ArchiveModel::error, this, &Part::slotError);
+    connect(m_model, &ArchiveModel::messageWidget, this, &Part::displayMsgWidget);
 
-    connect(this, &Part::busy,
-            this, &Part::setBusyGui);
-    connect(this, &Part::ready,
-            this, &Part::setReadyGui);
-    connect(this, &KParts::ReadOnlyPart::urlChanged,
-            this, &Part::setFileNameFromArchive);
-    connect(this, QOverload<>::of(&KParts::ReadOnlyPart::completed),
-            this, &Part::setFileNameFromArchive);
-    connect(this, QOverload<>::of(&KParts::ReadOnlyPart::completed),
-            this, &Part::slotCompleted);
+    connect(this, &Part::busy, this, &Part::setBusyGui);
+    connect(this, &Part::ready, this, &Part::setReadyGui);
+    connect(this, &KParts::ReadOnlyPart::urlChanged, this, &Part::setFileNameFromArchive);
+    connect(this, QOverload<>::of(&KParts::ReadOnlyPart::completed), this, &Part::setFileNameFromArchive);
+    connect(this, QOverload<>::of(&KParts::ReadOnlyPart::completed), this, &Part::slotCompleted);
     connect(ArkSettings::self(), &KCoreConfigSkeleton::configChanged, this, &Part::updateActions);
 
     m_statusBarExtension = new KParts::StatusBarExtension(this);
@@ -260,7 +248,7 @@ void Part::slotCommentChanged()
     }
 }
 
-void Part::registerJob(KJob* job)
+void Part::registerJob(KJob *job)
 {
     if (!m_jobTracker) {
         m_jobTracker = new JobTracker(widget());
@@ -278,7 +266,7 @@ void Part::registerJob(KJob* job)
 // TODO: KIO::mostLocalHere is used here to resolve some KIO URLs to local
 // paths (e.g. desktop:/), but more work is needed to support extraction
 // to non-local destinations. See bugs #189322 and #204323.
-void Part::extractSelectedFilesTo(const QString& localPath)
+void Part::extractSelectedFilesTo(const QString &localPath)
 {
     if (!m_model) {
         return;
@@ -343,10 +331,8 @@ void Part::setupView()
     m_filterModel->setFilterKeyColumn(0);
     m_filterModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
-    connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged,
-            this, &Part::updateActions);
-    connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged,
-            this, &Part::selectionChanged);
+    connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &Part::updateActions);
+    connect(m_view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &Part::selectionChanged);
 
     connect(m_view, &QTreeView::activated, this, &Part::slotActivated);
 
@@ -359,8 +345,7 @@ void Part::slotActivated(const QModelIndex &index)
 
     // The activated signal is emitted when items are selected with the mouse,
     // so do nothing if CTRL or SHIFT key is pressed.
-    if (QGuiApplication::keyboardModifiers() != Qt::ShiftModifier &&
-        QGuiApplication::keyboardModifiers() != Qt::ControlModifier) {
+    if (QGuiApplication::keyboardModifiers() != Qt::ShiftModifier && QGuiApplication::keyboardModifiers() != Qt::ControlModifier) {
         ArkSettings::defaultOpenAction() == ArkSettings::EnumDefaultOpenAction::Preview ? slotOpenEntry(Preview) : slotOpenEntry(OpenFile);
     }
 }
@@ -368,10 +353,9 @@ void Part::slotActivated(const QModelIndex &index)
 void Part::setupActions()
 {
     m_showInfoPanelAction = new KToggleAction(i18nc("@action:inmenu", "Show Information Panel"), this);
-    actionCollection()->addAction(QStringLiteral( "show-infopanel" ), m_showInfoPanelAction);
+    actionCollection()->addAction(QStringLiteral("show-infopanel"), m_showInfoPanelAction);
     m_showInfoPanelAction->setChecked(ArkSettings::showInfoPanel());
-    connect(m_showInfoPanelAction, &QAction::triggered,
-            this, &Part::slotToggleInfoPanel);
+    connect(m_showInfoPanelAction, &QAction::triggered, this, &Part::slotToggleInfoPanel);
 
     m_saveAsAction = KStandardAction::saveAs(this, &Part::slotSaveAs, this);
     m_saveAsAction->setText(i18nc("@action:inmenu", "Save Copy As..."));
@@ -380,20 +364,26 @@ void Part::setupActions()
     m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
     m_openFileAction->setText(i18nc("open a file with external program", "&Open in External Application"));
     m_openFileAction->setIcon(QIcon::fromTheme(QStringLiteral("document-export")));
-    connect(m_openFileAction, &QAction::triggered, this, [this]() { slotOpenEntry(OpenFile); });
+    connect(m_openFileAction, &QAction::triggered, this, [this]() {
+        slotOpenEntry(OpenFile);
+    });
 
     m_openFileWithAction = actionCollection()->addAction(QStringLiteral("openfilewith"));
     m_openFileWithAction->setText(i18nc("open a file with external program", "Open &With..."));
     m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-export")));
     m_openFileWithAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with an external program"));
-    connect(m_openFileWithAction, &QAction::triggered, this, [this]() { slotOpenEntry(OpenFileWith); });
+    connect(m_openFileWithAction, &QAction::triggered, this, [this]() {
+        slotOpenEntry(OpenFileWith);
+    });
 
     m_previewAction = actionCollection()->addAction(QStringLiteral("preview"));
     m_previewAction->setText(i18nc("to preview a file inside an archive", "Pre&view"));
     m_previewAction->setIcon(QIcon::fromTheme(QStringLiteral("document-preview-archive")));
     m_previewAction->setToolTip(i18nc("@info:tooltip", "Click to preview the selected file"));
     actionCollection()->setDefaultShortcut(m_previewAction, Qt::CTRL | Qt::Key_P);
-    connect(m_previewAction, &QAction::triggered, this, [this]() { slotOpenEntry(Preview); });
+    connect(m_previewAction, &QAction::triggered, this, [this]() {
+        slotOpenEntry(Preview);
+    });
 
     m_extractArchiveAction = actionCollection()->addAction(QStringLiteral("extract_all"));
     m_extractArchiveAction->setText(i18nc("@action:inmenu", "E&xtract All"));
@@ -464,16 +454,14 @@ void Part::updateActions()
     // unknown (this happens when opening existing non-he password-protected
     // archives). If we added files they would not get encrypted resulting in an
     // archive with a mixture of encrypted and unencrypted files.
-    const bool isEncryptedButUnknownPassword = m_model->archive() &&
-                                               m_model->archive()->encryptionType() != Archive::Unencrypted &&
-                                               m_model->archive()->password().isEmpty();
+    const bool isEncryptedButUnknownPassword =
+        m_model->archive() && m_model->archive()->encryptionType() != Archive::Unencrypted && m_model->archive()->password().isEmpty();
 
     if (isEncryptedButUnknownPassword) {
         m_addFilesAction->setToolTip(xi18nc("@info:tooltip",
                                             "Adding files to existing password-protected archives with no header-encryption is currently not supported."
                                             "<nl/><nl/>Extract the files and create a new archive if you want to add files."));
-        m_testArchiveAction->setToolTip(xi18nc("@info:tooltip",
-                                               "Testing password-protected archives with no header-encryption is currently not supported."));
+        m_testArchiveAction->setToolTip(xi18nc("@info:tooltip", "Testing password-protected archives with no header-encryption is currently not supported."));
     } else {
         m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
         m_testArchiveAction->setToolTip(i18nc("@info:tooltip", "Click to test the archive for integrity"));
@@ -485,49 +473,23 @@ void Part::updateActions()
     bool isPreviewable = (!limit || (limit && entry != nullptr && entry->property("size").toLongLong() < maxPreviewSize));
 
     const bool isDir = (entry == nullptr) ? false : entry->isDir();
-    m_previewAction->setEnabled(!isBusy() &&
-                                isPreviewable &&
-                                !isDir &&
-                                (selectedEntriesCount == 1));
-    m_extractArchiveAction->setEnabled(!isBusy() &&
-                                       (m_model->rowCount() > 0));
-    m_extractAction->setEnabled(!isBusy() &&
-                                (m_model->rowCount() > 0));
-    m_saveAsAction->setEnabled(!isBusy() &&
-                               m_model->rowCount() > 0);
-    m_addFilesAction->setEnabled(!isBusy() &&
-                                 isWritable &&
-                                 !isEncryptedButUnknownPassword);
-    m_deleteFilesAction->setEnabled(!isBusy() &&
-                                    isWritable &&
-                                    (selectedEntriesCount > 0));
-    m_openFileAction->setEnabled(!isBusy() &&
-                                 isPreviewable &&
-                                 !isDir &&
-                                 (selectedEntriesCount == 1));
-    m_openFileWithAction->setEnabled(!isBusy() &&
-                                     isPreviewable &&
-                                     !isDir &&
-                                     (selectedEntriesCount == 1));
-    m_propertiesAction->setEnabled(!isBusy() &&
-                                   m_model->archive());
+    m_previewAction->setEnabled(!isBusy() && isPreviewable && !isDir && (selectedEntriesCount == 1));
+    m_extractArchiveAction->setEnabled(!isBusy() && (m_model->rowCount() > 0));
+    m_extractAction->setEnabled(!isBusy() && (m_model->rowCount() > 0));
+    m_saveAsAction->setEnabled(!isBusy() && m_model->rowCount() > 0);
+    m_addFilesAction->setEnabled(!isBusy() && isWritable && !isEncryptedButUnknownPassword);
+    m_deleteFilesAction->setEnabled(!isBusy() && isWritable && (selectedEntriesCount > 0));
+    m_openFileAction->setEnabled(!isBusy() && isPreviewable && !isDir && (selectedEntriesCount == 1));
+    m_openFileWithAction->setEnabled(!isBusy() && isPreviewable && !isDir && (selectedEntriesCount == 1));
+    m_propertiesAction->setEnabled(!isBusy() && m_model->archive());
 
-    m_renameFileAction->setEnabled(!isBusy() &&
-                                   isWritable &&
-                                   (selectedEntriesCount == 1));
-    m_cutFilesAction->setEnabled(!isBusy() &&
-                                 isWritable &&
-                                 (selectedEntriesCount > 0));
-    m_copyFilesAction->setEnabled(!isBusy() &&
-                                  isWritable &&
-                                  (selectedEntriesCount > 0));
-    m_pasteFilesAction->setEnabled(!isBusy() &&
-                                   isWritable &&
-                                   (selectedEntriesCount == 0 || (selectedEntriesCount == 1 && isDir)) &&
-                                   (m_model->filesToMove.count() > 0 || m_model->filesToCopy.count() > 0));
+    m_renameFileAction->setEnabled(!isBusy() && isWritable && (selectedEntriesCount == 1));
+    m_cutFilesAction->setEnabled(!isBusy() && isWritable && (selectedEntriesCount > 0));
+    m_copyFilesAction->setEnabled(!isBusy() && isWritable && (selectedEntriesCount > 0));
+    m_pasteFilesAction->setEnabled(!isBusy() && isWritable && (selectedEntriesCount == 0 || (selectedEntriesCount == 1 && isDir))
+                                   && (m_model->filesToMove.count() > 0 || m_model->filesToCopy.count() > 0));
 
-    m_searchAction->setEnabled(!isBusy() &&
-                               m_model->rowCount() > 0);
+    m_searchAction->setEnabled(!isBusy() && m_model->rowCount() > 0);
 
     m_commentView->setEnabled(!isBusy());
     m_commentMsgWidget->setEnabled(!isBusy());
@@ -538,16 +500,13 @@ void Part::updateActions()
     if (m_model->archive()) {
         const KPluginMetaData metadata = PluginManager().preferredPluginFor(m_model->archive()->mimeType())->metaData();
         bool supportsWriteComment = ArchiveFormat::fromMetadata(m_model->archive()->mimeType(), metadata).supportsWriteComment();
-        m_editCommentAction->setEnabled(!isBusy() &&
-                                        supportsWriteComment);
+        m_editCommentAction->setEnabled(!isBusy() && supportsWriteComment);
         m_commentView->setReadOnly(!supportsWriteComment);
-        m_editCommentAction->setText(m_model->archive()->hasComment() ? i18nc("@action:inmenu mutually exclusive with Add &Comment", "Edit &Comment") :
-                                                                        i18nc("@action:inmenu mutually exclusive with Edit &Comment", "Add &Comment"));
+        m_editCommentAction->setText(m_model->archive()->hasComment() ? i18nc("@action:inmenu mutually exclusive with Add &Comment", "Edit &Comment")
+                                                                      : i18nc("@action:inmenu mutually exclusive with Edit &Comment", "Add &Comment"));
 
         bool supportsTesting = ArchiveFormat::fromMetadata(m_model->archive()->mimeType(), metadata).supportsTesting();
-        m_testArchiveAction->setEnabled(!isBusy() &&
-                                        supportsTesting &&
-                                        !isEncryptedButUnknownPassword);
+        m_testArchiveAction->setEnabled(!isBusy() && supportsTesting && !isEncryptedButUnknownPassword);
     } else {
         m_commentView->setReadOnly(true);
         m_editCommentAction->setText(i18nc("@action:inmenu mutually exclusive with Edit &Comment", "Add &Comment"));
@@ -609,8 +568,7 @@ void Part::createArchive()
 
     const QString password = arguments().metaData()[QStringLiteral("encryptionPassword")];
     if (!password.isEmpty()) {
-        m_model->encryptArchive(password,
-                                arguments().metaData()[QStringLiteral("encryptHeader")] == QLatin1String("true"));
+        m_model->encryptArchive(password, arguments().metaData()[QStringLiteral("encryptHeader")] == QLatin1String("true"));
     }
 }
 
@@ -646,11 +604,11 @@ void Part::resetGui()
     m_compressionOptions = CompressionOptions();
 }
 
-void Part::slotTestingDone(KJob* job)
+void Part::slotTestingDone(KJob *job)
 {
     if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
-    } else if (static_cast<TestJob*>(job)->testSucceeded()) {
+    } else if (static_cast<TestJob *>(job)->testSucceeded()) {
         KMessageBox::information(widget(), i18n("The archive passed the integrity test."), i18n("Test Results"));
     } else {
         KMessageBox::error(widget(), i18n("The archive failed the integrity test."), i18n("Test Results"));
@@ -668,8 +626,7 @@ void Part::updateQuickExtractMenu(QAction *extractAction)
     if (!menu) {
         menu = new QMenu();
         extractAction->setMenu(menu);
-        connect(menu, &QMenu::triggered,
-                this, &Part::slotQuickExtractFiles);
+        connect(menu, &QMenu::triggered, this, &Part::slotQuickExtractFiles);
 
         // Remember to keep this action's properties as similar to
         // extractAction's as possible (except where it does not make
@@ -679,11 +636,9 @@ void Part::updateQuickExtractMenu(QAction *extractAction)
         extractTo->setToolTip(extractAction->toolTip());
 
         if (extractAction == m_extractArchiveAction) {
-            connect(extractTo, &QAction::triggered,
-                    this, &Part::slotExtractArchive);
+            connect(extractTo, &QAction::triggered, this, &Part::slotExtractArchive);
         } else {
-            connect(extractTo, &QAction::triggered,
-                    this, &Part::slotShowExtractionDialog);
+            connect(extractTo, &QAction::triggered, this, &Part::slotShowExtractionDialog);
         }
 
         menu->addSeparator();
@@ -734,8 +689,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
         ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(getSelectedIndexes())), finalDestinationDirectory, ExtractionOptions());
         registerJob(job);
 
-        connect(job, &KJob::result,
-                this, &Part::slotExtractionDone);
+        connect(job, &KJob::result, this, &Part::slotExtractionDone);
 
         job->start();
     }
@@ -815,9 +769,9 @@ KConfigSkeleton *Part::config() const
     return ArkSettings::self();
 }
 
-QList<Kerfuffle::SettingsPage*> Part::settingsPages(QWidget *parent) const
+QList<Kerfuffle::SettingsPage *> Part::settingsPages(QWidget *parent) const
 {
-    QList<SettingsPage*> pages;
+    QList<SettingsPage *> pages;
     pages.append(new GeneralSettingsPage(parent, i18nc("@title:tab", "General"), QStringLiteral("utilities-file-archiver")));
     pages.append(new ExtractionSettingsPage(parent, i18nc("@title:tab", "Extraction"), QStringLiteral("preferences-desktop-icons")));
     pages.append(new PluginSettingsPage(parent, i18nc("@title:tab", "Plugins"), QStringLiteral("preferences-plugin")));
@@ -826,7 +780,7 @@ QList<Kerfuffle::SettingsPage*> Part::settingsPages(QWidget *parent) const
     return pages;
 }
 
-QWidget* Part::infoPanel() const
+QWidget *Part::infoPanel() const
 {
     return m_infoPanel;
 }
@@ -837,23 +791,21 @@ bool Part::isLocalFileValid()
     const QFileInfo localFileInfo(localFile);
 
     if (localFileInfo.isDir()) {
-        displayMsgWidget(KMessageWidget::Error, xi18nc("@info",
-                                                       "<filename>%1</filename> is a directory.",
-                                                       localFile));
+        displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "<filename>%1</filename> is a directory.", localFile));
         return false;
     }
 
     if (isCreatingNewArchive()) {
         if (localFileInfo.exists()) {
             if (!confirmAndDelete(localFile)) {
-                displayMsgWidget(KMessageWidget::Error, xi18nc("@info",
-                                                               "Could not overwrite <filename>%1</filename>. Check whether you have write permission.",
-                                                               localFile));
+                displayMsgWidget(KMessageWidget::Error,
+                                 xi18nc("@info", "Could not overwrite <filename>%1</filename>. Check whether you have write permission.", localFile));
                 return false;
             }
         }
 
-        displayMsgWidget(KMessageWidget::Information, xi18nc("@info", "The archive <filename>%1</filename> will be created as soon as you add a file.", localFile));
+        displayMsgWidget(KMessageWidget::Information,
+                         xi18nc("@info", "The archive <filename>%1</filename> will be created as soon as you add a file.", localFile));
     } else {
         if (!localFileInfo.exists()) {
             displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "The archive <filename>%1</filename> was not found.", localFile));
@@ -861,7 +813,8 @@ bool Part::isLocalFileValid()
         }
 
         if (!localFileInfo.isReadable()) {
-            displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "The archive <filename>%1</filename> could not be loaded, as it was not possible to read from it.", localFile));
+            displayMsgWidget(KMessageWidget::Error,
+                             xi18nc("@info", "The archive <filename>%1</filename> could not be loaded, as it was not possible to read from it.", localFile));
             return false;
         }
     }
@@ -915,9 +868,9 @@ void Part::slotCompleted()
         displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive is empty or Ark could not open its content."));
     } else if (m_model->rowCount() == 1 &&
                // TODO: drop application/x-cd-image once all distributions ship shared-mime-info >= 2.3
-               (m_model->archive()->mimeType().inherits(QStringLiteral("application/x-cd-image")) ||
-                m_model->archive()->mimeType().inherits(QStringLiteral("application/vnd.efi.img"))) &&
-               m_model->entryForIndex(m_model->index(0, 0))->fullPath() == QLatin1String("README.TXT")) {
+               (m_model->archive()->mimeType().inherits(QStringLiteral("application/x-cd-image"))
+                || m_model->archive()->mimeType().inherits(QStringLiteral("application/vnd.efi.img")))
+               && m_model->entryForIndex(m_model->index(0, 0))->fullPath() == QLatin1String("README.TXT")) {
         qCWarning(ARK) << "Detected ISO image with UDF filesystem";
         displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
     } else {
@@ -949,9 +902,11 @@ void Part::slotLoadingFinished(KJob *job)
     resetArchive();
 
     if (job->error() != KJob::KilledJobError) {
-        displayMsgWidget(KMessageWidget::Error, xi18nc("@info", "Loading the archive <filename>%1</filename> failed with the following error:<nl/><message>%2</message>",
-                                                       localFilePath(),
-                                                       job->errorString()));
+        displayMsgWidget(KMessageWidget::Error,
+                         xi18nc("@info",
+                                "Loading the archive <filename>%1</filename> failed with the following error:<nl/><message>%2</message>",
+                                localFilePath(),
+                                job->errorString()));
     }
 }
 
@@ -1035,8 +990,7 @@ void Part::slotOpenEntry(int mode)
 void Part::slotOpenExtractedEntry(KJob *job)
 {
     if (!job->error()) {
-
-        OpenJob *openJob = qobject_cast<OpenJob*>(job);
+        OpenJob *openJob = qobject_cast<OpenJob *>(job);
         Q_ASSERT(openJob);
 
         // Since the user could modify the file (unlike the Preview case),
@@ -1056,7 +1010,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
         }
 
         const QUrl url = QUrl::fromUserInput(fullName, QDir::currentPath(), QUrl::AssumeLocalFile);
-        if (qobject_cast<OpenWithJob*>(job)) {
+        if (qobject_cast<OpenWithJob *>(job)) {
             // Constructing an ApplicationLauncherJob without an argument will
             // trigger the openWith dialog
             KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob();
@@ -1077,7 +1031,7 @@ void Part::slotOpenExtractedEntry(KJob *job)
 void Part::slotPreviewExtractedEntry(KJob *job)
 {
     if (!job->error()) {
-        PreviewJob *previewJob = qobject_cast<PreviewJob*>(job);
+        PreviewJob *previewJob = qobject_cast<PreviewJob *>(job);
         Q_ASSERT(previewJob);
 
         m_tmpExtractDirList << previewJob->tempDir();
@@ -1095,7 +1049,7 @@ void Part::slotPreviewExtractedEntry(KJob *job)
     setReadyGui();
 }
 
-void Part::slotResetFileChangeTimer(const QString& file)
+void Part::slotResetFileChangeTimer(const QString &file)
 {
     const bool timerActive = m_watchedFileChangeTimer.isActive();
     m_watchedFileChangeTimer.stop();
@@ -1111,18 +1065,18 @@ void Part::slotResetFileChangeTimer(const QString& file)
     m_watchedFileChangeTimer.start();
 }
 
-void Part::slotWatchedFileModified(const QString& file)
+void Part::slotWatchedFileModified(const QString &file)
 {
     qCDebug(ARK) << "Watched file modified:" << file;
 
     // Find the relative path of the file within the archive.
     QString relPath = file;
     for (QTemporaryDir *tmpDir : std::as_const(m_tmpExtractDirList)) {
-        relPath.remove(tmpDir->path()); //Remove tmpDir.
+        relPath.remove(tmpDir->path()); // Remove tmpDir.
     }
-    relPath.remove(0, 1); //Remove leading slash.
+    relPath.remove(0, 1); // Remove leading slash.
     if (relPath.contains(QLatin1Char('/'))) {
-        relPath = relPath.section(QLatin1Char('/'), 0, -2); //Remove filename.
+        relPath = relPath.section(QLatin1Char('/'), 0, -2); // Remove filename.
     } else {
         // File is in the root of the archive, no path.
         relPath = QString();
@@ -1152,7 +1106,7 @@ void Part::slotWatchedFileModified(const QString& file)
     m_fileWatcher->addPath(file);
 }
 
-void Part::slotError(const QString& errorMessage, const QString& details)
+void Part::slotError(const QString &errorMessage, const QString &details)
 {
     if (details.isEmpty()) {
         KMessageBox::error(widget(), errorMessage);
@@ -1202,11 +1156,10 @@ void Part::slotShowExtractionDialog()
     dialog.data()->restoreWindowSize();
 
     if (dialog.data()->exec()) {
-
         updateQuickExtractMenu(m_extractArchiveAction);
         updateQuickExtractMenu(m_extractAction);
 
-        QVector<Archive::Entry*> files;
+        QVector<Archive::Entry *> files;
 
         // If the user has chosen to extract only selected entries, fetch these
         // from the QTreeView.
@@ -1223,8 +1176,7 @@ void Part::slotShowExtractionDialog()
         ExtractJob *job = m_model->extractFiles(files, destinationDirectory, options);
         registerJob(job);
 
-        connect(job, &KJob::result,
-                this, &Part::slotExtractionDone);
+        connect(job, &KJob::result, this, &Part::slotExtractionDone);
 
         job->start();
     }
@@ -1253,40 +1205,35 @@ QModelIndexList Part::addChildren(const QModelIndexList &list) const
     return ret;
 }
 
-QVector<Archive::Entry*> Part::filesForIndexes(const QModelIndexList& list) const
+QVector<Archive::Entry *> Part::filesForIndexes(const QModelIndexList &list) const
 {
-    QVector<Archive::Entry*> ret;
+    QVector<Archive::Entry *> ret;
 
-    for (const QModelIndex& index : list) {
+    for (const QModelIndex &index : list) {
         ret << m_model->entryForIndex(index);
     }
 
     return ret;
 }
 
-QVector<Kerfuffle::Archive::Entry*> Part::filesAndRootNodesForIndexes(const QModelIndexList& list) const
+QVector<Kerfuffle::Archive::Entry *> Part::filesAndRootNodesForIndexes(const QModelIndexList &list) const
 {
-    QVector<Kerfuffle::Archive::Entry*> fileList;
+    QVector<Kerfuffle::Archive::Entry *> fileList;
     QStringList fullPathsList;
 
-    for (const QModelIndex& index : list) {
-
+    for (const QModelIndex &index : list) {
         // Find the topmost unselected parent. This is done by iterating up
         // through the directory hierarchy and see if each parent is included
         // in the selection OR if the parent is already part of list.
         // The latter is needed for unselected folders which are subfolders of
         // a selected parent folder.
         QModelIndex selectionRoot = index.parent();
-        while (m_view->selectionModel()->isSelected(selectionRoot) ||
-               list.contains(selectionRoot)) {
+        while (m_view->selectionModel()->isSelected(selectionRoot) || list.contains(selectionRoot)) {
             selectionRoot = selectionRoot.parent();
         }
 
         // Fetch the root node for the unselected parent.
-        const QString rootFileName = selectionRoot.isValid()
-            ? m_model->entryForIndex(selectionRoot)->fullPath()
-            : QString();
-
+        const QString rootFileName = selectionRoot.isValid() ? m_model->entryForIndex(selectionRoot)->fullPath() : QString();
 
         // Append index with root node to fileList.
         QModelIndexList alist = QModelIndexList() << index;
@@ -1303,12 +1250,12 @@ QVector<Kerfuffle::Archive::Entry*> Part::filesAndRootNodesForIndexes(const QMod
     return fileList;
 }
 
-void Part::slotExtractionDone(KJob* job)
+void Part::slotExtractionDone(KJob *job)
 {
     if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     } else {
-        ExtractJob *extractJob = qobject_cast<ExtractJob*>(job);
+        ExtractJob *extractJob = qobject_cast<ExtractJob *>(job);
         Q_ASSERT(extractJob);
 
         if (ArkSettings::openDestinationFolderAfterExtraction()) {
@@ -1322,19 +1269,19 @@ void Part::slotExtractionDone(KJob* job)
         }
 
         if (ArkSettings::closeAfterExtraction()) {
-           Q_EMIT quit();
+            Q_EMIT quit();
         }
     }
 }
 
-void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *destination, const QString &relPath, OverwriteBehaviour onOverwrite)
+void Part::slotAddFiles(const QStringList &filesToAdd, const Archive::Entry *destination, const QString &relPath, OverwriteBehaviour onOverwrite)
 {
     if (!m_model->archive() || filesToAdd.isEmpty()) {
         return;
     }
 
     QStringList withChildPaths;
-    for (const QString& file : filesToAdd) {
+    for (const QString &file : filesToAdd) {
         m_jobTempEntries.push_back(new Archive::Entry(nullptr, file));
         if (QFileInfo(file).isDir()) {
             withChildPaths << file + QLatin1Char('/');
@@ -1352,7 +1299,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
     }
 
     withChildPaths = ReadOnlyArchiveInterface::entryPathsFromDestination(withChildPaths, destination, 0);
-    QList<const Archive::Entry*> conflictingEntries;
+    QList<const Archive::Entry *> conflictingEntries;
     bool error = m_model->conflictingEntries(conflictingEntries, withChildPaths, true);
 
     if (onOverwrite == ShowOverwriteDialog && conflictingEntries.count() > 0) {
@@ -1405,8 +1352,7 @@ void Part::slotAddFiles(const QStringList& filesToAdd, const Archive::Entry *des
         return;
     }
 
-    connect(job, &KJob::result,
-            this, &Part::slotAddFilesDone);
+    connect(job, &KJob::result, this, &Part::slotAddFilesDone);
     registerJob(job);
     job->start();
 }
@@ -1444,11 +1390,7 @@ void Part::slotAddFiles()
     //          When KFileDialog::exec() is called, the widget is already shown
     //          and nothing happens.
 
-    QPointer<AddDialog> dlg = new AddDialog(widget(),
-                                            dialogTitle,
-                                            m_lastUsedAddPath,
-                                            m_model->archive()->mimeType(),
-                                            m_compressionOptions);
+    QPointer<AddDialog> dlg = new AddDialog(widget(), dialogTitle, m_lastUsedAddPath, m_model->archive()->mimeType(), m_compressionOptions);
 
     if (dlg->exec() == QDialog::Accepted) {
         qCDebug(ARK) << "Selected files:" << dlg->selectedFiles();
@@ -1494,7 +1436,7 @@ void Part::slotRenameFile(const QString &name)
         return;
     }
     const Archive::Entry *entry = m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()));
-    QVector<Archive::Entry*> entriesToMove = filesForIndexes(addChildren(getSelectedIndexes()));
+    QVector<Archive::Entry *> entriesToMove = filesForIndexes(addChildren(getSelectedIndexes()));
 
     m_destination = new Archive::Entry();
     const QString &entryPath = entry->fullPath(NoTrailingSlash);
@@ -1511,8 +1453,8 @@ void Part::slotRenameFile(const QString &name)
 void Part::slotPasteFiles()
 {
     m_destination = (m_view->selectionModel()->selectedRows().count() > 0)
-                    ? m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()))
-                    : nullptr;
+        ? m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()))
+        : nullptr;
     if (m_destination == nullptr) {
         m_destination = new Archive::Entry(nullptr, QString());
     } else {
@@ -1521,7 +1463,8 @@ void Part::slotPasteFiles()
 
     if (m_model->filesToMove.count() > 0) {
         // Changing destination to include new entry path if pasting only 1 entry.
-        QVector<Archive::Entry*> entriesWithoutChildren = ReadOnlyArchiveInterface::entriesWithoutChildren(QVector<Archive::Entry*>::fromList(m_model->filesToMove.values()));
+        QVector<Archive::Entry *> entriesWithoutChildren =
+            ReadOnlyArchiveInterface::entriesWithoutChildren(QVector<Archive::Entry *>::fromList(m_model->filesToMove.values()));
         if (entriesWithoutChildren.count() == 1) {
             const Archive::Entry *entry = entriesWithoutChildren.first();
             auto entryName = entry->name();
@@ -1533,18 +1476,16 @@ void Part::slotPasteFiles()
 
         for (const Archive::Entry *entry : std::as_const(entriesWithoutChildren)) {
             if (entry->isDir() && m_destination->fullPath().startsWith(entry->fullPath())) {
-                KMessageBox::error(widget(),
-                                   i18n("Folders can't be moved into themselves."),
-                                   i18n("Moving a folder into itself"));
+                KMessageBox::error(widget(), i18n("Folders can't be moved into themselves."), i18n("Moving a folder into itself"));
                 delete m_destination;
                 return;
             }
         }
-        auto entryList = QVector<Archive::Entry*>::fromList(m_model->filesToMove.values());
+        auto entryList = QVector<Archive::Entry *>::fromList(m_model->filesToMove.values());
         slotPasteFiles(entryList, m_destination, entriesWithoutChildren.count());
         m_model->filesToMove.clear();
     } else {
-        auto entryList = QVector<Archive::Entry*>::fromList(m_model->filesToCopy.values());
+        auto entryList = QVector<Archive::Entry *>::fromList(m_model->filesToCopy.values());
         slotPasteFiles(entryList, m_destination, 0);
         m_model->filesToCopy.clear();
     }
@@ -1552,7 +1493,7 @@ void Part::slotPasteFiles()
     updateActions();
 }
 
-void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle::Archive::Entry *destination, int entriesWithoutChildren)
+void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, int entriesWithoutChildren)
 {
     if (files.isEmpty()) {
         delete m_destination;
@@ -1568,7 +1509,7 @@ void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle:
         return;
     }
 
-    QList<const Archive::Entry*> conflictingEntries;
+    QList<const Archive::Entry *> conflictingEntries;
     bool error = m_model->conflictingEntries(conflictingEntries, newPaths, false);
 
     if (conflictingEntries.count() != 0) {
@@ -1595,8 +1536,7 @@ void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle:
     }
 
     if (job) {
-        connect(job, &KJob::result,
-                this, &Part::slotPasteFilesDone);
+        connect(job, &KJob::result, this, &Part::slotPasteFilesDone);
         registerJob(job);
         job->start();
     } else {
@@ -1604,7 +1544,7 @@ void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle:
     }
 }
 
-void Part::slotAddFilesDone(KJob* job)
+void Part::slotAddFilesDone(KJob *job)
 {
     qDeleteAll(m_jobTempEntries);
     m_jobTempEntries.clear();
@@ -1646,7 +1586,7 @@ void Part::slotPasteFilesDone(KJob *job)
     m_model->filesToCopy.clear();
 }
 
-void Part::slotDeleteFilesDone(KJob* job)
+void Part::slotDeleteFilesDone(KJob *job)
 {
     if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
@@ -1677,19 +1617,15 @@ void Part::slotDeleteFiles()
     }
 
     DeleteJob *job = m_model->deleteFiles(filesForIndexes(addChildren(getSelectedIndexes())));
-    connect(job, &KJob::result,
-            this, &Part::slotDeleteFilesDone);
+    connect(job, &KJob::result, this, &Part::slotDeleteFilesDone);
     registerJob(job);
     job->start();
 }
 
 void Part::slotShowProperties()
 {
-    QPointer<Kerfuffle::PropertiesDialog> dialog(new Kerfuffle::PropertiesDialog(nullptr,
-                                                                                 m_model->archive(),
-                                                                                 m_model->numberOfFiles(),
-                                                                                 m_model->numberOfFolders(),
-                                                                                 m_model->uncompressedSize()));
+    QPointer<Kerfuffle::PropertiesDialog> dialog(
+        new Kerfuffle::PropertiesDialog(nullptr, m_model->archive(), m_model->numberOfFiles(), m_model->numberOfFolders(), m_model->uncompressedSize()));
     dialog.data()->show();
 }
 
@@ -1724,12 +1660,14 @@ void Part::slotSaveAs()
             // Use custom error messages for these two cases, otherwise just use KIO's
             if (err == KIO::ERR_WRITE_ACCESS_DENIED) {
                 msg = xi18nc("@info",
-                            "The archive could not be saved as <filename>%1</filename>. Try saving"
-                            " it to another location.", saveUrl.toDisplayString(QUrl::PreferLocalFile));
+                             "The archive could not be saved as <filename>%1</filename>. Try saving"
+                             " it to another location.",
+                             saveUrl.toDisplayString(QUrl::PreferLocalFile));
             } else if (err == KIO::ERR_DOES_NOT_EXIST) {
                 msg = xi18nc("@info",
-                            "The archive <filename>%1</filename> does not exist anymore, therefore it"
-                            " cannot be copied to the specified location.", srcUrl.toDisplayString(QUrl::PreferLocalFile));
+                             "The archive <filename>%1</filename> does not exist anymore, therefore it"
+                             " cannot be copied to the specified location.",
+                             srcUrl.toDisplayString(QUrl::PreferLocalFile));
             }
 
             KMessageBox::error(widget(), msg);
@@ -1782,7 +1720,7 @@ void Part::searchEdited(const QString &text)
 
     m_filterModel->setFilterFixedString(text);
 
-    if(text.isEmpty()) {
+    if (text.isEmpty()) {
         m_view->collapseAll();
         m_view->expandIfSingleFolder();
     } else {
@@ -1790,7 +1728,7 @@ void Part::searchEdited(const QString &text)
     }
 }
 
-void Part::displayMsgWidget(KMessageWidget::MessageType type, const QString& msg)
+void Part::displayMsgWidget(KMessageWidget::MessageType type, const QString &msg)
 {
     // The widget could be already visible, so hide it.
     m_messageWidget->hide();

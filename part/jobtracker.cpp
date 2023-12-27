@@ -9,13 +9,13 @@
 #include "ark_debug.h"
 
 JobTrackerWidget::JobTrackerWidget(QWidget *parent)
-        : QFrame(parent)
+    : QFrame(parent)
 {
     setupUi(this);
 }
 
 JobTracker::JobTracker(QWidget *parent)
-        : KAbstractWidgetJobTracker(parent)
+    : KAbstractWidgetJobTracker(parent)
 {
     m_ui = new JobTrackerWidget(parent);
     resetUi();
@@ -30,7 +30,7 @@ JobTracker::~JobTracker()
     }
 }
 
-void JobTracker::description(KJob *job, const QString &title, const QPair< QString, QString > &f1, const QPair< QString, QString > &f2)
+void JobTracker::description(KJob *job, const QString &title, const QPair<QString, QString> &f1, const QPair<QString, QString> &f2)
 {
     Q_UNUSED(job)
     Q_UNUSED(f1)
@@ -85,7 +85,7 @@ void JobTracker::resetUi()
     m_ui->progressBar->setMinimum(0);
 }
 
-QWidget* JobTracker::widget(KJob *)
+QWidget *JobTracker::widget(KJob *)
 {
     return m_ui;
 }

@@ -20,18 +20,18 @@
 #include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
-#include <qplatformdefs.h>
 #include <QThread>
+#include <qplatformdefs.h>
 
+#include <memory>
 #include <utime.h>
 #include <zlib.h>
-#include <memory>
 
 K_PLUGIN_CLASS_WITH_JSON(LibzipPlugin, "kerfuffle_libzip.json")
 
-template <auto fn>
+template<auto fn>
 using deleter_from_fn = std::integral_constant<decltype(fn), fn>;
-template <typename T, auto fn>
+template<typename T, auto fn>
 using ark_unique_ptr = std::unique_ptr<T, deleter_from_fn<fn>>;
 
 class ZipSource
@@ -147,29 +147,28 @@ public:
     static zip_int64_t callbackFn(void *userdata, void *data, zip_uint64_t len, zip_source_cmd_t cmd)
     {
         auto source = reinterpret_cast<ZipSource *>(userdata);
-        switch(cmd)
-        {
-            case ZIP_SOURCE_OPEN:
-                return 0;
-            case ZIP_SOURCE_READ:
-                return source->read(data, len);
-            case ZIP_SOURCE_CLOSE:
-                return 0;
-            case ZIP_SOURCE_STAT:
-                return source->stat(reinterpret_cast<zip_stat_t *>(data));
-            case ZIP_SOURCE_ERROR:
-                return zip_error_to_data(&source->m_error, data, len);
-            case ZIP_SOURCE_FREE:
-                return 0;
-            case ZIP_SOURCE_SEEK:
-                return source->seek(data, len);
-            case ZIP_SOURCE_TELL:
-                return static_cast<zip_int64_t>(source->m_offset);
-            case ZIP_SOURCE_SUPPORTS:
-                return ZIP_SOURCE_SUPPORTS_SEEKABLE;
-            default:
-                zip_error_set(&source->m_error, ZIP_ER_INVAL, 0);
-                break;
+        switch (cmd) {
+        case ZIP_SOURCE_OPEN:
+            return 0;
+        case ZIP_SOURCE_READ:
+            return source->read(data, len);
+        case ZIP_SOURCE_CLOSE:
+            return 0;
+        case ZIP_SOURCE_STAT:
+            return source->stat(reinterpret_cast<zip_stat_t *>(data));
+        case ZIP_SOURCE_ERROR:
+            return zip_error_to_data(&source->m_error, data, len);
+        case ZIP_SOURCE_FREE:
+            return 0;
+        case ZIP_SOURCE_SEEK:
+            return source->seek(data, len);
+        case ZIP_SOURCE_TELL:
+            return static_cast<zip_int64_t>(source->m_offset);
+        case ZIP_SOURCE_SUPPORTS:
+            return ZIP_SOURCE_SUPPORTS_SEEKABLE;
+        default:
+            zip_error_set(&source->m_error, ZIP_ER_INVAL, 0);
+            break;
         }
         return -1;
     }
@@ -198,7 +197,7 @@ public:
     }
 
 private:
-    std::vector<std::unique_ptr<QFile> > m_files;
+    std::vector<std::unique_ptr<QFile>> m_files;
     QString m_multiVolumeName;
     zip_error_t m_error;
     zip_uint64_t m_length = 0;
@@ -215,7 +214,7 @@ int LibzipPlugin::cancelCallback(zip_t *, void * /* unused that*/)
     return QThread::currentThread()->isInterruptionRequested();
 }
 
-LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList & args)
+LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList &args)
     : ReadWriteArchiveInterface(parent, args)
     , m_overwriteAll(false)
     , m_skipAll(false)
@@ -260,7 +259,6 @@ bool LibzipPlugin::list()
 
     // Loop through all archive entries.
     for (int i = 0; i < nofEntries; i++) {
-
         if (QThread::currentThread()->isInterruptionRequested()) {
             break;
         }
@@ -278,14 +276,17 @@ bool LibzipPlugin::list()
     return true;
 }
 
-bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd)
+bool LibzipPlugin::addFiles(const QVector<Archive::Entry *> &files,
+                            const Archive::Entry *destination,
+                            const CompressionOptions &options,
+                            uint numberOfEntriesToAdd)
 {
     Q_UNUSED(numberOfEntriesToAdd)
     int errcode = 0;
     zip_error_t err;
 
     // Open archive and don't write changes in unique_ptr destructor but instead call zip_close manually when needed.
-    ark_unique_ptr<zip_t, zip_discard> archive { zip_open(QFile::encodeName(filename()).constData(), ZIP_CREATE, &errcode) };
+    ark_unique_ptr<zip_t, zip_discard> archive{zip_open(QFile::encodeName(filename()).constData(), ZIP_CREATE, &errcode)};
     zip_error_init_with_code(&err, errcode);
     if (!archive) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
@@ -294,23 +295,18 @@ bool LibzipPlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive
     }
 
     uint i = 0;
-    for (const Archive::Entry* e : files) {
-
+    for (const Archive::Entry *e : files) {
         if (QThread::currentThread()->isInterruptionRequested()) {
             break;
         }
 
         // If entry is a directory, traverse and add all its files and subfolders.
         if (QFileInfo(e->fullPath()).isDir()) {
-
             if (!writeEntry(archive.get(), e->fullPath(), destination, options, true)) {
                 return false;
             }
 
-            QDirIterator it(e->fullPath(),
-                            QDir::AllEntries | QDir::Readable |
-                            QDir::Hidden | QDir::NoDotAndDotDot,
-                            QDirIterator::Subdirectories);
+            QDirIterator it(e->fullPath(), QDir::AllEntries | QDir::Readable | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
 
             while (!QThread::currentThread()->isInterruptionRequested() && it.hasNext()) {
                 const QString path = it.next();
@@ -369,7 +365,7 @@ void LibzipPlugin::emitProgress(double percentage)
     Q_EMIT progress(0.5 * percentage);
 }
 
-bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive::Entry* destination, const CompressionOptions& options, bool isDir)
+bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive::Entry *destination, const CompressionOptions &options, bool isDir)
 {
     Q_ASSERT(archive);
 
@@ -494,59 +490,59 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
         }
     }
     if (statBuffer.valid & ZIP_STAT_COMP_METHOD) {
-        switch(statBuffer.comp_method) {
-            case ZIP_CM_STORE:
-                e->setProperty("method", QStringLiteral("Store"));
-                Q_EMIT compressionMethodFound(QStringLiteral("Store"));
-                break;
-            case ZIP_CM_DEFLATE:
-                e->setProperty("method", QStringLiteral("Deflate"));
-                Q_EMIT compressionMethodFound(QStringLiteral("Deflate"));
-                break;
-            case ZIP_CM_DEFLATE64:
-                e->setProperty("method", QStringLiteral("Deflate64"));
-                Q_EMIT compressionMethodFound(QStringLiteral("Deflate64"));
-                break;
-            case ZIP_CM_BZIP2:
-                e->setProperty("method", QStringLiteral("BZip2"));
-                Q_EMIT compressionMethodFound(QStringLiteral("BZip2"));
-                break;
+        switch (statBuffer.comp_method) {
+        case ZIP_CM_STORE:
+            e->setProperty("method", QStringLiteral("Store"));
+            Q_EMIT compressionMethodFound(QStringLiteral("Store"));
+            break;
+        case ZIP_CM_DEFLATE:
+            e->setProperty("method", QStringLiteral("Deflate"));
+            Q_EMIT compressionMethodFound(QStringLiteral("Deflate"));
+            break;
+        case ZIP_CM_DEFLATE64:
+            e->setProperty("method", QStringLiteral("Deflate64"));
+            Q_EMIT compressionMethodFound(QStringLiteral("Deflate64"));
+            break;
+        case ZIP_CM_BZIP2:
+            e->setProperty("method", QStringLiteral("BZip2"));
+            Q_EMIT compressionMethodFound(QStringLiteral("BZip2"));
+            break;
 #ifdef ZIP_CM_ZSTD
-            case ZIP_CM_ZSTD:
-                e->setProperty("method", QStringLiteral("Zstd"));
-                Q_EMIT compressionMethodFound(QStringLiteral("Zstd"));
-                break;
+        case ZIP_CM_ZSTD:
+            e->setProperty("method", QStringLiteral("Zstd"));
+            Q_EMIT compressionMethodFound(QStringLiteral("Zstd"));
+            break;
 #endif
 #ifdef ZIP_CM_LZMA
-            case ZIP_CM_LZMA:
-                e->setProperty("method", QStringLiteral("LZMA"));
-                Q_EMIT compressionMethodFound(QStringLiteral("LZMA"));
-                break;
+        case ZIP_CM_LZMA:
+            e->setProperty("method", QStringLiteral("LZMA"));
+            Q_EMIT compressionMethodFound(QStringLiteral("LZMA"));
+            break;
 #endif
 #ifdef ZIP_CM_XZ
-            case ZIP_CM_XZ:
-                e->setProperty("method", QStringLiteral("XZ"));
-                Q_EMIT compressionMethodFound(QStringLiteral("XZ"));
-                break;
+        case ZIP_CM_XZ:
+            e->setProperty("method", QStringLiteral("XZ"));
+            Q_EMIT compressionMethodFound(QStringLiteral("XZ"));
+            break;
 #endif
         }
     }
     if (statBuffer.valid & ZIP_STAT_ENCRYPTION_METHOD) {
         if (statBuffer.encryption_method != ZIP_EM_NONE) {
             e->setProperty("isPasswordProtected", true);
-            switch(statBuffer.encryption_method) {
-                case ZIP_EM_TRAD_PKWARE:
-                    Q_EMIT encryptionMethodFound(QStringLiteral("ZipCrypto"));
-                    break;
-                case ZIP_EM_AES_128:
-                    Q_EMIT encryptionMethodFound(QStringLiteral("AES128"));
-                    break;
-                case ZIP_EM_AES_192:
-                    Q_EMIT encryptionMethodFound(QStringLiteral("AES192"));
-                    break;
-                case ZIP_EM_AES_256:
-                    Q_EMIT encryptionMethodFound(QStringLiteral("AES256"));
-                    break;
+            switch (statBuffer.encryption_method) {
+            case ZIP_EM_TRAD_PKWARE:
+                Q_EMIT encryptionMethodFound(QStringLiteral("ZipCrypto"));
+                break;
+            case ZIP_EM_AES_128:
+                Q_EMIT encryptionMethodFound(QStringLiteral("AES128"));
+                break;
+            case ZIP_EM_AES_192:
+                Q_EMIT encryptionMethodFound(QStringLiteral("AES192"));
+                break;
+            case ZIP_EM_AES_256:
+                Q_EMIT encryptionMethodFound(QStringLiteral("AES256"));
+                break;
             }
         }
     }
@@ -566,7 +562,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
         // Unix permissions are stored in the leftmost 16 bits of the external file attribute.
         e->setProperty("permissions", permissionsToString(attributes >> 16));
         break;
-    default:    // TODO: non-UNIX.
+    default: // TODO: non-UNIX.
         break;
     }
 
@@ -576,13 +572,13 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     return true;
 }
 
-bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
+bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry *> &files)
 {
     int errcode = 0;
     zip_error_t err;
 
     // Open archive and don't write changes in unique_ptr destructor but instead call zip_close manually when needed.
-    ark_unique_ptr<zip_t, zip_discard> archive { zip_open(QFile::encodeName(filename()).constData(), 0, &errcode) };
+    ark_unique_ptr<zip_t, zip_discard> archive{zip_open(QFile::encodeName(filename()).constData(), 0, &errcode)};
     zip_error_init_with_code(&err, errcode);
     if (archive.get() == nullptr) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
@@ -591,8 +587,7 @@ bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
     }
 
     qulonglong i = 0;
-    for (const Archive::Entry* e : files) {
-
+    for (const Archive::Entry *e : files) {
         if (QThread::currentThread()->isInterruptionRequested()) {
             break;
         }
@@ -625,13 +620,13 @@ bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry*> &files)
     return true;
 }
 
-bool LibzipPlugin::addComment(const QString& comment)
+bool LibzipPlugin::addComment(const QString &comment)
 {
     int errcode = 0;
     zip_error_t err;
 
     // Open archive and don't write changes in unique_ptr destructor but instead call zip_close manually when needed.
-    ark_unique_ptr<zip_t, zip_discard> archive { zip_open(QFile::encodeName(filename()).constData(), 0, &errcode) };
+    ark_unique_ptr<zip_t, zip_discard> archive{zip_open(QFile::encodeName(filename()).constData(), 0, &errcode)};
     zip_error_init_with_code(&err, errcode);
     if (archive.get() == nullptr) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
@@ -670,7 +665,6 @@ bool LibzipPlugin::testArchive()
     // Check CRC-32 for each archive entry.
     const int nofEntries = zip_get_num_entries(archive.get(), 0);
     for (int i = 0; i < nofEntries; i++) {
-
         if (QThread::currentThread()->isInterruptionRequested()) {
             return false;
         }
@@ -684,7 +678,7 @@ bool LibzipPlugin::testArchive()
             return false;
         }
 
-        ark_unique_ptr<zip_file, zip_fclose> zipFile { zip_fopen_index(archive.get(), i, 0) };
+        ark_unique_ptr<zip_file, zip_fclose> zipFile{zip_fopen_index(archive.get(), i, 0)};
         std::unique_ptr<uchar[]> buf(new uchar[statBuffer.size]);
         const int len = zip_fread(zipFile.get(), buf.get(), statBuffer.size);
         if (len == -1 || uint(len) != statBuffer.size) {
@@ -708,7 +702,7 @@ bool LibzipPlugin::doKill()
     return false;
 }
 
-bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QString& destinationDirectory, const ExtractionOptions& options)
+bool LibzipPlugin::extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     qCDebug(ARK) << "Extracting files to:" << destinationDirectory;
     const bool extractAll = files.isEmpty();
@@ -752,16 +746,11 @@ bool LibzipPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     } else {
         // We extract only the entries in files.
         qulonglong i = 0;
-        for (const Archive::Entry* e : files) {
+        for (const Archive::Entry *e : files) {
             if (QThread::currentThread()->isInterruptionRequested()) {
                 break;
             }
-            if (!extractEntry(archive.get(),
-                              e->fullPath(),
-                              e->rootNode,
-                              destinationDirectory,
-                              options.preservePaths(),
-                              removeRootNode)) {
+            if (!extractEntry(archive.get(), e->fullPath(), e->rootNode, destinationDirectory, options.preservePaths(), removeRootNode)) {
                 qCDebug(ARK) << "Extraction failed";
                 return false;
             }
@@ -836,7 +825,6 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     }
 
     if (!isDirectory) {
-
         // Handle existing destination files.
         QString renamedEntry = entry;
         while (!m_overwriteAll && QFileInfo::exists(destination)) {
@@ -869,14 +857,13 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         }
 
         // Handle password-protected files.
-        ark_unique_ptr<zip_file, zip_fclose> zipFile { nullptr };
+        ark_unique_ptr<zip_file, zip_fclose> zipFile{nullptr};
         bool firstTry = true;
         while (!zipFile) {
             zipFile.reset(zip_fopen(archive, fromUnixSeparator(entry).toUtf8().constData(), 0));
             if (zipFile) {
                 break;
-            } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD ||
-                       zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_WRONGPASSWD) {
+            } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD || zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_WRONGPASSWD) {
                 Kerfuffle::PasswordNeededQuery query(filename(), !firstTry);
                 Q_EMIT userQuery(&query);
                 query.waitForResponse();
@@ -949,7 +936,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
                 file.setPermissions(KIO::convertPermissions(attributes >> 16));
             }
             break;
-        default:    // TODO: non-UNIX.
+        default: // TODO: non-UNIX.
             break;
         }
 
@@ -976,14 +963,14 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     return true;
 }
 
-bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool LibzipPlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options)
     int errcode = 0;
     zip_error_t err;
 
     // Open archive.
-    ark_unique_ptr<zip_t, zip_close> archive { zip_open(QFile::encodeName(filename()).constData(), 0, &errcode) };
+    ark_unique_ptr<zip_t, zip_close> archive{zip_open(QFile::encodeName(filename()).constData(), 0, &errcode)};
     zip_error_init_with_code(&err, errcode);
     if (archive.get() == nullptr) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
@@ -997,7 +984,6 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
 
     int i;
     for (i = 0; i < filePaths.size(); ++i) {
-
         const int index = zip_name_locate(archive.get(), filePaths.at(i).toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
             qCCritical(ARK) << "Could not find entry to move:" << filePaths.at(i);
@@ -1013,7 +999,7 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
 
         Q_EMIT entryRemoved(filePaths.at(i));
         emitEntryForIndex(archive.get(), index);
-        Q_EMIT progress(i/filePaths.count());
+        Q_EMIT progress(i / filePaths.count());
     }
 
     // Write and close archive manually.
@@ -1031,14 +1017,14 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Ent
     return true;
 }
 
-bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool LibzipPlugin::copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options)
     int errcode = 0;
     zip_error_t err;
 
     // Open archive and don't write changes in unique_ptr destructor but instead call zip_close manually when needed.
-    ark_unique_ptr<zip_t, zip_discard> archive { zip_open(QFile::encodeName(filename()).constData(), 0, &errcode) };
+    ark_unique_ptr<zip_t, zip_discard> archive{zip_open(QFile::encodeName(filename()).constData(), 0, &errcode)};
     zip_error_init_with_code(&err, errcode);
     if (archive.get() == nullptr) {
         qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
@@ -1051,7 +1037,6 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
 
     int i;
     for (i = 0; i < filePaths.size(); ++i) {
-
         QString dest = destPaths.at(i);
 
         if (dest.endsWith(QDir::separator())) {
@@ -1129,7 +1114,7 @@ bool LibzipPlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
     return true;
 }
 
-QString LibzipPlugin::fromUnixSeparator(const QString& path)
+QString LibzipPlugin::fromUnixSeparator(const QString &path)
 {
     if (!m_backslashedZip) {
         return path;
@@ -1137,7 +1122,7 @@ QString LibzipPlugin::fromUnixSeparator(const QString& path)
     return QString(path).replace(QLatin1Char('/'), QLatin1Char('\\'));
 }
 
-QString LibzipPlugin::toUnixSeparator(const QString& path)
+QString LibzipPlugin::toUnixSeparator(const QString &path)
 {
     // Even though the two contains may look similar they are not, the first is the \ char
     // that needs to be escaped, the second is the string with two \ that doesn't need escaping

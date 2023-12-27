@@ -12,7 +12,7 @@
 
 using namespace Kerfuffle;
 
-class CliPlugin: public CliInterface
+class CliPlugin : public CliInterface
 {
 public:
     explicit CliPlugin(QObject *parent = 0, const QVariantList &args = QVariantList());
@@ -24,7 +24,6 @@ public:
 private:
     bool m_isFirstLine, m_incontent, m_isPasswordProtected;
     QString m_entryFilename;
-
 };
 
 #endif // CLIPLUGIN_H

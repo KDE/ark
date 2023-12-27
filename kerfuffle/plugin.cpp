@@ -12,7 +12,6 @@
 
 namespace Kerfuffle
 {
-
 Plugin::Plugin(QObject *parent, const KPluginMetaData &metaData)
     : QObject(parent)
     , m_enabled(true)

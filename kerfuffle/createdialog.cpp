@@ -10,8 +10,8 @@
 #include "createdialog.h"
 #include "archiveformat.h"
 #include "ark_debug.h"
-#include "ui_createdialog.h"
 #include "mimetypes.h"
+#include "ui_createdialog.h"
 
 #include <KMessageBox>
 #include <KSharedConfig>
@@ -21,21 +21,20 @@
 
 namespace Kerfuffle
 {
-class CreateDialogUI: public QWidget, public Ui::CreateDialog
+class CreateDialogUI : public QWidget, public Ui::CreateDialog
 {
     Q_OBJECT
 
 public:
     CreateDialogUI(QWidget *parent = nullptr)
-            : QWidget(parent) {
+        : QWidget(parent)
+    {
         setupUi(this);
     }
 };
 
-CreateDialog::CreateDialog(QWidget *parent,
-                           const QString &caption,
-                           const QUrl &startDir)
-        : QDialog(parent, Qt::Dialog)
+CreateDialog::CreateDialog(QWidget *parent, const QString &caption, const QUrl &startDir)
+    : QDialog(parent, Qt::Dialog)
 {
     setWindowTitle(caption);
     setModal(true);
@@ -108,7 +107,8 @@ void CreateDialog::slotUpdateWidgets(int index)
 
 void CreateDialog::slotUpdateFilenameExtension(int index)
 {
-    m_ui->chkAddExtension->setText(i18nc("the argument is a file extension (the period is not a typo)", "Automatically add .%1",
+    m_ui->chkAddExtension->setText(i18nc("the argument is a file extension (the period is not a typo)",
+                                         "Automatically add .%1",
                                          QMimeDatabase().mimeTypeForName(m_supportedMimeTypes.at(index)).preferredSuffix()));
 }
 

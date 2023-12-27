@@ -81,8 +81,8 @@ void CreateDialogTest::testBasicWidgets()
 {
     CreateDialog *dialog = new CreateDialog(nullptr, QString(), QUrl());
 
-    auto fileNameLineEdit = dialog->findChild<QLineEdit*>(QStringLiteral("filenameLineEdit"));
-    auto archiveTypeComboBox = dialog->findChild<QComboBox*>(QStringLiteral("mimeComboBox"));
+    auto fileNameLineEdit = dialog->findChild<QLineEdit *>(QStringLiteral("filenameLineEdit"));
+    auto archiveTypeComboBox = dialog->findChild<QComboBox *>(QStringLiteral("mimeComboBox"));
     QVERIFY(fileNameLineEdit);
     QVERIFY(archiveTypeComboBox);
 
@@ -134,8 +134,8 @@ void CreateDialogTest::testEncryption()
     QFETCH(bool, isEncryptionAvailable);
     QFETCH(bool, isHeaderEncryptionAvailable);
 
-    auto collapsibleEncryption = dialog->findChild<KCollapsibleGroupBox*>(QStringLiteral("collapsibleEncryption"));
-    auto encryptHeaderCheckBox = dialog->findChild<QCheckBox*>(QStringLiteral("encryptHeaderCheckBox"));
+    auto collapsibleEncryption = dialog->findChild<KCollapsibleGroupBox *>(QStringLiteral("collapsibleEncryption"));
+    auto encryptHeaderCheckBox = dialog->findChild<QCheckBox *>(QStringLiteral("encryptHeaderCheckBox"));
     QVERIFY(collapsibleEncryption);
     QVERIFY(encryptHeaderCheckBox);
 
@@ -181,8 +181,8 @@ void CreateDialogTest::testHeaderEncryptionTooltip()
 
     CreateDialog *dialog = new CreateDialog(nullptr, QString(), QUrl());
 
-    auto collapsibleEncryption = dialog->findChild<KCollapsibleGroupBox*>(QStringLiteral("collapsibleEncryption"));
-    auto encryptHeaderCheckBox = dialog->findChild<QCheckBox*>(QStringLiteral("encryptHeaderCheckBox"));
+    auto collapsibleEncryption = dialog->findChild<KCollapsibleGroupBox *>(QStringLiteral("collapsibleEncryption"));
+    auto encryptHeaderCheckBox = dialog->findChild<QCheckBox *>(QStringLiteral("encryptHeaderCheckBox"));
     QVERIFY(collapsibleEncryption);
     QVERIFY(encryptHeaderCheckBox);
 

@@ -31,7 +31,6 @@ private Q_SLOTS:
     void testExtractArgs();
 
 private:
-
     PluginManager m_pluginManger;
     Plugin *m_plugin;
 };

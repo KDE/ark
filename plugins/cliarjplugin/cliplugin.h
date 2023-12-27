@@ -18,11 +18,15 @@ class CliPlugin : public Kerfuffle::CliInterface
     Q_OBJECT
 
 public:
-    explicit CliPlugin(QObject *parent, const QVariantList & args);
+    explicit CliPlugin(QObject *parent, const QVariantList &args);
     ~CliPlugin() override;
 
-    bool addFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options, uint numberOfEntriesToAdd = 0) override;
-    bool moveFiles(const QVector<Kerfuffle::Archive::Entry*> &files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) override;
+    bool addFiles(const QVector<Kerfuffle::Archive::Entry *> &files,
+                  const Kerfuffle::Archive::Entry *destination,
+                  const Kerfuffle::CompressionOptions &options,
+                  uint numberOfEntriesToAdd = 0) override;
+    bool
+    moveFiles(const QVector<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions &options) override;
 
     void resetParsing() override;
     bool readListLine(const QString &line) override;
@@ -32,7 +36,7 @@ public:
     bool isNewMovedFileNamesMsg(const QString &line) override;
 
 protected:
-    bool handleLine(const QString& line) override;
+    bool handleLine(const QString &line) override;
 
 protected Q_SLOTS:
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus) override;
@@ -56,13 +60,13 @@ private:
     bool tryAddCurFileProperties(const QString &line);
     bool tryAddCurFileComment(const QString &line);
     void sendCurFileEntry();
-    bool readLine(const QString& line);
+    bool readLine(const QString &line);
 
     int m_remainingIgnoreLines = 0;
     QStringList m_headerComment;
-    QScopedPointer <ArjFileEntry> m_currentParsedFile;
+    QScopedPointer<ArjFileEntry> m_currentParsedFile;
     bool m_testPassed = true;
-    QVector<Archive::Entry*> m_renamedFiles;
+    QVector<Archive::Entry *> m_renamedFiles;
 };
 
 #endif // CLIPLUGIN_H

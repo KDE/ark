@@ -8,8 +8,8 @@
 #ifndef ADDTOARCHIVE_H
 #define ADDTOARCHIVE_H
 
-#include "kerfuffle_export.h"
 #include "archive_kerfuffle.h"
+#include "kerfuffle_export.h"
 
 #include <KJob>
 
@@ -50,9 +50,9 @@ public:
 
 public Q_SLOTS:
     bool addInput(const QUrl &url);
-    void setAutoFilenameSuffix(const QString& suffix);
+    void setAutoFilenameSuffix(const QString &suffix);
     void setFilename(const QUrl &path);
-    void setMimeType(const QString & mimeType);
+    void setMimeType(const QString &mimeType);
     void setPassword(const QString &password);
     void setHeaderEncryptionEnabled(bool enabled);
     void start() override;
@@ -61,7 +61,7 @@ protected:
     bool doKill() override;
 
 private Q_SLOTS:
-    void slotFinished(KJob*);
+    void slotFinished(KJob *);
     void slotStartJob();
 
 private:
@@ -75,7 +75,7 @@ private:
     QString m_firstPath;
     QString m_mimeType;
     QString m_password;
-    QVector<Archive::Entry*> m_entries;
+    QVector<Archive::Entry *> m_entries;
     bool m_changeToFirstPath;
     bool m_enableHeaderEncryption;
     bool m_immediateProgressReporting;
@@ -83,4 +83,3 @@ private:
 }
 
 #endif // ADDTOARCHIVE_H
-

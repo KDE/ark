@@ -16,23 +16,24 @@
 #include <KLocalizedString>
 #include <KPluginFactory>
 
-#include "settings.h"
+#include "batchextract.h"
 #include "mimetypes.h"
 #include "pluginmanager.h"
-#include "batchextract.h"
+#include "settings.h"
 
 K_PLUGIN_CLASS_WITH_JSON(ExtractFileItemAction, "extractfileitemaction.json")
 
 using namespace Kerfuffle;
 
-ExtractFileItemAction::ExtractFileItemAction(QObject* parent, const QVariantList&)
+ExtractFileItemAction::ExtractFileItemAction(QObject *parent, const QVariantList &)
     : KAbstractFileItemActionPlugin(parent)
     , m_pluginManager(new PluginManager(this))
-{}
-
-QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fileItemInfos, QWidget* parentWidget)
 {
-    QList<QAction*> actions;
+}
+
+QList<QAction *> ExtractFileItemAction::actions(const KFileItemListProperties &fileItemInfos, QWidget *parentWidget)
+{
+    QList<QAction *> actions;
     const QIcon icon = QIcon::fromTheme(QStringLiteral("archive-extract"));
 
     bool readOnlyParentDir = false;
@@ -62,14 +63,14 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
     }
 
     QAction *extractToAction = createAction(icon,
-                                                 i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract to…"),
-                                                 parentWidget,
-                                                 supportedUrls,
-                                                 AdditionalJobOptions::ShowDialog);
+                                            i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract to…"),
+                                            parentWidget,
+                                            supportedUrls,
+                                            AdditionalJobOptions::ShowDialog);
 
     // #189177: disable "extract here" actions in read-only folders.
     if (readOnlyParentDir) {
-       actions << extractToAction;
+        actions << extractToAction;
     } else {
         QMenu *extractMenu = new QMenu(parentWidget);
 
@@ -97,7 +98,7 @@ QList<QAction*> ExtractFileItemAction::actions(const KFileItemListProperties& fi
     return actions;
 }
 
-QAction *ExtractFileItemAction::createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, AdditionalJobOptions option)
+QAction *ExtractFileItemAction::createAction(const QIcon &icon, const QString &name, QWidget *parent, const QList<QUrl> &urls, AdditionalJobOptions option)
 {
     QAction *action = new QAction(icon, name, parent);
     connect(action, &QAction::triggered, this, [urls, option, this]() {

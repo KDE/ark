@@ -12,7 +12,7 @@
 
 #include <QFrame>
 
-class InfoPanel: public QFrame, Ui::InformationPanel
+class InfoPanel : public QFrame, Ui::InformationPanel
 {
     Q_OBJECT
 public:
@@ -40,7 +40,7 @@ public:
      *
      * @param fileName The new file name.
      */
-    void setPrettyFileName(const QString& fileName);
+    void setPrettyFileName(const QString &fileName);
 
     void updateWithDefaults();
 
@@ -50,7 +50,7 @@ private:
 
     void showMetaDataFor(const QModelIndex &index);
 
-    QPixmap getPixmap(const QString& name);
+    QPixmap getPixmap(const QString &name);
 
     ArchiveModel *m_model;
     QString m_prettyFileName;

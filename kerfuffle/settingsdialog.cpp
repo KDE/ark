@@ -8,10 +8,10 @@
 
 namespace Kerfuffle
 {
-
 SettingsDialog::SettingsDialog(QWidget *parent, const QString &name, KCoreConfigSkeleton *config)
     : KConfigDialog(parent, name, config)
-{}
+{
+}
 
 void SettingsDialog::updateWidgetsDefault()
 {

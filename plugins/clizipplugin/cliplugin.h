@@ -31,7 +31,7 @@ public:
     bool isFileExistsMsg(const QString &line) override;
     bool isFileExistsFileName(const QString &line) override;
 
-    bool moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options) override;
+    bool moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options) override;
     int moveRequiredSignals() const override;
 
 private Q_SLOTS:
@@ -43,11 +43,7 @@ private:
     void finishMoving(bool result);
     QString convertCompressionMethod(const QString &method);
 
-    enum ParseState {
-        ParseStateHeader = 0,
-        ParseStateComment,
-        ParseStateEntry
-    } m_parseState;
+    enum ParseState { ParseStateHeader = 0, ParseStateComment, ParseStateEntry } m_parseState;
 
     int m_linesComment;
     QString m_tempComment;

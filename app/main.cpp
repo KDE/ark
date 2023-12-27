@@ -6,18 +6,18 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include "ark_version.h"
-#include "ark_debug.h"
-#include "mainwindow.h"
-#include "batchextract.h"
 #include "addtoarchive.h"
+#include "ark_debug.h"
+#include "ark_version.h"
+#include "batchextract.h"
+#include "mainwindow.h"
 #include "pluginmanager.h"
 
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QDir>
 #include <QFileInfo>
 #include <QFileOpenEvent>
-#include <QDir>
 
 #include <KAboutData>
 #include <KCrash>
@@ -42,13 +42,14 @@ public:
     bool eventFilter(QObject *obj, QEvent *event) override
     {
         if (event->type() == QEvent::FileOpen) {
-            QFileOpenEvent *openEvent = static_cast<QFileOpenEvent*>(event);
+            QFileOpenEvent *openEvent = static_cast<QFileOpenEvent *>(event);
             qCDebug(ARK) << "File open event:" << openEvent->url() << "for window" << m_window;
             m_window->openUrl(openEvent->url());
             return true;
         }
         return QObject::eventFilter(obj, event);
     }
+
 private:
     MainWindow *m_window;
 };
@@ -61,7 +62,7 @@ int main(int argc, char **argv)
     KCrash::initialize();
 
     // Debug output can be turned on here:
-    //QLoggingCategory::setFilterRules(QStringLiteral("ark.debug = true"));
+    // QLoggingCategory::setFilterRules(QStringLiteral("ark.debug = true"));
 
     KLocalizedString::setApplicationDomain("ark");
 
@@ -72,62 +73,30 @@ int main(int argc, char **argv)
                          KAboutLicense::GPL,
                          i18n("(c) 1997-2019, The Ark Developers"),
                          QString(),
-                         QStringLiteral("https://apps.kde.org/ark")
-    );
+                         QStringLiteral("https://apps.kde.org/ark"));
 
     aboutData.setProgramLogo(QIcon::fromTheme(QStringLiteral(":/ark/ark.svgz")));
 
-    aboutData.addAuthor(i18n("Elvis Angelaccio"),
-                        i18n("Maintainer"),
-                        QStringLiteral("elvis.angelaccio@kde.org"));
-    aboutData.addAuthor(i18n("Ragnar Thomsen"),
-                        i18n("Maintainer, KF5 port"),
-                        QStringLiteral("rthomsen6@gmail.com"));
-    aboutData.addAuthor(i18n("Raphael Kubo da Costa"),
-                        i18n("Former Maintainer"),
-                        QStringLiteral("rakuco@FreeBSD.org"));
-    aboutData.addAuthor(i18n("Harald Hvaal"),
-                        i18n("Former Maintainer"),
-                        QStringLiteral("haraldhv@stud.ntnu.no"));
-    aboutData.addAuthor(i18n("Henrique Pinto"),
-                        i18n("Former Maintainer"),
-                        QStringLiteral("henrique.pinto@kdemail.net"));
-    aboutData.addAuthor(i18n("Helio Chissini de Castro"),
-                        i18n("Former maintainer"),
-                        QStringLiteral("helio@kde.org"));
-    aboutData.addAuthor(i18n("Georg Robbers"),
-                        QString(),
-                        QStringLiteral("Georg.Robbers@urz.uni-hd.de"));
-    aboutData.addAuthor(i18n("Roberto Selbach Teixeira"),
-                        QString(),
-                        QStringLiteral("maragato@kde.org"));
-    aboutData.addAuthor(i18n("Francois-Xavier Duranceau"),
-                        QString(),
-                        QStringLiteral("duranceau@kde.org"));
-    aboutData.addAuthor(i18n("Emily Ezust (Corel Corporation)"),
-                        QString(),
-                        QStringLiteral("emilye@corel.com"));
-    aboutData.addAuthor(i18n("Michael Jarrett (Corel Corporation)"),
-                        QString(),
-                        QStringLiteral("michaelj@corel.com"));
-    aboutData.addAuthor(i18n("Robert Palmbos"),
-                        QString(),
-                        QStringLiteral("palm9744@kettering.edu"));
+    aboutData.addAuthor(i18n("Elvis Angelaccio"), i18n("Maintainer"), QStringLiteral("elvis.angelaccio@kde.org"));
+    aboutData.addAuthor(i18n("Ragnar Thomsen"), i18n("Maintainer, KF5 port"), QStringLiteral("rthomsen6@gmail.com"));
+    aboutData.addAuthor(i18n("Raphael Kubo da Costa"), i18n("Former Maintainer"), QStringLiteral("rakuco@FreeBSD.org"));
+    aboutData.addAuthor(i18n("Harald Hvaal"), i18n("Former Maintainer"), QStringLiteral("haraldhv@stud.ntnu.no"));
+    aboutData.addAuthor(i18n("Henrique Pinto"), i18n("Former Maintainer"), QStringLiteral("henrique.pinto@kdemail.net"));
+    aboutData.addAuthor(i18n("Helio Chissini de Castro"), i18n("Former maintainer"), QStringLiteral("helio@kde.org"));
+    aboutData.addAuthor(i18n("Georg Robbers"), QString(), QStringLiteral("Georg.Robbers@urz.uni-hd.de"));
+    aboutData.addAuthor(i18n("Roberto Selbach Teixeira"), QString(), QStringLiteral("maragato@kde.org"));
+    aboutData.addAuthor(i18n("Francois-Xavier Duranceau"), QString(), QStringLiteral("duranceau@kde.org"));
+    aboutData.addAuthor(i18n("Emily Ezust (Corel Corporation)"), QString(), QStringLiteral("emilye@corel.com"));
+    aboutData.addAuthor(i18n("Michael Jarrett (Corel Corporation)"), QString(), QStringLiteral("michaelj@corel.com"));
+    aboutData.addAuthor(i18n("Robert Palmbos"), QString(), QStringLiteral("palm9744@kettering.edu"));
 
     aboutData.addCredit(i18n("Vladyslav Batyrenko"),
                         i18n("Advanced editing functionalities"),
                         QString(),
                         QStringLiteral("https://mvlabat.github.io/ark-gsoc-2016/"));
-    aboutData.addCredit(i18n("Bryce Corkins"),
-                        i18n("Icons"),
-                        QStringLiteral("dbryce@attglobal.net"));
-    aboutData.addCredit(i18n("Liam Smit"),
-                        i18n("Ideas, help with the icons"),
-                        QStringLiteral("smitty@absamail.co.za"));
-    aboutData.addCredit(i18n("Andrew Smith"),
-                        i18n("bkisofs code"),
-                        QString(),
-                        QStringLiteral("http://littlesvr.ca/misc/contactandrew.php"));
+    aboutData.addCredit(i18n("Bryce Corkins"), i18n("Icons"), QStringLiteral("dbryce@attglobal.net"));
+    aboutData.addCredit(i18n("Liam Smit"), i18n("Ideas, help with the icons"), QStringLiteral("smitty@absamail.co.za"));
+    aboutData.addCredit(i18n("Andrew Smith"), i18n("bkisofs code"), QString(), QStringLiteral("http://littlesvr.ca/misc/contactandrew.php"));
 
     KAboutData::setApplicationData(aboutData);
     application.setWindowIcon(QIcon::fromTheme(QStringLiteral("ark"), application.windowIcon()));
@@ -144,8 +113,8 @@ int main(int argc, char **argv)
                                         i18n("Destination folder to extract to. Defaults to current path if not specified."),
                                         QStringLiteral("directory")));
 
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("O") << QStringLiteral("opendestination"),
-                                        i18n("Open destination folder after extraction.")));
+    parser.addOption(
+        QCommandLineOption(QStringList() << QStringLiteral("O") << QStringLiteral("opendestination"), i18n("Open destination folder after extraction.")));
 
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("c") << QStringLiteral("add"),
                                         i18n("Query the user for an archive filename and add specified files to it. Quit when finished.")));
@@ -157,21 +126,23 @@ int main(int argc, char **argv)
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("p") << QStringLiteral("changetofirstpath"),
                                         i18n("Change the current dir to the first entry and add all other entries relative to this one.")));
 
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("f") << QStringLiteral("autofilename"),
-                                        i18n("Automatically choose a filename, with the selected suffix (for example rar, tar.gz, zip or any other supported types)"),
-                                        QStringLiteral("suffix")));
+    parser.addOption(
+        QCommandLineOption(QStringList() << QStringLiteral("f") << QStringLiteral("autofilename"),
+                           i18n("Automatically choose a filename, with the selected suffix (for example rar, tar.gz, zip or any other supported types)"),
+                           QStringLiteral("suffix")));
 
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("b") << QStringLiteral("batch"),
-                                        i18n("Use the batch interface instead of the usual dialog. This option is implied if more than one url is specified.")));
+    parser.addOption(
+        QCommandLineOption(QStringList() << QStringLiteral("b") << QStringLiteral("batch"),
+                           i18n("Use the batch interface instead of the usual dialog. This option is implied if more than one url is specified.")));
 
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("e") << QStringLiteral("autodestination"),
                                         i18n("The destination argument will be set to the path of the first file supplied.")));
 
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("a") << QStringLiteral("autosubfolder"),
-                                        i18n("Archive contents will be read, and if detected to not be a single folder or a single file archive, a subfolder with the name of the archive will be created.")));
+                                        i18n("Archive contents will be read, and if detected to not be a single folder or a single file archive, a subfolder "
+                                             "with the name of the archive will be created.")));
 
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("m") << QStringLiteral("mimetypes"),
-                                        i18n("List supported MIME types.")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("m") << QStringLiteral("mimetypes"), i18n("List supported MIME types.")));
 
     aboutData.setupCommandLine(&parser);
 
@@ -190,7 +161,7 @@ int main(int argc, char **argv)
             return -1;
         }
 
-        MainWindow* window = new MainWindow;
+        MainWindow *window = new MainWindow;
         window->restore(1);
         if (!window->loadPart()) {
             delete window;
@@ -201,9 +172,7 @@ int main(int argc, char **argv)
         // Open any given URLs.
         const QStringList urls = parser.positionalArguments();
 
-        if (parser.isSet(QStringLiteral("add")) ||
-            parser.isSet(QStringLiteral("add-to"))) {
-
+        if (parser.isSet(QStringLiteral("add")) || parser.isSet(QStringLiteral("add-to"))) {
             if (urls.isEmpty()) {
                 std::cout << "Missing arguments: urls." << std::endl;
                 parser.showHelp(-1);
@@ -220,9 +189,7 @@ int main(int argc, char **argv)
 
             if (parser.isSet(QStringLiteral("add-to"))) {
                 qCDebug(ARK) << "Setting filename to" << parser.value(QStringLiteral("add-to"));
-                addToArchiveJob->setFilename(QUrl::fromUserInput(parser.value(QStringLiteral("add-to")),
-                                                                 QDir::currentPath(),
-                                                                 QUrl::AssumeLocalFile));
+                addToArchiveJob->setFilename(QUrl::fromUserInput(parser.value(QStringLiteral("add-to")), QDir::currentPath(), QUrl::AssumeLocalFile));
             }
 
             if (parser.isSet(QStringLiteral("autofilename"))) {
@@ -231,7 +198,7 @@ int main(int argc, char **argv)
             }
 
             for (int i = 0; i < urls.count(); ++i) {
-                //TODO: use the returned value here?
+                // TODO: use the returned value here?
                 qCDebug(ARK) << "Adding url" << QUrl::fromUserInput(urls.at(i), QDir::currentPath(), QUrl::AssumeLocalFile);
                 addToArchiveJob->addInput(QUrl::fromUserInput(urls.at(i), QDir::currentPath(), QUrl::AssumeLocalFile));
             }
@@ -246,7 +213,6 @@ int main(int argc, char **argv)
             addToArchiveJob->start();
 
         } else if (parser.isSet(QStringLiteral("batch"))) {
-
             if (urls.isEmpty()) {
                 qCDebug(ARK) << "No urls to be extracted were provided.";
                 parser.showHelp(-1);
@@ -292,7 +258,6 @@ int main(int argc, char **argv)
             batchJob->start();
 
         } else if (parser.isSet(QStringLiteral("mimetypes"))) {
-
             Kerfuffle::PluginManager pluginManager;
             const auto mimeTypes = pluginManager.supportedMimeTypes();
             QTextStream cout(stdout);
@@ -302,7 +267,6 @@ int main(int argc, char **argv)
             return 0;
 
         } else {
-
             MainWindow *window = new MainWindow;
             if (!window->loadPart()) { // if loading the part fails
                 delete window;

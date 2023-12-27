@@ -35,7 +35,7 @@ public:
     /**
      * Creates a new BatchExtract object.
      */
-    explicit BatchExtract(QObject* parent = nullptr);
+    explicit BatchExtract(QObject *parent = nullptr);
 
     /**
      * Destroys a BatchExtract object.
@@ -51,7 +51,7 @@ public:
      *
      * @see setAutoSubfolder
      */
-    void addExtraction(const QUrl& url);
+    void addExtraction(const QUrl &url);
 
     bool doKill() override;
 
@@ -89,7 +89,7 @@ public:
      *
      * @param url The file that will be added to the list.
      */
-    void addInput(const QUrl& url);
+    void addInput(const QUrl &url);
 
     /**
      * Shows the extract options dialog before extracting the files.
@@ -120,7 +120,7 @@ public:
      *
      * @param folder The directory that will be used.
      */
-    void setDestinationFolder(const QString& folder);
+    void setDestinationFolder(const QString &folder);
 
     /**
      * Returns whether the destination folder should
@@ -194,7 +194,7 @@ private Q_SLOTS:
 
 private:
     int m_initialJobCount;
-    QMap<KJob*, QPair<QString, QString> > m_fileNames;
+    QMap<KJob *, QPair<QString, QString>> m_fileNames;
     bool m_autoSubfolder;
 
     QVector<QUrl> m_inputs;

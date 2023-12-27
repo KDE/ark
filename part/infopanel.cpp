@@ -16,13 +16,14 @@
 
 using namespace Kerfuffle;
 
-QPixmap InfoPanel::getPixmap(const QString& name)
+QPixmap InfoPanel::getPixmap(const QString &name)
 {
     return QIcon::fromTheme(name).pixmap(48);
 }
 
 InfoPanel::InfoPanel(ArchiveModel *model, QWidget *parent)
-        : QFrame(parent), m_model(model)
+    : QFrame(parent)
+    , m_model(model)
 {
     setupUi(this);
 
@@ -70,12 +71,12 @@ QString InfoPanel::prettyFileName() const
     return m_prettyFileName;
 }
 
-void InfoPanel::setPrettyFileName(const QString& fileName)
+void InfoPanel::setPrettyFileName(const QString &fileName)
 {
     m_prettyFileName = fileName;
 }
 
-void InfoPanel::setIndex(const QModelIndex& index)
+void InfoPanel::setIndex(const QModelIndex &index)
 {
     if (!index.isValid()) {
         updateWithDefaults();
@@ -106,7 +107,6 @@ void InfoPanel::setIndex(const QModelIndex& index)
                 additionalInfo->setText(KIO::convertSize(entry->property("size").toULongLong()));
             } else {
                 additionalInfo->setText(i18n("Unknown size"));
-
             }
         }
 
@@ -120,12 +120,12 @@ void InfoPanel::setIndexes(const QModelIndexList &list)
     if (list.size() == 0) {
         setIndex(QModelIndex());
     } else if (list.size() == 1) {
-        setIndex(list[ 0 ]);
+        setIndex(list[0]);
     } else {
         iconLabel->setPixmap(getPixmap(QStringLiteral("utilities-file-archiver")));
         fileName->setText(i18np("One file selected", "%1 files selected", list.size()));
         quint64 totalSize = 0;
-        for (const QModelIndex& index : list) {
+        for (const QModelIndex &index : list) {
             const Archive::Entry *entry = m_model->entryForIndex(index);
             totalSize += entry->property("size").toULongLong();
         }

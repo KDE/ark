@@ -13,23 +13,19 @@
 
 namespace Kerfuffle
 {
-
 class KERFUFFLE_EXPORT Options
 {
 public:
-
     bool encryptedArchiveHint() const;
     void setEncryptedArchiveHint(bool encrypted);
 
 private:
-
     bool m_encryptedArchiveHint = false;
 };
 
 class KERFUFFLE_EXPORT CompressionOptions : public Options
 {
 public:
-
     /**
      * @return Whether a custom compression level has been set in the options.
      * If false, the default level from the ArchiveFormat should be used instead.
@@ -76,7 +72,6 @@ private:
 class KERFUFFLE_EXPORT ExtractionOptions : public Options
 {
 public:
-
     bool preservePaths() const;
     void setPreservePaths(bool preservePaths);
     bool isDragAndDropEnabled() const;
@@ -85,7 +80,6 @@ public:
     void setAlwaysUseTempDir(bool alwaysUseTempDir);
 
 private:
-
     bool m_preservePaths = true;
     bool m_dragAndDrop = false;
     bool m_alwaysUseTempDir = false;

@@ -7,8 +7,8 @@
 #ifndef PLUGINSETTINGSPAGE_H
 #define PLUGINSETTINGSPAGE_H
 
-#include "settingspage.h"
 #include "pluginmanager.h"
+#include "settingspage.h"
 #include "ui_pluginsettingspage.h"
 
 class QTreeWidgetItem;
@@ -30,7 +30,7 @@ private Q_SLOTS:
     void slotItemChanged(QTreeWidgetItem *item);
 
 private:
-    QStringList m_toBeDisabled;  // List of plugins that will be disabled upon clicking the Apply button.
+    QStringList m_toBeDisabled; // List of plugins that will be disabled upon clicking the Apply button.
     PluginManager m_pluginManager;
 };
 }

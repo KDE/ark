@@ -21,10 +21,9 @@ ArchiveSortFilterModel::~ArchiveSortFilterModel()
 {
 }
 
-bool ArchiveSortFilterModel::lessThan(const QModelIndex &leftIndex,
-                                      const QModelIndex &rightIndex) const
+bool ArchiveSortFilterModel::lessThan(const QModelIndex &leftIndex, const QModelIndex &rightIndex) const
 {
-    ArchiveModel *srcModel = qobject_cast<ArchiveModel*>(sourceModel());
+    ArchiveModel *srcModel = qobject_cast<ArchiveModel *>(sourceModel());
     const int col = srcModel->shownColumns().at(leftIndex.column());
     const QByteArray property = srcModel->propertiesMap().value(col);
 

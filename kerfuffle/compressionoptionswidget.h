@@ -7,9 +7,9 @@
 #ifndef COMPRESSIONOPTIONSWIDGET_H
 #define COMPRESSIONOPTIONSWIDGET_H
 
-#include "kerfuffle_export.h"
 #include "archive_kerfuffle.h"
 #include "archiveformat.h"
+#include "kerfuffle_export.h"
 #include "ui_compressionoptionswidget.h"
 
 #include <QMimeType>
@@ -22,8 +22,7 @@ class KERFUFFLE_EXPORT CompressionOptionsWidget : public QWidget, public Ui::Com
     Q_OBJECT
 
 public:
-    explicit CompressionOptionsWidget(QWidget *parent = nullptr,
-                                      const CompressionOptions &opts = {});
+    explicit CompressionOptionsWidget(QWidget *parent = nullptr, const CompressionOptions &opts = {});
     int compressionLevel() const;
     QString compressionMethod() const;
     QString encryptionMethod() const;

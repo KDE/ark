@@ -10,15 +10,14 @@
 #include "kerfuffle_export.h"
 
 #include <QCheckBox>
-#include <QString>
 #include <QHash>
-#include <QWaitCondition>
 #include <QMutex>
+#include <QString>
 #include <QVariant>
+#include <QWaitCondition>
 
 namespace Kerfuffle
 {
-
 typedef QHash<QString, QVariant> QueryData;
 
 class KERFUFFLE_EXPORT Query
@@ -42,7 +41,9 @@ protected:
      * Protected constructor
      */
     Query();
-    virtual ~Query() {}
+    virtual ~Query()
+    {
+    }
 
     void setResponse(const QVariant &response);
 
@@ -60,7 +61,7 @@ private:
 class KERFUFFLE_EXPORT OverwriteQuery : public Query
 {
 public:
-    explicit OverwriteQuery(const QString& filename);
+    explicit OverwriteQuery(const QString &filename);
     void execute() override;
     bool responseCancelled();
     bool responseOverwriteAll();
@@ -74,6 +75,7 @@ public:
     bool noRenameMode();
     void setMultiMode(bool enableMultiMode);
     bool multiMode();
+
 private:
     bool m_noRenameMode;
     bool m_multiMode;
@@ -86,7 +88,7 @@ private:
 class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
 {
 public:
-    explicit PasswordNeededQuery(const QString& archiveFilename, bool incorrectTryAgain = false);
+    explicit PasswordNeededQuery(const QString &archiveFilename, bool incorrectTryAgain = false);
     void execute() override;
 
     bool responseCancelled();
@@ -100,7 +102,7 @@ public:
 class KERFUFFLE_EXPORT LoadCorruptQuery : public Query
 {
 public:
-    explicit LoadCorruptQuery(const QString& archiveFilename);
+    explicit LoadCorruptQuery(const QString &archiveFilename);
     void execute() override;
 
     bool responseYes();
@@ -109,17 +111,18 @@ public:
 class KERFUFFLE_EXPORT ContinueExtractionQuery : public Query
 {
 public:
-    explicit ContinueExtractionQuery(const QString& error, const QString& archiveEntry);
+    explicit ContinueExtractionQuery(const QString &error, const QString &archiveEntry);
     void execute() override;
 
     bool responseCancelled();
     bool dontAskAgain();
+
 private:
     QCheckBox m_chkDontAskAgain;
 };
 
 }
 
-Q_DECLARE_METATYPE(Kerfuffle::Query*)
+Q_DECLARE_METATYPE(Kerfuffle::Query *)
 
 #endif /* ifndef QUERIES_H */

@@ -13,8 +13,8 @@
 
 #include <KIO/JobTracker>
 #include <KIO/JobUiDelegate>
-#include <KIO/OpenUrlJob>
 #include <KIO/JobUiDelegateFactory>
+#include <KIO/OpenUrlJob>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KWidgetJobTracker>
@@ -24,11 +24,11 @@
 #include <QPointer>
 #include <QTimer>
 
-BatchExtract::BatchExtract(QObject* parent)
-    : KCompositeJob(parent),
-      m_autoSubfolder(false),
-      m_preservePaths(true),
-      m_openDestinationAfterExtraction(false)
+BatchExtract::BatchExtract(QObject *parent)
+    : KCompositeJob(parent)
+    , m_autoSubfolder(false)
+    , m_preservePaths(true)
+    , m_openDestinationAfterExtraction(false)
 {
     setCapabilities(KJob::Killable);
 
@@ -39,13 +39,14 @@ BatchExtract::~BatchExtract()
 {
 }
 
-void BatchExtract::addExtraction(const QUrl& url)
+void BatchExtract::addExtraction(const QUrl &url)
 {
     QString destination = destinationFolder();
 
     auto job = Kerfuffle::Archive::batchExtract(url.toLocalFile(), destination, autoSubfolder(), preservePaths());
 
-    qCDebug(ARK) << QString(QStringLiteral("Registering job from archive %1, to %2, preservePaths %3")).arg(url.toLocalFile(), destination, QString::number(preservePaths()));
+    qCDebug(ARK) << QString(QStringLiteral("Registering job from archive %1, to %2, preservePaths %3"))
+                        .arg(url.toLocalFile(), destination, QString::number(preservePaths()));
 
     addSubjob(job);
 
@@ -53,8 +54,7 @@ void BatchExtract::addExtraction(const QUrl& url)
 
     connect(job, &KJob::percentChanged, this, &BatchExtract::forwardProgress);
 
-    connect(job, &Kerfuffle::BatchExtractJob::userQuery,
-            this, &BatchExtract::slotUserQuery);
+    connect(job, &Kerfuffle::BatchExtractJob::userQuery, this, &BatchExtract::slotUserQuery);
 }
 
 bool BatchExtract::doKill()
@@ -93,17 +93,16 @@ void BatchExtract::slotStartJob()
         return;
     }
 
-    for (const auto& url : std::as_const(m_inputs)) {
+    for (const auto &url : std::as_const(m_inputs)) {
         addExtraction(url);
     }
 
     KIO::getJobTracker()->registerJob(this);
 
     Q_EMIT description(this,
-                     i18n("Extracting Files"),
-                     qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
-                     qMakePair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second)
-                    );
+                       i18n("Extracting Files"),
+                       qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
+                       qMakePair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second));
 
     m_initialJobCount = subjobs().size();
 
@@ -132,15 +131,23 @@ void BatchExtract::slotResult(KJob *job)
         if (job->error() != KJob::KilledJobError) {
             const QString filename = m_fileNames.value(job).first;
             if (hasSubjobs()) {
-                KMessageBox::error(nullptr,
-                                   job->errorString().isEmpty() ?
-                                   xi18nc("@info", "There was an error while extracting <filename>%1</filename>. Any further archive will not be extracted.", filename) :
-                                   xi18nc("@info", "There was an error while extracting <filename>%1</filename>:<nl/><message>%2</message><nl/>Any further archive will not be extracted.", filename, job->errorString()));
+                KMessageBox::error(
+                    nullptr,
+                    job->errorString().isEmpty()
+                        ? xi18nc("@info", "There was an error while extracting <filename>%1</filename>. Any further archive will not be extracted.", filename)
+                        : xi18nc("@info",
+                                 "There was an error while extracting <filename>%1</filename>:<nl/><message>%2</message><nl/>Any further archive will not be "
+                                 "extracted.",
+                                 filename,
+                                 job->errorString()));
             } else {
                 KMessageBox::error(nullptr,
-                                   job->errorString().isEmpty() ?
-                                   xi18nc("@info", "There was an error while extracting <filename>%1</filename>.", filename) :
-                                   xi18nc("@info", "There was an error while extracting <filename>%1</filename>:<nl/><message>%2</message>", filename, job->errorString()));
+                                   job->errorString().isEmpty()
+                                       ? xi18nc("@info", "There was an error while extracting <filename>%1</filename>.", filename)
+                                       : xi18nc("@info",
+                                                "There was an error while extracting <filename>%1</filename>:<nl/><message>%2</message>",
+                                                filename,
+                                                job->errorString()));
             }
         }
 
@@ -164,10 +171,9 @@ void BatchExtract::slotResult(KJob *job)
     } else {
         qCDebug(ARK) << "Starting the next job";
         Q_EMIT description(this,
-                         i18n("Extracting Files"),
-                         qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
-                         qMakePair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second)
-                        );
+                           i18n("Extracting Files"),
+                           qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
+                           qMakePair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second));
         subjobs().at(0)->start();
     }
 }
@@ -180,7 +186,7 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
     setPercent(jobPart * remainingJobs + percent / static_cast<ulong>(m_initialJobCount));
 }
 
-void BatchExtract::addInput(const QUrl& url)
+void BatchExtract::addInput(const QUrl &url)
 {
     qCDebug(ARK) << "Adding archive" << url.toLocalFile();
 
@@ -211,7 +217,7 @@ QString BatchExtract::destinationFolder() const
     }
 }
 
-void BatchExtract::setDestinationFolder(const QString& folder)
+void BatchExtract::setDestinationFolder(const QString &folder)
 {
     if (QFileInfo(folder).isDir()) {
         m_destinationFolder = folder;
@@ -232,8 +238,7 @@ void BatchExtract::setPreservePaths(bool value)
 
 bool BatchExtract::showExtractDialog()
 {
-    QPointer<Kerfuffle::ExtractionDialog> dialog =
-        new Kerfuffle::ExtractionDialog;
+    QPointer<Kerfuffle::ExtractionDialog> dialog = new Kerfuffle::ExtractionDialog;
 
     if (m_inputs.size() > 1) {
         dialog.data()->batchModeOption();
@@ -258,7 +263,7 @@ bool BatchExtract::showExtractDialog()
                 return;
             }
 
-            auto archive = qobject_cast<Kerfuffle::LoadJob*>(job)->archive();
+            auto archive = qobject_cast<Kerfuffle::LoadJob *>(job)->archive();
             dialog->setExtractToSubfolder(archive->hasMultipleTopLevelEntries());
             dialog->setSubfolder(archive->subfolderName());
         });
@@ -291,7 +296,9 @@ bool BatchExtract::showExtractDialog()
 
     if (!destinationDirectory.isEmpty() && !destinationDirectory.isLocalFile()) {
         KMessageBox::error(nullptr,
-                            xi18nc("@info", "The archive could not be extracted to <filename>%1</filename> because Ark can only extract to local destinations.", destinationDirectory.toDisplayString()));
+                           xi18nc("@info",
+                                  "The archive could not be extracted to <filename>%1</filename> because Ark can only extract to local destinations.",
+                                  destinationDirectory.toDisplayString()));
     }
 
     delete dialog.data();

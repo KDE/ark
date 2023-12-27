@@ -8,8 +8,8 @@
 */
 
 #include "archive_kerfuffle.h"
-#include "ark_debug.h"
 #include "archiveinterface.h"
+#include "ark_debug.h"
 #include "jobs.h"
 #include "mimetypes.h"
 #include "pluginmanager.h"
@@ -21,7 +21,6 @@
 
 namespace Kerfuffle
 {
-
 Archive *Archive::create(const QString &fileName, QObject *parent)
 {
     return create(fileName, QString(), parent);
@@ -35,7 +34,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     const QMimeType mimeType = fixedMimeType.isEmpty() ? determineMimeType(fileName) : QMimeDatabase().mimeTypeForName(fixedMimeType);
 
     qCDebug(ARK) << "Looking for plugins that handle the mimetype: " << mimeType.name();
-    QVector<Plugin*> offers = pluginManager.preferredPluginsFor(mimeType);
+    QVector<Plugin *> offers = pluginManager.preferredPluginsFor(mimeType);
     if (offers.isEmpty()) {
         if (fixedMimeType.isEmpty()) {
             const QMimeType extensionMimeType = determineMimeType(fileName, PreferExtensionMime);
@@ -66,8 +65,7 @@ Archive *Archive::create(const QString &fileName, Plugin *plugin, QObject *paren
 
     qCDebug(ARK) << "Checking plugin" << plugin->metaData().pluginId();
 
-    const QVariantList args = {QVariant(QFileInfo(fileName).absoluteFilePath()),
-                               QVariant().fromValue(plugin->metaData())};
+    const QVariantList args = {QVariant(QFileInfo(fileName).absoluteFilePath()), QVariant().fromValue(plugin->metaData())};
     ReadOnlyArchiveInterface *iface = KPluginFactory::instantiatePlugin<ReadOnlyArchiveInterface>(plugin->metaData(), nullptr, args).plugin;
     if (!iface) {
         qCWarning(ARK) << "Could not create plugin instance" << plugin->metaData().pluginId();
@@ -91,7 +89,8 @@ BatchExtractJob *Archive::batchExtract(const QString &fileName, const QString &d
     return batchJob;
 }
 
-CreateJob *Archive::create(const QString &fileName, const QString &mimeType, const QVector<Archive::Entry*> &entries, const CompressionOptions &options, QObject *parent)
+CreateJob *
+Archive::create(const QString &fileName, const QString &mimeType, const QVector<Archive::Entry *> &entries, const CompressionOptions &options, QObject *parent)
 {
     auto archive = create(fileName, mimeType, parent);
     auto createJob = new CreateJob(archive, entries, options);
@@ -129,22 +128,22 @@ LoadJob *Archive::load(const QString &fileName, Plugin *plugin, QObject *parent)
 }
 
 Archive::Archive(ArchiveError errorCode, QObject *parent)
-        : QObject(parent)
-        , m_iface(nullptr)
-        , m_error(errorCode)
+    : QObject(parent)
+    , m_iface(nullptr)
+    , m_error(errorCode)
 {
     qCDebug(ARK) << "Created archive instance with error";
 }
 
 Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent)
-        : QObject(parent)
-        , m_iface(archiveInterface)
-        , m_isReadOnly(isReadOnly)
-        , m_isSingleFolder(false)
-        , m_isMultiVolume(false)
-        , m_extractedFilesSize(0)
-        , m_error(NoError)
-        , m_encryptionType(Unencrypted)
+    : QObject(parent)
+    , m_iface(archiveInterface)
+    , m_isReadOnly(isReadOnly)
+    , m_isSingleFolder(false)
+    , m_isMultiVolume(false)
+    , m_extractedFilesSize(0)
+    , m_error(NoError)
+    , m_encryptionType(Unencrypted)
 {
     qCDebug(ARK) << "Created archive instance";
 
@@ -159,8 +158,7 @@ void Archive::onCompressionMethodFound(const QString &method)
 {
     QStringList methods = property("compressionMethods").toStringList();
 
-    if (!methods.contains(method) &&
-        method != QLatin1String("Store")) {
+    if (!methods.contains(method) && method != QLatin1String("Store")) {
         methods.append(method);
     }
     methods.sort();
@@ -193,15 +191,15 @@ QString Archive::completeBaseName() const
     if (base.right(4).toUpper() == QLatin1String(".TAR")) {
         base.chop(4);
 
-    // Multi-volume 7z's are named name.7z.001.
+        // Multi-volume 7z's are named name.7z.001.
     } else if (base.right(3).toUpper() == QLatin1String(".7Z")) {
         base.chop(3);
 
-    // Multi-volume zip's are named name.zip.001.
+        // Multi-volume zip's are named name.zip.001.
     } else if (base.right(4).toUpper() == QLatin1String(".ZIP")) {
         base.chop(4);
 
-    // For multivolume rar's we want to remove the ".partNNN" suffix.
+        // For multivolume rar's we want to remove the ".partNNN" suffix.
     } else if (suffix.toUpper() == QLatin1String("RAR")) {
         base.remove(QRegularExpression(QStringLiteral("\\.part[0-9]{1,3}$")));
     }
@@ -219,7 +217,7 @@ QString Archive::comment() const
     return isValid() ? m_iface->comment() : QString();
 }
 
-CommentJob* Archive::addComment(const QString &comment)
+CommentJob *Archive::addComment(const QString &comment)
 {
     if (!isValid()) {
         return nullptr;
@@ -227,11 +225,11 @@ CommentJob* Archive::addComment(const QString &comment)
 
     qCDebug(ARK) << "Going to add comment:" << comment;
     Q_ASSERT(!isReadOnly());
-    CommentJob *job = new CommentJob(comment, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    CommentJob *job = new CommentJob(comment, static_cast<ReadWriteArchiveInterface *>(m_iface));
     return job;
 }
 
-TestJob* Archive::testArchive()
+TestJob *Archive::testArchive()
 {
     if (!isValid()) {
         return nullptr;
@@ -263,8 +261,7 @@ bool Archive::isEmpty() const
 
 bool Archive::isReadOnly() const
 {
-    return isValid() ? (m_iface->isReadOnly() || m_isReadOnly ||
-                        (isMultiVolume() && (numberOfEntries() > 0))) : false;
+    return isValid() ? (m_iface->isReadOnly() || m_isReadOnly || (isMultiVolume() && (numberOfEntries() > 0))) : false;
 }
 
 bool Archive::isSingleFile() const
@@ -362,7 +359,7 @@ ArchiveError Archive::error() const
     return m_error;
 }
 
-DeleteJob* Archive::deleteFiles(QVector<Archive::Entry*> &entries)
+DeleteJob *Archive::deleteFiles(QVector<Archive::Entry *> &entries)
 {
     if (!isValid()) {
         return nullptr;
@@ -373,12 +370,12 @@ DeleteJob* Archive::deleteFiles(QVector<Archive::Entry*> &entries)
     if (m_iface->isReadOnly()) {
         return nullptr;
     }
-    DeleteJob *newJob = new DeleteJob(entries, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    DeleteJob *newJob = new DeleteJob(entries, static_cast<ReadWriteArchiveInterface *>(m_iface));
 
     return newJob;
 }
 
-AddJob* Archive::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options)
+AddJob *Archive::addFiles(const QVector<Archive::Entry *> &files, const Archive::Entry *destination, const CompressionOptions &options)
 {
     if (!isValid()) {
         return nullptr;
@@ -392,12 +389,12 @@ AddJob* Archive::addFiles(const QVector<Archive::Entry*> &files, const Archive::
     qCDebug(ARK) << "Going to add files" << files << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
 
-    AddJob *newJob = new AddJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    AddJob *newJob = new AddJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface *>(m_iface));
     connect(newJob, &AddJob::result, this, &Archive::onAddFinished);
     return newJob;
 }
 
-MoveJob* Archive::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options)
+MoveJob *Archive::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     if (!isValid()) {
         return nullptr;
@@ -411,11 +408,11 @@ MoveJob* Archive::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entr
     qCDebug(ARK) << "Going to move files" << files << "to destination" << destination << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
 
-    MoveJob *newJob = new MoveJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    MoveJob *newJob = new MoveJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface *>(m_iface));
     return newJob;
 }
 
-CopyJob* Archive::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+CopyJob *Archive::copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     if (!isValid()) {
         return nullptr;
@@ -429,11 +426,11 @@ CopyJob* Archive::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entr
     qCDebug(ARK) << "Going to copy files" << files << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
 
-    CopyJob *newJob = new CopyJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface*>(m_iface));
+    CopyJob *newJob = new CopyJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface *>(m_iface));
     return newJob;
 }
 
-ExtractJob* Archive::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDir, ExtractionOptions options)
+ExtractJob *Archive::extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDir, ExtractionOptions options)
 {
     if (!isValid()) {
         return nullptr;
@@ -489,20 +486,20 @@ void Archive::encrypt(const QString &password, bool encryptHeader)
     m_encryptionType = encryptHeader ? HeaderEncrypted : Encrypted;
 }
 
-void Archive::onAddFinished(KJob* job)
+void Archive::onAddFinished(KJob *job)
 {
-    //if the archive was previously a single folder archive and an add job
-    //has successfully finished, then it is no longer a single folder
-    //archive (for the current implementation, which does not allow adding
-    //folders/files other places than the root.
-    //TODO: handle the case of creating a new file and singlefolderarchive
-    //then.
+    // if the archive was previously a single folder archive and an add job
+    // has successfully finished, then it is no longer a single folder
+    // archive (for the current implementation, which does not allow adding
+    // folders/files other places than the root.
+    // TODO: handle the case of creating a new file and singlefolderarchive
+    // then.
     if (m_isSingleFolder && !job->error()) {
         m_isSingleFolder = false;
     }
 }
 
-void Archive::onUserQuery(Query* query)
+void Archive::onUserQuery(Query *query)
 {
     query->execute();
 }

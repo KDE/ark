@@ -8,7 +8,6 @@
 
 namespace Kerfuffle
 {
-
 bool Options::encryptedArchiveHint() const
 {
     return m_encryptedArchiveHint;

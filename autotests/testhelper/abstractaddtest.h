@@ -20,7 +20,6 @@ class AbstractAddTest : public QObject
     Q_OBJECT
 
 public:
-
     static QStringList getEntryPaths(Kerfuffle::Archive *archive);
 
     /**
@@ -32,11 +31,15 @@ public:
      * @param expectedNewPaths New expected paths that the job should create.
      * @param numberOfEntries Number of entries in the archive expected after the job ends.
      */
-    void setupRows(const QString &testName, const QString &archiveName, const QVector<Kerfuffle::Archive::Entry*> &targetEntries, Kerfuffle::Archive::Entry *destination, const QStringList &expectedNewPaths, uint numberOfEntries) const;
+    void setupRows(const QString &testName,
+                   const QString &archiveName,
+                   const QVector<Kerfuffle::Archive::Entry *> &targetEntries,
+                   Kerfuffle::Archive::Entry *destination,
+                   const QStringList &expectedNewPaths,
+                   uint numberOfEntries) const;
 
 protected:
-
     Kerfuffle::PluginManager m_pluginManager;
 };
 
-#endif //ABSTRACTADDTEST_H
+#endif // ABSTRACTADDTEST_H

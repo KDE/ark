@@ -9,8 +9,8 @@
 
 #include "archiveinterface.h"
 #include "ark_debug.h"
-#include "mimetypes.h"
 #include "jobs.h"
+#include "mimetypes.h"
 
 #include <QDir>
 #include <QFileInfo>
@@ -29,7 +29,7 @@ ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVaria
     , m_unpackedSize(0)
 {
     Q_ASSERT(args.size() >= 2);
-    qRegisterMetaType<Kerfuffle::Query*>();
+    qRegisterMetaType<Kerfuffle::Query *>();
 
     qCDebug(ARK) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();
@@ -86,7 +86,7 @@ QString ReadOnlyArchiveInterface::password() const
 
 bool ReadOnlyArchiveInterface::doKill()
 {
-    //default implementation
+    // default implementation
     return false;
 }
 
@@ -121,7 +121,7 @@ QString ReadOnlyArchiveInterface::multiVolumeName() const
 }
 
 ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList &args)
-        : ReadOnlyArchiveInterface(parent, args)
+    : ReadOnlyArchiveInterface(parent, args)
 {
     qCDebug(ARK) << "Created read-write interface for" << args.first().toString();
 
@@ -137,7 +137,8 @@ bool ReadOnlyArchiveInterface::waitForFinishedSignal()
     return m_waitForFinishedSignal;
 }
 
-int ReadOnlyArchiveInterface::moveRequiredSignals() const {
+int ReadOnlyArchiveInterface::moveRequiredSignals() const
+{
     return 1;
 }
 
@@ -202,7 +203,7 @@ QString ReadOnlyArchiveInterface::permissionsToString(mode_t perm)
     return modeval;
 }
 
-QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entry*> &entries, PathFormat format)
+QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entry *> &entries, PathFormat format)
 {
     QStringList filesList;
     for (const Archive::Entry *file : entries) {
@@ -211,15 +212,15 @@ QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entr
     return filesList;
 }
 
-QVector<Archive::Entry*> ReadOnlyArchiveInterface::entriesWithoutChildren(const QVector<Archive::Entry*> &entries)
+QVector<Archive::Entry *> ReadOnlyArchiveInterface::entriesWithoutChildren(const QVector<Archive::Entry *> &entries)
 {
     // QMap is easy way to get entries sorted by their fullPath.
-    QMap<QString, Archive::Entry*> sortedEntries;
+    QMap<QString, Archive::Entry *> sortedEntries;
     for (Archive::Entry *entry : entries) {
         sortedEntries.insert(entry->fullPath(), entry);
     }
 
-    QVector<Archive::Entry*> filteredEntries;
+    QVector<Archive::Entry *> filteredEntries;
     QString lastFolder;
     for (Archive::Entry *entry : std::as_const(sortedEntries)) {
         if (!lastFolder.isEmpty() && entry->fullPath().startsWith(lastFolder)) {

@@ -88,7 +88,7 @@ void AddDialogTest::testBasicWidgets()
 
     dialog->slotOpenOptions();
 
-    auto collapsibleCompression = dialog->optionsDialog->findChild<KCollapsibleGroupBox*>(QStringLiteral("collapsibleCompression"));
+    auto collapsibleCompression = dialog->optionsDialog->findChild<KCollapsibleGroupBox *>(QStringLiteral("collapsibleCompression"));
     QVERIFY(collapsibleCompression);
 
     const KPluginMetaData metadata = PluginManager().preferredPluginFor(mime)->metaData();
@@ -99,7 +99,7 @@ void AddDialogTest::testBasicWidgets()
         // Test that collapsiblegroupbox is enabled for mimetypes that support compression levels.
         QVERIFY(collapsibleCompression->isEnabled());
 
-        auto compLevelSlider = dialog->optionsDialog->findChild<QSlider*>(QStringLiteral("compLevelSlider"));
+        auto compLevelSlider = dialog->optionsDialog->findChild<QSlider *>(QStringLiteral("compLevelSlider"));
         QVERIFY(compLevelSlider);
 
         // Test that min/max of slider are correct.
@@ -132,8 +132,7 @@ void AddDialogTest::testBasicWidgets()
     dialog->slotOpenOptions();
 
     if (archiveFormat.defaultCompressionLevel() > 0 && supportsCompLevel) {
-
-        auto compLevelSlider = dialog->optionsDialog->findChild<QSlider*>(QStringLiteral("compLevelSlider"));
+        auto compLevelSlider = dialog->optionsDialog->findChild<QSlider *>(QStringLiteral("compLevelSlider"));
         QVERIFY(compLevelSlider);
 
         // Test that slider is set to the compression level supplied in ctor.

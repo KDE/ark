@@ -21,20 +21,20 @@
 
 namespace Kerfuffle
 {
-
-PluginManager::PluginManager(QObject *parent) : QObject(parent)
+PluginManager::PluginManager(QObject *parent)
+    : QObject(parent)
 {
     loadPlugins();
 }
 
-QVector<Plugin*> PluginManager::installedPlugins() const
+QVector<Plugin *> PluginManager::installedPlugins() const
 {
     return m_plugins;
 }
 
-QVector<Plugin*> PluginManager::availablePlugins() const
+QVector<Plugin *> PluginManager::availablePlugins() const
 {
-    QVector<Plugin*> availablePlugins;
+    QVector<Plugin *> availablePlugins;
     for (Plugin *plugin : std::as_const(m_plugins)) {
         if (plugin->isValid()) {
             availablePlugins << plugin;
@@ -44,9 +44,9 @@ QVector<Plugin*> PluginManager::availablePlugins() const
     return availablePlugins;
 }
 
-QVector<Plugin*> PluginManager::availableWritePlugins() const
+QVector<Plugin *> PluginManager::availableWritePlugins() const
 {
-    QVector<Plugin*> availableWritePlugins;
+    QVector<Plugin *> availableWritePlugins;
     const auto plugins = availablePlugins();
     for (Plugin *plugin : plugins) {
         if (plugin->isReadWrite()) {
@@ -57,9 +57,9 @@ QVector<Plugin*> PluginManager::availableWritePlugins() const
     return availableWritePlugins;
 }
 
-QVector<Plugin*> PluginManager::enabledPlugins() const
+QVector<Plugin *> PluginManager::enabledPlugins() const
 {
-    QVector<Plugin*> enabledPlugins;
+    QVector<Plugin *> enabledPlugins;
     for (Plugin *plugin : std::as_const(m_plugins)) {
         if (plugin->isEnabled()) {
             enabledPlugins << plugin;
@@ -69,7 +69,7 @@ QVector<Plugin*> PluginManager::enabledPlugins() const
     return enabledPlugins;
 }
 
-QVector<Plugin*> PluginManager::preferredPluginsFor(const QMimeType &mimeType)
+QVector<Plugin *> PluginManager::preferredPluginsFor(const QMimeType &mimeType)
 {
     const auto mimeName = mimeType.name();
     if (m_preferredPluginsCache.contains(mimeName)) {
@@ -81,20 +81,20 @@ QVector<Plugin*> PluginManager::preferredPluginsFor(const QMimeType &mimeType)
     return plugins;
 }
 
-QVector<Plugin*> PluginManager::preferredWritePluginsFor(const QMimeType &mimeType) const
+QVector<Plugin *> PluginManager::preferredWritePluginsFor(const QMimeType &mimeType) const
 {
     return preferredPluginsFor(mimeType, true);
 }
 
 Plugin *PluginManager::preferredPluginFor(const QMimeType &mimeType)
 {
-    const QVector<Plugin*> preferredPlugins = preferredPluginsFor(mimeType);
+    const QVector<Plugin *> preferredPlugins = preferredPluginsFor(mimeType);
     return preferredPlugins.isEmpty() ? new Plugin() : preferredPlugins.first();
 }
 
 Plugin *PluginManager::preferredWritePluginFor(const QMimeType &mimeType) const
 {
-    const QVector<Plugin*> preferredWritePlugins = preferredWritePluginsFor(mimeType);
+    const QVector<Plugin *> preferredWritePlugins = preferredWritePluginsFor(mimeType);
     return preferredWritePlugins.isEmpty() ? new Plugin() : preferredWritePlugins.first();
 }
 
@@ -105,7 +105,7 @@ QStringList PluginManager::supportedMimeTypes(MimeSortingMode mode) const
     const auto plugins = availablePlugins();
     for (Plugin *plugin : plugins) {
         const auto mimeTypes = plugin->metaData().mimeTypes();
-        for (const auto& mimeType : mimeTypes) {
+        for (const auto &mimeType : mimeTypes) {
             if (db.mimeTypeForName(mimeType).isValid()) {
                 supported.insert(mimeType);
             }
@@ -142,7 +142,7 @@ QStringList PluginManager::supportedWriteMimeTypes(MimeSortingMode mode) const
     const auto plugins = availableWritePlugins();
     for (Plugin *plugin : plugins) {
         const auto mimeTypes = plugin->metaData().mimeTypes();
-        for (const auto& mimeType : mimeTypes) {
+        for (const auto &mimeType : mimeTypes) {
             if (db.mimeTypeForName(mimeType).isValid()) {
                 supported.insert(mimeType);
             }
@@ -183,10 +183,10 @@ QStringList PluginManager::supportedWriteMimeTypes(MimeSortingMode mode) const
     return supported.values();
 }
 
-QVector<Plugin*> PluginManager::filterBy(const QVector<Plugin*> &plugins, const QMimeType &mimeType) const
+QVector<Plugin *> PluginManager::filterBy(const QVector<Plugin *> &plugins, const QMimeType &mimeType) const
 {
     const bool supportedMime = supportedMimeTypes().contains(mimeType.name());
-    QVector<Plugin*> filteredPlugins;
+    QVector<Plugin *> filteredPlugins;
     for (Plugin *plugin : plugins) {
         if (!supportedMime) {
             // Check whether the mimetype inherits from a supported mimetype.
@@ -214,11 +214,11 @@ void PluginManager::loadPlugins()
     }
 }
 
-QVector<Plugin*> PluginManager::preferredPluginsFor(const QMimeType &mimeType, bool readWrite) const
+QVector<Plugin *> PluginManager::preferredPluginsFor(const QMimeType &mimeType, bool readWrite) const
 {
-    QVector<Plugin*> preferredPlugins = filterBy((readWrite ? availableWritePlugins() : availablePlugins()), mimeType);
+    QVector<Plugin *> preferredPlugins = filterBy((readWrite ? availableWritePlugins() : availablePlugins()), mimeType);
 
-    std::sort(preferredPlugins.begin(), preferredPlugins.end(), [](Plugin* p1, Plugin* p2) {
+    std::sort(preferredPlugins.begin(), preferredPlugins.end(), [](Plugin *p1, Plugin *p2) {
         return p1->priority() > p2->priority();
     });
 
@@ -227,7 +227,7 @@ QVector<Plugin*> PluginManager::preferredPluginsFor(const QMimeType &mimeType, b
 
 QStringList PluginManager::sortByComment(const QSet<QString> &mimeTypes)
 {
-    QMap<QString,QString> map;
+    QMap<QString, QString> map;
 
     // Initialize the QMap to sort by comment.
     for (const QString &mimeType : mimeTypes) {

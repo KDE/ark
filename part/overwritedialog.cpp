@@ -10,9 +10,9 @@
 
 using namespace Kerfuffle;
 
-OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Entry*> &entries, bool error)
-        : QDialog(parent)
-        , m_buttonBox(QDialogButtonBox::Cancel, Qt::Horizontal)
+OverwriteDialog::OverwriteDialog(QWidget *parent, const QList<const Archive::Entry *> &entries, bool error)
+    : QDialog(parent)
+    , m_buttonBox(QDialogButtonBox::Cancel, Qt::Horizontal)
 {
     m_vBoxLayout.addLayout(&m_messageLayout);
     m_vBoxLayout.addWidget(&m_entriesList);

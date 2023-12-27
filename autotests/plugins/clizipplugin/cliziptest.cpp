@@ -31,25 +31,11 @@ void CliZipTest::testListArgs_data()
     QTest::addColumn<QString>("password");
     QTest::addColumn<QStringList>("expectedArgs");
 
-    QTest::newRow("fake zip")
-            << QStringLiteral("/tmp/foo.zip")
-            << QString()
-            << QStringList {
-                   QStringLiteral("-l"),
-                   QStringLiteral("-T"),
-                   QStringLiteral("-z"),
-                   QStringLiteral("/tmp/foo.zip")
-               };
+    QTest::newRow("fake zip") << QStringLiteral("/tmp/foo.zip") << QString()
+                              << QStringList{QStringLiteral("-l"), QStringLiteral("-T"), QStringLiteral("-z"), QStringLiteral("/tmp/foo.zip")};
 
-    QTest::newRow("fake encrypted zip")
-            << QStringLiteral("/tmp/foo.zip")
-            << QStringLiteral("1234")
-            << QStringList {
-                   QStringLiteral("-l"),
-                   QStringLiteral("-T"),
-                   QStringLiteral("-z"),
-                   QStringLiteral("/tmp/foo.zip")
-               };
+    QTest::newRow("fake encrypted zip") << QStringLiteral("/tmp/foo.zip") << QStringLiteral("1234")
+                                        << QStringList{QStringLiteral("-l"), QStringLiteral("-T"), QStringLiteral("-z"), QStringLiteral("/tmp/foo.zip")};
 }
 
 void CliZipTest::testListArgs()
@@ -59,8 +45,7 @@ void CliZipTest::testListArgs()
     }
 
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
-                                             QVariant::fromValue(m_plugin->metaData())});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName), QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
     QFETCH(QString, password);
@@ -80,35 +65,14 @@ void CliZipTest::testAddArgs_data()
     QTest::addColumn<QString>("compressionMethod");
     QTest::addColumn<QStringList>("expectedArgs");
 
-    QTest::newRow("unencrypted")
-            << QStringLiteral("/tmp/foo.zip")
-            << QString() << 3 << QStringLiteral("Deflate")
-            << QStringList {
-                   QStringLiteral("-r"),
-                   QStringLiteral("-3"),
-                   QStringLiteral("-Zdeflate"),
-                   QStringLiteral("/tmp/foo.zip")
-               };
+    QTest::newRow("unencrypted") << QStringLiteral("/tmp/foo.zip") << QString() << 3 << QStringLiteral("Deflate")
+                                 << QStringList{QStringLiteral("-r"), QStringLiteral("-3"), QStringLiteral("-Zdeflate"), QStringLiteral("/tmp/foo.zip")};
 
-    QTest::newRow("encrypted")
-            << QStringLiteral("/tmp/foo.zip")
-            << QStringLiteral("1234") << 3 << QString()
-            << QStringList {
-                   QStringLiteral("-r"),
-                   QStringLiteral("-P1234"),
-                   QStringLiteral("-3"),
-                   QStringLiteral("/tmp/foo.zip")
-               };
+    QTest::newRow("encrypted") << QStringLiteral("/tmp/foo.zip") << QStringLiteral("1234") << 3 << QString()
+                               << QStringList{QStringLiteral("-r"), QStringLiteral("-P1234"), QStringLiteral("-3"), QStringLiteral("/tmp/foo.zip")};
 
-    QTest::newRow("comp-method-bzip2")
-            << QStringLiteral("/tmp/foo.zip")
-            << QString() << 3 << QStringLiteral("BZip2")
-            << QStringList {
-                   QStringLiteral("-r"),
-                   QStringLiteral("-3"),
-                   QStringLiteral("-Zbzip2"),
-                   QStringLiteral("/tmp/foo.zip")
-               };
+    QTest::newRow("comp-method-bzip2") << QStringLiteral("/tmp/foo.zip") << QString() << 3 << QStringLiteral("BZip2")
+                                       << QStringList{QStringLiteral("-r"), QStringLiteral("-3"), QStringLiteral("-Zbzip2"), QStringLiteral("/tmp/foo.zip")};
 }
 
 void CliZipTest::testAddArgs()
@@ -118,8 +82,7 @@ void CliZipTest::testAddArgs()
     }
 
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
-                                             QVariant::fromValue(m_plugin->metaData())});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName), QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
     QFETCH(QString, password);
@@ -137,66 +100,62 @@ void CliZipTest::testAddArgs()
 void CliZipTest::testExtractArgs_data()
 {
     QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QVector<Archive::Entry*>>("files");
+    QTest::addColumn<QVector<Archive::Entry *>>("files");
     QTest::addColumn<bool>("preservePaths");
     QTest::addColumn<QString>("password");
     QTest::addColumn<QStringList>("expectedArgs");
 
-    QTest::newRow("preserve paths, encrypted")
-            << QStringLiteral("/tmp/foo.zip")
-            << QVector<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
-               }
-            << true << QStringLiteral("1234")
-            << QStringList {
-                   QStringLiteral("-P1234"),
-                   QStringLiteral("/tmp/foo.zip"),
-                   QStringLiteral("aDir/textfile2.txt"),
-                   QStringLiteral("c.txt"),
-               };
+    QTest::newRow("preserve paths, encrypted") << QStringLiteral("/tmp/foo.zip")
+                                               << QVector<Archive::Entry *>{new Archive::Entry(this,
+                                                                                               QStringLiteral("aDir/textfile2.txt"),
+                                                                                               QStringLiteral("aDir")),
+                                                                            new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
+                                               << true << QStringLiteral("1234")
+                                               << QStringList{
+                                                      QStringLiteral("-P1234"),
+                                                      QStringLiteral("/tmp/foo.zip"),
+                                                      QStringLiteral("aDir/textfile2.txt"),
+                                                      QStringLiteral("c.txt"),
+                                                  };
 
-    QTest::newRow("preserve paths, unencrypted")
-            << QStringLiteral("/tmp/foo.zip")
-            << QVector<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
-               }
-            << true << QString()
-            << QStringList {
-                   QStringLiteral("/tmp/foo.zip"),
-                   QStringLiteral("aDir/textfile2.txt"),
-                   QStringLiteral("c.txt"),
-               };
+    QTest::newRow("preserve paths, unencrypted") << QStringLiteral("/tmp/foo.zip")
+                                                 << QVector<Archive::Entry *>{new Archive::Entry(this,
+                                                                                                 QStringLiteral("aDir/textfile2.txt"),
+                                                                                                 QStringLiteral("aDir")),
+                                                                              new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
+                                                 << true << QString()
+                                                 << QStringList{
+                                                        QStringLiteral("/tmp/foo.zip"),
+                                                        QStringLiteral("aDir/textfile2.txt"),
+                                                        QStringLiteral("c.txt"),
+                                                    };
 
-    QTest::newRow("without paths, encrypted")
-            << QStringLiteral("/tmp/foo.zip")
-            << QVector<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
-               }
-            << false << QStringLiteral("1234")
-            << QStringList {
-                   QStringLiteral("-j"),
-                   QStringLiteral("-P1234"),
-                   QStringLiteral("/tmp/foo.zip"),
-                   QStringLiteral("aDir/textfile2.txt"),
-                   QStringLiteral("c.txt"),
-               };
+    QTest::newRow("without paths, encrypted") << QStringLiteral("/tmp/foo.zip")
+                                              << QVector<Archive::Entry *>{new Archive::Entry(this,
+                                                                                              QStringLiteral("aDir/textfile2.txt"),
+                                                                                              QStringLiteral("aDir")),
+                                                                           new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
+                                              << false << QStringLiteral("1234")
+                                              << QStringList{
+                                                     QStringLiteral("-j"),
+                                                     QStringLiteral("-P1234"),
+                                                     QStringLiteral("/tmp/foo.zip"),
+                                                     QStringLiteral("aDir/textfile2.txt"),
+                                                     QStringLiteral("c.txt"),
+                                                 };
 
-    QTest::newRow("without paths, unencrypted")
-            << QStringLiteral("/tmp/foo.zip")
-            << QVector<Archive::Entry*> {
-                   new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
-                   new Archive::Entry(this, QStringLiteral("c.txt"), QString())
-               }
-            << false << QString()
-            << QStringList {
-                   QStringLiteral("-j"),
-                   QStringLiteral("/tmp/foo.zip"),
-                   QStringLiteral("aDir/textfile2.txt"),
-                   QStringLiteral("c.txt"),
-               };
+    QTest::newRow("without paths, unencrypted") << QStringLiteral("/tmp/foo.zip")
+                                                << QVector<Archive::Entry *>{new Archive::Entry(this,
+                                                                                                QStringLiteral("aDir/textfile2.txt"),
+                                                                                                QStringLiteral("aDir")),
+                                                                             new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
+                                                << false << QString()
+                                                << QStringList{
+                                                       QStringLiteral("-j"),
+                                                       QStringLiteral("/tmp/foo.zip"),
+                                                       QStringLiteral("aDir/textfile2.txt"),
+                                                       QStringLiteral("c.txt"),
+                                                   };
 }
 
 void CliZipTest::testExtractArgs()
@@ -206,11 +165,10 @@ void CliZipTest::testExtractArgs()
     }
 
     QFETCH(QString, archiveName);
-    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName),
-                                             QVariant::fromValue(m_plugin->metaData())});
+    CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName), QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    QFETCH(QVector<Archive::Entry*>, files);
+    QFETCH(QVector<Archive::Entry *>, files);
     QStringList filesList;
     for (const Archive::Entry *e : std::as_const(files)) {
         filesList << e->fullPath(NoTrailingSlash);

@@ -12,10 +12,10 @@
 
 #include <KAboutData>
 #include <KConfigGroup>
+#include <KIO/OpenFileManagerWindowJob>
 #include <KIconLoader>
 #include <KRecentFilesMenu>
 #include <KSharedConfig>
-#include <KIO/OpenFileManagerWindowJob>
 
 #include <QClipboard>
 #include <QDesktopServices>
@@ -72,8 +72,7 @@ WelcomeView::WelcomeView(MainWindow *mainWindow, QWidget *parent)
     });
 
     listViewRecentFiles->setModel(m_recentFilesModel);
-    connect(listViewRecentFiles, &QListView::customContextMenuRequested,
-            this, &WelcomeView::onRecentFilesContextMenuRequested);
+    connect(listViewRecentFiles, &QListView::customContextMenuRequested, this, &WelcomeView::onRecentFilesContextMenuRequested);
     connect(listViewRecentFiles, &QListView::activated, this, [this](const QModelIndex &index) {
         if (index.isValid()) {
             const QUrl url = m_recentFilesModel->url(index);
@@ -151,7 +150,7 @@ void WelcomeView::onRecentFilesContextMenuRequested(const QPoint &pos)
     action->setEnabled(url.isLocalFile());
     action->setIcon(QIcon::fromTheme(QStringLiteral("document-open-folder")));
     connect(action, &QAction::triggered, this, [url]() {
-        KIO::highlightInFileManager({ url });
+        KIO::highlightInFileManager({url});
     });
 
     action = contextMenu.addAction(i18n("&Remove"));
@@ -167,10 +166,7 @@ void WelcomeView::onRecentFilesContextMenuRequested(const QPoint &pos)
 
 void WelcomeView::updateButtons()
 {
-    QVector<QPushButton*> buttons {
-        buttonNewArchive,
-        buttonOpenArchive
-    };
+    QVector<QPushButton *> buttons{buttonNewArchive, buttonOpenArchive};
     const int maxWidth = std::accumulate(buttons.cbegin(), buttons.cend(), 0, [](int maxWidth, const QPushButton *button) {
         return std::max(maxWidth, button->sizeHint().width());
     });
@@ -210,10 +206,7 @@ bool WelcomeView::updateLayout()
             result = true;
         }
     } else {
-        const int implicitHeight = frameContent->height()
-                                   + widgetHeader->height()
-                                   + layoutContent->spacing()
-                                   + widgetClose->height();
+        const int implicitHeight = frameContent->height() + widgetHeader->height() + layoutContent->spacing() + widgetClose->height();
         if (height() > implicitHeight) {
             widgetHeader->show();
             result = true;
@@ -227,10 +220,7 @@ bool WelcomeView::updateLayout()
             result = true;
         }
     } else {
-        const int implicitWidth = frameContent->width()
-                                  + widgetHelp->width()
-                                  + layoutPanels->spacing()
-                                  + widgetClose->width();
+        const int implicitWidth = frameContent->width() + widgetHelp->width() + layoutPanels->spacing() + widgetClose->width();
         if (width() > implicitWidth) {
             widgetHelp->show();
             return true;

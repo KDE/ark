@@ -6,7 +6,6 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-
 #ifndef CLIPLUGIN_H
 #define CLIPLUGIN_H
 
@@ -17,7 +16,7 @@ class CliPlugin : public Kerfuffle::CliInterface
     Q_OBJECT
 
 public:
-    explicit CliPlugin(QObject *parent, const QVariantList & args);
+    explicit CliPlugin(QObject *parent, const QVariantList &args);
     ~CliPlugin() override;
 
     void resetParsing() override;
@@ -32,29 +31,11 @@ public:
     bool isFileExistsFileName(const QString &line) override;
 
 private:
-    enum ArchiveType {
-        ArchiveType7z = 0,
-        ArchiveTypeBZip2,
-        ArchiveTypeGZip,
-        ArchiveTypeXz,
-        ArchiveTypeTar,
-        ArchiveTypeZip,
-        ArchiveTypeRar
-    } m_archiveType;
+    enum ArchiveType { ArchiveType7z = 0, ArchiveTypeBZip2, ArchiveTypeGZip, ArchiveTypeXz, ArchiveTypeTar, ArchiveTypeZip, ArchiveTypeRar } m_archiveType;
 
-    enum ParseState {
-        ParseStateTitle = 0,
-        ParseStateHeader,
-        ParseStateArchiveInformation,
-        ParseStateComment,
-        ParseStateEntryInformation
-    } m_parseState;
+    enum ParseState { ParseStateTitle = 0, ParseStateHeader, ParseStateArchiveInformation, ParseStateComment, ParseStateEntryInformation } m_parseState;
 
-    enum BinaryVariant {
-        Undefined = 0,
-        P7zip,
-        Upstream7zip
-    } m_binaryVariant;
+    enum BinaryVariant { Undefined = 0, P7zip, Upstream7zip } m_binaryVariant;
 
     void setupCliProperties();
     void handleMethods(const QStringList &methods);

@@ -8,8 +8,8 @@
 #ifndef ARCHIVEVIEW_H
 #define ARCHIVEVIEW_H
 
-#include <QTreeView>
 #include <QStyledItemDelegate>
+#include <QTreeView>
 
 class QLineEdit;
 
@@ -19,9 +19,9 @@ class ArchiveView : public QTreeView
 
 public:
     explicit ArchiveView(QWidget *parent = nullptr);
-    void dragEnterEvent(class QDragEnterEvent * event) override;
-    void dropEvent(class QDropEvent * event) override;
-    void dragMoveEvent(class QDragMoveEvent * event) override;
+    void dragEnterEvent(class QDragEnterEvent *event) override;
+    void dropEvent(class QDropEvent *event) override;
+    void dragMoveEvent(class QDragMoveEvent *event) override;
     void startDrag(Qt::DropActions supportedActions) override;
 
     /**
@@ -58,9 +58,11 @@ class NoHighlightSelectionDelegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    explicit NoHighlightSelectionDelegate(QObject* parent)
-        : QStyledItemDelegate(parent) {}
-    void paint(QPainter* painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    explicit NoHighlightSelectionDelegate(QObject *parent)
+        : QStyledItemDelegate(parent)
+    {
+    }
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
 
 #endif /* ARCHIVEVIEW_H */

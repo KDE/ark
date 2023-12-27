@@ -24,15 +24,12 @@ class QVBoxLayout;
 
 namespace Kerfuffle
 {
-
 class KERFUFFLE_EXPORT CreateDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit CreateDialog(QWidget *parent,
-                          const QString &caption,
-                          const QUrl &startDir);
+    explicit CreateDialog(QWidget *parent, const QString &caption, const QUrl &startDir);
     void setFileName(const QString &fileName);
     QUrl selectedUrl() const;
     QString password() const;

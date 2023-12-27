@@ -12,12 +12,9 @@
 #include <QDateTime>
 #include <QIcon>
 
-namespace Kerfuffle {
-
-enum PathFormat {
-    NoTrailingSlash,
-    WithTrailingSlash
-};
+namespace Kerfuffle
+{
+enum PathFormat { NoTrailingSlash, WithTrailingSlash };
 
 class Archive::Entry : public QObject
 {
@@ -57,14 +54,13 @@ class Archive::Entry : public QObject
     Q_PROPERTY(bool isSparse MEMBER m_isSparse)
 
 public:
-
     explicit Entry(QObject *parent = nullptr, const QString &fullPath = {}, const QString &rootNode = {});
     ~Entry() override;
 
     void copyMetaData(const Archive::Entry *sourceEntry);
 
-    QVector<Entry*> entries();
-    const QVector<Entry*> entries() const;
+    QVector<Entry *> entries();
+    const QVector<Entry *> entries() const;
     void setEntryAt(int index, Entry *value);
     void appendEntry(Entry *entry);
     void removeEntryAt(int index);
@@ -82,7 +78,7 @@ public:
     bool isExecutable() const;
     int row() const;
     Entry *find(QStringView name) const;
-    Entry *findByPath(const QStringList & pieces, int index = 0) const;
+    Entry *findByPath(const QStringList &pieces, int index = 0) const;
     QIcon icon() const;
     qulonglong size() const;
     qulonglong sparseSize() const;
@@ -101,10 +97,10 @@ public:
     bool compressedSizeIsSet;
 
 private:
-    QVector<Entry*> m_entries;
-    QString         m_name;
-    QString         m_displayName;
-    Entry           *m_parent;
+    QVector<Entry *> m_entries;
+    QString m_name;
+    QString m_displayName;
+    Entry *m_parent;
 
     QString m_fullPath;
     QString m_permissions;
@@ -132,6 +128,6 @@ QDebug KERFUFFLE_EXPORT operator<<(QDebug d, const Kerfuffle::Archive::Entry *en
 
 }
 
-Q_DECLARE_METATYPE(Kerfuffle::Archive::Entry*)
+Q_DECLARE_METATYPE(Kerfuffle::Archive::Entry *)
 
-#endif //ARCHIVEENTRY_H
+#endif // ARCHIVEENTRY_H

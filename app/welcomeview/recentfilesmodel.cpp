@@ -12,7 +12,8 @@
 
 RecentFilesModel::RecentFilesModel(QObject *parent)
     : QAbstractListModel(parent)
-{}
+{
+}
 
 QVariant RecentFilesModel::data(const QModelIndex &index, int role) const
 {

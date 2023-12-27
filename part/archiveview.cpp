@@ -8,12 +8,12 @@
 #include "archiveview.h"
 #include "ark_debug.h"
 
-#include <QHeaderView>
-#include <QMimeData>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
-#include <QMouseEvent>
+#include <QHeaderView>
 #include <QLineEdit>
+#include <QMimeData>
+#include <QMouseEvent>
 
 ArchiveView::ArchiveView(QWidget *parent)
     : QTreeView(parent)
@@ -34,8 +34,8 @@ ArchiveView::ArchiveView(QWidget *parent)
 
 void ArchiveView::startDrag(Qt::DropActions supportedActions)
 {
-    //only start the drag if it's over the filename column. this allows dragging selection in
-    //tree/detail view
+    // only start the drag if it's over the filename column. this allows dragging selection in
+    // tree/detail view
     if (currentIndex().column() != 0) {
         return;
     }
@@ -56,37 +56,37 @@ void ArchiveView::setDropsEnabled(bool enabled)
     setDragDropMode(enabled ? QAbstractItemView::DragDrop : QAbstractItemView::DragOnly);
 }
 
-void ArchiveView::dragEnterEvent(QDragEnterEvent * event)
+void ArchiveView::dragEnterEvent(QDragEnterEvent *event)
 {
-    //TODO: if no model, trigger some mechanism to create one automatically!
+    // TODO: if no model, trigger some mechanism to create one automatically!
     qCDebug(ARK) << event;
 
     if (event->source() == this) {
-        //we don't support internal drops yet.
+        // we don't support internal drops yet.
         return;
     }
 
     QTreeView::dragEnterEvent(event);
 }
 
-void ArchiveView::dropEvent(QDropEvent * event)
+void ArchiveView::dropEvent(QDropEvent *event)
 {
     qCDebug(ARK) << event;
 
     if (event->source() == this) {
-        //we don't support internal drops yet.
+        // we don't support internal drops yet.
         return;
     }
 
     QTreeView::dropEvent(event);
 }
 
-void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
+void ArchiveView::dragMoveEvent(QDragMoveEvent *event)
 {
     qCDebug(ARK) << event;
 
     if (event->source() == this) {
-        //we don't support internal drops yet.
+        // we don't support internal drops yet.
         return;
     }
 
@@ -99,7 +99,7 @@ void ArchiveView::dragMoveEvent(QDragMoveEvent * event)
 bool ArchiveView::eventFilter(QObject *object, QEvent *event)
 {
     if (object == m_entryEditor && event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
         if (keyEvent->key() == Qt::Key_Escape) {
             closeEntryEditor();
             return true;
@@ -123,7 +123,7 @@ void ArchiveView::keyPressEvent(QKeyEvent *event)
         switch (event->key()) {
         case Qt::Key_Return:
         case Qt::Key_Enter: {
-            QLineEdit* editor = static_cast<QLineEdit*>(indexWidget(m_editorIndex));
+            QLineEdit *editor = static_cast<QLineEdit *>(indexWidget(m_editorIndex));
             Q_EMIT entryChanged(editor->text());
             closeEntryEditor();
             break;
@@ -139,9 +139,8 @@ void ArchiveView::keyPressEvent(QKeyEvent *event)
 void ArchiveView::renameSelectedEntry()
 {
     QModelIndex currentIndex = selectionModel()->currentIndex();
-    currentIndex = (currentIndex.parent().isValid())
-                   ? currentIndex.parent().model()->index(currentIndex.row(), 0, currentIndex.parent())
-                   : model()->index(currentIndex.row(), 0);
+    currentIndex = (currentIndex.parent().isValid()) ? currentIndex.parent().model()->index(currentIndex.row(), 0, currentIndex.parent())
+                                                     : model()->index(currentIndex.row(), 0);
     openEntryEditor(currentIndex);
 }
 
@@ -149,7 +148,7 @@ void ArchiveView::openEntryEditor(const QModelIndex &index)
 {
     m_editorIndex = index;
     openPersistentEditor(index);
-    m_entryEditor = static_cast<QLineEdit*>(indexWidget(m_editorIndex));
+    m_entryEditor = static_cast<QLineEdit *>(indexWidget(m_editorIndex));
     m_entryEditor->installEventFilter(this);
     m_entryEditor->setText(index.data().toString());
     m_entryEditor->setFocus(Qt::OtherFocusReason);

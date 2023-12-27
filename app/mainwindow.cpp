@@ -11,24 +11,24 @@
 #include "mainwindow.h"
 #include "ark_debug.h"
 #include "createdialog.h"
+#include "interface.h"
+#include "pluginmanager.h"
 #include "settingsdialog.h"
 #include "settingspage.h"
-#include "pluginmanager.h"
-#include "interface.h"
 
+#include <KActionCollection>
+#include <KConfigDialog>
+#include <KConfigSkeleton>
+#include <KLocalizedString>
+#include <KMessageBox>
 #include <KParts/ReadWritePart>
 #include <KPluginFactory>
-#include <KMessageBox>
-#include <KLocalizedString>
-#include <KActionCollection>
-#include <KStandardAction>
 #include <KRecentFilesMenu>
 #include <KSharedConfig>
-#include <KConfigDialog>
-#include <KXMLGUIFactory>
-#include <KConfigSkeleton>
+#include <KStandardAction>
 #include <KToolBar>
 #include <KWindowSystem>
+#include <KXMLGUIFactory>
 
 #include <QApplication>
 #include <QDockWidget>
@@ -95,8 +95,8 @@ private:
 };
 
 MainWindow::MainWindow(QWidget *)
-        : KParts::MainWindow()
-        , m_windowContents(new QStackedWidget(this))
+    : KParts::MainWindow()
+    , m_windowContents(new QStackedWidget(this))
 {
     setAcceptDrops(true);
     // Ark doesn't provide a fullscreen mode; remove the corresponding window button
@@ -111,11 +111,11 @@ MainWindow::~MainWindow()
     m_welcomeView = nullptr;
 }
 
-void MainWindow::dragEnterEvent(QDragEnterEvent * event)
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
     qCDebug(ARK) << event;
 
-    Interface *iface = qobject_cast<Interface*>(m_part);
+    Interface *iface = qobject_cast<Interface *>(m_part);
     if (iface->isBusy()) {
         return;
     }
@@ -127,36 +127,34 @@ void MainWindow::dragEnterEvent(QDragEnterEvent * event)
     return;
 }
 
-void MainWindow::dropEvent(QDropEvent * event)
+void MainWindow::dropEvent(QDropEvent *event)
 {
     qCDebug(ARK) << event;
 
-    Interface *iface = qobject_cast<Interface*>(m_part);
+    Interface *iface = qobject_cast<Interface *>(m_part);
     if (iface->isBusy()) {
         return;
     }
 
-    if ((event->source() == nullptr) &&
-        (isValidArchiveDrag(event->mimeData()))) {
+    if ((event->source() == nullptr) && (isValidArchiveDrag(event->mimeData()))) {
         event->acceptProposedAction();
     }
 
-    //TODO: if this call provokes a message box the drag will still be going
-    //while the box is onscreen. looks buggy, do something about it
+    // TODO: if this call provokes a message box the drag will still be going
+    // while the box is onscreen. looks buggy, do something about it
     openUrl(event->mimeData()->urls().at(0));
 }
 
-void MainWindow::dragMoveEvent(QDragMoveEvent * event)
+void MainWindow::dragMoveEvent(QDragMoveEvent *event)
 {
     qCDebug(ARK) << event;
 
-    Interface *iface = qobject_cast<Interface*>(m_part);
+    Interface *iface = qobject_cast<Interface *>(m_part);
     if (iface->isBusy()) {
         return;
     }
 
-    if ((event->source() == nullptr) &&
-        (isValidArchiveDrag(event->mimeData()))) {
+    if ((event->source() == nullptr) && (isValidArchiveDrag(event->mimeData()))) {
         event->acceptProposedAction();
     }
 }
@@ -173,7 +171,7 @@ bool MainWindow::loadPart()
 
     m_part->setObjectName(QStringLiteral("ArkPart"));
 
-    Interface *iface = qobject_cast<Interface*>(m_part);
+    Interface *iface = qobject_cast<Interface *>(m_part);
     Q_ASSERT(iface);
     QWidget *infoPanel = iface->infoPanel();
     infoPanel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -203,13 +201,11 @@ bool MainWindow::loadPart()
     setCentralWidget(m_windowContents);
 
     // needs to be above createGUI()
-    KHamburgerMenu * const hamburgerMenu = KStandardAction::hamburgerMenu(nullptr, nullptr, m_part->actionCollection());
-    connect(hamburgerMenu, &KHamburgerMenu::aboutToShowMenu,
-            this, &MainWindow::updateHamburgerMenu);
+    KHamburgerMenu *const hamburgerMenu = KStandardAction::hamburgerMenu(nullptr, nullptr, m_part->actionCollection());
+    connect(hamburgerMenu, &KHamburgerMenu::aboutToShowMenu, this, &MainWindow::updateHamburgerMenu);
     hamburgerMenu->setMenuBar(menuBar());
 
-    QAction *const showMenuBarAction = actionCollection()->action(
-        KStandardAction::name(KStandardAction::ShowMenubar));
+    QAction *const showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
     hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
 
     setXMLFile(QStringLiteral("arkui.rc"));
@@ -294,13 +290,19 @@ void MainWindow::setupActions()
     });
 
     // add Menubar toggle to 'Settings' menu
-    KToggleAction* showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());
+    KToggleAction *showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());
     showMenuBar->setWhatsThis(xi18nc("@info:whatsthis",
-            "This switches between having a <emphasis>Menubar</emphasis> "
-            "and having a <interface>Hamburger Menu</interface> button. Both "
-            "contain mostly the same commands and configuration options."));
-    connect(showMenuBar, &KToggleAction::triggered,                   // Fixes #286822
-            this, [this]{ menuBar()->setVisible(!menuBar()->isVisible()); }, Qt::QueuedConnection);
+                                     "This switches between having a <emphasis>Menubar</emphasis> "
+                                     "and having a <interface>Hamburger Menu</interface> button. Both "
+                                     "contain mostly the same commands and configuration options."));
+    connect(
+        showMenuBar,
+        &KToggleAction::triggered, // Fixes #286822
+        this,
+        [this] {
+            menuBar()->setVisible(!menuBar()->isVisible());
+        },
+        Qt::QueuedConnection);
 
     m_showSidebarAction = m_part->actionCollection()->action(QStringLiteral("show-infopanel"));
     m_showSidebarAction->setIcon(QIcon::fromTheme(QStringLiteral("sidebar-show-symbolic")));
@@ -317,9 +319,8 @@ void MainWindow::setupActions()
 
 void MainWindow::updateHamburgerMenu()
 {
-    const KActionCollection* ac = m_part->actionCollection();
-    auto hamburgerMenu = static_cast<KHamburgerMenu *>(
-        ac->action(KStandardAction::name(KStandardAction::HamburgerMenu)));
+    const KActionCollection *ac = m_part->actionCollection();
+    auto hamburgerMenu = static_cast<KHamburgerMenu *>(ac->action(KStandardAction::name(KStandardAction::HamburgerMenu)));
     auto menu = hamburgerMenu->menu();
     if (!menu) {
         menu = new QMenu(this);
@@ -353,7 +354,7 @@ void MainWindow::updateHamburgerMenu()
 
 void MainWindow::updateActions()
 {
-    Interface *iface = qobject_cast<Interface*>(m_part);
+    Interface *iface = qobject_cast<Interface *>(m_part);
     Kerfuffle::PluginManager pluginManager;
     m_newAction->setEnabled(!iface->isBusy() && !pluginManager.availableWritePlugins().isEmpty());
     m_openAction->setEnabled(!iface->isBusy());
@@ -362,7 +363,7 @@ void MainWindow::updateActions()
 
 void MainWindow::openArchive()
 {
-    Interface *iface = qobject_cast<Interface*>(m_part);
+    Interface *iface = qobject_cast<Interface *>(m_part);
     Q_ASSERT(iface);
     Q_UNUSED(iface);
 
@@ -383,7 +384,7 @@ void MainWindow::openArchive()
     dlg->open();
 }
 
-void MainWindow::openUrl(const QUrl& url)
+void MainWindow::openUrl(const QUrl &url)
 {
     if (url.isEmpty()) {
         return;
@@ -439,7 +440,7 @@ void MainWindow::showSettings()
         return;
     }
 
-    Interface *iface = qobject_cast<Interface*>(m_part);
+    Interface *iface = qobject_cast<Interface *>(m_part);
     Q_ASSERT(iface);
 
     auto dialog = new Kerfuffle::SettingsDialog(this, QStringLiteral("settings"), iface->config());
@@ -461,7 +462,7 @@ void MainWindow::showSettings()
 
 void MainWindow::writeSettings()
 {
-    Interface *iface = qobject_cast<Interface*>(m_part);
+    Interface *iface = qobject_cast<Interface *>(m_part);
     Q_ASSERT(iface);
     iface->config()->save();
 }
@@ -475,14 +476,13 @@ void MainWindow::newArchive()
 {
     qCDebug(ARK) << "Creating new archive";
 
-    Interface *iface = qobject_cast<Interface*>(m_part);
+    Interface *iface = qobject_cast<Interface *>(m_part);
     Q_ASSERT(iface);
     Q_UNUSED(iface);
 
-    QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
-        nullptr, // parent
-        i18n("Create New Archive"), // caption
-        QUrl()); // startDir
+    QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(nullptr, // parent
+                                                                           i18n("Create New Archive"), // caption
+                                                                           QUrl()); // startDir
 
     if (dialog.data()->exec()) {
         const QUrl saveFileUrl = dialog.data()->selectedUrl();

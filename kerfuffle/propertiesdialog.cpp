@@ -9,30 +9,31 @@
 #include "ark_debug.h"
 #include "ui_propertiesdialog.h"
 
-#include <QtConcurrentRun>
 #include <QDateTime>
 #include <QFileInfo>
 #include <QFontDatabase>
 #include <QFutureWatcher>
 #include <QIcon>
+#include <QtConcurrentRun>
 
 #include <KIO/Global>
 
 namespace Kerfuffle
 {
-class PropertiesDialogUI: public QWidget, public Ui::PropertiesDialog
+class PropertiesDialogUI : public QWidget, public Ui::PropertiesDialog
 {
     Q_OBJECT
 
 public:
     PropertiesDialogUI(QWidget *parent = nullptr)
-            : QWidget(parent) {
+        : QWidget(parent)
+    {
         setupUi(this);
     }
 };
 
 PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive, qulonglong numberOfFiles, qulonglong numberOfFolders, qulonglong size)
-        : QDialog(parent, Qt::Dialog)
+    : QDialog(parent, Qt::Dialog)
 {
     setAttribute(Qt::WA_DeleteOnClose, true);
     QFileInfo fi(archive->fileName());
@@ -45,11 +46,10 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive, qulonglong
     m_ui->lblArchiveType->setText(archive->mimeType().comment());
     m_ui->lblMimetype->setText(archive->mimeType().name());
     m_ui->lblCompressionMethods->setText(archive->property("compressionMethods").toStringList().join(QLatin1String(", ")));
-    m_ui->lblReadOnly->setText(archive->isReadOnly() ?  i18n("yes") : i18n("no"));
+    m_ui->lblReadOnly->setText(archive->isReadOnly() ? i18n("yes") : i18n("no"));
     m_ui->lblMultiVolume->setText(archive->isMultiVolume() ? i18n("yes (%1 volumes)", archive->numberOfVolumes()) : i18n("no"));
-    m_ui->lblHasComment->setText(archive->hasComment() ?  i18n("yes") : i18n("no"));
-    m_ui->lblNumberOfEntries->setText(i18np("%1 file", "%1 files", numberOfFiles) +
-                                      i18np(", %1 folder", ", %1 folders", numberOfFolders));
+    m_ui->lblHasComment->setText(archive->hasComment() ? i18n("yes") : i18n("no"));
+    m_ui->lblNumberOfEntries->setText(i18np("%1 file", "%1 files", numberOfFiles) + i18np(", %1 folder", ", %1 folders", numberOfFolders));
     m_ui->lblUnpackedSize->setText(KIO::convertSize(size));
     m_ui->lblPackedSize->setText(KIO::convertSize(archive->packedSize()));
     m_ui->lblCompressionRatio->setText(QString::number(float(archive->unpackedSize()) / float(archive->packedSize()), 'f', 1));

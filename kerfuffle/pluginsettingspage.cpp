@@ -11,7 +11,6 @@
 
 namespace Kerfuffle
 {
-
 PluginSettingsPage::PluginSettingsPage(QWidget *parent, const QString &name, const QString &iconName)
     : SettingsPage(parent, name, iconName)
 {
@@ -45,7 +44,7 @@ PluginSettingsPage::PluginSettingsPage(QWidget *parent, const QString &name, con
     // Set the custom property that KConfigDialogManager will use to update the settings.
     kcfg_disabledPlugins->setProperty("kcfg_property", QByteArray("disabledPlugins"));
     // Set the custom property that KConfigDialogManager will use to monitor signals for changes.
-    kcfg_disabledPlugins->setProperty("kcfg_propertyNotify", QByteArray(SIGNAL(itemChanged(QTreeWidgetItem*,int))));
+    kcfg_disabledPlugins->setProperty("kcfg_propertyNotify", QByteArray(SIGNAL(itemChanged(QTreeWidgetItem *, int))));
 }
 
 void PluginSettingsPage::slotSettingsChanged()
@@ -67,7 +66,7 @@ void PluginSettingsPage::slotDefaultsButtonClicked()
 
 void PluginSettingsPage::slotItemChanged(QTreeWidgetItem *item)
 {
-    auto plugin = item->data(0, Qt::UserRole).value<Plugin*>();
+    auto plugin = item->data(0, Qt::UserRole).value<Plugin *>();
     if (!plugin) {
         return;
     }

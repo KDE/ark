@@ -13,10 +13,10 @@
 
 #include <KLocalizedString>
 
+#include <QDir>
+#include <QFileInfo>
 #include <QMimeDatabase>
 #include <QThread>
-#include <QFileInfo>
-#include <QDir>
 
 #include <archive_entry.h>
 
@@ -82,7 +82,6 @@ bool LibarchivePlugin::list()
 
     bool firstEntry = true;
     while (!QThread::currentThread()->isInterruptionRequested() && (result = archive_read_next_header(m_archiveReader.data(), &aentry)) == ARCHIVE_OK) {
-
         if (firstEntry) {
             qCDebug(ARK) << "Detected format for first entry:" << archive_format_name(m_archiveReader.data());
             firstEntry = false;
@@ -95,16 +94,14 @@ bool LibarchivePlugin::list()
 
         m_extractedFilesSize += (qlonglong)archive_entry_size(aentry);
 
-        Q_EMIT progress(float(archive_filter_bytes(m_archiveReader.data(), -1))/float(compressedArchiveSize));
+        Q_EMIT progress(float(archive_filter_bytes(m_archiveReader.data(), -1)) / float(compressedArchiveSize));
 
         m_cachedArchiveEntryCount++;
 
         // Skip the entry data.
         int readSkipResult = archive_read_data_skip(m_archiveReader.data());
         if (readSkipResult != ARCHIVE_OK) {
-            qCCritical(ARK) << "Error while skipping data for entry:"
-                            << QString::fromWCharArray(archive_entry_pathname_w(aentry))
-                            << readSkipResult
+            qCCritical(ARK) << "Error while skipping data for entry:" << QString::fromWCharArray(archive_entry_pathname_w(aentry)) << readSkipResult
                             << QLatin1String(archive_error_string(m_archiveReader.data()));
             if (!emitCorruptArchive()) {
                 return false;
@@ -117,9 +114,7 @@ bool LibarchivePlugin::list()
     }
 
     if (result != ARCHIVE_EOF) {
-        qCCritical(ARK) << "Error while reading archive:"
-                        << result
-                        << QLatin1String(archive_error_string(m_archiveReader.data()));
+        qCCritical(ARK) << "Error while reading archive:" << result << QLatin1String(archive_error_string(m_archiveReader.data()));
         if (!emitCorruptArchive()) {
             return false;
         }
@@ -172,14 +167,12 @@ void LibarchivePlugin::copyDataBlock(const QString &filename, archive *source, a
             return;
         }
         if (returnCode < ARCHIVE_OK) {
-            qCCritical(ARK) << "Error while extracting" << filename << ":" << archive_error_string(source)
-                            << "(error no =" << archive_errno(source) << ')';
+            qCCritical(ARK) << "Error while extracting" << filename << ":" << archive_error_string(source) << "(error no =" << archive_errno(source) << ')';
             return;
         }
         returnCode = archive_write_data_block(dest, buff, size, offset);
         if (returnCode < ARCHIVE_OK) {
-            qCCritical(ARK) << "Error while writing" << filename << ":" << archive_error_string(dest)
-                            << "(error no =" << archive_errno(dest) << ')';
+            qCCritical(ARK) << "Error while writing" << filename << ":" << archive_error_string(dest) << "(error no =" << archive_errno(dest) << ')';
             return;
         }
         if (partialprogress) {
@@ -189,7 +182,10 @@ void LibarchivePlugin::copyDataBlock(const QString &filename, archive *source, a
     }
 }
 
-bool LibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd)
+bool LibarchivePlugin::addFiles(const QVector<Archive::Entry *> &files,
+                                const Archive::Entry *destination,
+                                const CompressionOptions &options,
+                                uint numberOfEntriesToAdd)
 {
     Q_UNUSED(files)
     Q_UNUSED(destination)
@@ -198,7 +194,7 @@ bool LibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, const Arc
     return false;
 }
 
-bool LibarchivePlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool LibarchivePlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destination)
@@ -206,7 +202,7 @@ bool LibarchivePlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive:
     return false;
 }
 
-bool LibarchivePlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool LibarchivePlugin::copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destination)
@@ -214,7 +210,7 @@ bool LibarchivePlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive:
     return false;
 }
 
-bool LibarchivePlugin::deleteFiles(const QVector<Archive::Entry*> &files)
+bool LibarchivePlugin::deleteFiles(const QVector<Archive::Entry *> &files)
 {
     Q_UNUSED(files)
     return false;
@@ -241,7 +237,7 @@ bool LibarchivePlugin::doKill()
     return false;
 }
 
-bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     if (!initializeReader()) {
         return false;
@@ -257,8 +253,8 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
     if (extractAll) {
         if (!m_cachedArchiveEntryCount) {
             Q_EMIT progress(0);
-            //TODO: once information progress has been implemented, send
-            //feedback here that the archive is being read
+            // TODO: once information progress has been implemented, send
+            // feedback here that the archive is being read
             qCDebug(ARK) << "For getting progress information, the archive will be listed once";
             m_emitNoEntries = true;
             list();
@@ -294,7 +290,6 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
 
     // Iterate through all entries in archive.
     while (!QThread::currentThread()->isInterruptionRequested() && (archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK)) {
-
         if (!extractAll && remainingFiles.isEmpty()) {
             break;
         }
@@ -336,10 +331,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
         }
 
         // Should the entry be extracted?
-        if (extractAll ||
-            remainingFiles.contains(entryName) ||
-            entryName == fileBeingRenamed) {
-
+        if (extractAll || remainingFiles.contains(entryName) || entryName == fileBeingRenamed) {
             // Find the index of entry.
             if (entryName != fileBeingRenamed) {
                 index = fullPaths.indexOf(entryName);
@@ -352,7 +344,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
             // entryFI is the fileinfo pointing to where the file will be
             // written from the archive.
             QFileInfo entryFI(entryName);
-            //qCDebug(ARK) << "setting path to " << archive_entry_pathname( entry );
+            // qCDebug(ARK) << "setting path to " << archive_entry_pathname( entry );
 
             if (isSingleFile && fileBeingRenamed.isEmpty()) {
                 // Rename extracted file from libarchive-internal "data" name to the archive uncompressed name.
@@ -372,7 +364,7 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
                 archive_entry_copy_pathname(entry, QFile::encodeName(fileWithoutPath).constData());
                 entryFI = QFileInfo(fileWithoutPath);
 
-            // OR, if the file has a rootNode attached, remove it from file path.
+                // OR, if the file has a rootNode attached, remove it from file path.
             } else if (!extractAll && removeRootNode && entryName != fileBeingRenamed) {
                 const QString &rootNode = files.at(index)->rootNode;
                 if (!rootNode.isEmpty()) {
@@ -446,15 +438,13 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
                 break;
 
             case ARCHIVE_FAILED:
-                qCCritical(ARK) << "archive_write_header() has returned" << returnCode
-                                << "with errno" << archive_errno(writer.data());
+                qCCritical(ARK) << "archive_write_header() has returned" << returnCode << "with errno" << archive_errno(writer.data());
 
                 // If they user previously decided to ignore future errors,
                 // don't bother prompting again.
                 if (!dontPromptErrors) {
                     // Ask the user if he wants to continue extraction despite an error for this entry.
-                    Kerfuffle::ContinueExtractionQuery query(QLatin1String(archive_error_string(writer.data())),
-                                                             entryName);
+                    Kerfuffle::ContinueExtractionQuery query(QLatin1String(archive_error_string(writer.data())), entryName);
                     Q_EMIT userQuery(&query);
                     query.waitForResponse();
 
@@ -467,13 +457,11 @@ bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry*> &files, const
                 break;
 
             case ARCHIVE_FATAL:
-                qCCritical(ARK) << "archive_write_header() has returned" << returnCode
-                                << "with errno" << archive_errno(writer.data());
+                qCCritical(ARK) << "archive_write_header() has returned" << returnCode << "with errno" << archive_errno(writer.data());
                 Q_EMIT error(i18nc("@info", "Fatal error, extraction aborted."));
                 return false;
             default:
-                qCDebug(ARK) << "archive_write_header() returned" << returnCode
-                             << "which will be ignored.";
+                qCDebug(ARK) << "archive_write_header() returned" << returnCode << "which will be ignored.";
                 break;
             }
 
@@ -537,13 +525,14 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry, b
     auto e = new Archive::Entry();
 
 #ifdef Q_OS_WIN
-    e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromUtf16((ushort*)archive_entry_pathname_w(aentry))));
+    e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromUtf16((ushort *)archive_entry_pathname_w(aentry))));
 #else
     e->setProperty("fullPath", QDir::fromNativeSeparators(QString::fromWCharArray(archive_entry_pathname_w(aentry))));
 #endif
 
     if (isRawFormat) {
-        e->setProperty("displayName", uncompressedFileName()); // libarchive reports a fake 'data' entry if raw format, ignore it and use the uncompressed filename.
+        e->setProperty("displayName",
+                       uncompressedFileName()); // libarchive reports a fake 'data' entry if raw format, ignore it and use the uncompressed filename.
         e->setProperty("compressedSize", QFileInfo(filename()).size());
         e->compressedSizeIsSet = true;
     } else {
@@ -572,7 +561,7 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry, b
         e->setProperty("isDirectory", S_ISDIR(archive_entry_mode(aentry)));
 
         if (archive_entry_symlink(aentry)) {
-            e->setProperty("link", QLatin1String( archive_entry_symlink(aentry) ));
+            e->setProperty("link", QLatin1String(archive_entry_symlink(aentry)));
         }
 
         auto time = static_cast<uint>(archive_entry_mtime(aentry));
@@ -595,12 +584,10 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry, b
 
 int LibarchivePlugin::extractionFlags() const
 {
-    return ARCHIVE_EXTRACT_TIME
-           | ARCHIVE_EXTRACT_SECURE_NODOTDOT
-           | ARCHIVE_EXTRACT_SECURE_SYMLINKS;
+    return ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_SECURE_NODOTDOT | ARCHIVE_EXTRACT_SECURE_SYMLINKS;
 }
 
-void LibarchivePlugin::copyData(const QString& filename, struct archive *dest, bool partialprogress)
+void LibarchivePlugin::copyData(const QString &filename, struct archive *dest, bool partialprogress)
 {
     char buff[10240];
     QFile file(filename);
@@ -613,8 +600,7 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *dest, b
     while (readBytes > 0 && !QThread::currentThread()->isInterruptionRequested()) {
         archive_write_data(dest, buff, static_cast<size_t>(readBytes));
         if (archive_errno(dest) != ARCHIVE_OK) {
-            qCCritical(ARK) << "Error while writing" << filename << ":" << archive_error_string(dest)
-                            << "(error no =" << archive_errno(dest) << ')';
+            qCCritical(ARK) << "Error while writing" << filename << ":" << archive_error_string(dest) << "(error no =" << archive_errno(dest) << ')';
             return;
         }
 
@@ -629,7 +615,7 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *dest, b
     file.close();
 }
 
-void LibarchivePlugin::copyData(const QString& filename, struct archive *source, struct archive *dest, bool partialprogress)
+void LibarchivePlugin::copyData(const QString &filename, struct archive *source, struct archive *dest, bool partialprogress)
 {
     char buff[10240];
 
@@ -637,8 +623,7 @@ void LibarchivePlugin::copyData(const QString& filename, struct archive *source,
     while (readBytes > 0 && !QThread::currentThread()->isInterruptionRequested()) {
         archive_write_data(dest, buff, static_cast<size_t>(readBytes));
         if (archive_errno(dest) != ARCHIVE_OK) {
-            qCCritical(ARK) << "Error while extracting" << filename << ":" << archive_error_string(dest)
-                            << "(error no =" << archive_errno(dest) << ')';
+            qCCritical(ARK) << "Error while extracting" << filename << ":" << archive_error_string(dest) << "(error no =" << archive_errno(dest) << ')';
             return;
         }
 

@@ -21,20 +21,20 @@
 
 namespace Kerfuffle
 {
-
-class ExtractionDialogUI: public QFrame, public Ui::ExtractionDialog
+class ExtractionDialogUI : public QFrame, public Ui::ExtractionDialog
 {
     Q_OBJECT
 
 public:
     ExtractionDialogUI(QWidget *parent = nullptr)
-            : QFrame(parent) {
+        : QFrame(parent)
+    {
         setupUi(this);
     }
 };
 
 ExtractionDialog::ExtractionDialog(QWidget *parent)
-        : QDialog(parent, Qt::Dialog)
+    : QDialog(parent, Qt::Dialog)
 
 {
     setWindowTitle(i18nc("@title:window", "Extract"));
@@ -91,9 +91,8 @@ void ExtractionDialog::slotAccepted()
 
     // If extracting to a subfolder, we need to do some checks.
     if (extractToSubfolder()) {
-
         // Check if subfolder contains slashes.
-        if (subfolder().contains(QLatin1String( "/" ))) {
+        if (subfolder().contains(QLatin1String("/"))) {
             KMessageBox::error(this, i18n("The subfolder name may not contain the character '/'."));
             return;
         }
@@ -130,7 +129,6 @@ void ExtractionDialog::slotAccepted()
             }
             break;
         }
-
     }
 
     // Add new destination value to arkrc for quickExtractMenu.
@@ -141,7 +139,7 @@ void ExtractionDialog::slotAccepted()
     if (destHistory.size() > 10) {
         destHistory.removeLast();
     }
-    conf.writePathEntry ("DirHistory", destHistory);
+    conf.writePathEntry("DirHistory", destHistory);
 
     fileWidget->accept();
     accept();
@@ -167,7 +165,7 @@ void ExtractionDialog::batchModeOption()
     m_ui->extractAllLabel->setText(i18n("Extract multiple archives"));
 }
 
-void ExtractionDialog::setSubfolder(const QString& subfolder)
+void ExtractionDialog::setSubfolder(const QString &subfolder)
 {
     m_ui->subfolder->setText(subfolder);
 }
@@ -204,7 +202,7 @@ void ExtractionDialog::setShowSelectedFiles(bool value)
         m_ui->filesToExtractGroupBox->show();
         m_ui->selectedFilesButton->setChecked(true);
         m_ui->extractAllLabel->hide();
-    } else  {
+    } else {
         m_ui->filesToExtractGroupBox->hide();
         m_ui->selectedFilesButton->setChecked(false);
         m_ui->extractAllLabel->show();
@@ -238,7 +236,7 @@ void ExtractionDialog::setOpenDestinationFolderAfterExtraction(bool value)
 
 void ExtractionDialog::setCloseAfterExtraction(bool value)
 {
-  m_ui->closeAfterExtraction->setChecked(value);
+    m_ui->closeAfterExtraction->setChecked(value);
 }
 
 void ExtractionDialog::setPreservePaths(bool value)
@@ -296,9 +294,9 @@ void ExtractionDialog::setCurrentUrl(const QUrl &url)
 
 void ExtractionDialog::restoreWindowSize()
 {
-  // Restore window size from config file, needs a windowHandle so must be called after show()
-  KConfigGroup group(KSharedConfig::openConfig(), QStringLiteral("ExtractDialog"));
-  KWindowConfig::restoreWindowSize(windowHandle(), group);
+    // Restore window size from config file, needs a windowHandle so must be called after show()
+    KConfigGroup group(KSharedConfig::openConfig(), QStringLiteral("ExtractDialog"));
+    KWindowConfig::restoreWindowSize(windowHandle(), group);
 }
 
 }

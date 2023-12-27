@@ -22,7 +22,7 @@ class ReadWritePart;
 class KRecentFilesMenu;
 class Sidebar;
 
-class MainWindow: public KParts::MainWindow
+class MainWindow : public KParts::MainWindow
 {
     Q_OBJECT
 public:
@@ -30,11 +30,11 @@ public:
     ~MainWindow() override;
 
     bool loadPart();
-    KRecentFilesMenu* recentFilesMenu() const;
+    KRecentFilesMenu *recentFilesMenu() const;
 
-    void dragEnterEvent(class QDragEnterEvent * event) override;
-    void dropEvent(class QDropEvent * event) override;
-    void dragMoveEvent(class QDragMoveEvent * event) override;
+    void dragEnterEvent(class QDragEnterEvent *event) override;
+    void dropEvent(class QDropEvent *event) override;
+    void dragMoveEvent(class QDragMoveEvent *event) override;
 
 public Q_SLOTS:
     void openUrl(const QUrl &url);
@@ -61,15 +61,15 @@ private:
     void updateHamburgerMenu();
 
     KParts::ReadWritePart *m_part;
-    KRecentFilesMenu      *m_recentFilesMenu;
-    QAction               *m_openAction;
-    QAction               *m_newAction;
+    KRecentFilesMenu *m_recentFilesMenu;
+    QAction *m_openAction;
+    QAction *m_newAction;
     KParts::OpenUrlArguments m_openArgs;
-    WelcomeView           *m_welcomeView;
-    QStackedWidget        *m_windowContents;
-    Sidebar               *m_sidebar = nullptr;
-    QAction               *m_showSidebarAction = nullptr;
-    QAction               *m_lockSidebarAction = nullptr;
+    WelcomeView *m_welcomeView;
+    QStackedWidget *m_windowContents;
+    Sidebar *m_sidebar = nullptr;
+    QAction *m_showSidebarAction = nullptr;
+    QAction *m_lockSidebarAction = nullptr;
 };
 
 #endif // MAINWINDOW_H

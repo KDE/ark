@@ -30,7 +30,10 @@ ReadWriteLibarchivePlugin::~ReadWriteLibarchivePlugin()
 {
 }
 
-bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions &options, uint numberOfEntriesToAdd)
+bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry *> &files,
+                                         const Archive::Entry *destination,
+                                         const CompressionOptions &options,
+                                         uint numberOfEntriesToAdd)
 {
     qCDebug(ARK) << "Adding" << files.size() << "entries with CompressionOptions" << options;
 
@@ -51,9 +54,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
     qCDebug(ARK) << "Writing new entries";
     uint addedEntries = 0;
     // Recreate destination directory structure.
-    const QString destinationPath = (destination == nullptr)
-                                    ? QString()
-                                    : destination->fullPath();
+    const QString destinationPath = (destination == nullptr) ? QString() : destination->fullPath();
 
     for (Archive::Entry *selectedFile : files) {
         if (QThread::currentThread()->isInterruptionRequested()) {
@@ -65,21 +66,17 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
             return false;
         }
         addedEntries++;
-        Q_EMIT progress(float(addedEntries)/float(totalCount));
+        Q_EMIT progress(float(addedEntries) / float(totalCount));
 
         // For directories, write all subfiles/folders.
         const QString &fullPath = selectedFile->fullPath();
         if (QFileInfo(fullPath).isDir()) {
-            QDirIterator it(fullPath,
-                            QDir::AllEntries | QDir::Readable |
-                            QDir::Hidden | QDir::NoDotAndDotDot,
-                            QDirIterator::Subdirectories);
+            QDirIterator it(fullPath, QDir::AllEntries | QDir::Readable | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
 
             while (!QThread::currentThread()->isInterruptionRequested() && it.hasNext()) {
                 QString path = it.next();
 
-                if ((it.fileName() == QLatin1String("..")) ||
-                    (it.fileName() == QLatin1Char('.'))) {
+                if ((it.fileName() == QLatin1String("..")) || (it.fileName() == QLatin1Char('.'))) {
                     continue;
                 }
 
@@ -94,7 +91,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
                     return false;
                 }
                 addedEntries++;
-                Q_EMIT progress(float(addedEntries)/float(totalCount));
+                Q_EMIT progress(float(addedEntries) / float(totalCount));
             }
         }
     }
@@ -117,7 +114,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry*> &files, 
     return isSuccessful;
 }
 
-bool ReadWriteLibarchivePlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool ReadWriteLibarchivePlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options);
 
@@ -147,7 +144,7 @@ bool ReadWriteLibarchivePlugin::moveFiles(const QVector<Archive::Entry*> &files,
     return isSuccessful;
 }
 
-bool ReadWriteLibarchivePlugin::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool ReadWriteLibarchivePlugin::copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options);
 
@@ -176,7 +173,7 @@ bool ReadWriteLibarchivePlugin::copyFiles(const QVector<Archive::Entry*> &files,
     return isSuccessful;
 }
 
-bool ReadWriteLibarchivePlugin::deleteFiles(const QVector<Archive::Entry*> &files)
+bool ReadWriteLibarchivePlugin::deleteFiles(const QVector<Archive::Entry *> &files)
 {
     qCDebug(ARK) << "Deleting" << files.size() << "entries";
 
@@ -277,14 +274,12 @@ bool ReadWriteLibarchivePlugin::initializeWriterFilters()
         ret = archive_write_add_filter_none(m_archiveWriter.data());
         break;
     default:
-        Q_EMIT error(i18n("The compression type '%1' is not supported by Ark.",
-                        QLatin1String(archive_filter_name(m_archiveReader.data(), 0))));
+        Q_EMIT error(i18n("The compression type '%1' is not supported by Ark.", QLatin1String(archive_filter_name(m_archiveReader.data(), 0))));
         return false;
     }
 
     // Libarchive emits a warning for lrzip due to using external executable.
-    if ((requiresExecutable && ret != ARCHIVE_WARN) ||
-        (!requiresExecutable && ret != ARCHIVE_OK)) {
+    if ((requiresExecutable && ret != ARCHIVE_WARN) || (!requiresExecutable && ret != ARCHIVE_OK)) {
         qCWarning(ARK) << "Failed to set compression method:" << archive_error_string(m_archiveWriter.data());
         Q_EMIT error(i18nc("@info", "Could not set the compression method."));
         return false;
@@ -310,11 +305,9 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
         ret = archive_write_add_filter_xz(m_archiveWriter.data());
 
         // Set number of threads.
-        ret = archive_write_set_filter_option(m_archiveWriter.data(), "xz", "threads",
-                                              threads.c_str());
+        ret = archive_write_set_filter_option(m_archiveWriter.data(), "xz", "threads", threads.c_str());
         if (ret != ARCHIVE_OK) {
-            qCWarning(ARK) << "Failed to set number of threads, fallback to single thread mode"
-                           << archive_error_string(m_archiveWriter.data());
+            qCWarning(ARK) << "Failed to set number of threads, fallback to single thread mode" << archive_error_string(m_archiveWriter.data());
         }
     } else if (filename().right(4).toUpper() == QLatin1String("LZMA")) {
         qCDebug(ARK) << "Detected lzma compression for new file";
@@ -340,11 +333,9 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
         ret = archive_write_add_filter_zstd(m_archiveWriter.data());
 
         // Set number of threads.
-        ret = archive_write_set_filter_option(m_archiveWriter.data(), "zstd", "threads",
-                                              threads.c_str());
+        ret = archive_write_set_filter_option(m_archiveWriter.data(), "zstd", "threads", threads.c_str());
         if (ret != ARCHIVE_OK) {
-            qCWarning(ARK) << "Failed to set number of threads, fallback to single thread mode"
-                           << archive_error_string(m_archiveWriter.data());
+            qCWarning(ARK) << "Failed to set number of threads, fallback to single thread mode" << archive_error_string(m_archiveWriter.data());
         }
     } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
         qCDebug(ARK) << "Detected no compression for new file (pure tar)";
@@ -355,8 +346,7 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
     }
 
     // Libarchive emits a warning for lrzip due to using external executable.
-    if ((requiresExecutable && ret != ARCHIVE_WARN) ||
-        (!requiresExecutable && ret != ARCHIVE_OK)) {
+    if ((requiresExecutable && ret != ARCHIVE_WARN) || (!requiresExecutable && ret != ARCHIVE_OK)) {
         qCWarning(ARK) << "Failed to set compression method:" << archive_error_string(m_archiveWriter.data());
         Q_EMIT error(i18nc("@info", "Could not set the compression method."));
         return false;
@@ -365,7 +355,10 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
     // Set compression level if passed in CompressionOptions.
     if (options.isCompressionLevelSet()) {
         qCDebug(ARK) << "Using compression level:" << options.compressionLevel();
-        ret = archive_write_set_filter_option(m_archiveWriter.data(), nullptr, "compression-level", QString::number(options.compressionLevel()).toUtf8().constData());
+        ret = archive_write_set_filter_option(m_archiveWriter.data(),
+                                              nullptr,
+                                              "compression-level",
+                                              QString::number(options.compressionLevel()).toUtf8().constData());
         if (ret != ARCHIVE_OK) {
             qCWarning(ARK) << "Failed to set compression level" << archive_error_string(m_archiveWriter.data());
             Q_EMIT error(i18nc("@info", "Could not set the compression level."));
@@ -411,7 +404,6 @@ bool ReadWriteLibarchivePlugin::processOldEntries(uint &entriesCounter, Operatio
 
     struct archive_entry *entry;
     while (!QThread::currentThread()->isInterruptionRequested() && archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK) {
-
         const QString file = QFile::decodeName(archive_entry_pathname(entry));
 
         if (mode == Move || mode == Copy) {
@@ -439,7 +431,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(uint &entriesCounter, Operatio
             case Delete:
                 entriesCounter++;
                 Q_EMIT entryRemoved(file);
-                Q_EMIT progress(float(newEntries + entriesCounter + iteratedEntries)/float(totalCount));
+                Q_EMIT progress(float(newEntries + entriesCounter + iteratedEntries) / float(totalCount));
                 break;
 
             case Add:
@@ -468,7 +460,7 @@ bool ReadWriteLibarchivePlugin::processOldEntries(uint &entriesCounter, Operatio
         } else {
             return false;
         }
-        Q_EMIT progress(float(newEntries + entriesCounter + iteratedEntries)/float(totalCount));
+        Q_EMIT progress(float(newEntries + entriesCounter + iteratedEntries) / float(totalCount));
     }
 
     return !QThread::currentThread()->isInterruptionRequested();
@@ -485,13 +477,11 @@ bool ReadWriteLibarchivePlugin::writeEntry(struct archive_entry *entry)
         break;
     case ARCHIVE_FAILED:
     case ARCHIVE_FATAL:
-        qCCritical(ARK) << "archive_write_header() has returned" << returnCode
-                        << "with errno" << archive_errno(m_archiveWriter.data());
+        qCCritical(ARK) << "archive_write_header() has returned" << returnCode << "with errno" << archive_errno(m_archiveWriter.data());
         Q_EMIT error(i18nc("@info", "Could not compress entry, operation aborted."));
         return false;
     default:
-        qCDebug(ARK) << "archive_writer_header() has returned" << returnCode
-                     << "which will be ignored.";
+        qCDebug(ARK) << "archive_writer_header() has returned" << returnCode << "which will be ignored.";
         break;
     }
 
@@ -525,10 +515,10 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString &relativeName, const QSt
         copyData(absoluteFilename, m_archiveWriter.data(), false);
     } else {
         qCCritical(ARK) << "Writing header failed with error code " << returnCode;
-        qCCritical(ARK) << "Error while writing..." << archive_error_string(m_archiveWriter.data()) << "(error no =" << archive_errno(m_archiveWriter.data()) << ')';
+        qCCritical(ARK) << "Error while writing..." << archive_error_string(m_archiveWriter.data()) << "(error no =" << archive_errno(m_archiveWriter.data())
+                        << ')';
 
-        Q_EMIT error(i18nc("@info Error in a message box",
-                         "Could not compress entry."));
+        Q_EMIT error(i18nc("@info Error in a message box", "Could not compress entry."));
 
         archive_entry_free(entry);
 

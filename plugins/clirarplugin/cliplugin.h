@@ -33,7 +33,6 @@ public:
     bool isLocked() const override;
 
 private:
-
     enum ParseState {
         ParseStateTitle = 0,
         ParseStateComment,

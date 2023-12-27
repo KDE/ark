@@ -10,12 +10,13 @@
 
 #include "util.h"
 
-namespace Kerfuffle {
+namespace Kerfuffle
+{
 Archive::Entry::Entry(QObject *parent, const QString &fullPath, const QString &rootNode)
     : QObject(parent)
     , rootNode(rootNode)
     , compressedSizeIsSet(true)
-    , m_parent(qobject_cast<Entry*>(parent))
+    , m_parent(qobject_cast<Entry *>(parent))
     , m_size(0)
     , m_compressedSize(0)
     , m_sparseSize(0)
@@ -67,13 +68,14 @@ void Archive::Entry::copyMetaData(const Archive::Entry *sourceEntry)
     setProperty("isPasswordProtected", sourceEntry->property("isPasswordProtected"));
 }
 
-QVector<Archive::Entry*> Archive::Entry::entries()
+QVector<Archive::Entry *> Archive::Entry::entries()
 {
     Q_ASSERT(isDir());
     return m_entries;
 }
 
-const QVector<Archive::Entry*> Archive::Entry::entries() const {
+const QVector<Archive::Entry *> Archive::Entry::entries() const
+{
     Q_ASSERT(isDir());
     return m_entries;
 }
@@ -113,7 +115,6 @@ void Archive::Entry::setFullPath(const QString &fullPath)
     m_fullPath = fullPath;
 
     m_name = Kerfuffle::Util::lastPathSegment(m_fullPath);
-
 }
 
 QString Archive::Entry::fullPath(PathFormat format) const
@@ -172,7 +173,7 @@ bool Archive::Entry::isExecutable() const
 int Archive::Entry::row() const
 {
     if (getParent()) {
-        return getParent()->entries().indexOf(const_cast<Archive::Entry*>(this));
+        return getParent()->entries().indexOf(const_cast<Archive::Entry *>(this));
     }
     return 0;
 }

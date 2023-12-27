@@ -14,7 +14,6 @@
 class QAction;
 class QWidget;
 
-
 namespace Kerfuffle
 {
 class PluginManager;
@@ -22,13 +21,12 @@ class PluginManager;
 
 class ExtractFileItemAction : public KAbstractFileItemActionPlugin
 {
-
-Q_OBJECT
+    Q_OBJECT
 
 public:
-    ExtractFileItemAction(QObject* parent, const QVariantList& args);
+    ExtractFileItemAction(QObject *parent, const QVariantList &args);
 
-    QList<QAction*> actions(const KFileItemListProperties& fileItemInfos, QWidget* parentWidget) override;
+    QList<QAction *> actions(const KFileItemListProperties &fileItemInfos, QWidget *parentWidget) override;
 
 private:
     enum AdditionalJobOptions {
@@ -36,7 +34,7 @@ private:
         ShowDialog,
         AutoDelete,
     };
-    QAction *createAction(const QIcon& icon, const QString& name, QWidget *parent, const QList<QUrl>& urls, AdditionalJobOptions option);
+    QAction *createAction(const QIcon &icon, const QString &name, QWidget *parent, const QList<QUrl> &urls, AdditionalJobOptions option);
 
     Kerfuffle::PluginManager *m_pluginManager;
 };

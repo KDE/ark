@@ -5,8 +5,8 @@
 */
 
 #include "adddialog.h"
-#include "ark_debug.h"
 #include "archiveformat.h"
+#include "ark_debug.h"
 #include "mimetypes.h"
 
 #include <QDialogButtonBox>
@@ -16,15 +16,10 @@
 
 namespace Kerfuffle
 {
-
-AddDialog::AddDialog(QWidget *parent,
-                     const QString &title,
-                     const QUrl &startDir,
-                     const QMimeType &mimeType,
-                     const CompressionOptions &opts)
-        : QDialog(parent, Qt::Dialog)
-        , m_mimeType(mimeType)
-        , m_compOptions(opts)
+AddDialog::AddDialog(QWidget *parent, const QString &title, const QUrl &startDir, const QMimeType &mimeType, const CompressionOptions &opts)
+    : QDialog(parent, Qt::Dialog)
+    , m_mimeType(mimeType)
+    , m_compOptions(opts)
 {
     qCDebug(ARK) << "AddDialog loaded with options:" << m_compOptions;
 
@@ -34,8 +29,7 @@ AddDialog::AddDialog(QWidget *parent,
     m_fileWidget = new KFileWidget(startDir, this);
     vlayout->addWidget(m_fileWidget);
 
-    QPushButton *optionsButton = new QPushButton(QIcon::fromTheme(QStringLiteral("settings-configure")),
-                                                 i18n("Advanced Options"));
+    QPushButton *optionsButton = new QPushButton(QIcon::fromTheme(QStringLiteral("settings-configure")), i18n("Advanced Options"));
     optionsButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     m_fileWidget->setCustomWidget(optionsButton);
 

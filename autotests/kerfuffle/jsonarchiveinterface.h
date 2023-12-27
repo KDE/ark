@@ -7,8 +7,8 @@
 #ifndef JSONARCHIVEINTERFACE_H
 #define JSONARCHIVEINTERFACE_H
 
-#include "jsonparser.h"
 #include "archiveinterface.h"
+#include "jsonparser.h"
 
 /**
  * A dummy archive interface used by our test cases.
@@ -29,18 +29,24 @@ class JSONArchiveInterface : public Kerfuffle::ReadWriteArchiveInterface
     Q_OBJECT
 
 public:
-    explicit JSONArchiveInterface(QObject *parent, const QVariantList& args);
+    explicit JSONArchiveInterface(QObject *parent, const QVariantList &args);
     ~JSONArchiveInterface() override;
 
     bool list() override;
     bool open() override;
 
-    bool addFiles(const QVector<Kerfuffle::Archive::Entry*>& files, const Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options, uint numberOfEntriesToAdd = 0) override;
-    bool moveFiles(const QVector<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) override;
-    bool copyFiles(const QVector<Kerfuffle::Archive::Entry*>& files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options) override;
-    bool extractFiles(const QVector<Kerfuffle::Archive::Entry*>& files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions& options) override;
-    bool deleteFiles(const QVector<Kerfuffle::Archive::Entry*>& files) override;
-    bool addComment(const QString& comment) override;
+    bool addFiles(const QVector<Kerfuffle::Archive::Entry *> &files,
+                  const Kerfuffle::Archive::Entry *destination,
+                  const Kerfuffle::CompressionOptions &options,
+                  uint numberOfEntriesToAdd = 0) override;
+    bool
+    moveFiles(const QVector<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions &options) override;
+    bool
+    copyFiles(const QVector<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions &options) override;
+    bool
+    extractFiles(const QVector<Kerfuffle::Archive::Entry *> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
+    bool deleteFiles(const QVector<Kerfuffle::Archive::Entry *> &files) override;
+    bool addComment(const QString &comment) override;
     bool testArchive() override;
 
 private:

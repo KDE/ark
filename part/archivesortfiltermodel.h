@@ -8,7 +8,7 @@
 
 #include <QSortFilterProxyModel>
 
-class ArchiveSortFilterModel: public QSortFilterProxyModel
+class ArchiveSortFilterModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 

@@ -19,7 +19,8 @@ public:
     ~CliPlugin() override;
 
     bool list() override;
-    bool extractFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
+    bool
+    extractFiles(const QVector<Kerfuffle::Archive::Entry *> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
     void resetParsing() override;
     bool readListLine(const QString &line) override;
     bool readExtractLine(const QString &line) override;
@@ -34,8 +35,7 @@ protected Q_SLOTS:
     void readStdout(bool handleAll = false) override;
 
 protected:
-
-    bool handleLine(const QString& line) override;
+    bool handleLine(const QString &line) override;
 
 private Q_SLOTS:
     void processFinished(int exitCode, QProcess::ExitStatus exitStatus) override;

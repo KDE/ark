@@ -14,8 +14,7 @@
 
 namespace Kerfuffle
 {
-
-QMimeType determineMimeType(const QString& filename, MimePreference mp)
+QMimeType determineMimeType(const QString &filename, MimePreference mp)
 {
     QMimeDatabase db;
 
@@ -72,40 +71,36 @@ QMimeType determineMimeType(const QString& filename, MimePreference mp)
     // Compressed tar-archives are detected as single compressed files when
     // detecting by content. The following code fixes detection of tar.gz, tar.bz2, tar.xz,
     // tar.lzo, tar.lz, tar.lrz and tar.zst.
-    if ((mimeFromExtension.inherits(QStringLiteral("application/x-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/gzip"))) ||
-        (mimeFromExtension.inherits(QStringLiteral("application/x-bzip-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip"))) ||
-        (mimeFromExtension.inherits(QStringLiteral("application/x-bzip2-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip2"))) ||
-        (mimeFromExtension.inherits(QStringLiteral("application/x-xz-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz"))) ||
-        (mimeFromExtension.inherits(QStringLiteral("application/x-tarz")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-compress"))) ||
-        (mimeFromExtension.inherits(QStringLiteral("application/x-tzo")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzop"))) ||
-        (mimeFromExtension.inherits(QStringLiteral("application/x-lzip-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzip"))) ||
-        (mimeFromExtension.inherits(QStringLiteral("application/x-lrzip-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lrzip"))) ||
-        (mimeFromExtension.inherits(QStringLiteral("application/x-lz4-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lz4"))) ||
-        (mimeFromExtension.inherits(QStringLiteral("application/x-zstd-compressed-tar")) &&
-         mimeFromContent == db.mimeTypeForName(QStringLiteral("application/zstd")))) {
+    if ((mimeFromExtension.inherits(QStringLiteral("application/x-compressed-tar"))
+         && mimeFromContent == db.mimeTypeForName(QStringLiteral("application/gzip")))
+        || (mimeFromExtension.inherits(QStringLiteral("application/x-bzip-compressed-tar"))
+            && mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip")))
+        || (mimeFromExtension.inherits(QStringLiteral("application/x-bzip2-compressed-tar"))
+            && mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-bzip2")))
+        || (mimeFromExtension.inherits(QStringLiteral("application/x-xz-compressed-tar"))
+            && mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-xz")))
+        || (mimeFromExtension.inherits(QStringLiteral("application/x-tarz")) && mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-compress")))
+        || (mimeFromExtension.inherits(QStringLiteral("application/x-tzo")) && mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzop")))
+        || (mimeFromExtension.inherits(QStringLiteral("application/x-lzip-compressed-tar"))
+            && mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lzip")))
+        || (mimeFromExtension.inherits(QStringLiteral("application/x-lrzip-compressed-tar"))
+            && mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lrzip")))
+        || (mimeFromExtension.inherits(QStringLiteral("application/x-lz4-compressed-tar"))
+            && mimeFromContent == db.mimeTypeForName(QStringLiteral("application/x-lz4")))
+        || (mimeFromExtension.inherits(QStringLiteral("application/x-zstd-compressed-tar"))
+            && mimeFromContent == db.mimeTypeForName(QStringLiteral("application/zstd")))) {
         return mimeFromExtension;
     }
 
     if (mimeFromExtension != mimeFromContent) {
-
         if (mimeFromContent.isDefault()) {
             qCWarning(ARK) << "Could not detect mimetype from content."
                            << "Using extension-based mimetype:" << mimeFromExtension.name();
             return mimeFromExtension;
         }
 
-        qCDebug(ARK) << "Mimetype for filename extension (" << mimeFromExtension.name()
-                       << ") did not match mimetype for content (" << mimeFromContent.name()
-                       << "). Using content-based mimetype.";
+        qCDebug(ARK) << "Mimetype for filename extension (" << mimeFromExtension.name() << ") did not match mimetype for content (" << mimeFromContent.name()
+                     << "). Using content-based mimetype.";
     }
 
     return mp == PreferExtensionMime ? mimeFromExtension : mimeFromContent;

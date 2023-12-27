@@ -9,7 +9,7 @@
 
 #include <KPluginFactory>
 
-class Factory: public KPluginFactory
+class Factory : public KPluginFactory
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID KPluginFactory_iid FILE "ark_part.json")

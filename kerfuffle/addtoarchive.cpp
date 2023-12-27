@@ -11,8 +11,8 @@
 #include "createdialog.h"
 #include "jobs.h"
 
-#include <KJobTrackerInterface>
 #include <KIO/JobTracker>
+#include <KJobTrackerInterface>
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -26,9 +26,9 @@
 namespace Kerfuffle
 {
 AddToArchive::AddToArchive(QObject *parent)
-        : KJob(parent)
-        , m_changeToFirstPath(false)
-        , m_enableHeaderEncryption(false)
+    : KJob(parent)
+    , m_changeToFirstPath(false)
+    , m_enableHeaderEncryption(false)
 {
 }
 
@@ -36,7 +36,7 @@ AddToArchive::~AddToArchive()
 {
 }
 
-void AddToArchive::setAutoFilenameSuffix(const QString& suffix)
+void AddToArchive::setAutoFilenameSuffix(const QString &suffix)
 {
     m_autoFilenameSuffix = suffix;
 }
@@ -51,7 +51,7 @@ void AddToArchive::setFilename(const QUrl &path)
     m_filename = path.toLocalFile();
 }
 
-void AddToArchive::setMimeType(const QString & mimeType)
+void AddToArchive::setMimeType(const QString &mimeType)
 {
     m_mimeType = mimeType;
 }
@@ -74,10 +74,9 @@ bool AddToArchive::showAddDialog(QWidget *parentWidget)
         m_filename = getFileNameForEntries(m_entries, QString());
     }
 
-    QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(
-        parentWidget, // parent
-        i18n("Compress to Archive"), // caption
-        QUrl::fromLocalFile(QFileInfo(m_filename).path())); // startDir
+    QPointer<Kerfuffle::CreateDialog> dialog = new Kerfuffle::CreateDialog(parentWidget, // parent
+                                                                           i18n("Compress to Archive"), // caption
+                                                                           QUrl::fromLocalFile(QFileInfo(m_filename).path())); // startDir
 
     dialog->setFileName(QFileInfo(m_filename).fileName());
 
@@ -137,7 +136,9 @@ void AddToArchive::slotStartJob()
 
     if (m_filename.isEmpty()) {
         if (m_autoFilenameSuffix.isEmpty()) {
-            KMessageBox::error(nullptr, xi18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the <command>--autofilename</command> argument."));
+            KMessageBox::error(nullptr,
+                               xi18n("You need to either supply a filename for the archive or a suffix (such as rar, tar.gz) with the "
+                                     "<command>--autofilename</command> argument."));
             emitResult();
             return;
         }

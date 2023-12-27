@@ -36,11 +36,7 @@ class PreviewJob;
 class Query;
 class ReadOnlyArchiveInterface;
 
-enum ArchiveError {
-    NoError = 0,
-    NoPlugin,
-    FailedPlugin
-};
+enum ArchiveError { NoError = 0, NoPlugin, FailedPlugin };
 
 class KERFUFFLE_EXPORT Archive : public QObject
 {
@@ -69,13 +65,7 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(QStringList encryptionMethods MEMBER m_encryptionMethods)
 
 public:
-
-    enum EncryptionType
-    {
-        Unencrypted,
-        Encrypted,
-        HeaderEncrypted
-    };
+    enum EncryptionType { Unencrypted, Encrypted, HeaderEncrypted };
     Q_ENUM(EncryptionType)
 
     class Entry;
@@ -112,14 +102,19 @@ public:
      * @param preservePaths Whether the job will preserve paths.
      * @param parent The parent for the archive.
      */
-    static BatchExtractJob *batchExtract(const QString &fileName, const QString &destination, bool autoSubfolder, bool preservePaths, QObject *parent = nullptr);
+    static BatchExtractJob *
+    batchExtract(const QString &fileName, const QString &destination, bool autoSubfolder, bool preservePaths, QObject *parent = nullptr);
 
     /**
      * @return Job to create an archive for the given @p entries.
      * @param fileName The name of the new archive.
      * @param mimeType The mimetype of the new archive.
      */
-    static CreateJob* create(const QString &fileName, const QString &mimeType, const QVector<Archive::Entry*> &entries, const CompressionOptions& options, QObject *parent = nullptr);
+    static CreateJob *create(const QString &fileName,
+                             const QString &mimeType,
+                             const QVector<Archive::Entry *> &entries,
+                             const CompressionOptions &options,
+                             QObject *parent = nullptr);
 
     /**
      * @return An empty archive with name @p fileName, mimetype @p mimeType and @p parent as parent.
@@ -130,30 +125,30 @@ public:
      * @return Job to load the archive @p fileName.
      * @param parent The parent of the archive that will be loaded.
      */
-    static LoadJob* load(const QString &fileName, QObject *parent = nullptr);
+    static LoadJob *load(const QString &fileName, QObject *parent = nullptr);
 
     /**
      * @return Job to load the archive @p fileName with mimetype @p mimeType.
      * @param parent The parent of the archive that will be loaded.
      */
-    static LoadJob* load(const QString &fileName, const QString &mimeType, QObject *parent = nullptr);
+    static LoadJob *load(const QString &fileName, const QString &mimeType, QObject *parent = nullptr);
 
     /**
      * @return Job to load the archive @p fileName by using @p plugin.
      * @param parent The parent of the archive that will be loaded.
      */
-    static LoadJob* load(const QString &fileName, Plugin *plugin, QObject *parent = nullptr);
+    static LoadJob *load(const QString &fileName, Plugin *plugin, QObject *parent = nullptr);
 
     ~Archive() override;
 
     ArchiveError error() const;
     bool isValid() const;
 
-    DeleteJob* deleteFiles(QVector<Archive::Entry*> &entries);
-    CommentJob* addComment(const QString &comment);
-    TestJob* testArchive();
+    DeleteJob *deleteFiles(QVector<Archive::Entry *> &entries);
+    CommentJob *addComment(const QString &comment);
+    TestJob *testArchive();
 
-    AddJob* addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
+    AddJob *addFiles(const QVector<Archive::Entry *> &files, const Archive::Entry *destination, const CompressionOptions &options = CompressionOptions());
 
     /**
      * Renames or moves entries within the archive.
@@ -165,7 +160,7 @@ public:
      * Otherwise (if count is more than 1) it's moving, so destination must contain only targeted folder path
      * or be empty, if moving to the root.
      */
-    MoveJob* moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
+    MoveJob *moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options = CompressionOptions());
 
     /**
      * Copies entries within the archive.
@@ -174,13 +169,13 @@ public:
      * @param destination Destination path. It must contain only targeted folder path or be empty,
      * if copying to the root.
      */
-    CopyJob* copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions& options = CompressionOptions());
+    CopyJob *copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options = CompressionOptions());
 
-    ExtractJob* extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDir, ExtractionOptions options = ExtractionOptions());
+    ExtractJob *extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDir, ExtractionOptions options = ExtractionOptions());
 
-    PreviewJob* preview(Archive::Entry *entry);
-    OpenJob* open(Archive::Entry *entry);
-    OpenWithJob* openWith(Archive::Entry *entry);
+    PreviewJob *preview(Archive::Entry *entry);
+    OpenJob *open(Archive::Entry *entry);
+    OpenWithJob *openWith(Archive::Entry *entry);
 
     /**
      * @param password The password to encrypt the archive with.
@@ -189,8 +184,8 @@ public:
     void encrypt(const QString &password, bool encryptHeader);
 
 private Q_SLOTS:
-    void onAddFinished(KJob*);
-    void onUserQuery(Kerfuffle::Query*);
+    void onAddFinished(KJob *);
+    void onUserQuery(Kerfuffle::Query *);
     void onCompressionMethodFound(const QString &method);
     void onEncryptionMethodFound(const QString &method);
 

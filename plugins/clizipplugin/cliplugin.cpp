@@ -21,7 +21,7 @@ using namespace Kerfuffle;
 
 K_PLUGIN_CLASS_WITH_JSON(CliPlugin, "kerfuffle_clizip.json")
 
-CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
+CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
     : CliInterface(parent, args)
     , m_parseState(ParseStateHeader)
     , m_linesComment(0)
@@ -80,9 +80,7 @@ void CliPlugin::setupCliProperties()
     m_cliProps->setProperty("extractSwitchNoPreserve", QStringList{QStringLiteral("-j")});
 
     m_cliProps->setProperty("listProgram", QStringLiteral("zipinfo"));
-    m_cliProps->setProperty("listSwitch", QStringList{QStringLiteral("-l"),
-                                                      QStringLiteral("-T"),
-                                                      QStringLiteral("-z")});
+    m_cliProps->setProperty("listSwitch", QStringList{QStringLiteral("-l"), QStringLiteral("-T"), QStringLiteral("-z")});
 
     m_cliProps->setProperty("testProgram", QStringLiteral("unzip"));
     m_cliProps->setProperty("testSwitch", QStringLiteral("-t"));
@@ -90,23 +88,26 @@ void CliPlugin::setupCliProperties()
     m_cliProps->setProperty("passwordSwitch", QStringList{QStringLiteral("-P$Password")});
 
     m_cliProps->setProperty("compressionLevelSwitch", QStringLiteral("-$CompressionLevel"));
-    m_cliProps->setProperty("compressionMethodSwitch", QHash<QString,QVariant>{{QStringLiteral("application/zip"), QStringLiteral("-Z$CompressionMethod")},
-                                                                               {QStringLiteral("application/x-java-archive"), QStringLiteral("-Z$CompressionMethod")}});
+    m_cliProps->setProperty("compressionMethodSwitch",
+                            QHash<QString, QVariant>{{QStringLiteral("application/zip"), QStringLiteral("-Z$CompressionMethod")},
+                                                     {QStringLiteral("application/x-java-archive"), QStringLiteral("-Z$CompressionMethod")}});
     m_cliProps->setProperty("multiVolumeSwitch", QStringLiteral("-v$VolumeSizek"));
 
     m_cliProps->setProperty("testPassedPatterns", QStringList{QStringLiteral("^No errors detected in compressed data of ")});
-    m_cliProps->setProperty("fileExistsFileNameRegExp", QStringList{QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $")});
-    m_cliProps->setProperty("fileExistsInput", QStringList{QStringLiteral("y"),   //Overwrite
-                                                           QStringLiteral("n"),   //Skip
-                                                           QStringLiteral("A"),   //Overwrite all
-                                                           QStringLiteral("N")}); //Autoskip
+    m_cliProps->setProperty("fileExistsFileNameRegExp",
+                            QStringList{QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $")});
+    m_cliProps->setProperty("fileExistsInput",
+                            QStringList{QStringLiteral("y"), // Overwrite
+                                        QStringLiteral("n"), // Skip
+                                        QStringLiteral("A"), // Overwrite all
+                                        QStringLiteral("N")}); // Autoskip
     m_cliProps->setProperty("extractionFailedPatterns", QStringList{QStringLiteral("unsupported compression method")});
 }
 
 bool CliPlugin::readListLine(const QString &line)
 {
-    static const QRegularExpression entryPattern(QStringLiteral(
-        "^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$") );
+    static const QRegularExpression entryPattern(
+        QStringLiteral("^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$"));
 
     // RegExp to identify the line preceding comments.
     const QRegularExpression commentPattern(QStringLiteral("^Archive:  .*$"));
@@ -117,7 +118,7 @@ bool CliPlugin::readListLine(const QString &line)
     case ParseStateHeader:
         if (commentPattern.match(line).hasMatch()) {
             m_parseState = ParseStateComment;
-        } else if (commentEndPattern.match(line).hasMatch()){
+        } else if (commentEndPattern.match(line).hasMatch()) {
             m_parseState = ParseStateEntry;
         }
         break;
@@ -192,7 +193,7 @@ bool CliPlugin::readExtractLine(const QString &line)
     return true;
 }
 
-bool CliPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool CliPlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     qCDebug(ARK) << "Moving" << files.count() << "file(s) to destination:" << destination;
 
@@ -210,7 +211,8 @@ bool CliPlugin::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry 
     return extractFiles(files, QDir::currentPath(), ExtractionOptions());
 }
 
-int CliPlugin::moveRequiredSignals() const {
+int CliPlugin::moveRequiredSignals() const
+{
     return 4;
 }
 
@@ -325,26 +327,23 @@ bool CliPlugin::isWrongPasswordMsg(const QString &line)
 
 bool CliPlugin::isCorruptArchiveMsg(const QString &line)
 {
-    return (line.contains(QLatin1String("End-of-central-directory signature not found")) ||
-            line.contains(QLatin1String("didn't find end-of-central-dir signature at end of central dir")));
+    return (line.contains(QLatin1String("End-of-central-directory signature not found"))
+            || line.contains(QLatin1String("didn't find end-of-central-dir signature at end of central dir")));
 }
 
 bool CliPlugin::isDiskFullMsg(const QString &line)
 {
-    return (line.contains(QLatin1String("No space left on device")) ||
-            line.contains(QLatin1String("write error (disk full?)")));
+    return (line.contains(QLatin1String("No space left on device")) || line.contains(QLatin1String("write error (disk full?)")));
 }
 
 bool CliPlugin::isFileExistsMsg(const QString &line)
 {
-    return (line.startsWith(QLatin1String("replace ")) &&
-            line.endsWith(QLatin1String("? [y]es, [n]o, [A]ll, [N]one, [r]ename: ")));
+    return (line.startsWith(QLatin1String("replace ")) && line.endsWith(QLatin1String("? [y]es, [n]o, [A]ll, [N]one, [r]ename: ")));
 }
 
 bool CliPlugin::isFileExistsFileName(const QString &line)
 {
-    return (line.startsWith(QLatin1String("replace ")) &&
-            line.endsWith(QLatin1String("? [y]es, [n]o, [A]ll, [N]one, [r]ename: ")));
+    return (line.startsWith(QLatin1String("replace ")) && line.endsWith(QLatin1String("? [y]es, [n]o, [A]ll, [N]one, [r]ename: ")));
 }
 
 #include "cliplugin.moc"

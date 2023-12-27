@@ -5,21 +5,27 @@
 */
 
 #include "cliproperties.h"
-#include "ark_debug.h"
 #include "archiveformat.h"
+#include "ark_debug.h"
 #include "pluginmanager.h"
 #include <QRegularExpression>
 namespace Kerfuffle
 {
-
 CliProperties::CliProperties(QObject *parent, const KPluginMetaData &metaData, const QMimeType &archiveType)
-        : QObject(parent)
-        , m_mimeType(archiveType)
-        , m_metaData(metaData)
+    : QObject(parent)
+    , m_mimeType(archiveType)
+    , m_metaData(metaData)
 {
 }
 
-QStringList CliProperties::addArgs(const QString &archive, const QStringList &files, const QString &password, bool headerEncryption, int compressionLevel, const QString &compressionMethod, const QString &encryptionMethod, ulong volumeSize)
+QStringList CliProperties::addArgs(const QString &archive,
+                                   const QStringList &files,
+                                   const QString &password,
+                                   bool headerEncryption,
+                                   int compressionLevel,
+                                   const QString &compressionMethod,
+                                   const QString &encryptionMethod,
+                                   ulong volumeSize)
 {
     if (!encryptionMethod.isEmpty()) {
         Q_ASSERT(!password.isEmpty());
@@ -64,7 +70,7 @@ QStringList CliProperties::commentArgs(const QString &archive, const QString &co
     return args;
 }
 
-QStringList CliProperties::deleteArgs(const QString &archive, const QVector<Archive::Entry*> &files, const QString &password)
+QStringList CliProperties::deleteArgs(const QString &archive, const QVector<Archive::Entry *> &files, const QString &password)
 {
     QStringList args;
     args << m_deleteSwitch;
@@ -117,7 +123,7 @@ QStringList CliProperties::listArgs(const QString &archive, const QString &passw
     return args;
 }
 
-QStringList CliProperties::moveArgs(const QString &archive, const QVector<Archive::Entry*> &entries, Archive::Entry *destination, const QString &password)
+QStringList CliProperties::moveArgs(const QString &archive, const QVector<Archive::Entry *> &entries, Archive::Entry *destination, const QString &password)
 {
     QStringList args;
     args << m_moveSwitch;
@@ -219,7 +225,7 @@ QString CliProperties::substituteCompressionLevelSwitch(int level) const
 }
 
 QString CliProperties::substituteCompressionMethodSwitch(const QString &method) const
-{   
+{
     if (method.isEmpty()) {
         return QString();
     }

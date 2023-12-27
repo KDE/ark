@@ -11,14 +11,15 @@
 #include "queries.h"
 
 #ifdef Q_OS_WIN
-# include <KProcess>
+#include <KProcess>
 #else
-# include <KPtyDevice>
-# include <KPtyProcess>
+#include <KPtyDevice>
+#include <KPtyProcess>
 #endif
 
 #include <KLocalizedString>
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QDirIterator>
 #include <QFile>
@@ -28,14 +29,13 @@
 #include <QTemporaryFile>
 #include <QThread>
 #include <QUrl>
-#include <QCoreApplication>
 
 namespace Kerfuffle
 {
-CliInterface::CliInterface(QObject *parent, const QVariantList & args)
+CliInterface::CliInterface(QObject *parent, const QVariantList &args)
     : ReadWriteArchiveInterface(parent, args)
 {
-    //because this interface uses the event loop
+    // because this interface uses the event loop
     setWaitForFinishedSignal(true);
 
     if (QMetaType::type("QProcess::ExitStatus") == 0) {
@@ -72,7 +72,7 @@ bool CliInterface::list()
     return runProcess(m_cliProps->property("listProgram").toString(), m_cliProps->listArgs(filename(), password()));
 }
 
-bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool CliInterface::extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     qCDebug(ARK) << "destination directory:" << destinationDirectory;
 
@@ -80,8 +80,6 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     m_extractionOptions = options;
     m_extractedFiles = files;
     m_extractDestDir = destinationDirectory;
-
-
 
     if (!m_cliProps->property("passwordSwitch").toStringList().isEmpty() && options.encryptedArchiveHint() && password().isEmpty()) {
         qCDebug(ARK) << "Password hint enabled, querying user";
@@ -111,24 +109,22 @@ bool CliInterface::extractFiles(const QVector<Archive::Entry*> &files, const QSt
     }
 
     return runProcess(m_cliProps->property("extractProgram").toString(),
-                    m_cliProps->extractArgs(filename(),
-                                            extractFilesList(files),
-                                            options.preservePaths(),
-                                            password()));
+                      m_cliProps->extractArgs(filename(), extractFilesList(files), options.preservePaths(), password()));
 }
 
-bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive::Entry *destination, const CompressionOptions& options, uint numberOfEntriesToAdd)
+bool CliInterface::addFiles(const QVector<Archive::Entry *> &files,
+                            const Archive::Entry *destination,
+                            const CompressionOptions &options,
+                            uint numberOfEntriesToAdd)
 {
     Q_UNUSED(numberOfEntriesToAdd)
 
     m_operationMode = Add;
 
-    QVector<Archive::Entry*> filesToPass = QVector<Archive::Entry*>();
+    QVector<Archive::Entry *> filesToPass = QVector<Archive::Entry *>();
     // If destination path is specified, we have recreate its structure inside the temp directory
     // and then place symlinks of targeted files there.
-    const QString destinationPath = (destination == nullptr)
-                                    ? QString()
-                                    : destination->fullPath();
+    const QString destinationPath = (destination == nullptr) ? QString() : destination->fullPath();
 
     qCDebug(ARK) << "Adding" << files.count() << "file(s) to destination:" << destinationPath;
 
@@ -184,24 +180,20 @@ bool CliInterface::addFiles(const QVector<Archive::Entry*> &files, const Archive
                                           options.volumeSize()));
 }
 
-bool CliInterface::moveFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool CliInterface::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options);
 
     m_operationMode = Move;
 
     m_removedFiles = files;
-    QVector<Archive::Entry*> withoutChildren = entriesWithoutChildren(files);
+    QVector<Archive::Entry *> withoutChildren = entriesWithoutChildren(files);
     setNewMovedFiles(files, destination, withoutChildren.count());
 
-    return runProcess(m_cliProps->property("moveProgram").toString(),
-                      m_cliProps->moveArgs(filename(),
-                                           withoutChildren,
-                                           destination,
-                                           password()));
+    return runProcess(m_cliProps->property("moveProgram").toString(), m_cliProps->moveArgs(filename(), withoutChildren, destination, password()));
 }
 
-bool CliInterface::copyFiles(const QVector<Archive::Entry*> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool CliInterface::copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     m_oldWorkingDir = QDir::currentPath();
     m_tempWorkingDir.reset(new QTemporaryDir());
@@ -218,14 +210,13 @@ bool CliInterface::copyFiles(const QVector<Archive::Entry*> &files, Archive::Ent
     return extractFiles(files, QDir::currentPath(), ExtractionOptions());
 }
 
-bool CliInterface::deleteFiles(const QVector<Archive::Entry*> &files)
+bool CliInterface::deleteFiles(const QVector<Archive::Entry *> &files)
 {
     m_operationMode = Delete;
 
     m_removedFiles = files;
 
-    return runProcess(m_cliProps->property("deleteProgram").toString(),
-                      m_cliProps->deleteArgs(filename(), files, password()));
+    return runProcess(m_cliProps->property("deleteProgram").toString(), m_cliProps->deleteArgs(filename(), files, password()));
 }
 
 bool CliInterface::testArchive()
@@ -236,7 +227,7 @@ bool CliInterface::testArchive()
     return runProcess(m_cliProps->property("testProgram").toString(), m_cliProps->testArgs(filename(), password()));
 }
 
-bool CliInterface::runProcess(const QString& programName, const QStringList& arguments)
+bool CliInterface::runProcess(const QString &programName, const QStringList &arguments)
 {
     Q_ASSERT(!m_process);
 
@@ -284,7 +275,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     qCDebug(ARK) << "Process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
 
     if (m_process) {
-        //handle all the remaining data in the process
+        // handle all the remaining data in the process
         readStdout(true);
 
         delete m_process;
@@ -320,7 +311,7 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
             Q_EMIT progress(1.0);
             Q_EMIT finished(true);
         }
-    } else  {
+    } else {
         Q_EMIT progress(1.0);
         Q_EMIT finished(true);
     }
@@ -366,9 +357,9 @@ void CliInterface::extractProcessFinished(int exitCode, QProcess::ExitStatus exi
         if (!m_extractionOptions.isDragAndDropEnabled()) {
             if (!moveToDestination(QDir::current(), QDir(m_extractDestDir), m_extractionOptions.preservePaths())) {
                 Q_EMIT error(i18ncp("@info",
-                                  "Could not move the extracted file to the destination directory.",
-                                  "Could not move the extracted files to the destination directory.",
-                                  m_extractedFiles.size()));
+                                    "Could not move the extracted file to the destination directory.",
+                                    "Could not move the extracted files to the destination directory.",
+                                    m_extractedFiles.size()));
                 cleanUpExtracting();
                 Q_EMIT finished(false);
                 return;
@@ -418,7 +409,7 @@ void CliInterface::continueCopying(bool result)
     }
 }
 
-bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry*> &files, const QString &finalDest)
+bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry *> &files, const QString &finalDest)
 {
     // Move extracted files from a QTemporaryDir to the final destination.
 
@@ -429,26 +420,22 @@ bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry*> &files,
     bool skipAll = false;
 
     for (const Archive::Entry *file : files) {
-
         QFileInfo relEntry(file->fullPath().remove(file->rootNode));
         QFileInfo absSourceEntry(QDir::current().absolutePath() + QLatin1Char('/') + file->fullPath());
         QFileInfo absDestEntry(finalDestDir.path() + QLatin1Char('/') + relEntry.filePath());
 
         if (absSourceEntry.isDir()) {
-
             // For directories, just create the path.
             if (!finalDestDir.mkpath(relEntry.filePath())) {
                 qCWarning(ARK) << "Failed to create directory" << relEntry.filePath() << "in final destination.";
             }
 
         } else {
-
             // If destination file exists, prompt the user.
             if (absDestEntry.exists()) {
                 qCWarning(ARK) << "File" << absDestEntry.absoluteFilePath() << "exists.";
 
                 if (!skipAll && !overwriteAll) {
-
                     Kerfuffle::OverwriteQuery query(absDestEntry.absoluteFilePath());
                     query.setNoRenameMode(true);
                     query.execute();
@@ -491,9 +478,9 @@ bool CliInterface::moveDroppedFilesToDest(const QVector<Archive::Entry*> &files,
             if (!QFile(absSourceEntry.absoluteFilePath()).rename(absDestEntry.absoluteFilePath())) {
                 qCWarning(ARK) << "Failed to move file" << absSourceEntry.filePath() << "to final destination.";
                 Q_EMIT error(i18ncp("@info",
-                                  "Could not move the extracted file to the destination directory.",
-                                  "Could not move the extracted files to the destination directory.",
-                                  m_extractedFiles.size()));
+                                    "Could not move the extracted file to the destination directory.",
+                                    "Could not move the extracted files to the destination directory.",
+                                    m_extractedFiles.size()));
                 Q_EMIT finished(false);
                 return false;
             }
@@ -616,11 +603,11 @@ bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, b
     return true;
 }
 
-void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, const Archive::Entry *destination, int entriesWithoutChildren)
+void CliInterface::setNewMovedFiles(const QVector<Archive::Entry *> &entries, const Archive::Entry *destination, int entriesWithoutChildren)
 {
     m_newMovedFiles.clear();
-    QMap<QString, const Archive::Entry*> entryMap;
-    for (const Archive::Entry* entry : entries) {
+    QMap<QString, const Archive::Entry *> entryMap;
+    for (const Archive::Entry *entry : entries) {
         entryMap.insert(entry->fullPath(), entry);
     }
 
@@ -628,7 +615,7 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
 
     QString newPath;
     int nameLength = 0;
-    for (const Archive::Entry* entry : std::as_const(entryMap)) {
+    for (const Archive::Entry *entry : std::as_const(entryMap)) {
         if (!lastFolder.isEmpty() && entry->fullPath().startsWith(lastFolder)) {
             // Replace last moved or copied folder path with destination path.
             int charsCount = entry->fullPath().length() - lastFolder.length();
@@ -660,7 +647,7 @@ void CliInterface::setNewMovedFiles(const QVector<Archive::Entry*> &entries, con
     }
 }
 
-QStringList CliInterface::extractFilesList(const QVector<Archive::Entry*> &entries) const
+QStringList CliInterface::extractFilesList(const QVector<Archive::Entry *> &entries) const
 {
     QStringList filesList;
     for (const Archive::Entry *e : entries) {
@@ -722,13 +709,13 @@ void CliInterface::cleanUp()
 
 void CliInterface::readStdout(bool handleAll)
 {
-    //when hacking this function, please remember the following:
+    // when hacking this function, please remember the following:
     //- standard output comes in unpredictable chunks, this is why
-    //you can never know if the last part of the output is a complete line or not
+    // you can never know if the last part of the output is a complete line or not
     //- console applications are not really consistent about what
-    //characters they send out (newline, backspace, carriage return,
-    //etc), so keep in mind that this function is supposed to handle
-    //all those special cases and be the lowest common denominator
+    // characters they send out (newline, backspace, carriage return,
+    // etc), so keep in mind that this function is supposed to handle
+    // all those special cases and be the lowest common denominator
 
     if (m_abortingOperation)
         return;
@@ -736,7 +723,7 @@ void CliInterface::readStdout(bool handleAll)
     Q_ASSERT(m_process);
 
     if (!m_process->bytesAvailable()) {
-        //if process has no more data, we can just bail out
+        // if process has no more data, we can just bail out
         return;
     }
 
@@ -745,10 +732,10 @@ void CliInterface::readStdout(bool handleAll)
 
     QList<QByteArray> lines = m_stdOutData.split('\n');
 
-    //The reason for this check is that archivers often do not end
-    //queries (such as file exists, wrong password) on a new line, but
-    //freeze waiting for input. So we check for errors on the last line in
-    //all cases.
+    // The reason for this check is that archivers often do not end
+    // queries (such as file exists, wrong password) on a new line, but
+    // freeze waiting for input. So we check for errors on the last line in
+    // all cases.
     // TODO: QLatin1String() might not be the best choice here.
     //       The call to handleLine() at the end of the method uses
     //       QString::fromLocal8Bit(), for example.
@@ -757,11 +744,8 @@ void CliInterface::readStdout(bool handleAll)
 
     bool wrongPasswordMessage = isWrongPasswordMsg(QLatin1String(lines.last()));
 
-    bool foundErrorMessage =
-        (wrongPasswordMessage ||
-         isDiskFullMsg(QLatin1String(lines.last())) ||
-         isFileExistsMsg(QLatin1String(lines.last()))) ||
-         isPasswordPrompt(QLatin1String(lines.last()));
+    bool foundErrorMessage = (wrongPasswordMessage || isDiskFullMsg(QLatin1String(lines.last())) || isFileExistsMsg(QLatin1String(lines.last())))
+        || isPasswordPrompt(QLatin1String(lines.last()));
 
     if (foundErrorMessage) {
         handleAll = true;
@@ -771,11 +755,11 @@ void CliInterface::readStdout(bool handleAll)
         setPassword(QString());
     }
 
-    //this is complex, here's an explanation:
-    //if there is no newline, then there is no guaranteed full line to
-    //handle in the output. The exception is that it is supposed to handle
-    //all the data, OR if there's been an error message found in the
-    //partial data.
+    // this is complex, here's an explanation:
+    // if there is no newline, then there is no guaranteed full line to
+    // handle in the output. The exception is that it is supposed to handle
+    // all the data, OR if there's been an error message found in the
+    // partial data.
     if (lines.size() == 1 && !handleAll) {
         return;
     }
@@ -783,13 +767,13 @@ void CliInterface::readStdout(bool handleAll)
     if (handleAll) {
         m_stdOutData.clear();
     } else {
-        //because the last line might be incomplete we leave it for now
-        //note, this last line may be an empty string if the stdoutdata ends
-        //with a newline
+        // because the last line might be incomplete we leave it for now
+        // note, this last line may be an empty string if the stdoutdata ends
+        // with a newline
         m_stdOutData = lines.takeLast();
     }
 
-    for (const QByteArray& line : std::as_const(lines)) {
+    for (const QByteArray &line : std::as_const(lines)) {
         if (!line.isEmpty() || (m_listEmptyLines && m_operationMode == List)) {
             if (!handleLine(QString::fromLocal8Bit(line))) {
                 killProcess();
@@ -813,13 +797,13 @@ bool CliInterface::setAddedFiles()
     return true;
 }
 
-bool CliInterface::handleLine(const QString& line)
+bool CliInterface::handleLine(const QString &line)
 {
     // TODO: This should be implemented by each plugin; the way progress is
     //       shown by each CLI application is subject to a lot of variation.
     if ((m_operationMode == Extract || m_operationMode == Add) && m_cliProps->property("captureProgress").toBool()) {
-        //read the percentage
-        int pos = line.indexOf(QLatin1Char( '%' ));
+        // read the percentage
+        int pos = line.indexOf(QLatin1Char('%'));
         if (pos > 1) {
             const int percentage = QStringView(line).mid(pos - 2, 2).toInt();
             Q_EMIT progress(float(percentage) / 100);
@@ -828,7 +812,6 @@ bool CliInterface::handleLine(const QString& line)
     }
 
     if (m_operationMode == Extract) {
-
         if (isPasswordPrompt(line)) {
             qCDebug(ARK) << "Found a password prompt";
 
@@ -910,7 +893,6 @@ bool CliInterface::handleLine(const QString& line)
     }
 
     if (m_operationMode == Test) {
-
         if (isPasswordPrompt(line)) {
             qCDebug(ARK) << "Found a password prompt";
 
@@ -943,7 +925,7 @@ bool CliInterface::readDeleteLine(const QString &line)
     return true;
 }
 
-bool CliInterface::handleFileExistsMessage(const QString& line)
+bool CliInterface::handleFileExistsMessage(const QString &line)
 {
     // Check for a filename and store it.
     if (isFileExistsFileName(line)) {
@@ -963,7 +945,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
         return false;
     }
 
-    Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char( '/' ) + m_storedFileName);
+    Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char('/') + m_storedFileName);
     query.setNoRenameMode(true);
     query.execute();
 
@@ -988,7 +970,7 @@ bool CliInterface::handleFileExistsMessage(const QString& line)
 
     Q_ASSERT(!responseToProcess.isEmpty());
 
-    responseToProcess += QLatin1Char( '\n' );
+    responseToProcess += QLatin1Char('\n');
 
     writeToProcess(responseToProcess.toLocal8Bit());
 
@@ -1005,12 +987,12 @@ bool CliInterface::doKill()
     return false;
 }
 
-QString CliInterface::escapeFileName(const QString& fileName) const
+QString CliInterface::escapeFileName(const QString &fileName) const
 {
     return fileName;
 }
 
-QStringList CliInterface::entryPathDestinationPairs(const QVector<Archive::Entry*> &entriesWithoutChildren, const Archive::Entry *destination)
+QStringList CliInterface::entryPathDestinationPairs(const QVector<Archive::Entry *> &entriesWithoutChildren, const Archive::Entry *destination)
 {
     QStringList pairList;
     if (entriesWithoutChildren.count() > 1) {
@@ -1023,7 +1005,7 @@ QStringList CliInterface::entryPathDestinationPairs(const QVector<Archive::Entry
     return pairList;
 }
 
-void CliInterface::writeToProcess(const QByteArray& data)
+void CliInterface::writeToProcess(const QByteArray &data)
 {
     Q_ASSERT(m_process);
     Q_ASSERT(!data.isNull());
@@ -1052,8 +1034,7 @@ bool CliInterface::addComment(const QString &comment)
     stream << comment << "\n";
     m_commentTempFile->close();
 
-    if (!runProcess(m_cliProps->property("addProgram").toString(),
-                    m_cliProps->commentArgs(filename(), m_commentTempFile->fileName()))) {
+    if (!runProcess(m_cliProps->property("addProgram").toString(), m_cliProps->commentArgs(filename(), m_commentTempFile->fileName()))) {
         return false;
     }
     m_comment = comment;
@@ -1087,7 +1068,7 @@ void CliInterface::onEntry(Archive::Entry *archiveEntry)
     if (archiveEntry->compressedSizeIsSet) {
         m_listedSize += archiveEntry->property("compressedSize").toULongLong();
         if (m_listedSize <= m_archiveSizeOnDisk) {
-            Q_EMIT progress(float(m_listedSize)/float(m_archiveSizeOnDisk));
+            Q_EMIT progress(float(m_listedSize) / float(m_archiveSizeOnDisk));
         } else {
             // In case summed compressed size exceeds archive size on disk.
             Q_EMIT progress(1);

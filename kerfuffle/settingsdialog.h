@@ -13,7 +13,6 @@
 
 namespace Kerfuffle
 {
-
 /**
  * A custom KConfigDialog that emits a signal when the Default button has been clicked.
  */
@@ -29,7 +28,6 @@ Q_SIGNALS:
 
 protected Q_SLOTS:
     void updateWidgetsDefault() override;
-
 };
 
 }

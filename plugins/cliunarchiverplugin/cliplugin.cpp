@@ -21,7 +21,7 @@ using namespace Kerfuffle;
 K_PLUGIN_CLASS_WITH_JSON(CliPlugin, "kerfuffle_cliunarchiver.json")
 
 CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
-        : CliInterface(parent, args)
+    : CliInterface(parent, args)
 {
     qCDebug(ARK) << "Loaded cli_unarchiver plugin";
     setupCliProperties();
@@ -39,7 +39,7 @@ bool CliPlugin::list()
     return runProcess(m_cliProps->property("listProgram").toString(), m_cliProps->listArgs(filename(), password()));
 }
 
-bool CliPlugin::extractFiles(const QVector<Archive::Entry*> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool CliPlugin::extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     ExtractionOptions newOptions = options;
 
@@ -73,8 +73,7 @@ void CliPlugin::setupCliProperties()
     m_cliProps->setProperty("listProgram", QStringLiteral("lsar"));
     m_cliProps->setProperty("listSwitch", QStringList{QStringLiteral("-json")});
 
-    m_cliProps->setProperty("passwordSwitch", QStringList{QStringLiteral("-password"),
-                                                      QStringLiteral("$Password")});
+    m_cliProps->setProperty("passwordSwitch", QStringList{QStringLiteral("-password"), QStringLiteral("$Password")});
 }
 
 bool CliPlugin::readListLine(const QString &line)
@@ -118,7 +117,7 @@ void CliPlugin::readStdout(bool handleAll)
     readJsonOutput();
 }
 
-bool CliPlugin::handleLine(const QString& line)
+bool CliPlugin::handleLine(const QString &line)
 {
     // Collect the json output line by line.
     if (m_operationMode == List) {
@@ -126,7 +125,7 @@ bool CliPlugin::handleLine(const QString& line)
         // We can at least catch a bad_alloc here in order to not crash.
         try {
             m_jsonOutput += line + QLatin1Char('\n');
-        } catch (const std::bad_alloc&) {
+        } catch (const std::bad_alloc &) {
             m_jsonOutput.clear();
             Q_EMIT error(i18n("Not enough memory for loading the archive."));
             return false;
@@ -162,7 +161,7 @@ void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
     qCDebug(ARK) << "Process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
 
     if (m_process) {
-        //handle all the remaining data in the process
+        // handle all the remaining data in the process
         readStdout(true);
 
         delete m_process;
@@ -176,7 +175,6 @@ void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
     }
 
     if (!password().isEmpty()) {
-
         // lsar -json exits with error code 1 if the archive is header-encrypted and the password is wrong.
         if (exitCode == 1) {
             qCWarning(ARK) << "Wrong password, list() aborted";
@@ -225,7 +223,7 @@ void CliPlugin::readJsonOutput()
     }
     const QJsonArray entries = json.value(QStringLiteral("lsarContents")).toArray();
 
-    for (const QJsonValue& value : entries) {
+    for (const QJsonValue &value : entries) {
         const QJsonObject currentEntryJson = value.toObject();
 
         Archive::Entry *currentEntry = new Archive::Entry(this);
@@ -247,8 +245,8 @@ void CliPlugin::readJsonOutput()
         const bool isPasswordProtected = (currentEntryJson.value(QStringLiteral("XADIsEncrypted")).toInt() == 1);
         currentEntry->setProperty("isPasswordProtected", isPasswordProtected);
         if (isPasswordProtected) {
-            formatName == QLatin1String("RAR 5") ? Q_EMIT encryptionMethodFound(QStringLiteral("AES256")) :
-                                                   Q_EMIT encryptionMethodFound(QStringLiteral("AES128"));
+            formatName == QLatin1String("RAR 5") ? Q_EMIT encryptionMethodFound(QStringLiteral("AES256"))
+                                                 : Q_EMIT encryptionMethodFound(QStringLiteral("AES128"));
         }
         // TODO: missing fields
 

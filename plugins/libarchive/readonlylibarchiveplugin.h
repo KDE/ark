@@ -15,7 +15,7 @@ class ReadOnlyLibarchivePlugin : public LibarchivePlugin
     Q_OBJECT
 
 public:
-    explicit ReadOnlyLibarchivePlugin(QObject *parent, const QVariantList& args);
+    explicit ReadOnlyLibarchivePlugin(QObject *parent, const QVariantList &args);
     ~ReadOnlyLibarchivePlugin() override;
 };
 

@@ -22,17 +22,17 @@
 #include <KPluginMetaData>
 #include <KXMLGUIFactory>
 
+#include <QAction>
 #include <QFile>
 #include <QMimeDatabase>
 #include <QProgressDialog>
 #include <QPushButton>
 #include <QStyle>
-#include <QAction>
 
 #include <algorithm>
 
 ArkViewer::ArkViewer()
-        : KParts::MainWindow()
+    : KParts::MainWindow()
 {
     setupUi(this);
 
@@ -71,7 +71,7 @@ ArkViewer::~ArkViewer()
     delete m_part;
 }
 
-void ArkViewer::openExternalViewer(const KService::Ptr viewer, const QString& fileName)
+void ArkViewer::openExternalViewer(const KService::Ptr viewer, const QString &fileName)
 {
     qCDebug(ARK) << "Using external viewer";
 
@@ -84,7 +84,7 @@ void ArkViewer::openExternalViewer(const KService::Ptr viewer, const QString& fi
     job->start();
 }
 
-void ArkViewer::openInternalViewer(const KPluginMetaData& viewer, const QString& fileName, const QString& entryPath, const QMimeType& mimeType)
+void ArkViewer::openInternalViewer(const KPluginMetaData &viewer, const QString &fileName, const QString &entryPath, const QMimeType &mimeType)
 {
     qCDebug(ARK) << "Opening internal viewer";
 
@@ -95,8 +95,7 @@ void ArkViewer::openInternalViewer(const KPluginMetaData& viewer, const QString&
         // remove the temporary file in its destructor.  So there
         // is no more to do here.
         return;
-    }
-    else {
+    } else {
         KMessageBox::error(nullptr, i18n("The internal viewer cannot preview this file."));
         delete internalViewer;
 
@@ -105,26 +104,27 @@ void ArkViewer::openInternalViewer(const KPluginMetaData& viewer, const QString&
     }
 }
 
-bool ArkViewer::askViewAsPlainText(const QMimeType& mimeType)
+bool ArkViewer::askViewAsPlainText(const QMimeType &mimeType)
 {
     int response;
     if (!mimeType.isDefault()) {
         // File has a defined MIME type, and not the default
         // application/octet-stream.  So it could be viewable as
         // plain text, ask the user.
-        response = KMessageBox::warningContinueCancel(nullptr,
+        response = KMessageBox::warningContinueCancel(
+            nullptr,
             xi18n("The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do you want to try to view it as plain text?", mimeType.name()),
             i18nc("@title:window", "Cannot Preview File"),
             KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QStringLiteral("text-plain"))),
             KStandardGuiItem::cancel(),
             QStringLiteral("PreviewAsText_%1").arg(mimeType.name()));
-    }
-    else {
+    } else {
         // No defined MIME type, or the default application/octet-stream.
         // There is still a possibility that it could be viewable as plain
         // text, so ask the user.  Not the same as the message/question
         // above, because the wording and default are different.
-        response = KMessageBox::warningContinueCancel(nullptr,
+        response = KMessageBox::warningContinueCancel(
+            nullptr,
             xi18n("The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do you want to try to view it as plain text?"),
             i18nc("@title:window", "Cannot Preview File"),
             KGuiItem(i18nc("@action:button", "Preview as Text"), QIcon::fromTheme(QStringLiteral("text-plain"))),
@@ -136,7 +136,7 @@ bool ArkViewer::askViewAsPlainText(const QMimeType& mimeType)
     return response != KMessageBox::Cancel;
 }
 
-void ArkViewer::view(const QString& fileName, const QString& entryPath, const QMimeType& mimeType)
+void ArkViewer::view(const QString &fileName, const QString &entryPath, const QMimeType &mimeType)
 {
     QMimeDatabase db;
     qCDebug(ARK) << "viewing" << fileName << "from" << entryPath << "with mime type:" << mimeType.name();
@@ -169,7 +169,7 @@ void ArkViewer::view(const QString& fileName, const QString& entryPath, const QM
     QFile::remove(fileName);
 }
 
-bool ArkViewer::viewInInternalViewer(const KPluginMetaData& viewer, const QString& fileName, const QString& entryPath, const QMimeType &mimeType)
+bool ArkViewer::viewInInternalViewer(const KPluginMetaData &viewer, const QString &fileName, const QString &entryPath, const QMimeType &mimeType)
 {
     // Set icon and comment for the mimetype.
     m_iconLabel->setPixmap(QIcon::fromTheme(mimeType.iconName()).pixmap(style()->pixelMetric(QStyle::PixelMetric::PM_SmallIconSize)));
@@ -192,7 +192,7 @@ bool ArkViewer::viewInInternalViewer(const KPluginMetaData& viewer, const QStrin
     // Insert the KPart into its placeholder.
     mainLayout->insertWidget(0, m_part->widget());
 
-    QAction* action = actionCollection()->addAction(QStringLiteral("help_about_kpart"));
+    QAction *action = actionCollection()->addAction(QStringLiteral("help_about_kpart"));
     const KPluginMetaData partMetaData = m_part->metaData();
     const QString iconName = partMetaData.iconName();
     if (!iconName.isEmpty()) {
@@ -220,7 +220,7 @@ KService::Ptr ArkViewer::getExternalViewer(const QString &mimeType)
     return KApplicationTrader::preferredService(mimeType);
 }
 
-std::optional<KPluginMetaData> ArkViewer::getInternalViewer(const QString& mimeType)
+std::optional<KPluginMetaData> ArkViewer::getInternalViewer(const QString &mimeType)
 {
     // No point in even trying to find anything for application/octet-stream
     if (mimeType == QLatin1String("application/octet-stream")) {
@@ -230,7 +230,7 @@ std::optional<KPluginMetaData> ArkViewer::getInternalViewer(const QString& mimeT
     // Try to get a read-only kpart for the internal viewer
     QVector<KPluginMetaData> offers = KParts::PartLoader::partsForMimeType(mimeType);
 
-    auto arkPartIt = std::find_if(offers.begin(), offers.end(), [](const KPluginMetaData& service) {
+    auto arkPartIt = std::find_if(offers.begin(), offers.end(), [](const KPluginMetaData &service) {
         return service.pluginId() == QLatin1String("arkpart");
     });
 
@@ -252,7 +252,6 @@ std::optional<KPluginMetaData> ArkViewer::getInternalViewer(const QString& mimeT
     if (khtmlPart != offers.end()) {
         offers.erase(khtmlPart);
     }
-
 
     // The oktetapart can open any file, but a hex viewer isn't really useful here
     // Skip it so we prefer an external viewer instead

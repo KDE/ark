@@ -9,10 +9,11 @@
 namespace Kerfuffle
 {
 SettingsPage::SettingsPage(QWidget *parent, const QString &name, const QString &iconName)
-    : QWidget(parent),
-      m_name(name),
-      m_iconName(iconName)
-{}
+    : QWidget(parent)
+    , m_name(name)
+    , m_iconName(iconName)
+{
+}
 
 QString SettingsPage::name() const
 {

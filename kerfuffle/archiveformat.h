@@ -13,12 +13,11 @@
 
 namespace Kerfuffle
 {
-
 class KERFUFFLE_EXPORT ArchiveFormat
 {
 public:
     explicit ArchiveFormat();
-    explicit ArchiveFormat(const QMimeType& mimeType,
+    explicit ArchiveFormat(const QMimeType &mimeType,
                            Kerfuffle::Archive::EncryptionType encryptionType,
                            int minCompLevel,
                            int maxCompLevel,
@@ -26,15 +25,15 @@ public:
                            bool supportsWriteComment,
                            bool supportsTesting,
                            bool suppportsMultiVolume,
-                           const QVariantMap& compressionMethods,
-                           const QString& defaultCompressionMethod,
+                           const QVariantMap &compressionMethods,
+                           const QString &defaultCompressionMethod,
                            const QStringList &encryptionMethods,
                            const QString &defaultEncryptionMethod);
 
     /**
      * @return The archive format of the given @p mimeType, according to the given @p metadata.
      */
-    static ArchiveFormat fromMetadata(const QMimeType& mimeType, const KPluginMetaData& metadata);
+    static ArchiveFormat fromMetadata(const QMimeType &mimeType, const KPluginMetaData &metadata);
 
     /**
      * @return Whether the format is associated to a valid mimetype.

@@ -18,8 +18,7 @@ using namespace Kerfuffle;
 
 K_PLUGIN_CLASS_WITH_JSON(CliPlugin, "kerfuffle_cliarj.json")
 
-struct ArjFileEntry
-{
+struct ArjFileEntry {
     enum EncryptedMethod {
         // https://sourceforge.net/p/arj/git/ci/master/tree/defines.h#l104
         EncryptedMethodArjOld = 0,
@@ -30,11 +29,13 @@ struct ArjFileEntry
         EncryptedMethodUnknown = 16
     };
 
-    QString fileName() const {
+    QString fileName() const
+    {
         return QFileInfo(m_path).fileName();
     }
 
-    bool isExecutable() const {
+    bool isExecutable() const
+    {
         return m_attributes.contains(QLatin1Char('x'));
     }
 
@@ -52,8 +53,8 @@ struct ArjFileEntry
     EncryptedMethod m_encryptedMethod = EncryptedMethodUnknown;
 };
 
-CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
-        : CliInterface(parent, args)
+CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
+    : CliInterface(parent, args)
 {
     qCDebug(ARK) << "Loaded cli_arj plugin";
 
@@ -62,7 +63,10 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList & args)
 
 CliPlugin::~CliPlugin() = default;
 
-bool CliPlugin::addFiles(const QVector<Kerfuffle::Archive::Entry*> &files, const Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions& options, uint numberOfEntriesToAdd)
+bool CliPlugin::addFiles(const QVector<Kerfuffle::Archive::Entry *> &files,
+                         const Kerfuffle::Archive::Entry *destination,
+                         const Kerfuffle::CompressionOptions &options,
+                         uint numberOfEntriesToAdd)
 {
     auto opt = options;
     if (opt.compressionMethod() == QStringLiteral("Standard")) {
@@ -80,14 +84,11 @@ bool CliPlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry
 
     m_operationMode = Move;
 
-    QVector<Archive::Entry*> withoutChildren = entriesWithoutChildren(files);
+    QVector<Archive::Entry *> withoutChildren = entriesWithoutChildren(files);
     m_renamedFiles = files;
     setNewMovedFiles(files, destination, withoutChildren.count());
 
-    QStringList args = cliProperties()->moveArgs(filename(),
-                                                 withoutChildren,
-                                                 nullptr,
-                                                 password());
+    QStringList args = cliProperties()->moveArgs(filename(), withoutChildren, nullptr, password());
 
     return runProcess(cliProperties()->property("moveProgram").toString(), args);
 }
@@ -105,7 +106,7 @@ void CliPlugin::resetParsing()
     m_renamedFiles.clear();
 }
 
-bool CliPlugin::readListLine(const QString& line)
+bool CliPlugin::readListLine(const QString &line)
 {
     auto res = readLine(line);
     if (m_parseState == ParseStateEntryTotal && res) {
@@ -136,7 +137,7 @@ bool CliPlugin::isNewMovedFileNamesMsg(const QString &line)
     return line.startsWith(QStringLiteral("Current filename:"));
 }
 
-bool CliPlugin::handleLine(const QString& line)
+bool CliPlugin::handleLine(const QString &line)
 {
     if (line.contains(QStringLiteral("bad password"))) {
         qCWarning(ARK) << "Wrong password!";
@@ -183,16 +184,13 @@ void CliPlugin::setupCliProperties()
     cliProps->setProperty("captureProgress", true);
 
     cliProps->setProperty("addProgram", QStringLiteral("arj"));
-    cliProps->setProperty("addSwitch", QStringList{QStringLiteral("a"),
-                                                   QStringLiteral("-r")});
+    cliProps->setProperty("addSwitch", QStringList{QStringLiteral("a"), QStringLiteral("-r")});
 
     cliProps->setProperty("deleteProgram", QStringLiteral("arj"));
     cliProps->setProperty("deleteSwitch", QStringLiteral("d"));
 
     cliProps->setProperty("extractProgram", QStringLiteral("arj"));
-    cliProps->setProperty("extractSwitch", QStringList{QStringLiteral("x"),
-                                                       QStringLiteral("-p1"),
-                                                       QStringLiteral("-jyc")});
+    cliProps->setProperty("extractSwitch", QStringList{QStringLiteral("x"), QStringLiteral("-p1"), QStringLiteral("-jyc")});
     cliProps->setProperty("extractSwitchNoPreserve", QStringList{QStringLiteral("e")});
 
     cliProps->setProperty("listProgram", QStringLiteral("arj"));
@@ -206,23 +204,24 @@ void CliPlugin::setupCliProperties()
 
     cliProps->setProperty("passwordSwitch", QStringLiteral("-g$Password"));
 
-    cliProps->setProperty("compressionMethodSwitch", QHash<QString,QVariant>{{QStringLiteral("application/x-arj"), QStringLiteral("-m$CompressionMethod")},
-                                                                             {QStringLiteral("application/arj"), QStringLiteral("-m$CompressionMethod")}});
-    cliProps->setProperty("encryptionMethodSwitch", QHash<QString,QVariant>{{QStringLiteral("application/x-arj"), QStringLiteral("-hg$EncryptionMethod")},
-                                                                            {QStringLiteral("application/arj"), QStringLiteral("-hg$EncryptionMethod")}});
+    cliProps->setProperty("compressionMethodSwitch",
+                          QHash<QString, QVariant>{{QStringLiteral("application/x-arj"), QStringLiteral("-m$CompressionMethod")},
+                                                   {QStringLiteral("application/arj"), QStringLiteral("-m$CompressionMethod")}});
+    cliProps->setProperty("encryptionMethodSwitch",
+                          QHash<QString, QVariant>{{QStringLiteral("application/x-arj"), QStringLiteral("-hg$EncryptionMethod")},
+                                                   {QStringLiteral("application/arj"), QStringLiteral("-hg$EncryptionMethod")}});
     cliProps->setProperty("multiVolumeSwitch", QStringLiteral("-v$VolumeSizek"));
 
-    cliProps->setProperty("fileExistsFileNameRegExp", QStringList{QStringLiteral("^file \\./(.*)$"),
-                                                                  QStringLiteral("^  Path:     \\./(.*)$")});
+    cliProps->setProperty("fileExistsFileNameRegExp", QStringList{QStringLiteral("^file \\./(.*)$"), QStringLiteral("^  Path:     \\./(.*)$")});
 
-    cliProps->setProperty("commentSwitch", QStringList{QStringLiteral("c"),
-                                                       QStringLiteral("-z$CommentFile")});
+    cliProps->setProperty("commentSwitch", QStringList{QStringLiteral("c"), QStringLiteral("-z$CommentFile")});
 
-    cliProps->setProperty("fileExistsInput", QStringList{QStringLiteral("Yes"),    //Overwrite
-                                                         QStringLiteral("No"),     //Skip
-                                                         QStringLiteral("Always"), //Overwrite all
-                                                         QStringLiteral("Skip"),   //Autoskip
-                                                         QStringLiteral("Quit")}); //Cancel
+    cliProps->setProperty("fileExistsInput",
+                          QStringList{QStringLiteral("Yes"), // Overwrite
+                                      QStringLiteral("No"), // Skip
+                                      QStringLiteral("Always"), // Overwrite all
+                                      QStringLiteral("Skip"), // Autoskip
+                                      QStringLiteral("Quit")}); // Cancel
     cliProps->setProperty("multiVolumeSuffix", QStringList{QStringLiteral("$Suffix.001")});
 }
 
@@ -272,8 +271,8 @@ bool CliPlugin::tryAddCurFileProperties(const QString &line)
     QChar garble = line.at(77);
     if (garble != QLatin1Char(' ')) {
         m_currentParsedFile->m_encrypted = true;
-        m_currentParsedFile->m_encryptedMethod = garble.isDigit() ? static_cast <ArjFileEntry::EncryptedMethod> (garble.digitValue())
-                                                             : ArjFileEntry::EncryptedMethodUnknown;
+        m_currentParsedFile->m_encryptedMethod =
+            garble.isDigit() ? static_cast<ArjFileEntry::EncryptedMethod>(garble.digitValue()) : ArjFileEntry::EncryptedMethodUnknown;
     }
     return true;
 }
@@ -316,20 +315,18 @@ void CliPlugin::sendCurFileEntry()
     e->setProperty("isExecutable", m_currentParsedFile->isExecutable());
     e->setProperty("isPasswordProtected", m_currentParsedFile->m_encrypted);
     if (m_currentParsedFile->m_encrypted) {
-        const QMap <ArjFileEntry::EncryptedMethod, QString> methods = {
-            { ArjFileEntry::EncryptedMethodArjOld, i18n("ARJ old") },
-            { ArjFileEntry::EncryptedMethodArjStd, i18n("ARJ") },
-            { ArjFileEntry::EncryptedMethodGost256, i18n("GOST256") },
-            { ArjFileEntry::EncryptedMethodGost256L, i18n("GOST256L") },
-            { ArjFileEntry::EncryptedMethodGost40bit, i18n("GOST 40-bit") }
-        };
+        const QMap<ArjFileEntry::EncryptedMethod, QString> methods = {{ArjFileEntry::EncryptedMethodArjOld, i18n("ARJ old")},
+                                                                      {ArjFileEntry::EncryptedMethodArjStd, i18n("ARJ")},
+                                                                      {ArjFileEntry::EncryptedMethodGost256, i18n("GOST256")},
+                                                                      {ArjFileEntry::EncryptedMethodGost256L, i18n("GOST256L")},
+                                                                      {ArjFileEntry::EncryptedMethodGost40bit, i18n("GOST 40-bit")}};
         e->setProperty("method", methods.value(m_currentParsedFile->m_encryptedMethod, i18n("unknown")));
     }
 
     Q_EMIT entry(e);
 }
 
-bool CliPlugin::readLine(const QString& line)
+bool CliPlugin::readLine(const QString &line)
 {
     // Ignore number of lines corresponding to m_remainingIgnoreLines.
     if (m_remainingIgnoreLines > 0) {
@@ -338,111 +335,111 @@ bool CliPlugin::readLine(const QString& line)
     }
 
     switch (m_parseState) {
-        case ParseStateTitle:
-            if (line.startsWith(QStringLiteral("ARJ"))) {
-                // Can be obtained ARJ version
-                m_parseState = ParseStateProcessing;
-                return true;
-            }
-            return false;
-
-        case ParseStateProcessing:
-            if (line.startsWith(QStringLiteral("Processing archive:"))) {
-                // Can be obtained archive name
-                m_parseState = ParseStateArchiveDateTime;
-                return true;
-            }
-            return false;
-
-        case ParseStateArchiveDateTime:
-            if (line.startsWith(QStringLiteral("Archive created:"))) {
-                // Can be obtained archive created and modified times
-                m_parseState = ParseStateArchiveComments;
-                return true;
-            }
-            return false;
-
-        case ParseStateArchiveComments:
-            if (line == QStringLiteral("Sequence/Pathname/Comment/Chapters")) {
-                m_parseState = ParseStateEntryFileHeader;
-                return true;
-            }
-            // 25 is maximum comment lines count
-            if (m_headerComment.size() == 25) {
-                return false;
-            }
-            m_headerComment << line;
+    case ParseStateTitle:
+        if (line.startsWith(QStringLiteral("ARJ"))) {
+            // Can be obtained ARJ version
+            m_parseState = ParseStateProcessing;
             return true;
+        }
+        return false;
 
-        case ParseStateEntryFileHeader:
-            if (line.startsWith(QStringLiteral("Rev/Host"))) {
-                ignoreLines(1, ParseStateEntryFileName);
-                m_currentParsedFile.reset(new ArjFileEntry());
-                return true;
-            }
+    case ParseStateProcessing:
+        if (line.startsWith(QStringLiteral("Processing archive:"))) {
+            // Can be obtained archive name
+            m_parseState = ParseStateArchiveDateTime;
+            return true;
+        }
+        return false;
+
+    case ParseStateArchiveDateTime:
+        if (line.startsWith(QStringLiteral("Archive created:"))) {
+            // Can be obtained archive created and modified times
+            m_parseState = ParseStateArchiveComments;
+            return true;
+        }
+        return false;
+
+    case ParseStateArchiveComments:
+        if (line == QStringLiteral("Sequence/Pathname/Comment/Chapters")) {
+            m_parseState = ParseStateEntryFileHeader;
+            return true;
+        }
+        // 25 is maximum comment lines count
+        if (m_headerComment.size() == 25) {
             return false;
+        }
+        m_headerComment << line;
+        return true;
 
-        case ParseStateEntryFileName: {
-            // Send previos file entry
+    case ParseStateEntryFileHeader:
+        if (line.startsWith(QStringLiteral("Rev/Host"))) {
+            ignoreLines(1, ParseStateEntryFileName);
+            m_currentParsedFile.reset(new ArjFileEntry());
+            return true;
+        }
+        return false;
+
+    case ParseStateEntryFileName: {
+        // Send previos file entry
+        if (m_currentParsedFile->m_currentEntryNumber > 0) {
+            sendCurFileEntry();
+        }
+
+        // End file entry
+        if (line.startsWith(QStringLiteral("------------"))) {
             if (m_currentParsedFile->m_currentEntryNumber > 0) {
-                sendCurFileEntry();
-            }
-
-            // End file entry
-            if (line.startsWith(QStringLiteral("------------"))) {
-                if (m_currentParsedFile->m_currentEntryNumber > 0) {
-                    m_parseState = ParseStateEntryTotal;
-                    return true;
-                }
-                return false;
-            }
-
-            // Next file entry
-            QStringList fNameColumns = line.split(QStringLiteral(") "));
-            if (fNameColumns.size() == 2) {
-                bool bOk = false;
-                int fileNo = fNameColumns.first().toInt(&bOk);
-                if (bOk && (fileNo - m_currentParsedFile->m_currentEntryNumber) == 1) {
-                    m_currentParsedFile.reset(new ArjFileEntry());
-                    m_currentParsedFile->m_currentEntryNumber = fileNo;
-                    m_currentParsedFile->m_path = fNameColumns.last();
-                    m_parseState = ParseStateEntryFileProperty;
-                    return true;
-                }
+                m_parseState = ParseStateEntryTotal;
+                return true;
             }
             return false;
         }
 
-        case ParseStateEntryFileProperty:
-            if (tryAddCurFileProperties(line)) {
-                m_parseState = ParseStateEntryFileDTA;
+        // Next file entry
+        QStringList fNameColumns = line.split(QStringLiteral(") "));
+        if (fNameColumns.size() == 2) {
+            bool bOk = false;
+            int fileNo = fNameColumns.first().toInt(&bOk);
+            if (bOk && (fileNo - m_currentParsedFile->m_currentEntryNumber) == 1) {
+                m_currentParsedFile.reset(new ArjFileEntry());
+                m_currentParsedFile->m_currentEntryNumber = fileNo;
+                m_currentParsedFile->m_path = fNameColumns.last();
+                m_parseState = ParseStateEntryFileProperty;
                 return true;
             }
-            // If property parsing fails, the line may be a comment
-            return tryAddCurFileComment(line);
+        }
+        return false;
+    }
 
-        case ParseStateEntryFileDTA:
-            if (line.mid(35, 5) == QStringLiteral("DTA  ")) {
-                // Can be obtained DTA timestamp
-                m_parseState = ParseStateEntryFileDTC;
-                return true;
-            }
-            return false;
+    case ParseStateEntryFileProperty:
+        if (tryAddCurFileProperties(line)) {
+            m_parseState = ParseStateEntryFileDTA;
+            return true;
+        }
+        // If property parsing fails, the line may be a comment
+        return tryAddCurFileComment(line);
 
-        case ParseStateEntryFileDTC:
-            if (line.mid(35, 5) == QStringLiteral("DTC  ")) {
-                // Can be obtained DTC timestamp
-                m_parseState = ParseStateEntryFileName;
-                return true;
-            }
-            return false;
+    case ParseStateEntryFileDTA:
+        if (line.mid(35, 5) == QStringLiteral("DTA  ")) {
+            // Can be obtained DTA timestamp
+            m_parseState = ParseStateEntryFileDTC;
+            return true;
+        }
+        return false;
 
-        case ParseStateEntryTotal:
-            if (line.size() == 41) {
-                // Can be obtained files count, and total sizes
-                return true;
-            }
-            return false;
+    case ParseStateEntryFileDTC:
+        if (line.mid(35, 5) == QStringLiteral("DTC  ")) {
+            // Can be obtained DTC timestamp
+            m_parseState = ParseStateEntryFileName;
+            return true;
+        }
+        return false;
+
+    case ParseStateEntryTotal:
+        if (line.size() == 41) {
+            // Can be obtained files count, and total sizes
+            return true;
+        }
+        return false;
     }
     return false;
 }
