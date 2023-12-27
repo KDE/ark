@@ -163,11 +163,13 @@ void CopyTest::testCopying_data()
                   new Archive::Entry(this, QStringLiteral("dir1/b.txt")),
               },
               new Archive::Entry(this, QStringLiteral("empty_dir/")),
-              QStringList{QStringLiteral("empty_dir/dir/"),
-                          QStringLiteral("empty_dir/dir/a.txt"),
-                          QStringLiteral("empty_dir/dir/b.txt"),
-                          QStringLiteral("empty_dir/a.txt"),
-                          QStringLiteral("empty_dir/b.txt")},
+              QStringList{
+                  QStringLiteral("empty_dir/dir/"),
+                  QStringLiteral("empty_dir/dir/a.txt"),
+                  QStringLiteral("empty_dir/dir/b.txt"),
+                  QStringLiteral("empty_dir/a.txt"),
+                  QStringLiteral("empty_dir/b.txt"),
+              },
               18);
 
     setupRows(QStringLiteral("copy a directory inside itself"),
