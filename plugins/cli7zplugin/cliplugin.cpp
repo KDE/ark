@@ -102,11 +102,13 @@ void CliPlugin::setupCliProperties()
     m_cliProps->setProperty("testPassedPatterns", QStringList{QStringLiteral("^Everything is Ok$")});
     m_cliProps->setProperty("fileExistsFileNameRegExp", QStringList{QStringLiteral("^file \\./(.*)$"), QStringLiteral("^  Path:     \\./(.*)$")});
     m_cliProps->setProperty("fileExistsInput",
-                            QStringList{QStringLiteral("Y"), // Overwrite
-                                        QStringLiteral("N"), // Skip
-                                        QStringLiteral("A"), // Overwrite all
-                                        QStringLiteral("S"), // Autoskip
-                                        QStringLiteral("Q")}); // Cancel
+                            QStringList{
+                                QStringLiteral("Y"), // Overwrite
+                                QStringLiteral("N"), // Skip
+                                QStringLiteral("A"), // Overwrite all
+                                QStringLiteral("S"), // Autoskip
+                                QStringLiteral("Q"), // Cancel
+                            });
     m_cliProps->setProperty("multiVolumeSuffix", QStringList{QStringLiteral("$Suffix.001")});
 }
 

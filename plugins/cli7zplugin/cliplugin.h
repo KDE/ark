@@ -31,11 +31,29 @@ public:
     bool isFileExistsFileName(const QString &line) override;
 
 private:
-    enum ArchiveType { ArchiveType7z = 0, ArchiveTypeBZip2, ArchiveTypeGZip, ArchiveTypeXz, ArchiveTypeTar, ArchiveTypeZip, ArchiveTypeRar } m_archiveType;
+    enum ArchiveType {
+        ArchiveType7z = 0,
+        ArchiveTypeBZip2,
+        ArchiveTypeGZip,
+        ArchiveTypeXz,
+        ArchiveTypeTar,
+        ArchiveTypeZip,
+        ArchiveTypeRar,
+    } m_archiveType;
 
-    enum ParseState { ParseStateTitle = 0, ParseStateHeader, ParseStateArchiveInformation, ParseStateComment, ParseStateEntryInformation } m_parseState;
+    enum ParseState {
+        ParseStateTitle = 0,
+        ParseStateHeader,
+        ParseStateArchiveInformation,
+        ParseStateComment,
+        ParseStateEntryInformation,
+    } m_parseState;
 
-    enum BinaryVariant { Undefined = 0, P7zip, Upstream7zip } m_binaryVariant;
+    enum BinaryVariant {
+        Undefined = 0,
+        P7zip,
+        Upstream7zip,
+    } m_binaryVariant;
 
     void setupCliProperties();
     void handleMethods(const QStringList &methods);

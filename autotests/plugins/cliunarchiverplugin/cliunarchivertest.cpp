@@ -233,10 +233,12 @@ void CliUnarchiverTest::testExtraction_data()
 
     QTest::newRow("extract selected entries from a rar, drag-and-drop")
         << QFINDTESTDATA("data/one_toplevel_folder.rar")
-        << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("A/B/C/"), QStringLiteral("A/B/")),
-                                     new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A/")),
-                                     new Archive::Entry(this, QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/")),
-                                     new Archive::Entry(this, QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/"))}
+        << QVector<Archive::Entry *>{
+               new Archive::Entry(this, QStringLiteral("A/B/C/"), QStringLiteral("A/B/")),
+               new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A/")),
+               new Archive::Entry(this, QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/")),
+               new Archive::Entry(this, QStringLiteral("A/B/C/test2.txt"), QStringLiteral("A/B/")),
+           }
         << dragAndDropOptions << 4;
 
     QTest::newRow("rar with empty folders") << QFINDTESTDATA("data/empty_folders.rar") << QVector<Archive::Entry *>() << defaultOptions << 5;
@@ -303,12 +305,14 @@ void CliUnarchiverTest::testExtractArgs_data()
                                                << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
                                                                             new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
                                                << QStringLiteral("1234")
-                                               << QStringList{QStringLiteral("-D"),
-                                                              QStringLiteral("-password"),
-                                                              QStringLiteral("1234"),
-                                                              QStringLiteral("/tmp/foo.rar"),
-                                                              QStringLiteral("aDir/b.txt"),
-                                                              QStringLiteral("c.txt")};
+                                               << QStringList{
+                                                      QStringLiteral("-D"),
+                                                      QStringLiteral("-password"),
+                                                      QStringLiteral("1234"),
+                                                      QStringLiteral("/tmp/foo.rar"),
+                                                      QStringLiteral("aDir/b.txt"),
+                                                      QStringLiteral("c.txt"),
+                                                  };
 
     QTest::newRow("unencrypted, multiple files") << QStringLiteral("/tmp/foo.rar")
                                                  << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),

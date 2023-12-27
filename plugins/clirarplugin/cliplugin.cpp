@@ -94,11 +94,13 @@ void CliPlugin::setupCliProperties()
                             QStringList{QStringLiteral("^(.+) already exists. Overwrite it"), // unrar 3 & 4
                                         QStringLiteral("^Would you like to replace the existing file (.+)$")}); // unrar 5
     m_cliProps->setProperty("fileExistsInput",
-                            QStringList{QStringLiteral("Y"), // Overwrite
-                                        QStringLiteral("N"), // Skip
-                                        QStringLiteral("A"), // Overwrite all
-                                        QStringLiteral("E"), // Autoskip
-                                        QStringLiteral("Q")}); // Cancel
+                            QStringList{
+                                QStringLiteral("Y"), // Overwrite
+                                QStringLiteral("N"), // Skip
+                                QStringLiteral("A"), // Overwrite all
+                                QStringLiteral("E"), // Autoskip
+                                QStringLiteral("Q"), // Cancel
+                            });
 
     // rar will sometimes create multi-volume archives where first volume is
     // called name.part1.rar and other times name.part01.rar.

@@ -220,10 +220,19 @@ void Cli7zTest::testListArgs_data()
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("unencrypted") << QStringLiteral("/tmp/foo.7z") << QString()
-                                 << QStringList{QStringLiteral("l"), QStringLiteral("-slt"), QStringLiteral("/tmp/foo.7z")};
+                                 << QStringList{
+                                        QStringLiteral("l"),
+                                        QStringLiteral("-slt"),
+                                        QStringLiteral("/tmp/foo.7z"),
+                                    };
 
     QTest::newRow("header-encrypted") << QStringLiteral("/tmp/foo.7z") << QStringLiteral("1234")
-                                      << QStringList{QStringLiteral("l"), QStringLiteral("-slt"), QStringLiteral("-p1234"), QStringLiteral("/tmp/foo.7z")};
+                                      << QStringList{
+                                             QStringLiteral("l"),
+                                             QStringLiteral("-slt"),
+                                             QStringLiteral("-p1234"),
+                                             QStringLiteral("/tmp/foo.7z"),
+                                         };
 }
 
 void Cli7zTest::testListArgs()
@@ -257,26 +266,43 @@ void Cli7zTest::testAddArgs_data()
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("unencrypted") << QStringLiteral("/tmp/foo.7z") << QString() << false << 5 << QStringLiteral("LZMA2") << 0UL
-                                 << QStringList{QStringLiteral("a"), QStringLiteral("-mx=5"), QStringLiteral("-m0=LZMA2"), QStringLiteral("/tmp/foo.7z")};
+                                 << QStringList{
+                                        QStringLiteral("a"),
+                                        QStringLiteral("-mx=5"),
+                                        QStringLiteral("-m0=LZMA2"),
+                                        QStringLiteral("/tmp/foo.7z"),
+                                    };
 
     QTest::newRow("encrypted")
         << QStringLiteral("/tmp/foo.7z") << QStringLiteral("1234") << false << 5 << QStringLiteral("LZMA2") << 0UL
         << QStringList{QStringLiteral("a"), QStringLiteral("-p1234"), QStringLiteral("-mx=5"), QStringLiteral("-m0=LZMA2"), QStringLiteral("/tmp/foo.7z")};
 
     QTest::newRow("header-encrypted") << QStringLiteral("/tmp/foo.7z") << QStringLiteral("1234") << true << 5 << QStringLiteral("LZMA2") << 0UL
-                                      << QStringList{QStringLiteral("a"),
-                                                     QStringLiteral("-p1234"),
-                                                     QStringLiteral("-mhe=on"),
-                                                     QStringLiteral("-mx=5"),
-                                                     QStringLiteral("-m0=LZMA2"),
-                                                     QStringLiteral("/tmp/foo.7z")};
+                                      << QStringList{
+                                             QStringLiteral("a"),
+                                             QStringLiteral("-p1234"),
+                                             QStringLiteral("-mhe=on"),
+                                             QStringLiteral("-mx=5"),
+                                             QStringLiteral("-m0=LZMA2"),
+                                             QStringLiteral("/tmp/foo.7z"),
+                                         };
 
-    QTest::newRow("multi-volume")
-        << QStringLiteral("/tmp/foo.7z") << QString() << false << 5 << QStringLiteral("LZMA2") << 2500UL
-        << QStringList{QStringLiteral("a"), QStringLiteral("-mx=5"), QStringLiteral("-m0=LZMA2"), QStringLiteral("-v2500k"), QStringLiteral("/tmp/foo.7z")};
+    QTest::newRow("multi-volume") << QStringLiteral("/tmp/foo.7z") << QString() << false << 5 << QStringLiteral("LZMA2") << 2500UL
+                                  << QStringList{
+                                         QStringLiteral("a"),
+                                         QStringLiteral("-mx=5"),
+                                         QStringLiteral("-m0=LZMA2"),
+                                         QStringLiteral("-v2500k"),
+                                         QStringLiteral("/tmp/foo.7z"),
+                                     };
 
     QTest::newRow("comp-method-bzip2") << QStringLiteral("/tmp/foo.7z") << QString() << false << 5 << QStringLiteral("BZip2") << 0UL
-                                       << QStringList{QStringLiteral("a"), QStringLiteral("-mx=5"), QStringLiteral("-m0=BZip2"), QStringLiteral("/tmp/foo.7z")};
+                                       << QStringList{
+                                              QStringLiteral("a"),
+                                              QStringLiteral("-mx=5"),
+                                              QStringLiteral("-m0=BZip2"),
+                                              QStringLiteral("/tmp/foo.7z"),
+                                          };
 }
 
 void Cli7zTest::testAddArgs()
@@ -357,10 +383,10 @@ void Cli7zTest::testExtractArgs_data()
                                                  };
 
     QTest::newRow("without paths, unencrypted") << QStringLiteral("/tmp/foo.7z")
-                                                << QVector<Archive::Entry *>{new Archive::Entry(this,
-                                                                                                QStringLiteral("aDir/textfile2.txt"),
-                                                                                                QStringLiteral("aDir")),
-                                                                             new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
+                                                << QVector<Archive::Entry *>{
+                                                    new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"),QStringLiteral("aDir")),
+                                                    new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
+                                                }
                                                 << false << QString()
                                                 << QStringList{
                                                        QStringLiteral("e"),

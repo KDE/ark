@@ -217,11 +217,13 @@ void CliPlugin::setupCliProperties()
     cliProps->setProperty("commentSwitch", QStringList{QStringLiteral("c"), QStringLiteral("-z$CommentFile")});
 
     cliProps->setProperty("fileExistsInput",
-                          QStringList{QStringLiteral("Yes"), // Overwrite
-                                      QStringLiteral("No"), // Skip
-                                      QStringLiteral("Always"), // Overwrite all
-                                      QStringLiteral("Skip"), // Autoskip
-                                      QStringLiteral("Quit")}); // Cancel
+                          QStringList{
+                              QStringLiteral("Yes"), // Overwrite
+                              QStringLiteral("No"), // Skip
+                              QStringLiteral("Always"), // Overwrite all
+                              QStringLiteral("Skip"), // Autoskip
+                              QStringLiteral("Quit"), // Cancel
+                          });
     cliProps->setProperty("multiVolumeSuffix", QStringList{QStringLiteral("$Suffix.001")});
 }
 
@@ -315,11 +317,13 @@ void CliPlugin::sendCurFileEntry()
     e->setProperty("isExecutable", m_currentParsedFile->isExecutable());
     e->setProperty("isPasswordProtected", m_currentParsedFile->m_encrypted);
     if (m_currentParsedFile->m_encrypted) {
-        const QMap<ArjFileEntry::EncryptedMethod, QString> methods = {{ArjFileEntry::EncryptedMethodArjOld, i18n("ARJ old")},
-                                                                      {ArjFileEntry::EncryptedMethodArjStd, i18n("ARJ")},
-                                                                      {ArjFileEntry::EncryptedMethodGost256, i18n("GOST256")},
-                                                                      {ArjFileEntry::EncryptedMethodGost256L, i18n("GOST256L")},
-                                                                      {ArjFileEntry::EncryptedMethodGost40bit, i18n("GOST 40-bit")}};
+        const QMap<ArjFileEntry::EncryptedMethod, QString> methods = {
+            {ArjFileEntry::EncryptedMethodArjOld, i18n("ARJ old")},
+            {ArjFileEntry::EncryptedMethodArjStd, i18n("ARJ")},
+            {ArjFileEntry::EncryptedMethodGost256, i18n("GOST256")},
+            {ArjFileEntry::EncryptedMethodGost256L, i18n("GOST256L")},
+            {ArjFileEntry::EncryptedMethodGost40bit, i18n("GOST 40-bit")},
+        };
         e->setProperty("method", methods.value(m_currentParsedFile->m_encryptedMethod, i18n("unknown")));
     }
 

@@ -97,10 +97,12 @@ void CliPlugin::setupCliProperties()
     m_cliProps->setProperty("fileExistsFileNameRegExp",
                             QStringList{QStringLiteral("^replace (.+)\\? \\[y\\]es, \\[n\\]o, \\[A\\]ll, \\[N\\]one, \\[r\\]ename: $")});
     m_cliProps->setProperty("fileExistsInput",
-                            QStringList{QStringLiteral("y"), // Overwrite
-                                        QStringLiteral("n"), // Skip
-                                        QStringLiteral("A"), // Overwrite all
-                                        QStringLiteral("N")}); // Autoskip
+                            QStringList{
+                                QStringLiteral("y"), // Overwrite
+                                QStringLiteral("n"), // Skip
+                                QStringLiteral("A"), // Overwrite all
+                                QStringLiteral("N"), // Autoskip
+                            });
     m_cliProps->setProperty("extractionFailedPatterns", QStringList{QStringLiteral("unsupported compression method")});
 }
 

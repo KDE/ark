@@ -220,7 +220,17 @@ class KERFUFFLE_EXPORT ReadWriteArchiveInterface : public ReadOnlyArchiveInterfa
 {
     Q_OBJECT
 public:
-    enum OperationMode { NoOperation, List, Extract, Add, Move, Copy, Delete, Comment, Test };
+    enum OperationMode {
+        NoOperation,
+        List,
+        Extract,
+        Add,
+        Move,
+        Copy,
+        Delete,
+        Comment,
+        Test,
+    };
 
     explicit ReadWriteArchiveInterface(QObject *parent, const QVariantList &args);
     ~ReadWriteArchiveInterface() override;

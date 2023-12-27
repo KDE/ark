@@ -35,7 +35,12 @@ void CliZipTest::testListArgs_data()
                               << QStringList{QStringLiteral("-l"), QStringLiteral("-T"), QStringLiteral("-z"), QStringLiteral("/tmp/foo.zip")};
 
     QTest::newRow("fake encrypted zip") << QStringLiteral("/tmp/foo.zip") << QStringLiteral("1234")
-                                        << QStringList{QStringLiteral("-l"), QStringLiteral("-T"), QStringLiteral("-z"), QStringLiteral("/tmp/foo.zip")};
+                                        << QStringList{
+                                               QStringLiteral("-l"),
+                                               QStringLiteral("-T"),
+                                               QStringLiteral("-z"),
+                                               QStringLiteral("/tmp/foo.zip"),
+                                           };
 }
 
 void CliZipTest::testListArgs()
@@ -109,7 +114,7 @@ void CliZipTest::testExtractArgs_data()
                                                << QVector<Archive::Entry *>{new Archive::Entry(this,
                                                                                                QStringLiteral("aDir/textfile2.txt"),
                                                                                                QStringLiteral("aDir")),
-                                                                            new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
+                                                                            new Archive::Entry(this, QStringLiteral("c.txt"), QString()),}
                                                << true << QStringLiteral("1234")
                                                << QStringList{
                                                       QStringLiteral("-P1234"),
@@ -122,7 +127,7 @@ void CliZipTest::testExtractArgs_data()
                                                  << QVector<Archive::Entry *>{new Archive::Entry(this,
                                                                                                  QStringLiteral("aDir/textfile2.txt"),
                                                                                                  QStringLiteral("aDir")),
-                                                                              new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
+                                                                              new Archive::Entry(this, QStringLiteral("c.txt"), QString()),}
                                                  << true << QString()
                                                  << QStringList{
                                                         QStringLiteral("/tmp/foo.zip"),
@@ -134,7 +139,7 @@ void CliZipTest::testExtractArgs_data()
                                               << QVector<Archive::Entry *>{new Archive::Entry(this,
                                                                                               QStringLiteral("aDir/textfile2.txt"),
                                                                                               QStringLiteral("aDir")),
-                                                                           new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
+                                                                           new Archive::Entry(this, QStringLiteral("c.txt"), QString()),}
                                               << false << QStringLiteral("1234")
                                               << QStringList{
                                                      QStringLiteral("-j"),
@@ -148,7 +153,7 @@ void CliZipTest::testExtractArgs_data()
                                                 << QVector<Archive::Entry *>{new Archive::Entry(this,
                                                                                                 QStringLiteral("aDir/textfile2.txt"),
                                                                                                 QStringLiteral("aDir")),
-                                                                             new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
+                                                                             new Archive::Entry(this, QStringLiteral("c.txt"), QString()),}
                                                 << false << QString()
                                                 << QStringList{
                                                        QStringLiteral("-j"),
