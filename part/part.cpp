@@ -32,7 +32,9 @@
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KIO/ApplicationLauncherJob>
+#include <KIO/FileCopyJob>
 #include <KIO/Job>
+#include <KIO/JobTracker>
 #include <KIO/JobUiDelegate>
 #include <KIO/JobUiDelegateFactory>
 #include <KIO/OpenUrlJob>
