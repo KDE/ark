@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-28 01:35+0000\n"
-"PO-Revision-Date: 2023-12-19 21:15+0100\n"
+"PO-Revision-Date: 2023-12-29 01:27+0100\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
 "Language: ast\n"
@@ -61,6 +61,8 @@ msgid ""
 "There was an error while extracting <filename>%1</filename>. Any further "
 "archive will not be extracted."
 msgstr ""
+"Hebo un error mentanto s'estrayía <filename>%1</filename>. Nun se va "
+"estrayer nengún archivu más."
 
 #: app/batchextract.cpp:139
 #, kde-kuit-format
@@ -69,12 +71,14 @@ msgid ""
 "There was an error while extracting <filename>%1</filename>:<nl/><message>"
 "%2</message><nl/>Any further archive will not be extracted."
 msgstr ""
+"Hebo un error mentanto s'estrayía <filename>%1</filename>:<nl/><message>%2</"
+"message><nl/>Nun se va estrayer nengún archivu más."
 
 #: app/batchextract.cpp:146
 #, kde-kuit-format
 msgctxt "@info"
 msgid "There was an error while extracting <filename>%1</filename>."
-msgstr ""
+msgstr "Hebo un error mentanto s'estrayía <filename>%1</filename>."
 
 #: app/batchextract.cpp:148
 #, kde-kuit-format
@@ -83,6 +87,8 @@ msgid ""
 "There was an error while extracting <filename>%1</filename>:<nl/><message>"
 "%2</message>"
 msgstr ""
+"Hebo un error mentanto s'estrayía <filename>%1</filename>:<nl/><message>%2</"
+"message>"
 
 #: app/batchextract.cpp:300
 #, kde-kuit-format
@@ -115,32 +121,32 @@ msgstr "Equí como «%1»"
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr ""
+msgstr "Estrayer en…"
 
 #: app/extractfileitemaction.cpp:78
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
-msgstr ""
+msgstr "Estrayer equí"
 
 #: app/extractfileitemaction.cpp:84
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr ""
+msgstr "Estrayer equí ya desaniciar l'archivu"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"
-msgstr ""
+msgstr "Estraición"
 
 #: app/extractHereDndPlugin.cpp:54
 #, kde-format
 msgctxt ""
 "@action:inmenu Context menu shown when an archive is being drag'n'dropped"
 msgid "Extract here"
-msgstr ""
+msgstr "Estrayer equí"
 
 #: app/main.cpp:70
 #, kde-format
@@ -287,18 +293,22 @@ msgstr ""
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr ""
+"Amuesa un diálogu pa especificar les opciones de la operación (estraición/"
+"amiestu)"
 
 #: app/main.cpp:113
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr ""
+"La carpeta de destín na qu'estrayer. Si nun s'especifica nengún camín, "
+"predetermínase l'actual"
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
 #: app/main.cpp:117 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
-msgstr "Abrir la carpeta de destín dempués de la estraición."
+msgstr "Abre la carpeta de destín dempués de la estraición."
 
 #: app/main.cpp:120
 #, kde-format
@@ -363,7 +373,7 @@ msgstr ""
 #: app/mainwindow.cpp:182
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "Barra llateral"
 
 #: app/mainwindow.cpp:285
 #, kde-format
@@ -408,22 +418,22 @@ msgstr "Afáyate n'%1"
 #: app/welcomeview/welcomeview.cpp:55
 #, kde-format
 msgid "No recent files"
-msgstr ""
+msgstr "Nun hai nengún ficheru recién"
 
 #: app/welcomeview/welcomeview.cpp:143
 #, kde-format
 msgid "Copy &Location"
-msgstr ""
+msgstr "Copiar la &llocalización"
 
 #: app/welcomeview/welcomeview.cpp:149
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Abrir la carpeta contenedora"
 
 #: app/welcomeview/welcomeview.cpp:156
 #, kde-format
 msgid "&Remove"
-msgstr ""
+msgstr "&Quitar"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
@@ -590,7 +600,7 @@ msgstr ""
 #: kerfuffle/cliinterface.cpp:346
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
-msgstr ""
+msgstr "La estraición falló. Asegúrate de qu'hai abondu espaciu disponible."
 
 #: kerfuffle/cliinterface.cpp:349
 #, kde-format
@@ -598,6 +608,8 @@ msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
 "enough space is available."
 msgstr ""
+"La estraición falló. Asegúrate de qu'hai abondu espaciu disponible ya de que "
+"la contraseña fornida ye correuta."
 
 #: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
 #, kde-format
@@ -611,13 +623,13 @@ msgstr[1] ""
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
-msgstr ""
+msgstr "La estraición falló porque'l discu ta enllén."
 
 #: kerfuffle/cliinterface.cpp:843 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
-msgstr ""
+msgstr "La estraición falló: la contraseña ye incorreuta"
 
 #: kerfuffle/cliinterface.cpp:877
 #, kde-format
@@ -749,7 +761,7 @@ msgstr ""
 #: kerfuffle/createdialog.cpp:198
 #, kde-format
 msgid "The chosen password does not match the given verification password."
-msgstr ""
+msgstr "La contraseña escoyida nun concasa cola apurrida pa la verificación."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/createdialog.ui:30
@@ -805,6 +817,8 @@ msgid ""
 "The folder <filename>%1</filename> already exists. Are you sure you want to "
 "extract here?"
 msgstr ""
+"La carpeta <filename>%1</filename> xá esiste. ¿De xuru que quies estrayer "
+"equí?"
 
 #: kerfuffle/extractiondialog.cpp:108
 #, kde-format
@@ -825,13 +839,13 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
-msgstr ""
+msgstr "Nun se pudo crear la carpeta <filename>%1</filename>."
 
 #: kerfuffle/extractiondialog.cpp:121
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
-msgstr ""
+msgstr "<filename>%1</filename> xá esiste mas nun ye una carpeta."
 
 #: kerfuffle/extractiondialog.cpp:127
 #, kde-format
@@ -871,19 +885,19 @@ msgstr "Opciones"
 #: kerfuffle/extractiondialog.ui:132
 #, kde-format
 msgid "Open &destination folder after extraction"
-msgstr ""
+msgstr "Abrir la carpeta de &destín dempués de la estraición"
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
 #: kerfuffle/extractiondialog.ui:139
 #, kde-format
 msgid "Close &Ark after extraction"
-msgstr ""
+msgstr "Zarrar &Ark dempués de la estraición"
 
 #. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
 #: kerfuffle/extractiondialog.ui:146
 #, kde-format
 msgid "&Preserve paths when extracting"
-msgstr ""
+msgstr "&Caltener los caminos al estrayer"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
 #: kerfuffle/extractiondialog.ui:153
@@ -896,13 +910,13 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Extract"
-msgstr ""
+msgstr "Estraición"
 
 #. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
 #: kerfuffle/extractiondialog.ui:187
 #, kde-format
 msgid "Sele&cted files only"
-msgstr ""
+msgstr "Namás los ficheros &seleicionaos"
 
 #. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
 #: kerfuffle/extractiondialog.ui:203
@@ -972,6 +986,8 @@ msgstr ""
 #, kde-format
 msgid "No suitable plugin found. Ark does not seem to support this file type."
 msgstr ""
+"Nun s'atopó nengún plugin afayadizu. Nun paez qu'Ark sofite esti tipu de "
+"ficheru."
 
 #: kerfuffle/jobs.cpp:104
 #, kde-format
@@ -1002,7 +1018,7 @@ msgstr ""
 #: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:579
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
-msgstr ""
+msgstr "Nun queda espaciu disponible nel preséu <filename>%1</filename>"
 
 #: kerfuffle/jobs.cpp:542
 #, kde-format
@@ -1095,7 +1111,7 @@ msgstr "Descripción"
 #: kerfuffle/previewsettingspage.ui:22
 #, kde-format
 msgid "Disable preview for files larger than:"
-msgstr ""
+msgstr "Desactivar la previsualización de ficheros mayores de:"
 
 #: kerfuffle/propertiesdialog.cpp:41
 #, kde-format
@@ -1119,7 +1135,7 @@ msgstr "non"
 #: kerfuffle/propertiesdialog.cpp:50
 #, kde-format
 msgid "yes (%1 volumes)"
-msgstr ""
+msgstr "sí (%1 volúmenes)"
 
 #: kerfuffle/propertiesdialog.cpp:52
 #, kde-format
@@ -1155,13 +1171,13 @@ msgstr "Calculando…"
 #: kerfuffle/propertiesdialog.ui:37
 #, kde-format
 msgid "Archive name:"
-msgstr ""
+msgstr "Nome del archivu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: kerfuffle/propertiesdialog.ui:54
 #, kde-format
 msgid "Archive type:"
-msgstr ""
+msgstr "Tipu d'archivu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: kerfuffle/propertiesdialog.ui:71
@@ -1186,25 +1202,25 @@ msgstr ""
 #: kerfuffle/propertiesdialog.ui:122
 #, kde-format
 msgid "Has comment:"
-msgstr ""
+msgstr "Tien un comentariu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: kerfuffle/propertiesdialog.ui:139
 #, kde-format
 msgid "Number of entries:"
-msgstr ""
+msgstr "Númberu d'entraes:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: kerfuffle/propertiesdialog.ui:156
 #, kde-format
 msgid "Unpacked size:"
-msgstr ""
+msgstr "Tamañu ensin empaqueta:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: kerfuffle/propertiesdialog.ui:173
 #, kde-format
 msgid "Packed size:"
-msgstr ""
+msgstr "Tamañu empaquetáu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: kerfuffle/propertiesdialog.ui:190
@@ -1216,25 +1232,25 @@ msgstr ""
 #: kerfuffle/propertiesdialog.ui:207
 #, kde-format
 msgid "Last modified:"
-msgstr ""
+msgstr "Última modificación:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: kerfuffle/propertiesdialog.ui:224
 #, kde-format
 msgid "MD5 hash:"
-msgstr ""
+msgstr "Hash MD5:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: kerfuffle/propertiesdialog.ui:244
 #, kde-format
 msgid "SHA-1 hash:"
-msgstr ""
+msgstr "Hash SHA-1:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: kerfuffle/propertiesdialog.ui:261
 #, kde-format
 msgid "SHA-256 hash:"
-msgstr ""
+msgstr "Hash SHA-256:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: kerfuffle/propertiesdialog.ui:278
@@ -1246,13 +1262,13 @@ msgstr ""
 #: kerfuffle/propertiesdialog.ui:295
 #, kde-format
 msgid "Compression method(s):"
-msgstr ""
+msgstr "Métodos de compresión:"
 
 #: kerfuffle/queries.cpp:73
 #, kde-format
 msgctxt "@title:window"
 msgid "File Already Exists"
-msgstr ""
+msgstr "El ficheru xá esiste"
 
 #: kerfuffle/queries.cpp:169
 #, kde-kuit-format
@@ -1261,6 +1277,7 @@ msgid ""
 "The archive <filename>%1</filename> is password protected. Please enter the "
 "password."
 msgstr ""
+"L'archivu <filename>%1</filename> ta protexíu con una contraseña. Introduzla."
 
 #: kerfuffle/queries.cpp:173
 #, kde-format
@@ -1279,7 +1296,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
-msgstr ""
+msgstr "L'archivu ta toyíu"
 
 #: kerfuffle/queries.cpp:212
 #, kde-format
@@ -1291,7 +1308,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
-msgstr ""
+msgstr "Nun abrir"
 
 #: kerfuffle/queries.cpp:223
 #, kde-format
@@ -1326,7 +1343,7 @@ msgstr "Tamañu orixinal"
 #, kde-format
 msgctxt "Compressed size of a file inside an archive"
 msgid "Compressed Size"
-msgstr ""
+msgstr "Tamañu comprimíu"
 
 #: part/archivemodel.cpp:160
 #, kde-format
@@ -1356,13 +1373,13 @@ msgstr "Mou"
 #, kde-format
 msgctxt "CRC hash code"
 msgid "CRC checksum"
-msgstr ""
+msgstr "Suma de comprobación CRC"
 
 #: part/archivemodel.cpp:170
 #, kde-format
 msgctxt "BLAKE2 hash code"
 msgid "BLAKE2 checksum"
-msgstr ""
+msgstr "Suma de comprobación BLAKE2"
 
 #: part/archivemodel.cpp:172
 #, kde-format
@@ -1498,8 +1515,8 @@ msgstr ""
 #, kde-format
 msgid "One file selected"
 msgid_plural "%1 files selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Seleicionóse un ficheru"
+msgstr[1] "Seleicionáronse %1 ficheros"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, InformationPanel)
 #: part/infopanel.ui:20
@@ -1517,7 +1534,7 @@ msgstr ""
 #: part/infopanel.ui:113
 #, kde-format
 msgid "Owner:"
-msgstr ""
+msgstr "Propietariu:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_groupLabel)
 #: part/infopanel.ui:133
@@ -1529,7 +1546,7 @@ msgstr "Grupu:"
 #: part/infopanel.ui:153
 #, kde-format
 msgid "Target:"
-msgstr ""
+msgstr "Destín:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, JobTrackerWidget)
 #: part/jobtracker.ui:14
@@ -1561,6 +1578,8 @@ msgid ""
 "Files with the following paths already exist. Remove them if you really want "
 "to overwrite."
 msgstr ""
+"Xá esisten los ficheros colos caminos siguientes. Quítalos si quies "
+"sobrescribilos de verdá."
 
 #: part/overwritedialog.cpp:28
 #, kde-format
@@ -1568,11 +1587,13 @@ msgid ""
 "Files with the following paths already exist. Do you want to continue "
 "overwriting them?"
 msgstr ""
+"Xá esisten los ficheros colos caminos siguientes. ¿Quies siguir "
+"sobrescribiéndolos?"
 
 #: part/part.cpp:112
 #, kde-format
 msgid "Comment"
-msgstr ""
+msgstr "Comentariu"
 
 #: part/part.cpp:125
 #, kde-format
@@ -1582,7 +1603,7 @@ msgstr "Modificóse'l comentariu."
 #: part/part.cpp:130
 #, kde-format
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: part/part.cpp:153
 #, kde-format
@@ -1664,6 +1685,8 @@ msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
 "all files or just the selected ones"
 msgstr ""
+"Calca p'abrir un diálogu d'estraición onde vas poder escoyer ente estrayer "
+"tolos ficheros o namás los seleicionaos"
 
 #: part/part.cpp:404
 #, kde-format
@@ -1698,7 +1721,7 @@ msgstr "Calca pa ver les propiedaes del archivu"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
-msgstr ""
+msgstr "Calca p'amestar o editar un comentariu"
 
 #: part/part.cpp:435
 #, kde-format
@@ -1710,7 +1733,7 @@ msgstr "&Probar la integridá"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
-msgstr ""
+msgstr "Calca pa proba la integridá del archivu"
 
 #: part/part.cpp:462
 #, kde-kuit-format
@@ -1744,17 +1767,17 @@ msgstr "Amestar un &comentariu"
 #: part/part.cpp:612
 #, kde-format
 msgid "The archive passed the integrity test."
-msgstr ""
+msgstr "L'archivu pasó la prueba d'integridá."
 
 #: part/part.cpp:612 part/part.cpp:614
 #, kde-format
 msgid "Test Results"
-msgstr ""
+msgstr "Resultáu de la prueba"
 
 #: part/part.cpp:614
 #, kde-format
 msgid "The archive failed the integrity test."
-msgstr ""
+msgstr "L'archivu falló la prueba d'integridá."
 
 #: part/part.cpp:634
 #, kde-format
@@ -1794,7 +1817,7 @@ msgstr "Previsualización"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
-msgstr ""
+msgstr "<filename>%1</filename> ye un direutoriu."
 
 #: part/part.cpp:802
 #, kde-kuit-format
@@ -1803,6 +1826,8 @@ msgid ""
 "Could not overwrite <filename>%1</filename>. Check whether you have write "
 "permission."
 msgstr ""
+"Nun se pudo sobrescribir <filename>%1</filename>. Comprueba si tienes el "
+"permisu d'escritura."
 
 #: part/part.cpp:808
 #, kde-kuit-format
@@ -1811,12 +1836,13 @@ msgid ""
 "The archive <filename>%1</filename> will be created as soon as you add a "
 "file."
 msgstr ""
+"Va crease l'archivu <filename>%1</filename> namás qu'amiestes un ficheru."
 
 #: part/part.cpp:811
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
-msgstr ""
+msgstr "Nun s'atopó l'archivu <filename>%1</filename>."
 
 #: part/part.cpp:817
 #, kde-kuit-format
@@ -1825,6 +1851,8 @@ msgid ""
 "The archive <filename>%1</filename> could not be loaded, as it was not "
 "possible to read from it."
 msgstr ""
+"Nun se pudo cargar l'archivu <filename>%1</filename> darréu que nun ye "
+"posible lleelu."
 
 #: part/part.cpp:830
 #, kde-kuit-format
@@ -1832,13 +1860,13 @@ msgctxt "@info"
 msgid ""
 "The archive <filename>%1</filename> already exists. Do you wish to overwrite "
 "it?"
-msgstr ""
+msgstr "L'archivu <filename>%1</filename> xá esiste. ¿Quies sobrescribilu?"
 
 #: part/part.cpp:831
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
-msgstr ""
+msgstr "El ficheru esiste"
 
 #: part/part.cpp:868
 #, kde-kuit-format
@@ -1850,7 +1878,7 @@ msgstr "L'archivu ta baleru o Ark nun pudo abrir el so conteníu."
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
-msgstr ""
+msgstr "Ark nun sofita los ficheros ISO col sistema de ficheros UDF."
 
 #: part/part.cpp:907
 #, kde-kuit-format
@@ -1859,6 +1887,8 @@ msgid ""
 "Loading the archive <filename>%1</filename> failed with the following error:"
 "<nl/><message>%2</message>"
 msgstr ""
+"La carga del archivu <filename>%1</filename> falló col error siguiente: <nl/"
+"><message>%2</message>"
 
 #: part/part.cpp:967
 #, kde-format
@@ -1870,13 +1900,13 @@ msgstr "Ark nun pue abrir los enllaces simbólicos."
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
 "archive?"
-msgstr ""
+msgstr "Modificóse'l ficheru <filename>%1</filename>. ¿Quies anovar l'archivu?"
 
 #: part/part.cpp:1095
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
-msgstr ""
+msgstr "Modificóse'l ficheru"
 
 #: part/part.cpp:1096
 #, kde-format
@@ -1894,7 +1924,7 @@ msgstr "Inorar"
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
-msgstr ""
+msgstr "Amiestu de ficheros"
 
 #: part/part.cpp:1375
 #, kde-format
@@ -1936,8 +1966,8 @@ msgstr[1] ""
 msgctxt "@title:window"
 msgid "Delete File"
 msgid_plural "Delete Files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Desaniciu d'un ficheru"
+msgstr[1] "Desaniciu de ficheros"
 
 #: part/part.cpp:1648
 #, kde-format
@@ -1952,6 +1982,8 @@ msgid ""
 "The archive could not be saved as <filename>%1</filename>. Try saving it to "
 "another location."
 msgstr ""
+"L'archivu nun se pudo guardar como <filename>%1</filename>. Prueba a "
+"guardalu n'otra llocalización."
 
 #: part/part.cpp:1668
 #, kde-kuit-format
@@ -1960,6 +1992,8 @@ msgid ""
 "The archive <filename>%1</filename> does not exist anymore, therefore it "
 "cannot be copied to the specified location."
 msgstr ""
+"L'archivu <filename>%1</filename> xá nun esiste ya, polo tanto, nun se pue "
+"copiar a la llocalización especificada."
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
 #: plugins/cliunarchiverplugin/cliplugin.cpp:84
@@ -1985,11 +2019,13 @@ msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
 "configuration dialog."
 msgstr ""
+"La operación de desaniciu falló. Prueba a anovar «7z» o a desactivar el "
+"plugin de 7z nel diálogu de configuración."
 
 #: plugins/cliarjplugin/cliplugin.cpp:321
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ antiguu"
 
 #: plugins/cliarjplugin/cliplugin.cpp:322
 #, kde-format

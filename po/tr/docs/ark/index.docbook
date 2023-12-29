@@ -352,7 +352,7 @@
 >&Ctrl;<keycap
 >E</keycap
 ></keycombo
->) önceden erişilen klasörleri içeren bir alt menü açar ve bunlardan herhangi birine hızlı bir şekilde eklemeyi veya listelenmemiş bir klasöre göz atmayı seçebilirsiniz. Çıkarma işlemi hakkında hakkında daha fazla bilgi için bir sonraki bölüme bakın.</para>
+>) önceden erişilen klasörleri içeren bir alt menü açar ve bunlardan herhangi birine tez eklemeyi veya listelenmemiş bir klasöre göz atmayı seçebilirsiniz. Çıkarma işlemi hakkında hakkında daha fazla bilgi için bir sonraki bölüme bakın.</para>
 </listitem>
 <listitem>
 <para
@@ -410,7 +410,7 @@
 >Dosya</guimenu
 > menüsünden <guisubmenu
 > Çıkar</guisubmenu
-> seçeneği seçilerek yapılır. Daha önce erişilen klasörleri içeren bir alt menü açar ve bunlardan herhangi birine hızla eklemeyi seçebilirsiniz. Alternatif olarak, çıkarmayı etkileyen çeşitli seçenekleri ayarlayabileceğiniz <guilabel
+> seçeneği seçilerek yapılır. Daha önce erişilen klasörleri içeren bir alt menü açar ve bunlardan herhangi birine tez eklemeyi seçebilirsiniz. Alternatif olarak, çıkarmayı etkileyen çeşitli seçenekleri ayarlayabileceğiniz <guilabel
 >Çıkar</guilabel
 > iletişim penceresini açmak için <guisubmenu
 >Şuraya Çıkar...</guisubmenu
