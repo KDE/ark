@@ -2,7 +2,7 @@
     "id": "org.kde.ark",
     "branch": "master",
     "runtime": "org.kde.Platform",
-    "runtime-version": "5.15-22.08",
+    "runtime-version": "6.6-kf6preview",
     "sdk": "org.kde.Sdk",
     "command": "ark",
     "rename-icon": "ark",
@@ -13,7 +13,7 @@
         "--filesystem=host",
         "--share=ipc",
         "--socket=wayland",
-        "--socket=x11",
+        "--socket=fallback-x11",
         "--talk-name=org.a11y.Bus"
     ],
     "cleanup": [
@@ -113,8 +113,8 @@
             "buildsystem": "cmake-ninja",
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://invent.kde.org/utilities/ark.git"
+                    "type": "dir",
+                    "path": "."
                 }
             ]
         }
