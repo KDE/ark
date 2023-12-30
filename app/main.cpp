@@ -64,7 +64,7 @@ int main(int argc, char **argv)
     // Debug output can be turned on here:
     // QLoggingCategory::setFilterRules(QStringLiteral("ark.debug = true"));
 
-    KLocalizedString::setApplicationDomain("ark");
+    KLocalizedString::setApplicationDomain(QByteArrayLiteral("ark"));
 
     KAboutData aboutData(QStringLiteral("ark"),
                          i18n("Ark"),
