@@ -8,7 +8,7 @@
         "Description[ca@valencia]": "Eina de gestió d'arxius",
         "Description[ca]": "Eina de gestió d'arxius",
         "Description[cs]": "Program pro práci s archivy",
-        "Description[de]": "Archivverwaltungswerkzeug",
+        "Description[de]": "Archiv-Verwaltung",
         "Description[el]": "Εργαλείο χειρισμού αρχειοθηκών",
         "Description[eo]": "Arkivpritrakta Ilo",
         "Description[es]": "Herramienta de gestión de archivos comprimidos",
