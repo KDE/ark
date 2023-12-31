@@ -2355,15 +2355,3 @@ msgstr "エントリをコピーできません: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "エントリにメタデータを設定できません: %1"
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive to..."
-#~ msgstr "場所を指定して展開..."
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive here"
-#~ msgstr "ここにアーカイブを展開"
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive here, autodetect subfolder"
-#~ msgstr "ここにアーカイブをサブフォルダ付きで展開"
