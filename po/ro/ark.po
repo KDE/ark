@@ -1,13 +1,13 @@
 # Traducerea ark.po în Română
 # Copyright (C) 2004, 2008 Free Software Foundation, Inc.
-# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2010, 2011, 2012, 2020, 2021, 2022.
+# Sergiu Bivol <sergiu@cip.md>, 2008, 2009, 2010, 2011, 2012, 2020, 2021, 2022, 2024.
 # Cristian Oneț <onet.cristian@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-28 01:35+0000\n"
-"PO-Revision-Date: 2022-06-01 15:37+0100\n"
+"PO-Revision-Date: 2024-01-07 17:45+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -30,8 +30,7 @@ msgstr "sergiu@cip.md"
 
 #. i18n: ectx: Menu (archive)
 #: app/arkui.rc:5
-#, fuzzy, kde-format
-#| msgid "&Archive"
+#, kde-format
 msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr "&Arhivă"
@@ -122,25 +121,22 @@ msgid "Here as \"%1\""
 msgstr "Aici ca „%1”"
 
 #: app/extractfileitemaction.cpp:66
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "Extrage"
+msgstr "Extrage la…"
 
 #: app/extractfileitemaction.cpp:78
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Extrage aici"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "Extragere arhive multiple"
+msgstr "Extrage aici și șterge arhiva"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -392,18 +388,17 @@ msgstr "Imposibil de găsit componenta KPart. Verificați instalare."
 #: app/mainwindow.cpp:182
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "Bara laterală"
 
 #: app/mainwindow.cpp:285
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr "Bun venit în Ark"
+msgstr "Pagina de întâmpinare"
 
 #: app/mainwindow.cpp:287
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "Arată pagina de întâmpinare"
 
 #: app/mainwindow.cpp:295
 #, kde-kuit-format
@@ -413,11 +408,14 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"Aceasta schimbă între a avea o <emphasis>bară de meniu</emphasis> și a avea "
+"un <interface>buton de meniu</interface>. Ambele conțin cam aceleași comenzi "
+"și opțiuni de configurare."
 
 #: app/mainwindow.cpp:315
 #, kde-format
 msgid "Lock Sidebar"
-msgstr ""
+msgstr "Blochează bara laterală"
 
 #: app/mainwindow.cpp:371
 #, kde-format
@@ -431,99 +429,89 @@ msgid "Create New Archive"
 msgstr "Creează arhivă nouă"
 
 #: app/welcomeview/welcomeview.cpp:50
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome to %1"
-msgstr "Bun venit în Ark"
+msgstr "Bun venit în %1"
 
 #: app/welcomeview/welcomeview.cpp:55
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "No recent files"
-msgstr "Dosare recente"
+msgstr "Niciun fișier recent"
 
 #: app/welcomeview/welcomeview.cpp:143
 #, kde-format
 msgid "Copy &Location"
-msgstr ""
+msgstr "Copiază amp&lasarea"
 
 #: app/welcomeview/welcomeview.cpp:149
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "Deschide d&osarul conținător"
 
 #: app/welcomeview/welcomeview.cpp:156
 #, kde-format
 msgid "&Remove"
-msgstr ""
+msgstr "&Elimină"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr "Bun venit în Ark"
+msgstr "Bun venit"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
-msgstr "Deschide o arhivă..."
+msgstr "Deschide o arhivă…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "Deschide o arhivă"
+msgstr "Arhivă nouă"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "Clear Recent Files"
-msgstr "Dosare recente"
+msgstr "Curăță fișierele recente"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:222
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "Recent Files"
-msgstr "Dosare recente"
+msgstr "Fișiere recente"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:263
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "&Ajutor"
+msgstr "Ajutor"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:273
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "Vizitează pagina"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:286
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "Citește manualul"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:345
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "Arată la pornire"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:400
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "Închide pagina de întâmpinare"
 
 #: kerfuffle/adddialog.cpp:32 kerfuffle/adddialog.cpp:70
 #, kde-format
@@ -1056,11 +1044,9 @@ msgid "Archive"
 msgstr "Arhivă"
 
 #: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:579
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Error creating directory <filename>%1</filename>"
+#, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
-msgstr "Eroare la crearea dosarului <filename>%1</filename>"
+msgstr "Nu mai este spațiu pe dispozitivul <filename>%1</filename>"
 
 #: kerfuffle/jobs.cpp:542
 #, kde-format
@@ -1393,15 +1379,13 @@ msgstr "Nume"
 #, kde-format
 msgctxt "Uncompressed size of a file inside an archive"
 msgid "Original Size"
-msgstr ""
+msgstr "Dimensiune originală"
 
 #: part/archivemodel.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "Compressed size of a file inside an archive"
-#| msgid "Compressed"
+#, kde-format
 msgctxt "Compressed size of a file inside an archive"
 msgid "Compressed Size"
-msgstr "Comprimat"
+msgstr "Dimensiune comprimată"
 
 #: part/archivemodel.cpp:160
 #, kde-format
@@ -1629,7 +1613,7 @@ msgstr "Câteva informații despre sarcină"
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
@@ -1691,7 +1675,7 @@ msgstr "Salvează copia ca..."
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr ""
+msgstr "&Deschide în aplicație externă"
 
 #: part/part.cpp:372
 #, kde-format
@@ -1759,11 +1743,10 @@ msgid "Click to add files to the archive"
 msgstr "Apăsați pentru a adăuga fișiere în arhivă"
 
 #: part/part.cpp:412
-#, fuzzy, kde-format
-#| msgid "Compress to Archive"
+#, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
-msgstr "Comprimă în arhivă"
+msgstr "Elimină din arhivă"
 
 #: part/part.cpp:422
 #, kde-format
@@ -1979,13 +1962,13 @@ msgstr "Fișier modificat"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Actualizează"
 
 #: part/part.cpp:1097
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Ignoră"
 
 #: part/part.cpp:1370
 #, kde-format
@@ -2101,34 +2084,32 @@ msgstr ""
 #: plugins/cliarjplugin/cliplugin.cpp:321
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ vechi"
 
 #: plugins/cliarjplugin/cliplugin.cpp:322
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:323
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:324
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:325
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40 de biți"
 
 #: plugins/cliarjplugin/cliplugin.cpp:327
-#, fuzzy, kde-format
-#| msgctxt "referred to compression method"
-#| msgid "unknown"
+#, kde-format
 msgid "unknown"
-msgstr "necunoscută"
+msgstr "necunoscut"
 
 #: plugins/clirarplugin/cliplugin.cpp:153
 #: plugins/clirarplugin/cliplugin.cpp:293
