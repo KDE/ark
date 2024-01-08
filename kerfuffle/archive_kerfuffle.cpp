@@ -152,6 +152,8 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
 
     connect(m_iface, &ReadOnlyArchiveInterface::compressionMethodFound, this, &Archive::onCompressionMethodFound);
     connect(m_iface, &ReadOnlyArchiveInterface::encryptionMethodFound, this, &Archive::onEncryptionMethodFound);
+
+    m_userMetaData = std::make_optional<MetadataBackup>(fileName());
 }
 
 void Archive::onCompressionMethodFound(const QString &method)
@@ -370,7 +372,11 @@ DeleteJob *Archive::deleteFiles(QVector<Archive::Entry *> &entries)
     if (m_iface->isReadOnly()) {
         return nullptr;
     }
+
     DeleteJob *newJob = new DeleteJob(entries, static_cast<ReadWriteArchiveInterface *>(m_iface));
+    connect(newJob, &DeleteJob::result, this, [this]() {
+        restoreUserMetadata();
+    });
 
     return newJob;
 }
@@ -409,6 +415,10 @@ MoveJob *Archive::moveFiles(const QVector<Archive::Entry *> &files, Archive::Ent
     Q_ASSERT(!m_iface->isReadOnly());
 
     MoveJob *newJob = new MoveJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface *>(m_iface));
+    connect(newJob, &MoveJob::result, this, [this]() {
+        restoreUserMetadata();
+    });
+
     return newJob;
 }
 
@@ -427,6 +437,10 @@ CopyJob *Archive::copyFiles(const QVector<Archive::Entry *> &files, Archive::Ent
     Q_ASSERT(!m_iface->isReadOnly());
 
     CopyJob *newJob = new CopyJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface *>(m_iface));
+    connect(newJob, &CopyJob::result, this, [this]() {
+        restoreUserMetadata();
+    });
+
     return newJob;
 }
 
@@ -484,6 +498,8 @@ void Archive::encrypt(const QString &password, bool encryptHeader)
     m_iface->setPassword(password);
     m_iface->setHeaderEncryptionEnabled(encryptHeader);
     m_encryptionType = encryptHeader ? HeaderEncrypted : Encrypted;
+
+    restoreUserMetadata();
 }
 
 void Archive::onAddFinished(KJob *job)
@@ -497,6 +513,8 @@ void Archive::onAddFinished(KJob *job)
     if (m_isSingleFolder && !job->error()) {
         m_isSingleFolder = false;
     }
+
+    restoreUserMetadata();
 }
 
 void Archive::onUserQuery(Query *query)
@@ -517,6 +535,15 @@ ReadOnlyArchiveInterface *Archive::interface()
 bool Archive::hasMultipleTopLevelEntries() const
 {
     return !isSingleFile() && !isSingleFolder();
+}
+
+void Archive::restoreUserMetadata()
+{
+    if (!m_userMetaData.has_value()) {
+        return;
+    }
+
+    m_userMetaData->restore(fileName());
 }
 
 } // namespace Kerfuffle

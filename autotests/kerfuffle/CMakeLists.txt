@@ -18,6 +18,7 @@ ecm_add_tests(
     createdialogtest.cpp
     metadatatest.cpp
     mimetypetest.cpp
+    preservemetadatatest.cpp
     LINK_LIBRARIES testhelper kerfuffle Qt::Test KF6::ConfigCore KF6::KIOCore
     NAME_PREFIX kerfuffle-)
 

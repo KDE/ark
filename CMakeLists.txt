@@ -41,6 +41,7 @@ find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS Config
                                                         Crash
                                                         DBusAddons
                                                         DocTools
+                                                        FileMetaData
                                                         I18n
                                                         KIO
                                                         Service

@@ -27,6 +27,7 @@ target_sources(kerfuffle PRIVATE
     archiveentry.cpp
     options.cpp
     qstringtokenizer.cpp
+    metadatabackup.cpp
 )
 
 kconfig_add_kcfg_files(kerfuffle settings.kcfgc GENERATE_MOC)
@@ -59,6 +60,7 @@ endif()
 target_link_libraries(kerfuffle
 PUBLIC
     KF6::Pty
+    KF6::FileMetaData
     KF6::I18n
     KF6::WidgetsAddons
 PRIVATE

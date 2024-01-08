@@ -10,6 +10,7 @@
 #define ARCHIVE_H
 
 #include "kerfuffle_export.h"
+#include "metadatabackup.h"
 #include "options.h"
 
 #include <KJob>
@@ -214,6 +215,19 @@ private:
     QMimeType m_mimeType;
     QStringList m_compressionMethods;
     QStringList m_encryptionMethods;
+
+    /**
+     * @brief The user metadata for this archive.
+     *
+     * We keep track of the user metadata for the archive so that we can restore
+     * it after the archive has been modified.
+     */
+    std::optional<MetadataBackup> m_userMetaData;
+
+    /**
+     * @brief Restore the user metadata for this archive.
+     */
+    void restoreUserMetadata();
 };
 
 } // namespace Kerfuffle
