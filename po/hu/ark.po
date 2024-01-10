@@ -1,12 +1,12 @@
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2011, 2012, 2015, 2020.
 # Balázs Úr <urbalazs@gmail.com>, 2014.
-# Kristof Kiszel <kiszel.kristof@gmail.com>, 2021, 2022.
+# SPDX-FileCopyrightText: 2021, 2022, 2024 Kristof Kiszel <kiszel.kristof@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-28 01:35+0000\n"
-"PO-Revision-Date: 2022-02-07 14:09+0100\n"
+"PO-Revision-Date: 2024-01-09 10:51+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -14,25 +14,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 21.07.70\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Kiszel Kristóf,Szántó Tamás"
+msgstr "Kiszel Kristóf"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "ulysses@kubuntu.org,tszanto@interware.hu"
+msgstr "ulysses@fsf.hu"
 
 #. i18n: ectx: Menu (archive)
 #: app/arkui.rc:5
-#, fuzzy, kde-format
-#| msgid "&Archive"
+#, kde-format
 msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
-msgstr "&Archiválás"
+msgstr "&Archivum"
 
 #: app/batchextract.cpp:103 app/batchextract.cpp:174
 #, kde-format
@@ -113,36 +112,29 @@ msgid "Compress to..."
 msgstr "Tömörítés ide…"
 
 #: app/compressfileitemaction.cpp:87
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
-#| "filename"
-#| msgid "Here (to \"%1.zip\")"
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Here as \"%1\""
-msgstr "Ide („%1.zip”)"
+msgstr "Ide mint „%1”"
 
 #: app/extractfileitemaction.cpp:66
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "Kibontás"
+msgstr "Kibontás ide…"
 
 #: app/extractfileitemaction.cpp:78
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Kibontás ide"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "Több archívum kibontása"
+msgstr "Kibontás ide és archívum törlése"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -394,18 +386,17 @@ msgstr ""
 #: app/mainwindow.cpp:182
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "Oldalsáv"
 
 #: app/mainwindow.cpp:285
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome Page"
-msgstr "Üdvözli az Ark"
+msgstr "Kezdőlap"
 
 #: app/mainwindow.cpp:287
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "Kezdőlap megjelenítése"
 
 #: app/mainwindow.cpp:295
 #, kde-kuit-format
@@ -415,11 +406,14 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"Eztel válthat a <emphasis>Menüsáv</emphasis> és a <interface>Hamburgermenü</"
+"interface> gomb között. Mindkettő többnyire ugyanazokat a parancsokat és "
+"beállítási lehetőségeket tartalmazza."
 
 #: app/mainwindow.cpp:315
 #, kde-format
 msgid "Lock Sidebar"
-msgstr ""
+msgstr "Oldalsáv zárolása"
 
 #: app/mainwindow.cpp:371
 #, kde-format
@@ -433,99 +427,89 @@ msgid "Create New Archive"
 msgstr "Új archívum létrehozása"
 
 #: app/welcomeview/welcomeview.cpp:50
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome to %1"
-msgstr "Üdvözli az Ark"
+msgstr "Üdvözli a(z) %1"
 
 #: app/welcomeview/welcomeview.cpp:55
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "No recent files"
-msgstr "Nemrég használt mappák"
+msgstr "Nincsenek legutóbbi fájlok"
 
 #: app/welcomeview/welcomeview.cpp:143
 #, kde-format
 msgid "Copy &Location"
-msgstr ""
+msgstr "&Hely másolása"
 
 #: app/welcomeview/welcomeview.cpp:149
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Tartalmazó mappa megnyitása"
 
 #: app/welcomeview/welcomeview.cpp:156
 #, kde-format
 msgid "&Remove"
-msgstr ""
+msgstr "&Eltávolítás"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
-#, fuzzy, kde-format
-#| msgid "Welcome to Ark"
+#, kde-format
 msgid "Welcome"
-msgstr "Üdvözli az Ark"
+msgstr "Üdvözöljük"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive..."
+#, kde-format
 msgid "Open Archive..."
 msgstr "Archívum megnyitása…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "Archívum megnyitása"
+msgstr "Új archívum"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "Clear Recent Files"
-msgstr "Nemrég használt mappák"
+msgstr "Legutóbbi fájlok elfelejtése"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:222
-#, fuzzy, kde-format
-#| msgid "Recent folders"
+#, kde-format
 msgid "Recent Files"
-msgstr "Nemrég használt mappák"
+msgstr "Legutóbbi fájlok"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:263
-#, fuzzy, kde-format
-#| msgid "&Help"
+#, kde-format
 msgid "Help"
-msgstr "&Súgó"
+msgstr "Súgó"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:273
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "Honlap megnyitása"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:286
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "Kézikönyv elolvasása"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:345
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "Megjelenítés induláskor"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:400
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "Kezdőlap bezárása"
 
 #: kerfuffle/adddialog.cpp:32 kerfuffle/adddialog.cpp:70
 #, kde-format
@@ -564,11 +548,10 @@ msgstr ""
 "gz) és az <command>--autofilename</command> argumentumot."
 
 #: kerfuffle/addtoarchive.cpp:244
-#, fuzzy, kde-format
-#| msgid "Archive"
+#, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
-msgstr "Archiválás"
+msgstr "Archívum"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9
@@ -1060,11 +1043,9 @@ msgid "Archive"
 msgstr "Archiválás"
 
 #: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:579
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Error creating directory <filename>%1</filename>"
+#, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
-msgstr "Hiba történt a(z) <filename>%1</filename> mappa létrehozásakor"
+msgstr "Nincs szabad hely a(z) <filename>%1</filename> eszközön"
 
 #: kerfuffle/jobs.cpp:542
 #, kde-format
@@ -1389,15 +1370,13 @@ msgstr "Név"
 #, kde-format
 msgctxt "Uncompressed size of a file inside an archive"
 msgid "Original Size"
-msgstr ""
+msgstr "Eredeti méret"
 
 #: part/archivemodel.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "Compressed size of a file inside an archive"
-#| msgid "Compressed"
+#, kde-format
 msgctxt "Compressed size of a file inside an archive"
 msgid "Compressed Size"
-msgstr "Tömörített"
+msgstr "Tömörített méret"
 
 #: part/archivemodel.cpp:160
 #, kde-format
@@ -1624,7 +1603,7 @@ msgstr "Jellemzők"
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
@@ -1686,7 +1665,7 @@ msgstr "Másolat mentése másként…"
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr ""
+msgstr "&Megnyitás külső alkalmazásban"
 
 #: part/part.cpp:372
 #, kde-format
@@ -1754,11 +1733,10 @@ msgid "Click to add files to the archive"
 msgstr "Kattintson rá, ha fájlokat szeretne hozzáadni az archívumhoz"
 
 #: part/part.cpp:412
-#, fuzzy, kde-format
-#| msgid "Compress to Archive"
+#, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
-msgstr "Tömörítés"
+msgstr "Eltávolítás az archívumból"
 
 #: part/part.cpp:422
 #, kde-format
@@ -1974,13 +1952,13 @@ msgstr "Fájl módosítva"
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Frissítés"
 
 #: part/part.cpp:1097
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Kihagyás"
 
 #: part/part.cpp:1370
 #, kde-format
@@ -2078,46 +2056,41 @@ msgstr ""
 "hibás lehet."
 
 #: plugins/cli7zplugin/cliplugin.cpp:318
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delete operation failed. Try upgrading p7zip or disabling the p7zip "
-#| "plugin in the configuration dialog."
+#, kde-format
 msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
 "configuration dialog."
 msgstr ""
-"A törlési művelet meghiúsult. Próbálja meg frissíteni a p7zip-et vagy "
-"kikapcsolni a p7zip bővítményt a beállításoknál."
+"A törlési művelet meghiúsult. Próbálja meg frissíteni a 7z-tt vagy "
+"kikapcsolni a 7z bővítményt a beállításoknál."
 
 #: plugins/cliarjplugin/cliplugin.cpp:321
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ (régi)"
 
 #: plugins/cliarjplugin/cliplugin.cpp:322
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:323
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:324
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:325
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40 bit"
 
 #: plugins/cliarjplugin/cliplugin.cpp:327
-#, fuzzy, kde-format
-#| msgctxt "referred to compression method"
-#| msgid "unknown"
+#, kde-format
 msgid "unknown"
 msgstr "ismeretlen"
 
