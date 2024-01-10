@@ -73,6 +73,7 @@
         "Name[fr]": "Module externe « 7z »",
         "Name[gl]": "Complemento de 7z",
         "Name[he]": "תוסף 7z",
+        "Name[hu]": "7z bővítmény",
         "Name[ia]": "Plugin de 7z",
         "Name[id]": "Plugin 7z",
         "Name[ie]": "Plugin 7z",

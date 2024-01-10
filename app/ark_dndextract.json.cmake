@@ -20,6 +20,7 @@
         "Name[fr]": "Extraire ici avec Ark",
         "Name[gl]": "Extraer aquí con Ark",
         "Name[he]": "חילוץ עם Ark לכאן",
+        "Name[hu]": "Kibontás ide",
         "Name[ia]": "Ark Extrahe Hic",
         "Name[it]": "Ark estrai qui",
         "Name[ka]": "Ark აქ გაშლა",
