@@ -342,7 +342,7 @@
 >&Alt;<keycap
 >F2</keycap
 ></keycombo
->) permite cambiar los nombres de archivos y de carpetas. Como en el gestor de archivos Dolphin, esta acción se puede invocar usando un acceso rápido de teclado y el cambio de nombre se lleva a cabo mediante edición en línea. También se realiza una comprobación del nombre de los archivos para impedir el uso de caracteres no válidos, como <userinput
+>) permite cambiar los nombres de archivos y de carpetas. Como en el gestor de archivos Dolphin, esta acción se puede invocar usando un atajo de teclado y el cambio de nombre se lleva a cabo mediante edición en línea. También se realiza una comprobación del nombre de los archivos para impedir el uso de caracteres no válidos, como <userinput
 >/</userinput
 >, <userinput
 >.</userinput
