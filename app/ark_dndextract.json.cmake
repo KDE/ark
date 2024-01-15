@@ -25,6 +25,7 @@
         "Name[it]": "Ark estrai qui",
         "Name[ka]": "Ark აქ გაშლა",
         "Name[ko]": "Ark 여기에 압축 풀기",
+        "Name[lv]": "Ark izvilkt te",
         "Name[nl]": "Ark: hier uitpakken",
         "Name[nn]": "Pakk ut med Ark her",
         "Name[pl]": "Wypakuj tutaj",

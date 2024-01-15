@@ -195,6 +195,7 @@ Comment[ja]=ファイルアーカイブを操作
 Comment[ka]=იმუშავეთ ფაილის არქივებთან
 Comment[ko]=압축 파일로 작업하기
 Comment[lt]=Dirbti su failų archyvais
+Comment[lv]=Darbojieties ar arhīvu datnēm
 Comment[nl]=Mert bestandsarchieven werken
 Comment[nn]=Arbeid med filarkiv
 Comment[pa]=ਫਾਇਲ ਅਕਾਇਵਾਂ ਨਾਲ ਕੰਮ ਕਰੋ
