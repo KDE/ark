@@ -11,7 +11,7 @@
 # Fahad Al-Saidi <fahad.alsaidi@gmail.com>, 2007.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # Youness BOUTYOUR <niceboy@linuxac.org>, 2008.
-# zayed <zayed.alsaidi@gmail.com>, 2008.
+# SPDX-FileCopyrightText: 2008, 2024 zayed <zayed.alsaidi@gmail.com>
 # Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2010, 2021, 2022, 2023.
 # Abdalrahim G. Fakhouri <abdilra7eem@yahoo.com>, 2014.
 msgid ""
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-28 01:35+0000\n"
-"PO-Revision-Date: 2023-08-19 22:03+0400\n"
+"PO-Revision-Date: 2024-01-17 17:27+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -130,25 +130,22 @@ msgid "Here as \"%1\""
 msgstr "هنا كـ\"%1\""
 
 #: app/extractfileitemaction.cpp:66
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "الاستخراج"
+msgstr "استخرج إلى…"
 
 #: app/extractfileitemaction.cpp:78
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
-msgstr "استخراج هنا"
+msgstr "استخرج هنا"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "استخراج عدة أرشيفات"
+msgstr "استخراج هنا واحذف الأرشيف"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -1632,7 +1629,7 @@ msgstr "بعض المعلومات حول العمل"
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p٪"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
