@@ -12,7 +12,7 @@
 
 using namespace Kerfuffle;
 
-class KERFUFFLE_EXPORT CliPlugin : public Kerfuffle::CliInterface
+class CliPlugin : public Kerfuffle::CliInterface
 {
     Q_OBJECT
 

@@ -16,7 +16,7 @@ namespace Kerfuffle
 {
 enum PathFormat { NoTrailingSlash, WithTrailingSlash };
 
-class Archive::Entry : public QObject
+class KERFUFFLE_EXPORT Archive::Entry : public QObject
 {
     Q_OBJECT
 
