@@ -495,13 +495,16 @@ bool ReadWriteLibarchivePlugin::writeFile(const QString &relativeName, const QSt
     const QString absoluteFilename = QFileInfo(relativeName).absoluteFilePath();
     const QString destinationFilename = destination + relativeName;
 
+    struct stat st;
+#ifndef Q_OS_WIN
     // #253059: Even if we use archive_read_disk_entry_from_file,
     //          libarchive may have been compiled without HAVE_LSTAT,
     //          or something may have caused it to follow symlinks, in
     //          which case stat() will be called. To avoid this, we
     //          call lstat() ourselves.
-    struct stat st;
+
     lstat(QFile::encodeName(absoluteFilename).constData(), &st); // krazy:exclude=syscalls
+#endif
 
     struct archive_entry *entry = archive_entry_new();
     archive_entry_set_pathname(entry, QFile::encodeName(destinationFilename).constData());
