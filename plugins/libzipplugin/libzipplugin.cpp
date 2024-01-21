@@ -23,9 +23,9 @@
 #include <QThread>
 #include <qplatformdefs.h>
 
-#include <memory>
-#include <utime.h>
 #include <zlib.h>
+
+#include <memory>
 
 K_PLUGIN_CLASS_WITH_JSON(LibzipPlugin, "kerfuffle_libzip.json")
 
@@ -801,9 +801,13 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     // For top-level items, don't restore parent dir mtime.
     const bool restoreParentMtime = (parentDir + QDir::separator() != destDirCorrected);
 
-    time_t parent_mtime;
+    std::filesystem::file_time_type parent_mtime;
+    std::error_code error_code;
     if (restoreParentMtime) {
-        parent_mtime = QFileInfo(parentDir).lastModified().toMSecsSinceEpoch() / 1000;
+        parent_mtime = std::filesystem::last_write_time(QFileInfo(parentDir).filesystemAbsoluteFilePath(), error_code);
+        if (error_code) {
+            qCWarning(ARK) << "Failed to read parent modtime" << error_code.message();
+        }
     }
 
     // Create parent directories for files. For directories create them.
@@ -944,22 +948,29 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     }
 
     // Set mtime for entry (also access time otherwise it's "uninitilized")
-    utimbuf times;
-    times.actime = statBuffer.mtime;
-    times.modtime = statBuffer.mtime;
-    if (utime(destination.toUtf8().constData(), &times) != 0) {
-        qCWarning(ARK) << "Failed to restore mtime:" << destination;
+    const auto time = std::chrono::clock_cast<std::chrono::file_clock>(std::chrono::system_clock::from_time_t(statBuffer.mtime));
+    std::filesystem::last_write_time(QFileInfo(destination).filesystemAbsoluteFilePath(), time, error_code);
+    if (error_code) {
+        qCWarning(ARK) << "Failed to restore mtime:" << destination << error_code.message();
     }
+
+    Q_ASSERT([&] {
+        const auto mtime = QDateTime::fromSecsSinceEpoch(statBuffer.mtime);
+        const auto actualMtime = QFileInfo(destination).fileTime(QFile::FileModificationTime);
+        if (mtime != actualMtime) {
+            qDebug() << "Target mtime:" << mtime << "Actual mtime:" << actualMtime;
+            return false;
+        }
+        return true;
+    }());
 
     if (restoreParentMtime) {
         // Restore mtime for parent dir.
-        times.actime = parent_mtime;
-        times.modtime = parent_mtime;
-        if (utime(parentDir.toUtf8().constData(), &times) != 0) {
-            qCWarning(ARK) << "Failed to restore mtime for parent dir of:" << destination;
+        std::filesystem::last_write_time(QFileInfo(parentDir).filesystemAbsoluteFilePath(), parent_mtime, error_code);
+        if (error_code) {
+            qCWarning(ARK) << "Failed to restore mtime for parent dir of:" << destination << error_code.message();
         }
     }
-
     return true;
 }
 
