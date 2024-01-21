@@ -10,6 +10,7 @@
 #include "libarchiveplugin.h"
 #include "ark_debug.h"
 #include "queries.h"
+#include "windows_stat.h"
 
 #include <KLocalizedString>
 

@@ -20,7 +20,7 @@
 #include <QString>
 #include <QStringList>
 #include <QVariantList>
-#include <sys/stat.h>
+#include <qplatformdefs.h>
 
 namespace Kerfuffle
 {

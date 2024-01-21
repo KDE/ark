@@ -11,10 +11,10 @@
 #include "ark_debug.h"
 #include "jobs.h"
 #include "mimetypes.h"
+#include "windows_stat.h"
 
 #include <QDir>
 #include <QFileInfo>
-#include <qplatformdefs.h>
 
 namespace Kerfuffle
 {
@@ -160,9 +160,9 @@ qulonglong ReadOnlyArchiveInterface::unpackedSize() const
 QString ReadOnlyArchiveInterface::permissionsToString(mode_t perm)
 {
     QString modeval;
-    if ((perm & S_IFMT) == S_IFDIR) {
+    if ((perm & S_IFMT) == QT_STAT_DIR) {
         modeval.append(QLatin1Char('d'));
-    } else if ((perm & S_IFMT) == S_IFLNK) {
+    } else if ((perm & S_IFMT) == QT_STAT_LNK) {
         modeval.append(QLatin1Char('l'));
     } else {
         modeval.append(QLatin1Char('-'));
