@@ -46,10 +46,13 @@ find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS Config
                                                         KIO
                                                         Service
                                                         Parts
-                                                        Pty
                                                         WidgetsAddons
                                                         WindowSystem
                                                         IconThemes)
+
+if (NOT WIN32)
+    find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS Pty)
+endif()
 
 find_package(Qt6Test ${QT_MIN_VERSION} CONFIG QUIET)
 set_package_properties(Qt6Test PROPERTIES

@@ -14,7 +14,10 @@
 
 #include <KLocalizedString>
 #include <KPluginFactory>
+
+#ifndef Q_OS_WIN
 #include <KPtyProcess>
+#endif
 
 using namespace Kerfuffle;
 

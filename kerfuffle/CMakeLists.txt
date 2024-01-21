@@ -59,10 +59,10 @@ endif()
 
 target_link_libraries(kerfuffle
 PUBLIC
-    KF6::Pty
     KF6::FileMetaData
     KF6::I18n
     KF6::WidgetsAddons
+    KF6::CoreAddons
 PRIVATE
     Qt6::Concurrent
     KF6::ConfigCore
@@ -71,6 +71,13 @@ PRIVATE
     KF6::KIOWidgets
     KF6::KIOFileWidgets
 )
+
+if (NOT WIN32)
+    target_link_libraries(kerfuffle
+    PUBLIC
+        KF6::Pty
+    )
+endif()
 
 set_target_properties(kerfuffle PROPERTIES VERSION ${KERFUFFLE_VERSION} SOVERSION ${KERFUFFLE_SOVERSION})
 
