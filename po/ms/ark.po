@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mimos\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-28 01:35+0000\n"
+"POT-Creation-Date: 2024-01-22 00:39+0000\n"
 "PO-Revision-Date: 2005-11-17 12:03+0800\n"
 "Last-Translator: MIMOS <opensource@mimos.my>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -2076,7 +2076,7 @@ msgid ""
 msgstr "Arkib sudah wujud. Anda ingin menulisgantinya?"
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:84
+#: plugins/cliunarchiverplugin/cliplugin.cpp:87
 #, fuzzy, kde-format
 #| msgid "Opening the archive..."
 msgid "Listing the archive failed."
@@ -2158,19 +2158,19 @@ msgstr ""
 msgid "One or more wrong checksums"
 msgstr ""
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:96
+#: plugins/cliunarchiverplugin/cliplugin.cpp:99
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extraction failed."
 msgstr "Mengekstrak..."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:133
 #, fuzzy, kde-format
 #| msgid "Not enough free disc space to extract the archive."
 msgid "Not enough memory for loading the archive."
 msgstr "Tidak cukup ruang cakera yang belum diguna untuk mengekstrak arkib."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:181
+#: plugins/cliunarchiverplugin/cliplugin.cpp:184
 #, kde-format
 msgid "Wrong password."
 msgstr ""
@@ -2191,19 +2191,19 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:461
+#: plugins/libarchive/libarchiveplugin.cpp:462
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:494
+#: plugins/libarchive/libarchiveplugin.cpp:495
 #, fuzzy, kde-format
 #| msgid "The archive %1 does not exist."
 msgid "The archive reader could not be initialized."
 msgstr "Arkib %1 tidak wujud."
 
-#: plugins/libarchive/libarchiveplugin.cpp:516
+#: plugins/libarchive/libarchiveplugin.cpp:517
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
@@ -2255,7 +2255,7 @@ msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr ""
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:521
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:524
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info Error in a message box"

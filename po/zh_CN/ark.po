@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-28 01:35+0000\n"
-"PO-Revision-Date: 2024-01-13 06:00\n"
+"POT-Creation-Date: 2024-01-22 00:39+0000\n"
+"PO-Revision-Date: 2024-01-21 14:12\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -1970,7 +1970,7 @@ msgid ""
 msgstr "压缩文件 <filename>%1</filename> 已不存在，无法将其复制到指定位置。"
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:84
+#: plugins/cliunarchiverplugin/cliplugin.cpp:87
 #, kde-format
 msgid "Listing the archive failed."
 msgstr "压缩文件内容列出失败。"
@@ -2056,17 +2056,17 @@ msgstr ""
 msgid "One or more wrong checksums"
 msgstr "校验和错误"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:96
+#: plugins/cliunarchiverplugin/cliplugin.cpp:99
 #, kde-format
 msgid "Extraction failed."
 msgstr "解压失败。"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:133
 #, kde-format
 msgid "Not enough memory for loading the archive."
 msgstr "内存不足，无法加载该压缩文件。"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:181
+#: plugins/cliunarchiverplugin/cliplugin.cpp:184
 #, kde-format
 msgid "Wrong password."
 msgstr "密码错误。"
@@ -2087,18 +2087,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "未知"
 
-#: plugins/libarchive/libarchiveplugin.cpp:461
+#: plugins/libarchive/libarchiveplugin.cpp:462
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "发生严重错误，解压操作已中止。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:494
+#: plugins/libarchive/libarchiveplugin.cpp:495
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "压缩文件读取程序无法初始化。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:516
+#: plugins/libarchive/libarchiveplugin.cpp:517
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
@@ -2145,7 +2145,7 @@ msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr "无法压缩项目，操作已中止。"
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:521
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:524
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark 2.60\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-28 01:35+0000\n"
+"POT-Creation-Date: 2024-01-22 00:39+0000\n"
 "PO-Revision-Date: 2006-01-13 09:15+0800\n"
 "Last-Translator: Woodman Tuen <wmtuen@gmail.com>\n"
 "Language-Team: Chinese (Hong Kong) <community@linuxhall.org>\n"
@@ -2089,7 +2089,7 @@ msgid ""
 msgstr "你必須輸入密碼才能解開檔案："
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:84
+#: plugins/cliunarchiverplugin/cliplugin.cpp:87
 #, fuzzy, kde-format
 #| msgid "Opening the archive..."
 msgid "Listing the archive failed."
@@ -2171,19 +2171,19 @@ msgstr ""
 msgid "One or more wrong checksums"
 msgstr ""
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:96
+#: plugins/cliunarchiverplugin/cliplugin.cpp:99
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extraction failed."
 msgstr "解壓中..."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:133
 #, fuzzy, kde-format
 #| msgid "Not enough free disc space to extract the archive."
 msgid "Not enough memory for loading the archive."
 msgstr "沒有足夠的磁碟空間來解開壓縮檔。"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:181
+#: plugins/cliunarchiverplugin/cliplugin.cpp:184
 #, kde-format
 msgid "Wrong password."
 msgstr ""
@@ -2204,19 +2204,19 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:461
+#: plugins/libarchive/libarchiveplugin.cpp:462
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:494
+#: plugins/libarchive/libarchiveplugin.cpp:495
 #, fuzzy, kde-format
 #| msgid "The archive %1 does not exist."
 msgid "The archive reader could not be initialized."
 msgstr "壓縮檔 %1 不存在。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:516
+#: plugins/libarchive/libarchiveplugin.cpp:517
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
@@ -2268,7 +2268,7 @@ msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr ""
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:521
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:524
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgctxt "@info Error in a message box"

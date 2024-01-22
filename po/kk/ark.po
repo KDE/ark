@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-28 01:35+0000\n"
+"POT-Creation-Date: 2024-01-22 00:39+0000\n"
 "PO-Revision-Date: 2012-08-03 07:39+0600\n"
 "Last-Translator: Sairan Kikkarin\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -2174,7 +2174,7 @@ msgstr ""
 "жоқ."
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:84
+#: plugins/cliunarchiverplugin/cliplugin.cpp:87
 #, fuzzy, kde-format
 #| msgid "Opening the archive..."
 msgid "Listing the archive failed."
@@ -2257,19 +2257,19 @@ msgstr ""
 msgid "One or more wrong checksums"
 msgstr ""
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:96
+#: plugins/cliunarchiverplugin/cliplugin.cpp:99
 #, fuzzy, kde-format
 #| msgid "Extracting file..."
 msgid "Extraction failed."
 msgstr "Файлды тарқату..."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:133
 #, fuzzy, kde-format
 #| msgid "Not enough free disc space to extract the archive."
 msgid "Not enough memory for loading the archive."
 msgstr "Архивті тарқату үшін дискіде бос орын жетпейді."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:181
+#: plugins/cliunarchiverplugin/cliplugin.cpp:184
 #, fuzzy, kde-format
 #| msgid "Incorrect password."
 msgid "Wrong password."
@@ -2294,18 +2294,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "Көлемі беймәлім"
 
-#: plugins/libarchive/libarchiveplugin.cpp:461
+#: plugins/libarchive/libarchiveplugin.cpp:462
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:494
+#: plugins/libarchive/libarchiveplugin.cpp:495
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Архивті оқитын бағдарламасы бастайтын күйіне келтірілмеді."
 
-#: plugins/libarchive/libarchiveplugin.cpp:516
+#: plugins/libarchive/libarchiveplugin.cpp:517
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
@@ -2358,7 +2358,7 @@ msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr ""
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:521
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:524
 #, fuzzy, kde-format
 #| msgid "Could not create the folder %1"
 msgctxt "@info Error in a message box"

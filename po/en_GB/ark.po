@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-28 01:35+0000\n"
+"POT-Creation-Date: 2024-01-22 00:39+0000\n"
 "PO-Revision-Date: 2023-05-06 15:43+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -2043,7 +2043,7 @@ msgstr ""
 "cannot be copied to the specified location."
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:84
+#: plugins/cliunarchiverplugin/cliplugin.cpp:87
 #, kde-format
 msgid "Listing the archive failed."
 msgstr "Listing the archive failed."
@@ -2131,17 +2131,17 @@ msgstr ""
 msgid "One or more wrong checksums"
 msgstr "One or more wrong checksums"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:96
+#: plugins/cliunarchiverplugin/cliplugin.cpp:99
 #, kde-format
 msgid "Extraction failed."
 msgstr "Extraction failed."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:130
+#: plugins/cliunarchiverplugin/cliplugin.cpp:133
 #, kde-format
 msgid "Not enough memory for loading the archive."
 msgstr "Not enough memory for loading the archive."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:181
+#: plugins/cliunarchiverplugin/cliplugin.cpp:184
 #, kde-format
 msgid "Wrong password."
 msgstr "Wrong password."
@@ -2162,18 +2162,18 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "unknown"
 
-#: plugins/libarchive/libarchiveplugin.cpp:461
+#: plugins/libarchive/libarchiveplugin.cpp:462
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Fatal error, extraction aborted."
 
-#: plugins/libarchive/libarchiveplugin.cpp:494
+#: plugins/libarchive/libarchiveplugin.cpp:495
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "The archive reader could not be initialised."
 
-#: plugins/libarchive/libarchiveplugin.cpp:516
+#: plugins/libarchive/libarchiveplugin.cpp:517
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
@@ -2220,7 +2220,7 @@ msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr "Could not compress entry, operation aborted."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:521
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:524
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
