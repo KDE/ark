@@ -40,6 +40,8 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
     setWindowTitle(i18nc("@title:window", "Extract"));
 
     QHBoxLayout *hlayout = new QHBoxLayout();
+    hlayout->setContentsMargins({});
+    hlayout->setSpacing(0);
     setLayout(hlayout);
 
     fileWidget = new KFileWidget(QUrl::fromLocalFile(QDir::homePath()), this);
@@ -57,6 +59,11 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 
     fileWidget->cancelButton()->show();
     connect(fileWidget->cancelButton(), &QPushButton::clicked, this, &QDialog::reject);
+
+    auto horizontalSeparator = new QFrame(this);
+    horizontalSeparator->setFrameStyle(QFrame::VLine);
+    horizontalSeparator->setMaximumWidth(1);
+    hlayout->addWidget(horizontalSeparator);
 
     m_ui = new ExtractionDialogUI(this);
     hlayout->addWidget(m_ui);
