@@ -200,10 +200,13 @@ void ExtractionDialog::setShowSelectedFiles(bool value)
 {
     if (value) {
         m_ui->filesToExtractGroupBox->show();
+        m_ui->gridLayout->removeItem(m_ui->gridLayoutVerticalSpacer);
+        delete m_ui->gridLayoutVerticalSpacer;
         m_ui->selectedFilesButton->setChecked(true);
         m_ui->extractAllLabel->hide();
     } else {
         m_ui->filesToExtractGroupBox->hide();
+        m_ui->gridLayout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding), 6, 0);
         m_ui->selectedFilesButton->setChecked(false);
         m_ui->extractAllLabel->show();
     }
