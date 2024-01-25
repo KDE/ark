@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-28 01:35+0000\n"
+"POT-Creation-Date: 2024-01-25 02:23+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -938,21 +938,21 @@ msgid "&Automatically create subfolders"
 msgstr "تارماق مۇندەرىجىلەرنى ئاپتوماتىك قۇرسۇن(&A)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
-#: kerfuffle/extractiondialog.ui:169
+#: kerfuffle/extractiondialog.ui:182
 #, kde-format
 msgctxt "@title:group"
 msgid "Extract"
 msgstr "ئايرىش"
 
 #. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
-#: kerfuffle/extractiondialog.ui:187
+#: kerfuffle/extractiondialog.ui:200
 #, fuzzy, kde-format
 #| msgid "&Selected files only"
 msgid "Sele&cted files only"
 msgstr "تاللانغان ھۆججەتنىلا(&S)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
-#: kerfuffle/extractiondialog.ui:203
+#: kerfuffle/extractiondialog.ui:216
 #, kde-format
 msgid "All &files"
 msgstr "ھەممە ھۆججەتلەرنى(&F)"

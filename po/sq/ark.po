@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-28 01:35+0000\n"
+"POT-Creation-Date: 2024-01-25 02:23+0000\n"
 "PO-Revision-Date: 2023-04-09 02:50-0400\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -929,21 +929,21 @@ msgid "&Automatically create subfolders"
 msgstr "&Automatikisht krijo nënfoldera"
 
 #. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
-#: kerfuffle/extractiondialog.ui:169
+#: kerfuffle/extractiondialog.ui:182
 #, kde-format
 msgctxt "@title:group"
 msgid "Extract"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
-#: kerfuffle/extractiondialog.ui:187
+#: kerfuffle/extractiondialog.ui:200
 #, fuzzy, kde-format
 #| msgid "&Selected files only"
 msgid "Sele&cted files only"
 msgstr "&Vetëm skedarët e përzgjedhur"
 
 #. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
-#: kerfuffle/extractiondialog.ui:203
+#: kerfuffle/extractiondialog.ui:216
 #, kde-format
 msgid "All &files"
 msgstr "Të gjithë &skedarët"
