@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-22 00:39+0000\n"
+"POT-Creation-Date: 2024-01-25 00:38+0000\n"
 "PO-Revision-Date: 2022-08-08 17:47+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -837,17 +837,17 @@ msgctxt "@title:window"
 msgid "Extract"
 msgstr "Pak ud"
 
-#: kerfuffle/extractiondialog.cpp:54
+#: kerfuffle/extractiondialog.cpp:56
 #, kde-format
 msgid "Extract"
 msgstr "Pak ud"
 
-#: kerfuffle/extractiondialog.cpp:96
+#: kerfuffle/extractiondialog.cpp:103
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "Undermappens navn må ikke indeholde \"/\"."
 
-#: kerfuffle/extractiondialog.cpp:107
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -856,39 +856,39 @@ msgid ""
 msgstr ""
 "Mappen <filename>%1</filename> findes allerede. Vil du virkelig pakke ud her?"
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:115
 #, kde-format
 msgid "Folder exists"
 msgstr "Mappen findes"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:116
 #, kde-format
 msgid "Extract here"
 msgstr "Pak ud her"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:117
 #, kde-format
 msgid "Retry"
 msgstr "Prøv igen"
 
-#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#: kerfuffle/extractiondialog.cpp:127 kerfuffle/extractiondialog.cpp:133
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Mappen <filename>%1</filename> kunne ikke oprettes."
 
-#: kerfuffle/extractiondialog.cpp:121
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> findes allerede, men er ikke en mappe."
 
-#: kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:134
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Kontrollér dine rettigheder til at oprette den."
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:172
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Udpak flere arkiver"
@@ -912,50 +912,50 @@ msgid "E&xtraction into subfolder:"
 msgstr "&Udpakning til undermappe:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kerfuffle/extractiondialog.ui:113
+#: kerfuffle/extractiondialog.ui:116
 #, kde-format
 msgid "Options"
 msgstr "Indstillinger"
 
 #. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
-#: kerfuffle/extractiondialog.ui:132
+#: kerfuffle/extractiondialog.ui:125
 #, kde-format
 msgid "Open &destination folder after extraction"
 msgstr "Åbn &destinationsmappen efter udpakning"
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
-#: kerfuffle/extractiondialog.ui:139
+#: kerfuffle/extractiondialog.ui:132
 #, kde-format
 msgid "Close &Ark after extraction"
 msgstr "Luk &Ark efter udpakning"
 
 #. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
-#: kerfuffle/extractiondialog.ui:146
+#: kerfuffle/extractiondialog.ui:139
 #, kde-format
 msgid "&Preserve paths when extracting"
 msgstr "&Bevar stier ved udpakning"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
-#: kerfuffle/extractiondialog.ui:153
+#: kerfuffle/extractiondialog.ui:146
 #, kde-format
 msgid "&Automatically create subfolders"
 msgstr "Opret undermapper &automatisk"
 
 #. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
-#: kerfuffle/extractiondialog.ui:169
+#: kerfuffle/extractiondialog.ui:175
 #, kde-format
 msgctxt "@title:group"
 msgid "Extract"
 msgstr "Pak ud"
 
 #. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
-#: kerfuffle/extractiondialog.ui:187
+#: kerfuffle/extractiondialog.ui:193
 #, kde-format
 msgid "Sele&cted files only"
 msgstr "Kun &markerede filer"
 
 #. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
-#: kerfuffle/extractiondialog.ui:203
+#: kerfuffle/extractiondialog.ui:209
 #, kde-format
 msgid "All &files"
 msgstr "Alle &filer"
@@ -1138,14 +1138,14 @@ msgstr ""
 
 #. i18n: @title:column
 #. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
-#: kerfuffle/pluginsettingspage.ui:24
+#: kerfuffle/pluginsettingspage.ui:36
 #, kde-format
 msgid "Name"
 msgstr "Navn"
 
 #. i18n: @title:column
 #. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
-#: kerfuffle/pluginsettingspage.ui:29
+#: kerfuffle/pluginsettingspage.ui:41
 #, kde-format
 msgid "Description"
 msgstr "Beskrivelse"

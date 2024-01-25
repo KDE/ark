@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-22 00:39+0000\n"
+"POT-Creation-Date: 2024-01-25 00:38+0000\n"
 "PO-Revision-Date: 2024-01-21 14:12\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -800,17 +800,17 @@ msgctxt "@title:window"
 msgid "Extract"
 msgstr "解压"
 
-#: kerfuffle/extractiondialog.cpp:54
+#: kerfuffle/extractiondialog.cpp:56
 #, kde-format
 msgid "Extract"
 msgstr "解压"
 
-#: kerfuffle/extractiondialog.cpp:96
+#: kerfuffle/extractiondialog.cpp:103
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "子目录名称不能包含“/”字符。"
 
-#: kerfuffle/extractiondialog.cpp:107
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -818,39 +818,39 @@ msgid ""
 "extract here?"
 msgstr "文件夹 <filename>%1</filename> 已经存在。您确定要解压到这里吗？"
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:115
 #, kde-format
 msgid "Folder exists"
 msgstr "文件夹已存在"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:116
 #, kde-format
 msgid "Extract here"
 msgstr "解压到此文件夹"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:117
 #, kde-format
 msgid "Retry"
 msgstr "重试"
 
-#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#: kerfuffle/extractiondialog.cpp:127 kerfuffle/extractiondialog.cpp:133
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "无法创建 <filename>%1</filename> 文件夹。"
 
-#: kerfuffle/extractiondialog.cpp:121
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> 已存在，但它并不是文件夹。"
 
-#: kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:134
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "请检查您是否具备创建该文件的权限。"
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:172
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "解压多个压缩文件"
@@ -874,50 +874,50 @@ msgid "E&xtraction into subfolder:"
 msgstr "解压到子文件夹(&X)："
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kerfuffle/extractiondialog.ui:113
+#: kerfuffle/extractiondialog.ui:116
 #, kde-format
 msgid "Options"
 msgstr "选项"
 
 #. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
-#: kerfuffle/extractiondialog.ui:132
+#: kerfuffle/extractiondialog.ui:125
 #, kde-format
 msgid "Open &destination folder after extraction"
 msgstr "解压后打开目标文件夹(&D)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
-#: kerfuffle/extractiondialog.ui:139
+#: kerfuffle/extractiondialog.ui:132
 #, kde-format
 msgid "Close &Ark after extraction"
 msgstr "解压后关闭 &Ark"
 
 #. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
-#: kerfuffle/extractiondialog.ui:146
+#: kerfuffle/extractiondialog.ui:139
 #, kde-format
 msgid "&Preserve paths when extracting"
 msgstr "解压时保留路径(&P)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
-#: kerfuffle/extractiondialog.ui:153
+#: kerfuffle/extractiondialog.ui:146
 #, kde-format
 msgid "&Automatically create subfolders"
 msgstr "自动创建子文件夹(&A)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
-#: kerfuffle/extractiondialog.ui:169
+#: kerfuffle/extractiondialog.ui:175
 #, kde-format
 msgctxt "@title:group"
 msgid "Extract"
 msgstr "解压"
 
 #. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
-#: kerfuffle/extractiondialog.ui:187
+#: kerfuffle/extractiondialog.ui:193
 #, kde-format
 msgid "Sele&cted files only"
 msgstr "仅选中的文件(&C)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
-#: kerfuffle/extractiondialog.ui:203
+#: kerfuffle/extractiondialog.ui:209
 #, kde-format
 msgid "All &files"
 msgstr "所有文件(&F)"
@@ -1086,14 +1086,14 @@ msgstr ""
 
 #. i18n: @title:column
 #. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
-#: kerfuffle/pluginsettingspage.ui:24
+#: kerfuffle/pluginsettingspage.ui:36
 #, kde-format
 msgid "Name"
 msgstr "名称"
 
 #. i18n: @title:column
 #. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
-#: kerfuffle/pluginsettingspage.ui:29
+#: kerfuffle/pluginsettingspage.ui:41
 #, kde-format
 msgid "Description"
 msgstr "描述"

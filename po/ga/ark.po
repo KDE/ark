@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-22 00:39+0000\n"
+"POT-Creation-Date: 2024-01-25 00:38+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -883,19 +883,19 @@ msgctxt "@title:window"
 msgid "Extract"
 msgstr "Bain Amach"
 
-#: kerfuffle/extractiondialog.cpp:54
+#: kerfuffle/extractiondialog.cpp:56
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Extract"
 msgid "Extract"
 msgstr "Bain Amach"
 
-#: kerfuffle/extractiondialog.cpp:96
+#: kerfuffle/extractiondialog.cpp:103
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "Ní cheadaítear an carachtar '/' in ainm an fhofhillteáin."
 
-#: kerfuffle/extractiondialog.cpp:107
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -905,39 +905,39 @@ msgstr ""
 "Tá fillteán <filename>%1</filename> ann cheana. An bhfuil tú cinnte gur mian "
 "leat baint amach anseo?"
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:115
 #, kde-format
 msgid "Folder exists"
 msgstr "Tá an fillteán ann cheana"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:116
 #, kde-format
 msgid "Extract here"
 msgstr "Bain amach anseo"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:117
 #, kde-format
 msgid "Retry"
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#: kerfuffle/extractiondialog.cpp:127 kerfuffle/extractiondialog.cpp:133
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Níorbh fhéidir fillteán <filename>%1</filename> a chruthú."
 
-#: kerfuffle/extractiondialog.cpp:121
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "Tá <filename>%1</filename> ann cheana, ach ní fillteán é."
 
-#: kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:134
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Dearbhaigh go bhfuil cead agat é a chruthú."
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:172
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Bain cartlanna éagsúla amach"
@@ -962,51 +962,51 @@ msgid "E&xtraction into subfolder:"
 msgstr "&Baint amach i bhfofhillteán:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kerfuffle/extractiondialog.ui:113
+#: kerfuffle/extractiondialog.ui:116
 #, kde-format
 msgid "Options"
 msgstr "Roghanna"
 
 #. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
-#: kerfuffle/extractiondialog.ui:132
+#: kerfuffle/extractiondialog.ui:125
 #, kde-format
 msgid "Open &destination folder after extraction"
 msgstr "Oscail an &spriocfhillteán tar éis gach rud a bhaint amach"
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
-#: kerfuffle/extractiondialog.ui:139
+#: kerfuffle/extractiondialog.ui:132
 #, kde-format
 msgid "Close &Ark after extraction"
 msgstr "Dún &Ark tar éis bainte amach"
 
 #. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
-#: kerfuffle/extractiondialog.ui:146
+#: kerfuffle/extractiondialog.ui:139
 #, kde-format
 msgid "&Preserve paths when extracting"
 msgstr "&Caomhnaigh conairí le linn bainte amach"
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
-#: kerfuffle/extractiondialog.ui:153
+#: kerfuffle/extractiondialog.ui:146
 #, kde-format
 msgid "&Automatically create subfolders"
 msgstr "Cruth&aigh fofhillteáin go huathoibríoch"
 
 #. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
-#: kerfuffle/extractiondialog.ui:169
+#: kerfuffle/extractiondialog.ui:175
 #, kde-format
 msgctxt "@title:group"
 msgid "Extract"
 msgstr "Bain Amach"
 
 #. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
-#: kerfuffle/extractiondialog.ui:187
+#: kerfuffle/extractiondialog.ui:193
 #, fuzzy, kde-format
 #| msgid "&Selected files only"
 msgid "Sele&cted files only"
 msgstr "Comhaid &roghnaithe amháin"
 
 #. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
-#: kerfuffle/extractiondialog.ui:203
+#: kerfuffle/extractiondialog.ui:209
 #, kde-format
 msgid "All &files"
 msgstr "&Gach comhad"
@@ -1221,7 +1221,7 @@ msgstr ""
 
 #. i18n: @title:column
 #. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
-#: kerfuffle/pluginsettingspage.ui:24
+#: kerfuffle/pluginsettingspage.ui:36
 #, fuzzy, kde-format
 #| msgctxt "Name of a file inside an archive"
 #| msgid "Name"
@@ -1230,7 +1230,7 @@ msgstr "Ainm"
 
 #. i18n: @title:column
 #. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
-#: kerfuffle/pluginsettingspage.ui:29
+#: kerfuffle/pluginsettingspage.ui:41
 #, fuzzy, kde-format
 #| msgid "Destination"
 msgid "Description"

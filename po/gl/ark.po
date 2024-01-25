@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-22 00:39+0000\n"
+"POT-Creation-Date: 2024-01-25 00:38+0000\n"
 "PO-Revision-Date: 2023-12-03 09:55+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -824,17 +824,17 @@ msgctxt "@title:window"
 msgid "Extract"
 msgstr "Extraer"
 
-#: kerfuffle/extractiondialog.cpp:54
+#: kerfuffle/extractiondialog.cpp:56
 #, kde-format
 msgid "Extract"
 msgstr "Extraer"
 
-#: kerfuffle/extractiondialog.cpp:96
+#: kerfuffle/extractiondialog.cpp:103
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "O nome do subcartafol non pode conter o carácter «/»."
 
-#: kerfuffle/extractiondialog.cpp:107
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -843,39 +843,39 @@ msgid ""
 msgstr ""
 "Xa existe o cartafol <filename>%1</filename>. Seguro que quere extraer aquí?"
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:115
 #, kde-format
 msgid "Folder exists"
 msgstr "Existe o cartafol"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:116
 #, kde-format
 msgid "Extract here"
 msgstr "Extraer aquí"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:117
 #, kde-format
 msgid "Retry"
 msgstr "Volvelo intentar"
 
-#: kerfuffle/extractiondialog.cpp:120 kerfuffle/extractiondialog.cpp:126
+#: kerfuffle/extractiondialog.cpp:127 kerfuffle/extractiondialog.cpp:133
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Non foi posíbel crear o cartafol <filename>%1</filename>."
 
-#: kerfuffle/extractiondialog.cpp:121
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "Xa existe <filename>%1</filename>, pero non se trata dun cartafol."
 
-#: kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:134
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Comprobe que ten os permisos necesarios para crealo."
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:172
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Extraer varios arquivos"
@@ -899,50 +899,50 @@ msgid "E&xtraction into subfolder:"
 msgstr "E&xtracción nun subcartafol:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kerfuffle/extractiondialog.ui:113
+#: kerfuffle/extractiondialog.ui:116
 #, kde-format
 msgid "Options"
 msgstr "Opcións"
 
 #. i18n: ectx: property (text), widget (QCheckBox, openFolderCheckBox)
-#: kerfuffle/extractiondialog.ui:132
+#: kerfuffle/extractiondialog.ui:125
 #, kde-format
 msgid "Open &destination folder after extraction"
 msgstr "Abrir o cartafol de &destino despois da extracción."
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
-#: kerfuffle/extractiondialog.ui:139
+#: kerfuffle/extractiondialog.ui:132
 #, kde-format
 msgid "Close &Ark after extraction"
 msgstr "Pechar &Ark ao rematar a extracción."
 
 #. i18n: ectx: property (text), widget (QCheckBox, preservePaths)
-#: kerfuffle/extractiondialog.ui:146
+#: kerfuffle/extractiondialog.ui:139
 #, kde-format
 msgid "&Preserve paths when extracting"
 msgstr "&Conservar as rutas ao extraer."
 
 #. i18n: ectx: property (text), widget (QCheckBox, autoSubfolders)
-#: kerfuffle/extractiondialog.ui:153
+#: kerfuffle/extractiondialog.ui:146
 #, kde-format
 msgid "&Automatically create subfolders"
 msgstr "&Crear os subcartafoles automaticamente."
 
 #. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
-#: kerfuffle/extractiondialog.ui:169
+#: kerfuffle/extractiondialog.ui:175
 #, kde-format
 msgctxt "@title:group"
 msgid "Extract"
 msgstr "Extraer"
 
 #. i18n: ectx: property (text), widget (QRadioButton, selectedFilesButton)
-#: kerfuffle/extractiondialog.ui:187
+#: kerfuffle/extractiondialog.ui:193
 #, kde-format
 msgid "Sele&cted files only"
 msgstr "Só os ficheiros sele&ccionados."
 
 #. i18n: ectx: property (text), widget (QRadioButton, allFilesButton)
-#: kerfuffle/extractiondialog.ui:203
+#: kerfuffle/extractiondialog.ui:209
 #, kde-format
 msgid "All &files"
 msgstr "&Todos os ficheiros."
@@ -1128,14 +1128,14 @@ msgstr ""
 
 #. i18n: @title:column
 #. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
-#: kerfuffle/pluginsettingspage.ui:24
+#: kerfuffle/pluginsettingspage.ui:36
 #, kde-format
 msgid "Name"
 msgstr "Nome"
 
 #. i18n: @title:column
 #. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
-#: kerfuffle/pluginsettingspage.ui:29
+#: kerfuffle/pluginsettingspage.ui:41
 #, kde-format
 msgid "Description"
 msgstr "Descrición"
