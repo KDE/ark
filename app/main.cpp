@@ -26,6 +26,10 @@
 
 #include <iostream>
 
+#ifdef WITH_BREEZEICONS_LIB
+#include <BreezeIcons>
+#endif
+
 using Kerfuffle::AddToArchive;
 
 class OpenFileEventHandler : public QObject
@@ -60,6 +64,9 @@ int main(int argc, char **argv)
     QApplication application(argc, argv);
 
     KCrash::initialize();
+#ifdef WITH_BREEZEICONS_LIB
+    BreezeIcons::initIcons();
+#endif
 
     // Debug output can be turned on here:
     // QLoggingCategory::setFilterRules(QStringLiteral("ark.debug = true"));

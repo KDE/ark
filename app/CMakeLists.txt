@@ -1,3 +1,5 @@
+find_package(KF6BreezeIcons ${KF_DEP_VERSION} QUIET)
+
 add_subdirectory(icons)
 add_subdirectory(kconf_update)
 
@@ -37,6 +39,13 @@ target_link_libraries(ark
     KF6::Parts
     KF6::WindowSystem
     KF6::IconThemes)
+
+if(TARGET KF6::BreezeIcons)
+    target_link_libraries(ark
+            KF6::BreezeIcons
+    )
+    target_compile_definitions(ark PRIVATE WITH_BREEZEICONS_LIB)
+endif ()
 
 # we provide our own Info.plist containing a simple "we open anything" instruction.
 if(APPLE)
