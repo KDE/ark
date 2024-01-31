@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-25 00:38+0000\n"
-"PO-Revision-Date: 2023-08-28 19:41+0300\n"
+"PO-Revision-Date: 2023-12-27 11:52+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -139,25 +139,22 @@ msgid "Here as \"%1\""
 msgstr "Tähän nimellä ”%1”"
 
 #: app/extractfileitemaction.cpp:66
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "Pura"
+msgstr "Pura kohteeseen…"
 
 #: app/extractfileitemaction.cpp:78
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Pura tähän"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "Pura useampia arkistoja"
+msgstr "Pura tähän ja poista arkisto"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -1618,7 +1615,7 @@ msgstr "Tietoa tehtävästä"
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p %"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
