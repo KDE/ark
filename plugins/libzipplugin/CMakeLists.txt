@@ -1,5 +1,8 @@
 set(INSTALLED_LIBZIP_PLUGINS "")
 
+# not yet supported on freebsd
+try_compile(HAVE_CHRONO_CAST SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/.test_chrono_cast.cpp)
+
 set(kerfuffle_libzip_SRCS libzipplugin.cpp ark_debug.cpp)
 
 ecm_qt_declare_logging_category(kerfuffle_libzip_SRCS
@@ -27,6 +30,12 @@ kerfuffle_parse_json_mimetypes(${CMAKE_CURRENT_BINARY_DIR}/kerfuffle_libzip.json
 set(SUPPORTED_ARK_MIMETYPES "${SUPPORTED_ARK_MIMETYPES}${PLUGIN_SUPPORTED_MIMETYPES}" PARENT_SCOPE)
 
 kerfuffle_add_plugin(kerfuffle_libzip ${kerfuffle_libzip_SRCS})
+
+if (HAVE_CHRONO_CAST)
+    target_compile_definitions(kerfuffle_libzip PRIVATE HAVE_CHRONO_CAST=1)
+else()
+    target_compile_definitions(kerfuffle_libzip PRIVATE HAVE_CHRONO_CAST=0)
+endif()
 
 target_link_libraries(kerfuffle_libzip KF6::KIOCore LibZip::LibZip ZLIB::ZLIB)
 

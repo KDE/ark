@@ -27,6 +27,10 @@
 
 #include <memory>
 
+#if !HAVE_CHRONO_CAST
+#include <utime.h>
+#endif
+
 K_PLUGIN_CLASS_WITH_JSON(LibzipPlugin, "kerfuffle_libzip.json")
 
 template<auto fn>
@@ -948,11 +952,20 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     }
 
     // Set mtime for entry (also access time otherwise it's "uninitilized")
+#if HAVE_CHRONO_CAST
     const auto time = std::chrono::clock_cast<std::chrono::file_clock>(std::chrono::system_clock::from_time_t(statBuffer.mtime));
     std::filesystem::last_write_time(QFileInfo(destination).filesystemAbsoluteFilePath(), time, error_code);
     if (error_code) {
         qCWarning(ARK) << "Failed to restore mtime:" << destination << error_code.message();
     }
+#else
+    utimbuf times;
+    times.actime = statBuffer.mtime;
+    times.modtime = statBuffer.mtime;
+    if (utime(destination.toUtf8().constData(), &times) != 0) {
+        qCWarning(ARK) << "Failed to restore mtime:" << destination;
+    }
+#endif
 
     Q_ASSERT([&] {
         const auto mtime = QDateTime::fromSecsSinceEpoch(statBuffer.mtime);
