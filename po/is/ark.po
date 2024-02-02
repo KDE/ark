@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-25 00:38+0000\n"
+"POT-Creation-Date: 2024-02-02 00:39+0000\n"
 "PO-Revision-Date: 2023-09-19 13:54+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -168,153 +168,153 @@ msgctxt ""
 msgid "Extract here"
 msgstr "Afþjappa hér"
 
-#: app/main.cpp:70
+#: app/main.cpp:77
 #, kde-format
 msgid "Ark"
 msgstr "Ark"
 
-#: app/main.cpp:72
+#: app/main.cpp:79
 #, kde-format
 msgid "KDE Archiving tool"
 msgstr "KDE skráarsafnstólið"
 
-#: app/main.cpp:74
+#: app/main.cpp:81
 #, kde-format
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) 1997-2019 ýmsir Ark hönnuðir"
 
-#: app/main.cpp:80
+#: app/main.cpp:87
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
-#: app/main.cpp:80
+#: app/main.cpp:87
 #, kde-format
 msgid "Maintainer"
 msgstr "Umsjónarmaður"
 
-#: app/main.cpp:81
+#: app/main.cpp:88
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr "Ragnar Thomsen"
 
-#: app/main.cpp:81
+#: app/main.cpp:88
 #, kde-format
 msgid "Maintainer, KF5 port"
 msgstr "Umsjónarmaður, KF5-yfirfærsla"
 
-#: app/main.cpp:82
+#: app/main.cpp:89
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr "Raphael Kubo da Costa"
 
-#: app/main.cpp:82 app/main.cpp:83 app/main.cpp:84
+#: app/main.cpp:89 app/main.cpp:90 app/main.cpp:91
 #, kde-format
 msgid "Former Maintainer"
 msgstr "Fyrrverandi umsjónarmaður"
 
-#: app/main.cpp:83
+#: app/main.cpp:90
 #, kde-format
 msgid "Harald Hvaal"
 msgstr "Harald Hvaal"
 
-#: app/main.cpp:84
+#: app/main.cpp:91
 #, kde-format
 msgid "Henrique Pinto"
 msgstr "Henrique Pinto"
 
-#: app/main.cpp:85
+#: app/main.cpp:92
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr "Helio Chissini de Castro"
 
-#: app/main.cpp:85
+#: app/main.cpp:92
 #, kde-format
 msgid "Former maintainer"
 msgstr "Fyrrverandi umsjónarmaður"
 
-#: app/main.cpp:86
+#: app/main.cpp:93
 #, kde-format
 msgid "Georg Robbers"
 msgstr "Georg Robbers"
 
-#: app/main.cpp:87
+#: app/main.cpp:94
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr "Roberto Selbach Teixeira"
 
-#: app/main.cpp:88
+#: app/main.cpp:95
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr "Francois-Xavier Duranceau"
 
-#: app/main.cpp:89
+#: app/main.cpp:96
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr "Emily Ezust (Corel Corporation)"
 
-#: app/main.cpp:90
+#: app/main.cpp:97
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr "Michael Jarrett (Corel Corporation)"
 
-#: app/main.cpp:91
+#: app/main.cpp:98
 #, kde-format
 msgid "Robert Palmbos"
 msgstr "Robert Palmbos"
 
-#: app/main.cpp:93
+#: app/main.cpp:100
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr "Vladyslav Batyrenko"
 
-#: app/main.cpp:94
+#: app/main.cpp:101
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr "Ítarlegir breytingaeiginleikar"
 
-#: app/main.cpp:97
+#: app/main.cpp:104
 #, kde-format
 msgid "Bryce Corkins"
 msgstr "Bryce Corkins"
 
-#: app/main.cpp:97
+#: app/main.cpp:104
 #, kde-format
 msgid "Icons"
 msgstr "Táknmyndir"
 
-#: app/main.cpp:98
+#: app/main.cpp:105
 #, kde-format
 msgid "Liam Smit"
 msgstr "Liam Smit"
 
-#: app/main.cpp:98
+#: app/main.cpp:105
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "Hugmyndir, hjálp við táknmyndir"
 
-#: app/main.cpp:99
+#: app/main.cpp:106
 #, kde-format
 msgid "Andrew Smith"
 msgstr "Andrew Smith"
 
-#: app/main.cpp:99
+#: app/main.cpp:106
 #, kde-format
 msgid "bkisofs code"
 msgstr "bkisofs kóði"
 
-#: app/main.cpp:107
+#: app/main.cpp:114
 #, kde-format
 msgid "URLs to open."
 msgstr "Slóðir til að opna."
 
-#: app/main.cpp:110
+#: app/main.cpp:117
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr "Sýna valmynd með ítarlegri möguleikum við aðgerð (afþjappa/bæta við)"
 
-#: app/main.cpp:113
+#: app/main.cpp:120
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
@@ -323,12 +323,12 @@ msgstr ""
 "tilgreint."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:117 kerfuffle/ark.kcfg:23
+#: app/main.cpp:124 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "Opna áfangamöppu eftir afþjöppun."
 
-#: app/main.cpp:120
+#: app/main.cpp:127
 #, kde-format
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
@@ -337,7 +337,7 @@ msgstr ""
 "Biðja um notanda um nafn safnskrár og bæta tilgreindum skrám í hana. Hætta "
 "þegar því er lokið."
 
-#: app/main.cpp:123
+#: app/main.cpp:130
 #, kde-format
 msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
@@ -346,7 +346,7 @@ msgstr ""
 "Bæta tilgreindum skám í  'skráarheiti'. Búa til safnskrána ef hún er ekki "
 "til. Hætta þegar því er lokið."
 
-#: app/main.cpp:127
+#: app/main.cpp:134
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
@@ -355,7 +355,7 @@ msgstr ""
 "Breyta núverandi staðsetningu í það sem tiltekið er í fyrstu færslunni - og "
 "bæta öllum öðrum færslum við miðað við hana."
 
-#: app/main.cpp:131
+#: app/main.cpp:138
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
@@ -364,7 +364,7 @@ msgstr ""
 "Velja skráarheiti sjálfkrafa, með valdri skráarendingu (til dæmis rar, tar."
 "gz, zip eða aðra studda gerð)"
 
-#: app/main.cpp:136
+#: app/main.cpp:143
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
@@ -373,14 +373,14 @@ msgstr ""
 "Nota magnvinnsluviðmótið í stað hins venjulega. Þetta er sjálfkrafa gert ef "
 "fleiri en ein slóð (URL) eru tilgreindar."
 
-#: app/main.cpp:139
+#: app/main.cpp:146
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr ""
 "Viðfang úttaksins verður stillt á slóð fyrstu skrárinnar sem tiltekin er."
 
-#: app/main.cpp:142
+#: app/main.cpp:149
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -391,7 +391,7 @@ msgstr ""
 "stök mappa eða stök safnskrá, þá verður búin til undirmappa með heiti "
 "safnskrárinnar."
 
-#: app/main.cpp:145
+#: app/main.cpp:152
 #, kde-format
 msgid "List supported MIME types."
 msgstr "Telja upp studdar MIME-tegundir"

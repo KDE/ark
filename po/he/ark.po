@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-25 00:38+0000\n"
+"POT-Creation-Date: 2024-02-02 00:39+0000\n"
 "PO-Revision-Date: 2023-12-12 15:45+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -160,172 +160,172 @@ msgctxt ""
 msgid "Extract here"
 msgstr "חילוץ לכאן"
 
-#: app/main.cpp:70
+#: app/main.cpp:77
 #, kde-format
 msgid "Ark"
 msgstr "Ark"
 
-#: app/main.cpp:72
+#: app/main.cpp:79
 #, kde-format
 msgid "KDE Archiving tool"
 msgstr "כלי ניהול ארכיונים ל־KDE"
 
-#: app/main.cpp:74
+#: app/main.cpp:81
 #, kde-format
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) 1997‏-2019, מפתחי Ark"
 
-#: app/main.cpp:80
+#: app/main.cpp:87
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr "אלביס אנגלצ׳יו"
 
-#: app/main.cpp:80
+#: app/main.cpp:87
 #, kde-format
 msgid "Maintainer"
 msgstr "מתחזק"
 
-#: app/main.cpp:81
+#: app/main.cpp:88
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr "רגנר תומסן"
 
-#: app/main.cpp:81
+#: app/main.cpp:88
 #, kde-format
 msgid "Maintainer, KF5 port"
 msgstr "מתחזק, הסבה ל־KF5"
 
-#: app/main.cpp:82
+#: app/main.cpp:89
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr "רפאל קובו דה קוסטה"
 
-#: app/main.cpp:82 app/main.cpp:83 app/main.cpp:84
+#: app/main.cpp:89 app/main.cpp:90 app/main.cpp:91
 #, kde-format
 msgid "Former Maintainer"
 msgstr "מתחזק קודם"
 
-#: app/main.cpp:83
+#: app/main.cpp:90
 #, kde-format
 msgid "Harald Hvaal"
 msgstr "הרלד הבאל"
 
-#: app/main.cpp:84
+#: app/main.cpp:91
 #, kde-format
 msgid "Henrique Pinto"
 msgstr "הנריק פינטו"
 
-#: app/main.cpp:85
+#: app/main.cpp:92
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr "הליו צ׳יסיני דה קסטרו"
 
-#: app/main.cpp:85
+#: app/main.cpp:92
 #, kde-format
 msgid "Former maintainer"
 msgstr "מתחזק קודם"
 
-#: app/main.cpp:86
+#: app/main.cpp:93
 #, kde-format
 msgid "Georg Robbers"
 msgstr "גאורג רוברס"
 
-#: app/main.cpp:87
+#: app/main.cpp:94
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr "רוברטו סלבק טשיירה"
 
-#: app/main.cpp:88
+#: app/main.cpp:95
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr "פרנסואה-חוויאר דורנסו"
 
-#: app/main.cpp:89
+#: app/main.cpp:96
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr "אמילי אזוסט (תאגיד Corel)"
 
-#: app/main.cpp:90
+#: app/main.cpp:97
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr "מייקל ג׳ארט (תאגיד Corel)"
 
-#: app/main.cpp:91
+#: app/main.cpp:98
 #, kde-format
 msgid "Robert Palmbos"
 msgstr "רוברט פלמבוס"
 
-#: app/main.cpp:93
+#: app/main.cpp:100
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr "ולדיסלב בטירנקו"
 
-#: app/main.cpp:94
+#: app/main.cpp:101
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr "יכולות עריכה מתקדמות"
 
-#: app/main.cpp:97
+#: app/main.cpp:104
 #, kde-format
 msgid "Bryce Corkins"
 msgstr "ברייס קורקינס"
 
-#: app/main.cpp:97
+#: app/main.cpp:104
 #, kde-format
 msgid "Icons"
 msgstr "סמלים"
 
-#: app/main.cpp:98
+#: app/main.cpp:105
 #, kde-format
 msgid "Liam Smit"
 msgstr "ליאם סמיט"
 
-#: app/main.cpp:98
+#: app/main.cpp:105
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "רעיונות, עזרה עם סמלים"
 
-#: app/main.cpp:99
+#: app/main.cpp:106
 #, kde-format
 msgid "Andrew Smith"
 msgstr "אנדרו סמית׳"
 
-#: app/main.cpp:99
+#: app/main.cpp:106
 #, kde-format
 msgid "bkisofs code"
 msgstr "קוד bkisofs"
 
-#: app/main.cpp:107
+#: app/main.cpp:114
 #, kde-format
 msgid "URLs to open."
 msgstr "כתובות לפתיחה."
 
-#: app/main.cpp:110
+#: app/main.cpp:117
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr "הצגת חלונית לבחירת אפשרויות הפעולה (חילוץ/הוספה)"
 
-#: app/main.cpp:113
+#: app/main.cpp:120
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr "תיקית היעד לחילוץ. בוחר בנתיב זה אם כלום לא צוין."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:117 kerfuffle/ark.kcfg:23
+#: app/main.cpp:124 kerfuffle/ark.kcfg:23
 #, kde-format
 msgid "Open destination folder after extraction."
 msgstr "פתיחת תיקיית היעד לאחר החילוץ."
 
-#: app/main.cpp:120
+#: app/main.cpp:127
 #, kde-format
 msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
 "when finished."
 msgstr "לבקש מהמשתמש שם קובץ לארכיון ולהוסיף אליו קבצים מסוימים. לצאת בסיום."
 
-#: app/main.cpp:123
+#: app/main.cpp:130
 #, kde-format
 msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
@@ -333,7 +333,7 @@ msgid ""
 msgstr ""
 "הוספת הקבצים הנבחרים ל‚שם הקובץ’. ליצור ארכיון אם עדיין אין כזה. לצאת בסיום."
 
-#: app/main.cpp:127
+#: app/main.cpp:134
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
@@ -341,7 +341,7 @@ msgid ""
 msgstr ""
 "להחליף את התיקייה הנוכחית לרשומה הראשונה ולהוסיף את כל שאר הרשומות ביחס לזאת."
 
-#: app/main.cpp:131
+#: app/main.cpp:138
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
@@ -350,7 +350,7 @@ msgstr ""
 "לבחור אוטומטית שם לקובץ, עם הסיומת הנבחרת (למשל: rar,‏ tar.gz,‏ zip או כל סוג "
 "נתמך אחר)"
 
-#: app/main.cpp:136
+#: app/main.cpp:143
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
@@ -359,13 +359,13 @@ msgstr ""
 "להשתמש בממשק הפעולות המרוכזות במקום בחלונית הרגילה. אפשרות זו מרומזת אם "
 "צוינה יותר מכתובת אחת."
 
-#: app/main.cpp:139
+#: app/main.cpp:146
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr "ארגומנט היעד יוגדר לנתיב של הקובץ הראשון שסופק."
 
-#: app/main.cpp:142
+#: app/main.cpp:149
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -375,7 +375,7 @@ msgstr ""
 "תוכן הארכיון ייקרא ואם יזוהה שזה אינו ארכיון של תיקייה בודדת או קובץ בודד, "
 "תיווצר תת־תיקייה בשם של הארכיון."
 
-#: app/main.cpp:145
+#: app/main.cpp:152
 #, kde-format
 msgid "List supported MIME types."
 msgstr "הצגת טיפוסי MIME (סוג תוכן קובץ) נתמכים."

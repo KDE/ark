@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-25 00:38+0000\n"
+"POT-Creation-Date: 2024-02-02 00:39+0000\n"
 "PO-Revision-Date: 2006-05-08 10:32+0200\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -167,169 +167,169 @@ msgctxt ""
 msgid "Extract here"
 msgstr "Отпакување"
 
-#: app/main.cpp:70
+#: app/main.cpp:77
 #, kde-format
 msgid "Ark"
 msgstr "Ark"
 
-#: app/main.cpp:72
+#: app/main.cpp:79
 #, kde-format
 msgid "KDE Archiving tool"
 msgstr "Алатка за архивирање во KDE "
 
-#: app/main.cpp:74
+#: app/main.cpp:81
 #, fuzzy, kde-format
 #| msgid "(c) 1997-2003, The Various Ark Developers"
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) 1997-2003, различните развивачи на Ark"
 
-#: app/main.cpp:80
+#: app/main.cpp:87
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr ""
 
-#: app/main.cpp:80
+#: app/main.cpp:87
 #, kde-format
 msgid "Maintainer"
 msgstr "Одржувач"
 
-#: app/main.cpp:81
+#: app/main.cpp:88
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr ""
 
-#: app/main.cpp:81
+#: app/main.cpp:88
 #, fuzzy, kde-format
 #| msgid "Maintainer"
 msgid "Maintainer, KF5 port"
 msgstr "Одржувач"
 
-#: app/main.cpp:82
+#: app/main.cpp:89
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr ""
 
-#: app/main.cpp:82 app/main.cpp:83 app/main.cpp:84
+#: app/main.cpp:89 app/main.cpp:90 app/main.cpp:91
 #, fuzzy, kde-format
 #| msgid "Former maintainer"
 msgid "Former Maintainer"
 msgstr "Поранешен одржувач"
 
-#: app/main.cpp:83
+#: app/main.cpp:90
 #, kde-format
 msgid "Harald Hvaal"
 msgstr ""
 
-#: app/main.cpp:84
+#: app/main.cpp:91
 #, kde-format
 msgid "Henrique Pinto"
 msgstr ""
 
-#: app/main.cpp:85
+#: app/main.cpp:92
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr ""
 
-#: app/main.cpp:85
+#: app/main.cpp:92
 #, kde-format
 msgid "Former maintainer"
 msgstr "Поранешен одржувач"
 
-#: app/main.cpp:86
+#: app/main.cpp:93
 #, kde-format
 msgid "Georg Robbers"
 msgstr ""
 
-#: app/main.cpp:87
+#: app/main.cpp:94
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr ""
 
-#: app/main.cpp:88
+#: app/main.cpp:95
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr ""
 
-#: app/main.cpp:89
+#: app/main.cpp:96
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr ""
 
-#: app/main.cpp:90
+#: app/main.cpp:97
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr ""
 
-#: app/main.cpp:91
+#: app/main.cpp:98
 #, kde-format
 msgid "Robert Palmbos"
 msgstr ""
 
-#: app/main.cpp:93
+#: app/main.cpp:100
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr ""
 
-#: app/main.cpp:94
+#: app/main.cpp:101
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr ""
 
-#: app/main.cpp:97
+#: app/main.cpp:104
 #, kde-format
 msgid "Bryce Corkins"
 msgstr ""
 
-#: app/main.cpp:97
+#: app/main.cpp:104
 #, kde-format
 msgid "Icons"
 msgstr "Икони"
 
-#: app/main.cpp:98
+#: app/main.cpp:105
 #, kde-format
 msgid "Liam Smit"
 msgstr ""
 
-#: app/main.cpp:98
+#: app/main.cpp:105
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr "Идеи, помош со иконите"
 
-#: app/main.cpp:99
+#: app/main.cpp:106
 #, kde-format
 msgid "Andrew Smith"
 msgstr ""
 
-#: app/main.cpp:99
+#: app/main.cpp:106
 #, kde-format
 msgid "bkisofs code"
 msgstr ""
 
-#: app/main.cpp:107
+#: app/main.cpp:114
 #, kde-format
 msgid "URLs to open."
 msgstr ""
 
-#: app/main.cpp:110
+#: app/main.cpp:117
 #, kde-format
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr ""
 
-#: app/main.cpp:113
+#: app/main.cpp:120
 #, kde-format
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr ""
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
-#: app/main.cpp:117 kerfuffle/ark.kcfg:23
+#: app/main.cpp:124 kerfuffle/ark.kcfg:23
 #, fuzzy, kde-format
 #| msgid "Open destination folder after extraction"
 msgid "Open destination folder after extraction."
 msgstr "Отвори ја одредишната папка по отпакувањето"
 
-#: app/main.cpp:120
+#: app/main.cpp:127
 #, fuzzy, kde-format
 #| msgid ""
 #| "Ask for the name of the archive to add 'files' to. Quit when finished."
@@ -340,7 +340,7 @@ msgstr ""
 "Прашува за име на архивата на која да се додадат „датотеки“. Напушта кога е "
 "готово."
 
-#: app/main.cpp:123
+#: app/main.cpp:130
 #, fuzzy, kde-format
 #| msgid ""
 #| "Ask for the name of the archive to add 'files' to. Quit when finished."
@@ -351,34 +351,34 @@ msgstr ""
 "Прашува за име на архивата на која да се додадат „датотеки“. Напушта кога е "
 "готово."
 
-#: app/main.cpp:127
+#: app/main.cpp:134
 #, kde-format
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
 "to this one."
 msgstr ""
 
-#: app/main.cpp:131
+#: app/main.cpp:138
 #, kde-format
 msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
 "tar.gz, zip or any other supported types)"
 msgstr ""
 
-#: app/main.cpp:136
+#: app/main.cpp:143
 #, kde-format
 msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
 "if more than one url is specified."
 msgstr ""
 
-#: app/main.cpp:139
+#: app/main.cpp:146
 #, kde-format
 msgid ""
 "The destination argument will be set to the path of the first file supplied."
 msgstr ""
 
-#: app/main.cpp:142
+#: app/main.cpp:149
 #, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
@@ -386,7 +386,7 @@ msgid ""
 "created."
 msgstr ""
 
-#: app/main.cpp:145
+#: app/main.cpp:152
 #, kde-format
 msgid "List supported MIME types."
 msgstr ""
