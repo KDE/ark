@@ -27,7 +27,7 @@
         "Description[ie]": "Complet supporte por archives del formates zip",
         "Description[is]": "Stuðningur við eldri zip-safnskráasnið",
         "Description[it]": "Supporto originale per il formato di archivi ZIP",
-        "Description[ja]": "レガシー zip アーカイブ形式に対応",
+        "Description[ja]": "zip アーカイブ形式のレガシーサポート",
         "Description[ka]": "Zip არქივის ფორმატის მოძველებული მხარდაჭერა",
         "Description[ko]": "zip 압축 형식의 레거시 지원",
         "Description[lv]": "Vecāku zip formāta arhīvu atbalsts",
