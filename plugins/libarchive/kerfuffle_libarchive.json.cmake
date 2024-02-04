@@ -26,7 +26,7 @@
         "Description[ie]": "Complet supporte por compresset archives TAR",
         "Description[is]": "Fullur stuðningur við þjappaðar TAR safnskrár",
         "Description[it]": "Supporto completo per archivi compressi TAR",
-        "Description[ja]": "圧縮された TAR アーカイブに完全に対応",
+        "Description[ja]": "圧縮された TAR アーカイブのフルサポート",
         "Description[ka]": "შეკუმშული TAR არქივების სრული მხარდაჭერა",
         "Description[ko]": "압축된 TAR 형식 전체 지원",
         "Description[nl]": "Volledige ondersteuning voor gecomprimeerde TAR-archieven",

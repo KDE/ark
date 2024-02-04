@@ -18,6 +18,7 @@
         "Name[gl]": "Extraer aquí con Ark",
         "Name[ia]": "Ark Extrahe Hic",
         "Name[it]": "Ark estrai qui",
+        "Name[ja]": "Ark で展開",
         "Name[ka]": "Ark აქ გაშლა",
         "Name[ko]": "Ark 여기에 압축 풀기",
         "Name[nl]": "Ark: hier uitpakken",
