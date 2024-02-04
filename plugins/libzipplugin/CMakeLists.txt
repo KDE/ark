@@ -1,7 +1,7 @@
 set(INSTALLED_LIBZIP_PLUGINS "")
 
 # not yet supported on freebsd
-try_compile(HAVE_CHRONO_CAST SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/.test_chrono_cast.cpp)
+try_compile(HAVE_CHRONO_CAST ${CMAKE_CURRENT_BINARY_DIR} SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/.test_chrono_cast.cpp)
 
 set(kerfuffle_libzip_SRCS libzipplugin.cpp ark_debug.cpp)
 
