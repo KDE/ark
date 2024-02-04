@@ -2319,15 +2319,3 @@ msgstr "Грешка при копиране на запис: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Грешка при задаване метаданните за запис: %1"
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive to..."
-#~ msgstr "Извличане на архив в..."
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive here"
-#~ msgstr "Извличане на архив тук"
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive here, autodetect subfolder"
-#~ msgstr "Извличане на архив тук, автоматично откриване на подпапка"
