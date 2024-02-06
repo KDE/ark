@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-25 02:23+0000\n"
-"PO-Revision-Date: 2024-02-02 15:12+0200\n"
+"PO-Revision-Date: 2024-02-06 00:13+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -33,8 +33,7 @@ msgstr "eugenijus@agvila.lt,liudas@akmc.lt,opensuse.lietuviu.kalba@gmail.com"
 
 #. i18n: ectx: Menu (archive)
 #: app/arkui.rc:5
-#, fuzzy, kde-format
-#| msgid "&Archive"
+#, kde-format
 msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr "&Archyvas"
@@ -123,43 +122,38 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
-msgstr "Suspausti"
+msgstr "Glaudinti"
 
 #: app/compressfileitemaction.cpp:80
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
-msgstr "Suspausti..."
+msgstr "Glaudinti..."
 
 #: app/compressfileitemaction.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Here (as ZIP)"
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Here as \"%1\""
-msgstr "Čia (ZIP)"
+msgstr "Čia kaip „%1“"
 
 #: app/extractfileitemaction.cpp:66
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "Išpakuoti"
+msgstr "Išpakuoti į…"
 
 #: app/extractfileitemaction.cpp:78
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Išpakuoti čia"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "Išpakuoti kelis archyvus"
+msgstr "Išpakuoti čia ir ištrinti archyvą"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -564,12 +558,12 @@ msgstr "Pridėti"
 #: kerfuffle/adddialog.ui:35
 #, kde-format
 msgid "Files/Folders to Compress"
-msgstr "Suspaustini failai/aplankai"
+msgstr "Failai/aplankai, kuriuos glaudinti"
 
 #: kerfuffle/addtoarchive.cpp:78
 #, kde-format
 msgid "Compress to Archive"
-msgstr "Suspausti į archyvą"
+msgstr "Glaudinti į archyvą"
 
 #: kerfuffle/addtoarchive.cpp:132
 #, kde-format
@@ -716,12 +710,12 @@ msgstr ""
 #: kerfuffle/compressionoptionswidget.cpp:151
 #, kde-format
 msgid "It is not possible to set compression level for the %1 format."
-msgstr "%1 formatui negalima nustatyti glaudinimo lygio."
+msgstr "%1 formatui neįmanoma nustatyti glaudinimo lygio."
 
 #: kerfuffle/compressionoptionswidget.cpp:170
 #, kde-format
 msgid "It is not possible to set compression method for the %1 format."
-msgstr "%1 formatui negalima nustatyti glaudinimo metodo."
+msgstr "%1 formatui neįmanoma nustatyti glaudinimo metodo."
 
 #: kerfuffle/compressionoptionswidget.cpp:191
 #, kde-format
@@ -1305,7 +1299,7 @@ msgstr "Dydis suglaudinus:"
 #: kerfuffle/propertiesdialog.ui:190
 #, kde-format
 msgid "Compression ratio:"
-msgstr "Glaudinimo santykis"
+msgstr "Glaudinimo santykis:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: kerfuffle/propertiesdialog.ui:207
@@ -2271,7 +2265,7 @@ msgstr "Šaltinių archyvas"
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:277
 #, kde-format
 msgid "The compression type '%1' is not supported by Ark."
-msgstr "Suspaudimo tipas „%1“ nėra palaikomas Ark."
+msgstr "Ark nepalaiko glaudinimo tipo „%1“."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:284
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:351
@@ -2292,7 +2286,7 @@ msgstr "Šaltinių archyvas"
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
-msgstr ""
+msgstr "Nepavyko glaudinti įrašo, operacija nutraukta."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:521
 #, fuzzy, kde-format
