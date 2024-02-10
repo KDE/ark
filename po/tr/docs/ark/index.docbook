@@ -155,7 +155,7 @@
 </mediaobject>
 
 <para
->&ark;'ı başarıyla kullanmak için KDE Framework 5'e gereksiniminiz vardır. libarchive kitaplığının 3.1 veya üzeri sürümü; tar, sıkıştırılmış tar, rpm, deb ve cab arşivleri de dahil olmak üzere çoğu arşiv türünü işlemek için gereklidir. Diğer dosya biçimlerini işlemek için uygun komut satırı programları gerekir; bunlar <command
+>&ark;’ı başarıyla kullanmak için KDE Framework 5’e gereksiniminiz vardır. libarchive kitaplığının 3.1 veya üzeri sürümü; tar, sıkıştırılmış tar, rpm, deb ve cab arşivleri de dahil olmak üzere çoğu arşiv türünü işlemek için gereklidir. Diğer dosya biçimlerini işlemek için uygun komut satırı programları gerekir; bunlar <command
 >zipinfo</command
 >, <command
 >zip</command
