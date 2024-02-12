@@ -2,7 +2,7 @@
 #
 # Amanpreet Singh Alam <aalam@redhat.com>, 2005.
 # ਅਮਨਪਰੀਤ ਸਿੰਘ ਆਲਮ <aalam@redhat.com>, 2005.
-# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2019, 2021, 2022, 2023 A S Alam <aalam@users.sf.net>
+# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2019, 2021, 2022, 2023, 2024 A S Alam <aalam@users.sf.net>
 # Amanpreet Singh <aalam@users.sf.net>, 2008.
 # Amanpreet Singh Alam <aalam@users.sf.net>, 2008, 2012, 2017.
 msgid ""
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:40+0000\n"
-"PO-Revision-Date: 2023-12-22 21:31-0600\n"
+"PO-Revision-Date: 2024-02-11 11:59-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
 "Language: pa\n"
@@ -133,11 +133,10 @@ msgid "Extract here"
 msgstr "ਇੱਥੇ ਖਿਲਾਰੋ"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "ਕਈ ਅਕਾਇਵ ਖਿਲਾਰੋ"
+msgstr "ਇੱਥੇ ਖਿਲਾਰੋ ਅਤੇ ਅਕਾਇਵ ਨੂੰ ਹਟਾਓ"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -165,7 +164,7 @@ msgstr "KDE ਅਕਾਇਵਿੰਗ ਟੂਲ"
 #: app/main.cpp:81
 #, kde-format
 msgid "(c) 1997-2019, The Ark Developers"
-msgstr "(c) ੧੯੯੭-੨੦੧੯, ਕਈ ਆਰਕ ਡਿਵੈਲਪਰ"
+msgstr "(c) ੧੯੯੭-੨੦੧੯, ਆਰਕ ਡਿਵੈਲਪਰ"
 
 #: app/main.cpp:87
 #, kde-format
@@ -255,7 +254,7 @@ msgstr ""
 #: app/main.cpp:101
 #, kde-format
 msgid "Advanced editing functionalities"
-msgstr "ਮਾਹਰ ਸੋਧਣ ਸਹੂਲਤਾਂ"
+msgstr "ਤਕਨੀਕੀ ਸੰਪਾਦਨ ਦੀਆਂ ਸਹੂਲਤਾਂ"
 
 #: app/main.cpp:104
 #, kde-format
@@ -290,7 +289,7 @@ msgstr "bkisofs ਕੋਡ"
 #: app/main.cpp:114
 #, kde-format
 msgid "URLs to open."
-msgstr "ਖੋਲ੍ਹਣ ਲਈ URL।"
+msgstr "ਖੋਲ੍ਹਣ ਲਈ URL"
 
 #: app/main.cpp:117
 #, kde-format
@@ -618,26 +617,24 @@ msgid ""
 msgstr ""
 
 #: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
-#, fuzzy, kde-format
-#| msgid "Could not write to the destination file %1, path %2"
+#, kde-format
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
 msgid_plural "Could not move the extracted files to the destination directory."
-msgstr[0] "ਟਿਕਾਣਾ ਫ਼ਾਇਲ %1, ਪਾਥ %2 ਲਿਖਣ ਲਈ ਫੇਲ੍ਹ ਹੈ"
-msgstr[1] "ਟਿਕਾਣਾ ਫ਼ਾਇਲ %1, ਪਾਥ %2 ਲਿਖਣ ਲਈ ਫੇਲ੍ਹ ਹੈ"
+msgstr[0] "ਖਿਲਾਰੀ ਫਾਇਲ ਨੂੰ ਟਿਕਾਣਾ ਡਾਇਰੈਕਟਰੀ ਉੱਤੇ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।"
+msgstr[1] "ਖਿਲਾਰੀਆਂ ਫਾਇਲਾਂ ਨੂੰ ਟਿਕਾਣਾ ਡਾਇਰੈਕਟਰੀ ਉੱਤੇ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।"
 
 #: kerfuffle/cliinterface.cpp:836
-#, fuzzy, kde-format
-#| msgid "Extraction failed because of an unexpected error."
+#, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
-msgstr "ਖਿਲਾਰਨ ਲਈ ਫੇਲ੍ਹ, ਕਿਉਂਕਿ ਅਣਜਾਣ ਗਲਤੀ ਹੈ।"
+msgstr "ਡਿਸਕ ਭਰ ਜਾਣ ਕਰਕੇ ਖਿਲਾਰਨਾ ਅਸਫ਼ਲ ਹੈ।"
 
 #: kerfuffle/cliinterface.cpp:843 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
-msgstr "ਖਿਲਾਰਨਾ ਫੇਲ੍ਹ ਹੈ: ਗਲਤ ਪਾਸਵਰਡ ਹੈ।"
+msgstr "ਖਿਲਾਰਨਾ ਫੇਲ੍ਹ ਹੈ: ਗਲਤ ਪਾਸਵਰਡ ਹੈ"
 
 #: kerfuffle/cliinterface.cpp:877
 #, kde-format
@@ -647,7 +644,7 @@ msgstr "ਪਾਸਵਰਡ ਗਲਤ ਹੈ।"
 #: kerfuffle/cliinterface.cpp:899
 #, kde-format
 msgid "Ark does not currently support testing this archive."
-msgstr ""
+msgstr "ਆਰਕ ਇਸ ਅਕਾਇਵ ਨੂੰ ਟੈਸਟ ਕਰਨ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ।"
 
 #: kerfuffle/compressionoptionswidget.cpp:129
 #, kde-format
@@ -1116,7 +1113,7 @@ msgstr "ਵਰਣਨ"
 #: kerfuffle/previewsettingspage.ui:22
 #, kde-format
 msgid "Disable preview for files larger than:"
-msgstr ""
+msgstr "ਇਸ ਤੋਂ ਵੱਡੀਆਂ ਫਾਇਲਾਂ ਲਈ ਝਲਕ ਅਸਮਰੱਥ ਕਰੋ:"
 
 #: kerfuffle/propertiesdialog.cpp:41
 #, kde-format
@@ -1634,7 +1631,7 @@ msgstr "... ਵਜੋਂ ਕਾਪੀ ਸੰਭਾਲੋ"
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr ""
+msgstr "ਬਾਹਰੀ ਐਪਲੀਕੇਸ਼ਨ ਵਿੱਚ ਖੋਲ੍ਹੋ(&O)"
 
 #: part/part.cpp:372
 #, kde-format
@@ -1832,14 +1829,13 @@ msgid ""
 msgstr "ਪੜ੍ਹਨ ਲਈ ਅਕਾਇਵ <filename>%1</filename> ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ"
 
 #: part/part.cpp:808
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "The archive <filename>%1</filename> was not found."
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "The archive <filename>%1</filename> will be created as soon as you add a "
 "file."
-msgstr "ਅਕਾਇਵ <filename>%1</filename> ਨਹੀਂ ਲੱਭਿਆ।"
+msgstr ""
+"ਜਿਵੇਂ ਹੀ ਤੁਸੀਂ ਫਾਇਲ ਜੋੜਦੇ ਹੋ ਤਾਂ ਅਕਾਇਵ <filename>%1</filename> ਨੂੰ ਫ਼ੌਰਨ ਬਣਾਇਆ ਜਾਵੇਗਾ।"
 
 #: part/part.cpp:811
 #, kde-kuit-format
@@ -1880,11 +1876,10 @@ msgid "File Exists"
 msgstr "ਫ਼ਾਇਲ ਮੌਜੂਦ ਹੈ"
 
 #: part/part.cpp:868
-#, fuzzy, kde-kuit-format
-#| msgid "The archive writer could not be initialized."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
-msgstr "ਅਕਾਇਵ ਰਾਇਟਰ ਸ਼ੁਰੂ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।"
+msgstr "ਅਕਾਇਵ ਖਾਲੀ ਹੈ ਜਾਂ ਆਰਕ ਇਸ ਸਮੱਗਰੀ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ।"
 
 #: part/part.cpp:875
 #, kde-kuit-format
@@ -2250,12 +2245,9 @@ msgid "Failed to open '%1':<nl/>%2"
 msgstr "'%1' ਖੋਲ੍ਹਣ ਲਈ ਅਸਫ਼ਲ:<nl/>%2"
 
 #: plugins/libzipplugin/libzipplugin.cpp:899
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Failed to locate program <filename>%2</filename> on disk."
-#| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
+#, kde-kuit-format
 msgid "Failed to open file for writing: %1"
-msgstr "ਡਿਸਕ ਉੱਤੇ <filename>%2</filename> ਪਰੋਗਰਾਮ ਲੱਭਣ ਲਈ ਫੇਲ੍ਹ ਹੈ"
+msgstr "ਫਾਇਲ ਨੂੰ ਲਿਖਣ ਵਾਸਤੇ ਖੋਲ੍ਹਣ ਲਈ ਅਸਫ਼ਲ: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:912
 #, kde-kuit-format
@@ -2268,12 +2260,9 @@ msgid "Failed to write data for entry: %1"
 msgstr "ਐਂਟਰੀ ਲਈ ਡਾਟਾ ਲਿਖਣ ਲਈ ਫੇਲ੍ਹ: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:927
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Failed to locate program <filename>%2</filename> on disk."
-#| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
+#, kde-kuit-format
 msgid "Failed to locate entry: %1"
-msgstr "ਡਿਸਕ ਉੱਤੇ <filename>%2</filename> ਪਰੋਗਰਾਮ ਲੱਭਣ ਲਈ ਫੇਲ੍ਹ ਹੈ"
+msgstr "ਐਂਟਰੀ ਲੱਭਣ ਲਈ ਫੇਲ੍ਹ ਹੈ: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:1014
 #: plugins/libzipplugin/libzipplugin.cpp:1020
@@ -2287,12 +2276,9 @@ msgid "Failed to copy entry: %1"
 msgstr "ਐੰਟਰੀ ਕਾਪੀ ਕਰਨ ਲਈ ਫੇਲ੍ਹ: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:1107
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Failed to locate program <filename>%2</filename> on disk."
-#| msgid_plural "Failed to locate programs <filename>%2</filename> on disk."
+#, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
-msgstr "ਡਿਸਕ ਉੱਤੇ <filename>%2</filename> ਪਰੋਗਰਾਮ ਲੱਭਣ ਲਈ ਫੇਲ੍ਹ ਹੈ"
+msgstr "ਐਂਟਰੀ ਲਈ ਮੇਟਾਡਾਟਾ ਸੈੱਟ ਕਰਨ ਲਈ ਅਸਫ਼ਲ: %1"
 
 #~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 #~ msgid "Extract archive to..."
