@@ -29,6 +29,7 @@
         "Name[lv]": "Ark izvilkt te",
         "Name[nl]": "Ark: hier uitpakken",
         "Name[nn]": "Pakk ut med Ark her",
+        "Name[pa]": "ਆਕ ਇ਼ੱਥੇ ਖਿਲਾਰੋ",
         "Name[pl]": "Wypakuj tutaj",
         "Name[pt]": "Ark - Extrair Aqui",
         "Name[pt_BR]": "Extrair com o Ark aqui",
