@@ -33,6 +33,7 @@
         "Description[pt_BR]": "Suporte total para o formato de arquivos ARJ",
         "Description[ro]": "Suport deplin pentru formatul de arhivă ARJ",
         "Description[ru]": "Полная поддержка архивов ARJ",
+        "Description[sk]": "Úplná podpora archívnych formátov ARJ",
         "Description[sl]": "Polna podpora za arhive vrste ARJ",
         "Description[sv]": "Fullt stöd för ARJ arkivformat",
         "Description[tr]": "ARJ arşiv biçimi için tam destek",
