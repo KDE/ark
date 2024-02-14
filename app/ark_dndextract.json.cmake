@@ -7,6 +7,7 @@
         "Name[ar]": "أرك استخرج هنا",
         "Name[ast]": "«Estrayer equí» d'Ark",
         "Name[az]": "Buraya çıxarın",
+        "Name[be]": "Распакаваць сюды з дапамогай Ark",
         "Name[bg]": "Извличане с Ark тук",
         "Name[ca@valencia]": "Extracció d'Ark ací",
         "Name[ca]": "Extracció de l'Ark aquí",
