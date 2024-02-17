@@ -633,7 +633,7 @@
 <para
 ><guimenuitem
 >Hier uitpakken</guimenuitem
-> maakt een submap in de map aan met het archief en pakt de mappen en bestanden erin uit.</para>
+> maakt een submap in de map aan met het archief en pakt de mappen en bestanden erin uit. In het geval dat het archief slechts één bestand of map bevat, zal geen submap worden aangemaakt.</para>
 </listitem>
 <listitem>
 <para

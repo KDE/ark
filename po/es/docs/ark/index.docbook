@@ -659,7 +659,7 @@
 <para
 ><guimenuitem
 >Extraer aquí</guimenuitem
-> crea una subcarpeta en la carpeta que contiene el archivo comprimido y extrae las carpetas y los archivos en ella.</para>
+> crea una subcarpeta en la carpeta que contiene el archivo comprimido y extrae las carpetas y los archivos en ella. Si el archivo comprimido solo contiene un único archivo o carpeta, no se creará ninguna subcarpeta.</para>
 </listitem>
 <listitem>
 <para

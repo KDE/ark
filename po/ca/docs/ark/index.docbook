@@ -630,7 +630,7 @@
 <para
 ><guimenuitem
 >Extreu aquí</guimenuitem
-> crea una subcarpeta a la carpeta amb l'arxiu i hi extreu les carpetes i els fitxers.</para>
+> crea una subcarpeta a la carpeta amb l'arxiu i hi extreu les carpetes i els fitxers. En cas que l'arxiu només contingui un fitxer o carpeta, no es crearà cap subcarpeta.</para>
 </listitem>
 <listitem>
 <para
