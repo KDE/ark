@@ -661,7 +661,7 @@
 <para
 ><guimenuitem
 >Estrai qui</guimenuitem
-> crea una sottocartella nella cartella con l'archivio, e ci estrae le cartelle e i file.</para>
+> crea una sotto cartella nella cartella con l'archivio, e ci estrae le cartelle e i file. Nel caso in cui l'archivio contenga solo un file o una cartella, nessuna sotto cartella verrà creata.</para>
 </listitem>
 <listitem>
 <para
