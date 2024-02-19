@@ -23,6 +23,7 @@
         "Name[he]": "חילוץ עם Ark לכאן",
         "Name[hu]": "Kibontás ide",
         "Name[ia]": "Ark Extrahe Hic",
+        "Name[is]": "Ark afþjappa hingað",
         "Name[it]": "Ark estrai qui",
         "Name[ja]": "Ark で展開",
         "Name[ka]": "Ark აქ გაშლა",
