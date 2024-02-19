@@ -7,13 +7,13 @@
 # Svanur Palsson <svanur@tern.is>, 2004.
 # Þröstur Svanbergsson <throstur@bylur.net>, 2004.
 # Arnar Leosson <leosson@frisurf.no>, 2005.
-# Sveinn í Felli <sveinki@nett.is>, 2009, 2010, 2015, 2021, 2022, 2023.
+# Sveinn í Felli <sveinki@nett.is>, 2009, 2010, 2015, 2021, 2022, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:40+0000\n"
-"PO-Revision-Date: 2023-09-19 13:54+0000\n"
+"PO-Revision-Date: 2024-02-18 08:43+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -135,25 +135,22 @@ msgid "Here as \"%1\""
 msgstr "Hér sem \"%1\""
 
 #: app/extractfileitemaction.cpp:66
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "Afþjappa"
+msgstr "Afþjappa í…"
 
 #: app/extractfileitemaction.cpp:78
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Afþjappa hér"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "Afþjappa margar skrár"
+msgstr "Afþjappa hér og eyða safnskrá"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -1599,7 +1596,7 @@ msgstr "Einhverjar upplýsingar um verkið"
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
