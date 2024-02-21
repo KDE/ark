@@ -647,7 +647,7 @@
 <para
 ><guimenuitem
 >Buraya Çıkar</guimenuitem
->, arşivin bulunduğu klasörde bir alt klasör oluşturur ve klasörleri ve dosyaları bu klasöre çıkarır.</para>
+>, arşivin bulunduğu klasörde bir alt klasör oluşturur ve klasörleri ve dosyaları bu klasöre çıkarır. Arşiv yalnızca bir dosya veya klasör içeriyorsa bir alt klasör oluşturulmaz.</para>
 </listitem>
 <listitem>
 <para
