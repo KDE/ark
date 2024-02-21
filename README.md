@@ -57,6 +57,7 @@ Ark can be used to browse, extract, create, and modify archives.
 | Windows theme pack        | `application/vnd.ms-cab-compressed`                                                                                            |
 | AR                        | `application/x-archive`                                                                                                        |
 | Stuffit                   | `application/x-stuffit`                                                                                                        |
+| Self-extracting EXE       | `application/x-msdownload`                                                                                                     |
 
 The notes about `lrzip`, `lzop` and `zstd` binaries apply also here.
 

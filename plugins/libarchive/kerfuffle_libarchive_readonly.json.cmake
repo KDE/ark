@@ -1,6 +1,6 @@
 {
     "KPlugin": {
-        "Description": "Open and extract DEB, RPM, ISO, AppImage, XAR and CAB files",
+        "Description": "Open and extract DEB, RPM, ISO, AppImage, XAR, CAB, and EXE files",
         "Description[ar]": "يفتح ويستخرج ملفات DEB و RPM و ISO و AppImage و XAR و CAB",
         "Description[ast]": "Abre y estrae ficheros DEB, RPM, ISO, AppImage, XAR y CAB",
         "Description[az]": "DEB, RPM, İSO, Appİmage, XAR, və CAB fayllarını açmaq və çıxartmaq",
@@ -78,7 +78,8 @@
             "application/vnd.ms-cab-compressed",
             "application/x-xar",
             "application/x-iso9660-appimage",
-            "application/x-archive"
+            "application/x-archive",
+            "application/x-msdownload"
         ],
         "Name": "Libarchive plugin (read-only formats)",
         "Name[ar]": "ملحق Libarchive (تنسيقات قراءة فقط)",

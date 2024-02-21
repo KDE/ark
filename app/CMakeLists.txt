@@ -68,6 +68,9 @@ endif()
 # Remove duplicate mimetypes from list of supported formats.
 list(REMOVE_DUPLICATES SUPPORTED_ARK_MIMETYPES)
 
+# Don't register as mime type to never steal it from more fitting applications such as Wine.
+list(REMOVE_ITEM SUPPORTED_ARK_MIMETYPES application/x-msdownload)
+
 configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.ark.desktop.cmake
             ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop
