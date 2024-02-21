@@ -16,6 +16,9 @@
 #include <QMimeDatabase>
 #include <QStandardPaths>
 #include <QTest>
+#if defined(Q_OS_FREEBSD) || defined(Q_OS_LINUX)
+#include <sys/stat.h>
+#endif
 
 using namespace Kerfuffle;
 
@@ -40,6 +43,9 @@ QTEST_GUILESS_MAIN(ExtractTest)
 void ExtractTest::initTestCase()
 {
     // #395939: after each extraction, the cwd must be the one we started from.
+#if defined(Q_OS_FREEBSD) || defined(Q_OS_LINUX)
+    umask(0022);
+#endif
     m_expectedWorkingDir = QDir::currentPath();
 }
 
