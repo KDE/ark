@@ -80,7 +80,7 @@
         "Name[ia]": "Info-zip plugin",
         "Name[id]": "Plugin info-zip",
         "Name[ie]": "Plufin Info-zip",
-        "Name[is]": "Info-zip-viðbót",
+        "Name[is]": "Info-zip viðbót",
         "Name[it]": "Estensione Info-zip",
         "Name[ja]": "Info-zip プラグイン",
         "Name[ka]": "Info-zip -ის მხარდაჭერა",

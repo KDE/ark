@@ -25,7 +25,7 @@
         "Description[ia]": "Supporto complete per le formato de archivo zip e 7z",
         "Description[id]": "Dukungan penuh untuk arsip berformat zip dan 7z",
         "Description[ie]": "Complet supporte por archives de formates zip e 7z",
-        "Description[is]": "Fullur stuðningur við zip og 7z safnskráasnið",
+        "Description[is]": "Fullur stuðningur við zip- og 7z-safnskráasnið",
         "Description[it]": "Supporto completo per i formati di archivi zip e 7z",
         "Description[ja]": "zip および 7z アーカイブ形式のフルサポート",
         "Description[ka]": "Zip da 7z არქივების სრული მხარდაჭერა",

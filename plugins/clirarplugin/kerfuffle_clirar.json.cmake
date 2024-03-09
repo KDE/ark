@@ -25,7 +25,7 @@
         "Description[ia]": "Supporto complete per le formato de archivo RAR",
         "Description[id]": "Dukungan penuh untuk arsip berformat RAR",
         "Description[ie]": "Complet supporte por archives del formate RAR",
-        "Description[is]": "Fullur stuðningur við RAR safnskráasnið",
+        "Description[is]": "Fullur stuðningur við RAR-safnskráasnið",
         "Description[it]": "Supporto completo per il formato di archivi RAR",
         "Description[ja]": "RAR アーカイブ形式のフルサポート",
         "Description[ka]": "RAR არქვივების სრული მხარდაჭერა",

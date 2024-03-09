@@ -20,7 +20,7 @@
         "Description[he]": "כלי לניהול ארכיונים",
         "Description[hu]": "Archívumkezelő program",
         "Description[ia]": "Instrumento de manear archivo",
-        "Description[is]": "Vinna með safnskrár",
+        "Description[is]": "Verkfæri fyrir safnskrár",
         "Description[it]": "Strumento di gestione degli archivi",
         "Description[ja]": "アーカイブ処理ツール",
         "Description[ka]": "არქივებთან სამუშაო ხელსაწყო",

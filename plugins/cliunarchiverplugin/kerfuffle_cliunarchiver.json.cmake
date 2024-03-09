@@ -24,7 +24,7 @@
         "Description[ia]": "Aperir e extraher archivos RAR e LHA ",
         "Description[id]": "Buka dan ekstrak arsip RAR dan LHA",
         "Description[ie]": "Aperter e extraer archives RAR e LHA",
-        "Description[is]": "Opna og afþjappa RAR og LHA safnskrár",
+        "Description[is]": "Opna og afþjappa RAR- og LHA-safnskrár",
         "Description[it]": "Apri ed estrai archivi RAR e LHA",
         "Description[ja]": "RAR および LHA アーカイブの閲覧と展開",
         "Description[ka]": "RAR და LHA არქივების გახსნა და გაშლა",

@@ -25,7 +25,7 @@
         "Description[ia]": "Aperir e Extraher files DEB, RPM, ISO, AppImage, XAR e CAB ",
         "Description[id]": "Buka dan ekstrak file DEB, RPM, ISO, AppImage, XAR dan CAB",
         "Description[ie]": "Aperter e extraer files DEB, RPM, ISO, AppImage, XAR e CAB",
-        "Description[is]": "Opna og afþjappa DEB, RPM, ISO, AppImage, XAR og CAB-skrár",
+        "Description[is]": "Opna og afþjappa DEB-, RPM-, ISO-, AppImage-, XAR- og CAB-skrár",
         "Description[it]": "Apri ed estrai file DEB, RPM, ISO, AppImage, XAR e CAB",
         "Description[ja]": "DEB、RPM、ISO、AppImage、XAR および CAB ファイルの閲覧と展開",
         "Description[ka]": "გახსენით და გაშალეთ DEB, RPM, ISO, AppImage, XAR და CAB ფაილები",
