@@ -122,7 +122,7 @@
       Ark can be used to browse, extract, create, and modify archives.
     </p>
     <p xml:lang="ar">آرك أداة رسوميّة لضغط وفكّ ضغط الملفات مع دعم لصيغ متعدّدة، منها tar، وgzip، وbzip2، وrar، وzip، إضافة إلى صور الأقراص الضوئيّة. يمكن استخدام آرك لتصفح، واستخراج، وإنشاء، وتعديل الأرشيفات.</p>
-    <p xml:lang="ast">Ark ye una utilidá gráfica pa des/comprimir ficheros que sofita munchos formatos, incluyíos tar, gzip, bzip2, rar ya zip, amás d'imáxenes de CD-ROM. Pues usar Ark pa restolar, estrayer, crear ya modificar archivos.</p>
+    <p xml:lang="ast">Ark ye una utilidá gráfica pa des/comprimir ficheros que sofita munchos formatos, incluyíos tar, gzip, bzip2, rar y zip, amás d'imáxenes de CD-ROM. Pues usar Ark pa restolar, estrayer, crear y modificar archivos.</p>
     <p xml:lang="az">Ark, tar, gzip, bzip2, rar və zip və CD-ROM görünüşü də daxil olmaqla bir çox formatı dəstəkləyən qrafik, faylları sıxmaq/dekompressiya etmək üçün yardımçı proqramıdır. Ark arxivlərə baxmaq, çıxarmaq, onları yaratmaq və dəyişdirmək üçün istifadə edilə bilər.</p>
     <p xml:lang="be">Ark - утыліта з графічным інтэрфейсам для запакоўвання і распакоўвання файлаў, якая падтрымлівае шмат фарматаў: tar, gzip, bzip2, rar, zip і вобразы дыскаў. Ark можна выкарыстоўваць для прагляду, распакоўвання, стварэння і змены архіваў.</p>
     <p xml:lang="bg">Ark е графичен инструмент за архивиране/разархивиране, поддържащ множество формати, включително tar, gzip, bzip2, rar и zip, както и образи на CD-ROM. Ark може да се използва за разглеждане, извличане, създаване и променяне на архиви.</p>
@@ -232,7 +232,7 @@
     <ul>
       <li>Several formats supported: gzip, bzip2, zip, rar, 7z and more</li>
       <li xml:lang="ar">دعم صيغ متعدّدة: مثل gzip، و bzip2، و zip، و rar، و 7z وغيرها</li>
-      <li xml:lang="ast">Compatibilidá con dellos formatos: gzip, bzip2, zip, rar, 7z ya más</li>
+      <li xml:lang="ast">Compatibilidá con dellos formatos: gzip, bzip2, zip, rar, 7z y más</li>
       <li xml:lang="az">Bir neçə format dəstəklənir: gzip, bzip2, zip, rar, 7z və bir çoxları</li>
       <li xml:lang="be">Падтрымліваецца некалькі фарматаў: gzip, bzip2, zip, rar, 7z і іншыя</li>
       <li xml:lang="bg">Поддържани са много формати: gzip, bzip2, zip, rar, 7z и други</li>
