@@ -1,13 +1,13 @@
 # Copyright (C) 2023 This file is copyright:
 # This file is distributed under the same license as the ark package.
 #
-# SPDX-FileCopyrightText: 2022, 2023 enolp <enolp@softastur.org>
+# SPDX-FileCopyrightText: 2022, 2023, 2024 enolp <enolp@softastur.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-02-03 00:40+0000\n"
-"PO-Revision-Date: 2023-12-29 01:27+0100\n"
+"PO-Revision-Date: 2024-03-15 01:19+0100\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
 "Language: ast\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -133,7 +133,7 @@ msgstr "Estrayer equí"
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "Estrayer equí ya desaniciar l'archivu"
+msgstr "Estrayer equí y desaniciar l'archivu"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -181,7 +181,7 @@ msgstr "Ragnar Thomsen"
 #: app/main.cpp:88
 #, kde-format
 msgid "Maintainer, KF5 port"
-msgstr "Caltenedor ya portabilidá a KF5"
+msgstr "Caltenedor y portabilidá a KF5"
 
 #: app/main.cpp:89
 #, kde-format
@@ -271,7 +271,7 @@ msgstr "Liam Smit"
 #: app/main.cpp:105
 #, kde-format
 msgid "Ideas, help with the icons"
-msgstr "Idees ya ayuda colos iconos"
+msgstr "Idees y ayuda colos iconos"
 
 #: app/main.cpp:106
 #, kde-format
@@ -608,7 +608,7 @@ msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
 "enough space is available."
 msgstr ""
-"La estraición falló. Asegúrate de qu'hai abondu espaciu disponible ya de que "
+"La estraición falló. Asegúrate de qu'hai abondu espaciu disponible y de que "
 "la contraseña fornida ye correuta."
 
 #: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
@@ -817,7 +817,7 @@ msgid ""
 "The folder <filename>%1</filename> already exists. Are you sure you want to "
 "extract here?"
 msgstr ""
-"La carpeta <filename>%1</filename> xá esiste. ¿De xuru que quies estrayer "
+"La carpeta <filename>%1</filename> yá esiste. ¿De xuru que quies estrayer "
 "equí?"
 
 #: kerfuffle/extractiondialog.cpp:115
@@ -845,7 +845,7 @@ msgstr "Nun se pudo crear la carpeta <filename>%1</filename>."
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
-msgstr "<filename>%1</filename> xá esiste mas nun ye una carpeta."
+msgstr "<filename>%1</filename> yá esiste mas nun ye una carpeta."
 
 #: kerfuffle/extractiondialog.cpp:134
 #, kde-format
@@ -1268,7 +1268,7 @@ msgstr "Métodos de compresión:"
 #, kde-format
 msgctxt "@title:window"
 msgid "File Already Exists"
-msgstr "El ficheru xá esiste"
+msgstr "El ficheru yá esiste"
 
 #: kerfuffle/queries.cpp:169
 #, kde-kuit-format
@@ -1578,7 +1578,7 @@ msgid ""
 "Files with the following paths already exist. Remove them if you really want "
 "to overwrite."
 msgstr ""
-"Xá esisten los ficheros colos caminos siguientes. Quítalos si quies "
+"Yá esisten los ficheros colos caminos siguientes. Quítalos si quies "
 "sobrescribilos de verdá."
 
 #: part/overwritedialog.cpp:28
@@ -1587,7 +1587,7 @@ msgid ""
 "Files with the following paths already exist. Do you want to continue "
 "overwriting them?"
 msgstr ""
-"Xá esisten los ficheros colos caminos siguientes. ¿Quies siguir "
+"Yá esisten los ficheros colos caminos siguientes. ¿Quies siguir "
 "sobrescribiéndolos?"
 
 #: part/part.cpp:112
@@ -1860,7 +1860,7 @@ msgctxt "@info"
 msgid ""
 "The archive <filename>%1</filename> already exists. Do you wish to overwrite "
 "it?"
-msgstr "L'archivu <filename>%1</filename> xá esiste. ¿Quies sobrescribilu?"
+msgstr "L'archivu <filename>%1</filename> yá esiste. ¿Quies sobrescribilu?"
 
 #: part/part.cpp:831
 #, kde-format
@@ -1992,7 +1992,7 @@ msgid ""
 "The archive <filename>%1</filename> does not exist anymore, therefore it "
 "cannot be copied to the specified location."
 msgstr ""
-"L'archivu <filename>%1</filename> xá nun esiste ya, polo tanto, nun se pue "
+"L'archivu <filename>%1</filename> yá nun esiste ya, polo tanto, nun se pue "
 "copiar a la llocalización especificada."
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
