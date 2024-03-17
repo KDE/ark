@@ -199,6 +199,17 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry *> &files
     return isSuccessful;
 }
 
+void ReadWriteLibarchivePlugin::initializeWriterFormat()
+{
+    if (filename().right(2).toUpper() == QLatin1String("7Z")) {
+        archive_write_set_format_7zip(m_archiveWriter.data());
+    } else {
+        // TAR case:
+        // pax_restricted is the libarchive default, let's go with that.
+        archive_write_set_format_pax_restricted(m_archiveWriter.data());
+    }
+}
+
 bool ReadWriteLibarchivePlugin::initializeWriter(const bool creatingNewFile, const CompressionOptions &options)
 {
     m_tempFile.setFileName(filename());
@@ -213,11 +224,10 @@ bool ReadWriteLibarchivePlugin::initializeWriter(const bool creatingNewFile, con
         return false;
     }
 
-    // pax_restricted is the libarchive default, let's go with that.
-    archive_write_set_format_pax_restricted(m_archiveWriter.data());
+    initializeWriterFormat();
 
     if (creatingNewFile) {
-        if (!initializeNewFileWriterFilters(options)) {
+        if (!initializeNewFileCompressionOptions(options)) {
             return false;
         }
     } else {
@@ -288,13 +298,16 @@ bool ReadWriteLibarchivePlugin::initializeWriterFilters()
     return true;
 }
 
-bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const CompressionOptions &options)
+bool ReadWriteLibarchivePlugin::initializeNewFileCompressionOptions(const CompressionOptions &options)
 {
     int ret;
     bool requiresExecutable = false;
     const auto threads = std::to_string(static_cast<unsigned>(std::thread::hardware_concurrency() * 0.8));
+    const bool is7zFile = filename().right(2).toUpper() == QLatin1String("7Z");
 
-    if (filename().right(2).toUpper() == QLatin1String("GZ")) {
+    if (is7zFile) {
+        // 7zip format doesn't need any filter to be set.
+    } else if (filename().right(2).toUpper() == QLatin1String("GZ")) {
         qCDebug(ARK) << "Detected gzip compression for new file";
         ret = archive_write_add_filter_gzip(m_archiveWriter.data());
     } else if (filename().right(3).toUpper() == QLatin1String("BZ2")) {
@@ -352,13 +365,35 @@ bool ReadWriteLibarchivePlugin::initializeNewFileWriterFilters(const Compression
         return false;
     }
 
+    // If the format supports multiple compression methods (e.g. 7zip does), set the configured method.
+    if (!options.compressionMethod().isEmpty()) {
+        QString compressionMethod = options.compressionMethod().toLower();
+        qCDebug(ARK) << "Using compression method:" << compressionMethod;
+        ret = archive_write_set_format_option(m_archiveWriter.data(), nullptr, "compression", compressionMethod.toUtf8().constData());
+
+        if (ret != ARCHIVE_OK) {
+            qCWarning(ARK) << "Failed to set compression method" << archive_error_string(m_archiveWriter.data());
+            Q_EMIT error(i18nc("@info", "Could not set the compression method."));
+            return false;
+        }
+    }
+
     // Set compression level if passed in CompressionOptions.
     if (options.isCompressionLevelSet()) {
         qCDebug(ARK) << "Using compression level:" << options.compressionLevel();
-        ret = archive_write_set_filter_option(m_archiveWriter.data(),
-                                              nullptr,
-                                              "compression-level",
-                                              QString::number(options.compressionLevel()).toUtf8().constData());
+        // 7zip supports the compression level as format option (it doesn't have any filter).
+        if (is7zFile) {
+            ret = archive_write_set_format_option(m_archiveWriter.data(),
+                                                  nullptr,
+                                                  "compression-level",
+                                                  QString::number(options.compressionLevel()).toUtf8().constData());
+        } else {
+            ret = archive_write_set_filter_option(m_archiveWriter.data(),
+                                                  nullptr,
+                                                  "compression-level",
+                                                  QString::number(options.compressionLevel()).toUtf8().constData());
+        }
+
         if (ret != ARCHIVE_OK) {
             qCWarning(ARK) << "Failed to set compression level" << archive_error_string(m_archiveWriter.data());
             Q_EMIT error(i18nc("@info", "Could not set the compression level."));

@@ -63,7 +63,8 @@
             "application/x-tzo",
             "application/x-lrzip-compressed-tar",
             "application/x-lz4-compressed-tar",
-            "application/x-zstd-compressed-tar"
+            "application/x-zstd-compressed-tar",
+            "application/x-7z-compressed"
         ],
         "Name": "Libarchive plugin",
         "Name[ar]": "ملحق Libarchive",
@@ -169,5 +170,19 @@
         "CompressionLevelDefault": 3,
         "CompressionLevelMax": 22,
         "CompressionLevelMin": 1
+    },
+    "application/x-7z-compressed": {
+        "CompressionLevelDefault": 5,
+        "CompressionLevelMax": 9,
+        "CompressionLevelMin": 1,
+        "CompressionMethodDefault": "LZMA2",
+        "CompressionMethods": {
+            "BZip2": "BZip2",
+            "Copy": "Copy",
+            "Deflate": "Deflate",
+            "LZMA1": "LZMA1",
+            "LZMA2": "LZMA2",
+            "PPMd": "PPMd"
+        }
     }
 }
