@@ -244,20 +244,6 @@ void CompressionOptionsWidget::slotMultiVolumeChecked(int state)
 
 void CompressionOptionsWidget::slotCompMethodChanged(const QString &value)
 {
-    // This hack is needed for the RAR format because the available encryption
-    // method is dependent on the selected compression method. Rar uses AES128
-    // for RAR4 format and AES256 for RAR5 format.
-
-    if (m_mimetype == QMimeDatabase().mimeTypeForName(QStringLiteral("application/vnd.rar"))
-        || m_mimetype == QMimeDatabase().mimeTypeForName(QStringLiteral("application/x-rar"))) {
-        encMethodComboBox->clear();
-        if (value == QLatin1String("RAR4")) {
-            encMethodComboBox->insertItem(0, QStringLiteral("AES128"));
-        } else {
-            encMethodComboBox->insertItem(0, QStringLiteral("AES256"));
-        }
-    }
-
     const ArchiveFormat archiveFormat = this->archiveFormat();
     Q_ASSERT(archiveFormat.isValid());
 
