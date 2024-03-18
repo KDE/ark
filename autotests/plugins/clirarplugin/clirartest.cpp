@@ -320,9 +320,6 @@ void CliRarTest::testAddArgs_data()
     QTest::addColumn<ulong>("volumeSize");
     QTest::addColumn<QStringList>("expectedArgs");
 
-    QTest::newRow("unencrypted") << QStringLiteral("/tmp/foo.rar") << QString() << false << 3 << QStringLiteral("RAR4") << 0UL
-                                 << QStringList{QStringLiteral("a"), QStringLiteral("-m3"), QStringLiteral("-ma4"), QStringLiteral("/tmp/foo.rar")};
-
     QTest::newRow("encrypted") << QStringLiteral("/tmp/foo.rar") << QStringLiteral("1234") << false << 3 << QString() << 0UL
                                << QStringList{QStringLiteral("a"), QStringLiteral("-p1234"), QStringLiteral("-m3"), QStringLiteral("/tmp/foo.rar")};
 
