@@ -34,15 +34,21 @@ void Cli7zTest::initTestCase()
 void Cli7zTest::testArchive_data()
 {
     QTest::addColumn<QString>("archivePath");
-    QTest::addColumn<QString>("expectedFileName");
+    QTest::addColumn<QString>("expectedBaseName");
     QTest::addColumn<bool>("isReadOnly");
     QTest::addColumn<bool>("isSingleFolder");
+    QTest::addColumn<bool>("isMultiVolume");
+    QTest::addColumn<int>("numberOfVolumes");
     QTest::addColumn<Archive::EncryptionType>("expectedEncryptionType");
     QTest::addColumn<QString>("expectedSubfolderName");
 
     QString archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
     QTest::newRow("archive with one top-level folder")
-        << archivePath << QFileInfo(archivePath).fileName() << false << true << Archive::Unencrypted << QStringLiteral("A");
+        << archivePath << QStringLiteral("one_toplevel_folder") << false << true << false << 0 << Archive::Unencrypted << QStringLiteral("A");
+
+    archivePath = QFINDTESTDATA("data/archive-multivolume.7z.001");
+    QTest::newRow("7z multivolume") << archivePath << QStringLiteral("archive-multivolume") << true << false << true << 3 << Archive::Unencrypted
+                                    << QStringLiteral("archive-multivolume");
 }
 
 void Cli7zTest::testArchive()
@@ -63,14 +69,20 @@ void Cli7zTest::testArchive()
         QSKIP("Could not load the cli7z plugin. Skipping test.", SkipSingle);
     }
 
-    QFETCH(QString, expectedFileName);
-    QCOMPARE(QFileInfo(archive->fileName()).fileName(), expectedFileName);
+    QFETCH(QString, expectedBaseName);
+    QCOMPARE(archive->completeBaseName(), expectedBaseName);
 
     QFETCH(bool, isReadOnly);
     QCOMPARE(archive->isReadOnly(), isReadOnly);
 
     QFETCH(bool, isSingleFolder);
     QCOMPARE(archive->isSingleFolder(), isSingleFolder);
+
+    QFETCH(bool, isMultiVolume);
+    QCOMPARE(archive->isMultiVolume(), isMultiVolume);
+
+    QFETCH(int, numberOfVolumes);
+    QCOMPARE(archive->numberOfVolumes(), numberOfVolumes);
 
     QFETCH(Archive::EncryptionType, expectedEncryptionType);
     QCOMPARE(archive->encryptionType(), expectedEncryptionType);
