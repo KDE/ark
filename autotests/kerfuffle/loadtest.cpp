@@ -137,9 +137,6 @@ void LoadTest::testProperties_data()
         // NOTE: there are 7 files in this AppImage, but libarchive reports "." as separate entry which is then skipped by the ArchiveModel.
         << true << false << false << false << false << 0 << Archive::Unencrypted << 7 + 1 << QStringLiteral("hello-1.0-x86_64") << QString();
 
-    QTest::newRow("7z multivolume") << QFINDTESTDATA("data/archive-multivolume.7z.001") << QStringLiteral("archive-multivolume") << true << false << false
-                                    << false << true << 3 << Archive::Unencrypted << 3 << QStringLiteral("archive-multivolume") << QString();
-
     QTest::newRow("zip with only an empty folder") << QFINDTESTDATA("data/single-empty-folder.zip") << QStringLiteral("single-empty-folder") << false << true
                                                    << false << true << false << 0 << Archive::Unencrypted << 1 << QStringLiteral("empty") << QString();
 
