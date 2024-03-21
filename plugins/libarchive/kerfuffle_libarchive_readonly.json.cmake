@@ -1,9 +1,13 @@
 {
     "KPlugin": {
         "Description": "Open and extract DEB, RPM, ISO, AppImage, XAR, CAB, and EXE files",
+        "Description[bg]": "Отваряне и извличане на файлове DEB, RPM, ISO, AppImage, XAR, CAB и EXE",
         "Description[ca@valencia]": "Obri i extrau fitxers DEB, RPM, ISO, AppImage, XAR, CAB i EXE",
         "Description[ca]": "Obre i extreu fitxers DEB, RPM, ISO, AppImage, XAR, CAB i EXE",
+        "Description[es]": "Abrir y extraer archivos DEB, RPM, ISO, AppImage, XAR, CAB y EXE",
+        "Description[fr]": "Ouvrir et extraire les fichiers aux formats « DEB », « RPM », « ISO », « AppImage », « XAR », « CAB » et « EXE »",
         "Description[he]": "פתיחה וחילוץ של קובצי DEB,‏ RPM,‏ ISO,‏ AppImage,‏ XAR,‏ CAB ו־EXE",
+        "Description[hu]": "DEB-, RPM-, ISO-, AppImage-, XAR- CAB- és EXE-fájlok megnyitása és kibontása",
         "Description[ia]": "Aperir e Extraher files DEB, RPM, ISO, AppImage, XAR, CAB e EXE ",
         "Description[ka]": "გახსენით და გაშალეთ DEB, RPM, ISO, AppImage, XAR, CAB და EXE ფაილები",
         "Description[nl]": "Open en pak uit DEB, RPM, ISO, AppImage, XAR, CAB en EXE bestanden",
@@ -11,6 +15,7 @@
         "Description[tr]": "DEB, RPM, ISO, AppImage, XAR ve CAB ve EXE dosyalarını açıp çıkarın",
         "Description[uk]": "Здатен відкривати і видобувати дані з архівів DEB, RPM, ISO, AppImage, XAR, CAB та EXE",
         "Description[x-test]": "xxOpen and extract DEB, RPM, ISO, AppImage, XAR, CAB, and EXE filesxx",
+        "Description[zh_TW]": "開啟並解壓縮 DEB、RPM、ISO、AppImage、XAR、CAB 或 EXE 檔案",
         "MimeTypes": [
             "application/x-deb",
             "application/x-cd-image",
