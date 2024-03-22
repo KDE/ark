@@ -4,6 +4,7 @@
         "Description[bg]": "Отваряне и извличане на файлове DEB, RPM, ISO, AppImage, XAR, CAB и EXE",
         "Description[ca@valencia]": "Obri i extrau fitxers DEB, RPM, ISO, AppImage, XAR, CAB i EXE",
         "Description[ca]": "Obre i extreu fitxers DEB, RPM, ISO, AppImage, XAR, CAB i EXE",
+        "Description[eo]": "Malfermi kaj malpaki DEB, RPM, ISO, AppImage, XAR, CAB- kaj EXE-dosierojn",
         "Description[es]": "Abrir y extraer archivos DEB, RPM, ISO, AppImage, XAR, CAB y EXE",
         "Description[fr]": "Ouvrir et extraire les fichiers aux formats « DEB », « RPM », « ISO », « AppImage », « XAR », « CAB » et « EXE »",
         "Description[he]": "פתיחה וחילוץ של קובצי DEB,‏ RPM,‏ ISO,‏ AppImage,‏ XAR,‏ CAB ו־EXE",
