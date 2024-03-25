@@ -20,6 +20,7 @@
         "Description[tr]": "DEB, RPM, ISO, AppImage, XAR ve CAB ve EXE dosyalarını açıp çıkarın",
         "Description[uk]": "Здатен відкривати і видобувати дані з архівів DEB, RPM, ISO, AppImage, XAR, CAB та EXE",
         "Description[x-test]": "xxOpen and extract DEB, RPM, ISO, AppImage, XAR, CAB, and EXE filesxx",
+        "Description[zh_CN]": "打开和解压 DEB、RPM、ISO、AppImage、XAR、CAB 和 EXE 等文件类型",
         "Description[zh_TW]": "開啟並解壓縮 DEB、RPM、ISO、AppImage、XAR、CAB 或 EXE 檔案",
         "MimeTypes": [
             "application/x-deb",
