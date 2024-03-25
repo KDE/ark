@@ -412,7 +412,7 @@ subfolder in the folder with the archive, extracts the folders and files into it
 
 <itemizedlist>
 <listitem>
-<para><guimenuitem>Here as "Archive.tar.gz"</guimenuitem> and <guimenuitem>Here as "Archive.zip"</guimenuitem> creates these archive types in the current folder.</para>
+<para><guimenuitem>Compress to "Archive.tar.gz"</guimenuitem> and <guimenuitem>Compress to "Archive.zip"</guimenuitem> creates these archive types in the current folder.</para>
 </listitem>
 <listitem>
 <para><guimenuitem>Compress to...</guimenuitem> opens a dialog where you can select folder, name and archive type.</para>
