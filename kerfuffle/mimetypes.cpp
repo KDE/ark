@@ -94,8 +94,7 @@ QMimeType determineMimeType(const QString &filename, MimePreference mp)
 
     if (mimeFromExtension != mimeFromContent) {
         if (mimeFromContent.isDefault()) {
-            qCWarning(ARK) << "Could not detect mimetype from content."
-                           << "Using extension-based mimetype:" << mimeFromExtension.name();
+            qCWarning(ARK) << "Could not detect mimetype from content." << "Using extension-based mimetype:" << mimeFromExtension.name();
             return mimeFromExtension;
         }
 
