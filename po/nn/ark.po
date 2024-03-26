@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-03 00:40+0000\n"
+"POT-Creation-Date: 2024-03-26 00:39+0000\n"
 "PO-Revision-Date: 2024-03-23 12:52+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -117,11 +117,13 @@ msgid "Compress to..."
 msgstr "Komprimer til …"
 
 #: app/compressfileitemaction.cpp:87
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#| msgid "Compress to..."
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
-msgid "Here as \"%1\""
-msgstr "Her som «%1»"
+msgid "Compress to \"%1\""
+msgstr "Komprimer til …"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -2310,3 +2312,9 @@ msgstr "Klarte ikkje kopiera oppføring: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Klarte ikkje definera metadata for oppføring: %1"
+
+#~ msgctxt ""
+#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
+#~ "filename"
+#~ msgid "Here as \"%1\""
+#~ msgstr "Her som «%1»"

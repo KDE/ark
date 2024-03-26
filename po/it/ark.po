@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-03 00:40+0000\n"
+"POT-Creation-Date: 2024-03-26 00:39+0000\n"
 "PO-Revision-Date: 2023-11-30 13:01+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -118,11 +118,13 @@ msgid "Compress to..."
 msgstr "Comprimi in..."
 
 #: app/compressfileitemaction.cpp:87
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#| msgid "Compress to..."
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
-msgid "Here as \"%1\""
-msgstr "Qui come «%1»"
+msgid "Compress to \"%1\""
+msgstr "Comprimi in..."
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -2335,6 +2337,12 @@ msgstr "Impossibile copiare la voce: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Impossibile impostare i metadati della voce: %1"
+
+#~ msgctxt ""
+#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
+#~ "filename"
+#~ msgid "Here as \"%1\""
+#~ msgstr "Qui come «%1»"
 
 #~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 #~ msgid "Extract archive to..."

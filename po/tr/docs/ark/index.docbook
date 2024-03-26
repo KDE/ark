@@ -282,7 +282,7 @@
 <para
 ><literal role="extension"
 >rar</literal
-> arşivinden bir açıklamayı silmek için açıklama penceresindeki metni silin.</para>
+> arşivinden bir açıklamayı kaldırmak için açıklama penceresindeki metni silin.</para>
 
 </sect2>
 
@@ -672,10 +672,10 @@
 <listitem>
 <para
 ><guimenuitem
->Buraya "Arşiv.tar.gz" Olarak</guimenuitem
-> ve <guimenuitem
->Buraya "Arşiv.zip" Olarak</guimenuitem
->, bu arşiv türlerini geçerli klasörde oluşturur.</para>
+>Compress to "Archive.tar.gz"</guimenuitem
+> and <guimenuitem
+>Compress to "Archive.zip"</guimenuitem
+> creates these archive types in the current folder.</para>
 </listitem>
 <listitem>
 <para

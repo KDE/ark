@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-03 00:40+0000\n"
+"POT-Creation-Date: 2024-03-26 00:39+0000\n"
 "PO-Revision-Date: 2024-02-11 11:59-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -114,11 +114,13 @@ msgid "Compress to..."
 msgstr "...ਲਈ ਕੰਪਰੈਸ ਕਰੋ"
 
 #: app/compressfileitemaction.cpp:87
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#| msgid "Compress to..."
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
-msgid "Here as \"%1\""
-msgstr "\"%1\" ਵਜੋਂ ਇੱਥੇ"
+msgid "Compress to \"%1\""
+msgstr "...ਲਈ ਕੰਪਰੈਸ ਕਰੋ"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -2279,6 +2281,12 @@ msgstr "ਐੰਟਰੀ ਕਾਪੀ ਕਰਨ ਲਈ ਫੇਲ੍ਹ: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "ਐਂਟਰੀ ਲਈ ਮੇਟਾਡਾਟਾ ਸੈੱਟ ਕਰਨ ਲਈ ਅਸਫ਼ਲ: %1"
+
+#~ msgctxt ""
+#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
+#~ "filename"
+#~ msgid "Here as \"%1\""
+#~ msgstr "\"%1\" ਵਜੋਂ ਇੱਥੇ"
 
 #~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 #~ msgid "Extract archive to..."

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-02-03 00:40+0000\n"
+"POT-Creation-Date: 2024-03-26 00:39+0000\n"
 "PO-Revision-Date: 2024-02-09 20:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -116,11 +116,13 @@ msgid "Compress to..."
 msgstr "다음으로 압축하기..."
 
 #: app/compressfileitemaction.cpp:87
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#| msgid "Compress to..."
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
-msgid "Here as \"%1\""
-msgstr "여기에 \"%1\"(으)로"
+msgid "Compress to \"%1\""
+msgstr "다음으로 압축하기..."
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -2277,6 +2279,12 @@ msgstr "항목을 복사할 수 없음: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "항목의 메타데이터를 설정할 수 없음: %1"
+
+#~ msgctxt ""
+#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
+#~ "filename"
+#~ msgid "Here as \"%1\""
+#~ msgstr "여기에 \"%1\"(으)로"
 
 #~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 #~ msgid "Extract archive to..."

@@ -1,0 +1,812 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Slovenian "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY Ragnar.Thomsen '<personname
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+></personname
+>'>
+  <!ENTITY Ragnar.Thomsen.mail '<email
+>rthomsen6@gmail.com</email
+>'>
+  <!ENTITY Henrique.Pinto '<personname
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+></personname
+>'>
+  <!ENTITY Henrique.Pinto.mail '<email
+>henrique.pinto@kdemail.net</email
+>'>
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>&ark; Priročnik za</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+<author
+>&Henrique.Pinto; &Henrique.Pinto.mail; </author>
+<author
+>&Ragnar.Thomsen; &Ragnar.Thomsen.mail; </author>
+
+<othercredit role="translator"
+><firstname
+>Luka</firstname
+><surname
+>Puhar</surname
+><affiliation
+><address
+><email
+>puhar.luka@gmail.com</email
+></address
+></affiliation
+><contrib
+>Prevod</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>&Henrique.Pinto;</holder>
+</copyright>
+
+<copyright>
+<year
+>2015, 2016</year>
+<holder
+>&Ragnar.Thomsen;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>10.09.2016</date>
+<releaseinfo
+>Aplikacije 16.12</releaseinfo>
+
+<abstract>
+<para
+>&ark; je &kde;jev upravitelj arhiva.</para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>arhiv</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>kompresija</keyword>
+<keyword
+>7z</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Uvod</title>
+<para
+>&ark; je program za pregledovanje, ekstrahiranje, ustvarjanje in spreminjanje arhivov. &ark; lahko obdeluje različne formate arhivov, kot so <command
+>tar</command
+>, <command
+>gzip</command
+>, <command
+>bzip2</command
+>, <command
+>zip</command
+>, <command
+>rar</command
+>, <command
+>7zip</command
+>, <command
+>xz</command
+>, <command
+>rpm</command
+>, <command
+>cab</command
+>, <command
+>deb</command
+>, <command
+>xar</command
+> and <command
+>AppImage</command
+> (podpora za nekatere oblike arhivov je odvisna od namestitve ustreznih programov ukazne vrstice).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>&ark;ovo glavno okno</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Za uspešno uporabo &ark; potrebujete KDE Frameworks 5. Knjižnica libarchive različice 3.1 ali višje je potrebna za obdelavo večine vrst arhivov, vključno z arhivi tar, stisnjenimi tar, rpm, deb in cab arhivi. Za obdelavo drugih formatov datotek potrebujete ustrezne programe ukazne vrstice, kot so <command
+>zipinfo</command
+>, <command
+>zip</command
+>, <command
+>unzip</command
+>, <command
+>rar</command
+>, <command
+>unrar</command
+>, <command
+>7z</command
+>, <command
+>lsar</command
+>, <command
+>unar</command
+> in <command
+>lrzip</command
+>.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>Uporaba &ark;</title>
+
+<sect1 id="ark-open">
+<title
+>Odpiranje arhivov</title>
+
+<para
+>Če želite odpreti arhiv v &ark;, izberite <guimenuitem
+>Odpri...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>) v meniju <guimenu
+>Arhiv</guimenu
+>. Arhivske datoteke lahko odprete tudi tako, da jih povlečete in spustite iz &dolphin;. Arhivske datoteke bi morale biti povezane z &ark;, zato lahko tudi <mousebutton
+>desno</mousebutton
+> kliknete datoteko v &dolphin; in izberete <guimenuitem
+>Odpri z &ark;</guimenuitem
+>, da jo odprete ali izberete dejanje ekstrahiraj za izpis te datoteke.</para>
+
+<para
+>Če ste v meniju <guimenu
+>Nastavitve</guimenu
+> omogočili informacijsko ploščo, so prikazane dodatne informacije o izbranih mapah ali datotekah v arhivu.</para>
+
+<sect2 id="ark-archive-operations">
+<title
+>Arhivske operacije</title>
+
+<para
+>Za odprti arhiv lahko z uporabo menija <guimenu
+>Arhiv</guimenu
+> izvedete različne operacije. Arhiv lahko na primer shranite z drugim imenom z uporabo <guimenuitem
+>Shrani kot...</guimenuitem
+>. Lastnosti arhiva, kot so vrsta, velikost in vrednost MD5 razprševanja, si lahko ogledate s pomočjo elementa <guimenuitem
+>Lastnosti</guimenuitem
+>.</para>
+
+<para
+>&ark; ima možnost testiranja celovitosti arhivov. Ta funkcionalnost je trenutno na voljo za arhive <command
+>zip</command
+>, <command
+>rar</command
+> in <command
+>7z</command
+>. Testno dejanje je na voljo v meniju <guimenu
+>Arhiv</guimenu
+>.</para>
+
+</sect2>
+
+<sect2 id="ark-archive-comments">
+<title
+>Komentarji arhiva</title>
+
+<para
+>&ark; lahko obdeluje komentarje, vgrajene v <literal role="extension"
+>zip</literal
+> in <literal role="extension"
+>rar</literal
+> arhive.</para>
+
+<para
+>Komentarji, vstavljeni v <literal role="extension"
+>zip</literal
+> arhive, se samodejno prikažejo.</para>
+
+<para
+>Z uporabo <literal role="extension"
+>rar</literal
+> arhivov lahko spremenite komentar z dejanji <guimenuitem
+>Dodaj komentar</guimenuitem
+> ali <guimenuitem
+>Urejanje komentarja</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>C</keycap
+></keycombo
+>) iz menija <guimenu
+>Arhiv</guimenu
+>. </para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Urejanje komentarja</phrase>
+</textobject>
+</mediaobject>
+
+<note
+><para
+>Element menija Komentar je omogočen samo za <literal role="extension"
+>rar</literal
+> arhive. </para
+></note>
+
+<para
+>Če želite odstraniti komentar iz <literal role="extension"
+>rar</literal
+> arhiva, izbrišite besedilo v oknu s komentarji.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>Delo z datotekami</title>
+
+<para
+>Ko odprete arhiv, lahko z datotekami v njem izvajate različne operacije. Z izbiro datoteke in uporabo menija <guimenu
+>Datoteka</guimenu
+> lahko izberete različne operacije:</para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Predogled</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+>) bo odprl datoteko z notranjim pregledovalnikom &ark;. To je hiter pregledovalnik samo za branje, vendar ne podpira vseh vrst datotek.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Odpri</guimenuitem
+> bo odprl datoteko v povezani aplikaciji za to vrsto datoteke.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Odpri z...</guimenuitem
+> vam omogoča, da izberete aplikacijo, s katero želite odpreti datoteko.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Preimenuj</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>F2</keycap
+></keycombo
+>) To dejanje omogoča spreminjanje imen datotek in map. Tako kot v upravitelju datotek Dolphin lahko to dejanje prikličete z bližnjico, preimenovanje pa se izvede z urejanjem v vrstici. Zagotovljeni so tudi pregledi imen datotek, ki preprečujejo uporabo neveljavnih znakov, kot so <userinput
+>/</userinput
+>, <userinput
+>.</userinput
+> in <userinput
+>..</userinput
+> v imenih datotek.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Izbriši</guimenuitem
+> (<keycap
+>Del</keycap
+>) odstrani trenutno izbrano(-e) datoteko(-e) iz arhiva. Upoštevajte, da je to dejanje mogoče dokončno.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Ekstrahiraj</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>) odpre podmeni s predhodno dostopnimi mapami, pri čemer se lahko odločite za hiter izvleček v katero koli od njih ali brskanje po mapi, ki ni na seznamu. Za več podrobnosti o ekstrakciji glejte naslednje poglavje.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Izreži</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+>) / <guimenuitem
+>Kopiraj</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>) / <guimenuitem
+>Prilepi</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+>): Kot v tipičnih upraviteljih datotek so na voljo premikanje, prilepljanje in kopiranje. Uporabniki lahko premaknejo ali kopirajo datoteke iz različnih map (ki jih je mogoče razširiti v drevesnem prikazu) in jih hkrati prilepijo na isti cilj. Mapo lahko kopirate med seboj, ne morete pa je premakniti. Preverja tudi nasprotujoča si imena datotek: datotek ne boste mogli kopirati ali premakniti v mapo, ki ima vnose z enakimi imeni, kar bi lahko povzročilo izgubo podatkov.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Dodaj datoteke</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>A</keycap
+></keycombo
+>) To dejanje lahko uporabite za dodajanje datotek na katero koli mesto v arhivu. Če izberete mapo in uporabite to dejanje, bodo datoteke dodane v izbrano mapo. V nasprotnem primeru bodo nove datoteke dodane v koren arhiva. </para>
+</listitem>
+</itemizedlist>
+
+<sect2 id="ark-editing-files">
+<title
+>Urejanje datotek</title>
+<para
+>Če uredite in shranite datoteko, ki ste jo odprli z uporabo <guimenuitem
+>Odpri</guimenuitem
+> ali <guimenuitem
+>Odpri z...</guimenuitem
+>, vas bo Ark vprašal, ali želite posodobiti datoteko v arhivu. Če odgovorite Da, bo arhiv posodobljen s shranjeno datoteko.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>Ekstrahiranje datotek</title>
+
+<para
+>Ko arhiv odprete v programu &ark;, ga lahko ekstrahirate. To lahko storite tako, da v meniju <guimenu
+>Datoteka</guimenu
+> izberete <guisubmenu
+>Ekstrahiraj</guisubmenu
+>. Odpre se podmeni s prej dostopnimi mapami, v katere lahko hitro shranite izvleček. Lahko pa izberete element podmenija <guisubmenu
+>Ekstrahiraj v...</guisubmenu
+>, da odprete pogovorno okno <guilabel
+>Ekstrahiraj</guilabel
+>, v katerem lahko nastavite različne možnosti, ki vplivajo na ekstrakcijo. Informacije o razpoložljivih možnostih v pogovornem oknu Ekstrahiranje si oglejte spodaj.</para>
+
+<para
+>Za dostop do istih možnosti ekstrakcije lahko uporabite tudi gumb <guibutton
+>Ekstrahiraj</guibutton
+> v orodni vrstici.</para>
+
+<para
+>Če želite izvleči celoten arhiv, lahko v meniju <guimenu
+>Arhiv</guimenu
+> izberete <guisubmenu
+>Ekstrahiraj vse</guisubmenu
+>. To dejanje brezpogojno ekstrahira vse datoteke v arhivu.</para>
+
+<para
+>Datoteke in mape je mogoče izvleči tako, da jih preprosto povlečete z miško v mapo v &dolphin;.</para>
+
+<para
+>Opomba: Izvlečenje datotek iz arhiva ne spremeni arhiva in njegove vsebine.</para>
+
+<sect2 id="ark-extract-dialog">
+<title
+>Pogovorno okno ekstrahiraj</title>
+
+<para
+>V pogovornem oknu <guilabel
+>Ekstrahiraj</guilabel
+> lahko izberete, kam se bodo datoteke izvlekle. Privzeta lokacija je mapa, v kateri je arhiv. Pogovorno okno lahko odprete tudi tako, da pritisnete <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="extract-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>&ark;ovo Ekstrahiraj pogovorno okno</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Določite lahko, da se datoteke ekstrahirajo v podmapo. Privzeto ime te podmape je ime arhiva brez končnice, vendar ga lahko uredite po svojih potrebah. Če želite ohraniti poti pri ekstrahiranju, izberite možnost <guilabel
+>Ohrani poti med ekstrahiranjem</guilabel
+>. Po končanem ekstrahiranju lahko ciljno mapo odprete tudi v programu &dolphin; ali zaprete program &ark;.</para>
+
+<para
+>Če je ena ali več datotek na seznamu arhivov označena, lahko izberete tudi datoteke, ki jih želite ekstrahirati:</para>
+<itemizedlist>
+<listitem>
+<para
+><guilabel
+>Samo izbrane datoteke</guilabel
+> ekstrahira samo izbrane datoteke.</para>
+</listitem>
+<listitem>
+<para
+><guilabel
+>Vse datoteke</guilabel
+> ekstrahira celotno vsebino arhiva.</para>
+</listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>Ustvarjanje arhivov in dodajanje datotek</title>
+
+<para
+>Če želite ustvariti nov arhiv v &ark;, izberite <guimenuitem
+>Novo</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+>) v meniju <guimenu
+>Arhiv</guimenu
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Ustvari arhiv</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Nato lahko vnesete ime arhiva z ustrezno končnico (<literal role="extension"
+>tar.gz</literal
+>, <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>7z</literal
+>, &etc;) ali pa v izbirnem polju <guilabel
+>Filter</guilabel
+> izberete podprto obliko in potrdite možnost <guilabel
+>Avtomatsko dodaj <replaceable
+>pripono imena datoteke</replaceable
+></guilabel
+>.</para>
+
+<para
+>Če želite v nov arhiv dodati datoteke ali mape, izberite <guimenuitem
+>Dodaj datoteke...</guimenuitem
+> v meniju <guimenuitem
+>Arhiv</guimenuitem
+>.</para>
+
+<para
+>Druga možnost dodajanja datotek v arhiv je, da povlečete eno ali več datotek iz npr. &dolphin; v glavno okno &ark; in te bodo dodane v trenutni arhiv. Upoštevajte, da bodo tako dodane datoteke vedno dodane v korenski imenik arhiva.</para>
+
+<para
+>Dodatne možnosti so predstavljene v zložljivih skupinah na dnu pogovornega okna. </para>
+
+<sect2 id="ark-compression">
+<title
+>Stiskanje</title>
+<para
+>Večja vrednost ustvari manjše arhive, vendar povzroči daljše čase stiskanja in raztezanje. Privzeta stopnja stiskanja, ki jo predlaga &ark;, je običajno dober kompromis med velikostjo in hitrostjo (de)stiskanja. Pri večini formatov je najmanjša stopnja stiskanja enaka samo shranjevanju datotek, torej brez stiskanja. </para>
+<para
+>Za arhive <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7z</literal
+> in <literal role="extension"
+>zip</literal
+> lahko izberete različne metode stiskanja. </para>
+<para
+>Upoštevajte, da lahko uporaba metod stiskanja, ki niso predizbrane kot privzete, omeji združljivost z datotečnimi arhivatorji. Za odpiranje <literal role="extension"
+>zip</literal
+> arhivov z drugimi metodami stiskanja kot <quote
+>Izprazni</quote
+> je na primer potrebna novejša programska oprema za arhiviranje.</para>
+</sect2>
+
+<sect2 id="ark-password-protection">
+<title
+>Zaščita z geslom</title>
+<para
+>Če ustvarite arhiv <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7zip</literal
+> in <literal role="extension"
+>jar</literal
+>, ga lahko zaščitite z geslom. Trenutno samo format <literal role="extension"
+>zip</literal
+> podpira več načinov šifriranja. Pri drugih formatih, ki podpirajo samo eno metodo šifriranja, je metoda prikazana v spustnem polju.</para>
+<para
+>Drugi načini šifriranja kot privzeti <guilabel
+>ZipCrypto</guilabel
+> morda niso podprti v vseh datotečnih arhivih.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Ustvarjanje arhiva, zaščitenega z geslom</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>Izberite, ali naj se pred prikazom seznama datotek zahteva geslo. To se imenuje šifriranje glave in je na voljo samo v formatih <literal role="extension"
+>rar</literal
+> in <literal role="extension"
+>7zip</literal
+>. Šifriranje glave je privzeto omogočeno (če je na voljo), da bi zagotovili največjo zaščito za začetne uporabnike.</para>
+</sect2>
+
+<sect2 id="ark-multi-volume">
+<title
+>Arhiv v več zvezkih</title>
+<para
+>S formati <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+> in <literal role="extension"
+>7z</literal
+> lahko ustvarite več-zvezne arhive, znane tudi kot večdelne ali deljene arhive.</para>
+<para
+>Večdelni arhiv je en velik stisnjen arhiv, razdeljen na več datotek. Ta funkcija je uporabna, če je največja velikost datoteke omejena, &eg; glede na kapaciteto pomnilniškega medija ali največjo velikost elektronskega sporočila s priponkami.</para>
+<para
+>Če želite ustvariti arhiv z več nosilci, potrdite polje <guilabel
+>Ustvari arhiv z več zvezki</guilabel
+> in v pogovornem oknu nastavite največjo <guilabel
+>Velikost nosilca</guilabel
+>. Nato dodajte vse datoteke v arhiv in &ark; bo samodejno ustvaril zahtevano število arhivskih zvezkov. Odvisno od izbranega formata imajo datoteke končnico z zaporednim številčenjem &eg; <filename
+>xxx.7z.001</filename
+>, <filename
+>xxx.7z.002</filename
+> ali <filename
+>xxx.zip.001</filename
+>, <filename
+>xxx.zip.002</filename 
+> ali <filename
+>xxx.part1.rar</filename
+>, <filename
+>xxx.part2.rar</filename
+> itd.</para>
+<para
+>Če želite ekstrahirati arhiv z več nosilci, postavite vse arhivske datoteke v eno mapo in odprite datoteko z najnižjo končnico v &ark; in vsi ostali deli razdeljenega arhiva se bodo odprli samodejno.</para>
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>Uporaba &ark; v upravitelju datotek</title>
+
+<para
+>S klikom z &RMB; v arhivu v upravitelju datotek, kot je &dolphin; se prikaže kontekstni meni z elementom <guimenuitem
+>Odpri z Ark</guimenuitem
+>. Meni ima te dodatne elemente za izvlečenje arhiva z &ark;: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Ekstrahiraj sem</guimenuitem
+> ustvari podmapo v mapi z arhivom in vanjo ekstrahira mape in datoteke. Če arhiv vsebuje samo eno datoteko ali mapo, podmapa ne bo ustvarjena.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Izvleci sem in izbriši arhiv</guimenuitem
+> ustvari podmapo v mapi z arhivom, izvleče mape in datoteke vanjo ter izbriše arhiv.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Izvleci v...</guimenuitem
+> odpre pogovorno okno Izvleci, kjer lahko izberete ciljno mapo in različne možnosti izvlačevanja.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>&dolphin;ov kontekstni meni za izbiro datotek in/ali map prikaže ta dejanja v podmeniju <guimenu
+>Stisni</guimenu
+>: </para>
+
+<itemizedlist>
+<listitem>
+<para
+><guimenuitem
+>Tukaj kot "Archive.tar.gz"</guimenuitem
+> ali <guimenuitem
+>Tukaj kot "Archive.zip"</guimenuitem
+> ustvari te vrste arhivov v trenutni mapi.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Stisni v ...</guimenuitem
+> odpre pogovorno okno, kjer lahko izberete mapo, ime in vrsto arhiva.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>Napredni paketni način</title>
+<para
+>&ark; ima napreden paketni način za upravljanje arhivov brez zagona grafičnega uporabniškega vmesnika. Ta način vam omogoča ekstrahiranje ali ustvarjanje arhivov in dodajanje datotek vanje.</para>
+
+<para
+>Paketni način je dokumentiran na <ulink url="man:/ark"
+>strani priročnika&ark;</ulink
+>. </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Zasluge in licenca</title>
+
+<para
+>&ark; je del avtorskih pravic &copy; 1997-2016, The &ark; Razvojne ekipe.</para>
+
+<itemizedlist>
+<title
+>Avtorji:</title>
+<listitem
+><para
+>Elvis Angelaccio <email
+>elvis.angelaccio@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Ragnar Thomsen <email
+>rthomsen6@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Raphael Kubo da Costa <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+>Harald Hvaal <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+>Helio Chissini de Castro <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>Georg Robbers <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>Henrique Pinto <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>Roberto Selbach Teixeira <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Robert Palmbos <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>Francois-Xavier Duranceau <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (avtor: Emily Ezust) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>Corel Corporation (avtor: Michael Jarrett) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>Dokumentacija Avtorske pravice &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
+
+<para
+>Dokumentacija je posodobljena za &kde; 3.3 s &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
+
+<para
+>Dokumentacija posodobljena za KDE Applications 16.04 by &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
+
+<para
+>Prevod: Luka Puhar<email
+>puhar.luka@gmail.com</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+
