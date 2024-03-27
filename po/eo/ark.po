@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-26 00:39+0000\n"
-"PO-Revision-Date: 2023-11-29 22:32+0100\n"
+"PO-Revision-Date: 2024-03-27 09:18+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -116,13 +116,11 @@ msgid "Compress to..."
 msgstr "Kunpremi al..."
 
 #: app/compressfileitemaction.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "Kunpremi al..."
+msgstr "Kunpremi al \"%1\""
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -2311,9 +2309,3 @@ msgstr "Malsukcesis kopii eniron: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Malsukcesis agordi metadatenojn por enigo: %1"
-
-#~ msgctxt ""
-#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
-#~ "filename"
-#~ msgid "Here as \"%1\""
-#~ msgstr "Ĉi tie kiel \"%1\""
