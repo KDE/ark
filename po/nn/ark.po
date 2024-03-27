@@ -2312,9 +2312,3 @@ msgstr "Klarte ikkje kopiera oppføring: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Klarte ikkje definera metadata for oppføring: %1"
-
-#~ msgctxt ""
-#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
-#~ "filename"
-#~ msgid "Here as \"%1\""
-#~ msgstr "Her som «%1»"

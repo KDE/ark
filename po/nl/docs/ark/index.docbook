@@ -658,9 +658,9 @@
 <listitem>
 <para
 ><guimenuitem
->Hier als "Archief.tar.gz"</guimenuitem
+>Comprimeer naar "Archief.tar.gz"</guimenuitem
 > en <guimenuitem
->Hier als "Archief.zip"</guimenuitem
+>Comprimeer naar "Archief.zip"</guimenuitem
 > maakt deze typen archief aan in de huidige map.</para>
 </listitem>
 <listitem>

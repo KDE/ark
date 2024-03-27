@@ -10,21 +10,21 @@
 # Rinse de Vries <rinsedevries@kde.nl>, 2004, 2005, 2007, 2008, 2009.
 # Bram Schoenmakers <bramschoenmakers@kde.nl>, 2004, 2006.
 # Kristof Bal <kristof.bal@gmail.com>, 2008, 2009.
-# SPDX-FileCopyrightText: 2008, 2009, 2023 Freek de Kruijf <f.de.kruijf@hetnet.nl>
+# SPDX-FileCopyrightText: 2008, 2009, 2023, 2024 Freek de Kruijf <f.de.kruijf@hetnet.nl>
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2009, 2010, 2011, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-26 00:39+0000\n"
-"PO-Revision-Date: 2023-11-29 17:49+0100\n"
+"PO-Revision-Date: 2024-03-26 11:05+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.02.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -33,7 +33,7 @@ msgid "Your names"
 msgstr ""
 "Wilbert Berendsen - 2003; 2004,Tom Albers - 2004,Rinse de Vries - 2004; "
 "2005; 2007 t/m 2009,Bram Schoenmakers - 2004; 2006,Kristof Bal - 2008; 2009,"
-"Freek de Kruijf - 2008; 2009; 2015-2023"
+"Freek de Kruijf - 2008; 2009; 2015-2024"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -128,13 +128,11 @@ msgid "Compress to..."
 msgstr "Comprimeren naar..."
 
 #: app/compressfileitemaction.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "Comprimeren naar..."
+msgstr "Comprimeer naar \"%1\""
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format

@@ -684,9 +684,9 @@
 <listitem>
 <para
 ><guimenuitem
->Сюди як «Archive.tar.gz»</guimenuitem
+>Стиснути до «Archive.tar.gz»</guimenuitem
 > або <guimenuitem
->Сюди як «Archive.zip»</guimenuitem
+>Стиснути до «Archive.zip»</guimenuitem
 > створює відповідні типи архівів у поточній теці.</para>
 </listitem>
 <listitem>
