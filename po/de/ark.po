@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2009, 2010, 2023 Johannes Obermayr <johannesobermayr@gmx.de>
+# SPDX-FileCopyrightText: 2009, 2010, 2023, 2024 Johannes Obermayr <johannesobermayr@gmx.de>
 # Gregor Zumstein <zumstein@ssd.ethz.ch>, 2002,2003, 2004, 2005.
 # Thomas Diehl <thd@kde.org>, 2003.
 # Stephan Johach <hunsum@gmx.de>, 2004, 2005.
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
