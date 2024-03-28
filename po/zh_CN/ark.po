@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-26 00:39+0000\n"
-"PO-Revision-Date: 2024-03-26 19:25\n"
+"PO-Revision-Date: 2024-03-27 19:45\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -118,7 +118,7 @@ msgstr "压缩为..."
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr ""
+msgstr "压缩为“%1”"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format

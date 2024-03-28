@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2009, 2010, 2023 Johannes Obermayr <johannesobermayr@gmx.de>
+# SPDX-FileCopyrightText: 2009, 2010, 2023, 2024 Johannes Obermayr <johannesobermayr@gmx.de>
 # Gregor Zumstein <zumstein@ssd.ethz.ch>, 2002,2003, 2004, 2005.
 # Thomas Diehl <thd@kde.org>, 2003.
 # Stephan Johach <hunsum@gmx.de>, 2004, 2005.
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-26 00:39+0000\n"
-"PO-Revision-Date: 2023-12-18 15:57+0100\n"
+"PO-Revision-Date: 2024-03-26 17:24+0100\n"
 "Last-Translator: Johannes Obermayr <johannesobermayr@gmx.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -121,13 +121,11 @@ msgid "Compress to..."
 msgstr "Komprimieren nach ..."
 
 #: app/compressfileitemaction.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "Komprimieren nach ..."
+msgstr "Komprimieren nach „%1“"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
