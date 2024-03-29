@@ -672,10 +672,10 @@
 <listitem>
 <para
 ><guimenuitem
->Compress to "Archive.tar.gz"</guimenuitem
-> and <guimenuitem
->Compress to "Archive.zip"</guimenuitem
-> creates these archive types in the current folder.</para>
+>"Arşiv.tar.gz" Olarak Sıkıştır</guimenuitem
+> ve <guimenuitem
+>"Arşiv.zip" Olarak Sıkıştır</guimenuitem
+>, bu arşiv türlerini geçerli klasörde oluşturur.</para>
 </listitem>
 <listitem>
 <para
