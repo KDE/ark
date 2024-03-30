@@ -1,5 +1,5 @@
 # translation of ark.po to Galician
-# SPDX-FileCopyrightText: 2017, 2018, 2019, 2023 Adrián Chaves <adrian@chaves.io>
+# SPDX-FileCopyrightText: 2017, 2018, 2019, 2023, 2024 Adrián Chaves <adrian@chaves.io>
 # Xosé <xosecalvo@gmail.com>, 2008, 2012.
 # Marce Villarino <mvillarino@users.sourceforge.net>, 2009, 2014.
 # Adrian Chaves Fernandez <adriyetichaves@gmail.com>, 2013, 2015, 2016.
@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-26 00:39+0000\n"
-"PO-Revision-Date: 2023-12-03 09:55+0100\n"
+"PO-Revision-Date: 2024-03-29 10:41+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
-"Language-Team: Galician <proxecto@trasno.gal>\n"
+"Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.02.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -114,13 +114,11 @@ msgid "Compress to..."
 msgstr "Comprimir en…"
 
 #: app/compressfileitemaction.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "Comprimir en…"
+msgstr "Comprimir en «%1»"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
