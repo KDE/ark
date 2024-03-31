@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Open and extract DEB, RPM, ISO, AppImage, XAR, CAB, and EXE files",
+        "Description[ar]": "يفتح ويستخرج ملفات DEB و RPM و ISO و AppImage و XAR و CAB و EXE",
         "Description[ast]": "Abre y estrae ficheros DEB, RPM, ISO, AppImage, XAR, CAB y EXE",
         "Description[bg]": "Отваряне и извличане на файлове DEB, RPM, ISO, AppImage, XAR, CAB и EXE",
         "Description[ca@valencia]": "Obri i extrau fitxers DEB, RPM, ISO, AppImage, XAR, CAB i EXE",
