@@ -74,7 +74,7 @@
         "Name[ja]": "ARJ プラグイン",
         "Name[ka]": "ARJ -ის მხარდაჭერა",
         "Name[ko]": "ARJ 플러그인",
-        "Name[lv]": "ARJ pielikums",
+        "Name[lv]": "ARJ spraudnis",
         "Name[nl]": "ARJ-plug-in",
         "Name[nn]": "ARJ-tillegg",
         "Name[pa]": "ARJ ਪਲੱਗਇਨ",

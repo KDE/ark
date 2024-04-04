@@ -81,7 +81,7 @@
         "Name[ja]": "Unarchiver プラグイン",
         "Name[ka]": "Unarchiver -ის მხარდაჭერა",
         "Name[ko]": "The Unarchiver 플러그인",
-        "Name[lv]": "„Unarchiver“ pielikums",
+        "Name[lv]": "„Unarchiver“ spraudnis",
         "Name[nl]": "De plug-in voor uit archief halen",
         "Name[nn]": "The Unarchiver-tillegg",
         "Name[pa]": "Unarchiver ਪਲੱਗਇਨ",

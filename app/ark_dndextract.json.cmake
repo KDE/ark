@@ -28,7 +28,7 @@
         "Name[ja]": "Ark で展開",
         "Name[ka]": "Ark აქ გაშლა",
         "Name[ko]": "Ark 여기에 압축 풀기",
-        "Name[lv]": "Ark izvilkt te",
+        "Name[lv]": "„Ark“ izvilkt te",
         "Name[nl]": "Ark: hier uitpakken",
         "Name[nn]": "Pakk ut med Ark her",
         "Name[pa]": "ਆਕ ਇ਼ੱਥੇ ਖਿਲਾਰੋ",

@@ -84,7 +84,7 @@
         "Name[ja]": "RAR プラグイン",
         "Name[ka]": "RAR -ის მხარდაჭერა",
         "Name[ko]": "RAR 플러그인",
-        "Name[lv]": "RAR pielikums",
+        "Name[lv]": "RAR spraudnis",
         "Name[nl]": "RAR-plug-in",
         "Name[nn]": "RAR-tillegg",
         "Name[pa]": "RAR ਪਲੱਗਇਨ",
