@@ -34,14 +34,14 @@ void CopyTest::testCopying_data()
 {
     QTest::addColumn<QString>("archiveName");
     QTest::addColumn<Plugin *>("plugin");
-    QTest::addColumn<QVector<Archive::Entry *>>("targetEntries");
+    QTest::addColumn<QList<Archive::Entry *>>("targetEntries");
     QTest::addColumn<Archive::Entry *>("destination");
     QTest::addColumn<QStringList>("expectedNewPaths");
     QTest::addColumn<uint>("numberOfEntries");
 
     setupRows(QStringLiteral("copy a single file"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("a.txt")),
               },
               new Archive::Entry(this, QStringLiteral("empty_dir/")),
@@ -50,7 +50,7 @@ void CopyTest::testCopying_data()
 
     setupRows(QStringLiteral("copy several files"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")), new Archive::Entry(this, QStringLiteral("b.txt"))},
+              QList<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")), new Archive::Entry(this, QStringLiteral("b.txt"))},
               new Archive::Entry(this, QStringLiteral("empty_dir/")),
               QStringList{
                   QStringLiteral("empty_dir/a.txt"),
@@ -60,7 +60,7 @@ void CopyTest::testCopying_data()
 
     setupRows(QStringLiteral("copy a root directory"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir1/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
@@ -81,7 +81,7 @@ void CopyTest::testCopying_data()
 
     setupRows(QStringLiteral("copy a root directory 2"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir2/")),
                   new Archive::Entry(this, QStringLiteral("dir2/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
@@ -98,7 +98,7 @@ void CopyTest::testCopying_data()
 
     setupRows(QStringLiteral("copy a root directory 3"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir2/")),
                   new Archive::Entry(this, QStringLiteral("dir2/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
@@ -115,7 +115,7 @@ void CopyTest::testCopying_data()
 
     setupRows(QStringLiteral("copy a directory"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
@@ -126,7 +126,7 @@ void CopyTest::testCopying_data()
 
     setupRows(QStringLiteral("copy several directories"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir1/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
@@ -155,7 +155,7 @@ void CopyTest::testCopying_data()
 
     setupRows(QStringLiteral("copy several entries"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
@@ -174,7 +174,7 @@ void CopyTest::testCopying_data()
 
     setupRows(QStringLiteral("copy a directory inside itself"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir1/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
@@ -195,7 +195,7 @@ void CopyTest::testCopying_data()
 
     setupRows(QStringLiteral("copy a directory to the root"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
@@ -234,7 +234,7 @@ void CopyTest::testCopying()
         QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
     }
 
-    QFETCH(QVector<Archive::Entry *>, targetEntries);
+    QFETCH(QList<Archive::Entry *>, targetEntries);
     QFETCH(Archive::Entry *, destination);
     QFETCH(QStringList, expectedNewPaths);
 

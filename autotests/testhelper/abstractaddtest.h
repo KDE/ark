@@ -33,7 +33,7 @@ public:
      */
     void setupRows(const QString &testName,
                    const QString &archiveName,
-                   const QVector<Kerfuffle::Archive::Entry *> &targetEntries,
+                   const QList<Kerfuffle::Archive::Entry *> &targetEntries,
                    Kerfuffle::Archive::Entry *destination,
                    const QStringList &expectedNewPaths,
                    uint numberOfEntries) const;

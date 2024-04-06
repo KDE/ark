@@ -195,7 +195,7 @@ bool CliPlugin::readExtractLine(const QString &line)
     return true;
 }
 
-bool CliPlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool CliPlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     qCDebug(ARK) << "Moving" << files.count() << "file(s) to destination:" << destination;
 

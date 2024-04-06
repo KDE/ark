@@ -203,7 +203,7 @@ QString ReadOnlyArchiveInterface::permissionsToString(mode_t perm)
     return modeval;
 }
 
-QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entry *> &entries, PathFormat format)
+QStringList ReadOnlyArchiveInterface::entryFullPaths(const QList<Archive::Entry *> &entries, PathFormat format)
 {
     QStringList filesList;
     for (const Archive::Entry *file : entries) {
@@ -212,7 +212,7 @@ QStringList ReadOnlyArchiveInterface::entryFullPaths(const QVector<Archive::Entr
     return filesList;
 }
 
-QVector<Archive::Entry *> ReadOnlyArchiveInterface::entriesWithoutChildren(const QVector<Archive::Entry *> &entries)
+QList<Archive::Entry *> ReadOnlyArchiveInterface::entriesWithoutChildren(const QList<Archive::Entry *> &entries)
 {
     // QMap is easy way to get entries sorted by their fullPath.
     QMap<QString, Archive::Entry *> sortedEntries;
@@ -220,7 +220,7 @@ QVector<Archive::Entry *> ReadOnlyArchiveInterface::entriesWithoutChildren(const
         sortedEntries.insert(entry->fullPath(), entry);
     }
 
-    QVector<Archive::Entry *> filteredEntries;
+    QList<Archive::Entry *> filteredEntries;
     QString lastFolder;
     for (Archive::Entry *entry : std::as_const(sortedEntries)) {
         if (!lastFolder.isEmpty() && entry->fullPath().startsWith(lastFolder)) {

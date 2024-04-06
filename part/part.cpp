@@ -1159,7 +1159,7 @@ void Part::slotShowExtractionDialog()
         updateQuickExtractMenu(m_extractArchiveAction);
         updateQuickExtractMenu(m_extractAction);
 
-        QVector<Archive::Entry *> files;
+        QList<Archive::Entry *> files;
 
         // If the user has chosen to extract only selected entries, fetch these
         // from the QTreeView.
@@ -1205,9 +1205,9 @@ QModelIndexList Part::addChildren(const QModelIndexList &list) const
     return ret;
 }
 
-QVector<Archive::Entry *> Part::filesForIndexes(const QModelIndexList &list) const
+QList<Archive::Entry *> Part::filesForIndexes(const QModelIndexList &list) const
 {
-    QVector<Archive::Entry *> ret;
+    QList<Archive::Entry *> ret;
 
     for (const QModelIndex &index : list) {
         ret << m_model->entryForIndex(index);
@@ -1216,9 +1216,9 @@ QVector<Archive::Entry *> Part::filesForIndexes(const QModelIndexList &list) con
     return ret;
 }
 
-QVector<Kerfuffle::Archive::Entry *> Part::filesAndRootNodesForIndexes(const QModelIndexList &list) const
+QList<Kerfuffle::Archive::Entry *> Part::filesAndRootNodesForIndexes(const QModelIndexList &list) const
 {
-    QVector<Kerfuffle::Archive::Entry *> fileList;
+    QList<Kerfuffle::Archive::Entry *> fileList;
     QStringList fullPathsList;
 
     for (const QModelIndex &index : list) {
@@ -1436,7 +1436,7 @@ void Part::slotRenameFile(const QString &name)
         return;
     }
     const Archive::Entry *entry = m_model->entryForIndex(m_filterModel->mapToSource(m_view->selectionModel()->currentIndex()));
-    QVector<Archive::Entry *> entriesToMove = filesForIndexes(addChildren(getSelectedIndexes()));
+    QList<Archive::Entry *> entriesToMove = filesForIndexes(addChildren(getSelectedIndexes()));
 
     m_destination = new Archive::Entry();
     const QString &entryPath = entry->fullPath(NoTrailingSlash);
@@ -1463,8 +1463,8 @@ void Part::slotPasteFiles()
 
     if (m_model->filesToMove.count() > 0) {
         // Changing destination to include new entry path if pasting only 1 entry.
-        QVector<Archive::Entry *> entriesWithoutChildren =
-            ReadOnlyArchiveInterface::entriesWithoutChildren(QVector<Archive::Entry *>::fromList(m_model->filesToMove.values()));
+        QList<Archive::Entry *> entriesWithoutChildren =
+            ReadOnlyArchiveInterface::entriesWithoutChildren(QList<Archive::Entry *>::fromList(m_model->filesToMove.values()));
         if (entriesWithoutChildren.count() == 1) {
             const Archive::Entry *entry = entriesWithoutChildren.first();
             auto entryName = entry->name();
@@ -1481,11 +1481,11 @@ void Part::slotPasteFiles()
                 return;
             }
         }
-        auto entryList = QVector<Archive::Entry *>::fromList(m_model->filesToMove.values());
+        auto entryList = QList<Archive::Entry *>::fromList(m_model->filesToMove.values());
         slotPasteFiles(entryList, m_destination, entriesWithoutChildren.count());
         m_model->filesToMove.clear();
     } else {
-        auto entryList = QVector<Archive::Entry *>::fromList(m_model->filesToCopy.values());
+        auto entryList = QList<Archive::Entry *>::fromList(m_model->filesToCopy.values());
         slotPasteFiles(entryList, m_destination, 0);
         m_model->filesToCopy.clear();
     }
@@ -1493,7 +1493,7 @@ void Part::slotPasteFiles()
     updateActions();
 }
 
-void Part::slotPasteFiles(QVector<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, int entriesWithoutChildren)
+void Part::slotPasteFiles(QList<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, int entriesWithoutChildren)
 {
     if (files.isEmpty()) {
         delete m_destination;

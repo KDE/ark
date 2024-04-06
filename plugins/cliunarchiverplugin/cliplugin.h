@@ -20,7 +20,7 @@ public:
 
     bool list() override;
     bool
-    extractFiles(const QVector<Kerfuffle::Archive::Entry *> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
+    extractFiles(const QList<Kerfuffle::Archive::Entry *> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
     void resetParsing() override;
     bool readListLine(const QString &line) override;
     bool readExtractLine(const QString &line) override;

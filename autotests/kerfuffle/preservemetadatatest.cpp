@@ -93,7 +93,7 @@ void PreserveMetadataTest::addFiles()
     const QString newFileName = QStringLiteral("testfile.txt");
     const QString newFilePath = QFINDTESTDATA(TEST_DATA_DIR + QLatin1Char('/') + newFileName);
 
-    QVector<Archive::Entry *> entries;
+    QList<Archive::Entry *> entries;
     entries.append(new Archive::Entry(this, newFilePath));
 
     CompressionOptions options;
@@ -115,7 +115,7 @@ void PreserveMetadataTest::copyFiles()
     // The name of a file that already exists in the archive
     const QString existingFileName = QStringLiteral("test.txt");
 
-    QVector<Archive::Entry *> targetEntries;
+    QList<Archive::Entry *> targetEntries;
     targetEntries.append(new Archive::Entry(this, existingFileName));
     Archive::Entry destination = Archive::Entry(this, QStringLiteral("testCopy"));
 
@@ -136,7 +136,7 @@ void PreserveMetadataTest::deleteFiles()
     // The name of the file that will be deleted from the archive
     const QString fileForDeletionName = QStringLiteral("a.txt");
 
-    QVector<Archive::Entry *> targetEntries;
+    QList<Archive::Entry *> targetEntries;
     targetEntries.append(new Archive::Entry(this, fileForDeletionName));
 
     DeleteJob *deleteJob = archive->deleteFiles(targetEntries);
@@ -178,7 +178,7 @@ void PreserveMetadataTest::extractFiles()
     // The name of the file that will be extracted from the archive
     const QString fileForExtractionName = QStringLiteral("test.txt");
 
-    QVector<Archive::Entry *> targetEntries;
+    QList<Archive::Entry *> targetEntries;
     targetEntries.append(new Archive::Entry(this, fileForExtractionName));
 
     // Extract the file from the archive
@@ -195,7 +195,7 @@ void PreserveMetadataTest::moveFiles()
     // The name of the file that will be moved within the archive
     const QString fileForMoveName = QStringLiteral("test.txt");
 
-    QVector<Archive::Entry *> targetEntries;
+    QList<Archive::Entry *> targetEntries;
     targetEntries.append(new Archive::Entry(this, fileForMoveName));
 
     Archive::Entry destination = Archive::Entry(this, QStringLiteral("test-moved.txt"));

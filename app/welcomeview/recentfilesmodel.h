@@ -32,7 +32,7 @@ private:
         QUrl url;
     };
 
-    QVector<RecentFileInfo> m_recentFiles;
+    QList<RecentFileInfo> m_recentFiles;
 };
 
 #endif // RECENTFILESMODEL_H

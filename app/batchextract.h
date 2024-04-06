@@ -10,8 +10,8 @@
 
 #include <KCompositeJob>
 
+#include <QList>
 #include <QMap>
-#include <QVector>
 
 namespace Kerfuffle
 {
@@ -197,7 +197,7 @@ private:
     QMap<KJob *, QPair<QString, QString>> m_fileNames;
     bool m_autoSubfolder;
 
-    QVector<QUrl> m_inputs;
+    QList<QUrl> m_inputs;
     QString m_destinationFolder;
     QStringList m_failedFiles;
     bool m_preservePaths;

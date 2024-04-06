@@ -183,7 +183,7 @@ void LibarchivePlugin::copyDataBlock(const QString &filename, archive *source, a
     }
 }
 
-bool LibarchivePlugin::addFiles(const QVector<Archive::Entry *> &files,
+bool LibarchivePlugin::addFiles(const QList<Archive::Entry *> &files,
                                 const Archive::Entry *destination,
                                 const CompressionOptions &options,
                                 uint numberOfEntriesToAdd)
@@ -195,7 +195,7 @@ bool LibarchivePlugin::addFiles(const QVector<Archive::Entry *> &files,
     return false;
 }
 
-bool LibarchivePlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool LibarchivePlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destination)
@@ -203,7 +203,7 @@ bool LibarchivePlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive
     return false;
 }
 
-bool LibarchivePlugin::copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool LibarchivePlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(files)
     Q_UNUSED(destination)
@@ -211,7 +211,7 @@ bool LibarchivePlugin::copyFiles(const QVector<Archive::Entry *> &files, Archive
     return false;
 }
 
-bool LibarchivePlugin::deleteFiles(const QVector<Archive::Entry *> &files)
+bool LibarchivePlugin::deleteFiles(const QList<Archive::Entry *> &files)
 {
     Q_UNUSED(files)
     return false;
@@ -238,7 +238,7 @@ bool LibarchivePlugin::doKill()
     return false;
 }
 
-bool LibarchivePlugin::extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     if (!initializeReader()) {
         return false;

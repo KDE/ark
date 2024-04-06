@@ -45,7 +45,7 @@ bool JSONArchiveInterface::open()
     return !m_archive.isEmpty();
 }
 
-bool JSONArchiveInterface::addFiles(const QVector<Kerfuffle::Archive::Entry *> &files,
+bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry *> &files,
                                     const Kerfuffle::Archive::Entry *destination,
                                     const Kerfuffle::CompressionOptions &options,
                                     uint numberOfEntriesToAdd)
@@ -68,7 +68,7 @@ bool JSONArchiveInterface::addFiles(const QVector<Kerfuffle::Archive::Entry *> &
     return true;
 }
 
-bool JSONArchiveInterface::moveFiles(const QVector<Kerfuffle::Archive::Entry *> &files,
+bool JSONArchiveInterface::moveFiles(const QList<Kerfuffle::Archive::Entry *> &files,
                                      Kerfuffle::Archive::Entry *destination,
                                      const Kerfuffle::CompressionOptions &options)
 {
@@ -79,7 +79,7 @@ bool JSONArchiveInterface::moveFiles(const QVector<Kerfuffle::Archive::Entry *> 
     return true;
 }
 
-bool JSONArchiveInterface::copyFiles(const QVector<Kerfuffle::Archive::Entry *> &files,
+bool JSONArchiveInterface::copyFiles(const QList<Kerfuffle::Archive::Entry *> &files,
                                      Kerfuffle::Archive::Entry *destination,
                                      const Kerfuffle::CompressionOptions &options)
 {
@@ -90,7 +90,7 @@ bool JSONArchiveInterface::copyFiles(const QVector<Kerfuffle::Archive::Entry *> 
     return false;
 }
 
-bool JSONArchiveInterface::extractFiles(const QVector<Kerfuffle::Archive::Entry *> &files,
+bool JSONArchiveInterface::extractFiles(const QList<Kerfuffle::Archive::Entry *> &files,
                                         const QString &destinationDirectory,
                                         const Kerfuffle::ExtractionOptions &options)
 {
@@ -101,7 +101,7 @@ bool JSONArchiveInterface::extractFiles(const QVector<Kerfuffle::Archive::Entry 
     return true;
 }
 
-bool JSONArchiveInterface::deleteFiles(const QVector<Kerfuffle::Archive::Entry *> &files)
+bool JSONArchiveInterface::deleteFiles(const QList<Kerfuffle::Archive::Entry *> &files)
 {
     for (const Kerfuffle::Archive::Entry *file : files) {
         const QString &fileName = file->fullPath();

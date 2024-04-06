@@ -280,7 +280,7 @@ bool LibzipPlugin::list()
     return true;
 }
 
-bool LibzipPlugin::addFiles(const QVector<Archive::Entry *> &files,
+bool LibzipPlugin::addFiles(const QList<Archive::Entry *> &files,
                             const Archive::Entry *destination,
                             const CompressionOptions &options,
                             uint numberOfEntriesToAdd)
@@ -576,7 +576,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     return true;
 }
 
-bool LibzipPlugin::deleteFiles(const QVector<Archive::Entry *> &files)
+bool LibzipPlugin::deleteFiles(const QList<Archive::Entry *> &files)
 {
     int errcode = 0;
     zip_error_t err;
@@ -706,7 +706,7 @@ bool LibzipPlugin::doKill()
     return false;
 }
 
-bool LibzipPlugin::extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options)
+bool LibzipPlugin::extractFiles(const QList<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
     qCDebug(ARK) << "Extracting files to:" << destinationDirectory;
     const bool extractAll = files.isEmpty();
@@ -987,7 +987,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     return true;
 }
 
-bool LibzipPlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool LibzipPlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options)
     int errcode = 0;
@@ -1041,7 +1041,7 @@ bool LibzipPlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive::En
     return true;
 }
 
-bool LibzipPlugin::copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool LibzipPlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options)
     int errcode = 0;

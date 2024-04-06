@@ -58,10 +58,10 @@ public:
                         const QString &encryptionMethod,
                         ulong volumeSize);
     QStringList commentArgs(const QString &archive, const QString &commentfile);
-    QStringList deleteArgs(const QString &archive, const QVector<Archive::Entry *> &files, const QString &password);
+    QStringList deleteArgs(const QString &archive, const QList<Archive::Entry *> &files, const QString &password);
     QStringList extractArgs(const QString &archive, const QStringList &files, bool preservePaths, const QString &password);
     QStringList listArgs(const QString &archive, const QString &password);
-    QStringList moveArgs(const QString &archive, const QVector<Archive::Entry *> &entries, Archive::Entry *destination, const QString &password);
+    QStringList moveArgs(const QString &archive, const QList<Archive::Entry *> &entries, Archive::Entry *destination, const QString &password);
     QStringList testArgs(const QString &archive, const QString &password);
 
     bool isTestPassedMsg(const QString &line);

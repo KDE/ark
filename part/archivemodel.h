@@ -76,7 +76,7 @@ public:
 
     Kerfuffle::ExtractJob *
     extractFile(Archive::Entry *file, const QString &destinationDir, Kerfuffle::ExtractionOptions options = Kerfuffle::ExtractionOptions()) const;
-    Kerfuffle::ExtractJob *extractFiles(const QVector<Archive::Entry *> &files,
+    Kerfuffle::ExtractJob *extractFiles(const QList<Archive::Entry *> &files,
                                         const QString &destinationDir,
                                         Kerfuffle::ExtractionOptions options = Kerfuffle::ExtractionOptions()) const;
 
@@ -84,14 +84,14 @@ public:
     Kerfuffle::OpenJob *open(Archive::Entry *file) const;
     Kerfuffle::OpenWithJob *openWith(Archive::Entry *file) const;
 
-    Kerfuffle::AddJob *addFiles(QVector<Archive::Entry *> &entries,
+    Kerfuffle::AddJob *addFiles(QList<Archive::Entry *> &entries,
                                 const Archive::Entry *destination,
                                 const Kerfuffle::CompressionOptions &options = Kerfuffle::CompressionOptions());
     Kerfuffle::MoveJob *
-    moveFiles(QVector<Archive::Entry *> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions &options = Kerfuffle::CompressionOptions());
+    moveFiles(QList<Archive::Entry *> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions &options = Kerfuffle::CompressionOptions());
     Kerfuffle::CopyJob *
-    copyFiles(QVector<Archive::Entry *> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions &options = Kerfuffle::CompressionOptions());
-    Kerfuffle::DeleteJob *deleteFiles(QVector<Archive::Entry *> entries);
+    copyFiles(QList<Archive::Entry *> &entries, Archive::Entry *destination, const Kerfuffle::CompressionOptions &options = Kerfuffle::CompressionOptions());
+    Kerfuffle::DeleteJob *deleteFiles(QList<Archive::Entry *> entries);
 
     /**
      * @param password The password to encrypt the archive with.
@@ -122,7 +122,7 @@ public:
 
     static bool hasDuplicatedEntries(const QStringList &entries);
 
-    static QMap<QString, Archive::Entry *> entryMap(const QVector<Archive::Entry *> &entries);
+    static QMap<QString, Archive::Entry *> entryMap(const QList<Archive::Entry *> &entries);
 
     QMap<QString, Kerfuffle::Archive::Entry *> filesToMove;
     QMap<QString, Kerfuffle::Archive::Entry *> filesToCopy;

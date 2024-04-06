@@ -34,7 +34,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
     const QMimeType mimeType = fixedMimeType.isEmpty() ? determineMimeType(fileName) : QMimeDatabase().mimeTypeForName(fixedMimeType);
 
     qCDebug(ARK) << "Looking for plugins that handle the mimetype: " << mimeType.name();
-    QVector<Plugin *> offers = pluginManager.preferredPluginsFor(mimeType);
+    QList<Plugin *> offers = pluginManager.preferredPluginsFor(mimeType);
     if (offers.isEmpty()) {
         if (fixedMimeType.isEmpty()) {
             const QMimeType extensionMimeType = determineMimeType(fileName, PreferExtensionMime);
@@ -90,7 +90,7 @@ BatchExtractJob *Archive::batchExtract(const QString &fileName, const QString &d
 }
 
 CreateJob *
-Archive::create(const QString &fileName, const QString &mimeType, const QVector<Archive::Entry *> &entries, const CompressionOptions &options, QObject *parent)
+Archive::create(const QString &fileName, const QString &mimeType, const QList<Archive::Entry *> &entries, const CompressionOptions &options, QObject *parent)
 {
     auto archive = create(fileName, mimeType, parent);
     auto createJob = new CreateJob(archive, entries, options);
@@ -361,7 +361,7 @@ ArchiveError Archive::error() const
     return m_error;
 }
 
-DeleteJob *Archive::deleteFiles(QVector<Archive::Entry *> &entries)
+DeleteJob *Archive::deleteFiles(QList<Archive::Entry *> &entries)
 {
     if (!isValid()) {
         return nullptr;
@@ -381,7 +381,7 @@ DeleteJob *Archive::deleteFiles(QVector<Archive::Entry *> &entries)
     return newJob;
 }
 
-AddJob *Archive::addFiles(const QVector<Archive::Entry *> &files, const Archive::Entry *destination, const CompressionOptions &options)
+AddJob *Archive::addFiles(const QList<Archive::Entry *> &files, const Archive::Entry *destination, const CompressionOptions &options)
 {
     if (!isValid()) {
         return nullptr;
@@ -400,7 +400,7 @@ AddJob *Archive::addFiles(const QVector<Archive::Entry *> &files, const Archive:
     return newJob;
 }
 
-MoveJob *Archive::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+MoveJob *Archive::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     if (!isValid()) {
         return nullptr;
@@ -422,7 +422,7 @@ MoveJob *Archive::moveFiles(const QVector<Archive::Entry *> &files, Archive::Ent
     return newJob;
 }
 
-CopyJob *Archive::copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+CopyJob *Archive::copyFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     if (!isValid()) {
         return nullptr;
@@ -444,7 +444,7 @@ CopyJob *Archive::copyFiles(const QVector<Archive::Entry *> &files, Archive::Ent
     return newJob;
 }
 
-ExtractJob *Archive::extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDir, ExtractionOptions options)
+ExtractJob *Archive::extractFiles(const QList<Archive::Entry *> &files, const QString &destinationDir, ExtractionOptions options)
 {
     if (!isValid()) {
         return nullptr;

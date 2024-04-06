@@ -40,7 +40,7 @@ public:
     void setPreservePaths(bool value);
     void setChangeToFirstPath(bool value);
     void setImmediateProgressReporting(bool immediateProgressReporting);
-    static QString getFileNameForEntries(const QVector<Archive::Entry *> &entries, const QString &suffix);
+    static QString getFileNameForEntries(const QList<Archive::Entry *> &entries, const QString &suffix);
     static QString getFileNameForUrls(const QList<QUrl> &entries, const QString &suffix);
 
     QString fileName() const
@@ -75,7 +75,7 @@ private:
     QString m_firstPath;
     QString m_mimeType;
     QString m_password;
-    QVector<Archive::Entry *> m_entries;
+    QList<Archive::Entry *> m_entries;
     bool m_changeToFirstPath;
     bool m_enableHeaderEncryption;
     bool m_immediateProgressReporting;

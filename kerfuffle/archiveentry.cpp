@@ -68,13 +68,13 @@ void Archive::Entry::copyMetaData(const Archive::Entry *sourceEntry)
     setProperty("isPasswordProtected", sourceEntry->property("isPasswordProtected"));
 }
 
-QVector<Archive::Entry *> Archive::Entry::entries()
+QList<Archive::Entry *> Archive::Entry::entries()
 {
     Q_ASSERT(isDir());
     return m_entries;
 }
 
-const QVector<Archive::Entry *> Archive::Entry::entries() const
+const QList<Archive::Entry *> Archive::Entry::entries() const
 {
     Q_ASSERT(isDir());
     return m_entries;

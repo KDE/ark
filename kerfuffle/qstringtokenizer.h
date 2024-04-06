@@ -409,7 +409,7 @@ public:
     {
     }
 
-    template<typename Container = QVector<value_type>, if_compatible_container<Container> = true>
+    template<typename Container = QList<value_type>, if_compatible_container<Container> = true>
     Container toContainer(Container &&c = {}) const &
     {
         for (auto e : *this)
@@ -417,7 +417,7 @@ public:
         return std::forward<Container>(c);
     }
 
-    template<typename Container = QVector<value_type>, if_compatible_container<Container> = true, if_haystack_not_pinned<Container> = true>
+    template<typename Container = QList<value_type>, if_compatible_container<Container> = true, if_haystack_not_pinned<Container> = true>
     Container toContainer(Container &&c = {}) const &&
     {
         for (auto e : *this)
