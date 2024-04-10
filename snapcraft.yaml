@@ -39,33 +39,22 @@ parts:
         - usr/share/metainfo/org.kde.ark.appdata.xml
         plugin: cmake
         build-packages:
-        - gettext
-        - libxml2-utils
-        - docbook-xml
-        - docbook-xsl
-        - libglx-dev
-        - libgl1-mesa-dev
         - libarchive-dev
         - libbz2-dev
         - liblzma-dev
-        - libzip-dev
+        - libzip5-dev
+        - pkg-config
         - zlib1g-dev
-        - libpulse-dev
-        - libzstd-dev
-        - libunrar-dev
-        - libunarr-dev
         stage-packages:
-        - lrzip
-        - lzop
-        - zstd
-        - unrar
+        - bzip2
         - p7zip-full
-        - to amd64: [rar]
+        - unrar
         - unzip
         - zip
-        - unar
-        - lsof
-        - libunarr1
+        - to amd64: [rar]
+        - libarchive13
+        - libzip4
+        - zlib1g
         source: .
         source-type: local
         cmake-parameters:
@@ -85,13 +74,6 @@ parts:
         - -DCMAKE_INSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET
         - --log-level=STATUS
         - -DCMAKE_LIBRARY_PATH=lib/$CRAFT_ARCH_TRIPLET
-        - "-DCMAKE_FIND_ROOT_PATH=$CRAFT_STAGE\\;/snap/kde-qt6-core22-sdk/current\\;/snap/kf6-core22-sdk/current\\;/usr"
-        - "-DCMAKE_PREFIX_PATH=$CRAFT_STAGE\\;/snap/kde-qt6-core22-sdk/current\\;/snap/kf6-core22-sdk/current\\;/usr"
-        build-environment:
-        - PATH: /snap/kde-qt6-core22-sdk/current/usr/bin:/snap/kf6-core22-sdk/current/usr/bin${PATH:+:$PATH}
-        - XDG_DATA_DIRS: $CRAFT_STAGE/usr/share:/snap/kde-qt6-core22-sdk/current/usr/share:/snap/kf6-core22-sdk/current/usr/share:/usr/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}
-        - XDG_CONFIG_HOME: $CRAFT_STAGE/etc/xdg:/snap/kde-qt6-core22-sdk/current/etc/xdg:/snap/kf6-core22-sdk/current/etc/xdg:/etc/xdg${XDG_CONFIG_HOME:+:$XDG_CONFIG_HOME}
-        - LD_LIBRARY_PATH: "/snap/kde-qt6-core22-sdk/current/usr/lib/${CRAFT_ARCH_TRIPLET}:/snap/kf6-core22-sdk/current/usr/lib/${CRAFT_ARCH_TRIPLET}:/snap/kde-qt6-core22-sdk/current/usr/lib:/snap/kf6-core22-sdk/current/usr/lib:$CRAFT_STAGE/usr/lib:$CRAFT_STAGE/lib/:$CRAFT_STAGE/usr/lib/${CRAFT_ARCH_TRIPLET}${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
         prime:
         - -usr/lib/*/cmake/*
         - -usr/include/*
