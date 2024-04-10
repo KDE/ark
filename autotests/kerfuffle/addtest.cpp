@@ -34,28 +34,28 @@ void AddTest::testAdding_data()
 {
     QTest::addColumn<QString>("archiveName");
     QTest::addColumn<Plugin *>("plugin");
-    QTest::addColumn<QVector<Archive::Entry *>>("targetEntries");
+    QTest::addColumn<QList<Archive::Entry *>>("targetEntries");
     QTest::addColumn<Archive::Entry *>("destination");
     QTest::addColumn<QStringList>("expectedNewPaths");
     QTest::addColumn<uint>("numberOfEntries");
 
     setupRows(QStringLiteral("without destination"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("textfile1.txt")), new Archive::Entry(this, QStringLiteral("textfile2.txt"))},
+              QList<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("textfile1.txt")), new Archive::Entry(this, QStringLiteral("textfile2.txt"))},
               new Archive::Entry(this),
               QStringList{QStringLiteral("textfile1.txt"), QStringLiteral("textfile2.txt")},
               15);
 
     setupRows(QStringLiteral("with destination, files"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("textfile1.txt")), new Archive::Entry(this, QStringLiteral("textfile2.txt"))},
+              QList<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("textfile1.txt")), new Archive::Entry(this, QStringLiteral("textfile2.txt"))},
               new Archive::Entry(this, QStringLiteral("empty_dir/")),
               QStringList{QStringLiteral("empty_dir/textfile1.txt"), QStringLiteral("empty_dir/textfile2.txt")},
               15);
 
     setupRows(QStringLiteral("with destination, directory"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("testdir/")),
               },
               new Archive::Entry(this, QStringLiteral("empty_dir/")),
@@ -64,7 +64,7 @@ void AddTest::testAdding_data()
 
     setupRows(QStringLiteral("without destination, directory 2"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("testdir2/")),
               },
               new Archive::Entry(this),
@@ -73,7 +73,7 @@ void AddTest::testAdding_data()
 
     setupRows(QStringLiteral("with destination, directory 2"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("testdir2/")),
               },
               new Archive::Entry(this, QStringLiteral("empty_dir/")),
@@ -82,7 +82,7 @@ void AddTest::testAdding_data()
 
     setupRows(QStringLiteral("overwriting an existing entry"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("a.txt")),
               },
               new Archive::Entry(this),
@@ -113,7 +113,7 @@ void AddTest::testAdding()
         QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
     }
 
-    QFETCH(QVector<Archive::Entry *>, targetEntries);
+    QFETCH(QList<Archive::Entry *>, targetEntries);
     QFETCH(Archive::Entry *, destination);
     QFETCH(QStringList, expectedNewPaths);
 

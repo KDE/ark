@@ -32,7 +32,7 @@ void DeleteTest::testDelete_data()
 {
     QTest::addColumn<QString>("archiveName");
     QTest::addColumn<Plugin *>("plugin");
-    QTest::addColumn<QVector<Archive::Entry *>>("targetEntries");
+    QTest::addColumn<QList<Archive::Entry *>>("targetEntries");
     QTest::addColumn<uint>("expectedEntriesCount");
     QTest::addColumn<uint>("expectedRemainingEntriesCount");
 
@@ -45,11 +45,11 @@ void DeleteTest::testDelete_data()
         const auto plugins = m_pluginManager.preferredWritePluginsFor(mime);
         for (const auto plugin : plugins) {
             QTest::newRow(qPrintable(QStringLiteral("delete a single file (%1, %2)").arg(format, plugin->metaData().pluginId())))
-                << filename << plugin << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("dir1/a.txt"))} << 13u << 12u;
+                << filename << plugin << QList<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("dir1/a.txt"))} << 13u << 12u;
 
             QTest::newRow(qPrintable(QStringLiteral("delete multiple files (%1, %2)").arg(format, plugin->metaData().pluginId())))
                 << filename << plugin
-                << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")), new Archive::Entry(this, QStringLiteral("dir1/b.txt"))} << 13u
+                << QList<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt")), new Archive::Entry(this, QStringLiteral("dir1/b.txt"))} << 13u
                 << 11u;
         }
     }
@@ -81,7 +81,7 @@ void DeleteTest::testDelete()
     QFETCH(uint, expectedEntriesCount);
     QCOMPARE(archive->numberOfEntries(), expectedEntriesCount);
 
-    QFETCH(QVector<Archive::Entry *>, targetEntries);
+    QFETCH(QList<Archive::Entry *>, targetEntries);
     auto deleteJob = archive->deleteFiles(targetEntries);
     QVERIFY(deleteJob);
     TestHelper::startAndWaitForResult(deleteJob);

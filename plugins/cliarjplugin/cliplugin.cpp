@@ -63,7 +63,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
 
 CliPlugin::~CliPlugin() = default;
 
-bool CliPlugin::addFiles(const QVector<Kerfuffle::Archive::Entry *> &files,
+bool CliPlugin::addFiles(const QList<Kerfuffle::Archive::Entry *> &files,
                          const Kerfuffle::Archive::Entry *destination,
                          const Kerfuffle::CompressionOptions &options,
                          uint numberOfEntriesToAdd)
@@ -78,13 +78,13 @@ bool CliPlugin::addFiles(const QVector<Kerfuffle::Archive::Entry *> &files,
     return CliInterface::addFiles(files, destination, opt, numberOfEntriesToAdd);
 }
 
-bool CliPlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool CliPlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options);
 
     m_operationMode = Move;
 
-    QVector<Archive::Entry *> withoutChildren = entriesWithoutChildren(files);
+    QList<Archive::Entry *> withoutChildren = entriesWithoutChildren(files);
     m_renamedFiles = files;
     setNewMovedFiles(files, destination, withoutChildren.count());
 

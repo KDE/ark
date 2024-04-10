@@ -18,7 +18,7 @@ private Q_SLOTS:
     void testPluginMetadata();
 
 private:
-    QVector<KPluginMetaData> m_plugins;
+    QList<KPluginMetaData> m_plugins;
 };
 
 void MetaDataTest::initTestCase()

@@ -95,7 +95,7 @@
         "Name[ja]": "Libarchive プラグイン",
         "Name[ka]": "Libarchive -ის მხარდაჭერა",
         "Name[ko]": "Libarchive 플러그인",
-        "Name[lv]": "„Libarchive“ pielikums",
+        "Name[lv]": "„Libarchive“ spraudnis",
         "Name[nl]": "LibArchive-plug-in",
         "Name[nn]": "Libarchive-tillegg",
         "Name[pa]": "Libarchive ਪਲੱਗਇਨ",

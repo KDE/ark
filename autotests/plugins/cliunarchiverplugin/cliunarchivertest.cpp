@@ -203,7 +203,7 @@ void CliUnarchiverTest::testListArgs()
 void CliUnarchiverTest::testExtraction_data()
 {
     QTest::addColumn<QString>("archivePath");
-    QTest::addColumn<QVector<Archive::Entry *>>("entriesToExtract");
+    QTest::addColumn<QList<Archive::Entry *>>("entriesToExtract");
     QTest::addColumn<ExtractionOptions>("extractionOptions");
     QTest::addColumn<int>("expectedExtractedEntriesCount");
 
@@ -217,17 +217,17 @@ void CliUnarchiverTest::testExtraction_data()
     dragAndDropOptions.setDragAndDropEnabled(true);
 
     QTest::newRow("extract the whole multiple_toplevel_entries.rar")
-        << QFINDTESTDATA("data/multiple_toplevel_entries.rar") << QVector<Archive::Entry *>() << defaultOptions << 12;
+        << QFINDTESTDATA("data/multiple_toplevel_entries.rar") << QList<Archive::Entry *>() << defaultOptions << 12;
 
     QTest::newRow("extract selected entries from a rar, without paths")
         << QFINDTESTDATA("data/one_toplevel_folder.rar")
-        << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
-                                     new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))}
+        << QList<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
+                                   new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B"))}
         << optionsNoPaths << 2;
 
     QTest::newRow("extract selected entries from a rar, preserve paths")
         << QFINDTESTDATA("data/one_toplevel_folder.rar")
-        << (QVector<Archive::Entry *>{
+        << (QList<Archive::Entry *>{
                new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A")),
                new Archive::Entry(this, QStringLiteral("A/B/test1.txt"), QStringLiteral("A/B")),
            })
@@ -235,7 +235,7 @@ void CliUnarchiverTest::testExtraction_data()
 
     QTest::newRow("extract selected entries from a rar, drag-and-drop")
         << QFINDTESTDATA("data/one_toplevel_folder.rar")
-        << (QVector<Archive::Entry *>{
+        << (QList<Archive::Entry *>{
                new Archive::Entry(this, QStringLiteral("A/B/C/"), QStringLiteral("A/B/")),
                new Archive::Entry(this, QStringLiteral("A/test2.txt"), QStringLiteral("A/")),
                new Archive::Entry(this, QStringLiteral("A/B/C/test1.txt"), QStringLiteral("A/B/")),
@@ -243,9 +243,9 @@ void CliUnarchiverTest::testExtraction_data()
            })
         << dragAndDropOptions << 4;
 
-    QTest::newRow("rar with empty folders") << QFINDTESTDATA("data/empty_folders.rar") << QVector<Archive::Entry *>() << defaultOptions << 5;
+    QTest::newRow("rar with empty folders") << QFINDTESTDATA("data/empty_folders.rar") << QList<Archive::Entry *>() << defaultOptions << 5;
 
-    QTest::newRow("rar with hidden folder and files") << QFINDTESTDATA("data/hidden_files.rar") << QVector<Archive::Entry *>() << defaultOptions << 4;
+    QTest::newRow("rar with hidden folder and files") << QFINDTESTDATA("data/hidden_files.rar") << QList<Archive::Entry *>() << defaultOptions << 4;
 }
 
 // TODO: we can remove this test (which is duplicated from kerfuffle/archivetest)
@@ -273,7 +273,7 @@ void CliUnarchiverTest::testExtraction()
         QSKIP("Could not create a temporary directory for extraction. Skipping test.", SkipSingle);
     }
 
-    QFETCH(QVector<Archive::Entry *>, entriesToExtract);
+    QFETCH(QList<Archive::Entry *>, entriesToExtract);
     QFETCH(ExtractionOptions, extractionOptions);
     auto extractionJob = archive->extractFiles(entriesToExtract, destDir.path(), extractionOptions);
 
@@ -299,13 +299,13 @@ void CliUnarchiverTest::testExtraction()
 void CliUnarchiverTest::testExtractArgs_data()
 {
     QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QVector<Archive::Entry *>>("files");
+    QTest::addColumn<QList<Archive::Entry *>>("files");
     QTest::addColumn<QString>("password");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("encrypted, multiple files") << QStringLiteral("/tmp/foo.rar")
-                                               << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
-                                                                            new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
+                                               << QList<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                                                                          new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
                                                << QStringLiteral("1234")
                                                << QStringList{
                                                       QStringLiteral("-D"),
@@ -317,8 +317,8 @@ void CliUnarchiverTest::testExtractArgs_data()
                                                   };
 
     QTest::newRow("unencrypted, multiple files") << QStringLiteral("/tmp/foo.rar")
-                                                 << QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
-                                                                              new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
+                                                 << QList<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("aDir/b.txt"), QStringLiteral("aDir")),
+                                                                            new Archive::Entry(this, QStringLiteral("c.txt"), QString())}
                                                  << QString()
                                                  << QStringList{
                                                         QStringLiteral("-D"),
@@ -338,7 +338,7 @@ void CliUnarchiverTest::testExtractArgs()
     CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName), QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    QFETCH(QVector<Archive::Entry *>, files);
+    QFETCH(QList<Archive::Entry *>, files);
     QStringList filesList;
     for (const Archive::Entry *e : std::as_const(files)) {
         filesList << e->fullPath(NoTrailingSlash);

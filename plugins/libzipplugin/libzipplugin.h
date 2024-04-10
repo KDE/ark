@@ -25,15 +25,15 @@ public:
 
     bool list() override;
     bool doKill() override;
-    bool extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options) override;
+    bool extractFiles(const QList<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options) override;
 
-    bool addFiles(const QVector<Archive::Entry *> &files,
+    bool addFiles(const QList<Archive::Entry *> &files,
                   const Archive::Entry *destination,
                   const CompressionOptions &options,
                   uint numberOfEntriesToAdd = 0) override;
-    bool deleteFiles(const QVector<Archive::Entry *> &files) override;
-    bool moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options) override;
-    bool copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options) override;
+    bool deleteFiles(const QList<Archive::Entry *> &files) override;
+    bool moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options) override;
+    bool copyFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options) override;
     bool addComment(const QString &comment) override;
     bool testArchive() override;
     bool hasBatchExtractionProgress() const override;
@@ -51,7 +51,7 @@ private:
     static void progressCallback(zip_t *, double progress, void *that);
     static int cancelCallback(zip_t *, void *that);
 
-    QVector<Archive::Entry *> m_emittedEntries;
+    QList<Archive::Entry *> m_emittedEntries;
     bool m_overwriteAll;
     bool m_skipAll;
     bool m_listAfterAdd;

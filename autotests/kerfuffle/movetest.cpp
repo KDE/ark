@@ -34,14 +34,14 @@ void MoveTest::testMoving_data()
 {
     QTest::addColumn<QString>("archiveName");
     QTest::addColumn<Plugin *>("plugin");
-    QTest::addColumn<QVector<Archive::Entry *>>("targetEntries");
+    QTest::addColumn<QList<Archive::Entry *>>("targetEntries");
     QTest::addColumn<Archive::Entry *>("destination");
     QTest::addColumn<QStringList>("expectedNewPaths");
     QTest::addColumn<uint>("numberOfEntries");
 
     setupRows(QStringLiteral("replace a single file"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("a.txt")),
               },
               new Archive::Entry(this, QStringLiteral("empty_dir/a.txt")),
@@ -50,7 +50,7 @@ void MoveTest::testMoving_data()
 
     setupRows(QStringLiteral("replace several files"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("a.txt")),
                   new Archive::Entry(this, QStringLiteral("b.txt")),
               },
@@ -60,7 +60,7 @@ void MoveTest::testMoving_data()
 
     setupRows(QStringLiteral("replace a root directory"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
@@ -77,7 +77,7 @@ void MoveTest::testMoving_data()
 
     setupRows(QStringLiteral("replace a root directory 2"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir2/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir2/dir/a.txt")),
                   new Archive::Entry(this, QStringLiteral("dir2/dir/b.txt")),
@@ -88,7 +88,7 @@ void MoveTest::testMoving_data()
 
     setupRows(QStringLiteral("replace a directory"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
@@ -99,7 +99,7 @@ void MoveTest::testMoving_data()
 
     setupRows(QStringLiteral("replace several directories"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir1/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
@@ -128,7 +128,7 @@ void MoveTest::testMoving_data()
 
     setupRows(QStringLiteral("replace several entries"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
@@ -147,7 +147,7 @@ void MoveTest::testMoving_data()
 
     setupRows(QStringLiteral("move a directory to the root"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{
+              QList<Archive::Entry *>{
                   new Archive::Entry(this, QStringLiteral("dir1/dir/")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/a.txt")),
                   new Archive::Entry(this, QStringLiteral("dir1/dir/b.txt")),
@@ -158,7 +158,7 @@ void MoveTest::testMoving_data()
 
     setupRows(QStringLiteral("rename a file in the root (bug #368530)"),
               QStringLiteral("test"),
-              QVector<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt"))},
+              QList<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("a.txt"))},
               new Archive::Entry(this, QStringLiteral("new-name.txt")),
               QStringList{QStringLiteral("new-name.txt")},
               13);
@@ -187,7 +187,7 @@ void MoveTest::testMoving()
         QSKIP("Could not find a plugin to handle the archive. Skipping test.", SkipSingle);
     }
 
-    QFETCH(QVector<Archive::Entry *>, targetEntries);
+    QFETCH(QList<Archive::Entry *>, targetEntries);
     QFETCH(Archive::Entry *, destination);
     QFETCH(QStringList, expectedNewPaths);
 

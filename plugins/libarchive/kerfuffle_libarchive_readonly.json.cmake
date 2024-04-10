@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Open and extract DEB, RPM, ISO, AppImage, XAR, CAB, and EXE files",
+        "Description[ar]": "يفتح ويستخرج ملفات DEB و RPM و ISO و AppImage و XAR و CAB و EXE",
         "Description[ast]": "Abre y estrae ficheros DEB, RPM, ISO, AppImage, XAR, CAB y EXE",
         "Description[bg]": "Отваряне и извличане на файлове DEB, RPM, ISO, AppImage, XAR, CAB и EXE",
         "Description[ca@valencia]": "Obri i extrau fitxers DEB, RPM, ISO, AppImage, XAR, CAB i EXE",
@@ -16,6 +17,7 @@
         "Description[ia]": "Aperir e Extraher files DEB, RPM, ISO, AppImage, XAR, CAB e EXE ",
         "Description[it]": "Apri ed estrai file DEB, RPM, ISO, AppImage, XAR e CAB e file EXE",
         "Description[ka]": "გახსენით და გაშალეთ DEB, RPM, ISO, AppImage, XAR, CAB და EXE ფაილები",
+        "Description[lv]": "Atver un atspiež DEB, RPM, ISO, „AppImage“, XAR, CAB un EXE datnes",
         "Description[nl]": "Open en pak uit DEB, RPM, ISO, AppImage, XAR, CAB en EXE bestanden",
         "Description[nn]": "Opna og pakk ut DEB-, RPM-, ISO-, AppImage-, XAR-, CAB- og EXE-filer",
         "Description[pl]": "Otwiera i wypakowuje pliki DEB, RPM, ISO, AppImage, XAR, CAB oraz EXE",
@@ -85,7 +87,7 @@
         "Name[ja]": "Libarchive プラグイン (読み取り専用形式)",
         "Name[ka]": "Libarchive -ის მხარდაჭერა (მხოლოდ-კითხვისთვის)",
         "Name[ko]": "Libarchive 플러그인(읽기 전용 형식)",
-        "Name[lv]": "„Libarchive“ pielikums (tikai lasāmi formāti)",
+        "Name[lv]": "„Libarchive“ spraudnis (tikai lasāmi formāti)",
         "Name[nl]": "LibArchive-plug-in (alleen-lezen formaten)",
         "Name[nn]": "Libarchive-tillegg (berre lesing)",
         "Name[pa]": "Libarchive ਪਲੱਗਇਨ (ਸਿਰਫ਼ ਪੜ੍ਹਨ ਲਈ ਫਾਰਮੈਟ)",

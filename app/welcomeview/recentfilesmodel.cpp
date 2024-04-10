@@ -46,7 +46,7 @@ int RecentFilesModel::rowCount(const QModelIndex &parent) const
 
 void RecentFilesModel::refresh(const QList<QUrl> &urls)
 {
-    QVector<RecentFileInfo> recentFiles;
+    QList<RecentFileInfo> recentFiles;
     recentFiles.reserve(urls.count());
 
     QIcon icon;

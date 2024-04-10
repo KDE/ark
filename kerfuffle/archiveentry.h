@@ -59,8 +59,8 @@ public:
 
     void copyMetaData(const Archive::Entry *sourceEntry);
 
-    QVector<Entry *> entries();
-    const QVector<Entry *> entries() const;
+    QList<Entry *> entries();
+    const QList<Entry *> entries() const;
     void setEntryAt(int index, Entry *value);
     void appendEntry(Entry *entry);
     void removeEntryAt(int index);
@@ -97,7 +97,7 @@ public:
     bool compressedSizeIsSet;
 
 private:
-    QVector<Entry *> m_entries;
+    QList<Entry *> m_entries;
     QString m_name;
     QString m_displayName;
     Entry *m_parent;

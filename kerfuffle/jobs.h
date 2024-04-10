@@ -174,7 +174,7 @@ class KERFUFFLE_EXPORT CreateJob : public Job
     Q_OBJECT
 
 public:
-    explicit CreateJob(Archive *archive, const QVector<Archive::Entry *> &entries, const CompressionOptions &options);
+    explicit CreateJob(Archive *archive, const QList<Archive::Entry *> &entries, const CompressionOptions &options);
 
     ~CreateJob();
     /**
@@ -196,7 +196,7 @@ protected:
 
 private:
     QPointer<AddJob> m_addJob;
-    QVector<Archive::Entry *> m_entries;
+    QList<Archive::Entry *> m_entries;
     CompressionOptions m_options;
 };
 
@@ -205,7 +205,7 @@ class KERFUFFLE_EXPORT ExtractJob : public Job
     Q_OBJECT
 
 public:
-    ExtractJob(const QVector<Archive::Entry *> &entries, const QString &destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface);
+    ExtractJob(const QList<Archive::Entry *> &entries, const QString &destinationDir, ExtractionOptions options, ReadOnlyArchiveInterface *interface);
 
     QString destinationDirectory() const;
     ExtractionOptions extractionOptions() const;
@@ -214,7 +214,7 @@ public Q_SLOTS:
     void doWork() override;
 
 private:
-    QVector<Archive::Entry *> m_entries;
+    QList<Archive::Entry *> m_entries;
     QString m_destinationDir;
     ExtractionOptions m_options;
 };
@@ -295,7 +295,7 @@ class KERFUFFLE_EXPORT AddJob : public Job
     Q_OBJECT
 
 public:
-    AddJob(const QVector<Archive::Entry *> &files, const Archive::Entry *destination, const CompressionOptions &options, ReadWriteArchiveInterface *interface);
+    AddJob(const QList<Archive::Entry *> &files, const Archive::Entry *destination, const CompressionOptions &options, ReadWriteArchiveInterface *interface);
 
 public Q_SLOTS:
     void doWork() override;
@@ -305,7 +305,7 @@ protected Q_SLOTS:
 
 private:
     QString m_oldWorkingDir;
-    const QVector<Archive::Entry *> m_entries;
+    const QList<Archive::Entry *> m_entries;
     const Archive::Entry *m_destination;
     CompressionOptions m_options;
 };
@@ -319,7 +319,7 @@ class KERFUFFLE_EXPORT MoveJob : public Job
     Q_OBJECT
 
 public:
-    MoveJob(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options, ReadWriteArchiveInterface *interface);
+    MoveJob(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options, ReadWriteArchiveInterface *interface);
 
 public Q_SLOTS:
     void doWork() override;
@@ -329,7 +329,7 @@ protected Q_SLOTS:
 
 private:
     int m_finishedSignalsCount;
-    const QVector<Archive::Entry *> m_entries;
+    const QList<Archive::Entry *> m_entries;
     Archive::Entry *m_destination;
     CompressionOptions m_options;
 };
@@ -343,7 +343,7 @@ class KERFUFFLE_EXPORT CopyJob : public Job
     Q_OBJECT
 
 public:
-    CopyJob(const QVector<Archive::Entry *> &entries, Archive::Entry *destination, const CompressionOptions &options, ReadWriteArchiveInterface *interface);
+    CopyJob(const QList<Archive::Entry *> &entries, Archive::Entry *destination, const CompressionOptions &options, ReadWriteArchiveInterface *interface);
 
 public Q_SLOTS:
     void doWork() override;
@@ -353,7 +353,7 @@ protected Q_SLOTS:
 
 private:
     int m_finishedSignalsCount;
-    const QVector<Archive::Entry *> m_entries;
+    const QList<Archive::Entry *> m_entries;
     Archive::Entry *m_destination;
     CompressionOptions m_options;
 };
@@ -363,13 +363,13 @@ class KERFUFFLE_EXPORT DeleteJob : public Job
     Q_OBJECT
 
 public:
-    DeleteJob(const QVector<Archive::Entry *> &files, ReadWriteArchiveInterface *interface);
+    DeleteJob(const QList<Archive::Entry *> &files, ReadWriteArchiveInterface *interface);
 
 public Q_SLOTS:
     void doWork() override;
 
 private:
-    QVector<Archive::Entry *> m_entries;
+    QList<Archive::Entry *> m_entries;
 };
 
 class KERFUFFLE_EXPORT CommentJob : public Job

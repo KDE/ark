@@ -228,7 +228,7 @@ std::optional<KPluginMetaData> ArkViewer::getInternalViewer(const QString &mimeT
     }
 
     // Try to get a read-only kpart for the internal viewer
-    QVector<KPluginMetaData> offers = KParts::PartLoader::partsForMimeType(mimeType);
+    QList<KPluginMetaData> offers = KParts::PartLoader::partsForMimeType(mimeType);
 
     auto arkPartIt = std::find_if(offers.begin(), offers.end(), [](const KPluginMetaData &service) {
         return service.pluginId() == QLatin1String("arkpart");

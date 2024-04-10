@@ -30,7 +30,7 @@ ReadWriteLibarchivePlugin::~ReadWriteLibarchivePlugin()
 {
 }
 
-bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry *> &files,
+bool ReadWriteLibarchivePlugin::addFiles(const QList<Archive::Entry *> &files,
                                          const Archive::Entry *destination,
                                          const CompressionOptions &options,
                                          uint numberOfEntriesToAdd)
@@ -114,7 +114,7 @@ bool ReadWriteLibarchivePlugin::addFiles(const QVector<Archive::Entry *> &files,
     return isSuccessful;
 }
 
-bool ReadWriteLibarchivePlugin::moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool ReadWriteLibarchivePlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options);
 
@@ -144,7 +144,7 @@ bool ReadWriteLibarchivePlugin::moveFiles(const QVector<Archive::Entry *> &files
     return isSuccessful;
 }
 
-bool ReadWriteLibarchivePlugin::copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
+bool ReadWriteLibarchivePlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
     Q_UNUSED(options);
 
@@ -173,7 +173,7 @@ bool ReadWriteLibarchivePlugin::copyFiles(const QVector<Archive::Entry *> &files
     return isSuccessful;
 }
 
-bool ReadWriteLibarchivePlugin::deleteFiles(const QVector<Archive::Entry *> &files)
+bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry *> &files)
 {
     qCDebug(ARK) << "Deleting" << files.size() << "entries";
 

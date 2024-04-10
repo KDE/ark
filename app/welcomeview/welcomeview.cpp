@@ -166,7 +166,7 @@ void WelcomeView::onRecentFilesContextMenuRequested(const QPoint &pos)
 
 void WelcomeView::updateButtons()
 {
-    QVector<QPushButton *> buttons{buttonNewArchive, buttonOpenArchive};
+    QList<QPushButton *> buttons{buttonNewArchive, buttonOpenArchive};
     const int maxWidth = std::accumulate(buttons.cbegin(), buttons.cend(), 0, [](int maxWidth, const QPushButton *button) {
         return std::max(maxWidth, button->sizeHint().width());
     });

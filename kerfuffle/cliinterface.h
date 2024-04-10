@@ -36,14 +36,14 @@ public:
     int copyRequiredSignals() const override;
 
     bool list() override;
-    bool extractFiles(const QVector<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options) override;
-    bool addFiles(const QVector<Archive::Entry *> &files,
+    bool extractFiles(const QList<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options) override;
+    bool addFiles(const QList<Archive::Entry *> &files,
                   const Archive::Entry *destination,
                   const CompressionOptions &options,
                   uint numberOfEntriesToAdd = 0) override;
-    bool moveFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options) override;
-    bool copyFiles(const QVector<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options) override;
-    bool deleteFiles(const QVector<Archive::Entry *> &files) override;
+    bool moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options) override;
+    bool copyFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options) override;
+    bool deleteFiles(const QList<Archive::Entry *> &files) override;
     bool addComment(const QString &comment) override;
     bool testArchive() override;
 
@@ -76,12 +76,12 @@ public:
     /**
      * @see ArchiveModel::entryPathsFromDestination
      */
-    void setNewMovedFiles(const QVector<Archive::Entry *> &entries, const Archive::Entry *destination, int entriesWithoutChildren);
+    void setNewMovedFiles(const QList<Archive::Entry *> &entries, const Archive::Entry *destination, int entriesWithoutChildren);
 
     /**
      * @return The list of selected files to extract.
      */
-    QStringList extractFilesList(const QVector<Archive::Entry *> &files) const;
+    QStringList extractFilesList(const QList<Archive::Entry *> &files) const;
 
     QString multiVolumeName() const override;
 
@@ -127,8 +127,8 @@ protected:
     QScopedPointer<QTemporaryDir> m_tempWorkingDir;
     QScopedPointer<QTemporaryDir> m_tempAddDir;
     OperationMode m_subOperation = NoOperation;
-    QVector<Archive::Entry *> m_passedFiles;
-    QVector<Archive::Entry *> m_tempAddedFiles;
+    QList<Archive::Entry *> m_passedFiles;
+    QList<Archive::Entry *> m_tempAddedFiles;
     Archive::Entry *m_passedDestination = nullptr;
     CompressionOptions m_passedOptions;
 
@@ -154,7 +154,7 @@ private:
      * @param entriesWithoutChildren List of archive entries
      * @param destination Must be a directory entry if QList contains more that one entry
      */
-    QStringList entryPathDestinationPairs(const QVector<Archive::Entry *> &entriesWithoutChildren, const Archive::Entry *destination);
+    QStringList entryPathDestinationPairs(const QList<Archive::Entry *> &entriesWithoutChildren, const Archive::Entry *destination);
 
     /**
      * Wrapper around KProcess::write() or KPtyDevice::write(), depending on
@@ -166,7 +166,7 @@ private:
      * Moves the dropped @files from the temp dir to the @p finalDest.
      * @return @c true if the files have been moved, @c false otherwise.
      */
-    bool moveDroppedFilesToDest(const QVector<Archive::Entry *> &files, const QString &finalDest);
+    bool moveDroppedFilesToDest(const QList<Archive::Entry *> &files, const QString &finalDest);
 
     /**
      * @return Whether @p dir is an empty directory.
@@ -192,8 +192,8 @@ private:
     QRegularExpression m_passwordPromptPattern;
     QHash<int, QList<QRegularExpression>> m_patternCache;
 
-    QVector<Archive::Entry *> m_removedFiles;
-    QVector<Archive::Entry *> m_newMovedFiles;
+    QList<Archive::Entry *> m_removedFiles;
+    QList<Archive::Entry *> m_newMovedFiles;
     int m_exitCode = 0;
     bool m_listEmptyLines = false;
     QString m_storedFileName;
@@ -202,7 +202,7 @@ private:
     QString m_extractDestDir;
     QScopedPointer<QTemporaryDir> m_extractTempDir;
     QScopedPointer<QTemporaryFile> m_commentTempFile;
-    QVector<Archive::Entry *> m_extractedFiles;
+    QList<Archive::Entry *> m_extractedFiles;
     qulonglong m_archiveSizeOnDisk = 0;
     qulonglong m_listedSize = 0;
 

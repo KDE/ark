@@ -256,7 +256,7 @@ QString AddToArchive::getFileNameForUrls(const QList<QUrl> &urls, const QString 
     return path + finalName;
 }
 
-QString AddToArchive::getFileNameForEntries(const QVector<Archive::Entry *> &entries, const QString &suffix)
+QString AddToArchive::getFileNameForEntries(const QList<Archive::Entry *> &entries, const QString &suffix)
 {
     QList<QUrl> urls;
     for (const auto &entry : entries) {

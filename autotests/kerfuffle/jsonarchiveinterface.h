@@ -35,17 +35,17 @@ public:
     bool list() override;
     bool open() override;
 
-    bool addFiles(const QVector<Kerfuffle::Archive::Entry *> &files,
+    bool addFiles(const QList<Kerfuffle::Archive::Entry *> &files,
                   const Kerfuffle::Archive::Entry *destination,
                   const Kerfuffle::CompressionOptions &options,
                   uint numberOfEntriesToAdd = 0) override;
     bool
-    moveFiles(const QVector<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions &options) override;
+    moveFiles(const QList<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions &options) override;
     bool
-    copyFiles(const QVector<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions &options) override;
+    copyFiles(const QList<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions &options) override;
     bool
-    extractFiles(const QVector<Kerfuffle::Archive::Entry *> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
-    bool deleteFiles(const QVector<Kerfuffle::Archive::Entry *> &files) override;
+    extractFiles(const QList<Kerfuffle::Archive::Entry *> &files, const QString &destinationDirectory, const Kerfuffle::ExtractionOptions &options) override;
+    bool deleteFiles(const QList<Kerfuffle::Archive::Entry *> &files) override;
     bool addComment(const QString &comment) override;
     bool testArchive() override;
 

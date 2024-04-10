@@ -29,7 +29,7 @@ QStringList AbstractAddTest::getEntryPaths(Archive *archive)
 
 void AbstractAddTest::setupRows(const QString &testName,
                                 const QString &archiveName,
-                                const QVector<Archive::Entry *> &targetEntries,
+                                const QList<Archive::Entry *> &targetEntries,
                                 Archive::Entry *destination,
                                 const QStringList &expectedNewPaths,
                                 uint numberOfEntries) const

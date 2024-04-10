@@ -360,13 +360,13 @@ void CliRarTest::testAddArgs()
 void CliRarTest::testExtractArgs_data()
 {
     QTest::addColumn<QString>("archiveName");
-    QTest::addColumn<QVector<Archive::Entry *>>("files");
+    QTest::addColumn<QList<Archive::Entry *>>("files");
     QTest::addColumn<bool>("preservePaths");
     QTest::addColumn<QString>("password");
     QTest::addColumn<QStringList>("expectedArgs");
 
     QTest::newRow("preserve paths, encrypted") << QStringLiteral("/tmp/foo.rar")
-                                               << (QVector<Archive::Entry *>{
+                                               << (QList<Archive::Entry *>{
                                                       new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                                                       new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
                                                   })
@@ -382,7 +382,7 @@ void CliRarTest::testExtractArgs_data()
                                                   };
 
     QTest::newRow("preserve paths, unencrypted") << QStringLiteral("/tmp/foo.rar")
-                                                 << (QVector<Archive::Entry *>{
+                                                 << (QList<Archive::Entry *>{
                                                         new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                                                         new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
                                                     })
@@ -397,7 +397,7 @@ void CliRarTest::testExtractArgs_data()
                                                     };
 
     QTest::newRow("without paths, encrypted") << QStringLiteral("/tmp/foo.rar")
-                                              << (QVector<Archive::Entry *>{
+                                              << (QList<Archive::Entry *>{
                                                      new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                                                      new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
                                                  })
@@ -413,7 +413,7 @@ void CliRarTest::testExtractArgs_data()
                                                  };
 
     QTest::newRow("without paths, unencrypted") << QStringLiteral("/tmp/foo.rar")
-                                                << (QVector<Archive::Entry *>{
+                                                << (QList<Archive::Entry *>{
                                                        new Archive::Entry(this, QStringLiteral("aDir/textfile2.txt"), QStringLiteral("aDir")),
                                                        new Archive::Entry(this, QStringLiteral("c.txt"), QString()),
                                                    })
@@ -438,7 +438,7 @@ void CliRarTest::testExtractArgs()
     CliPlugin *plugin = new CliPlugin(this, {QVariant(archiveName), QVariant::fromValue(m_plugin->metaData())});
     QVERIFY(plugin);
 
-    QFETCH(QVector<Archive::Entry *>, files);
+    QFETCH(QList<Archive::Entry *>, files);
     QStringList filesList;
     for (const Archive::Entry *e : std::as_const(files)) {
         filesList << e->fullPath(NoTrailingSlash);

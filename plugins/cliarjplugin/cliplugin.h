@@ -21,12 +21,12 @@ public:
     explicit CliPlugin(QObject *parent, const QVariantList &args);
     ~CliPlugin() override;
 
-    bool addFiles(const QVector<Kerfuffle::Archive::Entry *> &files,
+    bool addFiles(const QList<Kerfuffle::Archive::Entry *> &files,
                   const Kerfuffle::Archive::Entry *destination,
                   const Kerfuffle::CompressionOptions &options,
                   uint numberOfEntriesToAdd = 0) override;
     bool
-    moveFiles(const QVector<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions &options) override;
+    moveFiles(const QList<Kerfuffle::Archive::Entry *> &files, Kerfuffle::Archive::Entry *destination, const Kerfuffle::CompressionOptions &options) override;
 
     void resetParsing() override;
     bool readListLine(const QString &line) override;
@@ -66,7 +66,7 @@ private:
     QStringList m_headerComment;
     QScopedPointer<ArjFileEntry> m_currentParsedFile;
     bool m_testPassed = true;
-    QVector<Archive::Entry *> m_renamedFiles;
+    QList<Archive::Entry *> m_renamedFiles;
 };
 
 #endif // CLIPLUGIN_H

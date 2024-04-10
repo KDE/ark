@@ -70,7 +70,7 @@ QStringList CliProperties::commentArgs(const QString &archive, const QString &co
     return args;
 }
 
-QStringList CliProperties::deleteArgs(const QString &archive, const QVector<Archive::Entry *> &files, const QString &password)
+QStringList CliProperties::deleteArgs(const QString &archive, const QList<Archive::Entry *> &files, const QString &password)
 {
     QStringList args;
     args << m_deleteSwitch;
@@ -123,7 +123,7 @@ QStringList CliProperties::listArgs(const QString &archive, const QString &passw
     return args;
 }
 
-QStringList CliProperties::moveArgs(const QString &archive, const QVector<Archive::Entry *> &entries, Archive::Entry *destination, const QString &password)
+QStringList CliProperties::moveArgs(const QString &archive, const QList<Archive::Entry *> &entries, Archive::Entry *destination, const QString &password)
 {
     QStringList args;
     args << m_moveSwitch;
