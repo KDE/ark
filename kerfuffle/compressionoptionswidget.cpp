@@ -26,7 +26,11 @@ CompressionOptionsWidget::CompressionOptionsWidget(QWidget *parent, const Compre
     pwdWidget->setBackgroundWarningColor(colorScheme.background(KColorScheme::NegativeBackground).color());
     pwdWidget->setPasswordStrengthMeterVisible(false);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
     connect(multiVolumeCheckbox, &QCheckBox::stateChanged, this, &CompressionOptionsWidget::slotMultiVolumeChecked);
+#else
+    connect(multiVolumeCheckbox, &QCheckBox::checkStateChanged, this, &CompressionOptionsWidget::slotMultiVolumeChecked);
+#endif
     connect(compMethodComboBox, &QComboBox::currentTextChanged, this, &CompressionOptionsWidget::slotCompMethodChanged);
     connect(encMethodComboBox, &QComboBox::currentTextChanged, this, &CompressionOptionsWidget::slotEncryptionMethodChanged);
 
