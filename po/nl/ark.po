@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-26 00:39+0000\n"
+"POT-Creation-Date: 2024-04-16 00:40+0000\n"
 "PO-Revision-Date: 2024-03-26 11:05+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -686,13 +686,13 @@ msgstr "Wachtwoord onjuist."
 msgid "Ark does not currently support testing this archive."
 msgstr "Ark ondersteunt op dit moment niet het testen van dit archief."
 
-#: kerfuffle/compressionoptionswidget.cpp:129
+#: kerfuffle/compressionoptionswidget.cpp:133
 #, kde-format
 msgid "Protection of the list of files is not possible with the %1 format."
 msgstr ""
 "Bescherming van de lijst met bestanden is niet mogelijk met het %1-formaat."
 
-#: kerfuffle/compressionoptionswidget.cpp:137
+#: kerfuffle/compressionoptionswidget.cpp:141
 #, kde-format
 msgid ""
 "Protection of the archive with password is not possible with the %1 format."
@@ -700,21 +700,21 @@ msgstr ""
 "Bescherming van het archief met een wachtwoord is niet mogelijk met het %1-"
 "formaat."
 
-#: kerfuffle/compressionoptionswidget.cpp:151
+#: kerfuffle/compressionoptionswidget.cpp:155
 #, kde-format
 msgid "It is not possible to set compression level for the %1 format."
 msgstr ""
 "Het is niet mogelijk om het compressieniveau voor het formaat %1 in te "
 "stellen."
 
-#: kerfuffle/compressionoptionswidget.cpp:170
+#: kerfuffle/compressionoptionswidget.cpp:174
 #, kde-format
 msgid "It is not possible to set compression method for the %1 format."
 msgstr ""
 "Het is niet mogelijk om de compressiemethode voor het formaat %1 in te "
 "stellen."
 
-#: kerfuffle/compressionoptionswidget.cpp:191
+#: kerfuffle/compressionoptionswidget.cpp:195
 #, kde-format
 msgid "The %1 format does not support multi-volume archives."
 msgstr "Het formaat %1 ondersteunt geen multi-volume archieven."
