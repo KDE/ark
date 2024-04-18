@@ -3,6 +3,7 @@
   <id>org.kde.ark.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
+  <launchable type="desktop-id">org.kde.ark.desktop</launchable>
   <name>Ark</name>
   <name xml:lang="ar">آرك</name>
   <name xml:lang="ast">Ark</name>
