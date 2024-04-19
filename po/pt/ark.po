@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-26 00:39+0000\n"
+"POT-Creation-Date: 2024-04-16 00:40+0000\n"
 "PO-Revision-Date: 2023-05-06 11:49+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -685,28 +685,28 @@ msgstr "A senha está incorrecta."
 msgid "Ark does not currently support testing this archive."
 msgstr "O Ark não suporta de momento o teste deste pacote."
 
-#: kerfuffle/compressionoptionswidget.cpp:129
+#: kerfuffle/compressionoptionswidget.cpp:133
 #, kde-format
 msgid "Protection of the list of files is not possible with the %1 format."
 msgstr "A protecção da lista de ficheiros não é possível com o formato %1."
 
-#: kerfuffle/compressionoptionswidget.cpp:137
+#: kerfuffle/compressionoptionswidget.cpp:141
 #, kde-format
 msgid ""
 "Protection of the archive with password is not possible with the %1 format."
 msgstr "A protecção do pacote com uma senha não é possível com o formato %1."
 
-#: kerfuffle/compressionoptionswidget.cpp:151
+#: kerfuffle/compressionoptionswidget.cpp:155
 #, kde-format
 msgid "It is not possible to set compression level for the %1 format."
 msgstr "Não é possível definir o nível de compressão no formato %1."
 
-#: kerfuffle/compressionoptionswidget.cpp:170
+#: kerfuffle/compressionoptionswidget.cpp:174
 #, kde-format
 msgid "It is not possible to set compression method for the %1 format."
 msgstr "Não é possível definir o método de compressão para o formato %1."
 
-#: kerfuffle/compressionoptionswidget.cpp:191
+#: kerfuffle/compressionoptionswidget.cpp:195
 #, kde-format
 msgid "The %1 format does not support multi-volume archives."
 msgstr "O formato %1 não suporta pacotes multi-volumes."

@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-26 00:39+0000\n"
+"POT-Creation-Date: 2024-04-16 00:40+0000\n"
 "PO-Revision-Date: 2023-07-24 13:26+0300\n"
 "Last-Translator: George Stefanakis <george.stefanakis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
@@ -689,12 +689,12 @@ msgid "Ark does not currently support testing this archive."
 msgstr ""
 "Το Ark αυτή τη στιγμή δεν υποστηρίζει τον έλεγχο αυτής της αρχειοθήκης."
 
-#: kerfuffle/compressionoptionswidget.cpp:129
+#: kerfuffle/compressionoptionswidget.cpp:133
 #, kde-format
 msgid "Protection of the list of files is not possible with the %1 format."
 msgstr "Η προστασία της λίστας των αρχείων δεν είναι εφικτή με τον τύπο %1."
 
-#: kerfuffle/compressionoptionswidget.cpp:137
+#: kerfuffle/compressionoptionswidget.cpp:141
 #, kde-format
 msgid ""
 "Protection of the archive with password is not possible with the %1 format."
@@ -702,17 +702,17 @@ msgstr ""
 "Η προστασία της αρχειοθήκης με κωδικό πρόσβασης δεν είναι εφικτή με τον τύπο "
 "%1."
 
-#: kerfuffle/compressionoptionswidget.cpp:151
+#: kerfuffle/compressionoptionswidget.cpp:155
 #, kde-format
 msgid "It is not possible to set compression level for the %1 format."
 msgstr "Ο καθορισμός του επιπέδου συμπίεσης δεν είναι εφικτός για τον τύπο %1."
 
-#: kerfuffle/compressionoptionswidget.cpp:170
+#: kerfuffle/compressionoptionswidget.cpp:174
 #, kde-format
 msgid "It is not possible to set compression method for the %1 format."
 msgstr "Ο καθορισμός της μεθόδου συμπίεσης δεν είναι εφικτό για τον τύπο %1."
 
-#: kerfuffle/compressionoptionswidget.cpp:191
+#: kerfuffle/compressionoptionswidget.cpp:195
 #, kde-format
 msgid "The %1 format does not support multi-volume archives."
 msgstr "Η μορφή %1 δεν υποστηρίζει αρχειοθήκη πολλαπλών τόμων."

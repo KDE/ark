@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-26 00:39+0000\n"
+"POT-Creation-Date: 2024-04-16 00:40+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -717,30 +717,30 @@ msgstr "Focal faire mícheart."
 msgid "Ark does not currently support testing this archive."
 msgstr ""
 
-#: kerfuffle/compressionoptionswidget.cpp:129
+#: kerfuffle/compressionoptionswidget.cpp:133
 #, kde-format
 msgid "Protection of the list of files is not possible with the %1 format."
 msgstr ""
 
-#: kerfuffle/compressionoptionswidget.cpp:137
+#: kerfuffle/compressionoptionswidget.cpp:141
 #, kde-format
 msgid ""
 "Protection of the archive with password is not possible with the %1 format."
 msgstr ""
 
-#: kerfuffle/compressionoptionswidget.cpp:151
+#: kerfuffle/compressionoptionswidget.cpp:155
 #, fuzzy, kde-format
 #| msgid "It is not possible to create archives of this type."
 msgid "It is not possible to set compression level for the %1 format."
 msgstr "Ní féidir cartlanna den chineál seo a chruthú."
 
-#: kerfuffle/compressionoptionswidget.cpp:170
+#: kerfuffle/compressionoptionswidget.cpp:174
 #, fuzzy, kde-format
 #| msgid "It is not possible to create archives of this type."
 msgid "It is not possible to set compression method for the %1 format."
 msgstr "Ní féidir cartlanna den chineál seo a chruthú."
 
-#: kerfuffle/compressionoptionswidget.cpp:191
+#: kerfuffle/compressionoptionswidget.cpp:195
 #, kde-format
 msgid "The %1 format does not support multi-volume archives."
 msgstr ""

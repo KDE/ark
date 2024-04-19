@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-26 00:39+0000\n"
-"PO-Revision-Date: 2024-04-09 19:26\n"
+"POT-Creation-Date: 2024-04-16 00:40+0000\n"
+"PO-Revision-Date: 2024-04-18 19:50\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -645,28 +645,28 @@ msgstr "密码错误。"
 msgid "Ark does not currently support testing this archive."
 msgstr "Ark 尚不支持测试此类型的压缩文件。"
 
-#: kerfuffle/compressionoptionswidget.cpp:129
+#: kerfuffle/compressionoptionswidget.cpp:133
 #, kde-format
 msgid "Protection of the list of files is not possible with the %1 format."
 msgstr "%1 格式不支持文件列表加密保护。"
 
-#: kerfuffle/compressionoptionswidget.cpp:137
+#: kerfuffle/compressionoptionswidget.cpp:141
 #, kde-format
 msgid ""
 "Protection of the archive with password is not possible with the %1 format."
 msgstr "%1 格式不支持压缩文件的密码保护。"
 
-#: kerfuffle/compressionoptionswidget.cpp:151
+#: kerfuffle/compressionoptionswidget.cpp:155
 #, kde-format
 msgid "It is not possible to set compression level for the %1 format."
 msgstr "%1 格式不支持设置压缩级别。"
 
-#: kerfuffle/compressionoptionswidget.cpp:170
+#: kerfuffle/compressionoptionswidget.cpp:174
 #, kde-format
 msgid "It is not possible to set compression method for the %1 format."
 msgstr "%1 格式不支持设置压缩方式。"
 
-#: kerfuffle/compressionoptionswidget.cpp:191
+#: kerfuffle/compressionoptionswidget.cpp:195
 #, kde-format
 msgid "The %1 format does not support multi-volume archives."
 msgstr "%1 格式不支持分卷压缩。"

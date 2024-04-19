@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-26 00:39+0000\n"
+"POT-Creation-Date: 2024-04-16 00:40+0000\n"
 "PO-Revision-Date: 2017-12-15 12:38+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -708,14 +708,14 @@ msgstr "Pogrešna lozinka."
 msgid "Ark does not currently support testing this archive."
 msgstr "Ark trenutno ne podržava proveru ove arhive."
 
-#: kerfuffle/compressionoptionswidget.cpp:129
+#: kerfuffle/compressionoptionswidget.cpp:133
 #, kde-format
 msgid "Protection of the list of files is not possible with the %1 format."
 msgstr ""
 "Zaštita spiska fajlova nije moguća za format %1.|/|Zaštita spiska fajlova "
 "nije moguća za format $[nom %1]."
 
-#: kerfuffle/compressionoptionswidget.cpp:137
+#: kerfuffle/compressionoptionswidget.cpp:141
 #, kde-format
 msgid ""
 "Protection of the archive with password is not possible with the %1 format."
@@ -723,21 +723,21 @@ msgstr ""
 "Zaštita arhive lozinkom nije moguća za format %1.|/|Zaštita arhive lozinkom "
 "nije moguća za format $[nom %1]."
 
-#: kerfuffle/compressionoptionswidget.cpp:151
+#: kerfuffle/compressionoptionswidget.cpp:155
 #, kde-format
 msgid "It is not possible to set compression level for the %1 format."
 msgstr ""
 "Nije moguće zadati stepen kompresovanja za format %1.|/|Nije moguće zadati "
 "stepen kompresovanja za format $[nom %1]."
 
-#: kerfuffle/compressionoptionswidget.cpp:170
+#: kerfuffle/compressionoptionswidget.cpp:174
 #, kde-format
 msgid "It is not possible to set compression method for the %1 format."
 msgstr ""
 "Nije moguće zadati metod kompresovanja za format %1.|/|Nije moguće zadati "
 "metod kompresovanja za format $[nom %1]."
 
-#: kerfuffle/compressionoptionswidget.cpp:191
+#: kerfuffle/compressionoptionswidget.cpp:195
 #, kde-format
 msgid "The %1 format does not support multi-volume archives."
 msgstr ""

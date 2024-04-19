@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-26 00:39+0000\n"
+"POT-Creation-Date: 2024-04-16 00:40+0000\n"
 "PO-Revision-Date: 2024-02-11 11:59-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -648,30 +648,30 @@ msgstr "ਪਾਸਵਰਡ ਗਲਤ ਹੈ।"
 msgid "Ark does not currently support testing this archive."
 msgstr "ਆਰਕ ਇਸ ਅਕਾਇਵ ਨੂੰ ਟੈਸਟ ਕਰਨ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ।"
 
-#: kerfuffle/compressionoptionswidget.cpp:129
+#: kerfuffle/compressionoptionswidget.cpp:133
 #, kde-format
 msgid "Protection of the list of files is not possible with the %1 format."
 msgstr ""
 
-#: kerfuffle/compressionoptionswidget.cpp:137
+#: kerfuffle/compressionoptionswidget.cpp:141
 #, kde-format
 msgid ""
 "Protection of the archive with password is not possible with the %1 format."
 msgstr ""
 
-#: kerfuffle/compressionoptionswidget.cpp:151
+#: kerfuffle/compressionoptionswidget.cpp:155
 #, fuzzy, kde-format
 #| msgid "It is not possible to create archives of this type."
 msgid "It is not possible to set compression level for the %1 format."
 msgstr "ਇਸ ਕਿਸਮ ਦੇ ਅਕਾਇਵ ਬਣਾਉਣਾ ਸੰਭਵ ਨਹੀਂ ਹੈ।"
 
-#: kerfuffle/compressionoptionswidget.cpp:170
+#: kerfuffle/compressionoptionswidget.cpp:174
 #, fuzzy, kde-format
 #| msgid "It is not possible to create archives of this type."
 msgid "It is not possible to set compression method for the %1 format."
 msgstr "ਇਸ ਕਿਸਮ ਦੇ ਅਕਾਇਵ ਬਣਾਉਣਾ ਸੰਭਵ ਨਹੀਂ ਹੈ।"
 
-#: kerfuffle/compressionoptionswidget.cpp:191
+#: kerfuffle/compressionoptionswidget.cpp:195
 #, kde-format
 msgid "The %1 format does not support multi-volume archives."
 msgstr ""
