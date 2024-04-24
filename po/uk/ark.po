@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-16 00:40+0000\n"
+"POT-Creation-Date: 2024-04-24 02:58+0000\n"
 "PO-Revision-Date: 2024-03-26 17:43+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -2204,65 +2204,87 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "невідомий"
 
-#: plugins/libarchive/libarchiveplugin.cpp:462
+#: plugins/libarchive/libarchiveplugin.cpp:123
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid ""
+#| "Testing password-protected archives with no header-encryption is "
+#| "currently not supported."
+msgctxt "@info"
+msgid ""
+"The archive may be corrupt or has header-encryption, which is currently not "
+"supported."
+msgstr ""
+"У поточній версії не передбачено можливості перевірки захищених паролями "
+"архівів без шифрування заголовків."
+
+#: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Критична помилка, видобування перервано."
 
-#: plugins/libarchive/libarchiveplugin.cpp:495
+#: plugins/libarchive/libarchiveplugin.cpp:501
+#, fuzzy, kde-format
+#| msgid "Only extracting full archive is currently supported."
+msgctxt "@info"
+msgid "Extraction of encrypted 7-zip entries is currenty not supported."
+msgstr "У поточній версії підтримується видобування лише з цілих архівів."
+
+#: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Не вдалося ініціалізувати засіб для читання архівів."
 
-#: plugins/libarchive/libarchiveplugin.cpp:517
+#: plugins/libarchive/libarchiveplugin.cpp:537
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
 msgstr "Архів пошкоджено або у програми недостатні права доступу до даних."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:206
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:217
 #, kde-format
 msgctxt "@info"
 msgid "Failed to create a temporary file for writing data."
 msgstr "Не вдалося створити тимчасовий файл для запису даних."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:212
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:223
 #, kde-format
 msgid "The archive writer could not be initialized."
 msgstr "Не вдалося ініціалізувати засіб для запису архівів."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:230
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:240
 #, kde-format
 msgctxt "@info"
 msgid "Could not open the archive for writing entries."
 msgstr "Не вдалося відкрити архів для запису."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:277
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:287
 #, kde-format
 msgid "The compression type '%1' is not supported by Ark."
 msgstr "Тип стиснення «%1» не підтримується програмою Ark."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:284
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:351
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:294
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:364
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:376
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression method."
 msgstr "Не вдалося встановити спосіб стискання."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:364
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:399
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression level."
 msgstr "Не вдалося встановити рівень стискання."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:481
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:516
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr "Не вдалося стиснути запис, дію перервано."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:524
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:559
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
@@ -2986,9 +3008,6 @@ msgstr "Не вдалося встановити метадані для зап�
 #~ msgstr ""
 #~ "Не вдалося запустити <tt>unace</tt>. Переконайтеся, що цю програму "
 #~ "встановлено і ви маєте до неї доступ."
-
-#~ msgid "Only extracting full archive is currently supported."
-#~ msgstr "У поточній версії підтримується видобування лише з цілих архівів."
 
 #~ msgid "Only extracting while preserving paths is currently supported."
 #~ msgstr ""

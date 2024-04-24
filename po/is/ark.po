@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-16 00:40+0000\n"
+"POT-Creation-Date: 2024-04-24 02:58+0000\n"
 "PO-Revision-Date: 2024-04-15 09:23+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -2176,65 +2176,86 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "óþekkt"
 
-#: plugins/libarchive/libarchiveplugin.cpp:462
+#: plugins/libarchive/libarchiveplugin.cpp:123
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid ""
+#| "Testing password-protected archives with no header-encryption is "
+#| "currently not supported."
+msgctxt "@info"
+msgid ""
+"The archive may be corrupt or has header-encryption, which is currently not "
+"supported."
+msgstr ""
+"Prófun á lykilorðsvörðum safnskrám án dulritunar á haus (header-encryption) "
+"er ekki studd sem stendur."
+
+#: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Alvarleg villa, hætt við afþjöppun."
 
-#: plugins/libarchive/libarchiveplugin.cpp:495
+#: plugins/libarchive/libarchiveplugin.cpp:501
+#, kde-format
+msgctxt "@info"
+msgid "Extraction of encrypted 7-zip entries is currenty not supported."
+msgstr ""
+
+#: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Ekki tókst að ræsa safnskrárlesarann."
 
-#: plugins/libarchive/libarchiveplugin.cpp:517
+#: plugins/libarchive/libarchiveplugin.cpp:537
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
 msgstr "Skemmd safnskrá eða ekki nægar heimildir."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:206
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:217
 #, kde-format
 msgctxt "@info"
 msgid "Failed to create a temporary file for writing data."
 msgstr "Mistókst að búa til bráðabirgðaskrá til að skrifa gögn í."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:212
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:223
 #, kde-format
 msgid "The archive writer could not be initialized."
 msgstr "Ekki tókst að ræsa safnskrárskrifarann."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:230
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:240
 #, kde-format
 msgctxt "@info"
 msgid "Could not open the archive for writing entries."
 msgstr "Gat ekki opnað safnskrána til að skrifa færslur."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:277
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:287
 #, kde-format
 msgid "The compression type '%1' is not supported by Ark."
 msgstr "Ark styður ekki þjöppunargerðina '%1'."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:284
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:351
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:294
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:364
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:376
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression method."
 msgstr "Gat ekki stillt þjöppunaraðferðina."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:364
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:399
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression level."
 msgstr "Gat ekki stillt þjöppunarstigið."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:481
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:516
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr "Gat ekki þjappað færslu, hætt við aðgerð."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:524
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:559
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."

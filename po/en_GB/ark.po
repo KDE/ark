@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-16 00:40+0000\n"
+"POT-Creation-Date: 2024-04-24 02:58+0000\n"
 "PO-Revision-Date: 2023-05-06 15:43+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -2164,65 +2164,87 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "unknown"
 
-#: plugins/libarchive/libarchiveplugin.cpp:462
+#: plugins/libarchive/libarchiveplugin.cpp:123
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid ""
+#| "Testing password-protected archives with no header-encryption is "
+#| "currently not supported."
+msgctxt "@info"
+msgid ""
+"The archive may be corrupt or has header-encryption, which is currently not "
+"supported."
+msgstr ""
+"Testing password-protected archives with no header-encryption is currently "
+"not supported."
+
+#: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Fatal error, extraction aborted."
 
-#: plugins/libarchive/libarchiveplugin.cpp:495
+#: plugins/libarchive/libarchiveplugin.cpp:501
+#, fuzzy, kde-format
+#| msgid "Only extracting full archive is currently supported."
+msgctxt "@info"
+msgid "Extraction of encrypted 7-zip entries is currenty not supported."
+msgstr "Only extracting full archive is currently supported."
+
+#: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "The archive reader could not be initialised."
 
-#: plugins/libarchive/libarchiveplugin.cpp:517
+#: plugins/libarchive/libarchiveplugin.cpp:537
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
 msgstr "Archive corrupted or insufficient permissions."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:206
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:217
 #, kde-format
 msgctxt "@info"
 msgid "Failed to create a temporary file for writing data."
 msgstr "Failed to create a temporary file for writing data."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:212
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:223
 #, kde-format
 msgid "The archive writer could not be initialized."
 msgstr "The archive writer could not be initialised."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:230
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:240
 #, kde-format
 msgctxt "@info"
 msgid "Could not open the archive for writing entries."
 msgstr "Could not open the archive for writing entries."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:277
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:287
 #, kde-format
 msgid "The compression type '%1' is not supported by Ark."
 msgstr "The compression type '%1' is not supported by Ark."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:284
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:351
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:294
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:364
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:376
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression method."
 msgstr "Could not set the compression method."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:364
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:399
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression level."
 msgstr "Could not set the compression level."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:481
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:516
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr "Could not compress entry, operation aborted."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:524
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:559
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
@@ -2929,9 +2951,6 @@ msgstr "Failed to set metadata for entry: %1"
 #~ msgstr ""
 #~ "Unable to launch <tt>unace</tt>. Make sure you have that tool installed "
 #~ "and available."
-
-#~ msgid "Only extracting full archive is currently supported."
-#~ msgstr "Only extracting full archive is currently supported."
 
 #~ msgid "Only extracting while preserving paths is currently supported."
 #~ msgstr "Only extracting while preserving paths is currently supported."

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-16 00:40+0000\n"
+"POT-Creation-Date: 2024-04-24 02:58+0000\n"
 "PO-Revision-Date: 2024-03-26 14:32+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -2183,65 +2183,86 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "sconosciuto"
 
-#: plugins/libarchive/libarchiveplugin.cpp:462
+#: plugins/libarchive/libarchiveplugin.cpp:123
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid ""
+#| "Testing password-protected archives with no header-encryption is "
+#| "currently not supported."
+msgctxt "@info"
+msgid ""
+"The archive may be corrupt or has header-encryption, which is currently not "
+"supported."
+msgstr ""
+"La verifica degli archivi protetti da password senza cifratura "
+"dell'intestazione non è attualmente supportata."
+
+#: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Errore grave, estrazione interrotta."
 
-#: plugins/libarchive/libarchiveplugin.cpp:495
+#: plugins/libarchive/libarchiveplugin.cpp:501
+#, kde-format
+msgctxt "@info"
+msgid "Extraction of encrypted 7-zip entries is currenty not supported."
+msgstr ""
+
+#: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Impossibile inizializzare il componente lettura archivi."
 
-#: plugins/libarchive/libarchiveplugin.cpp:517
+#: plugins/libarchive/libarchiveplugin.cpp:537
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
 msgstr "Archivio danneggiato o permessi insufficienti."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:206
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:217
 #, kde-format
 msgctxt "@info"
 msgid "Failed to create a temporary file for writing data."
 msgstr "Creazione di un file temporaneo per scrivere i dati non riuscita."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:212
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:223
 #, kde-format
 msgid "The archive writer could not be initialized."
 msgstr "Impossibile inizializzare il componente scrittura archivi."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:230
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:240
 #, kde-format
 msgctxt "@info"
 msgid "Could not open the archive for writing entries."
 msgstr "Impossibile aprire l'archivio per scrivere gli elementi."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:277
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:287
 #, kde-format
 msgid "The compression type '%1' is not supported by Ark."
 msgstr "Il tipo di compressione «%1» non è supportato da Ark."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:284
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:351
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:294
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:364
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:376
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression method."
 msgstr "Impossibile impostare il metodo di compressione."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:364
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:399
 #, kde-format
 msgctxt "@info"
 msgid "Could not set the compression level."
 msgstr "Impossibile impostare il livello di compressione."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:481
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:516
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr "Impossibile comprimere l'elemento, operazione interrotta."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:524
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:559
 #, kde-format
 msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
