@@ -121,6 +121,20 @@
     },
     "X-KDE-Kerfuffle-ReadWrite": true,
     "X-KDE-Priority": 100,
+    "application/x-7z-compressed": {
+        "CompressionLevelDefault": 5,
+        "CompressionLevelMax": 9,
+        "CompressionLevelMin": 1,
+        "CompressionMethodDefault": "LZMA2",
+        "CompressionMethods": {
+            "BZip2": "BZip2",
+            "Copy": "Copy",
+            "Deflate": "Deflate",
+            "LZMA1": "LZMA1",
+            "LZMA2": "LZMA2",
+            "PPMd": "PPMd"
+        }
+    },
     "application/x-bzip-compressed-tar": {
         "CompressionLevelDefault": 9,
         "CompressionLevelMax": 9,
@@ -170,19 +184,5 @@
         "CompressionLevelDefault": 3,
         "CompressionLevelMax": 22,
         "CompressionLevelMin": 1
-    },
-    "application/x-7z-compressed": {
-        "CompressionLevelDefault": 5,
-        "CompressionLevelMax": 9,
-        "CompressionLevelMin": 1,
-        "CompressionMethodDefault": "LZMA2",
-        "CompressionMethods": {
-            "BZip2": "BZip2",
-            "Copy": "Copy",
-            "Deflate": "Deflate",
-            "LZMA1": "LZMA1",
-            "LZMA2": "LZMA2",
-            "PPMd": "PPMd"
-        }
     }
 }
