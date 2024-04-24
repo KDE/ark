@@ -498,7 +498,7 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
     // If nothing was extracted, the entries must have been all encrypted.
     if (extractedEntriesCount == 0 && archive_format(m_archiveReader.data()) == ARCHIVE_FORMAT_7ZIP
         && archive_read_has_encrypted_entries(m_archiveReader.data())) {
-        Q_EMIT error(i18nc("@info", "Extraction of encrypted 7-zip entries is currenty not supported."));
+        Q_EMIT error(i18nc("@info", "Extraction of encrypted 7-zip entries is currently not supported."));
         return false;
     }
 
