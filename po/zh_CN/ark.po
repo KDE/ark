@@ -2088,16 +2088,12 @@ msgid "unknown"
 msgstr "未知"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
-msgstr "尚不支持测试使用密码保护，但没有加密文件头的压缩文件。"
+msgstr ""
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format

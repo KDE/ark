@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-24 02:58+0000\n"
-"PO-Revision-Date: 2024-03-26 10:12+0100\n"
+"PO-Revision-Date: 2024-04-24 09:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -2175,18 +2175,14 @@ msgid "unknown"
 msgstr "desconegut"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Actualment no s'admeten les proves amb arxius protegits amb contrasenya "
-"sense capçalera d'encriptatge."
+"L'arxiu pot estar corromput o té encriptatge de capçalera, que actualment no "
+"s'admet."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2198,7 +2194,7 @@ msgstr "Error fatal, s'ha interromput l'extracció."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currenty not supported."
-msgstr ""
+msgstr "Actualment no s'admet l'extracció d'entrades 7-zip encriptades."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
