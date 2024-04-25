@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-24 00:41+0000\n"
+"POT-Creation-Date: 2024-04-25 00:40+0000\n"
 "PO-Revision-Date: 2023-07-24 13:26+0300\n"
 "Last-Translator: George Stefanakis <george.stefanakis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
@@ -2234,7 +2234,7 @@ msgstr "Μοιραίο σφάλμα, η εξαγωγή ματαιώθηκε."
 #, fuzzy, kde-format
 #| msgid "Only extracting full archive is currently supported."
 msgctxt "@info"
-msgid "Extraction of encrypted 7-zip entries is currenty not supported."
+msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "Προς το παρόν υποστηρίζεται μόνο η εξαγωγή ολόκληρης της αρχειοθήκης."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-24 00:41+0000\n"
+"POT-Creation-Date: 2024-04-25 00:40+0000\n"
 "PO-Revision-Date: 2024-04-15 09:23+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -2199,7 +2199,7 @@ msgstr "Alvarleg villa, hætt við afþjöppun."
 #: plugins/libarchive/libarchiveplugin.cpp:501
 #, kde-format
 msgctxt "@info"
-msgid "Extraction of encrypted 7-zip entries is currenty not supported."
+msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr ""
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
