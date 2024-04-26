@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-24 02:58+0000\n"
-"PO-Revision-Date: 2024-03-29 10:41+0100\n"
+"PO-Revision-Date: 2024-04-25 21:00+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2167,18 +2167,14 @@ msgid "unknown"
 msgstr "descoñecido"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Non se permite probar arquivos existentes protexidos por contrasinal sen "
-"cifrado de cabeceira."
+"O arquivo podería estar corrompido ou ter cifrado de cabeceira, que de "
+"momento non se permite."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2190,7 +2186,7 @@ msgstr "Erro fatal, interrompeuse a extracción."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currenty not supported."
-msgstr ""
+msgstr "De momento non se pode extraer entradas cifradas de 7-zip."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format

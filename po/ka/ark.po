@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-24 02:58+0000\n"
-"PO-Revision-Date: 2024-03-26 05:46+0100\n"
+"PO-Revision-Date: 2024-04-25 06:43+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2146,18 +2146,14 @@ msgid "unknown"
 msgstr "unknown"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"პაროლით დაშიფრული არქივების ტესტირება, რომლებსაც თავსართის დაშიფვრა ჩართული "
-"არ აქვთ, მხარდაჭერილი არაა."
+"არქივი შეიძლება დაზიანებულია, ან თავსართები დაშიფრული აქვს, რაც ამჟამად "
+"მხარდაჭერილი არაა."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2169,7 +2165,7 @@ msgstr "ფატალური შეცდომა. გაშლა გა�
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currenty not supported."
-msgstr ""
+msgstr "დაშიფრული 7-zip-ის ჩანაწერების გამოტანა ამჟამად მხარდაჭერილი არაა."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
