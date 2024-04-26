@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-25 00:40+0000\n"
-"PO-Revision-Date: 2024-04-24 07:00+0200\n"
+"PO-Revision-Date: 2024-04-25 10:16+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2162,12 +2162,10 @@ msgid "Fatal error, extraction aborted."
 msgstr "ფატალური შეცდომა. გაშლა გაუქმებულია."
 
 #: plugins/libarchive/libarchiveplugin.cpp:501
-#, fuzzy, kde-format
-#| msgctxt "@info"
-#| msgid "Extraction of encrypted 7-zip entries is currenty not supported."
+#, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
-msgstr "დაშიფრული 7-zip-ის ჩანაწერების გამოტანა ამჟამად მხარდაჭერილი არაა."
+msgstr "დაშიფრული 7-zip-ის ჩანაწერების გაშლა, ამჟამად, მხარდაჭერილი არაა."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
