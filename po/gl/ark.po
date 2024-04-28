@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-25 00:40+0000\n"
-"PO-Revision-Date: 2024-04-25 21:00+0200\n"
+"PO-Revision-Date: 2024-04-27 10:21+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -2186,7 +2186,7 @@ msgstr "Erro fatal, interrompeuse a extracción."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
-msgstr ""
+msgstr "De momento non se pode extraer entradas cifradas de 7-zip."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format

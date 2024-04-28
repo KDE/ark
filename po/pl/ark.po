@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-25 00:40+0000\n"
-"PO-Revision-Date: 2024-04-01 07:25+0200\n"
+"PO-Revision-Date: 2024-04-27 10:00+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -2173,24 +2173,20 @@ msgid "unknown"
 msgstr "nieznany"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Sprawdzanie archiwów chronionych hasłem, bez szyfrowania nagłówka jest "
-"obecnie nieobsługiwane."
+"To archiwum może być uszkodzone lub mieć zaszyfrowany nagłówek, co obecnie "
+"nie jest obsługiwane."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
-msgstr "Bład krytyczny, przerwano wypakowywanie."
+msgstr "Błąd krytyczny, przerwano wypakowywanie."
 
 #: plugins/libarchive/libarchiveplugin.cpp:501
 #, kde-format
