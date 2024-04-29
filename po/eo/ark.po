@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-24 02:58+0000\n"
-"PO-Revision-Date: 2024-03-27 09:18+0100\n"
+"PO-Revision-Date: 2024-04-27 17:28+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -2158,17 +2158,13 @@ msgid "unknown"
 msgstr "nekonata"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Testado de pasvortprotektitaj arkivoj sen kaplinio-ĉifrado nuntempe ne estas "
+"La arkivo eble estas difekta aŭ havas kaplinio-ĉifradon kiu aktuale ne estas "
 "subtenata."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475

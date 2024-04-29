@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-24 02:58+0000\n"
-"PO-Revision-Date: 2024-03-30 21:59+0530\n"
+"PO-Revision-Date: 2024-04-28 17:23+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2154,6 +2154,8 @@ msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
+"இது முறையற்ற காப்பகமாக இருக்கலாம், அல்லது தற்போது ஆதரிக்கப்படாத தலைப்புப்பகுதி-"
+"மறையாக்கத்தைப் பயன்படுத்தும் காப்பகமாக இருக்கலாம்."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
