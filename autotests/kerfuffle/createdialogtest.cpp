@@ -5,6 +5,7 @@
 */
 
 #include "createdialog.h"
+#include "archiveformat.h"
 #include "pluginmanager.h"
 
 #include <KCollapsibleGroupBox>
@@ -105,6 +106,10 @@ void CreateDialogTest::testEncryption_data()
     QTest::addColumn<bool>("isEncryptionAvailable");
     QTest::addColumn<bool>("isHeaderEncryptionAvailable");
 
+    QMimeType sevenZipMimetype = QMimeDatabase().mimeTypeForName(QStringLiteral("application/x-7z-compressed"));
+    const KPluginMetaData sevenZipPluginMetadata = PluginManager().preferredPluginFor(sevenZipMimetype)->metaData();
+    ArchiveFormat sevenZipFormat = ArchiveFormat::fromMetadata(sevenZipMimetype, sevenZipPluginMetadata);
+
     QTest::newRow("tar") << QStringLiteral("application/x-compressed-tar") << false << false;
 
     if (m_pluginManager.supportedWriteMimeTypes().contains(QLatin1String("application/zip"))) {
@@ -114,7 +119,8 @@ void CreateDialogTest::testEncryption_data()
     }
 
     if (m_pluginManager.supportedWriteMimeTypes().contains(QLatin1String("application/x-7z-compressed"))) {
-        QTest::newRow("7z") << QStringLiteral("application/x-7z-compressed") << true << true;
+        QTest::newRow("7z") << QStringLiteral("application/x-7z-compressed") << (sevenZipFormat.encryptionType() != Archive::EncryptionType::Unencrypted)
+                            << (sevenZipFormat.encryptionType() == Archive::EncryptionType::HeaderEncrypted);
     } else {
         qDebug() << "7z format not available in CreateDialog, skipping test.";
     }

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-16 00:40+0000\n"
+"POT-Creation-Date: 2024-04-25 00:40+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -2362,24 +2362,39 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "Méid anaithnid"
 
-#: plugins/libarchive/libarchiveplugin.cpp:462
+#: plugins/libarchive/libarchiveplugin.cpp:123
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The archive may be corrupt or has header-encryption, which is currently not "
+"supported."
+msgstr ""
+
+#: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:495
+#: plugins/libarchive/libarchiveplugin.cpp:501
+#, fuzzy, kde-format
+#| msgid "Only extracting full archive is currently supported."
+msgctxt "@info"
+msgid "Extraction of encrypted 7-zip entries is currently not supported."
+msgstr "Ní féidir ach cartlann iomlán a bhaint amach faoi láthair."
+
+#: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Níorbh fhéidir an léitheoir cartlainne a thúsú."
 
-#: plugins/libarchive/libarchiveplugin.cpp:517
+#: plugins/libarchive/libarchiveplugin.cpp:537
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
 msgstr ""
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:206
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:217
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "Failed to locate program <filename>%2</filename> on disk."
@@ -2389,45 +2404,46 @@ msgid "Failed to create a temporary file for writing data."
 msgstr ""
 "Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:212
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:223
 #, kde-format
 msgid "The archive writer could not be initialized."
 msgstr "Níorbh fhéidir an scríbhneoir cartlainne a thúsú."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:230
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:240
 #, fuzzy, kde-format
 #| msgid "Could not locate file #%1 in the archive"
 msgctxt "@info"
 msgid "Could not open the archive for writing entries."
 msgstr "Níorbh fhéidir comhad #%1 a aimsiú sa chartlann"
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:277
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:287
 #, kde-format
 msgid "The compression type '%1' is not supported by Ark."
 msgstr "Ní thacaíonn Ark leis an gcineál comhbhrúite '%1'."
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:284
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:351
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:294
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:364
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:376
 #, fuzzy, kde-format
 #| msgid "Could not locate file #%1 in the archive"
 msgctxt "@info"
 msgid "Could not set the compression method."
 msgstr "Níorbh fhéidir comhad #%1 a aimsiú sa chartlann"
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:364
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:399
 #, fuzzy, kde-format
 #| msgid "Could not locate file #%1 in the archive"
 msgctxt "@info"
 msgid "Could not set the compression level."
 msgstr "Níorbh fhéidir comhad #%1 a aimsiú sa chartlann"
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:481
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:516
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
 msgstr ""
 
-#: plugins/libarchive/readwritelibarchiveplugin.cpp:524
+#: plugins/libarchive/readwritelibarchiveplugin.cpp:559
 #, fuzzy, kde-format
 #| msgid "Could not locate file #%1 in the archive"
 msgctxt "@info Error in a message box"
@@ -3176,9 +3192,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Ní féidir <tt>unace</tt> a thosú. Bí cinnte go bhfuil an uirlis seo "
 #~ "suiteáilte agat agus go bhfuil sé ar fáil."
-
-#~ msgid "Only extracting full archive is currently supported."
-#~ msgstr "Ní féidir ach cartlann iomlán a bhaint amach faoi láthair."
 
 #~ msgid "Only extracting while preserving paths is currently supported."
 #~ msgstr ""

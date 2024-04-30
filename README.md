@@ -76,6 +76,7 @@ The plugins currently available in ark are the following:
 * Info-zip plugin (legacy): supports the Zip format by using the `zip` binary.
 * ARJ plugin: supports the ARJ format by using the `arj` binary.
 * Libarchive plugin: supports everything else by using the libarchive library and optionally the `lrzip`, `lzop` and `zstd` binaries.
+    * Supports also the 7-Zip format, but only without encryption.
 
 
 ## Contributing to ARK

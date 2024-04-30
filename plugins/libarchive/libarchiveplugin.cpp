@@ -116,6 +116,13 @@ bool LibarchivePlugin::list()
 
     if (result != ARCHIVE_EOF) {
         qCCritical(ARK) << "Error while reading archive:" << result << QLatin1String(archive_error_string(m_archiveReader.data()));
+        // libarchive currently doesn't support header-encrypted 7zip archives, but doesn't clearly tells when that happens.
+        // It just returns a generic ARCHIVE_FATAL when calling the archive_read_next_header function.
+        // If there are 0 detected entries, this is likely a header-encrypted archive, but we can't be 100& sure.
+        if (archive_format(m_archiveReader.data()) == ARCHIVE_FORMAT_7ZIP && m_cachedArchiveEntryCount == 0) {
+            Q_EMIT error(i18nc("@info", "The archive may be corrupt or has header-encryption, which is currently not supported."));
+            return false;
+        }
         if (!emitCorruptArchive()) {
             return false;
         }
@@ -308,6 +315,12 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
             continue;
         }
 
+        // Skip encrypted 7-zip entries, since libarchive cannot extract them yet.
+        if (archive_format(m_archiveReader.data()) == ARCHIVE_FORMAT_7ZIP && archive_entry_is_data_encrypted(entry)) {
+            archive_read_data_skip(m_archiveReader.data());
+            continue;
+        }
+
         // entryName is the name inside the archive, full path
         QString entryName = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(entry)));
         if (archive_format(m_archiveReader.data()) == ARCHIVE_FORMAT_RAW) {
@@ -482,6 +495,13 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
         }
     }
 
+    // If nothing was extracted, the entries must have been all encrypted.
+    if (extractedEntriesCount == 0 && archive_format(m_archiveReader.data()) == ARCHIVE_FORMAT_7ZIP
+        && archive_read_has_encrypted_entries(m_archiveReader.data())) {
+        Q_EMIT error(i18nc("@info", "Extraction of encrypted 7-zip entries is currently not supported."));
+        return false;
+    }
+
     qCDebug(ARK) << "Extracted" << extractedEntriesCount << "entries";
     slotRestoreWorkingDir();
     return archive_read_close(m_archiveReader.data()) == ARCHIVE_OK;
@@ -532,6 +552,10 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry, b
         e->setProperty("compressedSize", QFileInfo(filename()).size());
         e->compressedSizeIsSet = true;
     } else {
+        if (archive_entry_is_encrypted(aentry)) {
+            e->setProperty("isPasswordProtected", true);
+        }
+
         const QString owner = QString::fromLatin1(archive_entry_uname(aentry));
         if (!owner.isEmpty()) {
             e->setProperty("owner", owner);

@@ -6,6 +6,7 @@
 */
 
 #include "archive_kerfuffle.h"
+#include "archiveformat.h"
 #include "jobs.h"
 #include "pluginmanager.h"
 #include "testhelper.h"
@@ -71,6 +72,10 @@ void ExtractTest::testExtraction_data()
 
     ExtractionOptions dragAndDropOptions;
     dragAndDropOptions.setDragAndDropEnabled(true);
+
+    QMimeType sevenZipMimetype = QMimeDatabase().mimeTypeForName(QStringLiteral("application/x-7z-compressed"));
+    const KPluginMetaData sevenZipPluginMetadata = PluginManager().preferredPluginFor(sevenZipMimetype)->metaData();
+    ArchiveFormat sevenZipFormat = ArchiveFormat::fromMetadata(sevenZipMimetype, sevenZipPluginMetadata);
 
     QString archivePath = QFINDTESTDATA("data/simplearchive.tar.gz");
     setupRow("extract the whole simplearchive.tar.gz", archivePath, QList<Archive::Entry *>(), optionsPreservePaths, 4);
@@ -346,8 +351,13 @@ void ExtractTest::testExtraction_data()
              optionsPreservePaths,
              3);
 
-    archivePath = QFINDTESTDATA("data/archive-multivolume.7z.001");
-    setupRow("extract all entries from a multivolume 7z archive with path", archivePath, QList<Archive::Entry *>(), optionsPreservePaths, 3);
+    // libarchive doesn't support multi-volume 7z files.
+    if (sevenZipFormat.supportsMultiVolume()) {
+        archivePath = QFINDTESTDATA("data/archive-multivolume.7z.001");
+        setupRow("extract all entries from a multivolume 7z archive with path", archivePath, QList<Archive::Entry *>(), optionsPreservePaths, 3);
+    } else {
+        qDebug() << "Plugin for 7zip format doesn't support multivolume feature, skipping extraction of multivolume test file.";
+    }
 
     archivePath = QFINDTESTDATA("data/archive-multivolume.part1.rar");
     setupRow("extract all entries from a multivolume rar archive with path", archivePath, QList<Archive::Entry *>(), optionsPreservePaths, 3);

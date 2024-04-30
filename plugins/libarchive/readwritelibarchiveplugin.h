@@ -33,9 +33,10 @@ public:
     bool deleteFiles(const QList<Archive::Entry *> &files) override;
 
 protected:
+    void initializeWriterFormat();
     bool initializeWriter(const bool creatingNewFile = false, const CompressionOptions &options = CompressionOptions());
     bool initializeWriterFilters();
-    bool initializeNewFileWriterFilters(const CompressionOptions &options);
+    bool initializeNewFileCompressionOptions(const CompressionOptions &options);
     void finish(const bool isSuccessful);
 
 private:
