@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-24 02:58+0000\n"
-"PO-Revision-Date: 2024-03-26 23:02+0100\n"
+"PO-Revision-Date: 2024-04-29 08:23+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 24.02.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #, kde-format
@@ -2168,18 +2168,14 @@ msgid "unknown"
 msgstr "неизвестен"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Понастоящем тестването на защитени с парола архиви без header-encryption не "
-"се поддържа."
+"Архивът може да е повреден или има криптиране на заглавната част, което в "
+"момента не се поддържа."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2191,7 +2187,7 @@ msgstr "Критична грешка, извличането е прекрат�
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currenty not supported."
-msgstr ""
+msgstr "Извличането на криптирани 7zip записи в момента не се поддържа."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format

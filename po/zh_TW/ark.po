@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-24 02:58+0000\n"
-"PO-Revision-Date: 2024-03-29 21:17+0900\n"
+"PO-Revision-Date: 2024-04-29 19:32+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -2081,16 +2081,12 @@ msgid "unknown"
 msgstr "未知"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
-msgstr "目前不支援測試未加密標頭、使用密碼保護的封存檔。"
+msgstr "封存檔可能已毀損，或是使用目前不支援的標頭加密功能。"
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
