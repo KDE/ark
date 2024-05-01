@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-24 02:58+0000\n"
-"PO-Revision-Date: 2024-03-28 12:05+0100\n"
+"PO-Revision-Date: 2024-04-30 11:49+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -2170,18 +2170,14 @@ msgid "unknown"
 msgstr "incognite"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Essayar archivos protegite per contrasigno con cryptation sin capite es "
-"currentemente non supportate."
+"Le archivo poterea esser corrupte o haber cryptation de capite, que non es "
+"currentemente supportate."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2194,6 +2190,7 @@ msgstr "Error fatal, extraction abortate."
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currenty not supported."
 msgstr ""
+"Extraction de elementos cryptate de 7-zip non es currentemente supportate."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
