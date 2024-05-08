@@ -2094,6 +2094,7 @@ msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
+"此压缩文件可能已经损坏或者使用了文件头加密。本程序不支持打开这样的压缩文件。"
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2105,7 +2106,7 @@ msgstr "发生严重错误，解压操作已中止。"
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currenty not supported."
-msgstr ""
+msgstr "目前不支持解压加密 7-Zip 压缩文件的条目。"
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
