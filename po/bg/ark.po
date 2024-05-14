@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-25 00:40+0000\n"
-"PO-Revision-Date: 2024-04-29 09:08+0200\n"
+"PO-Revision-Date: 2024-05-13 22:47+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -113,7 +113,7 @@ msgstr "Компресиране"
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
-msgstr "Компресиране до..."
+msgstr "Компресиране до…"
 
 #: app/compressfileitemaction.cpp:87
 #, kde-format
@@ -466,7 +466,7 @@ msgstr "Добре дошли"
 #: app/welcomeview/welcomeview.ui:179
 #, kde-format
 msgid "Open Archive..."
-msgstr "Отваряне на архив..."
+msgstr "Отваряне на архив…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -805,7 +805,7 @@ msgstr "Име на файл:"
 #: kerfuffle/createdialog.ui:54
 #, kde-format
 msgid "Type archive name..."
-msgstr "Вид на архива..."
+msgstr "Вид на архива…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1199,7 +1199,7 @@ msgstr "да (%1)"
 #: kerfuffle/propertiesdialog.cpp:88
 #, kde-format
 msgid "Calculating..."
-msgstr "Изчисляване..."
+msgstr "Изчисляване…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1491,7 +1491,7 @@ msgstr "Затваряне на прегледа"
 #: part/arkviewer.cpp:53
 #, kde-format
 msgid "Please wait while the preview is being closed..."
-msgstr "Моля изчакайте, докато прегледът се затвори..."
+msgstr "Моля изчакайте, докато прегледът се затвори…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1646,7 +1646,7 @@ msgstr "Запазване"
 #: part/part.cpp:153
 #, kde-format
 msgid "Type to search..."
-msgstr "Пишете за търсене..."
+msgstr "Пишете за търсене…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1664,7 +1664,7 @@ msgstr "Показване на панела с данни"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As..."
-msgstr "Запазване на копие като..."
+msgstr "Запазване на копие като…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1676,7 +1676,7 @@ msgstr "&Отваряне  във външно приложение"
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With..."
-msgstr "Отваряне &с..."
+msgstr "Отваряне &с…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1729,7 +1729,7 @@ msgstr ""
 #: part/part.cpp:404
 #, kde-format
 msgid "Add &Files..."
-msgstr "Добавяне на &файлове..."
+msgstr "Добавяне на &файлове…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1825,12 +1825,12 @@ msgstr "Архивът не издържа проверката на целос�
 #: part/part.cpp:634
 #, kde-format
 msgid "Extract To..."
-msgstr "Извличане в..."
+msgstr "Извличане в…"
 
 #: part/part.cpp:646
 #, kde-format
 msgid "Quick Extract To..."
-msgstr "Бързо извличане в..."
+msgstr "Бързо извличане в…"
 
 #: part/part.cpp:775
 #, kde-format
