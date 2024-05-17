@@ -4,22 +4,22 @@
 # Lukáš Tinkl <ltinkl@redhat.com>, 2010.
 # David Kolibac <david@kolibac.cz>, 2010.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
-# Vit Pelcak <vit@pelcak.org>, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2021, 2022, 2023, 2024 Vit Pelcak <vit@pelcak.org>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-24 02:58+0000\n"
-"PO-Revision-Date: 2023-11-14 14:50+0100\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"PO-Revision-Date: 2024-04-30 15:17+0200\n"
+"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.08.3\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -121,25 +121,25 @@ msgstr "Zkomprimovat do..."
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr ""
+msgstr "Zkomprimovat do \"%1\""
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr ""
+msgstr "Rozbalit do…"
 
 #: app/extractfileitemaction.cpp:78
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
-msgstr ""
+msgstr "Rozbalit zde"
 
 #: app/extractfileitemaction.cpp:84
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr ""
+msgstr "Rozbalit zde a smazat archiv"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -2158,18 +2158,14 @@ msgid "unknown"
 msgstr "neznámý"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Ověřování archivů chráněných heslem bez šifrování hlavičky v současnosti "
-"není podporováno."
+"Archiv může být poškozen nebo má šifrovanou hlavičku, což momentálně není "
+"podporováno."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2181,7 +2177,7 @@ msgstr "Kritická chyba. Rozbalování bylo přerušeno."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currenty not supported."
-msgstr ""
+msgstr "Rozbalení šifrovaných záznamů 7-zip momentálně není podporováno."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
