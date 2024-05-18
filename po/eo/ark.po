@@ -4,15 +4,15 @@
 # Pierre-Marie Pédrot <pedrotpmx@wanadoo.fr>, 2007.
 # Steffen Pietsch <Steffen.Pietsch@BerlinOnline.de>, ?.
 # Axel Rousseau <axel@esperanto-jeunes.org>, 2009.
-# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
+# Oliver Kellogg <olivermkellogg@gmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-24 02:58+0000\n"
-"PO-Revision-Date: 2024-04-27 17:28+0100\n"
-"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
+"PO-Revision-Date: 2024-05-04 23:30+0100\n"
+"Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "Axel Rousseau,Oliver Kellogg"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "axel@esperanto-jeunes.org,okellogg@users.sourceforge.net"
+msgstr "axel@esperanto-jeunes.org,olivermkellogg@gmail.com"
 
 #. i18n: ectx: Menu (archive)
 #: app/arkui.rc:5
@@ -1027,7 +1027,7 @@ msgstr ""
 #: kerfuffle/jobs.cpp:258
 #, kde-format
 msgid "Loading archive"
-msgstr "Ŝarĝante arkivon"
+msgstr "Ŝargante arkivon"
 
 #: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:548 kerfuffle/jobs.cpp:730
 #: kerfuffle/jobs.cpp:782 kerfuffle/jobs.cpp:819 kerfuffle/jobs.cpp:850
@@ -1826,7 +1826,7 @@ msgstr "Rapida Eltiraĵo Al..."
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
-msgstr "Generalo"
+msgstr "Ĝeneralo"
 
 #: part/part.cpp:776
 #, kde-format
@@ -2124,7 +2124,7 @@ msgstr ""
 #: plugins/clirarplugin/cliplugin.cpp:535
 #, kde-format
 msgid "One or more wrong checksums"
-msgstr "Unu aŭ pluraj malĝustaj ĉeksumoj"
+msgstr "Unu aŭ pluraj malĝustaj kontrolsumoj"
 
 #: plugins/cliunarchiverplugin/cliplugin.cpp:99
 #, kde-format
