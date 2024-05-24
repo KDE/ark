@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-24 02:58+0000\n"
-"PO-Revision-Date: 2024-04-15 09:23+0000\n"
+"PO-Revision-Date: 2024-05-23 15:10+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -2177,18 +2177,14 @@ msgid "unknown"
 msgstr "óþekkt"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Prófun á lykilorðsvörðum safnskrám án dulritunar á haus (header-encryption) "
-"er ekki studd sem stendur."
+"Safnskráin gæti verið skemmd eða með dulritun í haus (header-encryption), "
+"sem er ekki með stuðning sem stendur."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2200,7 +2196,7 @@ msgstr "Alvarleg villa, hætt við afþjöppun."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currenty not supported."
-msgstr ""
+msgstr "Ekki er stuðningur ennþá við afþjöppun dulritaðra 7-zip færslna."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
