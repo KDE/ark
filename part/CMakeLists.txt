@@ -26,7 +26,7 @@ ki18n_wrap_ui(arkpart
     jobtracker.ui)
 
 
-target_link_libraries(arkpart kerfuffle KF6::Parts KF6::KIOFileWidgets)
+target_link_libraries(arkpart kerfuffle KF6::Parts KF6::KIOFileWidgets Qt6::DBus)
 
 list(POP_BACK SUPPORTED_ARK_MIMETYPES)
 list(JOIN SUPPORTED_ARK_MIMETYPES "\", \"" SUPPORTED_ARK_MIMETYPES_JSON)
