@@ -92,7 +92,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
 
     const QString pathName = QStringLiteral("/DndExtract/%1").arg(s_instanceCounter++);
     if (!QDBusConnection::sessionBus().registerObject(pathName, this)) {
-        qCCritical(ARK) << "Could not register a D-Bus object for drag'n'drop";
+        qCCritical(ARK_LOG) << "Could not register a D-Bus object for drag'n'drop";
     }
 
     // m_vlayout is needed for later insertion of QMessageWidget
@@ -275,7 +275,7 @@ void Part::extractSelectedFilesTo(const QString &localPath)
     const QUrl url = QUrl::fromUserInput(localPath, QDir::currentPath());
 
     auto doExtract = [this](const QString &destination) {
-        qCDebug(ARK) << "Extract to" << destination;
+        qCDebug(ARK_LOG) << "Extract to" << destination;
 
         Kerfuffle::ExtractionOptions options;
         options.setDragAndDropEnabled(true);
@@ -299,7 +299,7 @@ void Part::extractSelectedFilesTo(const QString &localPath)
 
             const QString udsLocalPath = statJob->statResult().stringValue(KIO::UDSEntry::UDS_LOCAL_PATH);
             if (udsLocalPath.isEmpty()) { // The URL could not be resolved to a local path
-                qCWarning(ARK) << "Ark cannot extract to non-local destination:" << localPath;
+                qCWarning(ARK_LOG) << "Ark cannot extract to non-local destination:" << localPath;
                 KMessageBox::error(widget(), xi18nc("@info", "Ark can extract archives to local destinations only."));
                 return;
             }
@@ -672,7 +672,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
         QString userDestination = triggeredAction->data().toString();
         QString finalDestinationDirectory;
         const QString detectedSubfolder = detectSubfolder();
-        qCDebug(ARK) << "Detected subfolder" << detectedSubfolder;
+        qCDebug(ARK_LOG) << "Detected subfolder" << detectedSubfolder;
 
         if (m_model->archive()->hasMultipleTopLevelEntries()) {
             if (!userDestination.endsWith(QDir::separator())) {
@@ -684,7 +684,7 @@ void Part::slotQuickExtractFiles(QAction *triggeredAction)
             finalDestinationDirectory = userDestination;
         }
 
-        qCDebug(ARK) << "Extracting to:" << finalDestinationDirectory;
+        qCDebug(ARK_LOG) << "Extracting to:" << finalDestinationDirectory;
 
         ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(getSelectedIndexes())), finalDestinationDirectory, ExtractionOptions());
         registerJob(job);
@@ -727,7 +727,7 @@ void Part::readCompressionOptions()
     }
 
     const auto compressionMethods = m_model->archive()->property("compressionMethods").toStringList();
-    qCDebug(ARK) << "compmethods:" << compressionMethods;
+    qCDebug(ARK_LOG) << "compmethods:" << compressionMethods;
     if (compressionMethods.size() == 1) {
         m_compressionOptions.setCompressionMethod(compressionMethods.first());
     }
@@ -735,7 +735,7 @@ void Part::readCompressionOptions()
 
 bool Part::openFile()
 {
-    qCDebug(ARK) << "Attempting to open archive" << localFilePath();
+    qCDebug(ARK_LOG) << "Attempting to open archive" << localFilePath();
 
     resetGui();
 
@@ -836,7 +836,7 @@ bool Part::confirmAndDelete(const QString &targetFile)
         return false;
     }
 
-    qCDebug(ARK) << "Removing file" << targetFile;
+    qCDebug(ARK_LOG) << "Removing file" << targetFile;
 
     return QFile(targetFile).remove();
 }
@@ -864,14 +864,14 @@ void Part::slotCompleted()
     }
 
     if (m_model->rowCount() == 0) {
-        qCWarning(ARK) << "No entry listed by the plugin";
+        qCWarning(ARK_LOG) << "No entry listed by the plugin";
         displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "The archive is empty or Ark could not open its content."));
     } else if (m_model->rowCount() == 1 &&
                // TODO: drop application/x-cd-image once all distributions ship shared-mime-info >= 2.3
                (m_model->archive()->mimeType().inherits(QStringLiteral("application/x-cd-image"))
                 || m_model->archive()->mimeType().inherits(QStringLiteral("application/vnd.efi.img")))
                && m_model->entryForIndex(m_model->index(0, 0))->fullPath() == QLatin1String("README.TXT")) {
-        qCWarning(ARK) << "Detected ISO image with UDF filesystem";
+        qCWarning(ARK_LOG) << "Detected ISO image with UDF filesystem";
         displayMsgWidget(KMessageWidget::Warning, xi18nc("@info", "Ark does not currently support ISO files with UDF filesystem."));
     } else {
         m_model->countEntriesAndSize();
@@ -970,7 +970,7 @@ void Part::slotOpenEntry(int mode)
 
     // Extract the entry.
     if (!entry->fullPath().isEmpty()) {
-        qCDebug(ARK) << "Opening with mode" << mode;
+        qCDebug(ARK_LOG) << "Opening with mode" << mode;
         m_openFileMode = static_cast<OpenFileMode>(mode);
         KJob *job = nullptr;
 
@@ -1067,7 +1067,7 @@ void Part::slotResetFileChangeTimer(const QString &file)
 
 void Part::slotWatchedFileModified(const QString &file)
 {
-    qCDebug(ARK) << "Watched file modified:" << file;
+    qCDebug(ARK_LOG) << "Watched file modified:" << file;
 
     // Find the relative path of the file within the archive.
     QString relPath = file;
@@ -1098,7 +1098,7 @@ void Part::slotWatchedFileModified(const QString &file)
         == KMessageBox::PrimaryAction) {
         QStringList list = QStringList() << file;
 
-        qCDebug(ARK) << "Updating file" << file << "with path" << relPath;
+        qCDebug(ARK_LOG) << "Updating file" << file << "with path" << relPath;
         slotAddFiles(list, nullptr, relPath, DoNotShowOverwriteDialog);
     }
     // This is needed because some apps, such as Kate, delete and recreate
@@ -1167,7 +1167,7 @@ void Part::slotShowExtractionDialog()
             files = filesAndRootNodesForIndexes(addChildren(getSelectedIndexes()));
         }
 
-        qCDebug(ARK) << "Selected " << files;
+        qCDebug(ARK_LOG) << "Selected " << files;
 
         Kerfuffle::ExtractionOptions options;
         options.setPreservePaths(dialog->preservePaths());
@@ -1259,9 +1259,9 @@ void Part::slotExtractionDone(KJob *job)
         Q_ASSERT(extractJob);
 
         if (ArkSettings::openDestinationFolderAfterExtraction()) {
-            qCDebug(ARK) << "Shall open" << extractJob->destinationDirectory();
+            qCDebug(ARK_LOG) << "Shall open" << extractJob->destinationDirectory();
             QUrl destinationDirectory = QUrl::fromLocalFile(extractJob->destinationDirectory()).adjusted(QUrl::NormalizePathSegments);
-            qCDebug(ARK) << "Shall open URL" << destinationDirectory;
+            qCDebug(ARK_LOG) << "Shall open URL" << destinationDirectory;
 
             KIO::OpenUrlJob *job = new KIO::OpenUrlJob(destinationDirectory, QStringLiteral("inode/directory"));
             job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
@@ -1326,9 +1326,9 @@ void Part::slotAddFiles(const QStringList &filesToAdd, const Archive::Entry *des
     // root of the archive. In the example above, path would be "somedir/".
     if (!relPath.isEmpty()) {
         globalWorkDir.remove(relPath);
-        qCDebug(ARK) << "Adding" << filesToAdd << "to" << relPath;
+        qCDebug(ARK_LOG) << "Adding" << filesToAdd << "to" << relPath;
     } else {
-        qCDebug(ARK) << "Adding " << filesToAdd << ((destination == nullptr) ? QString() : QLatin1String("to ") + destination->fullPath());
+        qCDebug(ARK_LOG) << "Adding " << filesToAdd << ((destination == nullptr) ? QString() : QLatin1String("to ") + destination->fullPath());
     }
 
     // Remove trailing slash (needed when adding dirs).
@@ -1342,7 +1342,7 @@ void Part::slotAddFiles(const QStringList &filesToAdd, const Archive::Entry *des
     // Now take the absolute path of the parent directory.
     globalWorkDir = QFileInfo(globalWorkDir).dir().absolutePath();
 
-    qCDebug(ARK) << "Detected GlobalWorkDir to be " << globalWorkDir;
+    qCDebug(ARK_LOG) << "Detected GlobalWorkDir to be " << globalWorkDir;
     compOptions.setGlobalWorkDir(globalWorkDir);
 
     AddJob *job = m_model->addFiles(m_jobTempEntries, destination, compOptions);
@@ -1378,7 +1378,7 @@ void Part::slotAddFiles()
         }
     }
 
-    qCDebug(ARK) << "Opening AddDialog with opts:" << m_compressionOptions;
+    qCDebug(ARK_LOG) << "Opening AddDialog with opts:" << m_compressionOptions;
 
     // #264819: passing widget() as the parent will not work as expected.
     //          KFileDialog will create a KFileWidget, which runs an internal
@@ -1393,8 +1393,8 @@ void Part::slotAddFiles()
     QPointer<AddDialog> dlg = new AddDialog(widget(), dialogTitle, m_lastUsedAddPath, m_model->archive()->mimeType(), m_compressionOptions);
 
     if (dlg->exec() == QDialog::Accepted) {
-        qCDebug(ARK) << "Selected files:" << dlg->selectedFiles();
-        qCDebug(ARK) << "Options:" << dlg->compressionOptions();
+        qCDebug(ARK_LOG) << "Selected files:" << dlg->selectedFiles();
+        qCDebug(ARK_LOG) << "Options:" << dlg->compressionOptions();
         m_compressionOptions = dlg->compressionOptions();
         slotAddFiles(dlg->selectedFiles(), destination, QString());
     }
@@ -1405,7 +1405,7 @@ void Part::slotCutFiles()
 {
     QModelIndexList selectedRows = addChildren(getSelectedIndexes());
     m_model->filesToMove = ArchiveModel::entryMap(filesForIndexes(selectedRows));
-    qCDebug(ARK) << "Entries marked to cut:" << m_model->filesToMove.values();
+    qCDebug(ARK_LOG) << "Entries marked to cut:" << m_model->filesToMove.values();
     m_model->filesToCopy.clear();
     for (const QModelIndex &row : std::as_const(m_cutIndexes)) {
         m_view->dataChanged(row, row);
@@ -1420,7 +1420,7 @@ void Part::slotCutFiles()
 void Part::slotCopyFiles()
 {
     m_model->filesToCopy = ArchiveModel::entryMap(filesForIndexes(addChildren(getSelectedIndexes())));
-    qCDebug(ARK) << "Entries marked to copy:" << m_model->filesToCopy.values();
+    qCDebug(ARK_LOG) << "Entries marked to copy:" << m_model->filesToCopy.values();
     for (const QModelIndex &row : std::as_const(m_cutIndexes)) {
         m_view->dataChanged(row, row);
     }
@@ -1523,9 +1523,9 @@ void Part::slotPasteFiles(QList<Kerfuffle::Archive::Entry *> &files, Kerfuffle::
     }
 
     if (entriesWithoutChildren > 0) {
-        qCDebug(ARK) << "Moving" << files << "to" << destination;
+        qCDebug(ARK_LOG) << "Moving" << files << "to" << destination;
     } else {
-        qCDebug(ARK) << "Copying " << files << "to" << destination;
+        qCDebug(ARK_LOG) << "Copying " << files << "to" << destination;
     }
 
     KJob *job;
@@ -1559,7 +1559,7 @@ void Part::slotAddFilesDone(KJob *job)
         // For multi-volume archive, we need to re-open the archive after adding files
         // because the name changes from e.g name.rar to name.part1.rar.
         if (m_model->archive()->isMultiVolume()) {
-            qCDebug(ARK) << "Multi-volume archive detected, re-opening...";
+            qCDebug(ARK_LOG) << "Multi-volume archive detected, re-opening...";
             KParts::OpenUrlArguments args = arguments();
             args.metaData()[QStringLiteral("createNewArchive")] = QStringLiteral("false");
             setArguments(args);

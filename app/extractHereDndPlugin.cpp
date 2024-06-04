@@ -20,7 +20,7 @@ K_PLUGIN_CLASS_WITH_JSON(ExtractHereDndPlugin, "ark_dndextract.json")
 
 void ExtractHereDndPlugin::slotTriggered()
 {
-    qCDebug(ARK) << "Preparing job";
+    qCDebug(ARK_LOG) << "Preparing job";
     BatchExtract *batchJob = new BatchExtract();
 
     batchJob->setAutoSubfolder(true);
@@ -30,7 +30,7 @@ void ExtractHereDndPlugin::slotTriggered()
         batchJob->addInput(url);
     }
 
-    qCDebug(ARK) << "Starting job";
+    qCDebug(ARK_LOG) << "Starting job";
     batchJob->start();
 }
 
@@ -45,11 +45,11 @@ QList<QAction *> ExtractHereDndPlugin::setup(const KFileItemListProperties &popu
 
     Kerfuffle::PluginManager pluginManager;
     if (!pluginManager.supportedMimeTypes().contains(popupMenuInfo.mimeType())) {
-        qCDebug(ARK) << popupMenuInfo.mimeType() << "is not a supported mimetype";
+        qCDebug(ARK_LOG) << popupMenuInfo.mimeType() << "is not a supported mimetype";
         return actionList;
     }
 
-    qCDebug(ARK) << "Plugin executed";
+    qCDebug(ARK_LOG) << "Plugin executed";
 
     const QString extractHereMessage = i18nc("@action:inmenu Context menu shown when an archive is being drag'n'dropped", "Extract here");
 

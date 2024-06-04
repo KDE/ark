@@ -73,7 +73,7 @@ ArkViewer::~ArkViewer()
 
 void ArkViewer::openExternalViewer(const KService::Ptr viewer, const QString &fileName)
 {
-    qCDebug(ARK) << "Using external viewer";
+    qCDebug(ARK_LOG) << "Using external viewer";
 
     const QList<QUrl> fileUrlList = {QUrl::fromLocalFile(fileName)};
     KIO::ApplicationLauncherJob *job = new KIO::ApplicationLauncherJob(viewer);
@@ -86,7 +86,7 @@ void ArkViewer::openExternalViewer(const KService::Ptr viewer, const QString &fi
 
 void ArkViewer::openInternalViewer(const KPluginMetaData &viewer, const QString &fileName, const QString &entryPath, const QMimeType &mimeType)
 {
-    qCDebug(ARK) << "Opening internal viewer";
+    qCDebug(ARK_LOG) << "Opening internal viewer";
 
     ArkViewer *internalViewer = new ArkViewer();
     internalViewer->show();
@@ -99,7 +99,7 @@ void ArkViewer::openInternalViewer(const KPluginMetaData &viewer, const QString 
         KMessageBox::error(nullptr, i18n("The internal viewer cannot preview this file."));
         delete internalViewer;
 
-        qCDebug(ARK) << "Removing temporary file:" << fileName;
+        qCDebug(ARK_LOG) << "Removing temporary file:" << fileName;
         QFile::remove(fileName);
     }
 }
@@ -139,7 +139,7 @@ bool ArkViewer::askViewAsPlainText(const QMimeType &mimeType)
 void ArkViewer::view(const QString &fileName, const QString &entryPath, const QMimeType &mimeType)
 {
     QMimeDatabase db;
-    qCDebug(ARK) << "viewing" << fileName << "from" << entryPath << "with mime type:" << mimeType.name();
+    qCDebug(ARK_LOG) << "viewing" << fileName << "from" << entryPath << "with mime type:" << mimeType.name();
 
     const std::optional<KPluginMetaData> internalViewer = ArkViewer::getInternalViewer(mimeType.name());
 
@@ -165,7 +165,7 @@ void ArkViewer::view(const QString &fileName, const QString &entryPath, const QM
             return;
         }
     }
-    qCDebug(ARK) << "Removing temporary file:" << fileName;
+    qCDebug(ARK_LOG) << "Removing temporary file:" << fileName;
     QFile::remove(fileName);
 }
 
@@ -179,7 +179,7 @@ bool ArkViewer::viewInInternalViewer(const KPluginMetaData &viewer, const QStrin
     const auto result = KParts::PartLoader::instantiatePart<KParts::ReadOnlyPart>(viewer, this, this);
 
     if (!result) {
-        qCDebug(ARK) << "Failed to create internal viewer" << result.errorString;
+        qCDebug(ARK_LOG) << "Failed to create internal viewer" << result.errorString;
         return false;
     }
 

@@ -143,7 +143,7 @@ QVariant ArchiveModel::headerData(int section, Qt::Orientation, int role) const
 {
     if (role == Qt::DisplayRole) {
         if (section >= m_showColumns.size()) {
-            qCDebug(ARK) << "WEIRD: showColumns.size = " << m_showColumns.size() << " and section = " << section;
+            qCDebug(ARK_LOG) << "WEIRD: showColumns.size = " << m_showColumns.size() << " and section = " << section;
             return QVariant();
         }
 
@@ -312,7 +312,7 @@ QString ArchiveModel::cleanFileName(const QString &fileName)
     static QRegularExpression pattern(QStringLiteral("/+|\\."));
     QRegularExpressionMatch match;
     if (fileName.contains(pattern, &match) && match.captured() == fileName) {
-        qCDebug(ARK) << "Skipping entry with filename" << fileName;
+        qCDebug(ARK_LOG) << "Skipping entry with filename" << fileName;
         return QString();
     } else if (fileName.startsWith(QLatin1String("./"))) {
         return fileName.mid(2);
@@ -425,7 +425,7 @@ void ArchiveModel::slotListEntry(Archive::Entry *entry)
 void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behaviour)
 {
     if (receivedEntry->fullPath().isEmpty()) {
-        qCDebug(ARK) << "Weird, received empty entry (no filename) - skipping";
+        qCDebug(ARK_LOG) << "Weird, received empty entry (no filename) - skipping";
         return;
     }
 
@@ -473,7 +473,7 @@ void ArchiveModel::newEntry(Archive::Entry *receivedEntry, InsertBehaviour behav
     // contain a trailing slash, so we append it.
     if (receivedEntry->property("isDirectory").toBool() && !receivedEntry->property("fullPath").toString().endsWith(QLatin1Char('/'))) {
         receivedEntry->setProperty("fullPath", QString(receivedEntry->property("fullPath").toString() + QLatin1Char('/')));
-        qCDebug(ARK) << "Trailing slash appended to entry:" << receivedEntry->property("fullPath");
+        qCDebug(ARK_LOG) << "Trailing slash appended to entry:" << receivedEntry->property("fullPath");
     }
 
     // Skip already created entries.
@@ -506,7 +506,7 @@ void ArchiveModel::slotLoadingFinished(KJob *job)
     std::sort(m_showColumns.begin(), m_showColumns.end());
 
     if (!job->error()) {
-        qCDebug(ARK) << "Showing columns: " << m_showColumns;
+        qCDebug(ARK_LOG) << "Showing columns: " << m_showColumns;
 
         m_archive.reset(qobject_cast<LoadJob *>(job)->archive());
 
@@ -787,7 +787,7 @@ void ArchiveModel::slotCleanupEmptyDirs()
 
     for (const QPersistentModelIndex &node : std::as_const(nodesToDelete)) {
         Archive::Entry *rawEntry = static_cast<Archive::Entry *>(node.internalPointer());
-        qCDebug(ARK) << "Delete with parent entries " << rawEntry->getParent()->entries() << " and row " << rawEntry->row();
+        qCDebug(ARK_LOG) << "Delete with parent entries " << rawEntry->getParent()->entries() << " and row " << rawEntry->row();
         beginRemoveRows(parent(node), rawEntry->row(), rawEntry->row());
         rawEntry->getParent()->removeEntryAt(rawEntry->row());
         endRemoveRows();
@@ -811,7 +811,7 @@ void ArchiveModel::countEntriesAndSize()
 
     traverseAndComputeDirSizes(m_rootEntry.data());
 
-    qCDebug(ARK) << "Time to count entries and size:" << timer.elapsed() << "ms";
+    qCDebug(ARK_LOG) << "Time to count entries and size:" << timer.elapsed() << "ms";
 }
 
 qulonglong ArchiveModel::traverseAndComputeDirSizes(Archive::Entry *dir)

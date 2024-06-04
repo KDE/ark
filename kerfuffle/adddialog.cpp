@@ -21,7 +21,7 @@ AddDialog::AddDialog(QWidget *parent, const QString &title, const QUrl &startDir
     , m_mimeType(mimeType)
     , m_compOptions(opts)
 {
-    qCDebug(ARK) << "AddDialog loaded with options:" << m_compOptions;
+    qCDebug(ARK_LOG) << "AddDialog loaded with options:" << m_compOptions;
 
     setWindowTitle(title);
 
@@ -59,7 +59,7 @@ QStringList AddDialog::selectedFiles() const
 
 CompressionOptions AddDialog::compressionOptions() const
 {
-    qCDebug(ARK) << "Returning with options:" << m_compOptions;
+    qCDebug(ARK_LOG) << "Returning with options:" << m_compOptions;
     return m_compOptions;
 }
 

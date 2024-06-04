@@ -28,7 +28,7 @@ LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList &args)
     , m_emitNoEntries(false)
     , m_extractedFilesSize(0)
 {
-    qCDebug(ARK) << "Initializing libarchive plugin";
+    qCDebug(ARK_LOG) << "Initializing libarchive plugin";
     archive_read_disk_set_standard_lookup(m_archiveReadDisk.data());
 
     connect(this, &ReadOnlyArchiveInterface::error, this, &LibarchivePlugin::slotRestoreWorkingDir);
@@ -47,7 +47,7 @@ LibarchivePlugin::LibarchivePlugin(QObject *parent, const QVariantList &args)
         m_rawMimetypes.removeAll(QLatin1String("application/x-bzip2"));
         m_rawMimetypes.append(QMimeDatabase().mimeTypeForFile(QStringLiteral("dummy.bz2"), QMimeDatabase::MatchExtension).name());
     }
-    qCDebug(ARK) << "# available raw mimetypes:" << m_rawMimetypes.count();
+    qCDebug(ARK_LOG) << "# available raw mimetypes:" << m_rawMimetypes.count();
 #endif
 }
 
@@ -61,13 +61,13 @@ LibarchivePlugin::~LibarchivePlugin()
 
 bool LibarchivePlugin::list()
 {
-    qCDebug(ARK) << "Listing archive contents";
+    qCDebug(ARK_LOG) << "Listing archive contents";
 
     if (!initializeReader()) {
         return false;
     }
 
-    qCDebug(ARK) << "Detected compression filter:" << archive_filter_name(m_archiveReader.data(), 0);
+    qCDebug(ARK_LOG) << "Detected compression filter:" << archive_filter_name(m_archiveReader.data(), 0);
     QString compMethod = convertCompressionName(QString::fromUtf8(archive_filter_name(m_archiveReader.data(), 0)));
     if (!compMethod.isEmpty()) {
         Q_EMIT compressionMethodFound(compMethod);
@@ -84,7 +84,7 @@ bool LibarchivePlugin::list()
     bool firstEntry = true;
     while (!QThread::currentThread()->isInterruptionRequested() && (result = archive_read_next_header(m_archiveReader.data(), &aentry)) == ARCHIVE_OK) {
         if (firstEntry) {
-            qCDebug(ARK) << "Detected format for first entry:" << archive_format_name(m_archiveReader.data());
+            qCDebug(ARK_LOG) << "Detected format for first entry:" << archive_format_name(m_archiveReader.data());
             firstEntry = false;
         }
 
@@ -102,8 +102,8 @@ bool LibarchivePlugin::list()
         // Skip the entry data.
         int readSkipResult = archive_read_data_skip(m_archiveReader.data());
         if (readSkipResult != ARCHIVE_OK) {
-            qCCritical(ARK) << "Error while skipping data for entry:" << QString::fromWCharArray(archive_entry_pathname_w(aentry)) << readSkipResult
-                            << QLatin1String(archive_error_string(m_archiveReader.data()));
+            qCCritical(ARK_LOG) << "Error while skipping data for entry:" << QString::fromWCharArray(archive_entry_pathname_w(aentry)) << readSkipResult
+                                << QLatin1String(archive_error_string(m_archiveReader.data()));
             if (!emitCorruptArchive()) {
                 return false;
             }
@@ -115,7 +115,7 @@ bool LibarchivePlugin::list()
     }
 
     if (result != ARCHIVE_EOF) {
-        qCCritical(ARK) << "Error while reading archive:" << result << QLatin1String(archive_error_string(m_archiveReader.data()));
+        qCCritical(ARK_LOG) << "Error while reading archive:" << result << QLatin1String(archive_error_string(m_archiveReader.data()));
         // libarchive currently doesn't support header-encrypted 7zip archives, but doesn't clearly tells when that happens.
         // It just returns a generic ARCHIVE_FATAL when calling the archive_read_next_header function.
         // If there are 0 detected entries, this is likely a header-encrypted archive, but we can't be 100& sure.
@@ -175,12 +175,12 @@ void LibarchivePlugin::copyDataBlock(const QString &filename, archive *source, a
             return;
         }
         if (returnCode < ARCHIVE_OK) {
-            qCCritical(ARK) << "Error while extracting" << filename << ":" << archive_error_string(source) << "(error no =" << archive_errno(source) << ')';
+            qCCritical(ARK_LOG) << "Error while extracting" << filename << ":" << archive_error_string(source) << "(error no =" << archive_errno(source) << ')';
             return;
         }
         returnCode = archive_write_data_block(dest, buff, size, offset);
         if (returnCode < ARCHIVE_OK) {
-            qCCritical(ARK) << "Error while writing" << filename << ":" << archive_error_string(dest) << "(error no =" << archive_errno(dest) << ')';
+            qCCritical(ARK_LOG) << "Error while writing" << filename << ":" << archive_error_string(dest) << "(error no =" << archive_errno(dest) << ')';
             return;
         }
         if (partialprogress) {
@@ -263,7 +263,7 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
             Q_EMIT progress(0);
             // TODO: once information progress has been implemented, send
             // feedback here that the archive is being read
-            qCDebug(ARK) << "For getting progress information, the archive will be listed once";
+            qCDebug(ARK_LOG) << "For getting progress information, the archive will be listed once";
             m_emitNoEntries = true;
             list();
             m_emitNoEntries = false;
@@ -273,9 +273,9 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
         totalEntriesCount = files.size();
     }
 
-    qCDebug(ARK) << "Going to extract" << totalEntriesCount << "entries";
+    qCDebug(ARK_LOG) << "Going to extract" << totalEntriesCount << "entries";
 
-    qCDebug(ARK) << "Changing current directory to " << destinationDirectory;
+    qCDebug(ARK_LOG) << "Changing current directory to " << destinationDirectory;
     m_oldWorkingDir = QDir::currentPath();
     QDir::setCurrent(destinationDirectory);
 
@@ -325,7 +325,7 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
         QString entryName = QDir::fromNativeSeparators(QFile::decodeName(archive_entry_pathname(entry)));
         if (archive_format(m_archiveReader.data()) == ARCHIVE_FORMAT_RAW) {
             isSingleFile = true;
-            qCDebug(ARK) << "Detected single file archive, entry path: " << entryName;
+            qCDebug(ARK_LOG) << "Detected single file archive, entry path: " << entryName;
         }
         // Some archive types e.g. AppImage prepend all entries with "./" so remove this part.
         if (entryName.startsWith(QLatin1String("./"))) {
@@ -358,12 +358,12 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
             // entryFI is the fileinfo pointing to where the file will be
             // written from the archive.
             QFileInfo entryFI(entryName);
-            // qCDebug(ARK) << "setting path to " << archive_entry_pathname( entry );
+            // qCDebug(ARK_LOG) << "setting path to " << archive_entry_pathname( entry );
 
             if (isSingleFile && fileBeingRenamed.isEmpty()) {
                 // Rename extracted file from libarchive-internal "data" name to the archive uncompressed name.
                 const QString uncompressedName = uncompressedFileName();
-                qCDebug(ARK) << "going to rename libarchive-internal 'data' filename to:" << uncompressedName;
+                qCDebug(ARK_LOG) << "going to rename libarchive-internal 'data' filename to:" << uncompressedName;
                 archive_entry_copy_pathname(entry, QFile::encodeName(uncompressedName).constData());
                 entryFI = QFileInfo(uncompressedName);
             }
@@ -427,9 +427,9 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
             // If there is an already existing directory.
             if (entryIsDir && entryFI.exists()) {
                 if (entryFI.isWritable()) {
-                    qCWarning(ARK) << "Warning, existing, but writable dir";
+                    qCWarning(ARK_LOG) << "Warning, existing, but writable dir";
                 } else {
-                    qCWarning(ARK) << "Warning, existing, but non-writable dir. skipping";
+                    qCWarning(ARK_LOG) << "Warning, existing, but non-writable dir. skipping";
                     archive_entry_clear(entry);
                     archive_read_data_skip(m_archiveReader.data());
                     continue;
@@ -452,7 +452,7 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
                 break;
 
             case ARCHIVE_FAILED:
-                qCCritical(ARK) << "archive_write_header() has returned" << returnCode << "with errno" << archive_errno(writer.data());
+                qCCritical(ARK_LOG) << "archive_write_header() has returned" << returnCode << "with errno" << archive_errno(writer.data());
 
                 // If they user previously decided to ignore future errors,
                 // don't bother prompting again.
@@ -471,11 +471,11 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
                 break;
 
             case ARCHIVE_FATAL:
-                qCCritical(ARK) << "archive_write_header() has returned" << returnCode << "with errno" << archive_errno(writer.data());
+                qCCritical(ARK_LOG) << "archive_write_header() has returned" << returnCode << "with errno" << archive_errno(writer.data());
                 Q_EMIT error(i18nc("@info", "Fatal error, extraction aborted."));
                 return false;
             default:
-                qCDebug(ARK) << "archive_write_header() returned" << returnCode << "which will be ignored.";
+                qCDebug(ARK_LOG) << "archive_write_header() returned" << returnCode << "which will be ignored.";
                 break;
             }
 
@@ -502,7 +502,7 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
         return false;
     }
 
-    qCDebug(ARK) << "Extracted" << extractedEntriesCount << "entries";
+    qCDebug(ARK_LOG) << "Extracted" << extractedEntriesCount << "entries";
     slotRestoreWorkingDir();
     return archive_read_close(m_archiveReader.data()) == ARCHIVE_OK;
 }
@@ -521,7 +521,7 @@ bool LibarchivePlugin::initializeReader()
     }
 
     if (m_rawMimetypes.contains(mimetype().name())) {
-        qCDebug(ARK) << "Enabling RAW filter for mimetype: " << mimetype().name();
+        qCDebug(ARK_LOG) << "Enabling RAW filter for mimetype: " << mimetype().name();
         // Enable "raw" format only if we have a "raw mimetype", i.e. a single-file archive, as to not affect normal tar archives.
         if (archive_read_support_format_raw(m_archiveReader.data()) != ARCHIVE_OK) {
             return false;
@@ -533,7 +533,7 @@ bool LibarchivePlugin::initializeReader()
     }
 
     if (archive_read_open_filename(m_archiveReader.data(), QFile::encodeName(filename()).constData(), 10240) != ARCHIVE_OK) {
-        qCWarning(ARK) << "Could not open the archive:" << archive_error_string(m_archiveReader.data());
+        qCWarning(ARK_LOG) << "Could not open the archive:" << archive_error_string(m_archiveReader.data());
         Q_EMIT error(i18nc("@info", "Archive corrupted or insufficient permissions."));
         return false;
     }
@@ -620,7 +620,7 @@ void LibarchivePlugin::copyData(const QString &filename, struct archive *dest, b
     while (readBytes > 0 && !QThread::currentThread()->isInterruptionRequested()) {
         archive_write_data(dest, buff, static_cast<size_t>(readBytes));
         if (archive_errno(dest) != ARCHIVE_OK) {
-            qCCritical(ARK) << "Error while writing" << filename << ":" << archive_error_string(dest) << "(error no =" << archive_errno(dest) << ')';
+            qCCritical(ARK_LOG) << "Error while writing" << filename << ":" << archive_error_string(dest) << "(error no =" << archive_errno(dest) << ')';
             return;
         }
 
@@ -643,7 +643,7 @@ void LibarchivePlugin::copyData(const QString &filename, struct archive *source,
     while (readBytes > 0 && !QThread::currentThread()->isInterruptionRequested()) {
         archive_write_data(dest, buff, static_cast<size_t>(readBytes));
         if (archive_errno(dest) != ARCHIVE_OK) {
-            qCCritical(ARK) << "Error while extracting" << filename << ":" << archive_error_string(dest) << "(error no =" << archive_errno(dest) << ')';
+            qCCritical(ARK_LOG) << "Error while extracting" << filename << ":" << archive_error_string(dest) << "(error no =" << archive_errno(dest) << ')';
             return;
         }
 
@@ -663,7 +663,7 @@ void LibarchivePlugin::slotRestoreWorkingDir()
     }
 
     if (!QDir::setCurrent(m_oldWorkingDir)) {
-        qCWarning(ARK) << "Failed to restore old working directory:" << m_oldWorkingDir;
+        qCWarning(ARK_LOG) << "Failed to restore old working directory:" << m_oldWorkingDir;
     } else {
         m_oldWorkingDir.clear();
     }

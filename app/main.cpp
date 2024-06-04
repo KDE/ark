@@ -47,7 +47,7 @@ public:
     {
         if (event->type() == QEvent::FileOpen) {
             QFileOpenEvent *openEvent = static_cast<QFileOpenEvent *>(event);
-            qCDebug(ARK) << "File open event:" << openEvent->url() << "for window" << m_window;
+            qCDebug(ARK_LOG) << "File open event:" << openEvent->url() << "for window" << m_window;
             m_window->openUrl(openEvent->url());
             return true;
         }
@@ -190,28 +190,28 @@ int main(int argc, char **argv)
             QObject::connect(addToArchiveJob, &KJob::result, &application, &QCoreApplication::quit, Qt::QueuedConnection);
 
             if (parser.isSet(QStringLiteral("changetofirstpath"))) {
-                qCDebug(ARK) << "Setting changetofirstpath";
+                qCDebug(ARK_LOG) << "Setting changetofirstpath";
                 addToArchiveJob->setChangeToFirstPath(true);
             }
 
             if (parser.isSet(QStringLiteral("add-to"))) {
-                qCDebug(ARK) << "Setting filename to" << parser.value(QStringLiteral("add-to"));
+                qCDebug(ARK_LOG) << "Setting filename to" << parser.value(QStringLiteral("add-to"));
                 addToArchiveJob->setFilename(QUrl::fromUserInput(parser.value(QStringLiteral("add-to")), QDir::currentPath(), QUrl::AssumeLocalFile));
             }
 
             if (parser.isSet(QStringLiteral("autofilename"))) {
-                qCDebug(ARK) << "Setting autofilename to" << parser.value(QStringLiteral("autofilename"));
+                qCDebug(ARK_LOG) << "Setting autofilename to" << parser.value(QStringLiteral("autofilename"));
                 addToArchiveJob->setAutoFilenameSuffix(parser.value(QStringLiteral("autofilename")));
             }
 
             for (int i = 0; i < urls.count(); ++i) {
                 // TODO: use the returned value here?
-                qCDebug(ARK) << "Adding url" << QUrl::fromUserInput(urls.at(i), QDir::currentPath(), QUrl::AssumeLocalFile);
+                qCDebug(ARK_LOG) << "Adding url" << QUrl::fromUserInput(urls.at(i), QDir::currentPath(), QUrl::AssumeLocalFile);
                 addToArchiveJob->addInput(QUrl::fromUserInput(urls.at(i), QDir::currentPath(), QUrl::AssumeLocalFile));
             }
 
             if (parser.isSet(QStringLiteral("dialog"))) {
-                qCDebug(ARK) << "Using kerfuffle to open add dialog";
+                qCDebug(ARK_LOG) << "Using kerfuffle to open add dialog";
                 if (!addToArchiveJob->showAddDialog(nullptr)) {
                     return 0;
                 }
@@ -221,7 +221,7 @@ int main(int argc, char **argv)
 
         } else if (parser.isSet(QStringLiteral("batch"))) {
             if (urls.isEmpty()) {
-                qCDebug(ARK) << "No urls to be extracted were provided.";
+                qCDebug(ARK_LOG) << "No urls to be extracted were provided.";
                 parser.showHelp(-1);
             }
 
@@ -230,33 +230,33 @@ int main(int argc, char **argv)
             QObject::connect(batchJob, &KJob::result, &application, &QCoreApplication::quit, Qt::QueuedConnection);
 
             for (int i = 0; i < urls.count(); ++i) {
-                qCDebug(ARK) << "Adding url" << QUrl::fromUserInput(urls.at(i), QDir::currentPath(), QUrl::AssumeLocalFile);
+                qCDebug(ARK_LOG) << "Adding url" << QUrl::fromUserInput(urls.at(i), QDir::currentPath(), QUrl::AssumeLocalFile);
                 batchJob->addInput(QUrl::fromUserInput(urls.at(i), QDir::currentPath(), QUrl::AssumeLocalFile));
             }
 
             if (parser.isSet(QStringLiteral("autosubfolder"))) {
-                qCDebug(ARK) << "Setting autosubfolder";
+                qCDebug(ARK_LOG) << "Setting autosubfolder";
                 batchJob->setAutoSubfolder(true);
             }
 
             if (parser.isSet(QStringLiteral("autodestination"))) {
                 QString autopath = QFileInfo(QUrl::fromUserInput(urls.at(0), QDir::currentPath(), QUrl::AssumeLocalFile).path()).path();
-                qCDebug(ARK) << "By autodestination, setting path to " << autopath;
+                qCDebug(ARK_LOG) << "By autodestination, setting path to " << autopath;
                 batchJob->setDestinationFolder(autopath);
             }
 
             if (parser.isSet(QStringLiteral("destination"))) {
-                qCDebug(ARK) << "Setting destination to " << parser.value(QStringLiteral("destination"));
+                qCDebug(ARK_LOG) << "Setting destination to " << parser.value(QStringLiteral("destination"));
                 batchJob->setDestinationFolder(parser.value(QStringLiteral("destination")));
             }
 
             if (parser.isSet(QStringLiteral("opendestination"))) {
-                qCDebug(ARK) << "Setting opendestination";
+                qCDebug(ARK_LOG) << "Setting opendestination";
                 batchJob->setOpenDestinationAfterExtraction(true);
             }
 
             if (parser.isSet(QStringLiteral("dialog"))) {
-                qCDebug(ARK) << "Opening extraction dialog";
+                qCDebug(ARK_LOG) << "Opening extraction dialog";
                 if (!batchJob->showExtractDialog()) {
                     return 0;
                 }
@@ -281,7 +281,7 @@ int main(int argc, char **argv)
             }
 
             if (!urls.isEmpty()) {
-                qCDebug(ARK) << "Trying to open" << QUrl::fromUserInput(urls.at(0), QDir::currentPath(), QUrl::AssumeLocalFile);
+                qCDebug(ARK_LOG) << "Trying to open" << QUrl::fromUserInput(urls.at(0), QDir::currentPath(), QUrl::AssumeLocalFile);
 
                 if (parser.isSet(QStringLiteral("dialog"))) {
                     window->setShowExtractDialog(true);
@@ -293,7 +293,7 @@ int main(int argc, char **argv)
         }
     }
 
-    qCDebug(ARK) << "Entering application loop";
+    qCDebug(ARK_LOG) << "Entering application loop";
     return application.exec();
 }
 

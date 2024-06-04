@@ -113,7 +113,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
-    qCDebug(ARK) << event;
+    qCDebug(ARK_LOG) << event;
 
     Interface *iface = qobject_cast<Interface *>(m_part);
     if (iface->isBusy()) {
@@ -129,7 +129,7 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 
 void MainWindow::dropEvent(QDropEvent *event)
 {
-    qCDebug(ARK) << event;
+    qCDebug(ARK_LOG) << event;
 
     Interface *iface = qobject_cast<Interface *>(m_part);
     if (iface->isBusy()) {
@@ -147,7 +147,7 @@ void MainWindow::dropEvent(QDropEvent *event)
 
 void MainWindow::dragMoveEvent(QDragMoveEvent *event)
 {
-    qCDebug(ARK) << event;
+    qCDebug(ARK_LOG) << event;
 
     Interface *iface = qobject_cast<Interface *>(m_part);
     if (iface->isBusy()) {
@@ -165,7 +165,7 @@ bool MainWindow::loadPart()
 
     if (!m_part) {
         KMessageBox::error(this, i18n("Unable to find Ark's KPart component, please check your installation."));
-        qCWarning(ARK) << "Error loading Ark KPart.";
+        qCWarning(ARK_LOG) << "Error loading Ark KPart.";
         return false;
     }
 
@@ -474,7 +474,7 @@ void MainWindow::addPartUrl()
 
 void MainWindow::newArchive()
 {
-    qCDebug(ARK) << "Creating new archive";
+    qCDebug(ARK_LOG) << "Creating new archive";
 
     Interface *iface = qobject_cast<Interface *>(m_part);
     Q_ASSERT(iface);
@@ -489,8 +489,8 @@ void MainWindow::newArchive()
         const QString password = dialog.data()->password();
         const QString fixedMimeType = dialog.data()->currentMimeType().name();
 
-        qCDebug(ARK) << "CreateDialog returned URL:" << saveFileUrl.toString();
-        qCDebug(ARK) << "CreateDialog returned mime:" << fixedMimeType;
+        qCDebug(ARK_LOG) << "CreateDialog returned URL:" << saveFileUrl.toString();
+        qCDebug(ARK_LOG) << "CreateDialog returned mime:" << fixedMimeType;
 
         m_openArgs.metaData()[QStringLiteral("createNewArchive")] = QStringLiteral("true");
         m_openArgs.metaData()[QStringLiteral("fixedMimeType")] = fixedMimeType;
@@ -498,7 +498,7 @@ void MainWindow::newArchive()
             m_openArgs.metaData()[QStringLiteral("compressionLevel")] = QString::number(dialog.data()->compressionLevel());
         }
         if (dialog.data()->volumeSize() > 0) {
-            qCDebug(ARK) << "Setting volume size:" << QString::number(dialog.data()->volumeSize());
+            qCDebug(ARK_LOG) << "Setting volume size:" << QString::number(dialog.data()->volumeSize());
             m_openArgs.metaData()[QStringLiteral("volumeSize")] = QString::number(dialog.data()->volumeSize());
         }
         if (!dialog.data()->compressionMethod().isEmpty()) {

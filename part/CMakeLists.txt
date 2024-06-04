@@ -15,7 +15,7 @@ target_sources(arkpart PRIVATE
 
 ecm_qt_declare_logging_category(arkpart
                                 HEADER ark_debug.h
-                                IDENTIFIER ARK
+                                IDENTIFIER ARK_LOG
                                 CATEGORY_NAME ark.part DESCRIPTION "Ark KPart" EXPORT ARK)
 set(ark_adaptor_SRCS)
 qt_add_dbus_adaptor(ark_adaptor_SRCS dnddbusinterface.xml part.h Ark::Part)

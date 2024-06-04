@@ -26,7 +26,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
     , m_parseState(ParseStateHeader)
     , m_linesComment(0)
 {
-    qCDebug(ARK) << "Loaded cli_zip plugin";
+    qCDebug(ARK_LOG) << "Loaded cli_zip plugin";
     setupCliProperties();
 }
 
@@ -66,7 +66,7 @@ QString CliPlugin::escapeFileName(const QString &fileName) const
 
 void CliPlugin::setupCliProperties()
 {
-    qCDebug(ARK) << "Setting up parameters...";
+    qCDebug(ARK_LOG) << "Setting up parameters...";
 
     m_cliProps->setProperty("captureProgress", false);
 
@@ -130,7 +130,7 @@ bool CliPlugin::readListLine(const QString &line)
             if (!m_tempComment.trimmed().isEmpty()) {
                 m_comment = m_tempComment.trimmed();
                 m_linesComment = m_comment.count(QLatin1Char('\n')) + 1;
-                qCDebug(ARK) << "Found a comment with" << m_linesComment << "lines";
+                qCDebug(ARK_LOG) << "Found a comment with" << m_linesComment << "lines";
             }
         } else {
             m_tempComment.append(line + QLatin1Char('\n'));
@@ -197,7 +197,7 @@ bool CliPlugin::readExtractLine(const QString &line)
 
 bool CliPlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry *destination, const CompressionOptions &options)
 {
-    qCDebug(ARK) << "Moving" << files.count() << "file(s) to destination:" << destination;
+    qCDebug(ARK_LOG) << "Moving" << files.count() << "file(s) to destination:" << destination;
 
     m_oldWorkingDir = QDir::currentPath();
     m_tempWorkingDir.reset(new QTemporaryDir());

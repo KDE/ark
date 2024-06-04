@@ -22,7 +22,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
     , m_incontent(false)
     , m_isPasswordProtected(false)
 {
-    qCDebug(ARK) << "Loaded cli-example plugin";
+    qCDebug(ARK_LOG) << "Loaded cli-example plugin";
 }
 
 CliPlugin::~CliPlugin()
@@ -109,7 +109,7 @@ bool CliPlugin::readListLine(const QString &line)
         m_entryFilename += QLatin1Char('/');
     }
 
-    qCDebug(ARK) << m_entryFilename << " : " << fileprops;
+    qCDebug(ARK_LOG) << m_entryFilename << " : " << fileprops;
     Archive::Entry *e = new Archive::Entry();
     e->setProperty("fullPath", m_entryFilename);
     e->setProperty("size", fileprops[0]);
@@ -122,7 +122,7 @@ bool CliPlugin::readListLine(const QString &line)
     e->setProperty("method", fileprops[7]);
     e->setProperty("version", fileprops[8]);
     e->setProperty("ssPasswordProtected", m_isPasswordProtected);
-    qCDebug(ARK) << "Added entry: " << e;
+    qCDebug(ARK_LOG) << "Added entry: " << e;
 
     Q_EMIT entry(e);
     m_isFirstLine = true;

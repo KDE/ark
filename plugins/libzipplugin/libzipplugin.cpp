@@ -115,19 +115,19 @@ public:
             }
 
             if (!file->isOpen() && !file->open(QIODevice::ReadOnly)) {
-                qCDebug(ARK) << "ZipSource error: Can't open" << file->fileName();
+                qCDebug(ARK_LOG) << "ZipSource error: Can't open" << file->fileName();
                 break;
             }
 
             const auto available = (length - offset) < len ? length - offset : len;
             if (!file->seek(static_cast<qint64>(offset))) {
-                qCDebug(ARK) << "ZipSource error: Can't seek to" << available << "in file" << file->fileName();
+                qCDebug(ARK_LOG) << "ZipSource error: Can't seek to" << available << "in file" << file->fileName();
                 break;
             }
 
             const auto readed = file->read(reinterpret_cast<char *>(data), static_cast<qint64>(available));
             if (static_cast<zip_uint64_t>(readed) != available) {
-                qCDebug(ARK) << "ZipSource error: Read" << readed << "bytes instead" << available << "in file" << file->fileName();
+                qCDebug(ARK_LOG) << "ZipSource error: Read" << readed << "bytes instead" << available << "in file" << file->fileName();
                 break;
             }
 
@@ -194,7 +194,7 @@ public:
             zip_error_init_with_code(&err, errcode);
         }
         if (!archive) {
-            qCCritical(ARK) << "Failed to open archive. Code:" << zip_error_code_zip(&err);
+            qCCritical(ARK_LOG) << "Failed to open archive. Code:" << zip_error_code_zip(&err);
             Q_EMIT plugin->error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         }
         return archive;
@@ -226,7 +226,7 @@ LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList &args)
     , m_backslashedZip(false)
     , m_zipSource(std::make_unique<ZipSource>(filename()))
 {
-    qCDebug(ARK) << "Initializing libzip plugin";
+    qCDebug(ARK_LOG) << "Initializing libzip plugin";
 
     if (m_zipSource->numberOfVolumes() > 1) {
         m_numberOfVolumes = m_zipSource->numberOfVolumes();
@@ -245,7 +245,7 @@ LibzipPlugin::~LibzipPlugin()
 
 bool LibzipPlugin::list()
 {
-    qCDebug(ARK) << "Listing archive contents for:" << QFile::encodeName(filename());
+    qCDebug(ARK_LOG) << "Listing archive contents for:" << QFile::encodeName(filename());
     m_numberOfEntries = 0;
 
     // Open archive.
@@ -259,7 +259,7 @@ bool LibzipPlugin::list()
 
     // Get number of archive entries.
     const auto nofEntries = zip_get_num_entries(archive.get(), 0);
-    qCDebug(ARK) << "Found entries:" << nofEntries;
+    qCDebug(ARK_LOG) << "Found entries:" << nofEntries;
 
     // Loop through all archive entries.
     for (int i = 0; i < nofEntries; i++) {
@@ -293,7 +293,7 @@ bool LibzipPlugin::addFiles(const QList<Archive::Entry *> &files,
     ark_unique_ptr<zip_t, zip_discard> archive{zip_open(QFile::encodeName(filename()).constData(), ZIP_CREATE, &errcode)};
     zip_error_init_with_code(&err, errcode);
     if (!archive) {
-        qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
+        qCCritical(ARK_LOG) << "Failed to open archive. Code:" << errcode;
         Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
@@ -333,7 +333,7 @@ bool LibzipPlugin::addFiles(const QList<Archive::Entry *> &files,
         }
         i++;
     }
-    qCDebug(ARK) << "Writing " << i << "entries to disk...";
+    qCDebug(ARK_LOG) << "Writing " << i << "entries to disk...";
 
     // Register the callback function to get progress feedback and cancelation.
     zip_register_progress_callback_with_state(archive.get(), 0.001, progressCallback, nullptr, this);
@@ -346,7 +346,7 @@ bool LibzipPlugin::addFiles(const QList<Archive::Entry *> &files,
     // Release unique pointer as it set to NULL via zip_close.
     archive.release();
     if (errcode > 0) {
-        qCCritical(ARK) << "Failed to write archive";
+        qCCritical(ARK_LOG) << "Failed to write archive";
         Q_EMIT error(xi18n("Failed to write archive."));
         return false;
     }
@@ -385,7 +385,7 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
         index = zip_dir_add(archive, destFile.constData(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
             // If directory already exists in archive, we get an error.
-            qCWarning(ARK) << "Failed to add dir " << file << ":" << zip_strerror(archive);
+            qCWarning(ARK_LOG) << "Failed to add dir " << file << ":" << zip_strerror(archive);
             return true;
         }
     } else {
@@ -395,7 +395,7 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
         index = zip_file_add(archive, destFile.constData(), src, ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
         if (index == -1) {
             zip_source_free(src);
-            qCCritical(ARK) << "Could not add entry" << file << ":" << zip_strerror(archive);
+            qCCritical(ARK_LOG) << "Could not add entry" << file << ":" << zip_strerror(archive);
             Q_EMIT error(xi18n("Failed to add entry: %1", QString::fromUtf8(zip_strerror(archive))));
             return false;
         }
@@ -405,11 +405,11 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
     // Set permissions.
     QT_STATBUF result;
     if (QT_STAT(QFile::encodeName(file).constData(), &result) != 0) {
-        qCWarning(ARK) << "Failed to read permissions for:" << file;
+        qCWarning(ARK_LOG) << "Failed to read permissions for:" << file;
     } else {
         zip_uint32_t attributes = result.st_mode << 16;
         if (zip_file_set_external_attributes(archive, index, ZIP_FL_UNCHANGED, ZIP_OPSYS_UNIX, attributes) != 0) {
-            qCWarning(ARK) << "Failed to set external attributes for:" << file;
+            qCWarning(ARK_LOG) << "Failed to set external attributes for:" << file;
         }
     }
 #endif
@@ -450,7 +450,7 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
     }
     const int compLevel = options.isCompressionLevelSet() ? options.compressionLevel() : 6;
     if (zip_set_file_compression(archive, index, compMethod, compLevel) != 0) {
-        qCCritical(ARK) << "Could not set compression options for" << file << ":" << zip_strerror(archive);
+        qCCritical(ARK_LOG) << "Could not set compression options for" << file << ":" << zip_strerror(archive);
         Q_EMIT error(xi18n("Failed to set compression options for entry: %1", QString::fromUtf8(zip_strerror(archive))));
         return false;
     }
@@ -464,7 +464,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
 
     zip_stat_t statBuffer;
     if (zip_stat_index(archive, index, ZIP_FL_ENC_GUESS, &statBuffer)) {
-        qCCritical(ARK) << "Failed to read stat for index" << index;
+        qCCritical(ARK_LOG) << "Failed to read stat for index" << index;
         return false;
     }
 
@@ -555,7 +555,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     zip_uint8_t opsys;
     zip_uint32_t attributes;
     if (zip_file_get_external_attributes(archive, index, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
-        qCCritical(ARK) << "Could not read external attributes for entry:" << name;
+        qCCritical(ARK_LOG) << "Could not read external attributes for entry:" << name;
         Q_EMIT error(xi18n("Failed to read metadata for entry: %1", name));
         return false;
     }
@@ -585,7 +585,7 @@ bool LibzipPlugin::deleteFiles(const QList<Archive::Entry *> &files)
     ark_unique_ptr<zip_t, zip_discard> archive{zip_open(QFile::encodeName(filename()).constData(), 0, &errcode)};
     zip_error_init_with_code(&err, errcode);
     if (archive.get() == nullptr) {
-        qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
+        qCCritical(ARK_LOG) << "Failed to open archive. Code:" << errcode;
         Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
@@ -598,26 +598,26 @@ bool LibzipPlugin::deleteFiles(const QList<Archive::Entry *> &files)
 
         const qlonglong index = zip_name_locate(archive.get(), fromUnixSeparator(e->fullPath()).toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
-            qCCritical(ARK) << "Could not find entry to delete:" << e->fullPath();
+            qCCritical(ARK_LOG) << "Could not find entry to delete:" << e->fullPath();
             Q_EMIT error(xi18n("Failed to delete entry: %1", e->fullPath()));
             return false;
         }
         if (zip_delete(archive.get(), index) == -1) {
-            qCCritical(ARK) << "Could not delete entry" << e->fullPath() << ":" << zip_strerror(archive.get());
+            qCCritical(ARK_LOG) << "Could not delete entry" << e->fullPath() << ":" << zip_strerror(archive.get());
             Q_EMIT error(xi18n("Failed to delete entry: %1", QString::fromUtf8(zip_strerror(archive.get()))));
             return false;
         }
         Q_EMIT entryRemoved(e->fullPath());
         Q_EMIT progress(float(++i) / files.size());
     }
-    qCDebug(ARK) << "Deleted" << i << "entries";
+    qCDebug(ARK_LOG) << "Deleted" << i << "entries";
 
     // Write and close archive manually.
     zip_close(archive.get());
     // Release unique pointer as it set to NULL via zip_close.
     archive.release();
     if (errcode > 0) {
-        qCCritical(ARK) << "Failed to write archive";
+        qCCritical(ARK_LOG) << "Failed to write archive";
         Q_EMIT error(xi18n("Failed to write archive."));
         return false;
     }
@@ -633,14 +633,14 @@ bool LibzipPlugin::addComment(const QString &comment)
     ark_unique_ptr<zip_t, zip_discard> archive{zip_open(QFile::encodeName(filename()).constData(), 0, &errcode)};
     zip_error_init_with_code(&err, errcode);
     if (archive.get() == nullptr) {
-        qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
+        qCCritical(ARK_LOG) << "Failed to open archive. Code:" << errcode;
         Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
 
     // Set archive comment.
     if (zip_set_archive_comment(archive.get(), comment.toUtf8().constData(), comment.length())) {
-        qCCritical(ARK) << "Failed to set comment:" << zip_strerror(archive.get());
+        qCCritical(ARK_LOG) << "Failed to set comment:" << zip_strerror(archive.get());
         return false;
     }
 
@@ -649,7 +649,7 @@ bool LibzipPlugin::addComment(const QString &comment)
     // Release unique pointer as it set to NULL via zip_close.
     archive.release();
     if (errcode > 0) {
-        qCCritical(ARK) << "Failed to write archive";
+        qCCritical(ARK_LOG) << "Failed to write archive";
         Q_EMIT error(xi18n("Failed to write archive."));
         return false;
     }
@@ -658,7 +658,7 @@ bool LibzipPlugin::addComment(const QString &comment)
 
 bool LibzipPlugin::testArchive()
 {
-    qCDebug(ARK) << "Testing archive";
+    qCDebug(ARK_LOG) << "Testing archive";
 
     // Open archive performing extra consistency checks, free memory using zip_discard as no write oprations needed.
     auto archive = ZipSource::create(this, *m_zipSource, ZIP_RDONLY | ZIP_CHECKCONS);
@@ -678,7 +678,7 @@ bool LibzipPlugin::testArchive()
         int stat_index = zip_stat_index(archive.get(), i, 0, &statBuffer);
         auto name = toUnixSeparator(QString::fromUtf8(statBuffer.name));
         if (stat_index != 0) {
-            qCCritical(ARK) << "Failed to read stat for" << name;
+            qCCritical(ARK_LOG) << "Failed to read stat for" << name;
             return false;
         }
 
@@ -686,11 +686,11 @@ bool LibzipPlugin::testArchive()
         std::unique_ptr<uchar[]> buf(new uchar[statBuffer.size]);
         const int len = zip_fread(zipFile.get(), buf.get(), statBuffer.size);
         if (len == -1 || uint(len) != statBuffer.size) {
-            qCCritical(ARK) << "Failed to read data for" << name;
+            qCCritical(ARK_LOG) << "Failed to read data for" << name;
             return false;
         }
         if (statBuffer.crc != crc32(0, &buf.get()[0], len)) {
-            qCCritical(ARK) << "CRC check failed for" << name;
+            qCCritical(ARK_LOG) << "CRC check failed for" << name;
             return false;
         }
 
@@ -708,7 +708,7 @@ bool LibzipPlugin::doKill()
 
 bool LibzipPlugin::extractFiles(const QList<Archive::Entry *> &files, const QString &destinationDirectory, const ExtractionOptions &options)
 {
-    qCDebug(ARK) << "Extracting files to:" << destinationDirectory;
+    qCDebug(ARK_LOG) << "Extracting files to:" << destinationDirectory;
     const bool extractAll = files.isEmpty();
     const bool removeRootNode = options.isDragAndDropEnabled();
 
@@ -720,7 +720,7 @@ bool LibzipPlugin::extractFiles(const QList<Archive::Entry *> &files, const QStr
 
     // Set password if known.
     if (!password().isEmpty()) {
-        qCDebug(ARK) << "Password already known. Setting...";
+        qCDebug(ARK_LOG) << "Password already known. Setting...";
         zip_set_default_password(archive.get(), password().toUtf8().constData());
     }
 
@@ -742,7 +742,7 @@ bool LibzipPlugin::extractFiles(const QList<Archive::Entry *> &files, const QStr
                               destinationDirectory,
                               options.preservePaths(),
                               removeRootNode)) {
-                qCDebug(ARK) << "Extraction failed";
+                qCDebug(ARK_LOG) << "Extraction failed";
                 return false;
             }
             Q_EMIT progress(float(i + 1) / nofEntries);
@@ -755,7 +755,7 @@ bool LibzipPlugin::extractFiles(const QList<Archive::Entry *> &files, const QStr
                 break;
             }
             if (!extractEntry(archive.get(), e->fullPath(), e->rootNode, destinationDirectory, options.preservePaths(), removeRootNode)) {
-                qCDebug(ARK) << "Extraction failed";
+                qCDebug(ARK_LOG) << "Extraction failed";
                 return false;
             }
             Q_EMIT progress(float(++i) / nofEntries);
@@ -787,7 +787,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         }
     } else {
         if (isDirectory) {
-            qCDebug(ARK) << "Skipping directory:" << entry;
+            qCDebug(ARK_LOG) << "Skipping directory:" << entry;
             return true;
         }
         destination = destDirCorrected + QFileInfo(entry).fileName();
@@ -810,13 +810,13 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     if (restoreParentMtime) {
         parent_mtime = std::filesystem::last_write_time(QFileInfo(parentDir).filesystemAbsoluteFilePath(), error_code);
         if (error_code) {
-            qCWarning(ARK) << "Failed to read parent modtime" << error_code.message();
+            qCWarning(ARK_LOG) << "Failed to read parent modtime" << error_code.message();
         }
     }
 
     // Create parent directories for files. For directories create them.
     if (!QDir().mkpath(QFileInfo(destination).path())) {
-        qCDebug(ARK) << "Failed to create directory:" << QFileInfo(destination).path();
+        qCDebug(ARK_LOG) << "Failed to create directory:" << QFileInfo(destination).path();
         Q_EMIT error(xi18n("Failed to create directory: %1", QFileInfo(destination).path()));
         return false;
     }
@@ -825,10 +825,10 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     zip_stat_t statBuffer;
     if (zip_stat(archive, fromUnixSeparator(entry).toUtf8().constData(), 0, &statBuffer) != 0) {
         if (isDirectory && zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOENT) {
-            qCWarning(ARK) << "Skipping folder without entry:" << entry;
+            qCWarning(ARK_LOG) << "Skipping folder without entry:" << entry;
             return true;
         }
-        qCCritical(ARK) << "Failed to read stat for entry" << entry;
+        qCCritical(ARK_LOG) << "Failed to read stat for entry" << entry;
         return false;
     }
 
@@ -883,11 +883,11 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
                 setPassword(query.password());
 
                 if (zip_set_default_password(archive, password().toUtf8().constData())) {
-                    qCDebug(ARK) << "Failed to set password for:" << entry;
+                    qCDebug(ARK_LOG) << "Failed to set password for:" << entry;
                 }
                 firstTry = false;
             } else {
-                qCCritical(ARK) << "Failed to open file:" << zip_strerror(archive);
+                qCCritical(ARK_LOG) << "Failed to open file:" << zip_strerror(archive);
                 Q_EMIT error(xi18n("Failed to open '%1':<nl/>%2", entry, QString::fromUtf8(zip_strerror(archive))));
                 return false;
             }
@@ -895,7 +895,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
 
         QFile file(destination);
         if (!file.open(QIODevice::WriteOnly)) {
-            qCCritical(ARK) << "Failed to open file for writing";
+            qCCritical(ARK_LOG) << "Failed to open file for writing";
             Q_EMIT error(xi18n("Failed to open file for writing: %1", destination));
             return false;
         }
@@ -908,12 +908,12 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         while (sum != statBuffer.size) {
             const auto readBytes = zip_fread(zipFile.get(), buf, 1000);
             if (readBytes < 0) {
-                qCCritical(ARK) << "Failed to read data";
+                qCCritical(ARK_LOG) << "Failed to read data";
                 Q_EMIT error(xi18n("Failed to read data for entry: %1", entry));
                 return false;
             }
             if (out.writeRawData(buf, readBytes) != readBytes) {
-                qCCritical(ARK) << "Failed to write data";
+                qCCritical(ARK_LOG) << "Failed to write data";
                 Q_EMIT error(xi18n("Failed to write data for entry: %1", entry));
                 return false;
             }
@@ -923,7 +923,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
 
         const auto index = zip_name_locate(archive, fromUnixSeparator(entry).toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
-            qCCritical(ARK) << "Could not locate entry:" << entry;
+            qCCritical(ARK_LOG) << "Could not locate entry:" << entry;
             Q_EMIT error(xi18n("Failed to locate entry: %1", entry));
             return false;
         }
@@ -931,7 +931,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         zip_uint8_t opsys;
         zip_uint32_t attributes;
         if (zip_file_get_external_attributes(archive, index, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
-            qCCritical(ARK) << "Could not read external attributes for entry:" << entry;
+            qCCritical(ARK_LOG) << "Could not read external attributes for entry:" << entry;
             Q_EMIT error(xi18n("Failed to read metadata for entry: %1", entry));
             return false;
         }
@@ -956,14 +956,14 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     const auto time = std::chrono::clock_cast<std::chrono::file_clock>(std::chrono::system_clock::from_time_t(statBuffer.mtime));
     std::filesystem::last_write_time(QFileInfo(destination).filesystemAbsoluteFilePath(), time, error_code);
     if (error_code) {
-        qCWarning(ARK) << "Failed to restore mtime:" << destination << error_code.message();
+        qCWarning(ARK_LOG) << "Failed to restore mtime:" << destination << error_code.message();
     }
 #else
     utimbuf times;
     times.actime = statBuffer.mtime;
     times.modtime = statBuffer.mtime;
     if (utime(destination.toUtf8().constData(), &times) != 0) {
-        qCWarning(ARK) << "Failed to restore mtime:" << destination;
+        qCWarning(ARK_LOG) << "Failed to restore mtime:" << destination;
     }
 #endif
 
@@ -981,7 +981,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         // Restore mtime for parent dir.
         std::filesystem::last_write_time(QFileInfo(parentDir).filesystemAbsoluteFilePath(), parent_mtime, error_code);
         if (error_code) {
-            qCWarning(ARK) << "Failed to restore mtime for parent dir of:" << destination << error_code.message();
+            qCWarning(ARK_LOG) << "Failed to restore mtime for parent dir of:" << destination << error_code.message();
         }
     }
     return true;
@@ -997,7 +997,7 @@ bool LibzipPlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entr
     ark_unique_ptr<zip_t, zip_close> archive{zip_open(QFile::encodeName(filename()).constData(), 0, &errcode)};
     zip_error_init_with_code(&err, errcode);
     if (archive.get() == nullptr) {
-        qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
+        qCCritical(ARK_LOG) << "Failed to open archive. Code:" << errcode;
         Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
@@ -1010,13 +1010,13 @@ bool LibzipPlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entr
     for (i = 0; i < filePaths.size(); ++i) {
         const int index = zip_name_locate(archive.get(), filePaths.at(i).toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
-            qCCritical(ARK) << "Could not find entry to move:" << filePaths.at(i);
+            qCCritical(ARK_LOG) << "Could not find entry to move:" << filePaths.at(i);
             Q_EMIT error(xi18n("Failed to move entry: %1", filePaths.at(i)));
             return false;
         }
 
         if (zip_file_rename(archive.get(), index, destPaths.at(i).toUtf8().constData(), ZIP_FL_ENC_GUESS) == -1) {
-            qCCritical(ARK) << "Could not move entry:" << filePaths.at(i);
+            qCCritical(ARK_LOG) << "Could not move entry:" << filePaths.at(i);
             Q_EMIT error(xi18n("Failed to move entry: %1", filePaths.at(i)));
             return false;
         }
@@ -1031,12 +1031,12 @@ bool LibzipPlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entr
     // Release unique pointer as it set to NULL via zip_close.
     archive.release();
     if (errcode > 0) {
-        qCCritical(ARK) << "Failed to write archive";
+        qCCritical(ARK_LOG) << "Failed to write archive";
         Q_EMIT error(xi18n("Failed to write archive."));
         return false;
     }
 
-    qCDebug(ARK) << "Moved" << i << "entries";
+    qCDebug(ARK_LOG) << "Moved" << i << "entries";
 
     return true;
 }
@@ -1051,7 +1051,7 @@ bool LibzipPlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entr
     ark_unique_ptr<zip_t, zip_discard> archive{zip_open(QFile::encodeName(filename()).constData(), 0, &errcode)};
     zip_error_init_with_code(&err, errcode);
     if (archive.get() == nullptr) {
-        qCCritical(ARK) << "Failed to open archive. Code:" << errcode;
+        qCCritical(ARK_LOG) << "Failed to open archive. Code:" << errcode;
         Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
@@ -1066,28 +1066,28 @@ bool LibzipPlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entr
         if (dest.endsWith(QDir::separator())) {
             if (zip_dir_add(archive.get(), dest.toUtf8().constData(), ZIP_FL_ENC_GUESS) == -1) {
                 // If directory already exists in archive, we get an error.
-                qCWarning(ARK) << "Failed to add dir " << dest << ":" << zip_strerror(archive.get());
+                qCWarning(ARK_LOG) << "Failed to add dir " << dest << ":" << zip_strerror(archive.get());
                 continue;
             }
         }
 
         const int srcIndex = zip_name_locate(archive.get(), filePaths.at(i).toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (srcIndex == -1) {
-            qCCritical(ARK) << "Could not find entry to copy:" << filePaths.at(i);
+            qCCritical(ARK_LOG) << "Could not find entry to copy:" << filePaths.at(i);
             Q_EMIT error(xi18n("Failed to copy entry: %1", filePaths.at(i)));
             return false;
         }
 
         zip_source_t *src = zip_source_zip(archive.get(), archive.get(), srcIndex, 0, 0, -1);
         if (!src) {
-            qCCritical(ARK) << "Failed to create source for:" << filePaths.at(i);
+            qCCritical(ARK_LOG) << "Failed to create source for:" << filePaths.at(i);
             return false;
         }
 
         const int destIndex = zip_file_add(archive.get(), dest.toUtf8().constData(), src, ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
         if (destIndex == -1) {
             zip_source_free(src);
-            qCCritical(ARK) << "Could not add entry" << dest << ":" << zip_strerror(archive.get());
+            qCCritical(ARK_LOG) << "Could not add entry" << dest << ":" << zip_strerror(archive.get());
             Q_EMIT error(xi18n("Failed to add entry: %1", QString::fromUtf8(zip_strerror(archive.get()))));
             return false;
         }
@@ -1096,14 +1096,14 @@ bool LibzipPlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entr
         zip_uint8_t opsys;
         zip_uint32_t attributes;
         if (zip_file_get_external_attributes(archive.get(), srcIndex, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1) {
-            qCCritical(ARK) << "Failed to read external attributes for source:" << filePaths.at(i);
+            qCCritical(ARK_LOG) << "Failed to read external attributes for source:" << filePaths.at(i);
             Q_EMIT error(xi18n("Failed to read metadata for entry: %1", filePaths.at(i)));
             return false;
         }
 
         // Set permissions on dest entry.
         if (zip_file_set_external_attributes(archive.get(), destIndex, ZIP_FL_UNCHANGED, opsys, attributes) != 0) {
-            qCCritical(ARK) << "Failed to set external attributes for destination:" << dest;
+            qCCritical(ARK_LOG) << "Failed to set external attributes for destination:" << dest;
             Q_EMIT error(xi18n("Failed to set metadata for entry: %1", dest));
             return false;
         }
@@ -1120,7 +1120,7 @@ bool LibzipPlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entr
     // Release unique pointer as it set to NULL via zip_close.
     archive.release();
     if (errcode > 0) {
-        qCCritical(ARK) << "Failed to write archive";
+        qCCritical(ARK_LOG) << "Failed to write archive";
         Q_EMIT error(xi18n("Failed to write archive."));
         return false;
     }
@@ -1133,7 +1133,7 @@ bool LibzipPlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entr
     m_listAfterAdd = true;
     list();
 
-    qCDebug(ARK) << "Copied" << i << "entries";
+    qCDebug(ARK_LOG) << "Copied" << i << "entries";
 
     return true;
 }

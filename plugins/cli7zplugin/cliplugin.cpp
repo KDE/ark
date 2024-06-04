@@ -28,7 +28,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
     , m_linesComment(0)
     , m_isFirstInformationEntry(true)
 {
-    qCDebug(ARK) << "Loaded cli_7z plugin";
+    qCDebug(ARK_LOG) << "Loaded cli_7z plugin";
 
     setupCliProperties();
 }
@@ -46,20 +46,20 @@ void CliPlugin::resetParsing()
 
 void CliPlugin::setupCliProperties()
 {
-    qCDebug(ARK) << "Setting up parameters...";
+    qCDebug(ARK_LOG) << "Setting up parameters...";
 
     if (m_binaryVariant == Undefined) {
-        qCDebug(ARK) << "Checking 7z variant...";
+        qCDebug(ARK_LOG) << "Checking 7z variant...";
         QProcess process;
         process.setProgram(QStringLiteral("7z"));
         process.start();
         process.waitForFinished(500);
         const QString output = QString::fromUtf8(process.readAllStandardOutput());
         if (output.contains(QLatin1String("p7zip"))) {
-            qCDebug(ARK) << "Detected p7zip variant.";
+            qCDebug(ARK_LOG) << "Detected p7zip variant.";
             m_binaryVariant = P7zip;
         } else if (output.contains(QLatin1String("7-Zip"))) {
-            qCDebug(ARK) << "Detected upstream 7-Zip variant.";
+            qCDebug(ARK_LOG) << "Detected upstream 7-Zip variant.";
             m_binaryVariant = Upstream7zip;
         }
     }
@@ -143,25 +143,25 @@ bool CliPlugin::readListLine(const QString &line)
         if (matchVersion.hasMatch()) {
             m_parseState = ParseStateHeader;
             const QString p7zipVersion = matchVersion.captured(1);
-            qCDebug(ARK) << "p7zip version" << p7zipVersion << "detected";
+            qCDebug(ARK_LOG) << "p7zip version" << p7zipVersion << "detected";
             break;
         }
         matchVersion = rxVersionLine7z.match(line);
         if (matchVersion.hasMatch()) {
             m_parseState = ParseStateHeader;
             const QString l7zipVersion = matchVersion.captured(1);
-            qCDebug(ARK) << "7zip version" << l7zipVersion << "detected";
+            qCDebug(ARK_LOG) << "7zip version" << l7zipVersion << "detected";
             break;
         }
         break;
 
     case ParseStateHeader:
         if (line.startsWith(QLatin1String("Listing archive:"))) {
-            qCDebug(ARK) << "Archive name: " << line.right(line.size() - 16).trimmed();
+            qCDebug(ARK_LOG) << "Archive name: " << line.right(line.size() - 16).trimmed();
         } else if ((line == archiveInfoDelimiter1) || (line == archiveInfoDelimiter2)) {
             m_parseState = ParseStateArchiveInformation;
         } else if (line.contains(QLatin1String("Error: "))) {
-            qCWarning(ARK) << line.mid(7);
+            qCWarning(ARK_LOG) << line.mid(7);
         }
         break;
 
@@ -171,7 +171,7 @@ bool CliPlugin::readListLine(const QString &line)
 
         } else if (line.startsWith(QLatin1String("Type = "))) {
             const QString type = line.mid(7).trimmed();
-            qCDebug(ARK) << "Archive type: " << type;
+            qCDebug(ARK_LOG) << "Archive type: " << type;
 
             if (type == QLatin1String("7z")) {
                 m_archiveType = ArchiveType7z;
@@ -191,7 +191,7 @@ bool CliPlugin::readListLine(const QString &line)
                 setMultiVolume(true);
             } else {
                 // Should not happen
-                qCWarning(ARK) << "Unsupported archive type";
+                qCWarning(ARK_LOG) << "Unsupported archive type";
                 return false;
             }
 
@@ -214,7 +214,7 @@ bool CliPlugin::readListLine(const QString &line)
             if (!m_comment.trimmed().isEmpty()) {
                 m_comment = m_comment.trimmed();
                 m_linesComment = m_comment.count(QLatin1Char('\n')) + 1;
-                qCDebug(ARK) << "Found a comment with" << m_linesComment << "lines";
+                qCDebug(ARK_LOG) << "Found a comment with" << m_linesComment << "lines";
             }
         } else {
             m_comment.append(line + QLatin1Char('\n'));

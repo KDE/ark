@@ -56,7 +56,7 @@ QMimeType determineMimeType(const QString &filename, MimePreference mp)
         }
 
         inputFile += cleanExtension;
-        qCDebug(ARK) << "Validated filename of compressed tar" << filename << "into filename" << inputFile;
+        qCDebug(ARK_LOG) << "Validated filename of compressed tar" << filename << "into filename" << inputFile;
     }
 
     QMimeType mimeFromExtension = db.mimeTypeForFile(inputFile, QMimeDatabase::MatchExtension);
@@ -94,13 +94,12 @@ QMimeType determineMimeType(const QString &filename, MimePreference mp)
 
     if (mimeFromExtension != mimeFromContent) {
         if (mimeFromContent.isDefault()) {
-            qCWarning(ARK) << "Could not detect mimetype from content."
-                           << "Using extension-based mimetype:" << mimeFromExtension.name();
+            qCWarning(ARK_LOG) << "Could not detect mimetype from content." << "Using extension-based mimetype:" << mimeFromExtension.name();
             return mimeFromExtension;
         }
 
-        qCDebug(ARK) << "Mimetype for filename extension (" << mimeFromExtension.name() << ") did not match mimetype for content (" << mimeFromContent.name()
-                     << "). Using content-based mimetype.";
+        qCDebug(ARK_LOG) << "Mimetype for filename extension (" << mimeFromExtension.name() << ") did not match mimetype for content ("
+                         << mimeFromContent.name() << "). Using content-based mimetype.";
     }
 
     return mp == PreferExtensionMime ? mimeFromExtension : mimeFromContent;

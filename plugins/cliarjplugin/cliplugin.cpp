@@ -56,7 +56,7 @@ struct ArjFileEntry {
 CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
     : CliInterface(parent, args)
 {
-    qCDebug(ARK) << "Loaded cli_arj plugin";
+    qCDebug(ARK_LOG) << "Loaded cli_arj plugin";
 
     setupCliProperties();
 }
@@ -140,7 +140,7 @@ bool CliPlugin::isNewMovedFileNamesMsg(const QString &line)
 bool CliPlugin::handleLine(const QString &line)
 {
     if (line.contains(QStringLiteral("bad password"))) {
-        qCWarning(ARK) << "Wrong password!";
+        qCWarning(ARK_LOG) << "Wrong password!";
         setPassword(QString());
         Q_EMIT error(i18nc("@info", "Extraction failed: Incorrect password"));
         return false;
@@ -155,7 +155,7 @@ bool CliPlugin::handleLine(const QString &line)
         }
 
         if (line.contains(QStringLiteral("file(s)")) && m_testPassed) {
-            qCDebug(ARK) << "Test successful";
+            qCDebug(ARK_LOG) << "Test successful";
             Q_EMIT testSuccess();
         }
 
@@ -178,7 +178,7 @@ void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 
 void CliPlugin::setupCliProperties()
 {
-    qCDebug(ARK) << "Setting up parameters...";
+    qCDebug(ARK_LOG) << "Setting up parameters...";
 
     CliProperties *cliProps = cliProperties();
     cliProps->setProperty("captureProgress", true);

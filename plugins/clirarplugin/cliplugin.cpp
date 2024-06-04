@@ -32,7 +32,7 @@ CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
     , m_remainingIgnoreLines(1) // The first line of UNRAR output is empty.
     , m_linesComment(0)
 {
-    qCDebug(ARK) << "Loaded cli_rar plugin";
+    qCDebug(ARK_LOG) << "Loaded cli_rar plugin";
 
     // Empty lines are needed for parsing output of unrar.
     setListEmptyLines(true);
@@ -55,7 +55,7 @@ void CliPlugin::resetParsing()
 
 void CliPlugin::setupCliProperties()
 {
-    qCDebug(ARK) << "Setting up parameters...";
+    qCDebug(ARK_LOG) << "Setting up parameters...";
 
     m_cliProps->setProperty("captureProgress", true);
 
@@ -123,17 +123,17 @@ bool CliPlugin::readListLine(const QString &line)
         if (matchVersion.hasMatch()) {
             m_parseState = ParseStateComment;
             m_unrarVersion = matchVersion.captured(1);
-            qCDebug(ARK) << "UNRAR version" << m_unrarVersion << "detected";
+            qCDebug(ARK_LOG) << "UNRAR version" << m_unrarVersion << "detected";
             if (m_unrarVersion.toFloat() >= 5) {
                 m_isUnrar5 = true;
-                qCDebug(ARK) << "Using UNRAR 5 parser";
+                qCDebug(ARK_LOG) << "Using UNRAR 5 parser";
             } else {
-                qCDebug(ARK) << "Using UNRAR 4 parser";
+                qCDebug(ARK_LOG) << "Using UNRAR 4 parser";
             }
         } else {
             // If the second line doesn't contain an UNRAR title, something
             // is wrong.
-            qCCritical(ARK) << "Failed to detect UNRAR output.";
+            qCCritical(ARK_LOG) << "Failed to detect UNRAR output.";
             return false;
         }
 
@@ -166,7 +166,7 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
             m_comment = m_comment.trimmed();
             m_linesComment = m_comment.count(QLatin1Char('\n')) + 1;
             if (!m_comment.isEmpty()) {
-                qCDebug(ARK) << "Found a comment with" << m_linesComment << "lines";
+                qCDebug(ARK_LOG) << "Found a comment with" << m_linesComment << "lines";
             }
 
         } else {
@@ -186,12 +186,12 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
                 m_numberOfVolumes++;
                 if (!isMultiVolume()) {
                     setMultiVolume(true);
-                    qCDebug(ARK) << "Multi-volume archive detected";
+                    qCDebug(ARK_LOG) << "Multi-volume archive detected";
                 }
             }
             if (line.contains(QLatin1String("solid")) && !m_isSolid) {
                 m_isSolid = true;
-                qCDebug(ARK) << "Solid archive detected";
+                qCDebug(ARK_LOG) << "Solid archive detected";
             }
             if (line.contains(QLatin1String("RAR 4"))) {
                 Q_EMIT compressionMethodFound(QStringLiteral("RAR4"));
@@ -221,7 +221,7 @@ bool CliPlugin::handleUnrar5Line(const QString &line)
         } else {
             // All detail lines should contain a colon.
             if (!line.contains(QLatin1Char(':'))) {
-                qCWarning(ARK) << "Unrecognized line:" << line;
+                qCWarning(ARK_LOG) << "Unrecognized line:" << line;
                 return true;
             }
 
@@ -330,19 +330,19 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
                 m_numberOfVolumes++;
                 if (!isMultiVolume()) {
                     setMultiVolume(true);
-                    qCDebug(ARK) << "Multi-volume archive detected";
+                    qCDebug(ARK_LOG) << "Multi-volume archive detected";
                 }
             }
             if (line.startsWith(QLatin1String("Solid archive")) && !m_isSolid) {
                 m_isSolid = true;
-                qCDebug(ARK) << "Solid archive detected";
+                qCDebug(ARK_LOG) << "Solid archive detected";
             }
 
             m_parseState = ParseStateHeader;
             m_comment = m_comment.trimmed();
             m_linesComment = m_comment.count(QLatin1Char('\n')) + 1;
             if (!m_comment.isEmpty()) {
-                qCDebug(ARK) << "Found a comment with" << m_linesComment << "lines";
+                qCDebug(ARK_LOG) << "Found a comment with" << m_linesComment << "lines";
             }
 
         } else {
@@ -376,7 +376,7 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
         matchSubHeader = rxSubHeader.match(line);
 
         if (matchSubHeader.hasMatch()) {
-            qCDebug(ARK) << "SubHeader of type" << matchSubHeader.captured(1) << "found";
+            qCDebug(ARK_LOG) << "SubHeader of type" << matchSubHeader.captured(1) << "found";
             if (matchSubHeader.captured(1) == QLatin1String("STM")) {
                 ignoreLines(4, ParseStateEntryFileName);
             } else if (matchSubHeader.captured(1) == QLatin1String("CMT")) {
@@ -402,7 +402,7 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
             // Entry names always start at the second position, so a line not
             // starting with a space is not an entry name.
         } else if (!line.startsWith(QLatin1Char(' '))) {
-            qCWarning(ARK) << "Unrecognized line:" << line;
+            qCWarning(ARK_LOG) << "Unrecognized line:" << line;
             return true;
 
             // If we reach this, then we can assume the line is an entry name, so

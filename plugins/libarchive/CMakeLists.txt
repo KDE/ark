@@ -14,7 +14,7 @@ set(kerfuffle_libarchive_SRCS ${kerfuffle_libarchive_readonly_SRCS} readwritelib
 
 ecm_qt_declare_logging_category(kerfuffle_libarchive_SRCS
                                 HEADER ark_debug.h
-                                IDENTIFIER ARK
+                                IDENTIFIER ARK_LOG
                                 CATEGORY_NAME ark.libarchive DESCRIPTION "Ark Libarchive plugin" EXPORT ARK)
 
 configure_file(

@@ -7,7 +7,7 @@ set(kerfuffle_libzip_SRCS libzipplugin.cpp ark_debug.cpp)
 
 ecm_qt_declare_logging_category(kerfuffle_libzip_SRCS
                                 HEADER ark_debug.h
-                                IDENTIFIER ARK
+                                IDENTIFIER ARK_LOG
                                 CATEGORY_NAME ark.libzip DESCRIPTION "Ark Infozip plugin" EXPORT ARK)
 
 if(LibZip_VERSION VERSION_GREATER_EQUAL "1.8.0")

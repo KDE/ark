@@ -16,7 +16,7 @@ K_PLUGIN_CLASS_WITH_JSON(ReadOnlyLibarchivePlugin, "kerfuffle_libarchive_readonl
 ReadOnlyLibarchivePlugin::ReadOnlyLibarchivePlugin(QObject *parent, const QVariantList &args)
     : LibarchivePlugin(parent, args)
 {
-    qCDebug(ARK) << "Loaded libarchive read-only plugin";
+    qCDebug(ARK_LOG) << "Loaded libarchive read-only plugin";
 }
 
 ReadOnlyLibarchivePlugin::~ReadOnlyLibarchivePlugin()
