@@ -499,8 +499,9 @@ bool CliInterface::isEmptyDir(const QDir &dir)
 
 void CliInterface::cleanUpExtracting()
 {
-    restoreWorkingDirExtraction();
+    QDir::setCurrent(QLatin1String(".."));
     m_extractTempDir.reset();
+    restoreWorkingDirExtraction();
 }
 
 void CliInterface::restoreWorkingDirExtraction()
