@@ -481,6 +481,7 @@ void ExtractTest::testExtraction()
 
     QDirIterator dirIt(destDir.path(), QDir::AllEntries | QDir::Hidden | QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
     while (dirIt.hasNext()) {
+        qDebug() << "PATH: " << dirIt.filePath();
         extractedEntriesCount++;
         dirIt.next();
     }
