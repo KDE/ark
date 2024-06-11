@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-25 00:40+0000\n"
-"PO-Revision-Date: 2024-01-07 17:45+0000\n"
+"PO-Revision-Date: 2024-06-08 16:02+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
 "Language: ro\n"
@@ -114,13 +114,11 @@ msgid "Compress to..."
 msgstr "Comprimă în..."
 
 #: app/compressfileitemaction.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "Comprimă în..."
+msgstr "Comprimă în „%1”"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -2176,18 +2174,14 @@ msgid "unknown"
 msgstr "necunoscută"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Testarea arhivelor protejate prin parolă fără criptarea antetului nu este "
-"susținută momentan."
+"Arhiva poate fi coruptă sau are antet criptat, ceea ce nu este susținut "
+"momentan."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2199,7 +2193,7 @@ msgstr "Eroare fatală, extragere abandonată."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
-msgstr ""
+msgstr "Extragerea înregistrărilor 7-zip criptate nu este susținută momentan."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
