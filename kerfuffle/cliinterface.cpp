@@ -96,7 +96,7 @@ bool CliInterface::extractFiles(const QList<Archive::Entry *> &files, const QStr
 
     if (useTmpExtractDir) {
         // Create an hidden temp folder in the current directory.
-        m_extractTempDir.reset(new QTemporaryDir(QStringLiteral(".%1-").arg(QCoreApplication::applicationName())));
+        m_extractTempDir.reset(new QTemporaryDir(QStringLiteral("%1/.%2-").arg(QDir::currentPath(), QCoreApplication::applicationName())));
 
         qCDebug(ARK_LOG) << "Using temporary extraction dir:" << m_extractTempDir->path();
         if (!m_extractTempDir->isValid()) {
