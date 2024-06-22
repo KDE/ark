@@ -168,13 +168,12 @@ void ExtractTest::testExtraction_data()
              optionsPreservePaths,
              4);
 
-    // TODO uncomment once it passes
-    // archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
-    // setupRow("extract selected entries from a 7z, drag-and-drop",
-    //          archivePath,
-    //          QList<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("A/B/test2.txt"), QStringLiteral("A/B/"))},
-    //          dragAndDropOptions,
-    //          1);
+    archivePath = QFINDTESTDATA("data/one_toplevel_folder.7z");
+    setupRow("extract selected entries from a 7z, drag-and-drop",
+             archivePath,
+             QList<Archive::Entry *>{new Archive::Entry(this, QStringLiteral("A/B/test2.txt"), QStringLiteral("A/B/"))},
+             dragAndDropOptions,
+             1);
 
     archivePath = QFINDTESTDATA("data/empty_folders.zip");
     setupRow("zip with empty folders", archivePath, QList<Archive::Entry *>(), optionsPreservePaths, 5);
