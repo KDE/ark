@@ -147,7 +147,7 @@ void Job::connectToArchiveInterfaceSignals()
 
 void Job::onCancelled()
 {
-    qCDebug(ARK) << "Cancelled emitted";
+    qCDebug(ARK_LOG) << "Cancelled emitted";
     setError(KJob::KilledJobError);
 }
 
@@ -155,7 +155,7 @@ void Job::onError(const QString &message, const QString &details, int errorCode)
 {
     Q_UNUSED(details)
 
-    qCDebug(ARK) << "Error emitted:" << errorCode << "-" << message;
+    qCDebug(ARK_LOG) << "Error emitted:" << errorCode << "-" << message;
     setError(errorCode);
     setErrorText(message);
 }
@@ -165,7 +165,7 @@ void Job::onEntry(Archive::Entry *entry)
     const QString entryFullPath = entry->fullPath();
     const QString cleanEntryFullPath = QDir::cleanPath(entryFullPath);
     if (cleanEntryFullPath.startsWith(QLatin1String("../")) || cleanEntryFullPath.contains(QLatin1String("/../"))) {
-        qCWarning(ARK) << "Possibly malicious archive. Detected entry that could lead to a directory traversal attack:" << entryFullPath;
+        qCWarning(ARK_LOG) << "Possibly malicious archive. Detected entry that could lead to a directory traversal attack:" << entryFullPath;
         onError(i18n("Could not load the archive because it contains ill-formed entries and might be a malicious archive."),
                 QString(),
                 Kerfuffle::PossiblyMaliciousArchiveError);
@@ -193,7 +193,7 @@ void Job::onEntryRemoved(const QString &path)
 
 void Job::onFinished(bool result)
 {
-    qCDebug(ARK) << "Job finished, result:" << result << ", time:" << jobTimer.elapsed() << "ms";
+    qCDebug(ARK_LOG) << "Job finished, result:" << result << ", time:" << jobTimer.elapsed() << "ms";
 
     if (archive() && !archive()->isValid()) {
         setError(KJob::UserDefinedError);
@@ -207,7 +207,7 @@ void Job::onFinished(bool result)
 void Job::onUserQuery(Query *query)
 {
     if (archiveInterface()->waitForFinishedSignal()) {
-        qCWarning(ARK) << "Plugins run from the main thread should call directly query->execute()";
+        qCWarning(ARK_LOG) << "Plugins run from the main thread should call directly query->execute()";
     }
 
     Q_EMIT userQuery(query);
@@ -221,7 +221,7 @@ bool Job::doKill()
     }
 
     if (d->isRunning()) {
-        qCDebug(ARK) << "Requesting graceful thread interruption, will abort in one second otherwise.";
+        qCDebug(ARK_LOG) << "Requesting graceful thread interruption, will abort in one second otherwise.";
         d->requestInterruption();
         d->wait(1000);
     }
@@ -239,7 +239,7 @@ LoadJob::LoadJob(Archive *archive, ReadOnlyArchiveInterface *interface)
 {
     // Don't show "finished" notification when finished
     setProperty("transientProgressReporting", true);
-    qCDebug(ARK) << "Created job instance";
+    qCDebug(ARK_LOG) << "Created job instance";
     connect(this, &LoadJob::newEntry, this, &LoadJob::onNewEntry);
 }
 
@@ -352,7 +352,7 @@ BatchExtractJob::BatchExtractJob(LoadJob *loadJob, const QString &destination, b
     , m_autoSubfolder(autoSubfolder)
     , m_preservePaths(preservePaths)
 {
-    qCDebug(ARK) << "Created job instance";
+    qCDebug(ARK_LOG) << "Created job instance";
 }
 
 void BatchExtractJob::doWork()
@@ -446,7 +446,7 @@ void BatchExtractJob::setupDestination()
         // Special case for single folder RPM archives.
         // We don't want the autodetected folder to have a meaningless "usr" name.
         if (isSingleFolderRPM && subfolderName == QLatin1String("usr")) {
-            qCDebug(ARK) << "Detected single folder RPM archive. Using archive basename as subfolder name";
+            qCDebug(ARK_LOG) << "Detected single folder RPM archive. Using archive basename as subfolder name";
             subfolderName = QFileInfo(archive()->fileName()).completeBaseName();
         }
 
@@ -465,7 +465,7 @@ CreateJob::CreateJob(Archive *archive, const QList<Archive::Entry *> &entries, c
     , m_entries(entries)
     , m_options(options)
 {
-    qCDebug(ARK) << "Created job instance";
+    qCDebug(ARK_LOG) << "Created job instance";
     setTotalAmount(Files, 1);
 }
 
@@ -528,7 +528,7 @@ ExtractJob::ExtractJob(const QList<Archive::Entry *> &entries, const QString &de
     , m_destinationDir(destinationDir)
     , m_options(options)
 {
-    qCDebug(ARK) << "Created job instance";
+    qCDebug(ARK_LOG) << "Created job instance";
     // Magic property that tells the job tracker the job's destination
     setProperty("destUrl", QUrl::fromLocalFile(destinationDir).toString());
 }
@@ -559,8 +559,8 @@ void ExtractJob::doWork()
 
     connectToArchiveInterfaceSignals();
 
-    qCDebug(ARK) << "Starting extraction with" << m_entries.count() << "selected files." << m_entries << "Destination dir:" << m_destinationDir
-                 << "Options:" << m_options;
+    qCDebug(ARK_LOG) << "Starting extraction with" << m_entries.count() << "selected files." << m_entries << "Destination dir:" << m_destinationDir
+                     << "Options:" << m_options;
 
     qulonglong totalUncompressedSize = 0;
     if (extractingAll) {
@@ -654,7 +654,7 @@ void TempExtractJob::doWork()
 
     connectToArchiveInterfaceSignals();
 
-    qCDebug(ARK) << "Extracting:" << m_entry;
+    qCDebug(ARK_LOG) << "Extracting:" << m_entry;
 
     bool ret = archiveInterface()->extractFiles({m_entry}, extractionDir(), extractionOptions());
 
@@ -671,19 +671,19 @@ QString TempExtractJob::extractionDir() const
 PreviewJob::PreviewJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : TempExtractJob(entry, passwordProtectedHint, interface)
 {
-    qCDebug(ARK) << "Created job instance";
+    qCDebug(ARK_LOG) << "Created job instance";
 }
 
 OpenJob::OpenJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : TempExtractJob(entry, passwordProtectedHint, interface)
 {
-    qCDebug(ARK) << "Created job instance";
+    qCDebug(ARK_LOG) << "Created job instance";
 }
 
 OpenWithJob::OpenWithJob(Archive::Entry *entry, bool passwordProtectedHint, ReadOnlyArchiveInterface *interface)
     : OpenJob(entry, passwordProtectedHint, interface)
 {
-    qCDebug(ARK) << "Created job instance";
+    qCDebug(ARK_LOG) << "Created job instance";
 }
 
 AddJob::AddJob(const QList<Archive::Entry *> &entries,
@@ -695,7 +695,7 @@ AddJob::AddJob(const QList<Archive::Entry *> &entries,
     , m_destination(destination)
     , m_options(options)
 {
-    qCDebug(ARK) << "Created job instance";
+    qCDebug(ARK_LOG) << "Created job instance";
 }
 
 void AddJob::doWork()
@@ -704,7 +704,7 @@ void AddJob::doWork()
     const QString globalWorkDir = m_options.globalWorkDir();
     const QDir workDir = globalWorkDir.isEmpty() ? QDir::current() : QDir(globalWorkDir);
     if (!globalWorkDir.isEmpty()) {
-        qCDebug(ARK) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
+        qCDebug(ARK_LOG) << "GlobalWorkDir is set, changing dir to " << globalWorkDir;
         m_oldWorkingDir = QDir::currentPath();
         QDir::setCurrent(globalWorkDir);
     }
@@ -724,7 +724,7 @@ void AddJob::doWork()
         }
     }
 
-    qCDebug(ARK) << "Going to add" << totalCount << "entries, counted in" << timer.elapsed() << "ms";
+    qCDebug(ARK_LOG) << "Going to add" << totalCount << "entries, counted in" << timer.elapsed() << "ms";
 
     const QString desc = i18np("Compressing a file", "Compressing %1 files", totalCount);
     Q_EMIT description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
@@ -771,12 +771,12 @@ MoveJob::MoveJob(const QList<Archive::Entry *> &entries, Archive::Entry *destina
     , m_destination(destination)
     , m_options(options)
 {
-    qCDebug(ARK) << "Created job instance";
+    qCDebug(ARK_LOG) << "Created job instance";
 }
 
 void MoveJob::doWork()
 {
-    qCDebug(ARK) << "Going to move" << m_entries.count() << "file(s)";
+    qCDebug(ARK_LOG) << "Going to move" << m_entries.count() << "file(s)";
 
     QString desc = i18np("Moving a file", "Moving %1 files", m_entries.count());
     Q_EMIT description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
@@ -808,12 +808,12 @@ CopyJob::CopyJob(const QList<Archive::Entry *> &entries, Archive::Entry *destina
     , m_destination(destination)
     , m_options(options)
 {
-    qCDebug(ARK) << "Created job instance";
+    qCDebug(ARK_LOG) << "Created job instance";
 }
 
 void CopyJob::doWork()
 {
-    qCDebug(ARK) << "Going to copy" << m_entries.count() << "file(s)";
+    qCDebug(ARK_LOG) << "Going to copy" << m_entries.count() << "file(s)";
 
     QString desc = i18np("Copying a file", "Copying %1 files", m_entries.count());
     Q_EMIT description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
@@ -891,7 +891,7 @@ TestJob::TestJob(ReadOnlyArchiveInterface *interface)
 
 void TestJob::doWork()
 {
-    qCDebug(ARK) << "Job started";
+    qCDebug(ARK_LOG) << "Job started";
 
     Q_EMIT description(this, i18n("Testing archive"), qMakePair(i18n("Archive"), archiveInterface()->filename()));
 

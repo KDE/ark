@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-25 00:40+0000\n"
-"PO-Revision-Date: 2024-03-27 08:59+0100\n"
+"PO-Revision-Date: 2024-05-07 07:44+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -26,9 +26,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.5\n"
-"X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
+"X-Environment: kde\n"
+"X-Generator: Lokalize 23.08.5\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -2212,18 +2212,14 @@ msgid "unknown"
 msgstr "Inconnu"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Le test des archives protégées par mot de passe sans chiffrage d'en-tête "
-"n'est pas pris en charge pour le moment."
+"L’archive peut être corrompue ou possède un chiffrement d’en-tête, qui n'est "
+"pas actuellement pris en charge."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2236,6 +2232,8 @@ msgstr "Erreur fatale, abandon de l'extraction."
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr ""
+"L’extraction des entrées « 7zip » chiffrées n’est actuellement pas prise en "
+"charge."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format

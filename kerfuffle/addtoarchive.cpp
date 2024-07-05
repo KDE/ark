@@ -68,7 +68,7 @@ void AddToArchive::setHeaderEncryptionEnabled(bool enabled)
 
 bool AddToArchive::showAddDialog(QWidget *parentWidget)
 {
-    qCDebug(ARK) << "Opening add dialog";
+    qCDebug(ARK_LOG) << "Opening add dialog";
 
     if (m_filename.isEmpty()) {
         m_filename = getFileNameForEntries(m_entries, QString());
@@ -83,8 +83,8 @@ bool AddToArchive::showAddDialog(QWidget *parentWidget)
     bool ret = dialog.data()->exec();
 
     if (ret) {
-        qCDebug(ARK) << "CreateDialog returned URL:" << dialog.data()->selectedUrl().toString();
-        qCDebug(ARK) << "CreateDialog returned mime:" << dialog.data()->currentMimeType().name();
+        qCDebug(ARK_LOG) << "CreateDialog returned URL:" << dialog.data()->selectedUrl().toString();
+        qCDebug(ARK_LOG) << "CreateDialog returned mime:" << dialog.data()->currentMimeType().name();
         setFilename(dialog.data()->selectedUrl());
         setMimeType(dialog.data()->currentMimeType().name());
         setPassword(dialog.data()->password());
@@ -116,7 +116,7 @@ bool AddToArchive::addInput(const QUrl &url)
 
 void AddToArchive::start()
 {
-    qCDebug(ARK) << "Starting job";
+    qCDebug(ARK_LOG) << "Starting job";
 
     QTimer::singleShot(0, this, &AddToArchive::slotStartJob);
 }
@@ -144,7 +144,7 @@ void AddToArchive::slotStartJob()
         }
 
         if (m_firstPath.isEmpty()) {
-            qCWarning(ARK) << "Weird, this should not happen. no firstpath defined. aborting";
+            qCWarning(ARK_LOG) << "Weird, this should not happen. no firstpath defined. aborting";
             emitResult();
             return;
         }
@@ -154,7 +154,7 @@ void AddToArchive::slotStartJob()
 
     if (m_changeToFirstPath) {
         if (m_firstPath.isEmpty()) {
-            qCWarning(ARK) << "Weird, this should not happen. no firstpath defined. aborting";
+            qCWarning(ARK_LOG) << "Weird, this should not happen. no firstpath defined. aborting";
             emitResult();
             return;
         }
@@ -165,7 +165,7 @@ void AddToArchive::slotStartJob()
             entry->setFullPath(stripDir.absoluteFilePath(entry->fullPath()));
         }
 
-        qCDebug(ARK) << "Setting GlobalWorkDir to " << stripDir.path();
+        qCDebug(ARK_LOG) << "Setting GlobalWorkDir to " << stripDir.path();
         m_options.setGlobalWorkDir(stripDir.path());
     }
 
@@ -188,13 +188,13 @@ void AddToArchive::detectFileName()
     const QString suffix = !m_autoFilenameSuffix.isEmpty() ? m_autoFilenameSuffix : QString();
     const QString finalName = getFileNameForEntries(m_entries, suffix);
 
-    qCDebug(ARK) << "Autoset filename to" << finalName;
+    qCDebug(ARK_LOG) << "Autoset filename to" << finalName;
     m_filename = finalName;
 }
 
 void AddToArchive::slotFinished(KJob *job)
 {
-    qCDebug(ARK) << "job finished";
+    qCDebug(ARK_LOG) << "job finished";
 
     if (job->error() && !job->errorString().isEmpty()) {
         KMessageBox::error(nullptr, job->errorString());

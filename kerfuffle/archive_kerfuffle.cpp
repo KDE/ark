@@ -28,12 +28,12 @@ Archive *Archive::create(const QString &fileName, QObject *parent)
 
 Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, QObject *parent)
 {
-    qCDebug(ARK) << "Going to create archive" << fileName;
+    qCDebug(ARK_LOG) << "Going to create archive" << fileName;
 
     PluginManager pluginManager;
     const QMimeType mimeType = fixedMimeType.isEmpty() ? determineMimeType(fileName) : QMimeDatabase().mimeTypeForName(fixedMimeType);
 
-    qCDebug(ARK) << "Looking for plugins that handle the mimetype: " << mimeType.name();
+    qCDebug(ARK_LOG) << "Looking for plugins that handle the mimetype: " << mimeType.name();
     QList<Plugin *> offers = pluginManager.preferredPluginsFor(mimeType);
     if (offers.isEmpty()) {
         if (fixedMimeType.isEmpty()) {
@@ -41,7 +41,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
             offers = pluginManager.preferredPluginsFor(extensionMimeType);
         }
         if (offers.isEmpty()) {
-            qCCritical(ARK) << "Could not find a plugin to handle" << fileName;
+            qCCritical(ARK_LOG) << "Could not find a plugin to handle" << fileName;
             return new Archive(NoPlugin, parent);
         }
     }
@@ -55,7 +55,7 @@ Archive *Archive::create(const QString &fileName, const QString &fixedMimeType, 
         }
     }
 
-    qCCritical(ARK) << "Failed to find a usable plugin for" << fileName;
+    qCCritical(ARK_LOG) << "Failed to find a usable plugin for" << fileName;
     return archive;
 }
 
@@ -63,21 +63,21 @@ Archive *Archive::create(const QString &fileName, Plugin *plugin, QObject *paren
 {
     Q_ASSERT(plugin);
 
-    qCDebug(ARK) << "Checking plugin" << plugin->metaData().pluginId();
+    qCDebug(ARK_LOG) << "Checking plugin" << plugin->metaData().pluginId();
 
     const QVariantList args = {QVariant(QFileInfo(fileName).absoluteFilePath()), QVariant().fromValue(plugin->metaData())};
     ReadOnlyArchiveInterface *iface = KPluginFactory::instantiatePlugin<ReadOnlyArchiveInterface>(plugin->metaData(), nullptr, args).plugin;
     if (!iface) {
-        qCWarning(ARK) << "Could not create plugin instance" << plugin->metaData().pluginId();
+        qCWarning(ARK_LOG) << "Could not create plugin instance" << plugin->metaData().pluginId();
         return new Archive(FailedPlugin, parent);
     }
 
     if (!plugin->isValid()) {
-        qCDebug(ARK) << "Cannot use plugin" << plugin->metaData().pluginId() << "- check whether" << plugin->readOnlyExecutables() << "are installed.";
+        qCDebug(ARK_LOG) << "Cannot use plugin" << plugin->metaData().pluginId() << "- check whether" << plugin->readOnlyExecutables() << "are installed.";
         return new Archive(FailedPlugin, parent);
     }
 
-    qCDebug(ARK) << "Successfully loaded plugin" << plugin->metaData().pluginId();
+    qCDebug(ARK_LOG) << "Successfully loaded plugin" << plugin->metaData().pluginId();
     return new Archive(iface, !plugin->isReadWrite(), parent);
 }
 
@@ -132,7 +132,7 @@ Archive::Archive(ArchiveError errorCode, QObject *parent)
     , m_iface(nullptr)
     , m_error(errorCode)
 {
-    qCDebug(ARK) << "Created archive instance with error";
+    qCDebug(ARK_LOG) << "Created archive instance with error";
 }
 
 Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QObject *parent)
@@ -145,7 +145,7 @@ Archive::Archive(ReadOnlyArchiveInterface *archiveInterface, bool isReadOnly, QO
     , m_error(NoError)
     , m_encryptionType(Unencrypted)
 {
-    qCDebug(ARK) << "Created archive instance";
+    qCDebug(ARK_LOG) << "Created archive instance";
 
     Q_ASSERT(m_iface);
     m_iface->setParent(this);
@@ -225,7 +225,7 @@ CommentJob *Archive::addComment(const QString &comment)
         return nullptr;
     }
 
-    qCDebug(ARK) << "Going to add comment:" << comment;
+    qCDebug(ARK_LOG) << "Going to add comment:" << comment;
     Q_ASSERT(!isReadOnly());
     CommentJob *job = new CommentJob(comment, static_cast<ReadWriteArchiveInterface *>(m_iface));
     return job;
@@ -237,7 +237,7 @@ TestJob *Archive::testArchive()
         return nullptr;
     }
 
-    qCDebug(ARK) << "Going to test archive";
+    qCDebug(ARK_LOG) << "Going to test archive";
 
     TestJob *job = new TestJob(m_iface);
     return job;
@@ -367,7 +367,7 @@ DeleteJob *Archive::deleteFiles(QList<Archive::Entry *> &entries)
         return nullptr;
     }
 
-    qCDebug(ARK) << "Going to delete" << entries.size() << "entries";
+    qCDebug(ARK_LOG) << "Going to delete" << entries.size() << "entries";
 
     if (m_iface->isReadOnly()) {
         return nullptr;
@@ -392,7 +392,7 @@ AddJob *Archive::addFiles(const QList<Archive::Entry *> &files, const Archive::E
         newOptions.setEncryptedArchiveHint(true);
     }
 
-    qCDebug(ARK) << "Going to add files" << files << "with options" << newOptions;
+    qCDebug(ARK_LOG) << "Going to add files" << files << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
 
     AddJob *newJob = new AddJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface *>(m_iface));
@@ -411,7 +411,7 @@ MoveJob *Archive::moveFiles(const QList<Archive::Entry *> &files, Archive::Entry
         newOptions.setEncryptedArchiveHint(true);
     }
 
-    qCDebug(ARK) << "Going to move files" << files << "to destination" << destination << "with options" << newOptions;
+    qCDebug(ARK_LOG) << "Going to move files" << files << "to destination" << destination << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
 
     MoveJob *newJob = new MoveJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface *>(m_iface));
@@ -433,7 +433,7 @@ CopyJob *Archive::copyFiles(const QList<Archive::Entry *> &files, Archive::Entry
         newOptions.setEncryptedArchiveHint(true);
     }
 
-    qCDebug(ARK) << "Going to copy files" << files << "with options" << newOptions;
+    qCDebug(ARK_LOG) << "Going to copy files" << files << "with options" << newOptions;
     Q_ASSERT(!m_iface->isReadOnly());
 
     CopyJob *newJob = new CopyJob(files, destination, newOptions, static_cast<ReadWriteArchiveInterface *>(m_iface));

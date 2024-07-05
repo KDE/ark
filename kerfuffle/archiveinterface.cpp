@@ -31,7 +31,7 @@ ReadOnlyArchiveInterface::ReadOnlyArchiveInterface(QObject *parent, const QVaria
     Q_ASSERT(args.size() >= 2);
     qRegisterMetaType<Kerfuffle::Query *>();
 
-    qCDebug(ARK) << "Created read-only interface for" << args.first().toString();
+    qCDebug(ARK_LOG) << "Created read-only interface for" << args.first().toString();
     m_filename = args.first().toString();
     m_mimetype = determineMimeType(m_filename);
     connect(this, &ReadOnlyArchiveInterface::entry, this, &ReadOnlyArchiveInterface::onEntry);
@@ -123,7 +123,7 @@ QString ReadOnlyArchiveInterface::multiVolumeName() const
 ReadWriteArchiveInterface::ReadWriteArchiveInterface(QObject *parent, const QVariantList &args)
     : ReadOnlyArchiveInterface(parent, args)
 {
-    qCDebug(ARK) << "Created read-write interface for" << args.first().toString();
+    qCDebug(ARK_LOG) << "Created read-write interface for" << args.first().toString();
 
     connect(this, &ReadWriteArchiveInterface::entryRemoved, this, &ReadWriteArchiveInterface::onEntryRemoved);
 }

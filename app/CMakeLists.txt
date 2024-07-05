@@ -18,7 +18,7 @@ target_sources(ark PRIVATE
 
 ecm_qt_declare_logging_category(ark
                                 HEADER ark_debug.h
-                                IDENTIFIER ARK
+                                IDENTIFIER ARK_LOG
 				CATEGORY_NAME ark.main DESCRIPTION "Ark Main" EXPORT ARK)
 
 

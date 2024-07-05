@@ -143,7 +143,7 @@ PasswordNeededQuery::PasswordNeededQuery(const QString &archiveFilename, bool in
 
 void PasswordNeededQuery::execute()
 {
-    qCDebug(ARK) << "Executing password prompt";
+    qCDebug(ARK_LOG) << "Executing password prompt";
 
     // If we are being called from the KPart, the cursor is probably Qt::WaitCursor
     // at the moment (#231974)
@@ -201,7 +201,7 @@ LoadCorruptQuery::LoadCorruptQuery(const QString &archiveFilename)
 
 void LoadCorruptQuery::execute()
 {
-    qCDebug(ARK) << "Executing prompt";
+    qCDebug(ARK_LOG) << "Executing prompt";
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
     setResponse(KMessageBox::warningTwoActions(nullptr,
@@ -228,7 +228,7 @@ ContinueExtractionQuery::ContinueExtractionQuery(const QString &error, const QSt
 
 void ContinueExtractionQuery::execute()
 {
-    qCDebug(ARK) << "Executing prompt";
+    qCDebug(ARK_LOG) << "Executing prompt";
     QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
 
     QMessageBox box(QMessageBox::Warning,

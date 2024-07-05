@@ -4,7 +4,7 @@ set(kerfuffle_clizip_SRCS cliplugin.cpp)
 
 ecm_qt_declare_logging_category(kerfuffle_clizip_SRCS
                                 HEADER ark_debug.h
-                                IDENTIFIER ARK
+                                IDENTIFIER ARK_LOG
                                 CATEGORY_NAME ark.clizip DESCRIPTION "Ark Infozip plugin" EXPORT ARK)
 
 configure_file(

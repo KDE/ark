@@ -35,7 +35,7 @@
         "Name[pl]": "Wypakuj tutaj",
         "Name[pt]": "Ark - Extrair Aqui",
         "Name[pt_BR]": "Extrair com o Ark aqui",
-        "Name[ro]": "Ark extrage aici",
+        "Name[ro]": "Ark Extrage aici",
         "Name[ru]": "Распаковать в эту папку",
         "Name[sk]": "Extrahovať sem Arkom",
         "Name[sl]": "Arkov ekstrakt tukaj",

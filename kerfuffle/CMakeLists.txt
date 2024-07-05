@@ -45,7 +45,7 @@ ki18n_wrap_ui(kerfuffle
 
 ecm_qt_declare_logging_category(kerfuffle
                                 HEADER ark_debug.h
-                                IDENTIFIER ARK
+                                IDENTIFIER ARK_LOG
                                 CATEGORY_NAME ark.kerfuffle DESCRIPTION "Ark Kerfuffle" EXPORT ARK)
 
 generate_export_header(kerfuffle BASE_NAME kerfuffle)

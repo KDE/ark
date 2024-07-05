@@ -4,7 +4,7 @@ set(kerfuffle_cliarj_SRCS cliplugin.cpp)
 
 ecm_qt_declare_logging_category(kerfuffle_cliarj_SRCS
                                 HEADER ark_debug.h
-                                IDENTIFIER ARK
+                                IDENTIFIER ARK_LOG
                                 CATEGORY_NAME ark.cliarj DESCRIPTION "Ark Arj" EXPORT ARK)
 
 configure_file(

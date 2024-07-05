@@ -4,7 +4,7 @@ set(kerfuffle_cliunarchiver_SRCS cliplugin.cpp)
 
 ecm_qt_declare_logging_category(kerfuffle_cliunarchiver_SRCS
                                 HEADER ark_debug.h
-                                IDENTIFIER ARK
+                                IDENTIFIER ARK_LOG
                                 CATEGORY_NAME ark.cliunarchiver DESCRIPTION "Ark The Unarchiver plugin" EXPORT ARK)
 
 configure_file(

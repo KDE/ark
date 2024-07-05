@@ -26,7 +26,7 @@ K_PLUGIN_CLASS_WITH_JSON(CliPlugin, "kerfuffle_cliunarchiver.json")
 CliPlugin::CliPlugin(QObject *parent, const QVariantList &args)
     : CliInterface(parent, args)
 {
-    qCDebug(ARK) << "Loaded cli_unarchiver plugin";
+    qCDebug(ARK_LOG) << "Loaded cli_unarchiver plugin";
     setupCliProperties();
 }
 
@@ -53,7 +53,7 @@ bool CliPlugin::extractFiles(const QList<Archive::Entry *> &files, const QString
     // To prevent both, we always extract to a temporary directory
     // and then we move the files to the intended destination.
 
-    qCDebug(ARK) << "Enabling extraction to temporary directory.";
+    qCDebug(ARK_LOG) << "Enabling extraction to temporary directory.";
     newOptions.setAlwaysUseTempDir(true);
 
     return CliInterface::extractFiles(files, destinationDirectory, newOptions);
@@ -138,7 +138,7 @@ bool CliPlugin::handleLine(const QString &line)
     if (m_operationMode == List) {
         // This can only be an header-encrypted archive.
         if (isPasswordPrompt(line)) {
-            qCDebug(ARK) << "Detected header-encrypted RAR archive";
+            qCDebug(ARK_LOG) << "Detected header-encrypted RAR archive";
 
             Kerfuffle::PasswordNeededQuery query(filename());
             Q_EMIT userQuery(&query);
@@ -161,7 +161,7 @@ bool CliPlugin::handleLine(const QString &line)
 
 void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    qCDebug(ARK) << "Process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
+    qCDebug(ARK_LOG) << "Process finished, exitcode:" << exitCode << "exitstatus:" << exitStatus;
 
     if (m_process) {
         // handle all the remaining data in the process
@@ -180,7 +180,7 @@ void CliPlugin::processFinished(int exitCode, QProcess::ExitStatus exitStatus)
     if (!password().isEmpty()) {
         // lsar -json exits with error code 1 if the archive is header-encrypted and the password is wrong.
         if (exitCode == 1) {
-            qCWarning(ARK) << "Wrong password, list() aborted";
+            qCWarning(ARK_LOG) << "Wrong password, list() aborted";
             Q_EMIT error(i18n("Wrong password."));
             Q_EMIT finished(false);
             setPassword(QString());
@@ -204,7 +204,7 @@ void CliPlugin::readJsonOutput()
     QJsonDocument jsonDoc = QJsonDocument::fromJson(m_jsonOutput.toUtf8(), &error);
 
     if (error.error != QJsonParseError::NoError) {
-        qCDebug(ARK) << "Could not parse json output:" << error.errorString();
+        qCDebug(ARK_LOG) << "Could not parse json output:" << error.errorString();
         return;
     }
 
@@ -213,7 +213,7 @@ void CliPlugin::readJsonOutput()
     const QJsonObject properties = json.value(QStringLiteral("lsarProperties")).toObject();
     const QJsonArray volumes = properties.value(QStringLiteral("XADVolumes")).toArray();
     if (volumes.count() > 1) {
-        qCDebug(ARK) << "Detected multivolume archive";
+        qCDebug(ARK_LOG) << "Detected multivolume archive";
         m_numberOfVolumes = volumes.count();
         setMultiVolume(true);
     }

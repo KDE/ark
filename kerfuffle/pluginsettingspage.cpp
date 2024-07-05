@@ -79,7 +79,7 @@ void PluginSettingsPage::slotItemChanged(QTreeWidgetItem *item)
         m_toBeDisabled << pluginId;
     }
     // Enable the Apply button by setting the property.
-    qCDebug(ARK) << "Going to disable the following plugins:" << m_toBeDisabled;
+    qCDebug(ARK_LOG) << "Going to disable the following plugins:" << m_toBeDisabled;
     kcfg_disabledPlugins->setProperty("disabledPlugins", m_toBeDisabled);
 }
 

@@ -45,8 +45,8 @@ void BatchExtract::addExtraction(const QUrl &url)
 
     auto job = Kerfuffle::Archive::batchExtract(url.toLocalFile(), destination, autoSubfolder(), preservePaths());
 
-    qCDebug(ARK) << QString(QStringLiteral("Registering job from archive %1, to %2, preservePaths %3"))
-                        .arg(url.toLocalFile(), destination, QString::number(preservePaths()));
+    qCDebug(ARK_LOG) << QString(QStringLiteral("Registering job from archive %1, to %2, preservePaths %3"))
+                            .arg(url.toLocalFile(), destination, QString::number(preservePaths()));
 
     addSubjob(job);
 
@@ -106,7 +106,7 @@ void BatchExtract::slotStartJob()
 
     m_initialJobCount = subjobs().size();
 
-    qCDebug(ARK) << "Starting first job";
+    qCDebug(ARK_LOG) << "Starting first job";
 
     subjobs().at(0)->start();
 }
@@ -121,7 +121,7 @@ void BatchExtract::showFailedFiles()
 void BatchExtract::slotResult(KJob *job)
 {
     if (job->error()) {
-        qCDebug(ARK) << "There was en error:" << job->error() << ", errorText:" << job->errorString();
+        qCDebug(ARK_LOG) << "There was en error:" << job->error() << ", errorText:" << job->errorString();
 
         setErrorText(job->errorString());
         setError(job->error());
@@ -166,10 +166,10 @@ void BatchExtract::slotResult(KJob *job)
             job->start();
         }
 
-        qCDebug(ARK) << "Finished, emitting the result";
+        qCDebug(ARK_LOG) << "Finished, emitting the result";
         emitResult();
     } else {
-        qCDebug(ARK) << "Starting the next job";
+        qCDebug(ARK_LOG) << "Starting the next job";
         Q_EMIT description(this,
                            i18n("Extracting Files"),
                            qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
@@ -188,7 +188,7 @@ void BatchExtract::forwardProgress(KJob *job, unsigned long percent)
 
 void BatchExtract::addInput(const QUrl &url)
 {
-    qCDebug(ARK) << "Adding archive" << url.toLocalFile();
+    qCDebug(ARK_LOG) << "Adding archive" << url.toLocalFile();
 
     if (!QFileInfo::exists(url.toLocalFile())) {
         m_failedFiles.append(url.fileName());
