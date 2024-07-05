@@ -19,6 +19,47 @@ apps:
         - system-backup
         command-chain:
         - snap/command-chain/desktop-launch6
+plugs:
+    gtk-3-themes:
+        interface: content
+        target: $SNAP/data-dir/themes
+        default-provider: gtk-common-themes
+    kde-gtk3-themes:
+        interface: content
+        target: $SNAP/data-dir/themes
+        default-provider: qt-common-themes
+    gtk-2-themes:
+        interface: content
+        target: $SNAP/data-dir/themes
+        default-provider: gtk-common-themes
+    kde-gtk2-themes:
+        interface: content
+        target: $SNAP/data-dir/themes
+        default-provider: qt-common-themes
+    qt-icon-themes:
+        interface: content
+        target: $SNAP/data-dir/icons
+        default-provider: qt-common-themes
+    gtk-icon-themes:
+        interface: content
+        target: $SNAP/data-dir/icons
+        default-provider: gtk-common-themes
+    qt-sound-themes:
+        interface: content
+        target: $SNAP/data-dir/sounds
+        default-provider: qt-common-themes
+    gtk-sound-themes:
+        interface: content
+        target: $SNAP/data-dir/sounds
+        default-provider: gtk-common-themes
+    qt-6-themes:
+        interface: content
+        target: $SNAP/kf6
+        default-provider: qt-common-themes
+    dot-config-kde-globals:
+        interface: personal-files
+        read:
+            - $HOME/.config/kdeglobals
 slots:
     session-dbus-interface:
         interface: dbus
@@ -31,7 +72,7 @@ package-repositories:
     suites:
     - jammy
     key-id: 444DABCF3667D0283F894EDDE6D4736255751E5D
-    url: http://origin.archive.neon.kde.org/unstable
+    url: http://origin.archive.neon.kde.org/user
     key-server: keyserver.ubuntu.com
 parts:
     ark:
@@ -71,9 +112,9 @@ parts:
         - -DCMAKE_INSTALL_RUNSTATEDIR=/run
         - -DCMAKE_SKIP_INSTALL_ALL_DEPENDENCY=ON
         - -DCMAKE_VERBOSE_MAKEFILE=ON
-        - -DCMAKE_INSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET
+        - -DCMAKE_INSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
         - --log-level=STATUS
-        - -DCMAKE_LIBRARY_PATH=lib/$CRAFT_ARCH_TRIPLET
+        - -DCMAKE_LIBRARY_PATH=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
         prime:
         - -usr/lib/*/cmake/*
         - -usr/include/*
@@ -81,9 +122,9 @@ parts:
         - -usr/share/man/*
         - -usr/share/icons/breeze-dark*
         - -usr/bin/X11
-        - -usr/lib/gcc/$SNAPCRAFT_ARCH_TRIPLET/6.0.0
+        - -usr/lib/gcc/$CRAFT_ARCH_TRIPLET_BUILD_FOR/6.0.0
         - -usr/lib/aspell/*
-        - "-usr/share/lintian"
+        - -usr/share/lintian
     cleanup:
         after:
         - ark
@@ -91,10 +132,10 @@ parts:
         build-snaps:
         - core22
         - kf6-core22
-        - kde-qt6-core22
+        - qt-common-themes
         override-prime: |
             set -eux
-            for snap in "core22" "kf6-core22" "kde-qt6-core22"; do
+            for snap in "core22" "kf6-core22" "qt-common-themes"; do
                 cd "/snap/$snap/current" && find . -type f,l -exec rm -rf "${CRAFT_PRIME}/{}" \;
             done
 
