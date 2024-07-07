@@ -83,7 +83,7 @@ parts:
         - libarchive-dev
         - libbz2-dev
         - liblzma-dev
-        - libzip5-dev
+        - libzip-dev
         - pkg-config
         - zlib1g-dev
         stage-packages:
