@@ -17,6 +17,7 @@ apps:
         plugs:
         - home
         - system-backup
+        - udisks2
 slots:
     session-dbus-interface:
         interface: dbus
