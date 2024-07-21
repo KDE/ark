@@ -114,7 +114,7 @@ void Job::start()
 
     // We have an archive but it's not valid, nothing to do.
     if (archive() && !archive()->isValid()) {
-        QTimer::singleShot(0, this, [=]() {
+        QTimer::singleShot(0, this, [this]() {
             onFinished(false);
         });
         return;
@@ -263,7 +263,7 @@ void LoadJob::doWork()
     if (!archiveInterface()->waitForFinishedSignal()) {
         // onFinished() needs to be called after onNewEntry(), because the former reads members set in the latter.
         // So we need to put it in the event queue, just like the single-thread case does by emitting finished().
-        QTimer::singleShot(0, this, [=]() {
+        QTimer::singleShot(0, this, [this, ret]() {
             onFinished(ret);
         });
     }
@@ -494,9 +494,12 @@ void CreateJob::doWork()
         connect(m_addJob, &KJob::result, this, &CreateJob::emitResult);
         // Forward description signal from AddJob, we need to change the first
         // argument ('this' needs to be a CreateJob).
-        connect(m_addJob, &KJob::description, this, [=](KJob *, const QString &title, const QPair<QString, QString> &field1, const QPair<QString, QString> &) {
-            Q_EMIT description(this, title, field1);
-        });
+        connect(m_addJob,
+                &KJob::description,
+                this,
+                [this](KJob *, const QString &title, const QPair<QString, QString> &field1, const QPair<QString, QString> &) {
+                    Q_EMIT description(this, title, field1);
+                });
 
         m_addJob->start();
     } else {

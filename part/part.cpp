@@ -154,7 +154,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
     mainWidget->installEventFilter(this);
     searchLayout->addWidget(m_searchCloseButton);
     searchLayout->addWidget(m_searchLineEdit);
-    connect(m_searchCloseButton, &QPushButton::clicked, this, [=]() {
+    connect(m_searchCloseButton, &QPushButton::clicked, this, [this]() {
         m_searchWidget->hide();
         m_searchLineEdit->clear();
     });
@@ -291,7 +291,7 @@ void Part::extractSelectedFilesTo(const QString &localPath)
         // Try to resolve the URL to a local path.
         KIO::StatJob *statJob = KIO::mostLocalUrl(url);
 
-        connect(statJob, &KJob::result, this, [=]() {
+        connect(statJob, &KJob::result, this, [this, statJob, localPath, doExtract]() {
             if (statJob->error()) {
                 KMessageBox::error(widget(), statJob->errorString());
                 return;

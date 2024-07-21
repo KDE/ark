@@ -251,7 +251,7 @@ bool CliInterface::runProcess(const QString &programName, const QStringList &arg
     m_process->setNextOpenMode(QIODevice::ReadWrite | QIODevice::Unbuffered | QIODevice::Text);
     m_process->setProgram(programPath, arguments);
 
-    m_readyStdOutConnection = connect(m_process, &QProcess::readyReadStandardOutput, this, [=]() {
+    m_readyStdOutConnection = connect(m_process, &QProcess::readyReadStandardOutput, this, [this]() {
         readStdout();
     });
 
