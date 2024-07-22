@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-25 00:40+0000\n"
+"POT-Creation-Date: 2024-07-22 00:41+0000\n"
 "PO-Revision-Date: 2024-05-12 11:33+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -1056,25 +1056,25 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Открытие архива"
 
-#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:548 kerfuffle/jobs.cpp:730
-#: kerfuffle/jobs.cpp:782 kerfuffle/jobs.cpp:819 kerfuffle/jobs.cpp:850
-#: kerfuffle/jobs.cpp:896
+#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:551 kerfuffle/jobs.cpp:733
+#: kerfuffle/jobs.cpp:785 kerfuffle/jobs.cpp:822 kerfuffle/jobs.cpp:853
+#: kerfuffle/jobs.cpp:899
 #, kde-format
 msgid "Archive"
 msgstr "Архив"
 
-#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:579
+#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:582
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "На устройстве <filename>%1</filename> недостаточно места."
 
-#: kerfuffle/jobs.cpp:542
+#: kerfuffle/jobs.cpp:545
 #, kde-format
 msgid "Extracting all files"
 msgstr "Распаковка всех файлов"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:544 kerfuffle/jobs.cpp:653
+#: kerfuffle/jobs.cpp:547 kerfuffle/jobs.cpp:656
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1083,13 +1083,13 @@ msgstr[1] "Распаковка %1 файлов"
 msgstr[2] "Распаковка %1 файлов"
 msgstr[3] "Распаковка %1 файла"
 
-#: kerfuffle/jobs.cpp:549
+#: kerfuffle/jobs.cpp:552
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Назначение"
 
-#: kerfuffle/jobs.cpp:553
+#: kerfuffle/jobs.cpp:556
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1098,7 +1098,7 @@ msgstr ""
 "Не удалось записать в <filename>%1</filename>.<nl/>Проверьте наличие прав на "
 "запись."
 
-#: kerfuffle/jobs.cpp:729
+#: kerfuffle/jobs.cpp:732
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
@@ -1107,7 +1107,7 @@ msgstr[1] "Сжатие %1 файлов"
 msgstr[2] "Сжатие %1 файлов"
 msgstr[3] "Сжатие файла"
 
-#: kerfuffle/jobs.cpp:781
+#: kerfuffle/jobs.cpp:784
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
@@ -1116,7 +1116,7 @@ msgstr[1] "Перемещение %1 файлов"
 msgstr[2] "Перемещение %1 файлов"
 msgstr[3] "Перемещение файла"
 
-#: kerfuffle/jobs.cpp:818
+#: kerfuffle/jobs.cpp:821
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
@@ -1125,7 +1125,7 @@ msgstr[1] "Копирование %1 файлов"
 msgstr[2] "Копирование %1 файлов"
 msgstr[3] "Копирование файла"
 
-#: kerfuffle/jobs.cpp:849
+#: kerfuffle/jobs.cpp:852
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1134,12 +1134,12 @@ msgstr[1] "Удаление %1 файлов из архива"
 msgstr[2] "Удаление %1 файлов из архива"
 msgstr[3] "Удаление файла из архива"
 
-#: kerfuffle/jobs.cpp:872
+#: kerfuffle/jobs.cpp:875
 #, kde-format
 msgid "Adding comment"
 msgstr "Добавление комментария"
 
-#: kerfuffle/jobs.cpp:896
+#: kerfuffle/jobs.cpp:899
 #, kde-format
 msgid "Testing archive"
 msgstr "Проверка архива"

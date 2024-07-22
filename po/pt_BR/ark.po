@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-25 00:40+0000\n"
+"POT-Creation-Date: 2024-07-22 00:41+0000\n"
 "PO-Revision-Date: 2023-12-01 17:01-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -1061,38 +1061,38 @@ msgstr "Carregando arquivo"
 # A partir da versão 16.04 do Ark , há menus dois menus separados para as ações com arquivos compactados "Archive" e para arquivos que estão dentro dos arquivos compactados "File".
 # Por esse, motivo a tradução ficou como "Arquivo compactado" no menu, de forma a diferenciar as ações. A tradução apenas como "arquivo" é usada sempre que não houver conflito entre os termos.
 # Todos os programas que pesquisei usam a tradução "arquivo" para definir os arquivos compactados (como zip, rar, tar), mesmo que tecnicamente a definição não seja a mais adequada (alguns não são compactados, como o tar). (Alvarenga)
-#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:548 kerfuffle/jobs.cpp:730
-#: kerfuffle/jobs.cpp:782 kerfuffle/jobs.cpp:819 kerfuffle/jobs.cpp:850
-#: kerfuffle/jobs.cpp:896
+#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:551 kerfuffle/jobs.cpp:733
+#: kerfuffle/jobs.cpp:785 kerfuffle/jobs.cpp:822 kerfuffle/jobs.cpp:853
+#: kerfuffle/jobs.cpp:899
 #, kde-format
 msgid "Archive"
 msgstr "Arquivo compactado"
 
-#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:579
+#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:582
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Não há espaço disponível no dispositivo <filename>%1</filename>."
 
-#: kerfuffle/jobs.cpp:542
+#: kerfuffle/jobs.cpp:545
 #, kde-format
 msgid "Extracting all files"
 msgstr "Extraindo todos os arquivos"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:544 kerfuffle/jobs.cpp:653
+#: kerfuffle/jobs.cpp:547 kerfuffle/jobs.cpp:656
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "Extraindo um arquivo"
 msgstr[1] "Extraindo %1 arquivos"
 
-#: kerfuffle/jobs.cpp:549
+#: kerfuffle/jobs.cpp:552
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Destino"
 
-#: kerfuffle/jobs.cpp:553
+#: kerfuffle/jobs.cpp:556
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1101,21 +1101,21 @@ msgstr ""
 "Não foi possível gravar no destino <filename>%1</filename>.<nl/>Verifique se "
 "possui permissões suficientes."
 
-#: kerfuffle/jobs.cpp:729
+#: kerfuffle/jobs.cpp:732
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "Compactando um arquivo"
 msgstr[1] "Compactando %1 arquivos"
 
-#: kerfuffle/jobs.cpp:781
+#: kerfuffle/jobs.cpp:784
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "Movendo um arquivo"
 msgstr[1] "Movendo %1 arquivos"
 
-#: kerfuffle/jobs.cpp:818
+#: kerfuffle/jobs.cpp:821
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
@@ -1123,19 +1123,19 @@ msgstr[0] "Copiando um arquivo"
 msgstr[1] "Copiando %1 arquivos"
 
 # A tradução reduzida fica melhor na interface e não prejudica a legibilidade.
-#: kerfuffle/jobs.cpp:849
+#: kerfuffle/jobs.cpp:852
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "Excluindo um arquivo"
 msgstr[1] "Excluindo %1 arquivos"
 
-#: kerfuffle/jobs.cpp:872
+#: kerfuffle/jobs.cpp:875
 #, kde-format
 msgid "Adding comment"
 msgstr "Adicionando comentário"
 
-#: kerfuffle/jobs.cpp:896
+#: kerfuffle/jobs.cpp:899
 #, kde-format
 msgid "Testing archive"
 msgstr "Testando o arquivo"

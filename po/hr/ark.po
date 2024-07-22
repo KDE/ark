@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-25 00:40+0000\n"
+"POT-Creation-Date: 2024-07-22 00:41+0000\n"
 "PO-Revision-Date: 2011-07-22 16:59+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -1121,28 +1121,28 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Učitavam arhivu…"
 
-#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:548 kerfuffle/jobs.cpp:730
-#: kerfuffle/jobs.cpp:782 kerfuffle/jobs.cpp:819 kerfuffle/jobs.cpp:850
-#: kerfuffle/jobs.cpp:896
+#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:551 kerfuffle/jobs.cpp:733
+#: kerfuffle/jobs.cpp:785 kerfuffle/jobs.cpp:822 kerfuffle/jobs.cpp:853
+#: kerfuffle/jobs.cpp:899
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgid "Archive"
 msgstr "Otvori arhivu"
 
-#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:579
+#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:582
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Ark could not extract <filename>%1</filename>."
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Ark ne može otpakirati <filename>%1</filename>."
 
-#: kerfuffle/jobs.cpp:542
+#: kerfuffle/jobs.cpp:545
 #, kde-format
 msgid "Extracting all files"
 msgstr "Otpakiravam sve datoteke"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:544 kerfuffle/jobs.cpp:653
+#: kerfuffle/jobs.cpp:547 kerfuffle/jobs.cpp:656
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1150,21 +1150,21 @@ msgstr[0] "Otpakiravam %1 datoteku"
 msgstr[1] "Otpakiravam %1 datoteke"
 msgstr[2] "Otpakiravam %1 datoteka"
 
-#: kerfuffle/jobs.cpp:549
+#: kerfuffle/jobs.cpp:552
 #, fuzzy, kde-format
 #| msgid "Destination"
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Odredište"
 
-#: kerfuffle/jobs.cpp:553
+#: kerfuffle/jobs.cpp:556
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:729
+#: kerfuffle/jobs.cpp:732
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1174,7 +1174,7 @@ msgstr[0] "Dodajem %1 datoteku"
 msgstr[1] "Dodajem %1 datoteke"
 msgstr[2] "Dodajem %1 datoteka"
 
-#: kerfuffle/jobs.cpp:781
+#: kerfuffle/jobs.cpp:784
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1184,7 +1184,7 @@ msgstr[0] "Dodajem %1 datoteku"
 msgstr[1] "Dodajem %1 datoteke"
 msgstr[2] "Dodajem %1 datoteka"
 
-#: kerfuffle/jobs.cpp:818
+#: kerfuffle/jobs.cpp:821
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1194,7 +1194,7 @@ msgstr[0] "Dodajem %1 datoteku"
 msgstr[1] "Dodajem %1 datoteke"
 msgstr[2] "Dodajem %1 datoteka"
 
-#: kerfuffle/jobs.cpp:849
+#: kerfuffle/jobs.cpp:852
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1202,14 +1202,14 @@ msgstr[0] "Brišem %1 datoteku iz arhive"
 msgstr[1] "Brišem %1 datoteke iz arhive"
 msgstr[2] "Brišem %1 datoteka iz arhive"
 
-#: kerfuffle/jobs.cpp:872
+#: kerfuffle/jobs.cpp:875
 #, fuzzy, kde-format
 #| msgctxt "File comment"
 #| msgid "Comment"
 msgid "Adding comment"
 msgstr "Komentar"
 
-#: kerfuffle/jobs.cpp:896
+#: kerfuffle/jobs.cpp:899
 #, fuzzy, kde-format
 #| msgid "Loading archive..."
 msgid "Testing archive"
