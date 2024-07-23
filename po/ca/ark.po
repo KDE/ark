@@ -2343,9 +2343,3 @@ msgstr "Ha fallat en copiar l'entrada: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Ha fallat en establir les metadades de l'entrada: %1"
-
-#~ msgctxt ""
-#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
-#~ "filename"
-#~ msgid "Here as \"%1\""
-#~ msgstr "Aquí com a «%1»"
