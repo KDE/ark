@@ -12,6 +12,7 @@
         "Name[ca@valencia]": "Extracció d'Ark ací",
         "Name[ca]": "Extracció de l'Ark aquí",
         "Name[cs]": "Rozbalit Arkem sem",
+        "Name[da]": "Pak ud med Ark her",
         "Name[de]": "Ark hierher entpacken",
         "Name[el]": "Ark Εξαγωγή Εδώ",
         "Name[eo]": "Ark-Extrakti ĉi tie",
