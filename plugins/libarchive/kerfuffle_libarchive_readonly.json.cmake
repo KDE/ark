@@ -17,6 +17,7 @@
         "Description[he]": "פתיחה וחילוץ של קובצי DEB,‏ RPM,‏ ISO,‏ AppImage,‏ XAR,‏ CAB ו־EXE",
         "Description[hu]": "DEB-, RPM-, ISO-, AppImage-, XAR- CAB- és EXE-fájlok megnyitása és kibontása",
         "Description[ia]": "Aperir e Extraher files DEB, RPM, ISO, AppImage, XAR, CAB e EXE ",
+        "Description[ie]": "Aperter e extraer files DEB, RPM, ISO, AppImage, XAR, CAB e EXE",
         "Description[is]": "Opna og afþjappa DEB-, RPM-, ISO-, AppImage-, XAR-, CAB- og EXE-skrár",
         "Description[it]": "Apri ed estrai file DEB, RPM, ISO, AppImage, XAR e CAB e file EXE",
         "Description[ka]": "გახსენით და გაშალეთ DEB, RPM, ISO, AppImage, XAR, CAB და EXE ფაილები",
