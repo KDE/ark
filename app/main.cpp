@@ -63,7 +63,6 @@ int main(int argc, char **argv)
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts); // Required for the webengine part.
     QApplication application(argc, argv);
 
-    KCrash::initialize();
 #ifdef WITH_BREEZEICONS_LIB
     BreezeIcons::initIcons();
 #endif
@@ -107,6 +106,7 @@ int main(int argc, char **argv)
 
     KAboutData::setApplicationData(aboutData);
     application.setWindowIcon(QIcon::fromTheme(QStringLiteral("ark"), application.windowIcon()));
+    KCrash::initialize();
 
     QCommandLineParser parser;
 
