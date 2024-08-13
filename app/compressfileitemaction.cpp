@@ -84,6 +84,7 @@ QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent
             fileName = fileName.left(10) + QStringLiteral("…") + fileName.right(10);
         }
 
+        fileName.replace(QStringLiteral("&"), QStringLiteral("&&"));
         name = i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename", "Compress to \"%1\"", fileName);
     }
 
