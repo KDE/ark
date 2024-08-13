@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:ark-1.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-22 00:41+0000\n"
+"POT-Creation-Date: 2024-08-13 00:41+0000\n"
 "PO-Revision-Date: 2004-05-19 11:54+0200\n"
 "Last-Translator: Jañ-Mai Drapier <jdrapier@club-internet.fr>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -159,140 +159,140 @@ msgctxt ""
 msgid "Extract here"
 msgstr "Eztennañ"
 
-#: app/main.cpp:77
+#: app/main.cpp:76
 #, kde-format
 msgid "Ark"
 msgstr "Ark"
 
-#: app/main.cpp:79
+#: app/main.cpp:78
 #, kde-format
 msgid "KDE Archiving tool"
 msgstr "Ostilh merañ an dielloù evit KDE"
 
-#: app/main.cpp:81
+#: app/main.cpp:80
 #, fuzzy, kde-format
 #| msgid "(c) 1997-2003, The Various Ark Developers"
 msgid "(c) 1997-2019, The Ark Developers"
 msgstr "(c) 1997-2003, Diorroerien Ark a bep seurt"
 
-#: app/main.cpp:87
+#: app/main.cpp:86
 #, kde-format
 msgid "Elvis Angelaccio"
 msgstr ""
 
-#: app/main.cpp:87
+#: app/main.cpp:86
 #, kde-format
 msgid "Maintainer"
 msgstr "Ratreer"
 
-#: app/main.cpp:88
+#: app/main.cpp:87
 #, kde-format
 msgid "Ragnar Thomsen"
 msgstr ""
 
-#: app/main.cpp:88
+#: app/main.cpp:87
 #, fuzzy, kde-format
 #| msgid "Maintainer"
 msgid "Maintainer, KF5 port"
 msgstr "Ratreer"
 
-#: app/main.cpp:89
+#: app/main.cpp:88
 #, kde-format
 msgid "Raphael Kubo da Costa"
 msgstr ""
 
-#: app/main.cpp:89 app/main.cpp:90 app/main.cpp:91
+#: app/main.cpp:88 app/main.cpp:89 app/main.cpp:90
 #, fuzzy, kde-format
 #| msgid "Former maintainer"
 msgid "Former Maintainer"
 msgstr "Ratreer diaraok"
 
-#: app/main.cpp:90
+#: app/main.cpp:89
 #, kde-format
 msgid "Harald Hvaal"
 msgstr ""
 
-#: app/main.cpp:91
+#: app/main.cpp:90
 #, kde-format
 msgid "Henrique Pinto"
 msgstr ""
 
-#: app/main.cpp:92
+#: app/main.cpp:91
 #, kde-format
 msgid "Helio Chissini de Castro"
 msgstr ""
 
-#: app/main.cpp:92
+#: app/main.cpp:91
 #, kde-format
 msgid "Former maintainer"
 msgstr "Ratreer diaraok"
 
-#: app/main.cpp:93
+#: app/main.cpp:92
 #, kde-format
 msgid "Georg Robbers"
 msgstr ""
 
-#: app/main.cpp:94
+#: app/main.cpp:93
 #, kde-format
 msgid "Roberto Selbach Teixeira"
 msgstr ""
 
-#: app/main.cpp:95
+#: app/main.cpp:94
 #, kde-format
 msgid "Francois-Xavier Duranceau"
 msgstr ""
 
-#: app/main.cpp:96
+#: app/main.cpp:95
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
 msgstr ""
 
-#: app/main.cpp:97
+#: app/main.cpp:96
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
 msgstr ""
 
-#: app/main.cpp:98
+#: app/main.cpp:97
 #, kde-format
 msgid "Robert Palmbos"
 msgstr ""
 
-#: app/main.cpp:100
+#: app/main.cpp:99
 #, kde-format
 msgid "Vladyslav Batyrenko"
 msgstr ""
 
-#: app/main.cpp:101
+#: app/main.cpp:100
 #, kde-format
 msgid "Advanced editing functionalities"
 msgstr ""
 
-#: app/main.cpp:104
+#: app/main.cpp:103
 #, kde-format
 msgid "Bryce Corkins"
 msgstr ""
 
-#: app/main.cpp:104
+#: app/main.cpp:103
 #, kde-format
 msgid "Icons"
 msgstr "Arlunioù"
 
-#: app/main.cpp:105
+#: app/main.cpp:104
 #, kde-format
 msgid "Liam Smit"
 msgstr ""
 
-#: app/main.cpp:105
+#: app/main.cpp:104
 #, kde-format
 msgid "Ideas, help with the icons"
 msgstr ""
 
-#: app/main.cpp:106
+#: app/main.cpp:105
 #, kde-format
 msgid "Andrew Smith"
 msgstr ""
 
-#: app/main.cpp:106
+#: app/main.cpp:105
 #, kde-format
 msgid "bkisofs code"
 msgstr ""
