@@ -10,6 +10,17 @@ target_sources(arkpart PRIVATE
     archiveview.cpp
     jobtracker.cpp
     overwritedialog.cpp
+
+    factory.h
+    part.h
+    infopanel.h
+    arkviewer.h
+    archivemodel.h
+    archivesortfiltermodel.h
+    archiveview.h
+    jobtracker.h
+    overwritedialog.h
+
     arkpart.qrc
     )
 

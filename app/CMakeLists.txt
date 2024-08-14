@@ -8,11 +8,15 @@ include_directories(${CMAKE_SOURCE_DIR}/part) # for part's interface.h
 add_executable(ark)
 
 target_sources(ark PRIVATE
-    batchextract.cpp
     main.cpp
+    batchextract.cpp
+    batchextract.h
     mainwindow.cpp
+    mainwindow.h
     welcomeview/welcomeview.cpp
+    welcomeview/welcomeview.h
     welcomeview/recentfilesmodel.cpp
+    welcomeview/recentfilesmodel.h
     ark.qrc
    )
 
@@ -102,7 +106,7 @@ target_link_libraries(extracthere kerfuffle KF6::KIOWidgets KF6::KIOFileWidgets)
 # compressfileitemaction plugin
 
 kcoreaddons_add_plugin(compressfileitemaction
-    SOURCES compressfileitemaction.cpp
+    SOURCES compressfileitemaction.cpp compressfileitemaction.h
     INSTALL_NAMESPACE "kf6/kfileitemaction")
 
 target_link_libraries(compressfileitemaction
@@ -113,7 +117,9 @@ target_link_libraries(compressfileitemaction
 # extractfileitemaction plugin
 
 kcoreaddons_add_plugin(extractfileitemaction
-    SOURCES extractfileitemaction.cpp batchextract.cpp ${CMAKE_CURRENT_BINARY_DIR}/ark_debug.cpp
+    SOURCES extractfileitemaction.cpp batchextract.cpp
+    extractfileitemaction.h batchextract.h
+    ${CMAKE_CURRENT_BINARY_DIR}/ark_debug.cpp
     INSTALL_NAMESPACE "kf6/kfileitemaction")
 
 target_link_libraries(extractfileitemaction

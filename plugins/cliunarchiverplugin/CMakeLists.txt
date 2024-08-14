@@ -1,6 +1,6 @@
 ########### next target ###############
 
-set(kerfuffle_cliunarchiver_SRCS cliplugin.cpp)
+set(kerfuffle_cliunarchiver_SRCS cliplugin.cpp cliplugin.h)
 
 ecm_qt_declare_logging_category(kerfuffle_cliunarchiver_SRCS
                                 HEADER ark_debug.h

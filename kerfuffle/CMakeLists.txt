@@ -28,6 +28,34 @@ target_sources(kerfuffle PRIVATE
     options.cpp
     qstringtokenizer.cpp
     metadatabackup.cpp
+
+
+    archiveformat.h
+    archive_kerfuffle.h
+    archiveinterface.h
+    extractionsettingspage.h
+    generalsettingspage.h
+    previewsettingspage.h
+    settingsdialog.h
+    settingspage.h
+    jobs.h
+    adddialog.h
+    compressionoptionswidget.h
+    createdialog.h
+    extractiondialog.h
+    propertiesdialog.h
+    queries.h
+    addtoarchive.h
+    cliinterface.h
+    cliproperties.h
+    mimetypes.h
+    plugin.h
+    pluginmanager.h
+    pluginsettingspage.h
+    archiveentry.h
+    options.h
+    qstringtokenizer.h
+    metadatabackup.h
 )
 
 kconfig_add_kcfg_files(kerfuffle settings.kcfgc GENERATE_MOC)
