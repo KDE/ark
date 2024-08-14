@@ -55,7 +55,7 @@ public:
     }
 
 private:
-    MainWindow *m_window;
+    MainWindow *const m_window;
 };
 
 int main(int argc, char **argv)
