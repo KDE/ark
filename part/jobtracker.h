@@ -46,7 +46,7 @@ private Q_SLOTS:
     void resetUi();
 
 private:
-    JobTrackerWidget *m_ui;
+    JobTrackerWidget *m_ui = nullptr;
     QSet<KJob *> m_jobs;
 };
 

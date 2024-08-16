@@ -52,7 +52,7 @@ private:
 
     QPixmap getPixmap(const QString &name);
 
-    ArchiveModel *m_model;
+    ArchiveModel *const m_model;
     QString m_prettyFileName;
 };
 
