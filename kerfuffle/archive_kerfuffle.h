@@ -203,7 +203,7 @@ private:
      * @return A valid archive if the plugin could be loaded, an invalid one otherwise (with the FailedPlugin error set).
      */
     static Archive *create(const QString &fileName, Plugin *plugin, QObject *parent = nullptr);
-    ReadOnlyArchiveInterface *m_iface;
+    ReadOnlyArchiveInterface *m_iface = nullptr;
     bool m_isReadOnly;
     bool m_isSingleFolder;
     bool m_isMultiVolume;

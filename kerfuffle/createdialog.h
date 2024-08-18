@@ -67,7 +67,7 @@ private:
     void loadConfiguration();
 
     class CreateDialogUI *m_ui;
-    QVBoxLayout *m_vlayout;
+    QVBoxLayout *m_vlayout = nullptr;
     KConfigGroup m_config;
     QStringList m_supportedMimeTypes;
     PluginManager m_pluginManger;

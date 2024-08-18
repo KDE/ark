@@ -67,8 +67,8 @@ Q_SIGNALS:
     void userQuery(Kerfuffle::Query *);
 
 private:
-    Archive *m_archive;
-    ReadOnlyArchiveInterface *m_archiveInterface;
+    Archive *m_archive = nullptr;
+    ReadOnlyArchiveInterface *m_archiveInterface = nullptr;
     QElapsedTimer jobTimer;
 
     class Private;
@@ -159,7 +159,7 @@ private:
 
     Step m_step = Loading;
     ExtractJob *m_extractJob = nullptr;
-    LoadJob *m_loadJob;
+    LoadJob *m_loadJob = nullptr;
     QString m_destination;
     bool m_autoSubfolder;
     bool m_preservePaths;
@@ -253,8 +253,8 @@ public Q_SLOTS:
 private:
     QString extractionDir() const;
 
-    Archive::Entry *m_entry;
-    QTemporaryDir *m_tmpExtractDir;
+    Archive::Entry *m_entry = nullptr;
+    QTemporaryDir *m_tmpExtractDir = nullptr;
     bool m_passwordProtectedHint;
 };
 
@@ -330,7 +330,7 @@ protected Q_SLOTS:
 private:
     int m_finishedSignalsCount;
     const QList<Archive::Entry *> m_entries;
-    Archive::Entry *m_destination;
+    Archive::Entry *m_destination = nullptr;
     CompressionOptions m_options;
 };
 

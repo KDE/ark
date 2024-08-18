@@ -68,7 +68,7 @@ private:
     void detectFileName();
 
     CompressionOptions m_options;
-    CreateJob *m_createJob;
+    CreateJob *m_createJob = nullptr;
     QString m_filename;
     QString m_strippedPath;
     QString m_autoFilenameSuffix;

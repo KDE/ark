@@ -56,7 +56,7 @@ private:
     void loadSettings();
 
     class ExtractionDialogUI *m_ui;
-    KFileWidget *fileWidget;
+    KFileWidget *fileWidget = nullptr;
 };
 }
 

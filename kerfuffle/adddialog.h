@@ -28,11 +28,11 @@ public:
     ~AddDialog() override;
     QStringList selectedFiles() const;
     CompressionOptions compressionOptions() const;
-    QDialog *optionsDialog;
+    QDialog *optionsDialog = nullptr;
 
 private:
-    KFileWidget *m_fileWidget;
-    QMimeType m_mimeType;
+    KFileWidget *m_fileWidget = nullptr;
+    const QMimeType m_mimeType;
     CompressionOptions m_compOptions;
 
 public Q_SLOTS:
