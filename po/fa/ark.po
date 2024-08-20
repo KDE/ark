@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-13 00:41+0000\n"
+"POT-Creation-Date: 2024-08-20 00:43+0000\n"
 "PO-Revision-Date: 2007-08-07 20:07+0330\n"
 "Last-Translator: Nazanin Kazemi <kazemi@itland.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -111,7 +111,7 @@ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
 msgstr "باز کردن بایگانی"
 
-#: app/compressfileitemaction.cpp:87
+#: app/compressfileitemaction.cpp:88
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt ""

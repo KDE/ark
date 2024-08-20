@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-13 00:41+0000\n"
-"PO-Revision-Date: 2024-02-09 20:08+0100\n"
+"POT-Creation-Date: 2024-08-20 00:43+0000\n"
+"PO-Revision-Date: 2024-08-19 21:07+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -115,14 +115,12 @@ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
 msgstr "다음으로 압축하기..."
 
-#: app/compressfileitemaction.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#: app/compressfileitemaction.cpp:88
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "다음으로 압축하기..."
+msgstr "\"%1\"(으)로 압축하기"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -2128,17 +2126,14 @@ msgid "unknown"
 msgstr "알 수 없음"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"헤더가 암호화되지 않은 암호로 보호된 압축 파일은 현재 지원하지 않습니다."
+"이 압축 파일이 손상되었거나 현재 지원하지 않는 헤더 암호화가 적용되어 있습니"
+"다."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2150,7 +2145,7 @@ msgstr "치명적 오류, 압축 해제를 중단합니다."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
-msgstr ""
+msgstr "암호화된 7-zip 항목 압축 풀기는 현재 지원하지 않습니다."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
