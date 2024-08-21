@@ -19,6 +19,7 @@
         "Description[is]": "Opna og afþjappa DEB-, RPM-, ISO-, AppImage-, XAR-, CAB- og EXE-skrár",
         "Description[it]": "Apri ed estrai file DEB, RPM, ISO, AppImage, XAR e CAB e file EXE",
         "Description[ka]": "გახსენით და გაშალეთ DEB, RPM, ISO, AppImage, XAR, CAB და EXE ფაილები",
+        "Description[ko]": "DEB, RPM, ISO, AppImage, XAR, CAB, EXE 파일 열고 풀기",
         "Description[lv]": "Atver un atspiež DEB, RPM, ISO, „AppImage“, XAR, CAB un EXE datnes",
         "Description[nl]": "Open en pak uit DEB, RPM, ISO, AppImage, XAR, CAB en EXE bestanden",
         "Description[nn]": "Opna og pakk ut DEB-, RPM-, ISO-, AppImage-, XAR-, CAB- og EXE-filer",
