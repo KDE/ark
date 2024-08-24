@@ -25,7 +25,7 @@ public:
 
 protected Q_SLOTS:
     void init();
-    void slotNewEntry(Archive::Entry *entry);
+    void slotNewEntry(Kerfuffle::Archive::Entry *entry);
 
 private Q_SLOTS:
     // ListJob-related tests

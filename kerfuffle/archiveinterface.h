@@ -175,7 +175,7 @@ Q_SIGNALS:
      */
     void cancelled();
     void error(const QString &message, const QString &details = QString(), int errorCode = KJob::UserDefinedError);
-    void entry(Archive::Entry *archiveEntry);
+    void entry(Kerfuffle::Archive::Entry *archiveEntry);
     void progress(double progress);
     void info(const QString &info);
     void finished(bool result);
@@ -213,7 +213,7 @@ private:
     qulonglong m_unpackedSize;
 
 private Q_SLOTS:
-    void onEntry(Archive::Entry *archiveEntry);
+    void onEntry(Kerfuffle::Archive::Entry *archiveEntry);
 };
 
 class KERFUFFLE_EXPORT ReadWriteArchiveInterface : public ReadOnlyArchiveInterface

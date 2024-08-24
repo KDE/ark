@@ -131,12 +131,12 @@ Q_SIGNALS:
     void loadingStarted();
     void loadingFinished(KJob *);
     void error(const QString &error, const QString &details);
-    void droppedFiles(const QStringList &files, const Archive::Entry *);
+    void droppedFiles(const QStringList &files, const Kerfuffle::Archive::Entry *);
     void messageWidget(KMessageWidget::MessageType type, const QString &msg);
 
 private Q_SLOTS:
-    void slotNewEntry(Archive::Entry *entry);
-    void slotListEntry(Archive::Entry *entry);
+    void slotNewEntry(Kerfuffle::Archive::Entry *entry);
+    void slotListEntry(Kerfuffle::Archive::Entry *entry);
     void slotLoadingFinished(KJob *job);
     void slotEntryRemoved(const QString &path);
     void slotUserQuery(Kerfuffle::Query *query);

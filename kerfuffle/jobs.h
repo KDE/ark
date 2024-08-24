@@ -55,7 +55,7 @@ protected Q_SLOTS:
     virtual void onCancelled();
     virtual void onError(const QString &message, const QString &details, int errorCode);
     virtual void onInfo(const QString &info);
-    virtual void onEntry(Archive::Entry *entry);
+    virtual void onEntry(Kerfuffle::Archive::Entry *entry);
     virtual void onProgress(double progress);
     virtual void onEntryRemoved(const QString &path);
     virtual void onFinished(bool result);
@@ -63,7 +63,7 @@ protected Q_SLOTS:
 
 Q_SIGNALS:
     void entryRemoved(const QString &entry);
-    void newEntry(Archive::Entry *);
+    void newEntry(Kerfuffle::Archive::Entry *);
     void userQuery(Kerfuffle::Query *);
 
 private:
@@ -123,7 +123,7 @@ private:
     qlonglong m_filesCount;
 
 private Q_SLOTS:
-    void onNewEntry(const Archive::Entry *);
+    void onNewEntry(const Kerfuffle::Archive::Entry *);
 };
 
 /**
