@@ -61,6 +61,16 @@ void MimeTypeTest::testMimeTypeDetection_data()
     QTest::newRow("tar with special char in the extension") << QStringLiteral("foo.tar~1.gz") << compressedGzipTarMime;
     QTest::newRow("another tar with special char in the extension") << QStringLiteral("foo.ta4r.gz") << compressedGzipTarMime;
     QTest::newRow("tar downloaded by wget") << QFINDTESTDATA("data/wget-download.tar.gz.1") << compressedGzipTarMime;
+    QTest::newRow("tar.gz with ascii chars after the extension") << QStringLiteral("foo.tar.gz_copy") << compressedGzipTarMime;
+    QTest::newRow("tar.bz2 with ascii chars after the extension") << QStringLiteral("foo.tar.bz2_copy") << compressedBzip2TarMime;
+    QTest::newRow("tar.xz with ascii chars after the extension") << QStringLiteral("foo.tar.xz_copy") << compressedXzTarMime;
+    QTest::newRow("tar.lzma with ascii chars after the extension") << QStringLiteral("foo.tar.lzma_copy") << compressedLzmaTarMime;
+    QTest::newRow("tar.Z with ascii chars after the extension") << QStringLiteral("foo.tar.Z_copy") << compressedZTarMime;
+    QTest::newRow("tar.lz with ascii chars after the extension") << QStringLiteral("foo.tar.lz_copy") << compressedLzipTarMime;
+    QTest::newRow("tar.lzo with ascii chars after the extension") << QStringLiteral("foo.tar.lzo_copy") << compressedLzopTarMime;
+    QTest::newRow("tar.lrz with ascii chars after the extension") << QStringLiteral("foo.tar.lrz_copy") << compressedLrzipTarMime;
+    QTest::newRow("tar.lz4 with ascii chars after the extension") << QStringLiteral("foo.tar.lz4_copy") << compressedLz4TarMime;
+    QTest::newRow("tar.gz with ascii chars + spaces after the extension") << QStringLiteral("foo. a tar. gz_copy") << compressedGzipTarMime;
 
     // This ISO file may be detected-by-content as text/plain. See https://bugs.freedesktop.org/show_bug.cgi?id=80877
     QTest::newRow("archlinux truncated ISO") << QFINDTESTDATA("data/archlinux-2015.09.01-dual_truncated.iso") << isoMimeType;

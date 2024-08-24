@@ -6,6 +6,7 @@
 
 #include "mimetypes.h"
 #include "ark_debug.h"
+#include "pluginmanager.h"
 
 #include <QFileInfo>
 #include <QMimeDatabase>
@@ -19,47 +20,48 @@ QMimeType determineMimeType(const QString &filename, MimePreference mp)
     QMimeDatabase db;
 
     QFileInfo fileinfo(filename);
-    QString inputFile = filename;
 
     // #328815: since detection-by-content does not work for compressed tar archives (see below why)
-    // we cannot rely on it when the archive extension is wrong; we need to validate by hand.
-    if (fileinfo.completeSuffix().toLower().remove(QRegularExpression(QStringLiteral("[^a-z\\.]"))).contains(QLatin1String("tar."))) {
-        inputFile.chop(fileinfo.completeSuffix().length());
-        QString cleanExtension(fileinfo.completeSuffix().toLower());
-
-        // tar.bz2 and tar.lz4 need special treatment since they contain numbers.
-        bool isBZ2 = false;
-        bool isLZ4 = false;
-        if (fileinfo.completeSuffix().contains(QLatin1String("bz2"), Qt::CaseInsensitive)) {
-            cleanExtension.remove(QStringLiteral("bz2"));
-            isBZ2 = true;
+    // we cannot rely on it when the archive extension is wrong; we need to validate by hand:
+    // we look for the best match between the filename's complete suffix and all the suffixes
+    // of the mimetypes supported by the libarchive plugin.
+    QString validatedFilename = filename;
+    static QRegularExpression nonAlphaRegex(QStringLiteral("[^a-z\\.]"));
+    const QString originalSuffix(fileinfo.completeSuffix().toLower());
+    QString strippedSuffix = originalSuffix;
+    strippedSuffix.remove(nonAlphaRegex);
+    if (strippedSuffix.contains(QLatin1String("tar."))) {
+        Kerfuffle::PluginManager pluginManager;
+        const Plugin *libarchivePlugin = pluginManager.pluginById(QLatin1String("kerfuffle_libarchive"));
+        if (libarchivePlugin) {
+            QString bestSuffixMatch;
+            const QStringList libarchiveMimeTypes = libarchivePlugin->metaData().mimeTypes();
+            for (const QString &mimeName : libarchiveMimeTypes) {
+                const QStringList mimeSuffixes = db.mimeTypeForName(mimeName).suffixes();
+                for (const QString &suffix : mimeSuffixes) {
+                    const QString candidateSuffix = suffix.toLower();
+                    QString tempSuffixMatch;
+                    if (originalSuffix.contains(candidateSuffix)) {
+                        tempSuffixMatch = candidateSuffix;
+                    } else if (strippedSuffix.contains(candidateSuffix)) {
+                        tempSuffixMatch = candidateSuffix;
+                    }
+                    // We are only interested in the longest match
+                    // (e.g. foo.tar.lz4 matches 'tar', 'tar.lz' and 'tar.lz4' suffixes)
+                    if (tempSuffixMatch.length() > bestSuffixMatch.length()) {
+                        bestSuffixMatch = tempSuffixMatch;
+                    }
+                }
+            }
+            if (!bestSuffixMatch.isEmpty()) {
+                validatedFilename.chop(originalSuffix.length());
+                validatedFilename += bestSuffixMatch;
+                qCDebug(ARK_LOG) << "Validated filename of compressed tar" << filename << "into filename" << validatedFilename;
+            }
         }
-        if (fileinfo.completeSuffix().contains(QLatin1String("lz4"), Qt::CaseInsensitive)) {
-            cleanExtension.remove(QStringLiteral("lz4"));
-            isLZ4 = true;
-        }
-
-        // We remove non-alpha chars from the filename extension, but not periods.
-        // If the filename is e.g. "foo.tar.gz.1", we get the "foo.tar.gz." string,
-        // so we need to manually drop the last period character from it.
-        cleanExtension.remove(QRegularExpression(QStringLiteral("[^a-z\\.]")));
-        if (cleanExtension.endsWith(QLatin1Char('.'))) {
-            cleanExtension.chop(1);
-        }
-
-        // Re-add extension for tar.bz2 and tar.lz4.
-        if (isBZ2) {
-            cleanExtension.append(QStringLiteral(".bz2"));
-        }
-        if (isLZ4) {
-            cleanExtension.append(QStringLiteral(".lz4"));
-        }
-
-        inputFile += cleanExtension;
-        qCDebug(ARK_LOG) << "Validated filename of compressed tar" << filename << "into filename" << inputFile;
     }
 
-    QMimeType mimeFromExtension = db.mimeTypeForFile(inputFile, QMimeDatabase::MatchExtension);
+    QMimeType mimeFromExtension = db.mimeTypeForFile(validatedFilename, QMimeDatabase::MatchExtension);
     QMimeType mimeFromContent = db.mimeTypeForFile(filename, QMimeDatabase::MatchContent);
 
     // mimeFromContent will be "application/octet-stream" when file is
