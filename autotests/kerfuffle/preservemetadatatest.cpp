@@ -20,12 +20,6 @@
 
 using namespace Kerfuffle;
 
-const QString TEST_DATA_DIR = QStringLiteral("data");
-const QString ARCHIVE_NAME = QStringLiteral("archive-with-metadata.zip");
-const QStringList EXPECTED_TAGS = QStringList() << QStringLiteral("testTag");
-const int EXPECTED_RATING = 10;
-const QString EXPECTED_COMMENT = QStringLiteral("This is a comment");
-
 class PreserveMetadataTest : public AbstractAddTest
 {
     Q_OBJECT
@@ -45,6 +39,12 @@ private:
     QString archivePath;
     Archive *archive;
     QTemporaryDir temporaryDir;
+
+    const QString TEST_DATA_DIR = QStringLiteral("data");
+    const QString ARCHIVE_NAME = QStringLiteral("archive-with-metadata.zip");
+    const QStringList EXPECTED_TAGS = QStringList() << QStringLiteral("testTag");
+    const int EXPECTED_RATING = 10;
+    const QString EXPECTED_COMMENT = QStringLiteral("This is a comment");
 
     void setMetadata();
     void verifyMetadata();
