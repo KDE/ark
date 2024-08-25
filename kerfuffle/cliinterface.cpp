@@ -38,9 +38,6 @@ CliInterface::CliInterface(QObject *parent, const QVariantList &args)
     // because this interface uses the event loop
     setWaitForFinishedSignal(true);
 
-    if (QMetaType::type("QProcess::ExitStatus") == 0) {
-        qRegisterMetaType<QProcess::ExitStatus>("QProcess::ExitStatus");
-    }
     m_cliProps = new CliProperties(this, m_metaData, mimetype());
 }
 
