@@ -27,6 +27,17 @@ PluginManager::PluginManager(QObject *parent)
     loadPlugins();
 }
 
+Plugin *PluginManager::pluginById(const QString &pluginId) const
+{
+    const auto plugins = availablePlugins();
+    for (Plugin *plugin : plugins) {
+        if (plugin->metaData().pluginId() == pluginId) {
+            return plugin;
+        }
+    }
+    return nullptr;
+}
+
 QList<Plugin *> PluginManager::installedPlugins() const
 {
     return m_plugins;

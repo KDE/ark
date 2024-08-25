@@ -30,14 +30,7 @@ using namespace Kerfuffle;
 
 void CliRarTest::initTestCase()
 {
-    m_plugin = new Plugin(this);
-    const auto plugins = m_pluginManger.availablePlugins();
-    for (Plugin *plugin : plugins) {
-        if (plugin->metaData().pluginId() == QLatin1String("kerfuffle_clirar")) {
-            m_plugin = plugin;
-            return;
-        }
-    }
+    m_plugin = m_pluginManger.pluginById(QLatin1String("kerfuffle_clirar"));
 }
 
 void CliRarTest::testArchive_data()
@@ -62,7 +55,7 @@ void CliRarTest::testArchive_data()
 
 void CliRarTest::testArchive()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -209,6 +202,10 @@ void CliRarTest::testList_data()
 
 void CliRarTest::testList()
 {
+    if (!m_plugin || !m_plugin->isValid()) {
+        QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
+    }
+
     qRegisterMetaType<Archive::Entry *>("Archive::Entry*");
     CliPlugin *rarPlugin = new CliPlugin(this, {QStringLiteral("dummy.rar"), QVariant::fromValue(m_plugin->metaData())});
     QSignalSpy signalSpyEntry(rarPlugin, &CliPlugin::entry);
@@ -293,7 +290,7 @@ void CliRarTest::testListArgs_data()
 
 void CliRarTest::testListArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -334,7 +331,7 @@ void CliRarTest::testAddArgs_data()
 
 void CliRarTest::testAddArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -430,7 +427,7 @@ void CliRarTest::testExtractArgs_data()
 
 void CliRarTest::testExtractArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("clirar plugin not available. Skipping test.", SkipSingle);
     }
 

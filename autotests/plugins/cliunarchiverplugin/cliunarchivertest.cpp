@@ -20,14 +20,7 @@ using namespace Kerfuffle;
 
 void CliUnarchiverTest::initTestCase()
 {
-    m_plugin = new Plugin(this);
-    const auto plugins = m_pluginManger.availablePlugins();
-    for (Plugin *plugin : plugins) {
-        if (plugin->metaData().pluginId() == QLatin1String("kerfuffle_cliunarchiver")) {
-            m_plugin = plugin;
-            return;
-        }
-    }
+    m_plugin = m_pluginManger.pluginById(QLatin1String("kerfuffle_cliunarchiver"));
 }
 
 void CliUnarchiverTest::testArchive_data()
@@ -66,7 +59,7 @@ void CliUnarchiverTest::testArchive_data()
 
 void CliUnarchiverTest::testArchive()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cliunarchiver plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -125,6 +118,10 @@ void CliUnarchiverTest::testList_data()
 
 void CliUnarchiverTest::testList()
 {
+    if (!m_plugin || !m_plugin->isValid()) {
+        QSKIP("cliunarchiver plugin not available. Skipping test.", SkipSingle);
+    }
+
     qRegisterMetaType<Archive::Entry *>("Archive::Entry*");
     CliPlugin *plugin = new CliPlugin(this, {QStringLiteral("dummy.rar"), QVariant::fromValue(m_plugin->metaData())});
     QSignalSpy signalSpy(plugin, &CliPlugin::entry);
@@ -183,7 +180,7 @@ void CliUnarchiverTest::testListArgs_data()
 
 void CliUnarchiverTest::testListArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cliunarchiver plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -252,7 +249,7 @@ void CliUnarchiverTest::testExtraction_data()
 // if we ever ends up using a temp dir for any cliplugin, instead of only for cliunarchiver.
 void CliUnarchiverTest::testExtraction()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cliunarchiver plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -330,7 +327,7 @@ void CliUnarchiverTest::testExtractArgs_data()
 
 void CliUnarchiverTest::testExtractArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cliunarchiver plugin not available. Skipping test.", SkipSingle);
     }
 

@@ -15,14 +15,7 @@ using namespace Kerfuffle;
 
 void CliZipTest::initTestCase()
 {
-    m_plugin = new Plugin(this);
-    const auto plugins = m_pluginManger.availablePlugins();
-    for (Plugin *plugin : plugins) {
-        if (plugin->metaData().pluginId() == QLatin1String("kerfuffle_clizip")) {
-            m_plugin = plugin;
-            return;
-        }
-    }
+    m_plugin = m_pluginManger.pluginById(QLatin1String("kerfuffle_clizip"));
 }
 
 void CliZipTest::testListArgs_data()
@@ -45,7 +38,7 @@ void CliZipTest::testListArgs_data()
 
 void CliZipTest::testListArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("clizip plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -82,7 +75,7 @@ void CliZipTest::testAddArgs_data()
 
 void CliZipTest::testAddArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("clizip plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -165,7 +158,7 @@ void CliZipTest::testExtractArgs_data()
 
 void CliZipTest::testExtractArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("clizip plugin not available. Skipping test.", SkipSingle);
     }
 

@@ -15,14 +15,7 @@ using namespace Kerfuffle;
 
 void CliArjTest::initTestCase()
 {
-    m_plugin = new Plugin(this);
-    const auto plugins = m_pluginManger.availablePlugins();
-    for (Plugin *plugin : plugins) {
-        if (plugin->metaData().pluginId() == QLatin1String("kerfuffle_cliarj")) {
-            m_plugin = plugin;
-            return;
-        }
-    }
+    m_plugin = m_pluginManger.pluginById(QLatin1String("kerfuffle_cliarj"));
 }
 
 void CliArjTest::testListArgs_data()
@@ -39,7 +32,7 @@ void CliArjTest::testListArgs_data()
 
 void CliArjTest::testListArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cliarj plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -76,7 +69,7 @@ void CliArjTest::testAddArgs_data()
 
 void CliArjTest::testAddArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cliarj plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -165,7 +158,7 @@ void CliArjTest::testExtractArgs_data()
 
 void CliArjTest::testExtractArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cliarj plugin not available. Skipping test.", SkipSingle);
     }
 

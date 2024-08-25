@@ -21,14 +21,7 @@ using namespace Kerfuffle;
 
 void Cli7zTest::initTestCase()
 {
-    m_plugin = new Plugin(this);
-    const auto plugins = m_pluginManger.availablePlugins();
-    for (Plugin *plugin : plugins) {
-        if (plugin->metaData().pluginId() == QLatin1String("kerfuffle_cli7z")) {
-            m_plugin = plugin;
-            return;
-        }
-    }
+    m_plugin = m_pluginManger.pluginById(QLatin1String("kerfuffle_cli7z"));
 }
 
 void Cli7zTest::testArchive_data()
@@ -53,7 +46,7 @@ void Cli7zTest::testArchive_data()
 
 void Cli7zTest::testArchive()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cli7z plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -160,6 +153,9 @@ void Cli7zTest::testList_data()
 
 void Cli7zTest::testList()
 {
+    if (!m_plugin || !m_plugin->isValid()) {
+        QSKIP("cli7z plugin not available. Skipping test.", SkipSingle);
+    }
     qRegisterMetaType<Archive::Entry *>("Archive::Entry*");
     CliPlugin *plugin = new CliPlugin(this, {QStringLiteral("dummy.7z"), QVariant::fromValue(m_plugin->metaData())});
     QSignalSpy signalSpyEntry(plugin, &CliPlugin::entry);
@@ -249,7 +245,7 @@ void Cli7zTest::testListArgs_data()
 
 void Cli7zTest::testListArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cli7z plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -319,7 +315,7 @@ void Cli7zTest::testAddArgs_data()
 
 void Cli7zTest::testAddArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cli7z plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -410,7 +406,7 @@ void Cli7zTest::testExtractArgs_data()
 
 void Cli7zTest::testExtractArgs()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cli7z plugin not available. Skipping test.", SkipSingle);
     }
 
@@ -437,7 +433,7 @@ void Cli7zTest::testExtractArgs()
 
 void Cli7zTest::testRDAAttributes()
 {
-    if (!m_plugin->isValid()) {
+    if (!m_plugin || !m_plugin->isValid()) {
         QSKIP("cli7z plugin not available. Skipping test.", SkipSingle);
     }
 

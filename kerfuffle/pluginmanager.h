@@ -28,6 +28,13 @@ public:
     explicit PluginManager(QObject *parent = nullptr);
 
     /**
+     * @return The plugin identified by @p pluginId.
+     * The plugin is searched among all the available plugins.
+     * @see availablePlugins
+     */
+    Plugin *pluginById(const QString &pluginId) const;
+
+    /**
      * @return The list of all installed plugins.
      * An installed plugin is not necessarily available to the app.
      * The user could have disabled it from the settings, or the needed executables could not be found.
