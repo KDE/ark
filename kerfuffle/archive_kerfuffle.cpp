@@ -203,7 +203,8 @@ QString Archive::completeBaseName() const
 
         // For multivolume rar's we want to remove the ".partNNN" suffix.
     } else if (suffix.toUpper() == QLatin1String("RAR")) {
-        base.remove(QRegularExpression(QStringLiteral("\\.part[0-9]{1,3}$")));
+        static const QRegularExpression multiVolSuffixRegex(QStringLiteral("\\.part[0-9]{1,3}$"));
+        base.remove(multiVolSuffixRegex);
     }
 
     return base;

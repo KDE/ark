@@ -133,8 +133,8 @@ bool CliPlugin::readListLine(const QString &line)
         return false;
     }
 
-    const QRegularExpression rxVersionLine(QStringLiteral("^p7zip Version ([\\d\\.]+) .*$"));
-    const QRegularExpression rxVersionLine7z(QStringLiteral("^7-Zip(?: \\(\\w\\))? ([\\d\\.]+) .*$"));
+    static const QRegularExpression rxVersionLine(QStringLiteral("^p7zip Version ([\\d\\.]+) .*$"));
+    static const QRegularExpression rxVersionLine7z(QStringLiteral("^7-Zip(?: \\(\\w\\))? ([\\d\\.]+) .*$"));
     QRegularExpressionMatch matchVersion;
 
     switch (m_parseState) {
@@ -325,9 +325,9 @@ bool CliPlugin::readDeleteLine(const QString &line)
 void CliPlugin::handleMethods(const QStringList &methods)
 {
     for (const QString &method : methods) {
-        QRegularExpression rxEncMethod(QStringLiteral("^(7zAES|AES-128|AES-192|AES-256|ZipCrypto)$"));
+        static const QRegularExpression rxEncMethod(QStringLiteral("^(7zAES|AES-128|AES-192|AES-256|ZipCrypto)$"));
         if (rxEncMethod.match(method).hasMatch()) {
-            QRegularExpression rxAESMethods(QStringLiteral("^(AES-128|AES-192|AES-256)$"));
+            static const QRegularExpression rxAESMethods(QStringLiteral("^(AES-128|AES-192|AES-256)$"));
             if (rxAESMethods.match(method).hasMatch()) {
                 // Remove dash for AES methods.
                 Q_EMIT encryptionMethodFound(QString(method).remove(QLatin1Char('-')));

@@ -81,7 +81,7 @@ void CliPlugin::setupCliProperties()
 
 bool CliPlugin::readListLine(const QString &line)
 {
-    const QRegularExpression rx(QStringLiteral("Failed! \\((.+)\\)$"));
+    static const QRegularExpression rx(QStringLiteral("Failed! \\((.+)\\)$"));
 
     if (rx.match(line).hasMatch()) {
         Q_EMIT error(i18n("Listing the archive failed."));
@@ -93,7 +93,7 @@ bool CliPlugin::readListLine(const QString &line)
 
 bool CliPlugin::readExtractLine(const QString &line)
 {
-    const QRegularExpression rx(QStringLiteral("Failed! \\((.+)\\)$"));
+    static const QRegularExpression rx(QStringLiteral("Failed! \\((.+)\\)$"));
 
     if (rx.match(line).hasMatch()) {
         Q_EMIT error(i18n("Extraction failed."));

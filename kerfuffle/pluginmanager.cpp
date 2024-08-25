@@ -271,7 +271,7 @@ bool PluginManager::libarchiveHasLzo()
     dependencyTool.start();
     dependencyTool.waitForFinished();
     const QString output = QString::fromUtf8(dependencyTool.readAllStandardOutput());
-    QRegularExpression regex(QStringLiteral("/.*/libarchive.so|/.*/libarchive.*.dylib"));
+    static const QRegularExpression regex(QStringLiteral("/.*/libarchive.so|/.*/libarchive.*.dylib"));
     if (!regex.match(output).hasMatch()) {
         return false;
     }

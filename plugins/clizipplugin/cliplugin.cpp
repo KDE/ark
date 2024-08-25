@@ -112,9 +112,9 @@ bool CliPlugin::readListLine(const QString &line)
         QStringLiteral("^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\S+)\\s+(\\d{8}).(\\d{6})\\s+(.+)$"));
 
     // RegExp to identify the line preceding comments.
-    const QRegularExpression commentPattern(QStringLiteral("^Archive:  .*$"));
+    static const QRegularExpression commentPattern(QStringLiteral("^Archive:  .*$"));
     // RegExp to identify the line following comments.
-    const QRegularExpression commentEndPattern(QStringLiteral("^Zip file size: .*$"));
+    static const QRegularExpression commentEndPattern(QStringLiteral("^Zip file size: .*$"));
 
     switch (m_parseState) {
     case ParseStateHeader:
@@ -172,9 +172,9 @@ bool CliPlugin::readListLine(const QString &line)
 
 bool CliPlugin::readExtractLine(const QString &line)
 {
-    const QRegularExpression rxUnsupCompMethod(QStringLiteral("unsupported compression method (\\d+)"));
-    const QRegularExpression rxUnsupEncMethod(QStringLiteral("need PK compat. v\\d\\.\\d \\(can do v\\d\\.\\d\\)"));
-    const QRegularExpression rxBadCRC(QStringLiteral("bad CRC"));
+    static const QRegularExpression rxUnsupCompMethod(QStringLiteral("unsupported compression method (\\d+)"));
+    static const QRegularExpression rxUnsupEncMethod(QStringLiteral("need PK compat. v\\d\\.\\d \\(can do v\\d\\.\\d\\)"));
+    static const QRegularExpression rxBadCRC(QStringLiteral("bad CRC"));
 
     QRegularExpressionMatch unsupCompMethodMatch = rxUnsupCompMethod.match(line);
     if (unsupCompMethodMatch.hasMatch()) {

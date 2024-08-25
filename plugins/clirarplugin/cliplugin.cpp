@@ -117,7 +117,7 @@ bool CliPlugin::readListLine(const QString &line)
 
     // Parse the title line, which contains the version of unrar.
     if (m_parseState == ParseStateTitle) {
-        QRegularExpression rxVersionLine(QStringLiteral("^UNRAR (\\d+\\.\\d+)( beta \\d)? .*$"));
+        static const QRegularExpression rxVersionLine(QStringLiteral("^UNRAR (\\d+\\.\\d+)( beta \\d)? .*$"));
         QRegularExpressionMatch matchVersion = rxVersionLine.match(line);
 
         if (matchVersion.hasMatch()) {
@@ -296,12 +296,12 @@ bool CliPlugin::handleUnrar4Line(const QString &line)
 
     // RegExp matching end of comment field.
     // FIXME: Comment itself could also contain the Archive path string here.
-    QRegularExpression rxCommentEnd(QStringLiteral("^(Solid archive|Archive|Volume) .+$"));
+    static const QRegularExpression rxCommentEnd(QStringLiteral("^(Solid archive|Archive|Volume) .+$"));
 
     // Three types of subHeaders can be displayed for unrar 3 and 4.
     // STM has 4 lines, RR has 3, and CMT has lines corresponding to
     // length of comment field +3. We ignore the subheaders.
-    QRegularExpression rxSubHeader(QStringLiteral("^Data header type: (CMT|STM|RR)$"));
+    static const QRegularExpression rxSubHeader(QStringLiteral("^Data header type: (CMT|STM|RR)$"));
     QRegularExpressionMatch matchSubHeader;
 
     switch (m_parseState) {
