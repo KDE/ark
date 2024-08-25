@@ -5,7 +5,6 @@
 */
 
 #include "plugin.h"
-#include "ark_debug.h"
 
 #include <QJsonArray>
 #include <QStandardPaths>
@@ -21,7 +20,7 @@ Plugin::Plugin(QObject *parent, const KPluginMetaData &metaData)
 
 int Plugin::priority() const
 {
-    const int priority = m_metaData.rawData()[QStringLiteral("X-KDE-Priority")].toInt();
+    const int priority = m_metaData.rawData().value(QStringLiteral("X-KDE-Priority")).toInt();
     return (priority > 0 ? priority : 0);
 }
 
@@ -38,7 +37,7 @@ void Plugin::setEnabled(bool enabled)
 
 bool Plugin::isReadWrite() const
 {
-    const bool isDeclaredReadWrite = m_metaData.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWrite")].toBool();
+    const bool isDeclaredReadWrite = m_metaData.rawData().value(QStringLiteral("X-KDE-Kerfuffle-ReadWrite")).toBool();
     return isDeclaredReadWrite && findExecutables(readWriteExecutables());
 }
 
@@ -46,7 +45,7 @@ QStringList Plugin::readOnlyExecutables() const
 {
     QStringList readOnlyExecutables;
 
-    const QJsonArray array = m_metaData.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadOnlyExecutables")].toArray();
+    const QJsonArray array = m_metaData.rawData().value(QStringLiteral("X-KDE-Kerfuffle-ReadOnlyExecutables")).toArray();
     for (const QJsonValue &value : array) {
         readOnlyExecutables << value.toString();
     }
@@ -58,7 +57,7 @@ QStringList Plugin::readWriteExecutables() const
 {
     QStringList readWriteExecutables;
 
-    const QJsonArray array = m_metaData.rawData()[QStringLiteral("X-KDE-Kerfuffle-ReadWriteExecutables")].toArray();
+    const QJsonArray array = m_metaData.rawData().value(QStringLiteral("X-KDE-Kerfuffle-ReadWriteExecutables")).toArray();
     for (const QJsonValue &value : array) {
         readWriteExecutables << value.toString();
     }
