@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 00:43+0000\n"
+"POT-Creation-Date: 2024-08-26 00:41+0000\n"
 "PO-Revision-Date: 2024-02-11 11:59-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -600,25 +600,25 @@ msgstr ""
 msgid "Preview file size limit in megabytes."
 msgstr ""
 
-#: kerfuffle/cliinterface.cpp:236
+#: kerfuffle/cliinterface.cpp:233
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Failed to locate program <filename>%1</filename> on disk."
 msgstr "ਡਿਸਕ ਉੱਤੇ <filename>%1</filename> ਪਰੋਗਰਾਮ ਲੱਭਣ ਲਈ ਫੇਲ੍ਹ ਹੈ।"
 
-#: kerfuffle/cliinterface.cpp:346
+#: kerfuffle/cliinterface.cpp:343
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
 msgstr "ਖਿਲਾਰਨਾ ਫੇਲ੍ਹ ਹੈ। ਯਕੀਨੀ ਬਣਾਉ ਕਿ ਲੋੜ ਮੁਤਾਬਕ ਖਾਲੀ ਥਾਂ ਹੈ।"
 
-#: kerfuffle/cliinterface.cpp:349
+#: kerfuffle/cliinterface.cpp:346
 #, kde-format
 msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
 "enough space is available."
 msgstr ""
 
-#: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
+#: kerfuffle/cliinterface.cpp:357 kerfuffle/cliinterface.cpp:478
 #, kde-format
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
@@ -626,24 +626,24 @@ msgid_plural "Could not move the extracted files to the destination directory."
 msgstr[0] "ਖਿਲਾਰੀ ਫਾਇਲ ਨੂੰ ਟਿਕਾਣਾ ਡਾਇਰੈਕਟਰੀ ਉੱਤੇ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।"
 msgstr[1] "ਖਿਲਾਰੀਆਂ ਫਾਇਲਾਂ ਨੂੰ ਟਿਕਾਣਾ ਡਾਇਰੈਕਟਰੀ ਉੱਤੇ ਭੇਜਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।"
 
-#: kerfuffle/cliinterface.cpp:836
+#: kerfuffle/cliinterface.cpp:833
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "ਡਿਸਕ ਭਰ ਜਾਣ ਕਰਕੇ ਖਿਲਾਰਨਾ ਅਸਫ਼ਲ ਹੈ।"
 
-#: kerfuffle/cliinterface.cpp:843 plugins/cliarjplugin/cliplugin.cpp:145
+#: kerfuffle/cliinterface.cpp:840 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
 msgstr "ਖਿਲਾਰਨਾ ਫੇਲ੍ਹ ਹੈ: ਗਲਤ ਪਾਸਵਰਡ ਹੈ"
 
-#: kerfuffle/cliinterface.cpp:877
+#: kerfuffle/cliinterface.cpp:874
 #, kde-format
 msgid "Incorrect password."
 msgstr "ਪਾਸਵਰਡ ਗਲਤ ਹੈ।"
 
-#: kerfuffle/cliinterface.cpp:899
+#: kerfuffle/cliinterface.cpp:896
 #, kde-format
 msgid "Ark does not currently support testing this archive."
 msgstr "ਆਰਕ ਇਸ ਅਕਾਇਵ ਨੂੰ ਟੈਸਟ ਕਰਨ ਲਈ ਸਹਾਇਕ ਨਹੀਂ ਹੈ।"

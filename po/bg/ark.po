@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 00:43+0000\n"
+"POT-Creation-Date: 2024-08-26 00:41+0000\n"
 "PO-Revision-Date: 2024-05-13 22:47+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -618,18 +618,18 @@ msgstr "Дали да се ограничи прегледът според ра
 msgid "Preview file size limit in megabytes."
 msgstr "Максимален размер на файла за предварителен преглед в мегабайти."
 
-#: kerfuffle/cliinterface.cpp:236
+#: kerfuffle/cliinterface.cpp:233
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Failed to locate program <filename>%1</filename> on disk."
 msgstr "Програмата <filename>%1</filename> не е открита на диска."
 
-#: kerfuffle/cliinterface.cpp:346
+#: kerfuffle/cliinterface.cpp:343
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
 msgstr "Грешка при извличане. Проверете дали има достатъчно място."
 
-#: kerfuffle/cliinterface.cpp:349
+#: kerfuffle/cliinterface.cpp:346
 #, kde-format
 msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
@@ -638,7 +638,7 @@ msgstr ""
 "Грешка при извличане. Проверете дали паролата е правилна и дали има "
 "достатъчно място."
 
-#: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
+#: kerfuffle/cliinterface.cpp:357 kerfuffle/cliinterface.cpp:478
 #, kde-format
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
@@ -647,24 +647,24 @@ msgstr[0] "Грешка при преместване на извлечения 
 msgstr[1] ""
 "Грешка при преместване на извлечените файлове в целевата директория."
 
-#: kerfuffle/cliinterface.cpp:836
+#: kerfuffle/cliinterface.cpp:833
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "Грешка при извличане поради запълване на диска."
 
-#: kerfuffle/cliinterface.cpp:843 plugins/cliarjplugin/cliplugin.cpp:145
+#: kerfuffle/cliinterface.cpp:840 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
 msgstr "Грешка при извличане: неправилна парола"
 
-#: kerfuffle/cliinterface.cpp:877
+#: kerfuffle/cliinterface.cpp:874
 #, kde-format
 msgid "Incorrect password."
 msgstr "Неправилна парола."
 
-#: kerfuffle/cliinterface.cpp:899
+#: kerfuffle/cliinterface.cpp:896
 #, kde-format
 msgid "Ark does not currently support testing this archive."
 msgstr "Ark понастоящем не поддържа проверка на този архив."

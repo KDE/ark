@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 00:43+0000\n"
+"POT-Creation-Date: 2024-08-26 00:41+0000\n"
 "PO-Revision-Date: 2023-05-06 11:49+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -632,20 +632,20 @@ msgstr "Se deve limitar a antevisão com base no tamanho do ficheiro."
 msgid "Preview file size limit in megabytes."
 msgstr "Tamanho-limite do ficheiro de antevisão em megabytes."
 
-#: kerfuffle/cliinterface.cpp:236
+#: kerfuffle/cliinterface.cpp:233
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Failed to locate program <filename>%1</filename> on disk."
 msgstr ""
 "Não foi possível localizar o programa <filename>%1</filename> no disco."
 
-#: kerfuffle/cliinterface.cpp:346
+#: kerfuffle/cliinterface.cpp:343
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
 msgstr ""
 "A extracção foi mal-sucedida. Certifique-se que tem espaço livre suficiente."
 
-#: kerfuffle/cliinterface.cpp:349
+#: kerfuffle/cliinterface.cpp:346
 #, kde-format
 msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
@@ -654,7 +654,7 @@ msgstr ""
 "A extracção foi mal-sucedida. Verifique se passou a senha correcta e se está "
 "espaço suficiente disponível em disco."
 
-#: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
+#: kerfuffle/cliinterface.cpp:357 kerfuffle/cliinterface.cpp:478
 #, kde-format
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
@@ -663,24 +663,24 @@ msgstr[0] "Não foi possível mover o ficheiro extraído para a pasta de destino
 msgstr[1] ""
 "Não foi possível mover os ficheiros extraídos para a pasta de destino."
 
-#: kerfuffle/cliinterface.cpp:836
+#: kerfuffle/cliinterface.cpp:833
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "A extracção foi mal-sucedida porque o disco está cheio."
 
-#: kerfuffle/cliinterface.cpp:843 plugins/cliarjplugin/cliplugin.cpp:145
+#: kerfuffle/cliinterface.cpp:840 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
 msgstr "A extracção foi mal-sucedida: A senha está incorrecta"
 
-#: kerfuffle/cliinterface.cpp:877
+#: kerfuffle/cliinterface.cpp:874
 #, kde-format
 msgid "Incorrect password."
 msgstr "A senha está incorrecta."
 
-#: kerfuffle/cliinterface.cpp:899
+#: kerfuffle/cliinterface.cpp:896
 #, kde-format
 msgid "Ark does not currently support testing this archive."
 msgstr "O Ark não suporta de momento o teste deste pacote."

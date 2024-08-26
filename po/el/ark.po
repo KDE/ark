@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 00:43+0000\n"
+"POT-Creation-Date: 2024-08-26 00:41+0000\n"
 "PO-Revision-Date: 2023-07-24 13:26+0300\n"
 "Last-Translator: George Stefanakis <george.stefanakis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
@@ -634,20 +634,20 @@ msgstr "Αν θα περιορίζεται η προεπισκόπηση με β
 msgid "Preview file size limit in megabytes."
 msgstr "Προεπισκόπηση του ορίου μεγέθους του αρχείου σε megabytes."
 
-#: kerfuffle/cliinterface.cpp:236
+#: kerfuffle/cliinterface.cpp:233
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Failed to locate program <filename>%1</filename> on disk."
 msgstr ""
 "Αποτυχία εντοπισμού του προγράμματος <filename>%1</filename> στο δίσκο."
 
-#: kerfuffle/cliinterface.cpp:346
+#: kerfuffle/cliinterface.cpp:343
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
 msgstr ""
 "Αποτυχία εξαγωγής. Βεβαιωθείτε ότι υπάρχει διαθέσιμος χώρος στον δίσκο."
 
-#: kerfuffle/cliinterface.cpp:349
+#: kerfuffle/cliinterface.cpp:346
 #, kde-format
 msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
@@ -656,7 +656,7 @@ msgstr ""
 "Αποτυχία εξαγωγής. Βεβαιωθείτε ότι καταχωρήσατε τον σωστό κωδικό και ότι "
 "υπάρχει διαθέσιμος χώρος στον δίσκο."
 
-#: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
+#: kerfuffle/cliinterface.cpp:357 kerfuffle/cliinterface.cpp:478
 #, kde-format
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
@@ -666,24 +666,24 @@ msgstr[0] ""
 msgstr[1] ""
 "Αδυναμία μετακίνησης των αρχείων που εξάχθηκαν στον κατάλογο προορισμού."
 
-#: kerfuffle/cliinterface.cpp:836
+#: kerfuffle/cliinterface.cpp:833
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "Αποτυχία εξαγωγής γιατί ο δίσκος είναι γεμάτος."
 
-#: kerfuffle/cliinterface.cpp:843 plugins/cliarjplugin/cliplugin.cpp:145
+#: kerfuffle/cliinterface.cpp:840 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
 msgstr "Αποτυχία εξαγωγής: μη έγκυρος κωδικός πρόσβασης"
 
-#: kerfuffle/cliinterface.cpp:877
+#: kerfuffle/cliinterface.cpp:874
 #, kde-format
 msgid "Incorrect password."
 msgstr "Μη έγκυρος κωδικός πρόσβασης."
 
-#: kerfuffle/cliinterface.cpp:899
+#: kerfuffle/cliinterface.cpp:896
 #, kde-format
 msgid "Ark does not currently support testing this archive."
 msgstr ""
