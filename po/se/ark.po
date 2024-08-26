@@ -107,7 +107,6 @@ msgstr ""
 
 #: app/compressfileitemaction.cpp:87
 #, fuzzy, kde-format
-#| msgid "Compression"
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
