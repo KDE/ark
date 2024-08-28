@@ -15,6 +15,7 @@
         "Name[da]": "Pak ud med Ark her",
         "Name[de]": "Ark hierher entpacken",
         "Name[el]": "Ark Εξαγωγή Εδώ",
+        "Name[en_GB]": "Ark Extract Here",
         "Name[eo]": "Ark-Extrakti ĉi tie",
         "Name[es]": "Ark - Extraer aquí",
         "Name[eu]": "Ark Erauzi hemen",
