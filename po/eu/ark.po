@@ -13,14 +13,14 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-26 00:41+0000\n"
-"PO-Revision-Date: 2024-04-27 21:27+0200\n"
+"PO-Revision-Date: 2024-09-01 07:33+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.08.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -2298,7 +2298,7 @@ msgstr "Huts egin du sarrera ezabatzeak: %1"
 #: plugins/libzipplugin/libzipplugin.cpp:820
 #, kde-kuit-format
 msgid "Failed to create directory: %1"
-msgstr "Huts egin du direktorioa sortzeak: %1"
+msgstr "Direktorioa sortzea huts egin du: %1."
 
 #: plugins/libzipplugin/libzipplugin.cpp:891
 #, kde-kuit-format
@@ -2308,7 +2308,7 @@ msgstr "Huts egin du '%1' irekitzeak:<nl/>%2"
 #: plugins/libzipplugin/libzipplugin.cpp:899
 #, kde-kuit-format
 msgid "Failed to open file for writing: %1"
-msgstr "Huts egin du fitxategia idazteko irekitzeak: %1"
+msgstr "Fitxategia idazteko irekitzea huts egin du: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:912
 #, kde-kuit-format
