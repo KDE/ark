@@ -13,6 +13,7 @@
 
 #include <KFileItem>
 #include <KIO/ApplicationLauncherJob>
+#include <KIO/StatJob>
 #include <KLocalizedString>
 #include <KPluginFactory>
 
@@ -66,8 +67,18 @@ QList<QAction *> CompressFileItemAction::actions(const KFileItemListProperties &
 
     QAction *compressMenuAction = new QAction(i18nc("@action:inmenu Compress submenu in Dolphin context menu", "Compress"), parentWidget);
     compressMenuAction->setMenu(compressMenu);
-    compressMenuAction->setEnabled(fileItemInfos.isLocal() && fileItemInfos.supportsWriting() && !m_pluginManager->availableWritePlugins().isEmpty());
+    compressMenuAction->setEnabled(fileItemInfos.isLocal() && !m_pluginManager->availableWritePlugins().isEmpty());
     compressMenuAction->setIcon(icon);
+
+    if (compressMenuAction->isEnabled()) {
+        const KFileItem &first = fileItemInfos.items().first();
+        auto *job = KIO::stat(first.url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash));
+        connect(job, &KJob::result, compressMenuAction, [compressMenuAction, job]() {
+            if (!job->error() && !KFileItem(job->statResult(), job->url()).isWritable()) {
+                compressMenuAction->setEnabled(false);
+            }
+        });
+    }
 
     actions << compressMenuAction;
     return actions;
