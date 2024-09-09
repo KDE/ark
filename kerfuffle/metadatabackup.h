@@ -8,7 +8,6 @@
 
 namespace Kerfuffle
 {
-
 /**
  * @class MetadataBackup
  * @brief A backup of the user metadata for an archive.

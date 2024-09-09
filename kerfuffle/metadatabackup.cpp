@@ -8,7 +8,6 @@
 
 namespace Kerfuffle
 {
-
 MetadataBackup::MetadataBackup(const QString &filePath)
 {
     KFileMetaData::UserMetaData metaData(filePath);
