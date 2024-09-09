@@ -11,7 +11,7 @@
 #ifdef Q_OS_WIN
 
 #ifndef S_ISDIR
-#define S_ISDIR(m) (((m) & QT_STAT_MASK) == QT_STAT_DIR) /* directory */
+#define S_ISDIR(m) ((m & QT_STAT_MASK) == QT_STAT_DIR) /* directory */
 #endif
 
 // based on libarchive/archive_windows.h
