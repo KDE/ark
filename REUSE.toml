@@ -1,0 +1,10 @@
+version = 1
+SPDX-PackageName = "ark"
+SPDX-PackageSupplier = "Elvis Angelaccio <elvis.angelaccio@kde.org>"
+SPDX-PackageDownloadLocation = "https://invent.kde.org/utilities/ark"
+
+[[annotations]]
+path = "app/icons/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "KDE Community"
+SPDX-License-Identifier = "LGPL-3.0-only"
