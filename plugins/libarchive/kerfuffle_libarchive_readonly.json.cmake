@@ -9,6 +9,7 @@
         "Description[cs]": "Otevřít a rozbalit soubory DEB, RPM, ISO, AppImage, XAR, CAB a EXE",
         "Description[da]": "Åbn og udpak DEB-, RPM-, ISO-, AppImage-, XAR-, CAB- og EXE-filer",
         "Description[de]": "Öffnen und Entpacken von DEB-, RPM-, ISO-, AppImage-, XAR-, CAB- und EXE-Dateien",
+        "Description[el]": "Άνοιγμα και εξαγωγή αρχείων DEB, RPM, ISO, AppImage, XAR, CAB και EXE",
         "Description[en_GB]": "Open and extract DEB, RPM, ISO, AppImage, XAR, CAB, and EXE files",
         "Description[eo]": "Malfermi kaj malpaki DEB, RPM, ISO, AppImage, XAR, CAB- kaj EXE-dosierojn",
         "Description[es]": "Abrir y extraer archivos DEB, RPM, ISO, AppImage, XAR, CAB y EXE",
