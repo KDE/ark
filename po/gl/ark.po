@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-26 00:41+0000\n"
-"PO-Revision-Date: 2024-04-27 10:21+0200\n"
+"PO-Revision-Date: 2024-09-22 13:23+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -98,8 +98,8 @@ msgid ""
 "The archive could not be extracted to <filename>%1</filename> because Ark "
 "can only extract to local destinations."
 msgstr ""
-"O arquivo non puido extraerse en <filename>%1</filename> porque Ark só pode "
-"extraer en destinos locais."
+"Non foi posíbel extraer o arquivo en <filename>%1</filename> porque Ark só "
+"pode extraer en destinos locais."
 
 #: app/compressfileitemaction.cpp:67
 #, kde-format
@@ -474,6 +474,7 @@ msgstr "Abrir un arquivo…"
 msgid "New Archive"
 msgstr "Novo arquivo"
 
+# skip-rule: trasno-list_reverse
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
 #, kde-format
@@ -620,7 +621,7 @@ msgstr "Límite do tamaño do ficheiro da vista previa en megabytes."
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Failed to locate program <filename>%1</filename> on disk."
-msgstr "Non foi posíbel atopar o programa <filename>%1</filename>."
+msgstr "Non foi posíbel atopar o programa <filename>%1</filename> no disco."
 
 #: kerfuffle/cliinterface.cpp:343
 #, kde-format
@@ -649,7 +650,7 @@ msgstr[1] ""
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
-msgstr "A extracción fallou porque non ten espazo libre."
+msgstr "A extracción fallou porque o disco está cheo."
 
 #: kerfuffle/cliinterface.cpp:840 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
@@ -747,7 +748,7 @@ msgstr "Pedir o contrasinal antes de amosar a lista de ficheiros do arquivo."
 msgid ""
 "This encryption method may not be supported by older archiving software."
 msgstr ""
-"Pode que software vello de arquivado non sexa compatíbel con este método de "
+"Algúns programas vellos pode que non sexan compatíbeis con este método de "
 "cifrado."
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleMultiVolume)
@@ -1123,7 +1124,7 @@ msgid ""
 "The plugin cannot be used because one or more required executables are "
 "missing. Check your installation."
 msgstr ""
-"Este complemento non pode usarse porque faltan un ou máis executábeis "
+"Non é posíbel usar este complemento porque faltan un ou máis executábeis "
 "necesarios. Revise a súa instalación."
 
 #. i18n: @title:column
@@ -1820,7 +1821,7 @@ msgstr "Resultados da proba"
 #: part/part.cpp:614
 #, kde-format
 msgid "The archive failed the integrity test."
-msgstr "O arquivo non superou a proba de integridade."
+msgstr "O arquivo suspendeu a proba de integridade."
 
 #: part/part.cpp:634
 #, kde-format
@@ -1869,8 +1870,8 @@ msgid ""
 "Could not overwrite <filename>%1</filename>. Check whether you have write "
 "permission."
 msgstr ""
-"Non se puido substituír <filename>%1</filename>. Comprobe que ten permisos "
-"de escritura."
+"Non foi posíbel substituír <filename>%1</filename>. Comprobe que ten "
+"permisos de escritura."
 
 #: part/part.cpp:808
 #, kde-kuit-format
@@ -2032,8 +2033,8 @@ msgid ""
 "The archive could not be saved as <filename>%1</filename>. Try saving it to "
 "another location."
 msgstr ""
-"Non puido gardarse o arquivo como <filename>%1</filename>. Probe a gardalo "
-"noutro lugar."
+"Non foi posíbel gardar o arquivo como <filename>%1</filename>. Probe a "
+"gardalo noutro lugar."
 
 #: part/part.cpp:1668
 #, kde-kuit-format
@@ -2042,14 +2043,14 @@ msgid ""
 "The archive <filename>%1</filename> does not exist anymore, therefore it "
 "cannot be copied to the specified location."
 msgstr ""
-"O arquivo <filename>%1</filename> xa non existe, así que non se pode copiar "
-"á localización indicada."
+"O arquivo <filename>%1</filename> xa non existe, así que non é posíbel "
+"copiar na localización indicada."
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
 #: plugins/cliunarchiverplugin/cliplugin.cpp:87
 #, kde-format
 msgid "Listing the archive failed."
-msgstr "Listra o arquivo fallou."
+msgstr "Produciuse un erro ao listar o arquivo."
 
 #: plugins/cli7zplugin/cliplugin.cpp:303
 #, kde-format
@@ -2186,7 +2187,7 @@ msgstr "Erro fatal, interrompeuse a extracción."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
-msgstr "De momento non se pode extraer entradas cifradas de 7-zip."
+msgstr "De momento non se permite extraer entradas cifradas de 7-zip."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
