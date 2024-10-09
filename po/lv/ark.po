@@ -13,14 +13,14 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-26 00:41+0000\n"
-"PO-Revision-Date: 2024-04-02 12:27+0300\n"
-"Last-Translator: Toms Trasūns <toms.trasuns@posteo.net>\n"
+"PO-Revision-Date: 2024-10-02 21:34+0300\n"
+"Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.08.0\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
@@ -2161,18 +2161,14 @@ msgid "unknown"
 msgstr "nezināms"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Šobrīd nav atbalstīta ar paroli aizsargātu arhīvu testēšana bez galvenes "
-"šifrēšanas."
+"Arhīvs var būt bojāts vai ir šifrēta tā galvene. Arhīvus ar šifrētu galveni "
+"programma šobrīd neatbalsta."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2184,7 +2180,7 @@ msgstr "Fatāla kļūda, atspiešana ir atcelta."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
-msgstr ""
+msgstr "Šobrīd programma neatbalsta šifrētus „7-zip“ ierakstus."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
