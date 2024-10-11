@@ -51,16 +51,19 @@ QList<QAction *> CompressFileItemAction::actions(const KFileItemListProperties &
     }
 
     QList<QAction *> actions;
+    QList<QAction *> actionsToBeDisabledInReadOnlyDir;
     const QIcon icon = QIcon::fromTheme(QStringLiteral("archive-insert"));
 
     QMenu *compressMenu = new QMenu(parentWidget);
 
     compressMenu->addAction(createAction(icon, parentWidget, urlList, QStringLiteral("tar.gz")));
+    actionsToBeDisabledInReadOnlyDir << compressMenu->actions().last();
 
     const QMimeType zipMime = QMimeDatabase().mimeTypeForName(QStringLiteral("application/zip"));
     // Don't offer zip compression if no zip plugin is available.
     if (!m_pluginManager->preferredWritePluginsFor(zipMime).isEmpty()) {
         compressMenu->addAction(createAction(icon, parentWidget, urlList, QStringLiteral("zip")));
+        actionsToBeDisabledInReadOnlyDir << compressMenu->actions().last();
     }
 
     compressMenu->addAction(createAction(icon, parentWidget, urlList, QString()));
@@ -73,9 +76,11 @@ QList<QAction *> CompressFileItemAction::actions(const KFileItemListProperties &
     if (compressMenuAction->isEnabled()) {
         const KFileItem &first = fileItemInfos.items().first();
         auto *job = KIO::stat(first.url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash));
-        connect(job, &KJob::result, compressMenuAction, [compressMenuAction, job]() {
+        connect(job, &KJob::result, compressMenu, [actionsToBeDisabledInReadOnlyDir, job]() {
             if (!job->error() && !KFileItem(job->statResult(), job->url()).isWritable()) {
-                compressMenuAction->setEnabled(false);
+                for (auto action : actionsToBeDisabledInReadOnlyDir) {
+                    action->setEnabled(false);
+                }
             }
         });
     }
