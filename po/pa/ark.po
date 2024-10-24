@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 00:41+0000\n"
+"POT-Creation-Date: 2024-10-24 00:42+0000\n"
 "PO-Revision-Date: 2024-02-11 11:59-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -101,19 +101,19 @@ msgstr ""
 "ਅਕਾਇਵ ਨੂੰ <filename>%1</filename> ਵਜੋਂ ਖਿਲਾਰਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ, ਕਿਉਂਕਿ ਆਰਕ ਸਿਰਫ਼ ਲੋਕਲ "
 "ਟਿਕਾਣਿਆਂ ਉੱਤੇ ਹੀ ਖਿਲਾਰ ਸਕਦਾ ਹੈ।"
 
-#: app/compressfileitemaction.cpp:67
+#: app/compressfileitemaction.cpp:71
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "ਕੰਪਰੈੱਸ ਕਰੋ"
 
-#: app/compressfileitemaction.cpp:80
+#: app/compressfileitemaction.cpp:96
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
 msgstr "...ਲਈ ਕੰਪਰੈਸ ਕਰੋ"
 
-#: app/compressfileitemaction.cpp:88
+#: app/compressfileitemaction.cpp:104
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 #| msgid "Compress to..."

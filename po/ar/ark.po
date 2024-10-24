@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 00:41+0000\n"
+"POT-Creation-Date: 2024-10-24 00:42+0000\n"
 "PO-Revision-Date: 2024-05-02 10:46+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -110,19 +110,19 @@ msgstr ""
 "تعذر استخراج الأرشيف إلى <filename>%1</filename> بسبب أن أرك يستطيع استخراج "
 "الملفات المحلية فقط."
 
-#: app/compressfileitemaction.cpp:67
+#: app/compressfileitemaction.cpp:71
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "اضغطه"
 
-#: app/compressfileitemaction.cpp:80
+#: app/compressfileitemaction.cpp:96
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
 msgstr "اضغط إلى..."
 
-#: app/compressfileitemaction.cpp:88
+#: app/compressfileitemaction.cpp:104
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"

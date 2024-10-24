@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 00:41+0000\n"
+"POT-Creation-Date: 2024-10-24 00:42+0000\n"
 "PO-Revision-Date: 2024-08-26 09:39+0300\n"
 "Last-Translator: Αντώνης Γέραλης <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
@@ -114,19 +114,19 @@ msgstr ""
 "Η αρχειοθήκη δεν μπορεί να αποθηκευτεί ως <filename>%1</filename> γιατί το "
 "Ark μπορεί να κάνει εξαγωγή μόνο σε τοπικούς προορισμούς."
 
-#: app/compressfileitemaction.cpp:67
+#: app/compressfileitemaction.cpp:71
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Συμπίεση"
 
-#: app/compressfileitemaction.cpp:80
+#: app/compressfileitemaction.cpp:96
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
 msgstr "Συμπίεση στο..."
 
-#: app/compressfileitemaction.cpp:88
+#: app/compressfileitemaction.cpp:104
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"

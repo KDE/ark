@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 00:41+0000\n"
+"POT-Creation-Date: 2024-10-24 00:42+0000\n"
 "PO-Revision-Date: 2007-08-26 13:40+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -108,21 +108,21 @@ msgid ""
 "can only extract to local destinations."
 msgstr "उद्धरणका लागि प्रयोग गरिएको अन्तिम फोल्डर"
 
-#: app/compressfileitemaction.cpp:67
+#: app/compressfileitemaction.cpp:71
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "सङ्कुचित फाइल"
 
-#: app/compressfileitemaction.cpp:80
+#: app/compressfileitemaction.cpp:96
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
 msgstr "सङ्कुचित फाइल"
 
-#: app/compressfileitemaction.cpp:88
+#: app/compressfileitemaction.cpp:104
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt ""

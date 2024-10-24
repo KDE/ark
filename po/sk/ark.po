@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 00:41+0000\n"
+"POT-Creation-Date: 2024-10-24 00:42+0000\n"
 "PO-Revision-Date: 2023-12-06 19:15+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -111,19 +111,19 @@ msgstr ""
 "Archív sa nepodarilo extrahovať do <filename>%1</filename>. pretože Ark môže "
 "rozbaľovať iba do lokálnych umiestnení."
 
-#: app/compressfileitemaction.cpp:67
+#: app/compressfileitemaction.cpp:71
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Komprimovať"
 
-#: app/compressfileitemaction.cpp:80
+#: app/compressfileitemaction.cpp:96
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
 msgstr "Komprimovať do..."
 
-#: app/compressfileitemaction.cpp:88
+#: app/compressfileitemaction.cpp:104
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 #| msgid "Compress to..."
