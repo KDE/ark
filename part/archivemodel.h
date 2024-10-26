@@ -156,7 +156,10 @@ private:
 
     void initRootEntry();
 
-    enum InsertBehaviour { NotifyViews, DoNotNotifyViews };
+    enum InsertBehaviour {
+        NotifyViews,
+        DoNotNotifyViews
+    };
     Archive::Entry *parentFor(const Kerfuffle::Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
     QModelIndex indexForEntry(Archive::Entry *entry);
     /**

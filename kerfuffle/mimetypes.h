@@ -13,7 +13,10 @@
 
 namespace Kerfuffle
 {
-enum MimePreference { PreferContentsMime, PreferExtensionMime };
+enum MimePreference {
+    PreferContentsMime,
+    PreferExtensionMime
+};
 
 /**
  * @param filename Absolute path of a file.

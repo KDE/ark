@@ -37,7 +37,11 @@ class PreviewJob;
 class Query;
 class ReadOnlyArchiveInterface;
 
-enum ArchiveError { NoError = 0, NoPlugin, FailedPlugin };
+enum ArchiveError {
+    NoError = 0,
+    NoPlugin,
+    FailedPlugin
+};
 
 class KERFUFFLE_EXPORT Archive : public QObject
 {
@@ -66,7 +70,11 @@ class KERFUFFLE_EXPORT Archive : public QObject
     Q_PROPERTY(QStringList encryptionMethods MEMBER m_encryptionMethods)
 
 public:
-    enum EncryptionType { Unencrypted, Encrypted, HeaderEncrypted };
+    enum EncryptionType {
+        Unencrypted,
+        Encrypted,
+        HeaderEncrypted
+    };
     Q_ENUM(EncryptionType)
 
     class Entry;

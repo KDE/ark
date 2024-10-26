@@ -46,9 +46,16 @@ class Part : public KParts::ReadWritePart, public Interface
     Q_OBJECT
     Q_INTERFACES(Interface)
 public:
-    enum OpenFileMode { Preview, OpenFile, OpenFileWith };
+    enum OpenFileMode {
+        Preview,
+        OpenFile,
+        OpenFileWith
+    };
 
-    enum OverwriteBehaviour { ShowOverwriteDialog, DoNotShowOverwriteDialog };
+    enum OverwriteBehaviour {
+        ShowOverwriteDialog,
+        DoNotShowOverwriteDialog
+    };
 
     Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaData, const QVariantList &);
     ~Part() override;

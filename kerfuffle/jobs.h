@@ -153,7 +153,10 @@ private:
     /**
      * Tracks whether the job is loading or extracting the archive.
      */
-    enum Step { Loading, Extracting };
+    enum Step {
+        Loading,
+        Extracting
+    };
 
     void setupDestination();
 

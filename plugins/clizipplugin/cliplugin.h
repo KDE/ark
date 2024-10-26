@@ -43,7 +43,11 @@ private:
     void finishMoving(bool result);
     QString convertCompressionMethod(const QString &method);
 
-    enum ParseState { ParseStateHeader = 0, ParseStateComment, ParseStateEntry } m_parseState;
+    enum ParseState {
+        ParseStateHeader = 0,
+        ParseStateComment,
+        ParseStateEntry
+    } m_parseState;
 
     int m_linesComment;
     QString m_tempComment;

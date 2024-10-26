@@ -23,7 +23,10 @@ public:
     /**
      * How the list of supported mimetypes can be sorted.
      */
-    enum MimeSortingMode { Unsorted, SortByComment };
+    enum MimeSortingMode {
+        Unsorted,
+        SortByComment
+    };
 
     explicit PluginManager(QObject *parent = nullptr);
 

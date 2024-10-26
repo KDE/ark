@@ -26,7 +26,10 @@ namespace Kerfuffle
 {
 class Query;
 
-enum { PossiblyMaliciousArchiveError = KJob::UserDefinedError + 1, DestinationNotWritableError };
+enum {
+    PossiblyMaliciousArchiveError = KJob::UserDefinedError + 1,
+    DestinationNotWritableError
+};
 
 class KERFUFFLE_EXPORT ReadOnlyArchiveInterface : public QObject
 {
