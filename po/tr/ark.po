@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-24 00:42+0000\n"
-"PO-Revision-Date: 2024-09-23 15:20+0300\n"
+"PO-Revision-Date: 2024-10-25 18:25+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -844,7 +844,7 @@ msgstr "Çıkar"
 #: kerfuffle/extractiondialog.cpp:103
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
-msgstr "Üzgünüm, alt klasör adı ‘/’ karakterini içeremez."
+msgstr "Üzgünüm, alt klasör adı “/” karakterini içeremez."
 
 #: kerfuffle/extractiondialog.cpp:114
 #, kde-kuit-format
@@ -1989,7 +1989,7 @@ msgstr "Dosyaları Şuraya Ekle: %1"
 #: part/part.cpp:1435
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
-msgstr "Dosya adı bölü işareti içeremez ve ‘.’ veya ‘..’ olamaz"
+msgstr "Dosya adı bölü işareti içeremez ve “.” veya “..” olamaz"
 
 #: part/part.cpp:1479
 #, kde-format
