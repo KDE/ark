@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-24 00:42+0000\n"
-"PO-Revision-Date: 2024-05-13 22:47+0200\n"
+"PO-Revision-Date: 2024-10-26 19:03+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.11.70\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #, kde-format
@@ -196,7 +196,7 @@ msgstr "Рафаел Кубо да Коста"
 #: app/main.cpp:88 app/main.cpp:89 app/main.cpp:90
 #, kde-format
 msgid "Former Maintainer"
-msgstr "Бивш разработчик"
+msgstr "Предишна поддръжка"
 
 #: app/main.cpp:89
 #, kde-format
@@ -216,7 +216,7 @@ msgstr "Хелио Кисини де Кастро"
 #: app/main.cpp:91
 #, kde-format
 msgid "Former maintainer"
-msgstr "Бивш разработчик"
+msgstr "Предишна поддръжка"
 
 #: app/main.cpp:92
 #, kde-format
