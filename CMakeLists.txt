@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.19 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 
 # KDE Application Version, managed by release script
 set (RELEASE_SERVICE_VERSION_MAJOR "25")
@@ -53,7 +53,7 @@ find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS Config
                                                         WindowSystem
                                                         IconThemes)
 
-if (NOT WIN32)
+if(NOT WIN32)
     find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS Pty)
 endif()
 
@@ -78,17 +78,17 @@ set_package_properties(LibZip PROPERTIES
                        DESCRIPTION "A library for handling zip archives"
                        PURPOSE "Optional for zip archives.")
 # To remove once we can depend on LibZip 1.6+
-if ("${LibZip_VERSION}" VERSION_GREATER_EQUAL 1.6)
+if("${LibZip_VERSION}" VERSION_GREATER_EQUAL 1.6)
     set(LIBZIP_CANCELATION 1)
 endif()
 configure_file(config.h.in config.h)
 
 option(WITH_TEST_COVERAGE "Build with test coverage support" OFF)
-if (WITH_TEST_COVERAGE)
+if(WITH_TEST_COVERAGE)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
-endif (WITH_TEST_COVERAGE)
+endif()
 
 set(SUPPORTED_ARK_MIMETYPES "")
 

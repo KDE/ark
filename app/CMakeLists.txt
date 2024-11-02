@@ -18,12 +18,12 @@ target_sources(ark PRIVATE
     welcomeview/recentfilesmodel.cpp
     welcomeview/recentfilesmodel.h
     ark.qrc
-   )
+    )
 
 ecm_qt_declare_logging_category(ark
-                                HEADER ark_debug.h
-                                IDENTIFIER ARK_LOG
-				CATEGORY_NAME ark.main DESCRIPTION "Ark Main" EXPORT ARK)
+    HEADER ark_debug.h
+    IDENTIFIER ARK_LOG
+    CATEGORY_NAME ark.main DESCRIPTION "Ark Main" EXPORT ARK)
 
 
 ki18n_wrap_ui(ark welcomeview/welcomeview.ui)
@@ -49,12 +49,12 @@ if(TARGET KF6::BreezeIcons)
             KF6::BreezeIcons
     )
     target_compile_definitions(ark PRIVATE WITH_BREEZEICONS_LIB)
-endif ()
+endif()
 
 # we provide our own Info.plist containing a simple "we open anything" instruction.
 if(APPLE)
     # own plist template
-    set_target_properties (ark PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/MacOSXBundleInfo.plist.in)
+    set_target_properties(ark PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/MacOSXBundleInfo.plist.in)
 
     # the MacOSX bundle display name property (CFBundleDisplayName) is not currently supported by cmake,
     # so has to be set for all targets in this cmake file
