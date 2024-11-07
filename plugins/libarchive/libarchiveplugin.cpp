@@ -344,6 +344,11 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
             entryName.remove(0, 1);
         }
 
+        // If this ends up empty (e.g. from // or ./), convert to ".".
+        if (entryName.isEmpty()) {
+            entryName = QStringLiteral(".");
+        }
+
         // Should the entry be extracted?
         if (extractAll || remainingFiles.contains(entryName) || entryName == fileBeingRenamed) {
             // Find the index of entry.
@@ -355,10 +360,12 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
                 continue;
             }
 
+            // Make sure libarchive uses the same path as we expect, based on transformations and renames,
+            qCDebug(ARK_LOG) << "setting path to " << entryName;
+            archive_entry_copy_pathname(entry, QFile::encodeName(entryName).constData());
             // entryFI is the fileinfo pointing to where the file will be
             // written from the archive.
             QFileInfo entryFI(entryName);
-            // qCDebug(ARK_LOG) << "setting path to " << archive_entry_pathname( entry );
 
             if (isSingleFile && fileBeingRenamed.isEmpty()) {
                 // Rename extracted file from libarchive-internal "data" name to the archive uncompressed name.
@@ -604,7 +611,7 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry, b
 
 int LibarchivePlugin::extractionFlags() const
 {
-    return ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_SECURE_NODOTDOT | ARCHIVE_EXTRACT_SECURE_SYMLINKS;
+    return ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_SECURE_NOABSOLUTEPATHS | ARCHIVE_EXTRACT_SECURE_NODOTDOT | ARCHIVE_EXTRACT_SECURE_SYMLINKS;
 }
 
 void LibarchivePlugin::copyData(const QString &filename, struct archive *dest, bool partialprogress)

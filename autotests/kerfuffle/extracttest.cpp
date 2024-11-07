@@ -341,6 +341,10 @@ void ExtractTest::testExtraction_data()
     archivePath = QFINDTESTDATA("data/simplearchive.xar");
     setupRow("extract all entries from a xar archive with path", archivePath, QList<Archive::Entry *>(), optionsPreservePaths, 6);
 
+    // Test tarball with leading /, i.e. here /tmp/testfile instead of tmp/testfile
+    archivePath = QFINDTESTDATA("data/absolutepath.tar.xz");
+    setupRow("extract all entries from a tar archive with absolute path", archivePath, QList<Archive::Entry *>(), optionsPreservePaths, 2);
+
     archivePath = QFINDTESTDATA("data/hello-1.0-x86_64.AppImage");
     setupRow("extract all entries from an AppImage with path", archivePath, QList<Archive::Entry *>(), optionsPreservePaths, 7);
 
