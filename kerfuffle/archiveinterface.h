@@ -28,7 +28,7 @@ class Query;
 
 enum {
     PossiblyMaliciousArchiveError = KJob::UserDefinedError + 1,
-    DestinationNotWritableError
+    DestinationNotWritableError,
 };
 
 class KERFUFFLE_EXPORT ReadOnlyArchiveInterface : public QObject

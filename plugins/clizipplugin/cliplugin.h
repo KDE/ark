@@ -46,7 +46,7 @@ private:
     enum ParseState {
         ParseStateHeader = 0,
         ParseStateComment,
-        ParseStateEntry
+        ParseStateEntry,
     } m_parseState;
 
     int m_linesComment;

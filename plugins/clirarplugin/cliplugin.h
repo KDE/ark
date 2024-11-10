@@ -39,7 +39,7 @@ private:
         ParseStateHeader,
         ParseStateEntryFileName,
         ParseStateEntryDetails,
-        ParseStateLinkTarget
+        ParseStateLinkTarget,
     } m_parseState;
 
     void setupCliProperties();

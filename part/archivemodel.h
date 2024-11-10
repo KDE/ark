@@ -40,7 +40,7 @@ enum EntryMetaDataType {
     BLAKE2, /**< The entry's BLAKE2 */
     Method, /**< The compression method used on the entry */
     Version, /**< The archiver version needed to extract the entry */
-    Timestamp /**< The timestamp for the current entry */
+    Timestamp, /**< The timestamp for the current entry */
 };
 
 class ArchiveModel : public QAbstractItemModel
@@ -158,7 +158,7 @@ private:
 
     enum InsertBehaviour {
         NotifyViews,
-        DoNotNotifyViews
+        DoNotNotifyViews,
     };
     Archive::Entry *parentFor(const Kerfuffle::Archive::Entry *entry, InsertBehaviour behaviour = NotifyViews);
     QModelIndex indexForEntry(Archive::Entry *entry);

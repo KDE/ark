@@ -40,7 +40,7 @@ class ReadOnlyArchiveInterface;
 enum ArchiveError {
     NoError = 0,
     NoPlugin,
-    FailedPlugin
+    FailedPlugin,
 };
 
 class KERFUFFLE_EXPORT Archive : public QObject
@@ -73,7 +73,7 @@ public:
     enum EncryptionType {
         Unencrypted,
         Encrypted,
-        HeaderEncrypted
+        HeaderEncrypted,
     };
     Q_ENUM(EncryptionType)
 

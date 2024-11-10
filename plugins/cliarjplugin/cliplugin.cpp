@@ -26,7 +26,7 @@ struct ArjFileEntry {
         EncryptedMethodGost256 = 2,
         EncryptedMethodGost256L = 3,
         EncryptedMethodGost40bit = 4,
-        EncryptedMethodUnknown = 16
+        EncryptedMethodUnknown = 16,
     };
 
     QString fileName() const

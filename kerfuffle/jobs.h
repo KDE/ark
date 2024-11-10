@@ -155,7 +155,7 @@ private:
      */
     enum Step {
         Loading,
-        Extracting
+        Extracting,
     };
 
     void setupDestination();

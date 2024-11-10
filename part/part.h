@@ -49,12 +49,12 @@ public:
     enum OpenFileMode {
         Preview,
         OpenFile,
-        OpenFileWith
+        OpenFileWith,
     };
 
     enum OverwriteBehaviour {
         ShowOverwriteDialog,
-        DoNotShowOverwriteDialog
+        DoNotShowOverwriteDialog,
     };
 
     Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaData, const QVariantList &);

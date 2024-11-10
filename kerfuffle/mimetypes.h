@@ -15,7 +15,7 @@ namespace Kerfuffle
 {
 enum MimePreference {
     PreferContentsMime,
-    PreferExtensionMime
+    PreferExtensionMime,
 };
 
 /**

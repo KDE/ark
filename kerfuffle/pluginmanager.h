@@ -25,7 +25,7 @@ public:
      */
     enum MimeSortingMode {
         Unsorted,
-        SortByComment
+        SortByComment,
     };
 
     explicit PluginManager(QObject *parent = nullptr);
