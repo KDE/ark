@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-24 00:42+0000\n"
-"PO-Revision-Date: 2024-10-26 19:03+0200\n"
+"PO-Revision-Date: 2024-11-09 20:04+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 24.08.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #, kde-format
@@ -120,7 +120,7 @@ msgstr "Компресиране до…"
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "Компресиране до \"%1\""
+msgstr "Компресиране до „%1“"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
