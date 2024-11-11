@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-24 00:42+0000\n"
-"PO-Revision-Date: 2024-11-09 20:04+0100\n"
+"PO-Revision-Date: 2024-11-10 20:12+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.11.70\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #, kde-format
@@ -1753,7 +1753,7 @@ msgstr "&Свойства"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
-msgstr "Натиснете за преглед на свойствана на архива"
+msgstr "Натиснете за преглед на свойства на на архива"
 
 #: part/part.cpp:430
 #, kde-format
@@ -2220,7 +2220,7 @@ msgstr "Грешка при отваряне на архива за запис."
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:287
 #, kde-format
 msgid "The compression type '%1' is not supported by Ark."
-msgstr "Видът компресия '%1' не се поддържа от Ark."
+msgstr "Видът компресия „%1“ не се поддържа от Ark."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:294
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:364
@@ -2299,7 +2299,7 @@ msgstr "Грешка при създаване на папка: %1"
 #: plugins/libzipplugin/libzipplugin.cpp:891
 #, kde-kuit-format
 msgid "Failed to open '%1':<nl/>%2"
-msgstr "Грешка при отваряне на '%1':<nl/>%2"
+msgstr "Грешка при отваряне на „%1“:<nl/>%2"
 
 #: plugins/libzipplugin/libzipplugin.cpp:899
 #, kde-kuit-format
