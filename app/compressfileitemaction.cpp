@@ -74,7 +74,8 @@ QList<QAction *> CompressFileItemAction::actions(const KFileItemListProperties &
     compressMenuAction->setIcon(icon);
 
     if (compressMenuAction->isEnabled()) {
-        const KFileItem &first = fileItemInfos.items().first();
+        const KFileItemList items = fileItemInfos.items();
+        const KFileItem &first = items.first();
         auto *job = KIO::stat(first.url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash));
         connect(job, &KJob::result, compressMenu, [actionsToBeDisabledInReadOnlyDir, job]() {
             if (!job->error() && !KFileItem(job->statResult(), job->url()).isWritable()) {
