@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-24 00:42+0000\n"
+"POT-Creation-Date: 2024-11-19 00:43+0000\n"
 "PO-Revision-Date: 2007-12-22 09:56+0100\n"
 "Last-Translator: Erdal Ronahi <erdal.ronahi@nospam.gmail.com>\n"
 "Language-Team: Kurdish <gnu-ku-wergerandin at lists dot sourceforge dot "
@@ -104,14 +104,14 @@ msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Arşîvekê veke"
 
-#: app/compressfileitemaction.cpp:96
+#: app/compressfileitemaction.cpp:97
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
 msgstr "Arşîvekê veke"
 
-#: app/compressfileitemaction.cpp:104
+#: app/compressfileitemaction.cpp:105
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt ""

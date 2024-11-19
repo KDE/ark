@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-24 00:42+0000\n"
+"POT-Creation-Date: 2024-11-19 00:43+0000\n"
 "PO-Revision-Date: 2007-08-26 13:40+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -115,14 +115,14 @@ msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "सङ्कुचित फाइल"
 
-#: app/compressfileitemaction.cpp:96
+#: app/compressfileitemaction.cpp:97
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to..."
 msgstr "सङ्कुचित फाइल"
 
-#: app/compressfileitemaction.cpp:104
+#: app/compressfileitemaction.cpp:105
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt ""
