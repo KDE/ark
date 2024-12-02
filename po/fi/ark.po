@@ -8,7 +8,7 @@
 # Ilpo Kantonen <ilpo@iki.fi>, 2004, 2005.
 # Niklas Laxström <niklas.laxstrom+kdetrans@gmail.com>, 2006.
 # Mikko Piippo <piippo@cc.helsinki.fi>, 2007, 2008.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2009, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Tommi Nieminen <translator@legisign.org>
 # Jorma Karvonen <karvonen.jorma@gmail.com>, 2010.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
 #
@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-19 00:43+0000\n"
-"PO-Revision-Date: 2023-12-27 11:52+0200\n"
+"PO-Revision-Date: 2024-10-16 18:26+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -28,8 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-POT-Import-Date: 2012-12-01 22:25:38+0000\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -132,13 +131,11 @@ msgid "Compress to..."
 msgstr "Pakkaa…"
 
 #: app/compressfileitemaction.cpp:105
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "Pakkaa…"
+msgstr "Pakkaa tiedostoon ”%1”"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -2171,18 +2168,14 @@ msgid "unknown"
 msgstr "tuntematon"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Sellaisten salasanasuojattujen arkistojen testaamista ei nykyisellään tueta, "
-"jotka eivät käytä otsakkeen salausta."
+"Arkisto voi olla vioittunut tai sen otsakkeet on salattu, mitä ei "
+"toistaiseksi tueta."
 
 #: plugins/libarchive/libarchiveplugin.cpp:475
 #, kde-format
@@ -2194,7 +2187,7 @@ msgstr "Vakava virhe: purkaminen keskeytetty."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
-msgstr ""
+msgstr "Salattujen 7-Zip-tietueiden purkua ei toistaiseksi tueta."
 
 #: plugins/libarchive/libarchiveplugin.cpp:515
 #, kde-format
