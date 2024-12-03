@@ -15,6 +15,7 @@
         "Description[eo]": "Malfermi kaj malpaki DEB, RPM, ISO, AppImage, XAR, CAB- kaj EXE-dosierojn",
         "Description[es]": "Abrir y extraer archivos DEB, RPM, ISO, AppImage, XAR, CAB y EXE",
         "Description[eu]": "Ireki eta erauzi DEB, RPM, ISO, AppImage, XAR, CAB, eta EXE fitxategiak",
+        "Description[fi]": "Avaa ja pura Deb-, RPM-, ISO-, AppImage-, Xar-, Cab- ja Exe-tiedostoja",
         "Description[fr]": "Ouvrir et extraire les fichiers aux formats « DEB », « RPM », « ISO », « AppImage », « XAR », « CAB » et « EXE »",
         "Description[gl]": "Abrir e extraer ficheiros DEB, RPM, ISO, AppImage, XAR, CAB, e EXE.",
         "Description[he]": "פתיחה וחילוץ של קובצי DEB,‏ RPM,‏ ISO,‏ AppImage,‏ XAR,‏ CAB ו־EXE",
