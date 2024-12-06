@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-19 00:43+0000\n"
+"POT-Creation-Date: 2024-12-06 00:43+0000\n"
 "PO-Revision-Date: 2024-05-02 10:46+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -2187,24 +2187,24 @@ msgid ""
 "supported."
 msgstr "قد يكون الأرشيف تالفًا أو يحتوي على تشفير رأسي، وهو غير مدعوم حاليًا."
 
-#: plugins/libarchive/libarchiveplugin.cpp:475
+#: plugins/libarchive/libarchiveplugin.cpp:482
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "خطأ فادح ، تم إحباط الاستخراج."
 
-#: plugins/libarchive/libarchiveplugin.cpp:501
+#: plugins/libarchive/libarchiveplugin.cpp:508
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "استخراج مدخلات 7-zip المشفرة غير مدعوم حاليًا."
 
-#: plugins/libarchive/libarchiveplugin.cpp:515
+#: plugins/libarchive/libarchiveplugin.cpp:522
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "لا يمكن بدء قارئ الأرشيف"
 
-#: plugins/libarchive/libarchiveplugin.cpp:537
+#: plugins/libarchive/libarchiveplugin.cpp:544
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

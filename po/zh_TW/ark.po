@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-19 00:43+0000\n"
+"POT-Creation-Date: 2024-12-06 00:43+0000\n"
 "PO-Revision-Date: 2024-04-29 19:32+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -2088,24 +2088,24 @@ msgid ""
 "supported."
 msgstr "封存檔可能已毀損，或是使用目前不支援的標頭加密功能。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:475
+#: plugins/libarchive/libarchiveplugin.cpp:482
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "發生嚴重錯誤，中止解壓縮。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:501
+#: plugins/libarchive/libarchiveplugin.cpp:508
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "目前不支援解開已加密的 7-zip 項目。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:515
+#: plugins/libarchive/libarchiveplugin.cpp:522
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "封存讀取器無法初始化。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:537
+#: plugins/libarchive/libarchiveplugin.cpp:544
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

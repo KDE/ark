@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-19 00:43+0000\n"
+"POT-Creation-Date: 2024-12-06 00:43+0000\n"
 "PO-Revision-Date: 2024-11-21 20:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -2186,24 +2186,24 @@ msgstr ""
 "Arşiv, hasarlı veya şu anda desteklenmeyen üstbilgi şifrelemesine iye "
 "olabilir."
 
-#: plugins/libarchive/libarchiveplugin.cpp:475
+#: plugins/libarchive/libarchiveplugin.cpp:482
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Onulmaz hata, çıkarma iptal edildi."
 
-#: plugins/libarchive/libarchiveplugin.cpp:501
+#: plugins/libarchive/libarchiveplugin.cpp:508
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "Şifreli 7-Zip girdilerinin çıkarılması henüz desteklenmiyor."
 
-#: plugins/libarchive/libarchiveplugin.cpp:515
+#: plugins/libarchive/libarchiveplugin.cpp:522
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Arşiv okuyucu başlatılamadı."
 
-#: plugins/libarchive/libarchiveplugin.cpp:537
+#: plugins/libarchive/libarchiveplugin.cpp:544
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

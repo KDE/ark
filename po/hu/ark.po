@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-19 00:43+0000\n"
+"POT-Creation-Date: 2024-12-06 00:43+0000\n"
 "PO-Revision-Date: 2024-04-29 11:32+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -2165,24 +2165,24 @@ msgstr ""
 "Az archívum lehet, hogy sérült, vagy fejléctitkosítással rendelkezik, amely "
 "jelenleg nem támogatott."
 
-#: plugins/libarchive/libarchiveplugin.cpp:475
+#: plugins/libarchive/libarchiveplugin.cpp:482
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Végzetes hiba, kibontás megszakítva."
 
-#: plugins/libarchive/libarchiveplugin.cpp:501
+#: plugins/libarchive/libarchiveplugin.cpp:508
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "Titkosított 7-zip bejegyzések kibontása jelenleg nem támogatott."
 
-#: plugins/libarchive/libarchiveplugin.cpp:515
+#: plugins/libarchive/libarchiveplugin.cpp:522
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Nem sikerült inicializálni az archívumbeolvasót."
 
-#: plugins/libarchive/libarchiveplugin.cpp:537
+#: plugins/libarchive/libarchiveplugin.cpp:544
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
