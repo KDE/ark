@@ -10,6 +10,7 @@
 #include "queries.h"
 
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QJsonParseError>
 
 #include <KLocalizedString>
