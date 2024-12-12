@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:43+0000\n"
+"POT-Creation-Date: 2024-12-12 00:43+0000\n"
 "PO-Revision-Date: 2024-04-28 17:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -2027,7 +2027,7 @@ msgstr ""
 "நகலெடுக்க முடியாது."
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:87
+#: plugins/cliunarchiverplugin/cliplugin.cpp:88
 #, kde-format
 msgid "Listing the archive failed."
 msgstr "காப்பகத்திலுள்ளவற்றை பட்டியலிடுவது தோல்வியடைந்த‍து."
@@ -2115,17 +2115,17 @@ msgstr ""
 msgid "One or more wrong checksums"
 msgstr "தவறான சரிகாண்தொகை(கள்)"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:99
+#: plugins/cliunarchiverplugin/cliplugin.cpp:100
 #, kde-format
 msgid "Extraction failed."
 msgstr "பிரித்தெடுப்பது தோல்வியடைந்தது."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:133
+#: plugins/cliunarchiverplugin/cliplugin.cpp:134
 #, kde-format
 msgid "Not enough memory for loading the archive."
 msgstr "காப்பகத்தை ஏற்ற போதிய நினைவிடம் இல்லை."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:184
+#: plugins/cliunarchiverplugin/cliplugin.cpp:185
 #, kde-format
 msgid "Wrong password."
 msgstr "தவறான கடவுச்சொல்."

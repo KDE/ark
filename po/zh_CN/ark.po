@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:43+0000\n"
+"POT-Creation-Date: 2024-12-12 00:43+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1970,7 +1970,7 @@ msgid ""
 msgstr "压缩文件 <filename>%1</filename> 已不存在，无法将其复制到指定位置。"
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:87
+#: plugins/cliunarchiverplugin/cliplugin.cpp:88
 #, kde-format
 msgid "Listing the archive failed."
 msgstr "压缩文件内容列出失败。"
@@ -2056,17 +2056,17 @@ msgstr ""
 msgid "One or more wrong checksums"
 msgstr "校验和错误"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:99
+#: plugins/cliunarchiverplugin/cliplugin.cpp:100
 #, kde-format
 msgid "Extraction failed."
 msgstr "解压失败。"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:133
+#: plugins/cliunarchiverplugin/cliplugin.cpp:134
 #, kde-format
 msgid "Not enough memory for loading the archive."
 msgstr "内存不足，无法加载该压缩文件。"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:184
+#: plugins/cliunarchiverplugin/cliplugin.cpp:185
 #, kde-format
 msgid "Wrong password."
 msgstr "密码错误。"

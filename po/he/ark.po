@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:43+0000\n"
+"POT-Creation-Date: 2024-12-12 00:43+0000\n"
 "PO-Revision-Date: 2024-05-05 11:55+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -2025,7 +2025,7 @@ msgstr ""
 "שצוין."
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:87
+#: plugins/cliunarchiverplugin/cliplugin.cpp:88
 #, kde-format
 msgid "Listing the archive failed."
 msgstr "הצגת תוכן הארכיון נכשלה."
@@ -2112,17 +2112,17 @@ msgstr ""
 msgid "One or more wrong checksums"
 msgstr "אחת או יותר מבדיקות סיכום הביקורת שגויות"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:99
+#: plugins/cliunarchiverplugin/cliplugin.cpp:100
 #, kde-format
 msgid "Extraction failed."
 msgstr "החילוץ נכשל."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:133
+#: plugins/cliunarchiverplugin/cliplugin.cpp:134
 #, kde-format
 msgid "Not enough memory for loading the archive."
 msgstr "אין מספיק זיכרון לטעינת הארכיון."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:184
+#: plugins/cliunarchiverplugin/cliplugin.cpp:185
 #, kde-format
 msgid "Wrong password."
 msgstr "סיסמה שגויה."

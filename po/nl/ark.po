@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:43+0000\n"
+"POT-Creation-Date: 2024-12-12 00:43+0000\n"
 "PO-Revision-Date: 2024-04-25 13:00+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -2084,7 +2084,7 @@ msgstr ""
 "worden gekopieerd naar de gespecificeerde locatie."
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:87
+#: plugins/cliunarchiverplugin/cliplugin.cpp:88
 #, kde-format
 msgid "Listing the archive failed."
 msgstr "Een lijst maken van het archief is mislukt."
@@ -2172,17 +2172,17 @@ msgstr ""
 msgid "One or more wrong checksums"
 msgstr "Een of meer foute controlesommen"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:99
+#: plugins/cliunarchiverplugin/cliplugin.cpp:100
 #, kde-format
 msgid "Extraction failed."
 msgstr "Uitpakken is mislukt."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:133
+#: plugins/cliunarchiverplugin/cliplugin.cpp:134
 #, kde-format
 msgid "Not enough memory for loading the archive."
 msgstr "Niet genoeg geheugen voor laden van het archief."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:184
+#: plugins/cliunarchiverplugin/cliplugin.cpp:185
 #, kde-format
 msgid "Wrong password."
 msgstr "Fout wachtwoord."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:43+0000\n"
+"POT-Creation-Date: 2024-12-12 00:43+0000\n"
 "PO-Revision-Date: 2007-08-26 13:40+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -2103,7 +2103,7 @@ msgid ""
 msgstr "तपाईंले फाइल उद्धरण गर्न पासवर्ड प्रविष्ट गर्नुपर्छ:"
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:87
+#: plugins/cliunarchiverplugin/cliplugin.cpp:88
 #, fuzzy, kde-format
 #| msgid "Opening the archive..."
 msgid "Listing the archive failed."
@@ -2185,19 +2185,19 @@ msgstr ""
 msgid "One or more wrong checksums"
 msgstr ""
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:99
+#: plugins/cliunarchiverplugin/cliplugin.cpp:100
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extraction failed."
 msgstr "उद्धरण गर्दै..."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:133
+#: plugins/cliunarchiverplugin/cliplugin.cpp:134
 #, fuzzy, kde-format
 #| msgid "Not enough free disc space to extract the archive."
 msgid "Not enough memory for loading the archive."
 msgstr "सङ्ग्रह उद्धरण गर्न डिस्कमा पर्याप्त खाली स्थान छैन ।"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:184
+#: plugins/cliunarchiverplugin/cliplugin.cpp:185
 #, kde-format
 msgid "Wrong password."
 msgstr ""
