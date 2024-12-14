@@ -40,6 +40,7 @@
         "Name[pt_BR]": "Extrair com o Ark aqui",
         "Name[ro]": "Ark Extrage aici",
         "Name[ru]": "Распаковать в эту папку",
+        "Name[sa]": "सन्दूकः अर्कः अत्र",
         "Name[sk]": "Extrahovať sem Arkom",
         "Name[sl]": "Arkov ekstrakt tukaj",
         "Name[sv]": "Ark packa upp här",
