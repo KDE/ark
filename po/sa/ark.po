@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-12 00:43+0000\n"
-"PO-Revision-Date: 2024-12-14 01:48+0530\n"
+"PO-Revision-Date: 2024-12-20 22:10+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -234,12 +234,12 @@ msgstr "फ्रांकोइस-जेवियर डुरेन्सौ"
 #: app/main.cpp:95
 #, kde-format
 msgid "Emily Ezust (Corel Corporation)"
-msgstr "एमिली एजुस्ट (कोरेल निगम) ९."
+msgstr "एमिली एजुस्ट (कोरेल निगम)"
 
 #: app/main.cpp:96
 #, kde-format
 msgid "Michael Jarrett (Corel Corporation)"
-msgstr "माइकल जैरेट् (कोरेल निगम) ९."
+msgstr "माइकल जैरेट् (कोरेल निगम)"
 
 #: app/main.cpp:97
 #, kde-format
@@ -720,7 +720,7 @@ msgstr "गुप्तशब्दसंरक्षणम्"
 #: kerfuffle/compressionoptionswidget.ui:130
 #, kde-format
 msgid "Encryption method:"
-msgstr "एन्क्रिप्शनविधिः : १."
+msgstr "एन्क्रिप्शनविधिः :"
 
 #. i18n: ectx: property (text), widget (QCheckBox, encryptHeaderCheckBox)
 #: kerfuffle/compressionoptionswidget.ui:160
@@ -751,7 +751,7 @@ msgstr "बहुखण्डीयसंग्रहालयं रचयन�
 #: kerfuffle/compressionoptionswidget.ui:210
 #, kde-format
 msgid "Volume size:"
-msgstr "आयतन आकारः : १."
+msgstr "आयतन आकारः :"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_previewFileSizeLimit)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, volumeSizeSpinbox)
@@ -776,13 +776,13 @@ msgstr "चयनितः गुप्तशब्दः दत्तसत्�
 #: kerfuffle/createdialog.ui:30
 #, kde-format
 msgid "Folder:"
-msgstr "पुटम् : १."
+msgstr "पुटम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: kerfuffle/createdialog.ui:47
 #, kde-format
 msgid "Filename:"
-msgstr "सञ्चिकानाम : १."
+msgstr "सञ्चिकानाम :"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
@@ -1185,32 +1185,32 @@ msgstr "गणना कर..."
 #: kerfuffle/propertiesdialog.ui:37
 #, kde-format
 msgid "Archive name:"
-msgstr "अभिलेखागारस्य नाम : १."
+msgstr "अभिलेखागारस्य नाम :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: kerfuffle/propertiesdialog.ui:54
 #, kde-format
 msgid "Archive type:"
-msgstr "अभिलेखागारस्य प्रकारः : १."
+msgstr "अभिलेखागारस्य प्रकारः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: kerfuffle/propertiesdialog.ui:71
 #, kde-format
 msgid "Mime-type:"
-msgstr "माइम-प्रकारः : १."
+msgstr "माइम-प्रकारः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: kerfuffle/propertiesdialog.ui:88
 #, kde-format
 msgid "Opened read-only:"
-msgstr "केवलं पठनीयं उद्घाटितम् : १."
+msgstr "केवलं पठनीयं उद्घाटितम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_passwordLabel)
 #: kerfuffle/propertiesdialog.ui:105 part/infopanel.ui:179
 #, kde-format
 msgid "Password-protected:"
-msgstr "गुप्तशब्द-संरक्षितम् : १."
+msgstr "गुप्तशब्द-संरक्षितम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: kerfuffle/propertiesdialog.ui:122
@@ -1222,31 +1222,31 @@ msgstr "टिप्पणी अस्ति:"
 #: kerfuffle/propertiesdialog.ui:139
 #, kde-format
 msgid "Number of entries:"
-msgstr "प्रविष्टीनां संख्या : १."
+msgstr "प्रविष्टीनां संख्या :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: kerfuffle/propertiesdialog.ui:156
 #, kde-format
 msgid "Unpacked size:"
-msgstr "अनपैक्ड् आकारः : १."
+msgstr "अनपैक्ड् आकारः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: kerfuffle/propertiesdialog.ui:173
 #, kde-format
 msgid "Packed size:"
-msgstr "पैक्ड् आकारः : १."
+msgstr "पैक्ड् आकारः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: kerfuffle/propertiesdialog.ui:190
 #, kde-format
 msgid "Compression ratio:"
-msgstr "संपीडन अनुपातः : १."
+msgstr "संपीडन अनुपातः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: kerfuffle/propertiesdialog.ui:207
 #, kde-format
 msgid "Last modified:"
-msgstr "अन्तिम परिवर्तनम् : १."
+msgstr "अन्तिम परिवर्तनम् :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: kerfuffle/propertiesdialog.ui:224
@@ -1258,7 +1258,7 @@ msgstr "MD5 हैश: 1.1."
 #: kerfuffle/propertiesdialog.ui:244
 #, kde-format
 msgid "SHA-1 hash:"
-msgstr "SHA-1 हैशः : १."
+msgstr "SHA-1 हैशः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: kerfuffle/propertiesdialog.ui:261
@@ -1270,13 +1270,13 @@ msgstr "SHA-256 हैश: 1।"
 #: kerfuffle/propertiesdialog.ui:278
 #, kde-format
 msgid "Multi-volume:"
-msgstr "बहुखण्डः : १."
+msgstr "बहुखण्डः :"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: kerfuffle/propertiesdialog.ui:295
 #, kde-format
 msgid "Compression method(s):"
-msgstr "संपीड़न विधि (विधि) : १."
+msgstr "संपीड़न विधि (विधि) :"
 
 #: kerfuffle/queries.cpp:73
 #, kde-format
@@ -1588,7 +1588,7 @@ msgstr "कार्यस्य विषये काश्चन सूचन
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr "%प% ९."
+msgstr "%p%"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
