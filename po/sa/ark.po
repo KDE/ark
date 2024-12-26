@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-12 00:43+0000\n"
-"PO-Revision-Date: 2024-12-24 20:39+0530\n"
+"PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -832,7 +832,7 @@ msgstr ""
 #: kerfuffle/extractiondialog.cpp:115
 #, kde-format
 msgid "Folder exists"
-msgstr "फोल्डर् अस्ति"
+msgstr "समुच्चय अस्ति"
 
 #: kerfuffle/extractiondialog.cpp:116
 #, kde-format
@@ -894,7 +894,7 @@ msgstr "विकल्पाः"
 #: kerfuffle/extractiondialog.ui:125
 #, kde-format
 msgid "Open &destination folder after extraction"
-msgstr "निष्कर्षणानन्तरं &destination फोल्डर् उद्घाटयन्तु"
+msgstr "निष्कर्षणानन्तरं &destination समुच्चय उद्घाटयन्तु"
 
 #. i18n: ectx: property (text), widget (QCheckBox, closeAfterExtraction)
 #: kerfuffle/extractiondialog.ui:132
