@@ -158,6 +158,7 @@
     <p xml:lang="ja">Ark はグラフィカルなファイル圧縮/展開ユーティリティで、tar、gzip、bzip2、rar、zip、および CD-ROM イメージを含む複数の形式をサポートしています。Ark はアーカイブの閲覧、展開、作成、および変更に使用できます。</p>
     <p xml:lang="ka">Ark ფაილების გრაფიკულად შეკუმშვა/გაშლის ხელსაწყოა შეკუმშვის ისეთი ფორმატების მხარდაჭერით, როგორიცაა მაგალითად tar, gzip, bzip2, zip და CD-ROM-ის ასლები. Ark-ს ასევე ეუძლია დაათვალიეროს, გაშალოს, შექმნას და შეცვალოს არქივები.</p>
     <p xml:lang="ko">Ark는 그래픽 압축 파일 관리 도구이며, tar, gzip, bzip2, rar, zip, CD-ROM 이미지 등 여러 파일 형식을 지원합니다. Ark를 사용하여 압축 파일을 열고, 생성하고, 수정하고, 압축을 풀 수 있습니다.</p>
+    <p xml:lang="lt">Ark yra grafinė failų glaudinimo/išskleidimo paslaugų programa, palaikanti daugybę formatų, įskaitant tar, gzip, bzip2, rar ir zip, o taip pat kompaktinių diskų atvaizdžius. Ark gali būti naudojama archyvų naršymui, išpakavimui, kūrimui bei modifikavimui.</p>
     <p xml:lang="lv">„Ark“ ir grafisks datņu saspiešanas/atspiešanas rīks ar daudzu formātu atbalstu, tostarp tar, gzip, bzip2, rar un zip, kā arī CD-ROM attēlu. „Ark“ var izmantot, lai pārlūkotu, atspiestu, izveidotu un mainītu arhīvus.</p>
     <p xml:lang="nb">Ark er et verktøy med grafisk brukerflate, for komprimering/dekomprimering, med støtte for mange formater, deriblant tar, gzip, rar og zip, samt CD-ROM-bilder. Ark kan brukes til å bla i, pakke opp, opprette og endre arkiver.</p>
     <p xml:lang="nds">Ark is en graafsch Komprimeer- un Dekomprimeerwarktüüch, dat en Barg Formaten ünnerstütten deit. Dor sünd tar, gzip, bzip2, rar un zip bi, un ok CD-ROM-Afbiller. Mit Ark kannst Du Archiven dörkieken, opstellen un ännern un Dateien dor ruttrecken.</p>
@@ -270,6 +271,7 @@
       <li xml:lang="ja">さまざまな形式をサポート: gzip、bzip2、zip、rar、7z など</li>
       <li xml:lang="ka">მხარდაჭერილია რამდენიმე ფაილის ფორმატი: gzip, bzip2, rar, 7z და სხვა</li>
       <li xml:lang="ko">다양한 형식 지원: gzip, bzip2, zip, rar, 7z 등</li>
+      <li xml:lang="lt">Palaikomi keli formatai: gzip, bzip2, zip, rar, 7z ir daugiau</li>
       <li xml:lang="lv">Vairāki atbalstīti formāti: gzip, bzip2, zip, rar, 7z un citi</li>
       <li xml:lang="nb">Mange formater støttet: gzip, bzip2, zip, rar, 7z og mer</li>
       <li xml:lang="nds">En Reeg Fomaten warrt ünnerstütt: gzip, bzip2, zip, rar, 7z un anner</li>
@@ -325,6 +327,7 @@
       <li xml:lang="ja">ファイルを展開せずにファイルの内容をプレビュー</li>
       <li xml:lang="ka">ნახეთ ფაილის შიგთავსი არქივების გაშლის გარეშე</li>
       <li xml:lang="ko">압축 풀지 않고 파일 내용 미리 보기</li>
+      <li xml:lang="lt">Peržiūrėti failų turinį neišpakuojant failų</li>
       <li xml:lang="lv">Datņu satura pārlūkošana, datnes neatspiežot</li>
       <li xml:lang="nb">Forhåndsvis innhold uten å pakke ut filer</li>
       <li xml:lang="nds">Datein ahn Ruttrecken vörweg ankieken</li>
@@ -383,6 +386,7 @@
       <caption xml:lang="ja">Ark によるアーカイブの管理</caption>
       <caption xml:lang="ka">მართეთ არქივები Ark-თან ერთად</caption>
       <caption xml:lang="ko">Ark로 압축 파일 관리</caption>
+      <caption xml:lang="lt">Archyvų tvarkymas naudojant Ark</caption>
       <caption xml:lang="lv">Arhīvu pārvaldīšana ar „Ark“</caption>
       <caption xml:lang="nl">Archieven beheren met Ark</caption>
       <caption xml:lang="nn">Handsaming av arkiv med Ark</caption>
