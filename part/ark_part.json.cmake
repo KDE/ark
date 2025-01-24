@@ -73,7 +73,7 @@
         "Name[gl]": "Arquivador",
         "Name[he]": "מנהל ארכיונים",
         "Name[hu]": "Fájltömörítő",
-        "Name[ia]": "Archivaor",
+        "Name[ia]": "Archivator",
         "Name[ie]": "Archivator",
         "Name[is]": "Skráasafnari",
         "Name[it]": "Utilità di archiviazione",
