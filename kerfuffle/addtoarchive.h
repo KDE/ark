@@ -66,6 +66,7 @@ private Q_SLOTS:
 
 private:
     void detectFileName();
+    bool confirmAndDelete(const QString &targetFile);
 
     CompressionOptions m_options;
     CreateJob *m_createJob = nullptr;

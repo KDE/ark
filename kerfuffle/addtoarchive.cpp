@@ -152,6 +152,12 @@ void AddToArchive::slotStartJob()
         detectFileName();
     }
 
+    QFileInfo localFileInfo(m_filename);
+    if (localFileInfo.exists() && !confirmAndDelete(m_filename)) {
+        qCWarning(ARK_LOG) << "Failed to start add job, file" << m_filename << "exists and not removed";
+        return;
+    }
+
     if (m_changeToFirstPath) {
         if (m_firstPath.isEmpty()) {
             qCWarning(ARK_LOG) << "Weird, this should not happen. no firstpath defined. aborting";
@@ -190,6 +196,25 @@ void AddToArchive::detectFileName()
 
     qCDebug(ARK_LOG) << "Autoset filename to" << finalName;
     m_filename = finalName;
+}
+
+bool AddToArchive::confirmAndDelete(const QString &targetFile)
+{
+    QFileInfo targetInfo(targetFile);
+    const auto buttonCode = KMessageBox::warningTwoActions(
+        nullptr,
+        xi18nc("@info", "The archive <filename>%1</filename> already exists. Do you wish to overwrite it?", targetInfo.fileName()),
+        i18nc("@title:window", "File Exists"),
+        KStandardGuiItem::overwrite(),
+        KStandardGuiItem::cancel());
+
+    if (buttonCode != KMessageBox::PrimaryAction || !targetInfo.isWritable()) {
+        return false;
+    }
+
+    qCDebug(ARK_LOG) << "Removing file" << targetInfo;
+
+    return QFile(targetFile).remove();
 }
 
 void AddToArchive::slotFinished(KJob *job)
