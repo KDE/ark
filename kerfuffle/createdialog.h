@@ -77,6 +77,7 @@ private Q_SLOTS:
     void slotUpdateWidgets(int index);
     void slotUpdateDefaultMimeType();
     void slotUpdateFilenameExtension(int index);
+    void slotCheckFileExist();
 };
 }
 

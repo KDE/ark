@@ -13,6 +13,7 @@
 #include "mimetypes.h"
 #include "ui_createdialog.h"
 
+#include <KFileUtils>
 #include <KMessageBox>
 #include <KSharedConfig>
 
@@ -75,6 +76,9 @@ CreateDialog::CreateDialog(QWidget *parent, const QString &caption, const QUrl &
     layout()->setSizeConstraint(QLayout::SetFixedSize);
     m_ui->filenameLineEdit->setFocus();
     slotUpdateFilenameExtension(m_ui->mimeComboBox->currentIndex());
+
+    connect(m_ui->mimeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CreateDialog::slotCheckFileExist);
+    connect(m_ui->chkAddExtension, &QCheckBox::checkStateChanged, this, &CreateDialog::slotCheckFileExist);
 }
 
 void CreateDialog::setFileName(const QString &fileName)
@@ -87,6 +91,8 @@ void CreateDialog::setFileName(const QString &fileName)
     } else {
         m_ui->filenameLineEdit->selectAll();
     }
+
+    slotCheckFileExist();
 }
 
 void CreateDialog::slotFileNameEdited(const QString &fileName)
@@ -234,6 +240,16 @@ bool CreateDialog::setMimeType(const QString &mimeTypeName)
     return true;
 }
 
+void CreateDialog::slotCheckFileExist()
+{
+    const auto url = selectedUrl();
+    auto finalName = selectedUrl().path();
+    if (QFileInfo::exists(finalName)) {
+        finalName = KFileUtils::suggestName(url, finalName);
+        const QFileInfo info(finalName);
+        setFileName(m_ui->chkAddExtension->isChecked() ? info.baseName() : info.fileName());
+    }
+}
 }
 
 #include "createdialog.moc"
