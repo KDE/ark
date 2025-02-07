@@ -31,6 +31,7 @@
         "Description[nl]": "Open en pak uit DEB, RPM, ISO, AppImage, XAR, CAB en EXE bestanden",
         "Description[nn]": "Opna og pakk ut DEB-, RPM-, ISO-, AppImage-, XAR-, CAB- og EXE-filer",
         "Description[pl]": "Otwiera i wypakowuje pliki DEB, RPM, ISO, AppImage, XAR, CAB oraz EXE",
+        "Description[pt_BR]": "Abre e extrai arquivos DEB, RPM, ISO, AppImage, XAR, CAB e EXE",
         "Description[ro]": "Deschide și extrage fișiere DEB, RPM, ISO, AppImage, XAR. CAB și EXE",
         "Description[ru]": "Открытие и распаковка файлов DEB, RPM, ISO, AppImage, XAR, CAB и EXE",
         "Description[sa]": "DEB, RPM, ISO, AppImage, XAR, CAB, EXE सञ्चिकाः उद्घाट्य निष्कासयन्तु",
