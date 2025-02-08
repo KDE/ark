@@ -95,7 +95,7 @@ set(SUPPORTED_ARK_MIMETYPES "")
 add_definitions(-DTRANSLATION_DOMAIN="ark")
 
 ecm_set_disabled_deprecation_versions(QT 5.15.2
-    KF 6.10
+    KF 6.11.0
 )
 
 
