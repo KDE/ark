@@ -6,6 +6,7 @@
 #ifndef ARCHIVESORTFILTERMODEL_H
 #define ARCHIVESORTFILTERMODEL_H
 
+#include <QCollator>
 #include <QSortFilterProxyModel>
 
 class ArchiveSortFilterModel : public QSortFilterProxyModel
@@ -17,6 +18,9 @@ public:
     ~ArchiveSortFilterModel() override;
 
     bool lessThan(const QModelIndex &leftIndex, const QModelIndex &rightIndex) const override;
+
+private:
+    QCollator m_collator;
 };
 
 #endif // ARCHIVESORTFILTERMODEL_H
