@@ -26,4 +26,4 @@ Dependencies:
 
 Options:
  require-passing-tests-on: ['Linux', 'FreeBSD']
- clang-format-versions: [14, 18]
+ clang-format-versions: [15, 18]
