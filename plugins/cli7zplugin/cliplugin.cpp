@@ -243,7 +243,8 @@ bool CliPlugin::readListLine(const QString &line)
             }
 
         } else if (line.startsWith(QLatin1String("Modified = "))) {
-            m_currentArchiveEntry->setProperty("timestamp", QDateTime::fromString(line.mid(11).trimmed(), QStringLiteral("yyyy-MM-dd hh:mm:ss")));
+            const QString dateFormat = QStringLiteral("yyyy-MM-dd hh:mm:ss");
+            m_currentArchiveEntry->setProperty("timestamp", QDateTime::fromString(line.mid(11).trimmed().first(dateFormat.length()), dateFormat));
 
         } else if (line.startsWith(QLatin1String("Folder = "))) {
             const QString isDirectoryStr = line.mid(9).trimmed();
