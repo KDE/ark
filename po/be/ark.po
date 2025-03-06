@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fc57ad16a28d02dea100ceb1c60de14e\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 02:32+0000\n"
+"POT-Creation-Date: 2025-03-06 02:40+0000\n"
 "PO-Revision-Date: 2024-06-01 17:50\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian\n"
@@ -2067,12 +2067,12 @@ msgstr ""
 msgid "Listing the archive failed."
 msgstr "Не ўдалося вывесці спіс файлаў у архіве."
 
-#: plugins/cli7zplugin/cliplugin.cpp:303
+#: plugins/cli7zplugin/cliplugin.cpp:304
 #, kde-format
 msgid "Extraction failed due to an unknown error."
 msgstr "Не ўдалося распакаваць праз невядомую памылку."
 
-#: plugins/cli7zplugin/cliplugin.cpp:308 plugins/clizipplugin/cliplugin.cpp:191
+#: plugins/cli7zplugin/cliplugin.cpp:309 plugins/clizipplugin/cliplugin.cpp:191
 #, kde-format
 msgid ""
 "Extraction failed due to one or more corrupt files. Any extracted files may "
@@ -2081,7 +2081,7 @@ msgstr ""
 "Не ўдалося распакаваць, бо ў архіве пашкоджаны адзін або некалькі файлаў. "
 "Любыя вынятыя файлы могуць быць пашкоджаныя."
 
-#: plugins/cli7zplugin/cliplugin.cpp:318
+#: plugins/cli7zplugin/cliplugin.cpp:319
 #, kde-format
 msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "

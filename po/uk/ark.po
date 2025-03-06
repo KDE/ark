@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 02:32+0000\n"
+"POT-Creation-Date: 2025-03-06 02:40+0000\n"
 "PO-Revision-Date: 2024-04-25 08:12+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -2089,12 +2089,12 @@ msgstr ""
 msgid "Listing the archive failed."
 msgstr "Не вдалося побудувати список вмісту архіву."
 
-#: plugins/cli7zplugin/cliplugin.cpp:303
+#: plugins/cli7zplugin/cliplugin.cpp:304
 #, kde-format
 msgid "Extraction failed due to an unknown error."
 msgstr "Не вдалося видобути дані через невідому помилку."
 
-#: plugins/cli7zplugin/cliplugin.cpp:308 plugins/clizipplugin/cliplugin.cpp:191
+#: plugins/cli7zplugin/cliplugin.cpp:309 plugins/clizipplugin/cliplugin.cpp:191
 #, kde-format
 msgid ""
 "Extraction failed due to one or more corrupt files. Any extracted files may "
@@ -2103,7 +2103,7 @@ msgstr ""
 "Не вдалося видобути дані через пошкодження одного або декількох файлів. Усі "
 "видобуті файли може бути пошкоджено."
 
-#: plugins/cli7zplugin/cliplugin.cpp:318
+#: plugins/cli7zplugin/cliplugin.cpp:319
 #, kde-format
 msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 02:32+0000\n"
+"POT-Creation-Date: 2025-03-06 02:40+0000\n"
 "PO-Revision-Date: 2024-12-13 21:58+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -2052,12 +2052,12 @@ msgstr ""
 msgid "Listing the archive failed."
 msgstr "Produciuse un erro ao listar o arquivo."
 
-#: plugins/cli7zplugin/cliplugin.cpp:303
+#: plugins/cli7zplugin/cliplugin.cpp:304
 #, kde-format
 msgid "Extraction failed due to an unknown error."
 msgstr "A extracción fallou por un erro descoñecido."
 
-#: plugins/cli7zplugin/cliplugin.cpp:308 plugins/clizipplugin/cliplugin.cpp:191
+#: plugins/cli7zplugin/cliplugin.cpp:309 plugins/clizipplugin/cliplugin.cpp:191
 #, kde-format
 msgid ""
 "Extraction failed due to one or more corrupt files. Any extracted files may "
@@ -2066,7 +2066,7 @@ msgstr ""
 "A extracción fallou por un ou máis ficheiros corruptos. Calquera ficheiro "
 "extraído podería estar danado."
 
-#: plugins/cli7zplugin/cliplugin.cpp:318
+#: plugins/cli7zplugin/cliplugin.cpp:319
 #, kde-format
 msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "

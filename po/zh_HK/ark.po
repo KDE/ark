@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark 2.60\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 02:32+0000\n"
+"POT-Creation-Date: 2025-03-06 02:40+0000\n"
 "PO-Revision-Date: 2006-01-13 09:15+0800\n"
 "Last-Translator: Woodman Tuen <wmtuen@gmail.com>\n"
 "Language-Team: Chinese (Hong Kong) <community@linuxhall.org>\n"
@@ -2096,20 +2096,20 @@ msgstr "你必須輸入密碼才能解開檔案："
 msgid "Listing the archive failed."
 msgstr "開啟壓縮檔中..."
 
-#: plugins/cli7zplugin/cliplugin.cpp:303
+#: plugins/cli7zplugin/cliplugin.cpp:304
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extraction failed due to an unknown error."
 msgstr "解壓中..."
 
-#: plugins/cli7zplugin/cliplugin.cpp:308 plugins/clizipplugin/cliplugin.cpp:191
+#: plugins/cli7zplugin/cliplugin.cpp:309 plugins/clizipplugin/cliplugin.cpp:191
 #, kde-format
 msgid ""
 "Extraction failed due to one or more corrupt files. Any extracted files may "
 "be damaged."
 msgstr ""
 
-#: plugins/cli7zplugin/cliplugin.cpp:318
+#: plugins/cli7zplugin/cliplugin.cpp:319
 #, kde-format
 msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
