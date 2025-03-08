@@ -14,13 +14,13 @@
 # obsoleteman <tulliana@gmail.com>, 2010,2012.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014, 2017.
 # Yıldız Kardeşler <turkishprogram@xposta.com>, 2003.
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-06 00:44+0000\n"
-"PO-Revision-Date: 2024-11-21 20:31+0300\n"
+"PO-Revision-Date: 2025-03-07 23:23+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -189,7 +189,7 @@ msgstr "Elvis Angelaccio"
 #: app/main.cpp:86
 #, kde-format
 msgid "Maintainer"
-msgstr "Projeyi Yürüten"
+msgstr "Bakımcı"
 
 #: app/main.cpp:87
 #, kde-format
@@ -199,7 +199,7 @@ msgstr "Ragnar Thomsen"
 #: app/main.cpp:87
 #, kde-format
 msgid "Maintainer, KF5 port"
-msgstr "Projeyi yürüten, KF5 geçişi"
+msgstr "Bakımcı, KF5 geçişi"
 
 #: app/main.cpp:88
 #, kde-format
@@ -209,7 +209,7 @@ msgstr "Raphael Kubo da Costa"
 #: app/main.cpp:88 app/main.cpp:89 app/main.cpp:90
 #, kde-format
 msgid "Former Maintainer"
-msgstr "Önceki Geliştirici"
+msgstr "Önceki bakımcı"
 
 #: app/main.cpp:89
 #, kde-format
@@ -229,7 +229,7 @@ msgstr "Helio Chissini de Castro"
 #: app/main.cpp:91
 #, kde-format
 msgid "Former maintainer"
-msgstr "Önceki geliştirici"
+msgstr "Önceki bakımcı"
 
 #: app/main.cpp:92
 #, kde-format
