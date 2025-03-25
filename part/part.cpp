@@ -1332,7 +1332,7 @@ void Part::slotAddFiles(const QStringList &filesToAdd, const Archive::Entry *des
     }
 
     // Remove trailing slash (needed when adding dirs).
-    if (globalWorkDir.right(1) == QLatin1String("/")) {
+    if (globalWorkDir.endsWith(QLatin1Char('/'))) {
         globalWorkDir.chop(1);
     }
 

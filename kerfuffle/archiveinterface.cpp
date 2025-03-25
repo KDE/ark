@@ -227,7 +227,7 @@ QList<Archive::Entry *> ReadOnlyArchiveInterface::entriesWithoutChildren(const Q
             continue;
         }
 
-        lastFolder = (entry->fullPath().right(1) == QLatin1String("/")) ? entry->fullPath() : QString();
+        lastFolder = (entry->fullPath().endsWith(QLatin1Char('/'))) ? entry->fullPath() : QString();
         filteredEntries << entry;
     }
 
@@ -255,7 +255,7 @@ QStringList ReadOnlyArchiveInterface::entryPathsFromDestination(QStringList entr
             const QString name = entryPath.split(QLatin1Char('/'), Qt::SkipEmptyParts).last();
             if (entriesWithoutChildren != 1) {
                 newPath = destinationPath + name;
-                if (entryPath.right(1) == QLatin1String("/")) {
+                if (entryPath.endsWith(QLatin1Char('/'))) {
                     newPath += QLatin1Char('/');
                 }
             } else {
@@ -263,7 +263,7 @@ QStringList ReadOnlyArchiveInterface::entryPathsFromDestination(QStringList entr
                 // we have to use destination as newPath.
                 newPath = destinationPath;
             }
-            if (entryPath.right(1) == QLatin1String("/")) {
+            if (entryPath.endsWith(QLatin1Char('/'))) {
                 nameLength = name.length() + 1; // plus slash
                 lastFolder = entryPath;
             } else {

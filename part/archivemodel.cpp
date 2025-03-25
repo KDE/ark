@@ -709,7 +709,7 @@ bool ArchiveModel::conflictingEntries(QList<const Archive::Entry *> &conflicting
             lastDirEntry = lastDirEntry->getParent();
         }
 
-        bool isDir = entry.right(1) == QLatin1String("/");
+        bool isDir = entry.endsWith(QLatin1Char('/'));
         const Archive::Entry *archiveEntry = lastDirEntry->find(entry.split(QLatin1Char('/'), Qt::SkipEmptyParts).last());
 
         if (archiveEntry != nullptr) {

@@ -201,7 +201,7 @@ bool ReadWriteLibarchivePlugin::deleteFiles(const QList<Archive::Entry *> &files
 
 void ReadWriteLibarchivePlugin::initializeWriterFormat()
 {
-    if (filename().right(2).toUpper() == QLatin1String("7Z")) {
+    if (filename().endsWith(QLatin1String("7z"), Qt::CaseInsensitive)) {
         archive_write_set_format_7zip(m_archiveWriter.data());
     } else {
         // TAR case:
@@ -303,17 +303,17 @@ bool ReadWriteLibarchivePlugin::initializeNewFileCompressionOptions(const Compre
     int ret;
     bool requiresExecutable = false;
     const auto threads = std::to_string(static_cast<unsigned>(std::thread::hardware_concurrency() * 0.8));
-    const bool is7zFile = filename().right(2).toUpper() == QLatin1String("7Z");
+    const bool is7zFile = filename().endsWith(QLatin1String("7z"), Qt::CaseInsensitive);
 
     if (is7zFile) {
         // 7zip format doesn't need any filter to be set.
-    } else if (filename().right(2).toUpper() == QLatin1String("GZ")) {
+    } else if (filename().endsWith(QLatin1String("gz"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected gzip compression for new file";
         ret = archive_write_add_filter_gzip(m_archiveWriter.data());
-    } else if (filename().right(3).toUpper() == QLatin1String("BZ2")) {
+    } else if (filename().endsWith(QLatin1String("bz2"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected bzip2 compression for new file";
         ret = archive_write_add_filter_bzip2(m_archiveWriter.data());
-    } else if (filename().right(2).toUpper() == QLatin1String("XZ")) {
+    } else if (filename().endsWith(QLatin1String("xz"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected xz compression for new file";
         ret = archive_write_add_filter_xz(m_archiveWriter.data());
 
@@ -322,26 +322,26 @@ bool ReadWriteLibarchivePlugin::initializeNewFileCompressionOptions(const Compre
         if (ret != ARCHIVE_OK) {
             qCWarning(ARK_LOG) << "Failed to set number of threads, fallback to single thread mode" << archive_error_string(m_archiveWriter.data());
         }
-    } else if (filename().right(4).toUpper() == QLatin1String("LZMA")) {
+    } else if (filename().endsWith(QLatin1String("lzma"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected lzma compression for new file";
         ret = archive_write_add_filter_lzma(m_archiveWriter.data());
-    } else if (filename().right(2).toUpper() == QLatin1String(".Z")) {
+    } else if (filename().endsWith(QLatin1String(".z"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected compress (.Z) compression for new file";
         ret = archive_write_add_filter_compress(m_archiveWriter.data());
-    } else if (filename().right(2).toUpper() == QLatin1String("LZ")) {
+    } else if (filename().endsWith(QLatin1String("lz"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected lzip compression for new file";
         ret = archive_write_add_filter_lzip(m_archiveWriter.data());
-    } else if (filename().right(3).toUpper() == QLatin1String("LZO")) {
+    } else if (filename().endsWith(QLatin1String("lzo"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected lzop compression for new file";
         ret = archive_write_add_filter_lzop(m_archiveWriter.data());
-    } else if (filename().right(3).toUpper() == QLatin1String("LRZ")) {
+    } else if (filename().endsWith(QLatin1String("lrzip"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected lrzip compression for new file";
         ret = archive_write_add_filter_lrzip(m_archiveWriter.data());
         requiresExecutable = true;
-    } else if (filename().right(3).toUpper() == QLatin1String("LZ4")) {
+    } else if (filename().endsWith(QLatin1String("lz4"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected lz4 compression for new file";
         ret = archive_write_add_filter_lz4(m_archiveWriter.data());
-    } else if (filename().right(3).toUpper() == QLatin1String("ZST")) {
+    } else if (filename().endsWith(QLatin1String("zst"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected zstd compression for new file";
         ret = archive_write_add_filter_zstd(m_archiveWriter.data());
 
@@ -350,7 +350,7 @@ bool ReadWriteLibarchivePlugin::initializeNewFileCompressionOptions(const Compre
         if (ret != ARCHIVE_OK) {
             qCWarning(ARK_LOG) << "Failed to set number of threads, fallback to single thread mode" << archive_error_string(m_archiveWriter.data());
         }
-    } else if (filename().right(3).toUpper() == QLatin1String("TAR")) {
+    } else if (filename().endsWith(QLatin1String("tar"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected no compression for new file (pure tar)";
         ret = archive_write_add_filter_none(m_archiveWriter.data());
     } else {

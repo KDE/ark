@@ -186,25 +186,16 @@ Archive::~Archive()
 
 QString Archive::completeBaseName() const
 {
-    const QString suffix = QFileInfo(fileName()).suffix();
-    QString base = QFileInfo(fileName()).completeBaseName();
+    const QFileInfo fileInfo(fileName());
+    const QString base = fileInfo.completeBaseName();
 
-    // Special case for compressed tar archives.
-    if (base.right(4).toUpper() == QLatin1String(".TAR")) {
-        base.chop(4);
-
-        // Multi-volume 7z's are named name.7z.001.
-    } else if (base.right(3).toUpper() == QLatin1String(".7Z")) {
-        base.chop(3);
-
-        // Multi-volume zip's are named name.zip.001.
-    } else if (base.right(4).toUpper() == QLatin1String(".ZIP")) {
-        base.chop(4);
-
-        // For multivolume rar's we want to remove the ".partNNN" suffix.
-    } else if (suffix.toUpper() == QLatin1String("RAR")) {
-        static const QRegularExpression multiVolSuffixRegex(QStringLiteral("\\.part[0-9]{1,3}$"));
-        base.remove(multiVolSuffixRegex);
+    // Case for compressed tar archives.
+    // Multi-volume 7z's are named name.7z.001.
+    // Multi-volume zip's are named name.zip.001.
+    // For multivolume rar's we want to remove the ".partNNN" suffix.
+    if (base.endsWith(QLatin1String(".tar"), Qt::CaseInsensitive) || base.endsWith(QLatin1String(".7z"), Qt::CaseInsensitive)
+        || base.endsWith(QLatin1String(".zip"), Qt::CaseInsensitive) || fileInfo.suffix().compare(QLatin1String("rar"), Qt::CaseInsensitive) == 0) {
+        return QFileInfo(base).completeBaseName();
     }
 
     return base;
