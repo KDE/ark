@@ -35,6 +35,8 @@ ecm_setup_version(${RELEASE_SERVICE_VERSION}
 ecm_setup_version(PROJECT
                   VARIABLE_PREFIX KERFUFFLE)
 
+option(BUILD_DOC "Whether to build the documentation" ON)
+
 find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED
     Concurrent
     Core
@@ -43,7 +45,6 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED
 find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS Config
                                                         Crash
                                                         DBusAddons
-                                                        DocTools
                                                         FileMetaData
                                                         I18n
                                                         KIO
@@ -52,6 +53,13 @@ find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS Config
                                                         WidgetsAddons
                                                         WindowSystem
                                                         IconThemes)
+if (BUILD_DOC)
+    find_package(KF6DocTools ${KF_MIN_VERSION})
+    set_package_properties(KF6DocTools PROPERTIES DESCRIPTION
+        "Tools to generate documentation"
+        TYPE REQUIRED
+    )
+endif()
 
 if(NOT WIN32)
     find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS Pty)
@@ -103,14 +111,16 @@ add_subdirectory(plugins)
 add_subdirectory(kerfuffle)
 add_subdirectory(part)
 add_subdirectory(app)
-add_subdirectory(doc)
 
 if(BUILD_TESTING)
     add_subdirectory(autotests)
 endif()
 
+if(BUILD_DOC)
+    add_subdirectory(doc)
+    kdoctools_install(po)
+endif()
 ki18n_install(po)
-kdoctools_install(po)
 
 ecm_qt_install_logging_categories(EXPORT ARK FILE ark.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
