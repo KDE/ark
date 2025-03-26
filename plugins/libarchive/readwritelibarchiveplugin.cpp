@@ -334,7 +334,7 @@ bool ReadWriteLibarchivePlugin::initializeNewFileCompressionOptions(const Compre
     } else if (filename().endsWith(QLatin1String("lzo"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected lzop compression for new file";
         ret = archive_write_add_filter_lzop(m_archiveWriter.data());
-    } else if (filename().endsWith(QLatin1String("lrzip"), Qt::CaseInsensitive)) {
+    } else if (filename().endsWith(QLatin1String("lrz"), Qt::CaseInsensitive)) {
         qCDebug(ARK_LOG) << "Detected lrzip compression for new file";
         ret = archive_write_add_filter_lrzip(m_archiveWriter.data());
         requiresExecutable = true;
