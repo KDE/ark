@@ -302,7 +302,7 @@ bool ReadWriteLibarchivePlugin::initializeNewFileCompressionOptions(const Compre
 {
     int ret;
     bool requiresExecutable = false;
-    const auto threads = std::to_string(static_cast<unsigned>(std::thread::hardware_concurrency() * 0.8));
+    const auto threads = std::to_string(std::max(1u, static_cast<unsigned>(std::thread::hardware_concurrency() * 0.8)));
     const bool is7zFile = filename().endsWith(QLatin1String("7z"), Qt::CaseInsensitive);
 
     if (is7zFile) {
