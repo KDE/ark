@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2024-11-10 20:12+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -552,7 +552,23 @@ msgstr ""
 "Когато използвате аргумента  <command>--autofilename</command>, трябва да "
 "зададете или име или разширение на файла (като rar, tar.gz)."
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr ""
+"Вече има архив с име <filename>%1</filename>. Желаете ли вместо това да го "
+"презапишете?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "Файлът съществува"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -778,13 +794,13 @@ msgstr "Големина на тома:"
 msgid " megabytes"
 msgstr " мегабайта"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "Автоматично добавяне на .%1"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr "Избраната парола не съответства на дадената парола за потвърждение."
@@ -1896,22 +1912,6 @@ msgid ""
 msgstr ""
 "Архивът <filename>%1</filename> не можа да бъде зареден, защото не може да "
 "се чете от него."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr ""
-"Вече има архив с име <filename>%1</filename>. Желаете ли вместо това да го "
-"презапишете?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "Файлът съществува"
 
 #: part/part.cpp:868
 #, kde-kuit-format

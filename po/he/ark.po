@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2024-05-05 11:55+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -548,7 +548,21 @@ msgstr ""
 "יש לספק שם קובץ לארכיון או סיומת (כגון rar,‏ tar.gz) עם הארגומנט ‎<command>--"
 "autofilename</command>‎."
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "הארכיון <filename>%1</filename> כבר קיים. לדרוס אותו?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "הקובץ קיים"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -767,13 +781,13 @@ msgstr "גודל כרך:"
 msgid " megabytes"
 msgstr " מגהבתים"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "להוסיף ‎.%1 אוטומטית"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr "הסיסמה הנבחרת לא תואמת לסיסמת האימות שסופקה."
@@ -1878,20 +1892,6 @@ msgid ""
 "possible to read from it."
 msgstr ""
 "אי אפשר לטעון את הארכיון <filename>%1</filename>, הקריאה ממנו לא הצליחה."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr "הארכיון <filename>%1</filename> כבר קיים. לדרוס אותו?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "הקובץ קיים"
 
 #: part/part.cpp:868
 #, kde-kuit-format

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2025-01-14 14:42+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -570,7 +570,21 @@ msgstr ""
 "(tel que « rar », « tar.gz ») avec l'argument <command>--autofilename</"
 "command>."
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "L'archive <filename>%1</filename> existe déjà. Voulez-vous l'écraser ?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "Le fichier existe"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -804,13 +818,13 @@ msgstr "Taille de volume :"
 msgid " megabytes"
 msgstr " méga-octets"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "Ajouter automatiquement .%1"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr ""
@@ -1934,20 +1948,6 @@ msgid ""
 msgstr ""
 "L'archive <filename>%1</filename> n'a pas pu être chargée, car il est "
 "impossible de la lire."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr "L'archive <filename>%1</filename> existe déjà. Voulez-vous l'écraser ?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "Le fichier existe"
 
 #: part/part.cpp:868
 #, kde-kuit-format

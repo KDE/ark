@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2024-04-29 11:32+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -547,7 +547,21 @@ msgstr ""
 "Meg kell adni az archívum fájlnevét vagy egy kiterjesztést (például rar, tar."
 "gz) és az <command>--autofilename</command> argumentumot."
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "Már létezik <filename>%1</filename> nevű archívum. Szeretné felülírni?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "A fájl létezik"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -771,13 +785,13 @@ msgstr "Kötetméret:"
 msgid " megabytes"
 msgstr " megabájt"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "A .%1 hozzáadása automatikusan"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr "A választott jelszó nem egyezik a megadott ellenőrzési jelszóval."
@@ -1891,20 +1905,6 @@ msgid ""
 msgstr ""
 "A(z) <filename>%1</filename> archívum nem tölthető be, mivel nem lehetett "
 "abból olvasni."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr "Már létezik <filename>%1</filename> nevű archívum. Szeretné felülírni?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "A fájl létezik"
 
 #: part/part.cpp:868
 #, kde-kuit-format

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2009-03-01 12:04+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -549,7 +549,23 @@ msgid ""
 "rar, tar.gz) with the <command>--autofilename</command> argument."
 msgstr ""
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, fuzzy, kde-kuit-format
+#| msgid "The source file could not be read."
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "स्रोत फाइल पढ़ नइ सकिस."
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, fuzzy, kde-format
+#| msgid "File exists"
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "फाइल अस्तित्व मं हे"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt "Default name of a newly-created multi-file archive"
@@ -776,13 +792,13 @@ msgstr ""
 msgid " megabytes"
 msgstr ""
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr ""
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr ""
@@ -1944,22 +1960,6 @@ msgid ""
 "The archive <filename>%1</filename> could not be loaded, as it was not "
 "possible to read from it."
 msgstr "स्रोत फाइल पढ़ नइ सकिस."
-
-#: part/part.cpp:830
-#, fuzzy, kde-kuit-format
-#| msgid "The source file could not be read."
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr "स्रोत फाइल पढ़ नइ सकिस."
-
-#: part/part.cpp:831
-#, fuzzy, kde-format
-#| msgid "File exists"
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "फाइल अस्तित्व मं हे"
 
 #: part/part.cpp:868
 #, kde-kuit-format

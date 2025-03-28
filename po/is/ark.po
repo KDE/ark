@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2024-05-09 12:36+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -566,7 +566,23 @@ msgstr ""
 "skráarendingu (eins og rar, tar.gz) með <command>--autofilename</command> "
 "viðfanginu."
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr ""
+"Safnskráin <filename>%1</filename> er þegar til staðar. Viltu skrifa yfir "
+"hana?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "Skráin er þegar til"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -790,13 +806,13 @@ msgstr "Stærð hluta:"
 msgid " megabytes"
 msgstr " megabæti"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "Bæta .%1 sjálfkrafa við"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr "Lykilorðið sem er valið passar ekki við uppgefið sannprófunarlykilorð."
@@ -1907,22 +1923,6 @@ msgid ""
 msgstr ""
 "Ekki tókst að hlaða inn safnskránni <filename>%1</filename> því ekki var "
 "hægt að lesa úr henni."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr ""
-"Safnskráin <filename>%1</filename> er þegar til staðar. Viltu skrifa yfir "
-"hana?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "Skráin er þegar til"
 
 #: part/part.cpp:868
 #, kde-kuit-format

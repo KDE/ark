@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2024-08-19 21:07+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -541,7 +541,22 @@ msgstr ""
 "압축 파일의 파일 이름을 입력하거나 <command>--autofilename</command> 인자와 "
 "같이 접미사(rar, tar.gz)를 입력해야 합니다."
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr ""
+"압축 파일 <filename>%1</filename>이(가) 이미 존재합니다. 덮어쓰시겠습니까?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "파일이 존재함"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -759,13 +774,13 @@ msgstr "볼륨 크기:"
 msgid " megabytes"
 msgstr "메가바이트"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "자동으로 .%1 붙이기"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr "지정한 암호가 확인 암호와 일치하지 않습니다."
@@ -1861,21 +1876,6 @@ msgid ""
 "possible to read from it."
 msgstr ""
 "압축 파일 <filename>%1</filename>에서 읽을 수 없으므로 불러올 수 없습니다."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr ""
-"압축 파일 <filename>%1</filename>이(가) 이미 존재합니다. 덮어쓰시겠습니까?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "파일이 존재함"
 
 #: part/part.cpp:868
 #, kde-kuit-format

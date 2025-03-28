@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2024-08-26 09:39+0300\n"
 "Last-Translator: Αντώνης Γέραλης <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
@@ -564,7 +564,23 @@ msgstr ""
 "Θα πρέπει να δώσετε ένα όνομα αρχείου για την αρχειοθήκη ή ένα επίθεμα (όπως "
 "rar, tar.tz) με την παράμετρο <command>--autofilename</command>."
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr ""
+"Η αρχειοθήκη <filename>%1</filename> υπάρχει ήδη. Επιθυμείτε την "
+"αντικατάστασή της;"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "Υπάρχον αρχείο"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -798,13 +814,13 @@ msgstr "Μέγεθος τόμου:"
 msgid " megabytes"
 msgstr " megabytes"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "Αυτόματη προσθήκη. %1"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr ""
@@ -1930,22 +1946,6 @@ msgid ""
 msgstr ""
 "Αδυναμία φόρτωσης της αρχειοθήκης <filename>%1</filename>, καθώς δεν ήταν "
 "δυνατή η ανάγνωσή της."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr ""
-"Η αρχειοθήκη <filename>%1</filename> υπάρχει ήδη. Επιθυμείτε την "
-"αντικατάστασή της;"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "Υπάρχον αρχείο"
 
 #: part/part.cpp:868
 #, kde-kuit-format

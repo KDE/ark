@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2024-04-25 10:16+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -543,7 +543,23 @@ msgstr ""
 "<command>--autofilename</command> არგუმენტთან ერთად გჭირდებათ ან არქივის "
 "ფაილის სახელის მითითება, ან სუფიქსის (როგორიცაა rar, tar.gz)."
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr ""
+"არქივი სახელით <filename>%1</filename> უკვე არსებობს. გნებავთ, თავზე "
+"გადავაწერო?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "ფაილი უკვე არსებობს"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -763,13 +779,13 @@ msgstr "ტომის ზომა:"
 msgid " megabytes"
 msgstr " მეგაბაიტი"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr ".%1-ის ავტომატურად დამატება"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr "არჩეული პაროლი შემოწმების შეყვანილ პაროლს არ ემთხვევა."
@@ -1876,22 +1892,6 @@ msgid ""
 msgstr ""
 "არქივის <filename>%1</filename> ჩატვირთვა შეუძლებელია, რადგან მისგან "
 "წაკითხვის მცდელობა შეცდომით დასრულდა."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr ""
-"არქივი სახელით <filename>%1</filename> უკვე არსებობს. გნებავთ, თავზე "
-"გადავაწერო?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "ფაილი უკვე არსებობს"
 
 #: part/part.cpp:868
 #, kde-kuit-format

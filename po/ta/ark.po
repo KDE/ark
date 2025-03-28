@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2024-04-28 17:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -553,7 +553,21 @@ msgstr ""
 "உருவாக்க வேண்டிய காப்பகத்திற்கான பெயரையோ, <command>--autofilename</command> "
 "விருப்பத்துடன் பின்னொட்டையோ (rar, tar.gz போல) நீங்கள் குறிப்பிட வேண்டும்."
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "<filename>%1</filename> என்ற காப்பகம் ஏற்கனவேயுள்ளது. அதனை மேலெழுத வேண்டுமா?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "கோப்பு ஏற்கனவே உள்ளது"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -776,13 +790,13 @@ msgstr "பகுதியின் அளவு:"
 msgid " megabytes"
 msgstr " மெகாபைட்டுகள்"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr ".%1 என்பதை தானாக சேர்"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr "இருமுறையும் வெவ்வேறு கடவுச்சொற்களை உள்ளிட்டுள்ளீர்கள்."
@@ -1881,20 +1895,6 @@ msgid ""
 "The archive <filename>%1</filename> could not be loaded, as it was not "
 "possible to read from it."
 msgstr "<filename>%1</filename> என்ற காப்பகத்தை படிக்க முடியாத‍தால் அது ஏற்றப்படவில்லை."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr "<filename>%1</filename> என்ற காப்பகம் ஏற்கனவேயுள்ளது. அதனை மேலெழுத வேண்டுமா?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "கோப்பு ஏற்கனவே உள்ளது"
 
 #: part/part.cpp:868
 #, kde-kuit-format

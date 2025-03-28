@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2012-06-11 15:59+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -581,7 +581,25 @@ msgstr ""
 "អ្នក​ត្រូវ​តែ​ផ្ដល់​ឈ្មោះ​ឯកសារ​សម្រាប់​ប័ណ្ណសារ​ ឬ​បច្ច័យ (ដូច​ជា rar, tar.gz) ជា​មួយ​អាគុយម៉ង់ "
 "<command>--autofilename</command> ។"
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info"
+#| msgid ""
+#| "The archive <filename>%1</filename> already exists. Would you like to "
+#| "open it instead?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "មាន​ប័ណ្ណសារ <filename>%1</filename> រួច​ហើយ ។ តើ​​អ្នក​ចង់​បើក​វា​ជំនួស​វិញ​ឬ ?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "មាន​ឯកសារ​រួច​ហើយ"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt "Default name of a newly-created multi-file archive"
@@ -818,14 +836,14 @@ msgstr ""
 msgid " megabytes"
 msgstr ""
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, fuzzy, kde-format
 #| msgid "&Automatically create subfolders"
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "បង្កើត​ថតរង​ដោយ​ស្វ័យ​ប្រវត្តិ"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr ""
@@ -2001,24 +2019,6 @@ msgid ""
 "The archive <filename>%1</filename> could not be loaded, as it was not "
 "possible to read from it."
 msgstr "មាន​ប័ណ្ណសារ <filename>%1</filename> រួច​ហើយ ។ តើ​​អ្នក​ចង់​បើក​វា​ជំនួស​វិញ​ឬ ?"
-
-#: part/part.cpp:830
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "The archive <filename>%1</filename> already exists. Would you like to "
-#| "open it instead?"
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr "មាន​ប័ណ្ណសារ <filename>%1</filename> រួច​ហើយ ។ តើ​​អ្នក​ចង់​បើក​វា​ជំនួស​វិញ​ឬ ?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "មាន​ឯកសារ​រួច​ហើយ"
 
 #: part/part.cpp:868
 #, fuzzy, kde-kuit-format

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2017-12-15 12:38+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -588,7 +588,22 @@ msgstr ""
 "Morate ili zadati ime fajla za arhivu ili sufiks (kao što su rar, tar.gz, "
 "itd.) uz opciju --autofilename."
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr ""
+"Arhiva <filename>%1</filename> već postoji. Želite li da je prebrišete?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "Fajl postoji"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, fuzzy, kde-format
 #| msgid "Archive"
 msgctxt "Default name of a newly-created multi-file archive"
@@ -828,13 +843,13 @@ msgstr "Veličina delova:"
 msgid " megabytes"
 msgstr " megabajta"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "Automatski dodaj .%1"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr "Izabrana lozinka ne odgovara zadatoj lozinci za overu."
@@ -1992,21 +2007,6 @@ msgid ""
 msgstr ""
 "Arhiva <filename>%1</filename> ne može da se učita, pošto ne može da se čita "
 "iz nje."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr ""
-"Arhiva <filename>%1</filename> već postoji. Želite li da je prebrišete?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "Fajl postoji"
 
 #: part/part.cpp:868
 #, kde-kuit-format

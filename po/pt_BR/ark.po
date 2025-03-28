@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2025-02-06 00:23-0300\n"
 "Last-Translator: Guilherme Marçal Silva <guimarcalsilva@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -563,10 +563,24 @@ msgstr ""
 "Você precisa fornecer um nome de arquivo para o arquivo compactado ou um "
 "sufixo (como rar, tar.gz) com o argumento <command>--autofilename</command>."
 
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "O arquivo <filename>%1</filename> já existe. Deseja sobrescrevê-lo?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "O arquivo já existe"
+
 # A partir da versão 16.04 do Ark , há menus dois menus separados para as ações com arquivos compactados "Archive" e para arquivos que estão dentro dos arquivos compactados "File".
 # Por esse, motivo a tradução ficou como "Arquivo compactado" no menu, de forma a diferenciar as ações. A tradução apenas como "arquivo" é usada sempre que não houver conflito entre os termos.
 # Todos os programas que pesquisei usam a tradução "arquivo" para definir os arquivos compactados (como zip, rar, tar), mesmo que tecnicamente a definição não seja a mais adequada (alguns não são compactados, como o tar). (Alvarenga)
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -792,13 +806,13 @@ msgstr "Tamanho do volume:"
 msgid " megabytes"
 msgstr " megabytes"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "Adicionar automaticamente o .%1"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr "A senha escolhida não corresponde à senha de verificação indicada."
@@ -1927,20 +1941,6 @@ msgid ""
 msgstr ""
 "Não foi possível carregar o arquivo <filename>%1</filename> porque os dados "
 "não puderam ser lidos."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr "O arquivo <filename>%1</filename> já existe. Deseja sobrescrevê-lo?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "O arquivo já existe"
 
 #: part/part.cpp:868
 #, kde-kuit-format

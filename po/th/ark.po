@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2010-12-18 15:47+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -577,7 +577,25 @@ msgstr ""
 "คุณต้องกำหนดชื่อแฟ้มของแฟ้มจัดเก็บหรือส่วนขยายต่อท้ายแฟ้ม (เช่น  rar, tar.tz) "
 "ร่วมกับอาร์กิวเมนต์ <command>--autofilename</command> ด้วย"
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, fuzzy, kde-kuit-format
+#| msgid ""
+#| "The archive <filename>%1</filename> already exists. Would you like to "
+#| "open it instead?"
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr ""
+"มีแฟ้มจัดเก็บ <filename>%1</filename> อยู่ก่อนแล้ว คุณต้องการจะทำการเปิดมันแทนหรือไม่ ?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "มีแฟ้มอยู่ก่อนแล้ว"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt "Default name of a newly-created multi-file archive"
@@ -812,14 +830,14 @@ msgstr ""
 msgid " megabytes"
 msgstr ""
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, fuzzy, kde-format
 #| msgid "&Automatically create subfolders"
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "ทำการสร้างโฟลเดอร์ย่อยให้โดย&อัตโนมัติ"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr ""
@@ -2000,24 +2018,6 @@ msgid ""
 "possible to read from it."
 msgstr ""
 "มีแฟ้มจัดเก็บ <filename>%1</filename> อยู่ก่อนแล้ว คุณต้องการจะทำการเปิดมันแทนหรือไม่ ?"
-
-#: part/part.cpp:830
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "The archive <filename>%1</filename> already exists. Would you like to "
-#| "open it instead?"
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr ""
-"มีแฟ้มจัดเก็บ <filename>%1</filename> อยู่ก่อนแล้ว คุณต้องการจะทำการเปิดมันแทนหรือไม่ ?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "มีแฟ้มอยู่ก่อนแล้ว"
 
 #: part/part.cpp:868
 #, fuzzy, kde-kuit-format

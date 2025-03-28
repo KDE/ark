@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-06 00:44+0000\n"
+"POT-Creation-Date: 2025-03-28 00:44+0000\n"
 "PO-Revision-Date: 2024-10-16 18:26+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -564,7 +564,21 @@ msgstr ""
 "Anna joko arkiston tiedostonimi tai pääte (esim. .rar tai .tar.gz) "
 "<command>--autofilename</command>-valitsimen kanssa."
 
-#: kerfuffle/addtoarchive.cpp:244
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#, kde-kuit-format
+msgctxt "@info"
+msgid ""
+"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
+"it?"
+msgstr "Arkisto <filename>%1</filename> on jo olemassa. Haluatko korvata sen?"
+
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#, kde-format
+msgctxt "@title:window"
+msgid "File Exists"
+msgstr "Tiedosto on olemassa"
+
+#: kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
@@ -786,13 +800,13 @@ msgstr "Osan koko:"
 msgid " megabytes"
 msgstr " megatavua"
 
-#: kerfuffle/createdialog.cpp:111
+#: kerfuffle/createdialog.cpp:117
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
 msgstr "Lisää .%1 automaattisesti"
 
-#: kerfuffle/createdialog.cpp:198
+#: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
 msgstr "Valittu salasana ja salasanan vahvistus eivät täsmää."
@@ -1901,20 +1915,6 @@ msgid ""
 msgstr ""
 "Arkiston <filename>%1</filename> lataaminen epäonnistui, koska siitä ei "
 "voitu lukea."
-
-#: part/part.cpp:830
-#, kde-kuit-format
-msgctxt "@info"
-msgid ""
-"The archive <filename>%1</filename> already exists. Do you wish to overwrite "
-"it?"
-msgstr "Arkisto <filename>%1</filename> on jo olemassa. Haluatko korvata sen?"
-
-#: part/part.cpp:831
-#, kde-format
-msgctxt "@title:window"
-msgid "File Exists"
-msgstr "Tiedosto on olemassa"
 
 #: part/part.cpp:868
 #, kde-kuit-format
