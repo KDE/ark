@@ -228,7 +228,7 @@ bool CliPlugin::readListLine(const QString &line)
             m_currentArchiveEntry->compressedSizeIsSet = false;
         }
         if (line.startsWith(QLatin1String("Path = "))) {
-            const QString entryFilename = QDir::fromNativeSeparators(line.mid(7).trimmed());
+            const QString entryFilename = QDir::fromNativeSeparators(line.mid(7));
             m_currentArchiveEntry->setProperty("fullPath", entryFilename);
 
         } else if (line.startsWith(QLatin1String("Size = "))) {
