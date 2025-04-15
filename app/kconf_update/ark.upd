@@ -1,4 +1,4 @@
-Version=5
+Version=6
 
 Id=add-hamburgermenu-to-toolbar
 Script=ark_add_hamburgermenu_to_toolbar.sh
