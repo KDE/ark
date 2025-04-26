@@ -1,7 +1,7 @@
 # Translation for ark.po to Euskara/Basque (eu).
 # Copyright (C) 1999-2024 This file is copyright:
 # This file is distributed under the same license as the ark package.
-# SPDX-FileCopyrightText: 2023, 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
+# SPDX-FileCopyrightText: 2023, 2024, 2025 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Marcos  <marcosgoi@jazzfree.com>, 2000.
@@ -13,14 +13,14 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-28 00:44+0000\n"
-"PO-Revision-Date: 2024-09-01 07:33+0200\n"
+"PO-Revision-Date: 2025-04-25 22:10+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.0\n"
+"X-Generator: Lokalize 25.04.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -414,9 +414,9 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
-"Honek <emphasis>Menu-barra</emphasis> bat edo <interface>Hanburgesa-menu</"
-"interface> botoi baten artean trukatzen du. Biek dituzte, oro har komando "
-"eta konfiguratzeko aukera berdinak."
+"Honek <emphasis>Menu-barra</emphasis> bat edo <interface>Hanburger menu</"
+"interface> botoi bat izatearen artean trukatzen du. Biek dituzte, oro har "
+"komando eta konfiguratzeko aukera berdinak."
 
 #: app/mainwindow.cpp:315
 #, kde-format
