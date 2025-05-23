@@ -572,7 +572,7 @@ msgstr "解压时保留路径。"
 #, kde-format
 msgid ""
 "Extract to a subfolder if the archive has more than one top-level entry."
-msgstr "如果压缩文件含多个顶层目录，将它们解压到子文件夹中。"
+msgstr "压缩文件有多个顶级目录时，解压到子文件夹中。"
 
 #. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
 #: kerfuffle/ark.kcfg:41
@@ -954,25 +954,25 @@ msgstr ""
 #: kerfuffle/extractionsettingspage.ui:44
 #, kde-format
 msgid "Extract to a subfolder if the archive has more than one top-level entry"
-msgstr "如果压缩文件含多个顶层目录，将它们解压到子文件夹中。"
+msgstr "压缩文件有多个顶级目录时，解压到子文件夹中。"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/generalsettingspage.ui:17
 #, kde-format
 msgid "When clicking a file in an archive or pressing the Return key:"
-msgstr "点击压缩文件中的文件或按下回车键时："
+msgstr "点击压缩文件中的文件、或按下回车键时："
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: kerfuffle/generalsettingspage.ui:33
 #, kde-format
 msgid "Pre&view the file with internal previewer"
-msgstr "预览 - 使用 Ark 的内建查看程序预览文件(&V)"
+msgstr "预览(使用内建查看器)(&V)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: kerfuffle/generalsettingspage.ui:43
 #, kde-format
 msgid "Open the fi&le with associated application"
-msgstr "打开 - 使用关联的应用程序打开文件(&L)"
+msgstr "打开(使用关联的外部程序)(&L)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
 #: kerfuffle/generalsettingspage.ui:60
@@ -1102,7 +1102,7 @@ msgstr "描述"
 #: kerfuffle/previewsettingspage.ui:22
 #, kde-format
 msgid "Disable preview for files larger than:"
-msgstr "禁用预览 - 如果文件体积大于："
+msgstr "允许预览的文件大小上限："
 
 #: kerfuffle/propertiesdialog.cpp:41
 #, kde-format
@@ -1617,7 +1617,7 @@ msgstr "副本另存为..."
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr "使用外部应用程序打开(&O)"
+msgstr "打开选中项目(使用外部程序)(&O)"
 
 #: part/part.cpp:372
 #, kde-format
@@ -1685,7 +1685,7 @@ msgstr "点击以添加新文件到该压缩文件中"
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
-msgstr "从压缩文件中移除"
+msgstr "移除选中项目"
 
 #: part/part.cpp:422
 #, kde-format
