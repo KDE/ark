@@ -997,7 +997,8 @@ msgstr ""
 #: kerfuffle/generalsettingspage.ui:17
 #, kde-format
 msgid "When clicking a file in an archive or pressing the Return key:"
-msgstr "Fent clic en un fitxer, un arxiu o prement la tecla «Retorn»:"
+msgstr ""
+"Quan es clique damunt d'un fitxer en un arxiu o prement la tecla «Retorn»:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: kerfuffle/generalsettingspage.ui:33
