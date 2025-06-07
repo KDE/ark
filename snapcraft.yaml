@@ -21,6 +21,7 @@ apps:
       - raw-usb
       - mount-observe
       - audio-playback
+      - removeable-media
     environment:
       ALSA_CONFIG_PATH: "$SNAP/kf6/etc/asound.conf"
 layout:
@@ -47,7 +48,7 @@ parts:
     stage-packages:
       - bzip2
       - p7zip-full
-      - unrar
+      - unrar-free
       - unzip
       - zip
       - rar
@@ -58,6 +59,7 @@ parts:
       - libasound2
       - libasound2-plugins
       - libasound2-data
+      - unar
     source: .
     source-type: local
     cmake-parameters:
