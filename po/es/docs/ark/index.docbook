@@ -201,7 +201,7 @@
 
 <para
 >Para abrir un archivo comprimido en &ark;, seleccione <guimenuitem
->Abrir...</guimenuitem
+>Abrir…</guimenuitem
 > (<keycombo action="simul"
 >&Ctrl;<keycap
 >O</keycap
@@ -227,7 +227,7 @@
 >Puede realizar varias operaciones en un archivo comprimido abierto usando el menú <guimenu
 >Archivo comprimido</guimenu
 >. Por ejemplo, puede guardar el archivo comprimido con un nombre diferente usando <guimenuitem
->Guardar como...</guimenuitem
+>Guardar como…</guimenuitem
 >. Puede ver las propiedades del archivo comprimido (como su tipo, tamaño y suma de comprobación MD5) usando la opción <guimenuitem
 >Propiedades</guimenuitem
 >.</para>
@@ -331,7 +331,7 @@
 <listitem>
 <para
 ><guimenuitem
->Abrir con...</guimenuitem
+>Abrir con…</guimenuitem
 > le permite escoger una aplicación para abrir el archivo.</para>
 </listitem>
 <listitem>
@@ -409,7 +409,7 @@
 >Si edita y guarda un archivo que había abierto usando <guimenuitem
 >Abrir</guimenuitem
 > o <guimenuitem
->Abrir con...</guimenuitem
+>Abrir con…</guimenuitem
 >, &ark; le preguntará si desea actualizar dicho archivo dentro del archivo comprimido. Si responde afirmativamente, se actualizará dicho archivo dentro del archivo comprimido.</para>
 
 </sect2>
@@ -425,7 +425,7 @@
 > en el menú <guimenu
 >Archivo</guimenu
 >. Esto abre un submenú con las carpetas a las que ha accedido anteriormente, donde podrá seleccionar una para extraer archivos rápidamente en ella. También puede realizar la misma acción usando la opción del submenú <guisubmenu
->Extraer en...</guisubmenu
+>Extraer en…</guisubmenu
 > para abrir el diálogo <guilabel
 >Extraer</guilabel
 >, donde podrá ajustar diversas opciones que afectan a la extracción. Consulte más adelante la información sobre las opciones disponibles en el diálogo de extracción.</para>
@@ -538,7 +538,7 @@
 
 <para
 >Para añadir archivos o carpetas en el nuevo archivo comprimido, use <guimenuitem
->Añadir archivos...</guimenuitem
+>Añadir archivos…</guimenuitem
 > en el menú <guimenu
 >Archivo comprimido</guimenu
 >.</para>
@@ -670,7 +670,7 @@
 <listitem>
 <para
 ><guimenuitem
->Extraer en...</guimenuitem
+>Extraer en…</guimenuitem
 > abre un diálogo de extracción en el que podrá escoger la carpeta de destino y varias opciones de extracción.</para>
 </listitem>
 </itemizedlist>
@@ -692,7 +692,7 @@
 <listitem>
 <para
 ><guimenuitem
->Comprimir en...</guimenuitem
+>Comprimir en…</guimenuitem
 > abre un diálogo en el que podrá seleccionar la carpeta, el nombre y el tipo de archivo comprimido.</para>
 </listitem>
 </itemizedlist>
