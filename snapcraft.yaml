@@ -45,10 +45,11 @@ parts:
       - pkg-config
       - zlib1g-dev
       - libpulse0
+      - liblhasa-dev
     stage-packages:
       - bzip2
       - p7zip-full
-      - unrar-free
+      - unrar
       - unzip
       - zip
       - rar
@@ -60,6 +61,8 @@ parts:
       - libasound2-plugins
       - libasound2-data
       - unar
+      - lhasa
+      - liblhasa0
     source: .
     source-type: local
     cmake-parameters:
