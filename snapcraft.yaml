@@ -21,7 +21,7 @@ apps:
       - raw-usb
       - mount-observe
       - audio-playback
-      - removeable-media
+      - removable-media
     environment:
       ALSA_CONFIG_PATH: "$SNAP/kf6/etc/asound.conf"
 layout:
