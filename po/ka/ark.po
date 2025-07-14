@@ -576,7 +576,7 @@ msgstr "ZIP არქივის AES დაშიფვრით შექმ�
 #: kerfuffle/ark.kcfg:13
 #, kde-format
 msgid "Default action when opening archive entries."
-msgstr "არქივის ჩანაწერის გახსნის ნაგულისხმები ქმედება."
+msgstr "არქივის ჩანაწერის გახსნის ნაგულისხმევი ქმედება."
 
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
 #: kerfuffle/ark.kcfg:27
