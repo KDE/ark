@@ -49,6 +49,7 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 
     fileWidget->setMode(KFile::Directory | KFile::LocalOnly | KFile::ExistingOnly);
     fileWidget->setOperationMode(KFileWidget::Saving);
+    fileWidget->setCurrentUrlSelectable(true);
 
     // This signal is emitted e.g. when the user presses Return while in the location bar.
     connect(fileWidget, &KFileWidget::accepted, this, &ExtractionDialog::slotAccepted);
