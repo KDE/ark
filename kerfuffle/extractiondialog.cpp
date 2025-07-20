@@ -53,10 +53,10 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 
     // This signal is emitted e.g. when the user presses Return while in the location bar.
     connect(fileWidget, &KFileWidget::accepted, this, &ExtractionDialog::slotAccepted);
+    connect(fileWidget->okButton(), &QPushButton::clicked, fileWidget, &KFileWidget::slotOk);
 
     fileWidget->okButton()->setText(i18n("Extract"));
     fileWidget->okButton()->show();
-    connect(fileWidget->okButton(), &QPushButton::clicked, this, &ExtractionDialog::slotAccepted);
 
     fileWidget->cancelButton()->show();
     connect(fileWidget->cancelButton(), &QPushButton::clicked, this, &QDialog::reject);
@@ -84,19 +84,6 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 
 void ExtractionDialog::slotAccepted()
 {
-    // If an item is selected, enter it if it exists and is a dir.
-    if (!fileWidget->dirOperator()->selectedItems().isEmpty()) {
-        QFileInfo fi(fileWidget->dirOperator()->selectedItems().urlList().first().path());
-        if (fi.isDir() && fi.exists()) {
-            fileWidget->locationEdit()->clear();
-            fileWidget->setUrl(QUrl::fromLocalFile(fi.absoluteFilePath()));
-        }
-        return;
-    }
-
-    // We extract to baseUrl().
-    const QString destinationPath = fileWidget->baseUrl().path();
-
     // If extracting to a subfolder, we need to do some checks.
     if (extractToSubfolder()) {
         // Check if subfolder contains slashes.
@@ -104,9 +91,15 @@ void ExtractionDialog::slotAccepted()
             KMessageBox::error(this, i18n("The subfolder name may not contain the character '/'."));
             return;
         }
+    }
 
+    fileWidget->accept();
+    // We extract to baseUrl().
+    const auto destinationPath = fileWidget->selectedUrl().toLocalFile();
+
+    if (extractToSubfolder()) {
         // Handle existing subfolder.
-        const QString pathWithSubfolder = destinationPath + subfolder();
+        const QString pathWithSubfolder = QDir(destinationPath).filePath(subfolder());
         while (1) {
             if (QDir(pathWithSubfolder).exists()) {
                 if (QFileInfo(pathWithSubfolder).isDir()) {
@@ -149,7 +142,6 @@ void ExtractionDialog::slotAccepted()
     }
     conf.writePathEntry("DirHistory", destHistory);
 
-    fileWidget->accept();
     accept();
 }
 
@@ -272,18 +264,11 @@ bool ExtractionDialog::closeAfterExtraction() const
 
 QUrl ExtractionDialog::destinationDirectory() const
 {
+    QUrl finalDestination = fileWidget->selectedUrl();
     if (extractToSubfolder()) {
-        QUrl subUrl = fileWidget->baseUrl();
-        if (subUrl.path().endsWith(QDir::separator())) {
-            subUrl.setPath(subUrl.path() + subfolder());
-        } else {
-            subUrl.setPath(subUrl.path() + QDir::separator() + subfolder());
-        }
-
-        return subUrl;
-    } else {
-        return fileWidget->baseUrl();
+        finalDestination.setPath(QDir(finalDestination.path()).filePath(subfolder()));
     }
+    return finalDestination;
 }
 
 void ExtractionDialog::writeSettings()
