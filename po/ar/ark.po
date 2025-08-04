@@ -11,7 +11,7 @@
 # Fahad Al-Saidi <fahad.alsaidi@gmail.com>, 2007.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # Youness BOUTYOUR <niceboy@linuxac.org>, 2008.
-# SPDX-FileCopyrightText: 2008, 2024 zayed <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2008, 2024, 2025 zayed <zayed.alsaidi@gmail.com>
 # Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2010, 2021, 2022, 2023.
 # Abdalrahim G. Fakhouri <abdilra7eem@yahoo.com>, 2014.
 msgid ""
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-28 00:44+0000\n"
-"PO-Revision-Date: 2024-05-02 10:46+0400\n"
+"PO-Revision-Date: 2025-08-03 15:06+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -477,7 +477,7 @@ msgstr "أنشئ أرشيفًا"
 #: app/welcomeview/welcomeview.ui:193
 #, kde-format
 msgid "Clear Recent Files"
-msgstr "امسح الملفات الحديثة"
+msgstr "امحُ الملفات الحديثة"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:222
@@ -495,7 +495,7 @@ msgstr "مساعدة"
 #: app/welcomeview/welcomeview.ui:273
 #, kde-format
 msgid "Visit homepage"
-msgstr "زر الصفحة الرئيسية"
+msgstr "زر الصفحة الرئيسة"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:286
@@ -644,7 +644,7 @@ msgstr "فشل في الاستخراج. مساحة غير كافية على ال
 msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
 "enough space is available."
-msgstr "فشل الاستخراج. تأكد من تقديم كلمة المرور الصحيحة ومن توفر مساحة كافية."
+msgstr "فشل الاستخراج. تأكد من تقديم كلمة السر الصحيحة ومن توفر مساحة كافية."
 
 #: kerfuffle/cliinterface.cpp:357 kerfuffle/cliinterface.cpp:478
 #, kde-format
@@ -740,7 +740,7 @@ msgstr "الأقصى"
 #: kerfuffle/compressionoptionswidget.ui:118
 #, kde-format
 msgid "Password Protection"
-msgstr "حماية كلمة المرور"
+msgstr "حماية كلمة السر"
 
 #. i18n: ectx: property (text), widget (QLabel, lblEncMethod)
 #: kerfuffle/compressionoptionswidget.ui:130
@@ -752,7 +752,7 @@ msgstr "طريقة التشفير:"
 #: kerfuffle/compressionoptionswidget.ui:160
 #, kde-format
 msgid "Ask for password before showing the list of files in the archive"
-msgstr "اطلب كلمة المرور قبل إظهار قائمة الملفات في الأرشيف"
+msgstr "اطلب كلمة السر قبل إظهار قائمة الملفات في الأرشيف"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
 #: kerfuffle/compressionoptionswidget.ui:170
@@ -796,7 +796,7 @@ msgstr "أضف آليا .%1"
 #: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
-msgstr "كلمة المرور المختارة لا تتطابق مع كلمة مرور التحقق المقدمة."
+msgstr "كلمة السر المختارة لا تتطابق مع كلمة مرور التحقق المقدمة."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/createdialog.ui:30
@@ -1815,7 +1815,7 @@ msgid ""
 "encryption is currently not supported.<nl/><nl/>Extract the files and create "
 "a new archive if you want to add files."
 msgstr ""
-"إضافة ملفات إلى الأرشيفات الموجودة المحمية بكلمة مرور بدون تشفير الرأس غير "
+"إضافة ملفات إلى الأرشيفات الموجودة المحمية بكلمة سر بلا تعمية الرأس غير "
 "مدعومة حاليًا. <nl/><nl/>استخراج الملفات وإنشاء أرشيف جديد إذا كنت تريد إضافة "
 "ملفات."
 
@@ -1825,7 +1825,7 @@ msgctxt "@info:tooltip"
 msgid ""
 "Testing password-protected archives with no header-encryption is currently "
 "not supported."
-msgstr "اختبار الأرشيفات المحمية بكلمة مرور بدون تشفير الرأس غير مدعوم حاليًا."
+msgstr "اختبار الأرشيفات المحمية بكلمة مرور بلا تعمية الرأس غير مدعوم حاليًا."
 
 #: part/part.cpp:505
 #, kde-format
@@ -2185,7 +2185,7 @@ msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
-msgstr "قد يكون الأرشيف تالفًا أو يحتوي على تشفير رأسي، وهو غير مدعوم حاليًا."
+msgstr "قد يكون الأرشيف تالفًا أو يحتوي على تعمية رأسية، وهو غير مدعوم حاليًا."
 
 #: plugins/libarchive/libarchiveplugin.cpp:482
 #, kde-format
