@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-28 00:44+0000\n"
-"PO-Revision-Date: 2025-08-03 15:06+0400\n"
+"PO-Revision-Date: 2025-08-04 18:38+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -350,8 +350,8 @@ msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
 "tar.gz, zip or any other supported types)"
 msgstr ""
-"اختر اسم الملف بشكل تلقائي باللاحقة المختارة (على سبيل المثال rar  أو tar."
-"gz  أو أي نوع مدعوم)"
+"اختر اسم الملف بشكل آليّ باللاحقة المختارة (على سبيل المثال rar  أو tar.gz  "
+"أو أي نوع مدعوم)"
 
 #: app/main.cpp:143
 #, kde-format
@@ -791,7 +791,7 @@ msgstr " ميغابايت"
 #, kde-format
 msgctxt "the argument is a file extension (the period is not a typo)"
 msgid "Automatically add .%1"
-msgstr "أضف آليا .%1"
+msgstr "أضف آليّا .%1"
 
 #: kerfuffle/createdialog.cpp:204
 #, kde-format
@@ -937,7 +937,7 @@ msgstr "&حافظ على المسارات أثناء الاستخراج"
 #: kerfuffle/extractiondialog.ui:146
 #, kde-format
 msgid "&Automatically create subfolders"
-msgstr "أ&نشئ المجلدات الفرعية تلقائيا"
+msgstr "أ&نشئ المجلدات الفرعية آليّا"
 
 #. i18n: ectx: property (title), widget (QGroupBox, filesToExtractGroupBox)
 #: kerfuffle/extractiondialog.ui:175
@@ -983,7 +983,7 @@ msgid ""
 "Whether to check by default the extraction into subfolder checkbox in the "
 "Extraction Dialog, when the archive has more than one top-level entry."
 msgstr ""
-"ما إذا كان سيتم التحقق افتراضيًا من الاستخراج في خانة اختيار المجلد الفرعي في "
+"ما إذا كان سيتم التحقق مبدئيًا من الاستخراج في خانة اختيار المجلد الفرعي في "
 "مربع حوار الاستخراج ، عندما يكون للأرشيف أكثر من إدخال مستوى أعلى."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
