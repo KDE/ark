@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-28 00:44+0000\n"
-"PO-Revision-Date: 2025-08-04 18:38+0400\n"
+"PO-Revision-Date: 2025-08-05 21:33+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -530,7 +530,7 @@ msgstr "أضِف"
 #: kerfuffle/adddialog.ui:35
 #, kde-format
 msgid "Files/Folders to Compress"
-msgstr "الملفات/الملجدات المراد ضغطها"
+msgstr "الملفات/الملحدات المراد ضغطها"
 
 #: kerfuffle/addtoarchive.cpp:78
 #, kde-format
@@ -576,7 +576,7 @@ msgstr "أرشيف"
 #, kde-format
 msgid ""
 "Whether to show a warning when creating zip archives with AES encryption."
-msgstr "ما إذا كان سيتم إظهار تحذير عند إنشاء أرشيفات مضغوطة بتشفير AES."
+msgstr "ما إذا كان سيظهر تحذير عند إنشاء أرشيفات مضغوطة بتشفير AES."
 
 #. i18n: ectx: label, entry (defaultOpenAction), group (General)
 #: kerfuffle/ark.kcfg:13
@@ -895,7 +895,7 @@ msgstr "استخراج عدة أرشيفات"
 #: kerfuffle/extractiondialog.ui:21
 #, kde-format
 msgid "Extraction Dialog"
-msgstr "مربع حوار اللاستخراج"
+msgstr "مربع حوار للاستخراج"
 
 #. i18n: ectx: property (text), widget (QLabel, extractAllLabel)
 #: kerfuffle/extractiondialog.ui:70
@@ -983,8 +983,8 @@ msgid ""
 "Whether to check by default the extraction into subfolder checkbox in the "
 "Extraction Dialog, when the archive has more than one top-level entry."
 msgstr ""
-"ما إذا كان سيتم التحقق مبدئيًا من الاستخراج في خانة اختيار المجلد الفرعي في "
-"مربع حوار الاستخراج ، عندما يكون للأرشيف أكثر من إدخال مستوى أعلى."
+"ما إذا كان سيتحقق مبدئيًا من الاستخراج في خانة اختيار المجلد الفرعي في مربع "
+"حوار الاستخراج ، عندما يكون للأرشيف أكثر من إدخال مستوى أعلى."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
 #: kerfuffle/extractionsettingspage.ui:44
@@ -1522,7 +1522,7 @@ msgstr "يغلق المعاينة"
 #: part/arkviewer.cpp:53
 #, kde-format
 msgid "Please wait while the preview is being closed..."
-msgstr "الرجاء الانتظار حالما يتم غلق المعاينة..."
+msgstr "الرجاء الانتظار حالما يغلق المعاينة..."
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1671,7 +1671,7 @@ msgstr "الملاحظة"
 #: part/part.cpp:125
 #, kde-format
 msgid "Comment has been modified."
-msgstr "عُدلj الملاحظة"
+msgstr "عدلت الملاحظة"
 
 #: part/part.cpp:130
 #, kde-format
@@ -2191,7 +2191,7 @@ msgstr "قد يكون الأرشيف تالفًا أو يحتوي على تعم�
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
-msgstr "خطأ فادح ، تم إحباط الاستخراج."
+msgstr "خطأ فادح ، أحبط الاستخراج."
 
 #: plugins/libarchive/libarchiveplugin.cpp:508
 #, kde-format
