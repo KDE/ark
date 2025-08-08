@@ -6,7 +6,9 @@
     "sdk": "org.kde.Sdk",
     "command": "ark",
     "rename-icon": "ark",
-    "tags": ["nightly"],
+    "tags": [
+        "nightly"
+    ],
     "desktop-file-name-prefix": "(Nightly) ",
     "finish-args": [
         "--device=dri",
@@ -58,7 +60,9 @@
         },
         {
             "name": "libarchive",
-            "config-opts": ["--without-xml2"],
+            "config-opts": [
+                "--without-xml2"
+            ],
             "sources": [
                 {
                     "type": "archive",
