@@ -35,8 +35,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/facebook/zstd/releases/download/v1.4.5/zstd-1.4.5.tar.gz",
-                    "sha256": "98e91c7c6bf162bf90e4e70fdbc41a8188b9fa8de5ad840c401198014406ce9e",
+                    "url": "https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-1.5.7.tar.gz",
+                    "sha256": "eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 12083,
@@ -57,8 +57,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/lz4/lz4/archive/v1.9.2.tar.gz",
-                    "sha256": "658ba6191fa44c92280d4aa2c271b0f4fbc0e34d249578dd05e50e76d0e5efcc",
+                    "url": "https://github.com/lz4/lz4/archive/v1.10.0.tar.gz",
+                    "sha256": "537512904744b35e232912055ccf8ec66d768639ff3abe5788d90d792ec5f48b",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 1865,
@@ -74,8 +74,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.libarchive.org/downloads/libarchive-3.4.3.tar.xz",
-                    "sha256": "0bfc3fd40491768a88af8d9b86bf04a9e95b6d41a94f9292dbc0ec342288c05f",
+                    "url": "https://www.libarchive.org/downloads/libarchive-3.8.1.tar.xz",
+                    "sha256": "19f917d42d530f98815ac824d90c7eaf648e9d9a50e4f309c812457ffa5496b5",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 1558,
@@ -91,8 +91,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://libzip.org/download/libzip-1.6.1.tar.xz",
-                    "sha256": "705dac7a671b3f440181481e607b0908129a9cf1ddfcba75d66436c0e7d33641",
+                    "url": "https://libzip.org/download/libzip-1.11.4.tar.xz",
+                    "sha256": "8a247f57d1e3e6f6d11413b12a6f28a9d388de110adc0ec608d893180ed7097b",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 10649,
@@ -139,8 +139,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/ckolivas/lrzip/archive/v0.631.tar.gz",
-                    "sha256": "10315c20d5a47590e7220c210735ba169677824d5672509266682eccec84d952",
+                    "url": "https://github.com/ckolivas/lrzip/archive/v0.651.tar.gz",
+                    "sha256": "f4c84de778a059123040681fd47c17565fcc4fec0ccc68fcf32d97fad16cd892",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 1842,
