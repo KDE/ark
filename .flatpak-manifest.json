@@ -12,8 +12,8 @@
         "--device=dri",
         "--filesystem=host",
         "--share=ipc",
-        "--socket=wayland",
         "--socket=fallback-x11",
+        "--socket=wayland",
         "--talk-name=org.a11y.Bus"
     ],
     "cleanup": [
