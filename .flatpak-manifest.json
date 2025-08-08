@@ -23,6 +23,7 @@
         "*.la",
         "/include",
         "/lib/pkgconfig",
+        "/share/app-info",
         "/share/doc",
         "/share/man"
     ],
