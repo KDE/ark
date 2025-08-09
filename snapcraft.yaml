@@ -62,7 +62,7 @@ parts:
       - unar
       - lhasa
       - liblhasa0
-      - on amd64:
+      on amd64:
       - rar
     source: .
     source-type: local
