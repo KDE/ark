@@ -52,7 +52,6 @@ parts:
       - unrar
       - unzip
       - zip
-      - rar
       - libarchive13
       - libzip4
       - zlib1g
@@ -63,6 +62,8 @@ parts:
       - unar
       - lhasa
       - liblhasa0
+      - on amd64:
+        - rar
     source: .
     source-type: local
     cmake-parameters:
