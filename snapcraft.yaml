@@ -62,8 +62,8 @@ parts:
       - unar
       - lhasa
       - liblhasa0
-      on amd64:
-      - rar
+      - on amd64:
+        - rar
     source: .
     source-type: local
     cmake-parameters:
