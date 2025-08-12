@@ -251,6 +251,7 @@ LoadJob::LoadJob(Archive *archive)
 LoadJob::LoadJob(ReadOnlyArchiveInterface *interface)
     : LoadJob(nullptr, interface)
 {
+    setFinishedNotificationHidden();
 }
 
 void LoadJob::doWork()
