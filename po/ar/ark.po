@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-03-28 00:44+0000\n"
-"PO-Revision-Date: 2025-08-09 21:29+0400\n"
+"PO-Revision-Date: 2025-08-14 13:25+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1651,8 +1651,8 @@ msgid ""
 "Files with the following paths already exist. Remove them if you really want "
 "to overwrite."
 msgstr ""
-"الملفات ذات المسارات التالية موجودة بالفعل. قم بإزالتها إذا كنت تريد حقًا "
-"الكتابة فوقها."
+"الملفات ذات المسارات التالية موجودة فعلًا. أزلها إذا كنت تريد حقًا الكتابة "
+"فوقها."
 
 #: part/overwritedialog.cpp:28
 #, kde-format
@@ -1660,8 +1660,7 @@ msgid ""
 "Files with the following paths already exist. Do you want to continue "
 "overwriting them?"
 msgstr ""
-"الملفات ذات المسارات التالية موجودة بالفعل. هل تريد الاستمرار في الكتابة "
-"فوقها؟"
+"الملفات ذات المسارات التالية موجودة فعلًا. هل تريد الاستمرار في الكتابة فوقها؟"
 
 #: part/part.cpp:112
 #, kde-format
