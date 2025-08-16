@@ -9,7 +9,7 @@
     "tags": [
         "nightly"
     ],
-    "desktop-file-name-suffix": "(Nightly) ",
+    "desktop-file-name-suffix": " (Nightly)",
     "finish-args": [
         "--device=dri",
         "--filesystem=host",
