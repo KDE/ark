@@ -237,8 +237,7 @@ LoadJob::LoadJob(Archive *archive, ReadOnlyArchiveInterface *interface)
     , m_dirCount(0)
     , m_filesCount(0)
 {
-    // Don't show "finished" notification when finished
-    setProperty("transientProgressReporting", true);
+    setFinishedNotificationHidden();
     qCDebug(ARK_LOG) << "Created job instance";
     connect(this, &LoadJob::newEntry, this, &LoadJob::onNewEntry);
 }
