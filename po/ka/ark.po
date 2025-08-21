@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-28 00:44+0000\n"
+"POT-Creation-Date: 2025-08-21 00:46+0000\n"
 "PO-Revision-Date: 2024-04-25 10:16+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -1034,43 +1034,43 @@ msgstr ""
 "არქივის ჩატვირთვა შეუძლებელია, რადგან ის არასწორ ჩანაწერებს შეიცავს და "
 "შეიძლება მავნე არქივს წარმოადგენდეს."
 
-#: kerfuffle/jobs.cpp:258
+#: kerfuffle/jobs.cpp:257
 #, kde-format
 msgid "Loading archive"
 msgstr "არქივის ჩატვირთვა"
 
-#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:551 kerfuffle/jobs.cpp:733
-#: kerfuffle/jobs.cpp:785 kerfuffle/jobs.cpp:822 kerfuffle/jobs.cpp:853
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Archive"
 msgstr "არქივი"
 
-#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:582
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "მოწყობილობაზე <filename>%1</filename> ადგილი აღარაა"
 
-#: kerfuffle/jobs.cpp:545
+#: kerfuffle/jobs.cpp:544
 #, kde-format
 msgid "Extracting all files"
 msgstr "ყველა ფაილის გაშლა"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:547 kerfuffle/jobs.cpp:656
+#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "1 ფაილის გაშლა"
 msgstr[1] "%1 ფაილის გაშლა"
 
-#: kerfuffle/jobs.cpp:552
+#: kerfuffle/jobs.cpp:551
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "დანიშნულება"
 
-#: kerfuffle/jobs.cpp:556
+#: kerfuffle/jobs.cpp:555
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1079,40 +1079,40 @@ msgstr ""
 "სამიზნეში <filename>%1</filename> ჩაწერის შეცდომა.<nl/>შეამოწმეთ, თქვენ "
 "წვდომები საკმარისი თუა."
 
-#: kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:731
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "ფაილის შეკუმშვა"
 msgstr[1] "%1 ფაილის შეკუმშვა"
 
-#: kerfuffle/jobs.cpp:784
+#: kerfuffle/jobs.cpp:783
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "1 ფაილის გადატანა"
 msgstr[1] "%1 ფაილის გადატანა"
 
-#: kerfuffle/jobs.cpp:821
+#: kerfuffle/jobs.cpp:820
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "ფაილის კოპირება"
 msgstr[1] "%1 ფაილის კოპირება"
 
-#: kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:851
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "არქივიდან ფაილის წაშლა"
 msgstr[1] "არქივიდან %1 ფაილის წაშლა"
 
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:874
 #, kde-format
 msgid "Adding comment"
 msgstr "კომენტარის დამატება"
 
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Testing archive"
 msgstr "არქივის ტესტირება"
