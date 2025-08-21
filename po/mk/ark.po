@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-28 00:44+0000\n"
+"POT-Creation-Date: 2025-08-21 02:48+0000\n"
 "PO-Revision-Date: 2006-05-08 10:32+0200\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -1079,34 +1079,34 @@ msgid ""
 "be a malicious archive."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:258
+#: kerfuffle/jobs.cpp:257
 #, fuzzy, kde-format
 #| msgid "Creating archive..."
 msgid "Loading archive"
 msgstr "Создавам архива..."
 
-#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:551 kerfuffle/jobs.cpp:733
-#: kerfuffle/jobs.cpp:785 kerfuffle/jobs.cpp:822 kerfuffle/jobs.cpp:853
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:898
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
 msgid "Archive"
 msgstr "Отвори „архива“"
 
-#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:582
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
 #, fuzzy, kde-kuit-format
 #| msgid "Folder to extract to"
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Папка во која ќе се отпакува"
 
-#: kerfuffle/jobs.cpp:545
+#: kerfuffle/jobs.cpp:544
 #, fuzzy, kde-format
 #| msgid "Extract all files"
 msgid "Extracting all files"
 msgstr "Ги распакувам сите датотеки"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:547 kerfuffle/jobs.cpp:656
+#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
 #, fuzzy, kde-format
 #| msgid "Extract all files"
 msgid "Extracting one file"
@@ -1115,21 +1115,21 @@ msgstr[0] "Ги распакувам сите датотеки"
 msgstr[1] "Ги распакувам сите датотеки"
 msgstr[2] "Ги распакувам сите датотеки"
 
-#: kerfuffle/jobs.cpp:552
+#: kerfuffle/jobs.cpp:551
 #, fuzzy, kde-format
 #| msgid "Destination folder: "
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Одредишна папка: "
 
-#: kerfuffle/jobs.cpp:556
+#: kerfuffle/jobs.cpp:555
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:731
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Compressing a file"
@@ -1138,7 +1138,7 @@ msgstr[0] "Додавам датотеки..."
 msgstr[1] "Додавам датотеки..."
 msgstr[2] "Додавам датотеки..."
 
-#: kerfuffle/jobs.cpp:784
+#: kerfuffle/jobs.cpp:783
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Moving a file"
@@ -1147,7 +1147,7 @@ msgstr[0] "Додавам датотеки..."
 msgstr[1] "Додавам датотеки..."
 msgstr[2] "Додавам датотеки..."
 
-#: kerfuffle/jobs.cpp:821
+#: kerfuffle/jobs.cpp:820
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Copying a file"
@@ -1156,7 +1156,7 @@ msgstr[0] "Додавам датотеки..."
 msgstr[1] "Додавам датотеки..."
 msgstr[2] "Додавам датотеки..."
 
-#: kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:851
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgid "Deleting a file from the archive"
@@ -1165,13 +1165,13 @@ msgstr[0] "Се случи грешка при додавањето на дат�
 msgstr[1] "Се случи грешка при додавањето на датотеките во архивата."
 msgstr[2] "Се случи грешка при додавањето на датотеките во архивата."
 
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:874
 #, fuzzy, kde-format
 #| msgid "Adding folder..."
 msgid "Adding comment"
 msgstr "Додавам папка..."
 
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:898
 #, fuzzy, kde-format
 #| msgid "Creating archive..."
 msgid "Testing archive"

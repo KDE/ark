@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-28 00:44+0000\n"
+"POT-Creation-Date: 2025-08-21 02:48+0000\n"
 "PO-Revision-Date: 2024-04-28 11:34+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -1044,30 +1044,30 @@ msgstr ""
 "Nie można wczytać archiwum, bo zawiera zniekształcone wpisy i może być "
 "szkodliwe dla systemu."
 
-#: kerfuffle/jobs.cpp:258
+#: kerfuffle/jobs.cpp:257
 #, kde-format
 msgid "Loading archive"
 msgstr "Wczytywanie archiwum"
 
-#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:551 kerfuffle/jobs.cpp:733
-#: kerfuffle/jobs.cpp:785 kerfuffle/jobs.cpp:822 kerfuffle/jobs.cpp:853
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Archive"
 msgstr "Archiwum"
 
-#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:582
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Brak wolnego miejsca na urządzeniu <filename>%1</filename>"
 
-#: kerfuffle/jobs.cpp:545
+#: kerfuffle/jobs.cpp:544
 #, kde-format
 msgid "Extracting all files"
 msgstr "Wypakowywanie wszystkich plików"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:547 kerfuffle/jobs.cpp:656
+#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1075,13 +1075,13 @@ msgstr[0] "Wypakowywanie 1 pliku"
 msgstr[1] "Wypakowywanie %1 plików"
 msgstr[2] "Wypakowywanie %1 plików"
 
-#: kerfuffle/jobs.cpp:552
+#: kerfuffle/jobs.cpp:551
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Miejsce docelowe"
 
-#: kerfuffle/jobs.cpp:556
+#: kerfuffle/jobs.cpp:555
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1090,7 +1090,7 @@ msgstr ""
 "Nie można zapisać w miejscu docelowym <filename>%1</filename>.<nl/>Sprawdź "
 "czy masz wystarczające uprawnienia."
 
-#: kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:731
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
@@ -1098,7 +1098,7 @@ msgstr[0] "Pakowanie pliku"
 msgstr[1] "Pakowanie %1 plików"
 msgstr[2] "Pakowanie %1 plików"
 
-#: kerfuffle/jobs.cpp:784
+#: kerfuffle/jobs.cpp:783
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
@@ -1106,7 +1106,7 @@ msgstr[0] "Przenoszenie pliku"
 msgstr[1] "Przenoszenie %1 plików"
 msgstr[2] "Przenoszenie %1 plików"
 
-#: kerfuffle/jobs.cpp:821
+#: kerfuffle/jobs.cpp:820
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
@@ -1114,7 +1114,7 @@ msgstr[0] "Kopiowanie pliku"
 msgstr[1] "Kopiowanie %1 plików"
 msgstr[2] "Kopiowanie %1 plików"
 
-#: kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:851
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1122,12 +1122,12 @@ msgstr[0] "Usuwanie 1 pliku z archiwum"
 msgstr[1] "Usuwanie %1 plików z archiwum"
 msgstr[2] "Usuwanie %1 plików z archiwum"
 
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:874
 #, kde-format
 msgid "Adding comment"
 msgstr "Dodawanie uwag"
 
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Testing archive"
 msgstr "Próba archiwum"

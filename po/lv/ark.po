@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-28 00:44+0000\n"
+"POT-Creation-Date: 2025-08-21 02:48+0000\n"
 "PO-Revision-Date: 2024-10-02 21:34+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -1041,30 +1041,30 @@ msgstr ""
 "Neielādēja arhīvu, jo tas satur nepareizi formatētus ierakstus un varētu būt "
 "ļaunprātīgi izveidots arhīvs."
 
-#: kerfuffle/jobs.cpp:258
+#: kerfuffle/jobs.cpp:257
 #, kde-format
 msgid "Loading archive"
 msgstr "Ielādē arhīvu"
 
-#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:551 kerfuffle/jobs.cpp:733
-#: kerfuffle/jobs.cpp:785 kerfuffle/jobs.cpp:822 kerfuffle/jobs.cpp:853
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Archive"
 msgstr "Arhīvs"
 
-#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:582
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Ierīcē nepietiek vietas: <filename>%1</filename>"
 
-#: kerfuffle/jobs.cpp:545
+#: kerfuffle/jobs.cpp:544
 #, kde-format
 msgid "Extracting all files"
 msgstr "Atspiež visas datnes"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:547 kerfuffle/jobs.cpp:656
+#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1072,13 +1072,13 @@ msgstr[0] "Atspiež %1 datni"
 msgstr[1] "Atspiež %1 datnes"
 msgstr[2] "Atspiež %1 datņu"
 
-#: kerfuffle/jobs.cpp:552
+#: kerfuffle/jobs.cpp:551
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Mērķa vieta"
 
-#: kerfuffle/jobs.cpp:556
+#: kerfuffle/jobs.cpp:555
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1087,7 +1087,7 @@ msgstr ""
 "Neizdevās rakstīt mērķa vietā: <filename>%1</filename>.<nl/>Pārbaudiet, vai "
 "jums ir nepieciešamās atļaujas."
 
-#: kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:731
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
@@ -1095,7 +1095,7 @@ msgstr[0] "Saspiež %1 datni"
 msgstr[1] "Saspiež %1 datnes"
 msgstr[2] "Saspiež %1 datņu"
 
-#: kerfuffle/jobs.cpp:784
+#: kerfuffle/jobs.cpp:783
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
@@ -1103,7 +1103,7 @@ msgstr[0] "Pārvieto %1 datni"
 msgstr[1] "Pārvieto %1 datnes"
 msgstr[2] "Pārvieto %1 datņu"
 
-#: kerfuffle/jobs.cpp:821
+#: kerfuffle/jobs.cpp:820
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
@@ -1111,7 +1111,7 @@ msgstr[0] "Kopē %1 datni"
 msgstr[1] "Kopē %1 datnes"
 msgstr[2] "Kopē %1 datņu"
 
-#: kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:851
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1119,12 +1119,12 @@ msgstr[0] "Dzēš %1 arhīva datni"
 msgstr[1] "Dzēš %1 arhīva datnes"
 msgstr[2] "Dzēš %1 arhīva datņu"
 
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:874
 #, kde-format
 msgid "Adding comment"
 msgstr "Pievienot komentāru"
 
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Testing archive"
 msgstr "Pārbauda arhīvu"

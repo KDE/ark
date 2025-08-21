@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-28 00:44+0000\n"
+"POT-Creation-Date: 2025-08-21 02:48+0000\n"
 "PO-Revision-Date: 2020-10-23 11:22+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -1050,45 +1050,45 @@ msgstr ""
 "Arhiivi laadimine nurjus, kuna see sisaldab vääral kujul kirjeid ja võib "
 "seega olla pahatahtlikult loodud."
 
-#: kerfuffle/jobs.cpp:258
+#: kerfuffle/jobs.cpp:257
 #, kde-format
 msgid "Loading archive"
 msgstr "Arhiivi laadimine"
 
-#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:551 kerfuffle/jobs.cpp:733
-#: kerfuffle/jobs.cpp:785 kerfuffle/jobs.cpp:822 kerfuffle/jobs.cpp:853
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Archive"
 msgstr "Arhiiv"
 
-#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:582
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Error creating directory <filename>%1</filename>"
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Tõrge kataloogi <filename>%1</filename> loomisel"
 
-#: kerfuffle/jobs.cpp:545
+#: kerfuffle/jobs.cpp:544
 #, kde-format
 msgid "Extracting all files"
 msgstr "Kõigi failide lahtipakkimine"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:547 kerfuffle/jobs.cpp:656
+#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "Ühe faili lahtipakkimine"
 msgstr[1] "%1 faili lahtipakkimine"
 
-#: kerfuffle/jobs.cpp:552
+#: kerfuffle/jobs.cpp:551
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Sihtkoht"
 
-#: kerfuffle/jobs.cpp:556
+#: kerfuffle/jobs.cpp:555
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1097,40 +1097,40 @@ msgstr ""
 "<filename>%1</filename> kirjutamine sihtkohta nurjus.<nl/>Kontrolli, kas sul "
 "on selleks piisavalt õigusi."
 
-#: kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:731
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "Faili tihendamine"
 msgstr[1] "%1 faili tihendamine"
 
-#: kerfuffle/jobs.cpp:784
+#: kerfuffle/jobs.cpp:783
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "Faili liigutamine"
 msgstr[1] "%1 faili liigutamine"
 
-#: kerfuffle/jobs.cpp:821
+#: kerfuffle/jobs.cpp:820
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "Faili kopeerimine"
 msgstr[1] "%1 faili kopeerimine"
 
-#: kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:851
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "Faili kustutamine arhiivist"
 msgstr[1] "%1 faili  kustutamine"
 
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:874
 #, kde-format
 msgid "Adding comment"
 msgstr "Kommentaari lisamine"
 
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Testing archive"
 msgstr "Arhiivi test"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-28 00:44+0000\n"
+"POT-Creation-Date: 2025-08-21 02:48+0000\n"
 "PO-Revision-Date: 2013-03-05 14:53+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -1045,54 +1045,54 @@ msgid ""
 "be a malicious archive."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:258
+#: kerfuffle/jobs.cpp:257
 #, fuzzy, kde-format
 #| msgid "Loading archive..."
 msgid "Loading archive"
 msgstr "संग्रह दाखल करत आहे..."
 
-#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:551 kerfuffle/jobs.cpp:733
-#: kerfuffle/jobs.cpp:785 kerfuffle/jobs.cpp:822 kerfuffle/jobs.cpp:853
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:898
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgid "Archive"
 msgstr "संग्रह उघडा"
 
-#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:582
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
 #, fuzzy, kde-kuit-format
 #| msgid "There was an error during extraction."
 msgid "No space available on device <filename>%1</filename>"
 msgstr "बाहेर काढताना त्रुटी आढळली."
 
-#: kerfuffle/jobs.cpp:545
+#: kerfuffle/jobs.cpp:544
 #, kde-format
 msgid "Extracting all files"
 msgstr "सर्व फाईल्स बाहेर काढत आहे"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:547 kerfuffle/jobs.cpp:656
+#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "एक फाईल बाहेर काढत आहे"
 msgstr[1] "%1 फाईल्स बाहेर काढत आहे"
 
-#: kerfuffle/jobs.cpp:552
+#: kerfuffle/jobs.cpp:551
 #, fuzzy, kde-format
 #| msgid "Destination"
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "लक्ष्य"
 
-#: kerfuffle/jobs.cpp:556
+#: kerfuffle/jobs.cpp:555
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:731
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1101,7 +1101,7 @@ msgid_plural "Compressing %1 files"
 msgstr[0] "फाईल जोडत आहे"
 msgstr[1] "%1 फाईल्स जोडत आहे"
 
-#: kerfuffle/jobs.cpp:784
+#: kerfuffle/jobs.cpp:783
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1110,7 +1110,7 @@ msgid_plural "Moving %1 files"
 msgstr[0] "फाईल जोडत आहे"
 msgstr[1] "%1 फाईल्स जोडत आहे"
 
-#: kerfuffle/jobs.cpp:821
+#: kerfuffle/jobs.cpp:820
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1119,21 +1119,21 @@ msgid_plural "Copying %1 files"
 msgstr[0] "फाईल जोडत आहे"
 msgstr[1] "%1 फाईल्स जोडत आहे"
 
-#: kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:851
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:874
 #, fuzzy, kde-format
 #| msgctxt "File comment"
 #| msgid "Comment"
 msgid "Adding comment"
 msgstr "टीप"
 
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:898
 #, fuzzy, kde-format
 #| msgid "Loading archive..."
 msgid "Testing archive"

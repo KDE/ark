@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-28 00:44+0000\n"
-"PO-Revision-Date: 2025-08-14 13:25+0400\n"
+"POT-Creation-Date: 2025-08-21 02:48+0000\n"
+"PO-Revision-Date: 2025-08-20 21:26+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -576,7 +576,7 @@ msgstr "أرشيف"
 #, kde-format
 msgid ""
 "Whether to show a warning when creating zip archives with AES encryption."
-msgstr "ما إذا كان سيظهر تحذير عند إنشاء أرشيفات مضغوطة بتشفير AES."
+msgstr "ما إذا كان سيظهر تحذير عند إنشاء أرشيفات مضغوطة بتعمية AES."
 
 #. i18n: ectx: label, entry (defaultOpenAction), group (General)
 #: kerfuffle/ark.kcfg:13
@@ -746,7 +746,7 @@ msgstr "حماية كلمة السر"
 #: kerfuffle/compressionoptionswidget.ui:130
 #, kde-format
 msgid "Encryption method:"
-msgstr "طريقة التشفير:"
+msgstr "طريقة التعمية:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, encryptHeaderCheckBox)
 #: kerfuffle/compressionoptionswidget.ui:160
@@ -759,7 +759,7 @@ msgstr "اطلب كلمة السر قبل إظهار قائمة الملفات �
 #, kde-format
 msgid ""
 "This encryption method may not be supported by older archiving software."
-msgstr "قد لا تدعم برامج الأرشفة القديمة طريقة التشفير هذه."
+msgstr "قد لا تدعم برامج الأرشفة القديمة طريقة التعمية هذه."
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleMultiVolume)
 #: kerfuffle/compressionoptionswidget.ui:183
@@ -1015,7 +1015,7 @@ msgstr "ا&فتح الملف المحدد بالتطبيق المرتبط"
 #: kerfuffle/generalsettingspage.ui:60
 #, kde-format
 msgid "Show a warning when creating zip archives with AES encryption"
-msgstr "أظهر تحذير عند إنشاء أرشيفات مضغوطة بتشفير AES"
+msgstr "أظهر تحذير عند إنشاء أرشيفات مضغوطة بتعمية AES"
 
 #: kerfuffle/jobs.cpp:100
 #, kde-format
@@ -1038,30 +1038,30 @@ msgid ""
 msgstr ""
 "تعذر تحميل الأرشيف لأنه يحتوي على إدخالات غير صحيحة وقد يكون أرشيفًا ضارًا."
 
-#: kerfuffle/jobs.cpp:258
+#: kerfuffle/jobs.cpp:257
 #, kde-format
 msgid "Loading archive"
 msgstr "يحمل الأرشيف..."
 
-#: kerfuffle/jobs.cpp:258 kerfuffle/jobs.cpp:551 kerfuffle/jobs.cpp:733
-#: kerfuffle/jobs.cpp:785 kerfuffle/jobs.cpp:822 kerfuffle/jobs.cpp:853
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Archive"
 msgstr "الأرشيف"
 
-#: kerfuffle/jobs.cpp:410 kerfuffle/jobs.cpp:582
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "لا يوجد مساحة متبقية في الجهاز  <filename>%1</filename>"
 
-#: kerfuffle/jobs.cpp:545
+#: kerfuffle/jobs.cpp:544
 #, kde-format
 msgid "Extracting all files"
 msgstr "استخراج كل الملفات"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:547 kerfuffle/jobs.cpp:656
+#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1072,13 +1072,13 @@ msgstr[3] "استخراج %1 ملفات"
 msgstr[4] "استخراج %1 ملفا"
 msgstr[5] "استخراج %1 ملف"
 
-#: kerfuffle/jobs.cpp:552
+#: kerfuffle/jobs.cpp:551
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "المقصد"
 
-#: kerfuffle/jobs.cpp:556
+#: kerfuffle/jobs.cpp:555
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1087,7 +1087,7 @@ msgstr ""
 "تعذرت الكتابة إلى الوجهة <filename>%1</filename>.<nl/> تحقق مما إذا كان لديك "
 "أذونات كافية."
 
-#: kerfuffle/jobs.cpp:732
+#: kerfuffle/jobs.cpp:731
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
@@ -1098,7 +1098,7 @@ msgstr[3] "يضغط %1 ملفات"
 msgstr[4] "يضغط %1 ملفا"
 msgstr[5] "يضغط %1 ملف"
 
-#: kerfuffle/jobs.cpp:784
+#: kerfuffle/jobs.cpp:783
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
@@ -1109,7 +1109,7 @@ msgstr[3] "ينقل %1 ملفات"
 msgstr[4] "ينقل %1 ملفا"
 msgstr[5] "ينقل %1 ملف"
 
-#: kerfuffle/jobs.cpp:821
+#: kerfuffle/jobs.cpp:820
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
@@ -1120,7 +1120,7 @@ msgstr[3] "ينسخ %1 الملفّات"
 msgstr[4] "ينسخ %1 ملفا"
 msgstr[5] "ينسخ %1 ملف"
 
-#: kerfuffle/jobs.cpp:852
+#: kerfuffle/jobs.cpp:851
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1131,12 +1131,12 @@ msgstr[3] "يحذف %1 عناصر"
 msgstr[4] "يحذف %1 عنصرا"
 msgstr[5] "يحذف %1 عنصر"
 
-#: kerfuffle/jobs.cpp:875
+#: kerfuffle/jobs.cpp:874
 #, kde-format
 msgid "Adding comment"
 msgstr "يضيف الملاحظة"
 
-#: kerfuffle/jobs.cpp:899
+#: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Testing archive"
 msgstr "يختبر الأرشيف"
@@ -2170,7 +2170,7 @@ msgstr "فشل الاستخراج بسبب طريقة ضغط غير معتمدة
 #: plugins/clizipplugin/cliplugin.cpp:186
 #, kde-format
 msgid "Extraction failed due to unsupported encryption method."
-msgstr "فشل الاستخراج بسبب طريقة تشفير غير معتمدة."
+msgstr "فشل الاستخراج بسبب طريقة تعمية غير معتمدة."
 
 #: plugins/clizipplugin/cliplugin.cpp:315
 #, kde-format
