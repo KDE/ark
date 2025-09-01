@@ -308,7 +308,7 @@ msgstr ""
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr ""
-"Carpeta de destinació a on extraure. Si no s'indica, de manera "
+"Carpeta de destinació a on s'ha d'extraure. Si no s'indica, de manera "
 "predeterminada és el camí actual."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
@@ -350,8 +350,8 @@ msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
 "tar.gz, zip or any other supported types)"
 msgstr ""
-"Selecciona automàticament un nom de fitxer, amb el sufix indicat (per "
-"exemple rar, tar.gz, zip o qualsevol altre tipus admés)"
+"Tria automàticament un nom de fitxer, amb el sufix indicat (per exemple rar, "
+"tar.gz, zip o qualsevol altre tipus admés)"
 
 #: app/main.cpp:143
 #, kde-format
@@ -535,7 +535,7 @@ msgstr "Afig"
 #: kerfuffle/adddialog.ui:35
 #, kde-format
 msgid "Files/Folders to Compress"
-msgstr "Fitxers/carpetes que s'han de comprimir"
+msgstr "Fitxers i carpetes que s'han de comprimir"
 
 #: kerfuffle/addtoarchive.cpp:78
 #, kde-format
