@@ -6,8 +6,8 @@
     SPDX-License-Identifier: MIT
 */
 
-#include "qstringtokenizer.h"
 #include "qstringalgorithms.h"
+#include <QStringTokenizer>
 
 /*!
     \class QStringTokenizer

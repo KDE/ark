@@ -10,8 +10,8 @@
 #include "archivemodel.h"
 #include "ark_debug.h"
 #include "jobs.h"
-#include "qstringtokenizer.h"
 #include "util.h"
+#include <QStringTokenizer>
 
 #include <KIO/Global>
 #include <KLocalizedString>
