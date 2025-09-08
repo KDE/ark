@@ -77,7 +77,7 @@ int main(int argc, char **argv)
                          QStringLiteral(ARK_VERSION_STRING),
                          i18n("KDE Archiving tool"),
                          KAboutLicense::GPL,
-                         i18n("(c) 1997-2019, The Ark Developers"),
+                         i18n("© 1997–2025 The Ark Developers"),
                          QString(),
                          QStringLiteral("https://apps.kde.org/ark"));
 

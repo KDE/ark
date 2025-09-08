@@ -94,7 +94,7 @@ QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent
 {
     QString name;
     if (fileExtension.isEmpty()) {
-        name = i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Compress to...");
+        name = i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Compress to…");
     } else {
         QString fileName = AddToArchive::getFileNameForUrls(urls, fileExtension).section(QDir::separator(), -1);
         if (fileName.length() > 21) {

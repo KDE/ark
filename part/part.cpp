@@ -150,7 +150,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
     m_searchCloseButton->setFlat(true);
     m_searchLineEdit = new QLineEdit(m_searchWidget);
     m_searchLineEdit->setClearButtonEnabled(true);
-    m_searchLineEdit->setPlaceholderText(i18n("Type to search..."));
+    m_searchLineEdit->setPlaceholderText(i18n("Type to search…"));
     mainWidget->installEventFilter(this);
     searchLayout->addWidget(m_searchCloseButton);
     searchLayout->addWidget(m_searchLineEdit);
@@ -358,7 +358,7 @@ void Part::setupActions()
     connect(m_showInfoPanelAction, &QAction::triggered, this, &Part::slotToggleInfoPanel);
 
     m_saveAsAction = KStandardAction::saveAs(this, &Part::slotSaveAs, this);
-    m_saveAsAction->setText(i18nc("@action:inmenu", "Save Copy As..."));
+    m_saveAsAction->setText(i18nc("@action:inmenu", "Save Copy As…"));
     actionCollection()->addAction(QStringLiteral("ark_file_save_as"), m_saveAsAction);
 
     m_openFileAction = actionCollection()->addAction(QStringLiteral("openfile"));
@@ -369,7 +369,7 @@ void Part::setupActions()
     });
 
     m_openFileWithAction = actionCollection()->addAction(QStringLiteral("openfilewith"));
-    m_openFileWithAction->setText(i18nc("open a file with external program", "Open &With..."));
+    m_openFileWithAction->setText(i18nc("open a file with external program", "Open &With…"));
     m_openFileWithAction->setIcon(QIcon::fromTheme(QStringLiteral("document-export")));
     m_openFileWithAction->setToolTip(i18nc("@info:tooltip", "Click to open the selected file with an external program"));
     connect(m_openFileWithAction, &QAction::triggered, this, [this]() {
@@ -401,7 +401,7 @@ void Part::setupActions()
 
     m_addFilesAction = actionCollection()->addAction(QStringLiteral("add"));
     m_addFilesAction->setIcon(QIcon::fromTheme(QStringLiteral("archive-insert")));
-    m_addFilesAction->setText(i18n("Add &Files..."));
+    m_addFilesAction->setText(i18n("Add &Files…"));
     m_addFilesAction->setToolTip(i18nc("@info:tooltip", "Click to add files to the archive"));
     actionCollection()->setDefaultShortcut(m_addFilesAction, Qt::ALT | Qt::Key_A);
     connect(m_addFilesAction, &QAction::triggered, this, QOverload<>::of(&Part::slotAddFiles));
@@ -631,7 +631,7 @@ void Part::updateQuickExtractMenu(QAction *extractAction)
         // Remember to keep this action's properties as similar to
         // extractAction's as possible (except where it does not make
         // sense, such as the text or the shortcut).
-        QAction *extractTo = menu->addAction(i18n("Extract To..."));
+        QAction *extractTo = menu->addAction(i18n("Extract To…"));
         extractTo->setIcon(extractAction->icon());
         extractTo->setToolTip(extractAction->toolTip());
 
@@ -643,7 +643,7 @@ void Part::updateQuickExtractMenu(QAction *extractAction)
 
         menu->addSeparator();
 
-        QAction *header = menu->addAction(i18n("Quick Extract To..."));
+        QAction *header = menu->addAction(i18n("Quick Extract To…"));
         header->setEnabled(false);
         header->setIcon(QIcon::fromTheme(QStringLiteral("archive-extract")));
     }

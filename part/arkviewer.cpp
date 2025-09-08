@@ -50,7 +50,7 @@ ArkViewer::~ArkViewer()
     if (m_part) {
         QProgressDialog progressDialog(this);
         progressDialog.setWindowTitle(i18n("Closing preview"));
-        progressDialog.setLabelText(i18n("Please wait while the preview is being closed..."));
+        progressDialog.setLabelText(i18n("Please wait while the preview is being closed…"));
 
         progressDialog.setMinimumDuration(500);
         progressDialog.setModal(true);

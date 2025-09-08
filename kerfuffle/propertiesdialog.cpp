@@ -83,9 +83,9 @@ PropertiesDialog::PropertiesDialog(QWidget *parent, Archive *archive, qulonglong
     QIcon icon = QIcon::fromTheme(archive->mimeType().iconName());
     m_ui->lblIcon->setPixmap(icon.pixmap(48));
 
-    m_ui->lblMD5->setText(i18n("Calculating..."));
-    m_ui->lblSHA1->setText(i18n("Calculating..."));
-    m_ui->lblSHA256->setText(i18n("Calculating..."));
+    m_ui->lblMD5->setText(i18n("Calculating…"));
+    m_ui->lblSHA1->setText(i18n("Calculating…"));
+    m_ui->lblSHA256->setText(i18n("Calculating…"));
 
     showChecksum(QCryptographicHash::Md5, archive->fileName(), m_ui->lblMD5);
     showChecksum(QCryptographicHash::Sha1, archive->fileName(), m_ui->lblSHA1);

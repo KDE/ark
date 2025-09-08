@@ -176,7 +176,7 @@
             <item row="2" column="0">
              <widget class="QPushButton" name="buttonOpenArchive">
               <property name="text">
-               <string>Open Archive...</string>
+               <string>Open Archive…</string>
               </property>
              </widget>
             </item>
