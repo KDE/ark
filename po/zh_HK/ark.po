@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark 2.60\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:46+0000\n"
+"POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2006-01-13 09:15+0800\n"
 "Last-Translator: Woodman Tuen <wmtuen@gmail.com>\n"
 "Language-Team: Chinese (Hong Kong) <community@linuxhall.org>\n"
@@ -116,7 +116,7 @@ msgstr "已壓縮檔案"
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-msgid "Compress to..."
+msgid "Compress to…"
 msgstr "已壓縮檔案"
 
 #: app/compressfileitemaction.cpp:105
@@ -176,7 +176,7 @@ msgstr "KDE 壓縮檔工具"
 #: app/main.cpp:80
 #, fuzzy, kde-format
 #| msgid "(c) 1997-2003, The Various Ark Developers"
-msgid "(c) 1997-2019, The Ark Developers"
+msgid "© 1997–2025 The Ark Developers"
 msgstr "(c) 1997-2003, 各位 Ark 開發者"
 
 #: app/main.cpp:86
@@ -467,7 +467,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.ui:179
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Open Archive..."
+msgid "Open Archive…"
 msgstr "開啟「壓縮檔」"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
@@ -828,7 +828,7 @@ msgstr " 檔案名稱 "
 #: kerfuffle/createdialog.ui:54
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Type archive name..."
+msgid "Type archive name…"
 msgstr "開啟「壓縮檔」"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1239,7 +1239,7 @@ msgstr ""
 #: kerfuffle/propertiesdialog.cpp:88
 #, fuzzy, kde-format
 #| msgid "Saving..."
-msgid "Calculating..."
+msgid "Calculating…"
 msgstr "儲存中..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1543,7 +1543,7 @@ msgstr ""
 
 #: part/arkviewer.cpp:53
 #, kde-format
-msgid "Please wait while the preview is being closed..."
+msgid "Please wait while the preview is being closed…"
 msgstr ""
 
 #: part/arkviewer.cpp:99
@@ -1696,7 +1696,7 @@ msgstr ""
 #: part/part.cpp:153
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Type to search..."
+msgid "Type to search…"
 msgstr "開啟「壓縮檔」"
 
 #: part/part.cpp:303
@@ -1714,7 +1714,7 @@ msgstr ""
 #: part/part.cpp:361
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Save Copy As..."
+msgid "Save Copy As…"
 msgstr ""
 
 #: part/part.cpp:365
@@ -1727,7 +1727,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "&Open With..."
 msgctxt "open a file with external program"
-msgid "Open &With..."
+msgid "Open &With…"
 msgstr "以其它程式開啟(&O)..."
 
 #: part/part.cpp:374
@@ -1782,9 +1782,9 @@ msgstr ""
 
 #: part/part.cpp:404
 #, fuzzy, kde-format
-#| msgid "Add &File..."
-msgid "Add &Files..."
-msgstr "加入檔案(&F)..."
+#| msgid "All Files"
+msgid "Add &Files…"
+msgstr "所有檔案"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, fuzzy, kde-format
@@ -1883,14 +1883,14 @@ msgstr "壓縮檔 %1 不存在。"
 
 #: part/part.cpp:634
 #, fuzzy, kde-format
-#| msgid "E&xtract..."
-msgid "Extract To..."
-msgstr "解開(&X)..."
+#| msgid "Extract"
+msgid "Extract To…"
+msgstr "解開"
 
 #: part/part.cpp:646
 #, fuzzy, kde-format
 #| msgid "E&xtract..."
-msgid "Quick Extract To..."
+msgid "Quick Extract To…"
 msgstr "解開(&X)..."
 
 #: part/part.cpp:775
@@ -2385,6 +2385,21 @@ msgstr ""
 #| msgid "Folder to extract to"
 msgid "Failed to set metadata for entry: %1"
 msgstr "資料夾解壓至"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "Open Archive..."
+#~ msgstr "開啟「壓縮檔」"
+
+#, fuzzy
+#~| msgid "Add &File..."
+#~ msgid "Add &Files..."
+#~ msgstr "加入檔案(&F)..."
+
+#, fuzzy
+#~| msgid "E&xtract..."
+#~ msgid "Extract To..."
+#~ msgstr "解開(&X)..."
 
 #, fuzzy
 #~| msgid "E&xtract..."

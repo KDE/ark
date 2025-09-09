@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mimos\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:46+0000\n"
+"POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2005-11-17 12:03+0800\n"
 "Last-Translator: MIMOS <opensource@mimos.my>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -108,7 +108,7 @@ msgstr "Fail Termampat"
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-msgid "Compress to..."
+msgid "Compress to…"
 msgstr "Fail Termampat"
 
 #: app/compressfileitemaction.cpp:105
@@ -167,7 +167,7 @@ msgstr "Alat Pengarkiban KDE"
 #: app/main.cpp:80
 #, fuzzy, kde-format
 #| msgid "(c) 1997-2003, The Various Ark Developers"
-msgid "(c) 1997-2019, The Ark Developers"
+msgid "© 1997–2025 The Ark Developers"
 msgstr "(c) 1997-2003, Pembangun Various Ark"
 
 #: app/main.cpp:86
@@ -458,7 +458,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.ui:179
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Open Archive..."
+msgid "Open Archive…"
 msgstr "Buka 'arkib'"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
@@ -818,7 +818,7 @@ msgstr "Nama Fail"
 #: kerfuffle/createdialog.ui:54
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Type archive name..."
+msgid "Type archive name…"
 msgstr "Buka 'arkib'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1225,7 +1225,7 @@ msgstr ""
 #: kerfuffle/propertiesdialog.cpp:88
 #, fuzzy, kde-format
 #| msgid "Saving..."
-msgid "Calculating..."
+msgid "Calculating…"
 msgstr "Menyimpan..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1529,7 +1529,7 @@ msgstr ""
 
 #: part/arkviewer.cpp:53
 #, kde-format
-msgid "Please wait while the preview is being closed..."
+msgid "Please wait while the preview is being closed…"
 msgstr ""
 
 #: part/arkviewer.cpp:99
@@ -1683,7 +1683,7 @@ msgstr ""
 #: part/part.cpp:153
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Type to search..."
+msgid "Type to search…"
 msgstr "Buka 'arkib'"
 
 #: part/part.cpp:303
@@ -1701,7 +1701,7 @@ msgstr ""
 #: part/part.cpp:361
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Save Copy As..."
+msgid "Save Copy As…"
 msgstr ""
 
 #: part/part.cpp:365
@@ -1714,7 +1714,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "&Open With..."
 msgctxt "open a file with external program"
-msgid "Open &With..."
+msgid "Open &With…"
 msgstr "&Buka Dengan..."
 
 #: part/part.cpp:374
@@ -1769,9 +1769,9 @@ msgstr ""
 
 #: part/part.cpp:404
 #, fuzzy, kde-format
-#| msgid "Add &File..."
-msgid "Add &Files..."
-msgstr "Tambah &Fail..."
+#| msgid "All Files"
+msgid "Add &Files…"
+msgstr "Semua Fail"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, fuzzy, kde-format
@@ -1870,14 +1870,14 @@ msgstr "Arkib %1 tidak wujud."
 
 #: part/part.cpp:634
 #, fuzzy, kde-format
-#| msgid "E&xtract..."
-msgid "Extract To..."
-msgstr "&Ekstrak..."
+#| msgid "Extract"
+msgid "Extract To…"
+msgstr "Ekstrak"
 
 #: part/part.cpp:646
 #, fuzzy, kde-format
 #| msgid "E&xtract..."
-msgid "Quick Extract To..."
+msgid "Quick Extract To…"
 msgstr "&Ekstrak..."
 
 #: part/part.cpp:775
@@ -2372,6 +2372,21 @@ msgstr ""
 #| msgid "Folder to extract to"
 msgid "Failed to set metadata for entry: %1"
 msgstr "Folder hendak diekstrak"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "Open Archive..."
+#~ msgstr "Buka 'arkib'"
+
+#, fuzzy
+#~| msgid "Add &File..."
+#~ msgid "Add &Files..."
+#~ msgstr "Tambah &Fail..."
+
+#, fuzzy
+#~| msgid "E&xtract..."
+#~ msgid "Extract To..."
+#~ msgstr "&Ekstrak..."
 
 #, fuzzy
 #~| msgid "E&xtract..."

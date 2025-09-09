@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:46+0000\n"
+"POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2006-12-17 13:36+0000\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -118,7 +118,7 @@ msgstr "Қисилган файл"
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-msgid "Compress to..."
+msgid "Compress to…"
 msgstr "Қисилган файл"
 
 #: app/compressfileitemaction.cpp:105
@@ -178,7 +178,7 @@ msgstr "KDE учун архивлаш воситаси"
 #: app/main.cpp:80
 #, fuzzy, kde-format
 #| msgid "(c) 1997-2003, The Various Ark Developers"
-msgid "(c) 1997-2019, The Ark Developers"
+msgid "© 1997–2025 The Ark Developers"
 msgstr "(С) 1997-2003, Турли Ark тузувчилари"
 
 #: app/main.cpp:86
@@ -464,7 +464,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.ui:179
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Open Archive..."
+msgid "Open Archive…"
 msgstr "Архивни очиш"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
@@ -822,7 +822,7 @@ msgstr " Файлнинг номи "
 #: kerfuffle/createdialog.ui:54
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Type archive name..."
+msgid "Type archive name…"
 msgstr "Архивни очиш"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1231,7 +1231,7 @@ msgstr ""
 #: kerfuffle/propertiesdialog.cpp:88
 #, fuzzy, kde-format
 #| msgid "Saving..."
-msgid "Calculating..."
+msgid "Calculating…"
 msgstr "Сақланмоқда..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1535,7 +1535,7 @@ msgstr ""
 
 #: part/arkviewer.cpp:53
 #, kde-format
-msgid "Please wait while the preview is being closed..."
+msgid "Please wait while the preview is being closed…"
 msgstr ""
 
 #: part/arkviewer.cpp:99
@@ -1688,7 +1688,7 @@ msgstr ""
 #: part/part.cpp:153
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Type to search..."
+msgid "Type to search…"
 msgstr "Архивни очиш"
 
 #: part/part.cpp:303
@@ -1706,7 +1706,7 @@ msgstr ""
 #: part/part.cpp:361
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Save Copy As..."
+msgid "Save Copy As…"
 msgstr ""
 
 #: part/part.cpp:365
@@ -1719,7 +1719,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "&Open With..."
 msgctxt "open a file with external program"
-msgid "Open &With..."
+msgid "Open &With…"
 msgstr "...билан &очиш"
 
 #: part/part.cpp:374
@@ -1774,9 +1774,9 @@ msgstr ""
 
 #: part/part.cpp:404
 #, fuzzy, kde-format
-#| msgid "Add &File..."
-msgid "Add &Files..."
-msgstr "Файлни &қўшиш"
+#| msgid "All Files"
+msgid "Add &Files…"
+msgstr "Ҳамма файллар"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, fuzzy, kde-format
@@ -1875,14 +1875,14 @@ msgstr "%1 архиви мавжуд эмас."
 
 #: part/part.cpp:634
 #, fuzzy, kde-format
-#| msgid "E&xtract..."
-msgid "Extract To..."
-msgstr "&Ажратиш"
+#| msgid "Extract"
+msgid "Extract To…"
+msgstr "Ажратиш"
 
 #: part/part.cpp:646
 #, fuzzy, kde-format
 #| msgid "E&xtract..."
-msgid "Quick Extract To..."
+msgid "Quick Extract To…"
 msgstr "&Ажратиш"
 
 #: part/part.cpp:775
@@ -2377,6 +2377,21 @@ msgstr ""
 #| msgid "Folder to extract to"
 msgid "Failed to set metadata for entry: %1"
 msgstr "Ажратиш учун жилд"
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "Open Archive..."
+#~ msgstr "Архивни очиш"
+
+#, fuzzy
+#~| msgid "Add &File..."
+#~ msgid "Add &Files..."
+#~ msgstr "Файлни &қўшиш"
+
+#, fuzzy
+#~| msgid "E&xtract..."
+#~ msgid "Extract To..."
+#~ msgstr "&Ажратиш"
 
 #, fuzzy
 #~| msgid "E&xtract..."

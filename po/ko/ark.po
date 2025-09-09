@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:46+0000\n"
+"POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2024-08-19 21:07+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -110,9 +110,11 @@ msgid "Compress"
 msgstr "압축"
 
 #: app/compressfileitemaction.cpp:97
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#| msgid "Compress to..."
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-msgid "Compress to..."
+msgid "Compress to…"
 msgstr "다음으로 압축하기..."
 
 #: app/compressfileitemaction.cpp:105
@@ -164,8 +166,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE 압축 도구"
 
 #: app/main.cpp:80
-#, kde-format
-msgid "(c) 1997-2019, The Ark Developers"
+#, fuzzy, kde-format
+#| msgid "(c) 1997-2019, The Ark Developers"
+msgid "© 1997–2025 The Ark Developers"
 msgstr "(c) 1997-2019, The Ark Developers"
 
 #: app/main.cpp:86
@@ -453,9 +456,11 @@ msgstr "환영합니다"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, kde-format
-msgid "Open Archive..."
-msgstr "압축 파일 열기..."
+#, fuzzy, kde-format
+#| msgctxt "to open an archive"
+#| msgid "Open Archive"
+msgid "Open Archive…"
+msgstr "압축 파일 열기"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -799,8 +804,9 @@ msgstr "파일 이름:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, kde-format
-msgid "Type archive name..."
+#, fuzzy, kde-format
+#| msgid "Type archive name..."
+msgid "Type archive name…"
 msgstr "압축 파일 이름 입력..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1184,8 +1190,9 @@ msgstr "예(%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, kde-format
-msgid "Calculating..."
+#, fuzzy, kde-format
+#| msgid "Calculating..."
+msgid "Calculating…"
 msgstr "계산 중..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1477,8 +1484,9 @@ msgid "Closing preview"
 msgstr "미리 보기 닫는 중"
 
 #: part/arkviewer.cpp:53
-#, kde-format
-msgid "Please wait while the preview is being closed..."
+#, fuzzy, kde-format
+#| msgid "Please wait while the preview is being closed..."
+msgid "Please wait while the preview is being closed…"
 msgstr "미리 보기를 닫는 동안 기다려 주십시오..."
 
 #: part/arkviewer.cpp:99
@@ -1627,8 +1635,9 @@ msgid "Save"
 msgstr "저장"
 
 #: part/part.cpp:153
-#, kde-format
-msgid "Type to search..."
+#, fuzzy, kde-format
+#| msgid "Type to search..."
+msgid "Type to search…"
 msgstr "입력하여 찾기..."
 
 #: part/part.cpp:303
@@ -1644,10 +1653,12 @@ msgid "Show Information Panel"
 msgstr "정보 패널 표시"
 
 #: part/part.cpp:361
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Save Copy As"
 msgctxt "@action:inmenu"
-msgid "Save Copy As..."
-msgstr "복사본을 다른 이름으로 저장..."
+msgid "Save Copy As…"
+msgstr "복사본을 다른 이름으로 저장"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1656,9 +1667,11 @@ msgid "&Open in External Application"
 msgstr "외부 앱으로 열기(&O)"
 
 #: part/part.cpp:372
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "open a file with external program"
+#| msgid "Open &With..."
 msgctxt "open a file with external program"
-msgid "Open &With..."
+msgid "Open &With…"
 msgstr "다음으로 열기(&W)..."
 
 #: part/part.cpp:374
@@ -1710,9 +1723,11 @@ msgstr ""
 "하려면 클릭하십시오"
 
 #: part/part.cpp:404
-#, kde-format
-msgid "Add &Files..."
-msgstr "파일 추가(&F)..."
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Add Files"
+msgid "Add &Files…"
+msgstr "파일 추가"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1805,13 +1820,16 @@ msgid "The archive failed the integrity test."
 msgstr "압축 파일 무결성 검사가 실패했습니다."
 
 #: part/part.cpp:634
-#, kde-format
-msgid "Extract To..."
-msgstr "압축 풀기..."
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#| msgid "Extract to…"
+msgid "Extract To…"
+msgstr "다음에 압축 풀기…"
 
 #: part/part.cpp:646
-#, kde-format
-msgid "Quick Extract To..."
+#, fuzzy, kde-format
+#| msgid "Quick Extract To..."
+msgid "Quick Extract To…"
 msgstr "빠르게 압축 풀기..."
 
 #: part/part.cpp:775
@@ -2294,6 +2312,19 @@ msgstr "항목을 복사할 수 없음: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "항목의 메타데이터를 설정할 수 없음: %1"
+
+#~ msgid "Open Archive..."
+#~ msgstr "압축 파일 열기..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Save Copy As..."
+#~ msgstr "복사본을 다른 이름으로 저장..."
+
+#~ msgid "Add &Files..."
+#~ msgstr "파일 추가(&F)..."
+
+#~ msgid "Extract To..."
+#~ msgstr "압축 풀기..."
 
 #~ msgctxt ""
 #~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "

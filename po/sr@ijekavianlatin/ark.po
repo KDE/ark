@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:46+0000\n"
+"POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2017-12-15 12:38+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -128,9 +128,11 @@ msgid "Compress"
 msgstr "Kompresuj"
 
 #: app/compressfileitemaction.cpp:97
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#| msgid "Compress to..."
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-msgid "Compress to..."
+msgid "Compress to…"
 msgstr "Kompresuj u..."
 
 #: app/compressfileitemaction.cpp:105
@@ -189,7 +191,7 @@ msgstr "KDE‑ova alatka za arhiviranje"
 #: app/main.cpp:80
 #, fuzzy, kde-format
 #| msgid "(c) 1997-2017, The Ark Developers"
-msgid "(c) 1997-2019, The Ark Developers"
+msgid "© 1997–2025 The Ark Developers"
 msgstr "© 1997–2017, programeri Arka"
 
 #: app/main.cpp:86
@@ -493,7 +495,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "to open an archive"
 #| msgid "Open Archive"
-msgid "Open Archive..."
+msgid "Open Archive…"
 msgstr "Otvaranje arhive"
 
 # >> @title:window
@@ -868,8 +870,9 @@ msgstr "Ime fajla:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, kde-format
-msgid "Type archive name..."
+#, fuzzy, kde-format
+#| msgid "Type archive name..."
+msgid "Type archive name…"
 msgstr "Unesite ime arhive..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1278,8 +1281,9 @@ msgstr "da (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, kde-format
-msgid "Calculating..."
+#, fuzzy, kde-format
+#| msgid "Calculating..."
+msgid "Calculating…"
 msgstr "Računam..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1586,8 +1590,9 @@ msgid "Closing preview"
 msgstr "Zatvaranje pregleda"
 
 #: part/arkviewer.cpp:53
-#, kde-format
-msgid "Please wait while the preview is being closed..."
+#, fuzzy, kde-format
+#| msgid "Please wait while the preview is being closed..."
+msgid "Please wait while the preview is being closed…"
 msgstr "Sačekajte dok se pregled ne zatvori..."
 
 #: part/arkviewer.cpp:99
@@ -1744,8 +1749,9 @@ msgid "Save"
 msgstr "Sačuvaj"
 
 #: part/part.cpp:153
-#, kde-format
-msgid "Type to search..."
+#, fuzzy, kde-format
+#| msgid "Type to search..."
+msgid "Type to search…"
 msgstr "Kucajte za pretragu..."
 
 #: part/part.cpp:303
@@ -1765,7 +1771,7 @@ msgstr "Prikaži panel sa podacima"
 #: part/part.cpp:361
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Save Copy As..."
+msgid "Save Copy As…"
 msgstr ""
 
 #: part/part.cpp:365
@@ -1775,9 +1781,11 @@ msgid "&Open in External Application"
 msgstr ""
 
 #: part/part.cpp:372
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "open a file with external program"
+#| msgid "Open &With..."
 msgctxt "open a file with external program"
-msgid "Open &With..."
+msgid "Open &With…"
 msgstr "Otvori &pomoću..."
 
 #: part/part.cpp:374
@@ -1830,9 +1838,11 @@ msgstr ""
 "raspakovati sve fajlove ili samo izabrane."
 
 #: part/part.cpp:404
-#, kde-format
-msgid "Add &Files..."
-msgstr "Dodaj &fajlove..."
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Add Files"
+msgid "Add &Files…"
+msgstr "Dodavanje fajlova"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1928,13 +1938,15 @@ msgid "The archive failed the integrity test."
 msgstr "Arhiva nije prošla proveru celovitosti."
 
 #: part/part.cpp:634
-#, kde-format
-msgid "Extract To..."
-msgstr "Raspakuj u..."
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgid "Extract To…"
+msgstr "Raspakuj"
 
 #: part/part.cpp:646
-#, kde-format
-msgid "Quick Extract To..."
+#, fuzzy, kde-format
+#| msgid "Quick Extract To..."
+msgid "Quick Extract To…"
 msgstr "Brzo raspakuj u..."
 
 #: part/part.cpp:775
@@ -2448,6 +2460,19 @@ msgstr "Ne mogu da kopiram stavku: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Ne mogu da postavim metapodatke za stavku: %1"
+
+# >> @title:window
+#, fuzzy
+#~| msgctxt "to open an archive"
+#~| msgid "Open Archive"
+#~ msgid "Open Archive..."
+#~ msgstr "Otvaranje arhive"
+
+#~ msgid "Add &Files..."
+#~ msgstr "Dodaj &fajlove..."
+
+#~ msgid "Extract To..."
+#~ msgstr "Raspakuj u..."
 
 #, fuzzy
 #~| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"

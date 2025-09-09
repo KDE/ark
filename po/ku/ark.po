@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:46+0000\n"
+"POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2007-12-22 09:56+0100\n"
 "Last-Translator: Erdal Ronahi <erdal.ronahi@nospam.gmail.com>\n"
 "Language-Team: Kurdish <gnu-ku-wergerandin at lists dot sourceforge dot "
@@ -108,7 +108,7 @@ msgstr "Arşîvekê veke"
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-msgid "Compress to..."
+msgid "Compress to…"
 msgstr "Arşîvekê veke"
 
 #: app/compressfileitemaction.cpp:105
@@ -167,7 +167,7 @@ msgstr "Amûra Arşîvkirina KDE"
 
 #: app/main.cpp:80
 #, kde-format
-msgid "(c) 1997-2019, The Ark Developers"
+msgid "© 1997–2025 The Ark Developers"
 msgstr ""
 
 #: app/main.cpp:86
@@ -450,7 +450,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.ui:179
 #, fuzzy, kde-format
 #| msgid "Open an archive"
-msgid "Open Archive..."
+msgid "Open Archive…"
 msgstr "Arşîvekê veke"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
@@ -802,7 +802,7 @@ msgstr "Arşîvekê veke"
 #: kerfuffle/createdialog.ui:54
 #, fuzzy, kde-format
 #| msgid "Open an archive"
-msgid "Type archive name..."
+msgid "Type archive name…"
 msgstr "Arşîvekê veke"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1199,7 +1199,7 @@ msgstr ""
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
 #, kde-format
-msgid "Calculating..."
+msgid "Calculating…"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1497,7 +1497,7 @@ msgstr ""
 
 #: part/arkviewer.cpp:53
 #, kde-format
-msgid "Please wait while the preview is being closed..."
+msgid "Please wait while the preview is being closed…"
 msgstr ""
 
 #: part/arkviewer.cpp:99
@@ -1647,7 +1647,7 @@ msgstr ""
 #: part/part.cpp:153
 #, fuzzy, kde-format
 #| msgid "Open an archive"
-msgid "Type to search..."
+msgid "Type to search…"
 msgstr "Arşîvekê veke"
 
 #: part/part.cpp:303
@@ -1665,7 +1665,7 @@ msgstr ""
 #: part/part.cpp:361
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Save Copy As..."
+msgid "Save Copy As…"
 msgstr ""
 
 #: part/part.cpp:365
@@ -1679,7 +1679,7 @@ msgstr ""
 #| msgctxt "action, to open an archive"
 #| msgid "Open"
 msgctxt "open a file with external program"
-msgid "Open &With..."
+msgid "Open &With…"
 msgstr "Vekirin"
 
 #: part/part.cpp:374
@@ -1730,9 +1730,9 @@ msgstr ""
 
 #: part/part.cpp:404
 #, fuzzy, kde-format
-#| msgid "Add &File..."
-msgid "Add &Files..."
-msgstr "&Pelê Lê Zêde bike..."
+#| msgid "Add Files"
+msgid "Add &Files…"
+msgstr "Pelan Lê Zêde Bike"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1826,14 +1826,14 @@ msgstr ""
 
 #: part/part.cpp:634
 #, fuzzy, kde-format
-#| msgid "E&xtract..."
-msgid "Extract To..."
-msgstr "&Derxistin..."
+#| msgid "Extract"
+msgid "Extract To…"
+msgstr "Derxistin"
 
 #: part/part.cpp:646
 #, fuzzy, kde-format
 #| msgid "E&xtract..."
-msgid "Quick Extract To..."
+msgid "Quick Extract To…"
 msgstr "&Derxistin..."
 
 #: part/part.cpp:775
@@ -2320,6 +2320,21 @@ msgstr ""
 #| msgid "Open an archive"
 msgid "Failed to set metadata for entry: %1"
 msgstr "Arşîvekê veke"
+
+#, fuzzy
+#~| msgid "Open an archive"
+#~ msgid "Open Archive..."
+#~ msgstr "Arşîvekê veke"
+
+#, fuzzy
+#~| msgid "Add &File..."
+#~ msgid "Add &Files..."
+#~ msgstr "&Pelê Lê Zêde bike..."
+
+#, fuzzy
+#~| msgid "E&xtract..."
+#~ msgid "Extract To..."
+#~ msgstr "&Derxistin..."
 
 #, fuzzy
 #~| msgid "E&xtract..."

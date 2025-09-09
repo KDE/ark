@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:ark-1.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:46+0000\n"
+"POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2004-05-19 11:54+0200\n"
 "Last-Translator: Jañ-Mai Drapier <jdrapier@club-internet.fr>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -112,7 +112,7 @@ msgstr "Restr moustret"
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-msgid "Compress to..."
+msgid "Compress to…"
 msgstr "Restr moustret"
 
 #: app/compressfileitemaction.cpp:105
@@ -172,7 +172,7 @@ msgstr "Ostilh merañ an dielloù evit KDE"
 #: app/main.cpp:80
 #, fuzzy, kde-format
 #| msgid "(c) 1997-2003, The Various Ark Developers"
-msgid "(c) 1997-2019, The Ark Developers"
+msgid "© 1997–2025 The Ark Developers"
 msgstr "(c) 1997-2003, Diorroerien Ark a bep seurt"
 
 #: app/main.cpp:86
@@ -458,7 +458,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.ui:179
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Open Archive..."
+msgid "Open Archive…"
 msgstr "Digeriñ an 'diell'"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
@@ -819,7 +819,7 @@ msgstr " Anv ar restr "
 #: kerfuffle/createdialog.ui:54
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Type archive name..."
+msgid "Type archive name…"
 msgstr "Digeriñ an 'diell'"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1233,7 +1233,7 @@ msgstr ""
 #: kerfuffle/propertiesdialog.cpp:88
 #, fuzzy, kde-format
 #| msgid "Saving..."
-msgid "Calculating..."
+msgid "Calculating…"
 msgstr "Emaon oc'h enrollañ ..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1534,7 +1534,7 @@ msgstr ""
 
 #: part/arkviewer.cpp:53
 #, kde-format
-msgid "Please wait while the preview is being closed..."
+msgid "Please wait while the preview is being closed…"
 msgstr ""
 
 #: part/arkviewer.cpp:99
@@ -1688,7 +1688,7 @@ msgstr ""
 #: part/part.cpp:153
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
-msgid "Type to search..."
+msgid "Type to search…"
 msgstr "Digeriñ an 'diell'"
 
 #: part/part.cpp:303
@@ -1707,7 +1707,7 @@ msgstr "Titouroù"
 #: part/part.cpp:361
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Save Copy As..."
+msgid "Save Copy As…"
 msgstr ""
 
 #: part/part.cpp:365
@@ -1720,7 +1720,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "&Open With..."
 msgctxt "open a file with external program"
-msgid "Open &With..."
+msgid "Open &With…"
 msgstr "&Digeriñ gant ..."
 
 #: part/part.cpp:374
@@ -1775,9 +1775,9 @@ msgstr ""
 
 #: part/part.cpp:404
 #, fuzzy, kde-format
-#| msgid "Add &File..."
-msgid "Add &Files..."
-msgstr "Ouzhpennañ ur restr ..."
+#| msgid "All Files"
+msgid "Add &Files…"
+msgstr "An holl Restroù"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, fuzzy, kde-format
@@ -1875,14 +1875,14 @@ msgstr "N'eo ket un diell %1."
 
 #: part/part.cpp:634
 #, fuzzy, kde-format
-#| msgid "E&xtract..."
-msgid "Extract To..."
-msgstr "E&ztennañ ..."
+#| msgid "Extract"
+msgid "Extract To…"
+msgstr "Eztennañ"
 
 #: part/part.cpp:646
 #, fuzzy, kde-format
 #| msgid "E&xtract..."
-msgid "Quick Extract To..."
+msgid "Quick Extract To…"
 msgstr "E&ztennañ ..."
 
 #: part/part.cpp:775
@@ -2378,6 +2378,21 @@ msgstr ""
 #| msgid "An error occurred while adding the files to the archive."
 msgid "Failed to set metadata for entry: %1"
 msgstr "Degouezhet ez eus ar fazi en ur ouzhpennañ ar restroùd d'an diell."
+
+#, fuzzy
+#~| msgid "Open 'archive'"
+#~ msgid "Open Archive..."
+#~ msgstr "Digeriñ an 'diell'"
+
+#, fuzzy
+#~| msgid "Add &File..."
+#~ msgid "Add &Files..."
+#~ msgstr "Ouzhpennañ ur restr ..."
+
+#, fuzzy
+#~| msgid "E&xtract..."
+#~ msgid "Extract To..."
+#~ msgstr "E&ztennañ ..."
 
 #, fuzzy
 #~| msgid "E&xtract..."

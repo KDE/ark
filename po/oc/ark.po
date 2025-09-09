@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:46+0000\n"
+"POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2008-08-05 22:28+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (lengadocian) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -105,7 +105,7 @@ msgstr ""
 #: app/compressfileitemaction.cpp:97
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-msgid "Compress to..."
+msgid "Compress to…"
 msgstr ""
 
 #: app/compressfileitemaction.cpp:105
@@ -162,7 +162,7 @@ msgstr ""
 
 #: app/main.cpp:80
 #, kde-format
-msgid "(c) 1997-2019, The Ark Developers"
+msgid "© 1997–2025 The Ark Developers"
 msgstr ""
 
 #: app/main.cpp:86
@@ -450,7 +450,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "action, to open an archive"
 #| msgid "Open"
-msgid "Open Archive..."
+msgid "Open Archive…"
 msgstr "Dobrir"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
@@ -804,7 +804,7 @@ msgstr "Dobrir"
 #, fuzzy, kde-format
 #| msgctxt "action, to open an archive"
 #| msgid "Open"
-msgid "Type archive name..."
+msgid "Type archive name…"
 msgstr "Dobrir"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1199,7 +1199,7 @@ msgstr ""
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
 #, kde-format
-msgid "Calculating..."
+msgid "Calculating…"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1500,7 +1500,7 @@ msgstr ""
 
 #: part/arkviewer.cpp:53
 #, kde-format
-msgid "Please wait while the preview is being closed..."
+msgid "Please wait while the preview is being closed…"
 msgstr ""
 
 #: part/arkviewer.cpp:99
@@ -1649,7 +1649,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgctxt "action, to open an archive"
 #| msgid "Open"
-msgid "Type to search..."
+msgid "Type to search…"
 msgstr "Dobrir"
 
 #: part/part.cpp:303
@@ -1667,7 +1667,7 @@ msgstr ""
 #: part/part.cpp:361
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Save Copy As..."
+msgid "Save Copy As…"
 msgstr ""
 
 #: part/part.cpp:365
@@ -1681,7 +1681,7 @@ msgstr ""
 #| msgctxt "action, to open an archive"
 #| msgid "Open"
 msgctxt "open a file with external program"
-msgid "Open &With..."
+msgid "Open &With…"
 msgstr "Dobrir"
 
 #: part/part.cpp:374
@@ -1732,9 +1732,9 @@ msgstr ""
 
 #: part/part.cpp:404
 #, fuzzy, kde-format
-#| msgid "Add &File..."
-msgid "Add &Files..."
-msgstr "Apondre un &fichièr"
+#| msgid "Add Files"
+msgid "Add &Files…"
+msgstr "Apondre de fichièrs"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1830,14 +1830,14 @@ msgstr ""
 
 #: part/part.cpp:634
 #, fuzzy, kde-format
-#| msgid "E&xtract..."
-msgid "Extract To..."
-msgstr "&Traire..."
+#| msgid "Extract"
+msgid "Extract To…"
+msgstr "Traire"
 
 #: part/part.cpp:646
 #, fuzzy, kde-format
 #| msgid "E&xtract..."
-msgid "Quick Extract To..."
+msgid "Quick Extract To…"
 msgstr "&Traire..."
 
 #: part/part.cpp:775
@@ -2328,6 +2328,22 @@ msgstr ""
 #| msgid "Open"
 msgid "Failed to set metadata for entry: %1"
 msgstr "Dobrir"
+
+#, fuzzy
+#~| msgctxt "action, to open an archive"
+#~| msgid "Open"
+#~ msgid "Open Archive..."
+#~ msgstr "Dobrir"
+
+#, fuzzy
+#~| msgid "Add &File..."
+#~ msgid "Add &Files..."
+#~ msgstr "Apondre un &fichièr"
+
+#, fuzzy
+#~| msgid "E&xtract..."
+#~ msgid "Extract To..."
+#~ msgstr "&Traire..."
 
 #, fuzzy
 #~| msgid "E&xtract..."

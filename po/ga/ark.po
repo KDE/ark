@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:46+0000\n"
+"POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -133,7 +133,7 @@ msgstr "Comhbhrúite"
 #| msgctxt "Compressed size of a file inside an archive"
 #| msgid "Compressed"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-msgid "Compress to..."
+msgid "Compress to…"
 msgstr "Comhbhrúite"
 
 #: app/compressfileitemaction.cpp:105
@@ -195,7 +195,7 @@ msgstr "Uirlis Chartlannaithe KDE"
 #: app/main.cpp:80
 #, fuzzy, kde-format
 #| msgid "(c) 1997-2011, The Various Ark Developers"
-msgid "(c) 1997-2019, The Ark Developers"
+msgid "© 1997–2025 The Ark Developers"
 msgstr "© 1997-2011, Forbróirí Ark"
 
 #: app/main.cpp:86
@@ -499,7 +499,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.ui:179
 #, fuzzy, kde-format
 #| msgid "Open an archive"
-msgid "Open Archive..."
+msgid "Open Archive…"
 msgstr "Oscail cartlann"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
@@ -883,7 +883,7 @@ msgstr " Ainm comhaid "
 #: kerfuffle/createdialog.ui:54
 #, fuzzy, kde-format
 #| msgid "Open an archive"
-msgid "Type archive name..."
+msgid "Type archive name…"
 msgstr "Oscail cartlann"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1325,7 +1325,7 @@ msgstr ""
 #: kerfuffle/propertiesdialog.cpp:88
 #, fuzzy, kde-format
 #| msgid "Saving..."
-msgid "Calculating..."
+msgid "Calculating…"
 msgstr "Á Shábháil..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1634,8 +1634,9 @@ msgid "Closing preview"
 msgstr "Réamhamharc á dhúnadh"
 
 #: part/arkviewer.cpp:53
-#, kde-format
-msgid "Please wait while the preview is being closed..."
+#, fuzzy, kde-format
+#| msgid "Please wait while the preview is being closed..."
+msgid "Please wait while the preview is being closed…"
 msgstr "Fan go fóill agus an réamhamharc á dhúnadh..."
 
 #: part/arkviewer.cpp:99
@@ -1794,7 +1795,7 @@ msgstr ""
 #: part/part.cpp:153
 #, fuzzy, kde-format
 #| msgid "Open an archive"
-msgid "Type to search..."
+msgid "Type to search…"
 msgstr "Oscail cartlann"
 
 #: part/part.cpp:303
@@ -1814,7 +1815,7 @@ msgstr "Taispeáin painéal eolais"
 #: part/part.cpp:361
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Save Copy As..."
+msgid "Save Copy As…"
 msgstr ""
 
 #: part/part.cpp:365
@@ -1827,7 +1828,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "&Open With..."
 msgctxt "open a file with external program"
-msgid "Open &With..."
+msgid "Open &With…"
 msgstr "&Oscail Le..."
 
 #: part/part.cpp:374
@@ -1888,9 +1889,10 @@ msgstr ""
 
 #: part/part.cpp:404
 #, fuzzy, kde-format
-#| msgid "Add &File..."
-msgid "Add &Files..."
-msgstr "Cuir &Comhad leis..."
+#| msgctxt "@title:window"
+#| msgid "Add Files"
+msgid "Add &Files…"
+msgstr "Cuir Comhaid Leis"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, fuzzy, kde-format
@@ -1990,13 +1992,16 @@ msgid "The archive failed the integrity test."
 msgstr "Níorbh fhéidir an léitheoir cartlainne a thúsú."
 
 #: part/part.cpp:634
-#, kde-format
-msgid "Extract To..."
-msgstr "Bain Amach Go..."
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Extract"
+msgid "Extract To…"
+msgstr "Bain Amach"
 
 #: part/part.cpp:646
-#, kde-format
-msgid "Quick Extract To..."
+#, fuzzy, kde-format
+#| msgid "Quick Extract To..."
+msgid "Quick Extract To…"
 msgstr "Bain amach go tapa i..."
 
 #: part/part.cpp:775
@@ -2559,6 +2564,19 @@ msgstr ""
 msgid "Failed to set metadata for entry: %1"
 msgstr ""
 "Níorbh fhéidir ríomhchlár <filename>%2</filename> a aimsiú ar an diosca."
+
+#, fuzzy
+#~| msgid "Open an archive"
+#~ msgid "Open Archive..."
+#~ msgstr "Oscail cartlann"
+
+#, fuzzy
+#~| msgid "Add &File..."
+#~ msgid "Add &Files..."
+#~ msgstr "Cuir &Comhad leis..."
+
+#~ msgid "Extract To..."
+#~ msgstr "Bain Amach Go..."
 
 #, fuzzy
 #~| msgid "Extract To..."

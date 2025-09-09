@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:46+0000\n"
+"POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2014-11-10 17:15+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -106,10 +106,10 @@ msgid "Compress"
 msgstr ""
 
 #: app/compressfileitemaction.cpp:97
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-msgid "Compress to..."
-msgstr ""
+msgid "Compress to…"
+msgstr "Komprimer til  arkiv"
 
 #: app/compressfileitemaction.cpp:105
 #, fuzzy, kde-format
@@ -161,7 +161,7 @@ msgstr "KDE Arkiveringsverktøy"
 
 #: app/main.cpp:80
 #, kde-format
-msgid "(c) 1997-2019, The Ark Developers"
+msgid "© 1997–2025 The Ark Developers"
 msgstr ""
 
 #: app/main.cpp:86
@@ -450,9 +450,10 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, kde-format
-msgid "Open Archive..."
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Archive"
+msgid "Open Archive…"
+msgstr "Arkiv"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -795,7 +796,7 @@ msgstr "Filnavn:"
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
 #, kde-format
-msgid "Type archive name..."
+msgid "Type archive name…"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1175,7 +1176,7 @@ msgstr ""
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
 #, kde-format
-msgid "Calculating..."
+msgid "Calculating…"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1461,8 +1462,9 @@ msgid "Closing preview"
 msgstr "Lukker forhåndsvisning"
 
 #: part/arkviewer.cpp:53
-#, kde-format
-msgid "Please wait while the preview is being closed..."
+#, fuzzy, kde-format
+#| msgid "Please wait while the preview is being closed..."
+msgid "Please wait while the preview is being closed…"
 msgstr "Vent mens forhåndsvisningen lukkes …"
 
 #: part/arkviewer.cpp:99
@@ -1613,7 +1615,7 @@ msgstr "Lagre"
 
 #: part/part.cpp:153
 #, kde-format
-msgid "Type to search..."
+msgid "Type to search…"
 msgstr ""
 
 #: part/part.cpp:303
@@ -1631,7 +1633,7 @@ msgstr ""
 #: part/part.cpp:361
 #, kde-format
 msgctxt "@action:inmenu"
-msgid "Save Copy As..."
+msgid "Save Copy As…"
 msgstr ""
 
 #: part/part.cpp:365
@@ -1641,9 +1643,11 @@ msgid "&Open in External Application"
 msgstr ""
 
 #: part/part.cpp:372
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "open a file with external program"
+#| msgid "Open &With..."
 msgctxt "open a file with external program"
-msgid "Open &With..."
+msgid "Open &With…"
 msgstr "Åpne &med …"
 
 #: part/part.cpp:374
@@ -1693,9 +1697,11 @@ msgstr ""
 "filer eller bare de valgte filene"
 
 #: part/part.cpp:404
-#, kde-format
-msgid "Add &Files..."
-msgstr ""
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Add Files"
+msgid "Add &Files…"
+msgstr "Legg til  filer"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1784,13 +1790,15 @@ msgid "The archive failed the integrity test."
 msgstr ""
 
 #: part/part.cpp:634
-#, kde-format
-msgid "Extract To..."
+#, fuzzy, kde-format
+#| msgid "Extract To..."
+msgid "Extract To…"
 msgstr "Pakk ut til …"
 
 #: part/part.cpp:646
-#, kde-format
-msgid "Quick Extract To..."
+#, fuzzy, kde-format
+#| msgid "Quick Extract To..."
+msgid "Quick Extract To…"
 msgstr "Kjapp utpakking til …"
 
 #: part/part.cpp:775

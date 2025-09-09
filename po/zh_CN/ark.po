@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-21 00:46+0000\n"
+"POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -108,9 +108,11 @@ msgid "Compress"
 msgstr "压缩"
 
 #: app/compressfileitemaction.cpp:97
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
+#| msgid "Compress to..."
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-msgid "Compress to..."
+msgid "Compress to…"
 msgstr "压缩为..."
 
 #: app/compressfileitemaction.cpp:105
@@ -162,8 +164,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE 压缩文件管理工具"
 
 #: app/main.cpp:80
-#, kde-format
-msgid "(c) 1997-2019, The Ark Developers"
+#, fuzzy, kde-format
+#| msgid "(c) 1997-2019, The Ark Developers"
+msgid "© 1997–2025 The Ark Developers"
 msgstr "(c) 1997-2019, The Ark Developers"
 
 #: app/main.cpp:86
@@ -448,9 +451,11 @@ msgstr "欢迎使用"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, kde-format
-msgid "Open Archive..."
-msgstr "打开压缩文件..."
+#, fuzzy, kde-format
+#| msgctxt "to open an archive"
+#| msgid "Open Archive"
+msgid "Open Archive…"
+msgstr "打开压缩文件"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -791,8 +796,9 @@ msgstr "文件名："
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, kde-format
-msgid "Type archive name..."
+#, fuzzy, kde-format
+#| msgid "Type archive name..."
+msgid "Type archive name…"
 msgstr "输入压缩文件的文件名..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -1166,8 +1172,9 @@ msgstr "是 (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, kde-format
-msgid "Calculating..."
+#, fuzzy, kde-format
+#| msgid "Calculating..."
+msgid "Calculating…"
 msgstr "正在计算..."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1455,8 +1462,9 @@ msgid "Closing preview"
 msgstr "正在关闭预览窗口"
 
 #: part/arkviewer.cpp:53
-#, kde-format
-msgid "Please wait while the preview is being closed..."
+#, fuzzy, kde-format
+#| msgid "Please wait while the preview is being closed..."
+msgid "Please wait while the preview is being closed…"
 msgstr "请等待预览窗口关闭..."
 
 #: part/arkviewer.cpp:99
@@ -1605,8 +1613,9 @@ msgid "Save"
 msgstr "保存"
 
 #: part/part.cpp:153
-#, kde-format
-msgid "Type to search..."
+#, fuzzy, kde-format
+#| msgid "Type to search..."
+msgid "Type to search…"
 msgstr "请输入搜索条件..."
 
 #: part/part.cpp:303
@@ -1622,10 +1631,12 @@ msgid "Show Information Panel"
 msgstr "显示文件信息面板"
 
 #: part/part.cpp:361
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Save Copy As"
 msgctxt "@action:inmenu"
-msgid "Save Copy As..."
-msgstr "副本另存为..."
+msgid "Save Copy As…"
+msgstr "副本另存为"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1634,9 +1645,11 @@ msgid "&Open in External Application"
 msgstr "打开选中项目(使用外部程序)(&O)"
 
 #: part/part.cpp:372
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "open a file with external program"
+#| msgid "Open &With..."
 msgctxt "open a file with external program"
-msgid "Open &With..."
+msgid "Open &With…"
 msgstr "打开方式(&W)..."
 
 #: part/part.cpp:374
@@ -1685,9 +1698,11 @@ msgid ""
 msgstr "点击即可打开解压对话框，您可以从中选择解压所有文件还是仅解压选中的文件"
 
 #: part/part.cpp:404
-#, kde-format
-msgid "Add &Files..."
-msgstr "添加文件(&F)..."
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Add Files"
+msgid "Add &Files…"
+msgstr "添加文件"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1778,13 +1793,16 @@ msgid "The archive failed the integrity test."
 msgstr "压缩文件无法通过完整性测试。"
 
 #: part/part.cpp:634
-#, kde-format
-msgid "Extract To..."
-msgstr "解压到..."
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#| msgid "Extract to…"
+msgid "Extract To…"
+msgstr "解压到…"
 
 #: part/part.cpp:646
-#, kde-format
-msgid "Quick Extract To..."
+#, fuzzy, kde-format
+#| msgid "Quick Extract To..."
+msgid "Quick Extract To…"
 msgstr "快速解压到..."
 
 #: part/part.cpp:775
@@ -2255,3 +2273,16 @@ msgstr "无法复制项目：%1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "无法设置项目的元数据：%1"
+
+#~ msgid "Open Archive..."
+#~ msgstr "打开压缩文件..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Save Copy As..."
+#~ msgstr "副本另存为..."
+
+#~ msgid "Add &Files..."
+#~ msgstr "添加文件(&F)..."
+
+#~ msgid "Extract To..."
+#~ msgstr "解压到..."
