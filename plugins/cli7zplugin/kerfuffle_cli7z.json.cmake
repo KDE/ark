@@ -50,7 +50,6 @@
         "Description[sv]": "Fullt stöd för zip- och 7z-arkivformaten",
         "Description[tr]": "Zip ve 7z arşiv biçimleri için tam destek",
         "Description[uk]": "Повноцінна підтримка архівів у форматах zip і 7z",
-        "Description[x-test]": "xxFull support for the zip and 7z archive formatsxx",
         "Description[zh_CN]": "完整支持 ZIP 和 7z 压缩文件格式",
         "Description[zh_TW]": "對 zip 與 7z 壓縮檔格式的完整支援",
         "MimeTypes": [
@@ -103,7 +102,6 @@
         "Name[ta]": "7z செருகுநிரல்",
         "Name[tr]": "7z eklentisi",
         "Name[uk]": "Додаток 7z",
-        "Name[x-test]": "xx7z pluginxx",
         "Name[zh_CN]": "7z 插件",
         "Name[zh_TW]": "7z 外掛程式",
         "Version": "@RELEASE_SERVICE_VERSION@"

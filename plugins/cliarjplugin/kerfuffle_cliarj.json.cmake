@@ -43,7 +43,6 @@
         "Description[sv]": "Fullt stöd för ARJ arkivformat",
         "Description[tr]": "ARJ arşiv biçimi için tam destek",
         "Description[uk]": "Повноцінна підтримка архівів у форматі ARJ",
-        "Description[x-test]": "xxFull support for the ARJ archive formatsxx",
         "Description[zh_CN]": "完整支持 ARJ 压缩文件格式",
         "Description[zh_TW]": "對 ARJ 壓縮檔格式的完整支援",
         "MimeTypes": [
@@ -95,7 +94,6 @@
         "Name[ta]": "ARJ செருகுநிரல்",
         "Name[tr]": "ARJ eklentisi",
         "Name[uk]": "Додаток ARJ",
-        "Name[x-test]": "xxARJ pluginxx",
         "Name[zh_CN]": "ARJ 插件",
         "Name[zh_TW]": "ARJ 外掛程式",
         "Version": "@RELEASE_SERVICE_VERSION@"

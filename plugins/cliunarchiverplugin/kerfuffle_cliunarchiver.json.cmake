@@ -45,7 +45,6 @@
         "Description[sv]": "Öppna och extrahera RAR- och LHA-arkiv",
         "Description[tr]": "RAR ve LHA arşivlerini açın ve çıkarın",
         "Description[uk]": "Здатен відкривати і видобувати архіви RAR і LHA",
-        "Description[x-test]": "xxOpen and extract RAR and LHA archivesxx",
         "Description[zh_CN]": "打开和解压 RAR 和 LHA 压缩文件",
         "Description[zh_TW]": "開啟並解壓縮 RAR 與 LHA 壓縮檔",
         "MimeTypes": [
@@ -103,7 +102,6 @@
         "Name[sv]": "Unarchiver-insticksprogram",
         "Name[tr]": "Unarchiver eklentisi",
         "Name[uk]": "Додаток Unarchiver",
-        "Name[x-test]": "xxThe Unarchiver pluginxx",
         "Name[zh_CN]": "Unarchiver 插件",
         "Name[zh_TW]": "解壓縮外掛程式",
         "Version": "@RELEASE_SERVICE_VERSION@"
