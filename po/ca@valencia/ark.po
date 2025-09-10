@@ -1,9 +1,9 @@
 # Translation of ark.po to Catalan (Valencian)
-# Copyright (C) 1998-2024 This_file_is_part_of_KDE
+# Copyright (C) 1998-2025 This_file_is_part_of_KDE
 #
 # Sebastià Pla <sastia@redestb.es>, 1998.
 # Albert Astals Cid <aacid@kde.org>, 2002, 2003, 2004, 2005.
-# Josep M. Ferrer <txemaq@gmail.com>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
+# SPDX-FileCopyrightText: 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
 # Joan Maspons <joanmaspons@gmail.com>, 2009.
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2012, 2014, 2015, 2016, 2017, 2018, 2020, 2021, 2022.
 msgid ""
@@ -11,14 +11,14 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2024-04-25 12:56+0200\n"
+"PO-Revision-Date: 2025-09-09 09:59+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 25.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -112,9 +112,7 @@ msgid "Compress"
 msgstr "Comprimix"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Comprimix a…"
@@ -168,10 +166,9 @@ msgid "KDE Archiving tool"
 msgstr "Eina d'arxivament de KDE"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "(c) 1997-2019, Els desenvolupadors d'Ark"
+msgstr "© 1997–2025 Els desenvolupadors d'Ark"
 
 #: app/main.cpp:86
 #, kde-format
@@ -471,11 +468,9 @@ msgstr "Us donem la benvinguda"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Obri un arxiu"
+msgstr "Obri un arxiu…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -829,8 +824,7 @@ msgstr "Nom del fitxer:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
 msgstr "Teclegeu el nom de l'arxiu…"
 
@@ -1225,8 +1219,7 @@ msgstr "sí (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
 msgstr "S'està calculant…"
 
@@ -1518,8 +1511,7 @@ msgid "Closing preview"
 msgstr "S'està tancant la vista prèvia"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
 msgstr "Espereu mentre es tanca la vista prèvia…"
 
@@ -1674,8 +1666,7 @@ msgid "Save"
 msgstr "Guarda"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
 msgstr "Teclegeu per a buscar…"
 
@@ -1692,12 +1683,10 @@ msgid "Show Information Panel"
 msgstr "Mostra el quadro d'informació"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "Anomeneu i guardeu una còpia"
+msgstr "Anomena i guarda una còpia…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1706,9 +1695,7 @@ msgid "&Open in External Application"
 msgstr "O&bri en una aplicació externa"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
 msgstr "Obri &amb…"
@@ -1762,11 +1749,9 @@ msgstr ""
 "extraure tots els fitxers o només els seleccionats"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Afig fitxers"
+msgstr "Afig fi&txers…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1860,15 +1845,12 @@ msgid "The archive failed the integrity test."
 msgstr "L'arxiu ha fallat en la prova d'integritat."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
 msgstr "Extrau a…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
 msgstr "Extracció ràpida a…"
 
@@ -2364,16 +2346,3 @@ msgstr "No s'ha pogut copiar l'entrada: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "No s'han pogut establir les metadades de l'entrada: %1"
-
-#~ msgid "Open Archive..."
-#~ msgstr "Obri un arxiu…"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Save Copy As..."
-#~ msgstr "Anomena i guarda una còpia…"
-
-#~ msgid "Add &Files..."
-#~ msgstr "Afig fi&txers…"
-
-#~ msgid "Extract To..."
-#~ msgstr "Extrau a…"

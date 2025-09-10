@@ -6,15 +6,15 @@
 # Andriy Rysin <rysin@kde.org>, 2000, 2002, 2003, 2006.
 # Eugene Onischenko <oneugene@ukr.net>, 2003, 2004, 2005.
 # Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2004, 2005, 2006, 2007, 2008.
-# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024.
+# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2024-04-25 08:12+0300\n"
+"PO-Revision-Date: 2025-09-09 15:12+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -114,9 +114,7 @@ msgid "Compress"
 msgstr "Стиснути"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Стиснути…"
@@ -170,10 +168,9 @@ msgid "KDE Archiving tool"
 msgstr "Архіватор KDE"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "© Розробники Ark, 1997–2019"
+msgstr "© Розробники Ark, 1997–2025"
 
 #: app/main.cpp:86
 #, kde-format
@@ -474,11 +471,9 @@ msgstr "Вітаємо"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Відкрити архів"
+msgstr "Відкрити архів…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -834,8 +829,7 @@ msgstr "Назва файла:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
 msgstr "Введіть назву архіву…"
 
@@ -1246,8 +1240,7 @@ msgstr "так (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
 msgstr "Обчислюємо…"
 
@@ -1539,8 +1532,7 @@ msgid "Closing preview"
 msgstr "Закриття попереднього перегляду"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
 msgstr "Будь ласка, зачекайте доки вікно попереднього перегляду буде закрито…"
 
@@ -1699,8 +1691,7 @@ msgid "Save"
 msgstr "Зберегти"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
 msgstr "Введіть ключ пошуку…"
 
@@ -1717,12 +1708,10 @@ msgid "Show Information Panel"
 msgstr "Показати інформаційну панель"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "Зберегти копію із новою назвою"
+msgstr "Зберегти копію як…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1731,9 +1720,7 @@ msgid "&Open in External Application"
 msgstr "&Відкрити у зовнішній програмі"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
 msgstr "Відкрити &за допомогою…"
@@ -1787,11 +1774,9 @@ msgstr ""
 "видобути всі файли чи лише вибрані"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Додати файли"
+msgstr "Додати &файли…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1886,15 +1871,12 @@ msgid "The archive failed the integrity test."
 msgstr "Архів не пройшов перевірку на цілісність."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
 msgstr "Видобути до…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
 msgstr "Швидко видобути до…"
 

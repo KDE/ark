@@ -10,21 +10,21 @@
 # Rinse de Vries <rinsedevries@kde.nl>, 2004, 2005, 2007, 2008, 2009.
 # Bram Schoenmakers <bramschoenmakers@kde.nl>, 2004, 2006.
 # Kristof Bal <kristof.bal@gmail.com>, 2008, 2009.
-# SPDX-FileCopyrightText: 2008, 2009, 2023, 2024 Freek de Kruijf <f.de.kruijf@hetnet.nl>
+# SPDX-FileCopyrightText: 2008, 2009, 2023, 2024, 2025 Freek de Kruijf <f.de.kruijf@hetnet.nl>
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2009, 2010, 2011, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2024-04-25 13:00+0200\n"
+"PO-Revision-Date: 2025-09-09 09:36+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 25.08.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -33,7 +33,7 @@ msgid "Your names"
 msgstr ""
 "Wilbert Berendsen - 2003; 2004,Tom Albers - 2004,Rinse de Vries - 2004; "
 "2005; 2007 t/m 2009,Bram Schoenmakers - 2004; 2006,Kristof Bal - 2008; 2009,"
-"Freek de Kruijf - 2008; 2009; 2015-2024"
+"Freek de Kruijf - 2008; 2009; 2015-2025"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -122,12 +122,10 @@ msgid "Compress"
 msgstr "Comprimeren"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
-msgstr "Comprimeren naar..."
+msgstr "Comprimeren naar…"
 
 #: app/compressfileitemaction.cpp:105
 #, kde-format
@@ -178,10 +176,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE's archiveerprogramma"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "(c) 1997-2019, de ontwikkelaars van Ark"
+msgstr "© 1997-2025, de ontwikkelaars van Ark"
 
 #: app/main.cpp:86
 #, kde-format
@@ -480,11 +477,9 @@ msgstr "Welkom"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Archief openen"
+msgstr "Archief openen…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -851,10 +846,9 @@ msgstr "Bestandsnaam:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
-msgstr "Type archiefnaam..."
+msgstr "Type archiefnaam…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1250,10 +1244,9 @@ msgstr "ja (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "Berekenen..."
+msgstr "Berekenen…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1544,10 +1537,9 @@ msgid "Closing preview"
 msgstr "Voorbeeld sluiten"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "Even geduld terwijl het voorbeeld sluit..."
+msgstr "Even geduld terwijl het voorbeeld sluit…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1700,10 +1692,9 @@ msgid "Save"
 msgstr "Opslaan"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
-msgstr "Typen om te zoeken..."
+msgstr "Typen om te zoeken…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1718,12 +1709,10 @@ msgid "Show Information Panel"
 msgstr "Informatiepaneel tonen"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "Kopie opslaan als"
+msgstr "Kopie opslaan als…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1732,12 +1721,10 @@ msgid "&Open in External Application"
 msgstr "In externe toepassing &openen"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "Openen &met..."
+msgstr "Openen &met…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1788,11 +1775,9 @@ msgstr ""
 "enkele geselecteerde bestanden uit te pakken"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Bestanden toevoegen"
+msgstr "Bestanden toevoegen…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1886,17 +1871,14 @@ msgid "The archive failed the integrity test."
 msgstr "Het archief heeft de test op integriteit niet doorstaan."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
 msgstr "Uitpakken naar…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "Snel uitpakken naar..."
+msgstr "Snel uitpakken naar…"
 
 #: part/part.cpp:775
 #, kde-format

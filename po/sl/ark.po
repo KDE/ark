@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2024-04-25 15:35+0200\n"
+"PO-Revision-Date: 2025-09-09 07:31+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.7\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -120,12 +120,10 @@ msgid "Compress"
 msgstr "Stisni"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
-msgstr "Stisni v …"
+msgstr "Stisni v…"
 
 #: app/compressfileitemaction.cpp:105
 #, kde-format
@@ -176,10 +174,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE-jevo arhivsko orodje"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "© 1997–2019, razvijalci Arka"
+msgstr "© 1997–2025, razvijalci Arka"
 
 #: app/main.cpp:86
 #, kde-format
@@ -470,11 +467,9 @@ msgstr "Dobrodošli"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Odpri arhiv"
+msgstr "Odpri arhiv…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -822,10 +817,9 @@ msgstr "Ime datoteke:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
-msgstr "Vnesite ime arhiva …"
+msgstr "Vnesite ime arhiva…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1228,10 +1222,9 @@ msgstr "da (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "Preračunavanje …"
+msgstr "Preračunavanje…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1521,10 +1514,9 @@ msgid "Closing preview"
 msgstr "Zapiranje predogleda"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "Počakajte, da se predogled zapre …"
+msgstr "Počakajte, da se predogled zapre…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1677,10 +1669,9 @@ msgid "Save"
 msgstr "Shrani"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
-msgstr "Tipkajte za iskanje …"
+msgstr "Tipkajte za iskanje…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1695,12 +1686,10 @@ msgid "Show Information Panel"
 msgstr "Pokaži pult s podrobnostmi"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "Shrani kopijo kot"
+msgstr "Shrani kopijo kot…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1709,12 +1698,10 @@ msgid "&Open in External Application"
 msgstr "&Odpri v zunanjem programu"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "Odpri &z …"
+msgstr "Odpri &z…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1765,11 +1752,9 @@ msgstr ""
 "vse ali pa samo izbrane datoteke"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Dodaj datoteke"
+msgstr "Dodaj datoteke…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1863,17 +1848,14 @@ msgid "The archive failed the integrity test."
 msgstr "Arhiv ni prestal preizkusa celovitosti."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
-msgstr "Razširi v …"
+msgstr "Razširi v…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "Hitro razširi v …"
+msgstr "Hitro izloči v…"
 
 #: part/part.cpp:775
 #, kde-format
