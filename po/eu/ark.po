@@ -13,14 +13,14 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2025-04-25 22:10+0200\n"
+"PO-Revision-Date: 2025-09-11 21:38+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.04.0\n"
+"X-Generator: Lokalize 25.08.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -113,9 +113,7 @@ msgid "Compress"
 msgstr "Konprimatu"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Konprimatu hontara..."
@@ -125,7 +123,7 @@ msgstr "Konprimatu hontara..."
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "Konprimatu \"%1\" gisa"
+msgstr "Konprimatu \"%1\"(e)ra"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -169,10 +167,9 @@ msgid "KDE Archiving tool"
 msgstr "KDEren Artxibatzeko tresna"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "(c) 1997-2019, Ark garatzaileak"
+msgstr "© 1997–2025 Ark garatzaileak"
 
 #: app/main.cpp:86
 #, kde-format
@@ -470,11 +467,9 @@ msgstr "Ongi etorri"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Ireki artxiboa"
+msgstr "Ireki artxiboa…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -826,10 +821,9 @@ msgstr "Fitxategi-izena:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
-msgstr "Sartu artxibo izena..."
+msgstr "Tekleatu artxibo izena…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1222,10 +1216,9 @@ msgstr "bai (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "Kalkulatzen..."
+msgstr "Kalkulatzen…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1515,10 +1508,9 @@ msgid "Closing preview"
 msgstr "Aurreikuspegia ixtea"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "Itxaron aurreikuspegia itxi bitartean..."
+msgstr "Mesedez, itxoin aurreikuspegia itxi bitartean…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1671,10 +1663,9 @@ msgid "Save"
 msgstr "Gorde"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
-msgstr "Idatzi bilatu beharrekoa..."
+msgstr "Tekleatu bilatzeko…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1689,12 +1680,10 @@ msgid "Show Information Panel"
 msgstr "Erakutsi informazio-panela"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "Gorde kopia honela"
+msgstr "Gorde kopia honela…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1703,12 +1692,10 @@ msgid "&Open in External Application"
 msgstr "&Ireki kanpoko aplikazioan"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "Ireki &honekin..."
+msgstr "Ireki &honekin…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1759,11 +1746,9 @@ msgstr ""
 "edo hautatutakoak soilik erauztea aukeratu dezakezun."
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Erantsi fitxategiak"
+msgstr "Gehitu &fitxategiak…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1857,17 +1842,14 @@ msgid "The archive failed the integrity test."
 msgstr "Artxiboak ez du gainditu osotasun egiaztatzea."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
-msgstr "Erauzi hona..."
+msgstr "Erauzi hona…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "Erauzte azkarra hona..."
+msgstr "Erauzte azkarra hona…"
 
 #: part/part.cpp:775
 #, kde-format
