@@ -2345,16 +2345,3 @@ msgstr "Klarte ikkje kopiera oppføring: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Klarte ikkje definera metadata for oppføring: %1"
-
-#~ msgid "Open Archive..."
-#~ msgstr "Opna arkiv …"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Save Copy As..."
-#~ msgstr "Lagra kopi som …"
-
-#~ msgid "Add &Files..."
-#~ msgstr "Legg til &filer …"
-
-#~ msgid "Extract To..."
-#~ msgstr "Pakk ut til …"
