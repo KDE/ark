@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2025-08-20 21:26+0400\n"
+"PO-Revision-Date: 2025-09-15 12:59+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -117,12 +117,10 @@ msgid "Compress"
 msgstr "اضغطه"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
-msgstr "اضغط إلى..."
+msgstr "اضغط إلى…"
 
 #: app/compressfileitemaction.cpp:105
 #, kde-format
@@ -173,10 +171,9 @@ msgid "KDE Archiving tool"
 msgstr "أداة كدى للأرشفة"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "الحقوق محفوظة 1997-2019(c)، مطورو برنامج أرك "
+msgstr "© 1997–2025 ، مطورو برنامج أرك "
 
 #: app/main.cpp:86
 #, kde-format
@@ -466,11 +463,9 @@ msgstr "مرحباً"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "افتح أرشيفاً"
+msgstr "افتح أرشيفاً…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -817,10 +812,9 @@ msgstr "اسم الملفّ:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
-msgstr "اكتب اسم الأرشيف..."
+msgstr "اكتب اسم الأرشيف…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1235,10 +1229,9 @@ msgstr "نعم (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "يحسب....."
+msgstr "يحسب…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1527,10 +1520,9 @@ msgid "Closing preview"
 msgstr "يغلق المعاينة"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "الرجاء الانتظار حالما يغلق المعاينة..."
+msgstr "الرجاء الانتظار حالما يغلق المعاينة…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1686,8 +1678,7 @@ msgid "Save"
 msgstr "احفظ"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
 msgstr "اكتب لتبحث…"
 
@@ -1704,12 +1695,10 @@ msgid "Show Information Panel"
 msgstr "أظهر لوحة المعلومات"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "احفظ نسخة ك‍..."
+msgstr "احفظ نسخة ك‍…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1718,12 +1707,10 @@ msgid "&Open in External Application"
 msgstr "ا&فتح في تطبيق خارجي"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "افتح ف&ي..."
+msgstr "ا&فتح في…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1773,11 +1760,9 @@ msgstr ""
 "انقر لفتح حوار استخراج، حيث يمكنك اختيار لاستخراج كل الملفات أو المحددة فقط"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "أضف ملفات"
+msgstr "أضف ملفات…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1869,17 +1854,14 @@ msgid "The archive failed the integrity test."
 msgstr "فشل الأرشيف في اختبار السلامة"
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
 msgstr "استخرج إلى…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "استخرج سريع إلى..."
+msgstr "استخرج سريع إلى…"
 
 #: part/part.cpp:775
 #, kde-format
