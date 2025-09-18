@@ -14,13 +14,13 @@
 # tahmar1900 <tahmar1900@gmail.com>, 2006, 2007.
 # elkana bardugo <ttv200@gmail.com>, 2016.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
-# SPDX-FileCopyrightText: 2023, 2024 Yaron Shahrabani <sh.yaron@gmail.com>
+# SPDX-FileCopyrightText: 2023, 2024, 2025 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2024-05-05 11:55+0300\n"
+"PO-Revision-Date: 2025-09-17 07:58+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -117,9 +117,7 @@ msgid "Compress"
 msgstr "דחיסה"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "דחיסה לתוך…"
@@ -173,10 +171,9 @@ msgid "KDE Archiving tool"
 msgstr "כלי ניהול ארכיונים ל־KDE"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "(c) 1997‏-2019, מפתחי Ark"
+msgstr "(c) 1997‏-2025, מפתחי Ark"
 
 #: app/main.cpp:86
 #, kde-format
@@ -463,11 +460,9 @@ msgstr "ברוך בורך"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "פתיחת ארכיון"
+msgstr "פתיחת ארכיון…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -811,8 +806,7 @@ msgstr "שם קובץ:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
 msgstr "נא לבחור שם לארכיון…"
 
@@ -1214,8 +1208,7 @@ msgstr "כן (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
 msgstr "מתבצע חישוב…"
 
@@ -1504,8 +1497,7 @@ msgid "Closing preview"
 msgstr "סגירת תצוגה מקדימה"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
 msgstr "נא להמתין לסגירת התצוגה המקדימה…"
 
@@ -1655,8 +1647,7 @@ msgid "Save"
 msgstr "שמירה"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
 msgstr "הקלדה תתחיל חיפוש…"
 
@@ -1673,12 +1664,10 @@ msgid "Show Information Panel"
 msgstr "הצגת לוח מידע"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "שמירת עותק בשם"
+msgstr "שמירת עותק בשם…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1687,9 +1676,7 @@ msgid "&Open in External Application"
 msgstr "&פתיחה ביישום חיצוני"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
 msgstr "פתיחה &עם…"
@@ -1742,11 +1729,9 @@ msgstr ""
 "הנבחרים"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "הוספת קבצים"
+msgstr "הו&ספת קבצים"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1837,15 +1822,12 @@ msgid "The archive failed the integrity test."
 msgstr "הארכיון לא עבר את בדיקת השלמות."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
 msgstr "חילוץ אל…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
 msgstr "חילוץ מהיר אל…"
 
