@@ -8,13 +8,13 @@
 # pan93412 <pan93412@gmail.com>, 2018, 2019.
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2006, 2007, 2008, 2009, 2010.
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2024-04-29 19:32+0900\n"
+"PO-Revision-Date: 2025-09-22 04:05+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 24.04.70\n"
+"X-Generator: Lokalize 25.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -111,9 +111,7 @@ msgid "Compress"
 msgstr "壓縮"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "壓縮到…"
@@ -167,10 +165,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE 封存工具"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "(c) 1997-2019, Ark 開發群"
+msgstr "(c) 1997-2025 Ark 開發團隊"
 
 #: app/main.cpp:86
 #, kde-format
@@ -452,11 +449,9 @@ msgstr "歡迎"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "開啟封存檔"
+msgstr "開啟封存檔…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -797,8 +792,7 @@ msgstr "檔案名稱："
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
 msgstr "輸入封存檔名稱…"
 
@@ -1169,10 +1163,9 @@ msgstr "是 (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "計算中..."
+msgstr "計算中…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1459,10 +1452,9 @@ msgid "Closing preview"
 msgstr "關閉預覽"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "請稍候，預覽正在關閉中..."
+msgstr "請稍候，預覽正在關閉中…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1609,10 +1601,9 @@ msgid "Save"
 msgstr "儲存"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
-msgstr "輸入以搜尋..."
+msgstr "輸入以搜尋…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1627,12 +1618,10 @@ msgid "Show Information Panel"
 msgstr "顯示資訊面板"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "儲存副本為"
+msgstr "儲存副本為…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1641,12 +1630,10 @@ msgid "&Open in External Application"
 msgstr "在外部應用程式開啟"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "開啟方式... (&W)"
+msgstr "開啟方式(&W)…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1693,11 +1680,9 @@ msgid ""
 msgstr "點選以開啟解壓縮對話框，您可以選擇要解那些檔案。"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "加入檔案"
+msgstr "加入檔案(&F)…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1788,17 +1773,14 @@ msgid "The archive failed the integrity test."
 msgstr "封存檔未通過完整度測試。"
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
-msgstr "解開至…"
+msgstr "解開到…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "快速解開到..."
+msgstr "快速解開到…"
 
 #: part/part.cpp:775
 #, kde-format
