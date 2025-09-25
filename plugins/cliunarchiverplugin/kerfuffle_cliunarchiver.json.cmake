@@ -14,7 +14,7 @@
         "Description[el]": "Άνοιγμα και εξαγωγή αρχειοθηκών RAR και LHA",
         "Description[en_GB]": "Open and extract RAR and LHA archives",
         "Description[eo]": "Malfermi kaj malpaki RAR- kaj LHA-arkivojn",
-        "Description[es]": "Abrir y extraer archivos RAR y LHA",
+        "Description[es]": "Abrir y extraer archivadores RAR y LHA",
         "Description[eu]": "Ireki eta erauzi RAR eta LHA artxiboak",
         "Description[fi]": "Avaa ja pura RAR- ja LHA-arkistoja",
         "Description[fr]": "Ouvre et extrait les archives « RAR » et « LHA »",
