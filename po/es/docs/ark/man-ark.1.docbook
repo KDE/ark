@@ -157,7 +157,7 @@
 <para
 >Cuando se usa la opción -b (--batch), &ark; se puede utilizar para extraer el contenido de uno o más archivos directamente desde la línea de órdenes, sin lanzar su interfaz gráfica.</para>
 <para
->Cuando se usa la opción -c (-add), &ark; solicita los archivos que se van a añadir a un archivo comprimido nuevo o ya existente.</para>
+>Cuando se usa la opción -c (-add), &ark; solicita los archivos que se van a añadir a un archivador nuevo o ya existente.</para>
 <para
 ></para>
 <para
@@ -216,7 +216,7 @@
 ></term>
 <listitem>
 <para
->Solicita al usuario el un nombre de archivo comprimido al que añadir los archivos especificados. Sale cuando finaliza.</para>
+>Solicita al usuario el un nombre de archivador al que añadir los archivos especificados. Sale cuando finaliza.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -230,7 +230,7 @@
 <para
 >Añade los archivos especificados al <replaceable
 >archivo</replaceable
-> indicado. Crea el archivo comprimido si no existe. Sale cuando finaliza.</para>
+> indicado. Crea el archivador si no existe. Sale cuando finaliza.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -294,7 +294,7 @@
 ></term>
 <listitem>
 <para
->Se leerá el contenido del archivo comprimido y, si se detecta que no se trata de un archivo de una única carpeta, se creará una subcarpeta con el nombre del archivo comprimido.</para>
+>Se leerá el contenido del archivador y, si se detecta que no se trata de un archivador de una única carpeta, se creará una subcarpeta con el nombre del archivador.</para>
 </listitem>
 </varlistentry>
 
@@ -347,13 +347,13 @@
 > <option
 >--batch</option
 > <replaceable
->archivo.tar.bz2</replaceable
+>archivador.tar.bz2</replaceable
 ></userinput
 ></term>
 <listitem>
 <para
 >Extraerá <replaceable
->archivo.tar.bz2</replaceable
+>archivador.tar.bz2</replaceable
 > en el directorio actual sin mostrar ninguna interfaz gráfica. </para>
 </listitem>
 </varlistentry>
@@ -368,17 +368,17 @@
 > <option
 >-d</option
 > <replaceable
->archivo.tar.bz2</replaceable
+>archivador.tar.bz2</replaceable
 > <replaceable
->archivo2.zip</replaceable
+>archivador2.zip</replaceable
 ></userinput
 ></term>
 <listitem>
 <para
 >Mostrará primero un diálogo con opciones de extracción y luego extraerá <replaceable
->archivo.tar.bz2</replaceable
+>archivador.tar.bz2</replaceable
 > y <replaceable
->archivo2.zip</replaceable
+>archivador2.zip</replaceable
 > en el directorio escogido en el diálogo.</para>
 </listitem>
 </varlistentry>
@@ -391,7 +391,7 @@
 > <option
 >--add-to</option
 > <replaceable
->mi-archivo.zip</replaceable
+>mi-archivador.zip</replaceable
 > <replaceable
 >foto1.jpg</replaceable
 > <replaceable
@@ -401,7 +401,7 @@
 <listitem>
 <para
 >Creará <replaceable
->mi-archivo.zip</replaceable
+>mi-archivador.zip</replaceable
 > si no existe y luego se le añadirán <replaceable
 >foto1.jpg</replaceable
 > y <replaceable

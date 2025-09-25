@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2025-09-09 22:03+0100\n"
+"PO-Revision-Date: 2025-09-25 00:54+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -35,7 +35,7 @@ msgstr "ecuadra@eloihr.net"
 #, kde-format
 msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
-msgstr "&Archivo comprimido"
+msgstr "&Archivador"
 
 #: app/batchextract.cpp:103 app/batchextract.cpp:174
 #, kde-format
@@ -45,7 +45,7 @@ msgstr "Extrayendo archivos"
 #: app/batchextract.cpp:104 app/batchextract.cpp:175
 #, kde-format
 msgid "Source archive"
-msgstr "Archivo de origen"
+msgstr "Archivador de origen"
 
 #: app/batchextract.cpp:105 app/batchextract.cpp:176
 #, kde-format
@@ -65,7 +65,7 @@ msgid ""
 "archive will not be extracted."
 msgstr ""
 "Ha ocurrido un error al extraer <filename>%1</filename>. No se extraerá "
-"ningún archivo comprimido posterior."
+"ningún archivador posterior."
 
 #: app/batchextract.cpp:139
 #, kde-kuit-format
@@ -75,7 +75,7 @@ msgid ""
 "%2</message><nl/>Any further archive will not be extracted."
 msgstr ""
 "Ha ocurrido un error al extraer <filename>%1</filename>:<nl/><message>%2</"
-"message><nl/>No se extraerá ningún archivo comprimido posterior."
+"message><nl/>No se extraerá ningún archivador posterior."
 
 #: app/batchextract.cpp:146
 #, kde-kuit-format
@@ -100,8 +100,8 @@ msgid ""
 "The archive could not be extracted to <filename>%1</filename> because Ark "
 "can only extract to local destinations."
 msgstr ""
-"No se ha podido extraer el archivo comprimido en <filename>%1</filename> "
-"porque Ark solo puede extraer en destinos locales."
+"No se ha podido extraer el archivador en <filename>%1</filename> porque Ark "
+"solo puede extraer en destinos locales."
 
 #: app/compressfileitemaction.cpp:71
 #, kde-format
@@ -138,7 +138,7 @@ msgstr "Extraer aquí"
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here and delete archive"
-msgstr "Extraer aquí y borrar archivo comprimido"
+msgstr "Extraer aquí y borrar archivador"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -321,8 +321,8 @@ msgid ""
 "Query the user for an archive filename and add specified files to it. Quit "
 "when finished."
 msgstr ""
-"Preguntar al usuario por un nombre de archivo comprimido y añadirle los "
-"archivos especificados. Salir cuando se haya terminado."
+"Preguntar al usuario un nombre de archivador y añadirle los archivos "
+"especificados. Salir cuando se haya terminado."
 
 #: app/main.cpp:130
 #, kde-format
@@ -330,8 +330,8 @@ msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
 "Quit when finished."
 msgstr ""
-"Añadir los archivos especificados al «archivo». Crear un archivo comprimido "
-"si no existe. Salir cuando se haya terminado."
+"Añadir los archivos especificados al «archivo». Crear un archivador si no "
+"existe. Salir cuando se haya terminado."
 
 #: app/main.cpp:134
 #, kde-format
@@ -375,9 +375,9 @@ msgid ""
 "a single file archive, a subfolder with the name of the archive will be "
 "created."
 msgstr ""
-"Se leerá el contenido del archivo y, si se detecta que no se trata de un "
-"archivo comprimido con una única carpeta o un único archivo, se creará una "
-"subcarpeta con el nombre del archivo."
+"Se leerá el contenido del archivador y, si se detecta que no se trata de un "
+"archivador con una única carpeta o un único archivo, se creará una "
+"subcarpeta con el nombre del archivador."
 
 #: app/main.cpp:152
 #, kde-format
@@ -426,12 +426,12 @@ msgstr "Bloquear la barra lateral"
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
-msgstr "Abrir archivo comprimido"
+msgstr "Abrir archivador"
 
 #: app/mainwindow.cpp:484
 #, kde-format
 msgid "Create New Archive"
-msgstr "Crear nuevo archivo comprimido"
+msgstr "Crear nuevo archivador"
 
 #: app/welcomeview/welcomeview.cpp:50
 #, kde-format
@@ -468,13 +468,13 @@ msgstr "Bienvenido"
 #: app/welcomeview/welcomeview.ui:179
 #, kde-format
 msgid "Open Archive…"
-msgstr "Abrir archivo comprimido…"
+msgstr "Abrir archivador…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
 #, kde-format
 msgid "New Archive"
-msgstr "Nuevo archivo comprimido"
+msgstr "Nuevo archivador"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
@@ -538,7 +538,7 @@ msgstr "Archivos/carpetas a comprimir"
 #: kerfuffle/addtoarchive.cpp:78
 #, kde-format
 msgid "Compress to Archive"
-msgstr "Comprimir en un archivo"
+msgstr "Comprimir en un archivador"
 
 #: kerfuffle/addtoarchive.cpp:132
 #, kde-format
@@ -551,8 +551,8 @@ msgid ""
 "You need to either supply a filename for the archive or a suffix (such as "
 "rar, tar.gz) with the <command>--autofilename</command> argument."
 msgstr ""
-"Necesita proporcionar un nombre para el archivo comprimido o un sufijo (como "
-"rar, tar.gz) con el argumento <command>--autofilename</command>."
+"Necesita proporcionar un nombre para el archivador o un sufijo (como rar, "
+"tar.gz) con el argumento <command>--autofilename</command>."
 
 #: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
 #, kde-kuit-format
@@ -561,8 +561,7 @@ msgid ""
 "The archive <filename>%1</filename> already exists. Do you wish to overwrite "
 "it?"
 msgstr ""
-"El archivo comprimido <filename>%1</filename> ya existe. ¿Desea "
-"sobrescribirlo?"
+"El archivador <filename>%1</filename> ya existe. ¿Desea sobrescribirlo?"
 
 #: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
 #, kde-format
@@ -582,14 +581,14 @@ msgstr "Archivador"
 msgid ""
 "Whether to show a warning when creating zip archives with AES encryption."
 msgstr ""
-"Si se debe mostrar o no una advertencia al crear archivos comprimidos zip "
-"con cifrado AES."
+"Indica si se debe mostrar o no una advertencia al crear archivadores zip con "
+"cifrado AES."
 
 #. i18n: ectx: label, entry (defaultOpenAction), group (General)
 #: kerfuffle/ark.kcfg:13
 #, kde-format
 msgid "Default action when opening archive entries."
-msgstr "Acción por omisión al abrir entradas de archivos comprimidos."
+msgstr "Acción predeterminada al abrir entradas de archivadores."
 
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
 #: kerfuffle/ark.kcfg:27
@@ -609,8 +608,8 @@ msgstr "Preservar rutas al extraer."
 msgid ""
 "Extract to a subfolder if the archive has more than one top-level entry."
 msgstr ""
-"Extraer a una subcarpeta si el archivo comprimido tiene más de una entrada "
-"de nivel superior."
+"Extraer a una subcarpeta si el archivador tiene más de una entrada de nivel "
+"superior."
 
 #. i18n: ectx: label, entry (splitterSizes), group (MainWindow)
 #: kerfuffle/ark.kcfg:41
@@ -686,7 +685,7 @@ msgstr "Contraseña incorrecta."
 #: kerfuffle/cliinterface.cpp:896
 #, kde-format
 msgid "Ark does not currently support testing this archive."
-msgstr "Ark no permite en la actualidad probar este archivo comprimido."
+msgstr "Ark no permite en la actualidad probar este archivador."
 
 #: kerfuffle/compressionoptionswidget.cpp:133
 #, kde-format
@@ -697,8 +696,7 @@ msgstr "No es posible proteger la lista de archivos con formato %1."
 #, kde-format
 msgid ""
 "Protection of the archive with password is not possible with the %1 format."
-msgstr ""
-"No es posible proteger con contraseña el archivo comprimido con formato %1."
+msgstr "No es posible proteger con contraseña el archivador con formato %1."
 
 #: kerfuffle/compressionoptionswidget.cpp:155
 #, kde-format
@@ -713,7 +711,7 @@ msgstr "No es posible ajustar el nivel de compresión para el formato %1."
 #: kerfuffle/compressionoptionswidget.cpp:195
 #, kde-format
 msgid "The %1 format does not support multi-volume archives."
-msgstr "El formato %1 no permite usar archivos comprimidos multivolumen."
+msgstr "El formato %1 no permite usar archivadores multivolumen."
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleCompression)
 #: kerfuffle/compressionoptionswidget.ui:20
@@ -762,8 +760,7 @@ msgstr "Método de cifrado:"
 #, kde-format
 msgid "Ask for password before showing the list of files in the archive"
 msgstr ""
-"Solicitar la contraseña antes de mostrar la lista de archivos del archivo "
-"comprimido"
+"Solicitar la contraseña antes de mostrar la lista de archivos del archivador"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
 #: kerfuffle/compressionoptionswidget.ui:170
@@ -778,13 +775,13 @@ msgstr ""
 #: kerfuffle/compressionoptionswidget.ui:183
 #, kde-format
 msgid "Multi-volume Archive"
-msgstr "Archivo comprimido multivolumen"
+msgstr "Archivador multivolumen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, multiVolumeCheckbox)
 #: kerfuffle/compressionoptionswidget.ui:192
 #, kde-format
 msgid "Create multi-volume archive"
-msgstr "Crear archivo comprimido multivolumen"
+msgstr "Crear archivador multivolumen"
 
 #. i18n: ectx: property (text), widget (QLabel, lblVolumeSize)
 #: kerfuffle/compressionoptionswidget.ui:210
@@ -829,7 +826,7 @@ msgstr "Nombre del archivo:"
 #: kerfuffle/createdialog.ui:54
 #, kde-format
 msgid "Type archive name…"
-msgstr "Escriba el nombre del archivo comprimido…"
+msgstr "Escriba el nombre del archivador…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -904,7 +901,7 @@ msgstr "Compruebe sus permisos para crearla."
 #: kerfuffle/extractiondialog.cpp:172
 #, kde-format
 msgid "Extract multiple archives"
-msgstr "Extraer archivos múltiples"
+msgstr "Extraer archivadores múltiples"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ExtractionDialog)
 #: kerfuffle/extractiondialog.ui:21
@@ -999,24 +996,23 @@ msgid ""
 "Extraction Dialog, when the archive has more than one top-level entry."
 msgstr ""
 "Si se debe marcar por omisión la casilla de extraer en subcarpetas en el "
-"diálogo de extracción cuando el archivo comprimido tenga más de una entrada "
-"de nivel superior."
+"diálogo de extracción cuando el archivador tenga más de una entrada de nivel "
+"superior."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
 #: kerfuffle/extractionsettingspage.ui:44
 #, kde-format
 msgid "Extract to a subfolder if the archive has more than one top-level entry"
 msgstr ""
-"Extraer en una subcarpeta si el archivo comprimido tiene más de una entrada "
-"de nivel superior"
+"Extraer en una subcarpeta si el archivador tiene más de una entrada de nivel "
+"superior"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/generalsettingspage.ui:17
 #, kde-format
 msgid "When clicking a file in an archive or pressing the Return key:"
 msgstr ""
-"Al pulsar un archivo dentro de un archivo comprimido o al pulsar la tecla "
-"Intro:"
+"Al pulsar un archivo dentro de un archivador o al pulsar la tecla Intro:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: kerfuffle/generalsettingspage.ui:33
@@ -1034,8 +1030,7 @@ msgstr "Abrir archivo con &la aplicación asociada"
 #: kerfuffle/generalsettingspage.ui:60
 #, kde-format
 msgid "Show a warning when creating zip archives with AES encryption"
-msgstr ""
-"Mostrar una advertencia al crear archivos comprimidos zip con cifrado AES"
+msgstr "Mostrar una advertencia al crear archivadores zip con cifrado AES"
 
 #: kerfuffle/jobs.cpp:100
 #, kde-format
@@ -1051,8 +1046,7 @@ msgid ""
 "the archive type are installed."
 msgstr ""
 "Ha fallado la carga de un complemento adecuado. Asegúrese de que están "
-"instalados los ejecutables necesarios para manejar este tipo de archivo "
-"comprimido."
+"instalados los ejecutables necesarios para manejar este tipo de archivador."
 
 #: kerfuffle/jobs.cpp:169
 #, kde-format
@@ -1060,20 +1054,20 @@ msgid ""
 "Could not load the archive because it contains ill-formed entries and might "
 "be a malicious archive."
 msgstr ""
-"No se puede cargar el archivo comprimido porque contiene entradas mal "
-"formadas, por lo que podría tratarse de un archivo malicioso."
+"No se puede cargar el archivador porque contiene entradas mal formadas, por "
+"lo que podría tratarse de un archivador malicioso."
 
 #: kerfuffle/jobs.cpp:257
 #, kde-format
 msgid "Loading archive"
-msgstr "Cargando archivo"
+msgstr "Cargando archivador"
 
 #: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
 #: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
 #: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Archive"
-msgstr "Archivo comprimido"
+msgstr "Archivador"
 
 #: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
 #, kde-kuit-format
@@ -1133,7 +1127,7 @@ msgstr[1] "Copiando %1 archivos"
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
-msgstr[0] "Eliminando un archivo"
+msgstr[0] "Eliminando 1 archivo"
 msgstr[1] "Eliminando %1 archivos"
 
 #: kerfuffle/jobs.cpp:874
@@ -1144,7 +1138,7 @@ msgstr "Añadiendo comentario"
 #: kerfuffle/jobs.cpp:898
 #, kde-format
 msgid "Testing archive"
-msgstr "Probando archivo comprimido"
+msgstr "Probando archivador"
 
 #: kerfuffle/pluginsettingspage.cpp:33
 #, kde-format
@@ -1233,13 +1227,13 @@ msgstr "Calculando…"
 #: kerfuffle/propertiesdialog.ui:37
 #, kde-format
 msgid "Archive name:"
-msgstr "Nombre del archivo comprimido:"
+msgstr "Nombre del archivador:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: kerfuffle/propertiesdialog.ui:54
 #, kde-format
 msgid "Archive type:"
-msgstr "Tipo de archivo comprimido:"
+msgstr "Tipo de archivador:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: kerfuffle/propertiesdialog.ui:71
@@ -1339,8 +1333,8 @@ msgid ""
 "The archive <filename>%1</filename> is password protected. Please enter the "
 "password."
 msgstr ""
-"El archivo <filename>%1</filename> está protegido con contraseña. Introduzca "
-"la contraseña."
+"El archivador <filename>%1</filename> está protegido con contraseña. "
+"Introduzca la contraseña."
 
 #: kerfuffle/queries.cpp:173
 #, kde-format
@@ -1354,14 +1348,14 @@ msgid ""
 "The archive you're trying to open is corrupt.<nl/>Some files may be missing "
 "or damaged."
 msgstr ""
-"El archivo comprimido que está intentando abrir está dañado.<nl/>Algunos "
-"archivos pueden faltar o estar dañados."
+"El archivador que está intentando abrir está dañado.<nl/>Algunos archivos "
+"pueden faltar o estar dañados."
 
 #: kerfuffle/queries.cpp:211
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
-msgstr "Archivo comprimido dañado"
+msgstr "Archivador dañado"
 
 #: kerfuffle/queries.cpp:212
 #, kde-format
@@ -1476,18 +1470,18 @@ msgstr "??"
 #: part/archivemodel.cpp:279
 #, kde-format
 msgid "Adding files is not supported for this archive."
-msgstr "Este archivo comprimido no permite añadir archivos."
+msgstr "Este archivador no permite añadir archivos."
 
 #: part/archivemodel.cpp:287
 #, kde-format
 msgid "You can only add local files to an archive."
-msgstr "Solo puede añadir archivos locales a un archivo comprimido."
+msgstr "Solo puede añadir archivos locales a un archivador."
 
 #. i18n: ectx: Menu (archive)
 #: part/ark_part.rc:5
 #, kde-format
 msgid "&Archive"
-msgstr "&Archivo comprimido"
+msgstr "&Archivador"
 
 #. i18n: ectx: Menu (ark_file)
 #: part/ark_part.rc:15
@@ -1567,7 +1561,7 @@ msgstr "Acerca del componente visor"
 #: part/infopanel.cpp:53
 #, kde-format
 msgid "No archive loaded"
-msgstr "No se ha cargado ningún archivo comprimido"
+msgstr "No se ha cargado ningún archivador"
 
 #: part/infopanel.cpp:104
 #, kde-format
@@ -1682,7 +1676,7 @@ msgstr "Escriba para buscar…"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
-msgstr "Ark puede extraer archivos comprimidos solo en destinos locales."
+msgstr "Ark puede extraer archivadores solo en destinos locales."
 
 #: part/part.cpp:355
 #, kde-format
@@ -1739,7 +1733,7 @@ msgid ""
 "the files in the archive"
 msgstr ""
 "Pulse para abrir un diálogo de extracción donde podrá escoger cómo extraer "
-"el contenido del archivo comprimido"
+"el contenido del archivador"
 
 #: part/part.cpp:396
 #, kde-format
@@ -1765,13 +1759,13 @@ msgstr "&Añadir archivos…"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
-msgstr "Pulse para añadir archivos al archivo comprimido"
+msgstr "Pulse para añadir archivos al archivador"
 
 #: part/part.cpp:412
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
-msgstr "Eliminar del archivo comprimido"
+msgstr "Eliminar del archivador"
 
 #: part/part.cpp:422
 #, kde-format
@@ -1783,7 +1777,7 @@ msgstr "&Propiedades"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
-msgstr "Pulse para ver las propiedades del archivo comprimido"
+msgstr "Pulse para ver las propiedades del archivador"
 
 #: part/part.cpp:430
 #, kde-format
@@ -1801,7 +1795,7 @@ msgstr "Probar in&tegridad"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
-msgstr "Pulse para comprobar la integridad del archivo comprimido"
+msgstr "Pulse para comprobar la integridad del archivador"
 
 #: part/part.cpp:462
 #, kde-kuit-format
@@ -1811,9 +1805,9 @@ msgid ""
 "encryption is currently not supported.<nl/><nl/>Extract the files and create "
 "a new archive if you want to add files."
 msgstr ""
-"En la actualidad no es posible añadir archivos a archivos comprimidos "
-"protegidos con contraseña sin cifrado de cabecera.<nl/><nl/>Extraiga los "
-"archivos y cree un nuevo archivo comprimido si desea añadir archivos."
+"En la actualidad no es posible añadir archivos a archivadores protegidos con "
+"contraseña sin cifrado de cabecera.<nl/><nl/>Extraiga los archivos y cree un "
+"nuevo archivador si desea añadir archivos."
 
 #: part/part.cpp:464
 #, kde-kuit-format
@@ -1822,8 +1816,8 @@ msgid ""
 "Testing password-protected archives with no header-encryption is currently "
 "not supported."
 msgstr ""
-"En la actualidad no es posible probar archivos comprimidos protegidos con "
-"contraseña sin cifrado de cabecera."
+"En la actualidad no es posible probar archivadores protegidos con contraseña "
+"sin cifrado de cabecera."
 
 #: part/part.cpp:505
 #, kde-format
@@ -1840,7 +1834,7 @@ msgstr "Añadir &comentario"
 #: part/part.cpp:612
 #, kde-format
 msgid "The archive passed the integrity test."
-msgstr "El archivo comprimido ha pasado la prueba de integridad."
+msgstr "El archivador ha pasado la prueba de integridad."
 
 #: part/part.cpp:612 part/part.cpp:614
 #, kde-format
@@ -1850,7 +1844,7 @@ msgstr "Resultado de la prueba"
 #: part/part.cpp:614
 #, kde-format
 msgid "The archive failed the integrity test."
-msgstr "El archivo comprimido no ha pasado la prueba de integridad."
+msgstr "El archivador no ha pasado la prueba de integridad."
 
 #: part/part.cpp:634
 #, kde-format
@@ -1909,14 +1903,13 @@ msgid ""
 "The archive <filename>%1</filename> will be created as soon as you add a "
 "file."
 msgstr ""
-"El archivo comprimido <filename>%1</filename> se creará en cuanto añada un "
-"archivo."
+"El archivador <filename>%1</filename> se creará en cuanto añada un archivo."
 
 #: part/part.cpp:811
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
-msgstr "No se ha encontrado el archivo comprimido <filename>%1</filename>."
+msgstr "No se ha encontrado el archivador <filename>%1</filename>."
 
 #: part/part.cpp:817
 #, kde-kuit-format
@@ -1925,15 +1918,14 @@ msgid ""
 "The archive <filename>%1</filename> could not be loaded, as it was not "
 "possible to read from it."
 msgstr ""
-"El archivo comprimido <filename>%1</filename> no se puede cargar porque no "
-"se puede leer de él."
+"El archivador <filename>%1</filename> no se puede cargar porque no se puede "
+"leer de él."
 
 #: part/part.cpp:868
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
-msgstr ""
-"El archivo comprimido está vacío o Ark no ha podido abrir su contenido."
+msgstr "El archivador está vacío o Ark no ha podido abrir su contenido."
 
 #: part/part.cpp:875
 #, kde-kuit-format
@@ -1950,8 +1942,8 @@ msgid ""
 "Loading the archive <filename>%1</filename> failed with the following error:"
 "<nl/><message>%2</message>"
 msgstr ""
-"La carga del archivo comprimido <filename>%1</filename> ha fallado con el "
-"siguiente error:<nl/><message>%2</message>"
+"La carga del archivador <filename>%1</filename> ha fallado con el siguiente "
+"error:<nl/><message>%2</message>"
 
 #: part/part.cpp:967
 #, kde-format
@@ -1965,7 +1957,7 @@ msgid ""
 "archive?"
 msgstr ""
 "Se ha modificado el archivo <filename>%1</filename>. ¿Desea actualizar el "
-"archivo comprimido?"
+"archivador?"
 
 #: part/part.cpp:1095
 #, kde-format
@@ -2053,8 +2045,8 @@ msgid ""
 "The archive could not be saved as <filename>%1</filename>. Try saving it to "
 "another location."
 msgstr ""
-"No se ha podido guardar el archivo comprimido como <filename>%1</filename>. "
-"Pruebe a guardarlo en otra ubicación."
+"No se ha podido guardar el archivador como <filename>%1</filename>. Pruebe a "
+"guardarlo en otra ubicación."
 
 #: part/part.cpp:1668
 #, kde-kuit-format
@@ -2063,14 +2055,14 @@ msgid ""
 "The archive <filename>%1</filename> does not exist anymore, therefore it "
 "cannot be copied to the specified location."
 msgstr ""
-"El archivo comprimido <filename>%1</filename> ya no existe, por lo que no se "
-"puede copiar en el destino indicado."
+"El archivador <filename>%1</filename> ya no existe, por lo que no se puede "
+"copiar en el destino indicado."
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
 #: plugins/cliunarchiverplugin/cliplugin.cpp:88
 #, kde-format
 msgid "Listing the archive failed."
-msgstr "El listado del contenido del archivo comprimido ha fallado."
+msgstr "El listado del contenido del archivador ha fallado."
 
 #: plugins/cli7zplugin/cliplugin.cpp:304
 #, kde-format
@@ -2130,8 +2122,7 @@ msgstr "desconocido"
 #: plugins/clirarplugin/cliplugin.cpp:540
 #, kde-format
 msgid "Failed to find all archive volumes."
-msgstr ""
-"No ha sido posible encontrar todos los volúmenes del archivo comprimido."
+msgstr "No ha sido posible encontrar todos los volúmenes del archivador."
 
 #: plugins/clirarplugin/cliplugin.cpp:314
 #, kde-format
@@ -2140,8 +2131,8 @@ msgid ""
 "archive. Please update to a more recent version."
 msgstr ""
 "La versión del ejecutable de unrar que está usando es la %1, que es "
-"demasiado antigua para manejar este archivo comprimido. Actualícela a una "
-"versión más reciente."
+"demasiado antigua para manejar este archivador. Actualícela a una versión "
+"más reciente."
 
 #: plugins/clirarplugin/cliplugin.cpp:320
 #, kde-format
@@ -2149,9 +2140,8 @@ msgid ""
 "Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
 "Try updating your unrar."
 msgstr ""
-"Unrar ha informado de un archivo comprimido que no es de tipo RAR. La "
-"versión de unrar instalada (%1) es antigua. Pruebe a actualizar su versión "
-"de unrar."
+"Unrar ha informado de un archivador que no es de tipo RAR. La versión de "
+"unrar instalada (%1) es antigua. Pruebe a actualizar su versión de unrar."
 
 #: plugins/clirarplugin/cliplugin.cpp:535
 #, kde-format
@@ -2166,7 +2156,7 @@ msgstr "La extracción ha fallado."
 #: plugins/cliunarchiverplugin/cliplugin.cpp:134
 #, kde-format
 msgid "Not enough memory for loading the archive."
-msgstr "No hay suficiente memoria para cargar el archivo comprimido."
+msgstr "No hay suficiente memoria para cargar el archivador."
 
 #: plugins/cliunarchiverplugin/cliplugin.cpp:185
 #, kde-format
@@ -2198,8 +2188,8 @@ msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"El archivo comprimido puede estar dañado o tiene la cabecera cifrada, lo que "
-"no está permitido en la actualidad."
+"El archivador puede estar dañado o tiene la cabecera cifrada, lo que no está "
+"permitido en la actualidad."
 
 #: plugins/libarchive/libarchiveplugin.cpp:482
 #, kde-format
@@ -2217,13 +2207,13 @@ msgstr ""
 #: plugins/libarchive/libarchiveplugin.cpp:522
 #, kde-format
 msgid "The archive reader could not be initialized."
-msgstr "No se ha podido inicializar el lector del archivo."
+msgstr "No se ha podido inicializar el lector del archivor."
 
 #: plugins/libarchive/libarchiveplugin.cpp:544
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
-msgstr "Archivo comprimido dañado o permisos insuficientes."
+msgstr "Archivador dañado o permisos insuficientes."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:217
 #, kde-format
@@ -2234,13 +2224,13 @@ msgstr "Ha fallado la creación de un archivo temporal para escribir datos."
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:223
 #, kde-format
 msgid "The archive writer could not be initialized."
-msgstr "No se ha podido inicializar la escritura del archivo."
+msgstr "No se ha podido inicializar la escritura del archivor."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:240
 #, kde-format
 msgctxt "@info"
 msgid "Could not open the archive for writing entries."
-msgstr "No se ha podido abrir el archivo comprimido para escribir entradas."
+msgstr "No se ha podido abrir el archivador para escribir entradas."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:287
 #, kde-format
@@ -2281,7 +2271,7 @@ msgstr "No se ha podido comprimir la entrada."
 #: plugins/libzipplugin/libzipplugin.cpp:1055
 #, kde-kuit-format
 msgid "Failed to open archive: %1"
-msgstr "No se ha podido abrir el archivo comprimido: %1"
+msgstr "No se ha podido abrir el archivador: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:350
 #: plugins/libzipplugin/libzipplugin.cpp:621
@@ -2290,7 +2280,7 @@ msgstr "No se ha podido abrir el archivo comprimido: %1"
 #: plugins/libzipplugin/libzipplugin.cpp:1124
 #, kde-kuit-format
 msgid "Failed to write archive."
-msgstr "No se ha podido escribir el archivo comprimido."
+msgstr "No se ha podido escribir el archivador."
 
 #: plugins/libzipplugin/libzipplugin.cpp:399
 #: plugins/libzipplugin/libzipplugin.cpp:1091
