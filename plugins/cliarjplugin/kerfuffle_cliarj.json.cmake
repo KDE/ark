@@ -14,7 +14,7 @@
         "Description[el]": "Πλήρης υποστήριξη για τον τύπο αρχειοθήκης ARJ",
         "Description[en_GB]": "Full support for the ARJ archive formats",
         "Description[eo]": "Plena subteno por la ARJ-arkivoformato",
-        "Description[es]": "Uso total de los formatos de archivo comprimido ARJ",
+        "Description[es]": "Compatibilidad total con el formato de archivador ARJ",
         "Description[eu]": "ARJ artxibo formatuaren euskarri osoa",
         "Description[fi]": "Täysi ARJ-tiedostomuodon tuki",
         "Description[fr]": "Prise en charge complète des formats d'archive « ARJ »",

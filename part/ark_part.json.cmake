@@ -14,7 +14,7 @@
         "Description[el]": "Εργαλείο χειρισμού αρχειοθηκών",
         "Description[en_GB]": "Archive Handling Tool",
         "Description[eo]": "Arkivpritrakta Ilo",
-        "Description[es]": "Herramienta de gestión de archivos comprimidos",
+        "Description[es]": "Herramienta de gestión de archivadores",
         "Description[eu]": "Artxiboak kudeatzeko tresna",
         "Description[fi]": "Arkistonkäsittelyohjelma",
         "Description[fr]": "Outil de manipulation d'archives",

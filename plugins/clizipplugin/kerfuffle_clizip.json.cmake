@@ -14,7 +14,7 @@
         "Description[el]": "Κληροδοτούμενη υποστήριξη για τον τύπο αρχειοθήκης zip",
         "Description[en_GB]": "Legacy support for the zip archive format",
         "Description[eo]": "Hereda subteno por la zip-arkivoformato",
-        "Description[es]": "Uso heredado para el formato de archivo comprimido zip",
+        "Description[es]": "Compatibilidad heredada para el formato de archivador zip",
         "Description[et]": "Zip-arhiivi vormingu pärandtoetus",
         "Description[eu]": "zip artxibo formatuarentzako heredatutako euskarria",
         "Description[fi]": "Zip-tiedostomuodon perinteinen tuki",
