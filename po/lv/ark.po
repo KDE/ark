@@ -7,20 +7,20 @@
 # Viesturs Zariņš <viesturs.zarins@algorego.com>, 2008.
 # Viesturs Zariņš <viesturs.zarins@mii.lu.lv>, 2009.
 # Einars Sprugis <einars8@gmail.com>, 2011.
-# SPDX-FileCopyrightText: 2024 Toms Trasuns <toms.trasuns@posteo.net>
+# SPDX-FileCopyrightText: 2024, 2025 Toms Trasuns <toms.trasuns@posteo.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2024-10-02 21:34+0300\n"
+"PO-Revision-Date: 2025-09-24 12:03+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.0\n"
+"X-Generator: Lokalize 25.08.0\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 
@@ -114,12 +114,10 @@ msgid "Compress"
 msgstr "Saspiest"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
-msgstr "Saspiest kā..."
+msgstr "Saspiest uz…"
 
 #: app/compressfileitemaction.cpp:105
 #, kde-format
@@ -170,10 +168,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE arhivēšanas rīks"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "(c) 1997—2019, „Ark“ izstrādātāji"
+msgstr "© 1997–2025 „Ark“ izstrādātāji"
 
 #: app/main.cpp:86
 #, kde-format
@@ -465,11 +462,9 @@ msgstr "Laipni lūgti"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Atvērt arhīvu"
+msgstr "Atvērt arhīvu…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -816,10 +811,9 @@ msgstr "Datnes nosaukums:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
-msgstr "Ievadiet arhīva nosaukumu..."
+msgstr "Ierakstiet arhīva nosaukumu…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1216,10 +1210,9 @@ msgstr "jā (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "Aprēķina..."
+msgstr "Aprēķina…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1509,10 +1502,9 @@ msgid "Closing preview"
 msgstr "Aizver priekšskatījumu"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "Uzgaidiet līdz aizvērsies priekšskatījums..."
+msgstr "Uzgaidiet līdz aizvērsies priekšskatījums…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1664,10 +1656,9 @@ msgid "Save"
 msgstr "Saglabāt"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
-msgstr "Rakstiet, lai meklētu..."
+msgstr "Rakstiet, lai meklētu…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1682,12 +1673,10 @@ msgid "Show Information Panel"
 msgstr "Rādīt informācijas paneli"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "Saglabāt kopiju kā"
+msgstr "Saglabāt kopiju kā…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1696,12 +1685,10 @@ msgid "&Open in External Application"
 msgstr "&Atvērt ārējā programmā"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "At&vērt ar..."
+msgstr "At&vērt ar…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1752,17 +1739,15 @@ msgstr ""
 "atlasītās datnes"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Pievienot datnes"
+msgstr "Pievienot &datnes…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
-msgstr "Nospiediet, lai arhīvam pievienotu datnes"
+msgstr "Klikšķiniet, lai arhīvam pievienotu datnes"
 
 #: part/part.cpp:412
 #, kde-format
@@ -1850,17 +1835,14 @@ msgid "The archive failed the integrity test."
 msgstr "Arhīva integritātes pārbaude atklāja kļūdu."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
-msgstr "Atspiest uz..."
+msgstr "Atspiest uz…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "Ātrā atspiešana uz..."
+msgstr "Ātrā atspiešana uz…"
 
 #: part/part.cpp:775
 #, kde-format
