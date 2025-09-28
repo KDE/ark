@@ -8,13 +8,14 @@
 # Yukiko Bando <ybando@k6.dion.ne.jp>, 2007, 2008, 2009, 2010.
 # Tomohiro Hyakutake <tomhioo@outlook.jp>, 2019, 2020.
 # Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2004, 2005, 2014, 2019, 2020, 2021, 2024.
+# SPDX-FileCopyrightText: 2025 Yuma Kakei <yumasansansan@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-21 02:48+0000\n"
-"PO-Revision-Date: 2024-02-02 15:03-0800\n"
-"Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
+"PO-Revision-Date: 2025-09-24 15:40+0900\n"
+"Last-Translator: Yuma Kakei <yumasansansan@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -23,14 +24,14 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 "R. Imura,Noboru Sinohara,UTUMI Hirosi,Fumiaki Okushi,Kenshi Muto,Yukiko "
-"Bando,R.Suga,Tarot Osuji"
+"Bando,R.Suga,Tarot Osuji,Yuma Kakei"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -38,7 +39,7 @@ msgid "Your emails"
 msgstr ""
 "imura@cs.titech.ac.jp,shinobo@leo.bekkoame.ne.jp,utuhiro78@yahoo.co.jp,"
 "fumiaki@okushi.com,kmuto@debian.org,ybando@k6.dion.ne.jp,21r.suga@gmail.com,"
-"tarot@sdf.org"
+"tarot@sdf.org,yumasansansan@gmail.com"
 
 # @info:tooltip
 #. i18n: ectx: Menu (archive)
@@ -127,13 +128,11 @@ msgid "Compress to..."
 msgstr "圧縮先..."
 
 #: app/compressfileitemaction.cpp:105
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "圧縮先..."
+msgstr "「%1」に圧縮"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -341,8 +340,8 @@ msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
 "Quit when finished."
 msgstr ""
-"指定されたファイルを 'filename' に追加します。存在しない場合はアーカイブを作"
-"成します。完了したらプログラムを終了します。"
+"指定されたファイルを 'ファイル名' に追加します。存在しない場合はアーカイブを"
+"作成します。完了したらプログラムを終了します。"
 
 #: app/main.cpp:134
 #, kde-format
@@ -2166,18 +2165,14 @@ msgid "unknown"
 msgstr "不明"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"ヘッダ暗号化がないパスワード保護されたアーカイブのテストは、現在サポートされ"
-"ていません。"
+"アーカイブが破損しているか、ヘッダ暗号化が適用されている可能性があります。こ"
+"れは現在サポートされていません。"
 
 #: plugins/libarchive/libarchiveplugin.cpp:482
 #, kde-format
@@ -2189,7 +2184,7 @@ msgstr "致命的なエラーにより、展開は中止されました。"
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
-msgstr ""
+msgstr "暗号化されている 7-zip ファイルの展開は現在サポートされていません。"
 
 #: plugins/libarchive/libarchiveplugin.cpp:522
 #, kde-format
@@ -2338,9 +2333,3 @@ msgstr "エントリをコピーできませんでした: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "エントリのメタデータを設定できませんでした: %1"
-
-#~ msgctxt ""
-#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
-#~ "filename"
-#~ msgid "Here as \"%1\""
-#~ msgstr "ここに \"%1\" として"
