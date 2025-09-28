@@ -8,13 +8,14 @@
 # Yukiko Bando <ybando@k6.dion.ne.jp>, 2007, 2008, 2009, 2010.
 # Tomohiro Hyakutake <tomhioo@outlook.jp>, 2019, 2020.
 # Fumiaki Okushi <fumiaki.okushi@gmail.com>, 2004, 2005, 2014, 2019, 2020, 2021, 2024.
+# SPDX-FileCopyrightText: 2025 Yuma Kakei <yumasansansan@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2024-02-02 15:03-0800\n"
-"Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
+"PO-Revision-Date: 2025-09-24 15:40+0900\n"
+"Last-Translator: Yuma Kakei <yumasansansan@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -23,14 +24,14 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 "R. Imura,Noboru Sinohara,UTUMI Hirosi,Fumiaki Okushi,Kenshi Muto,Yukiko "
-"Bando,R.Suga,Tarot Osuji"
+"Bando,R.Suga,Tarot Osuji,Yuma Kakei"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -38,7 +39,7 @@ msgid "Your emails"
 msgstr ""
 "imura@cs.titech.ac.jp,shinobo@leo.bekkoame.ne.jp,utuhiro78@yahoo.co.jp,"
 "fumiaki@okushi.com,kmuto@debian.org,ybando@k6.dion.ne.jp,21r.suga@gmail.com,"
-"tarot@sdf.org"
+"tarot@sdf.org,yumasansansan@gmail.com"
 
 # @info:tooltip
 #. i18n: ectx: Menu (archive)
@@ -121,21 +122,17 @@ msgid "Compress"
 msgstr "圧縮"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
-msgstr "圧縮先..."
+msgstr "圧縮先…"
 
 #: app/compressfileitemaction.cpp:105
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "圧縮先..."
+msgstr "「%1」に圧縮"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -179,10 +176,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE アーカイブツール"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "(c) 1997-2019, Ark 開発チーム"
+msgstr "(c) 1997-2025, Ark 開発チーム"
 
 #: app/main.cpp:86
 #, kde-format
@@ -344,8 +340,8 @@ msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
 "Quit when finished."
 msgstr ""
-"指定されたファイルを 'filename' に追加します。存在しない場合はアーカイブを作"
-"成します。完了したらプログラムを終了します。"
+"指定されたファイルを 'ファイル名' に追加します。存在しない場合はアーカイブを"
+"作成します。完了したらプログラムを終了します。"
 
 #: app/main.cpp:134
 #, kde-format
@@ -480,11 +476,9 @@ msgstr "ようこそ"
 # @info:tooltip
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "アーカイブを開く"
+msgstr "アーカイブを開く…"
 
 # @info:tooltip
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
@@ -835,10 +829,9 @@ msgstr "ファイル名:"
 # @info:tooltip
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
-msgstr "アーカイブ名を入力..."
+msgstr "アーカイブ名を入力…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1222,10 +1215,9 @@ msgstr "はい (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "計算中..."
+msgstr "計算中…"
 
 # @info:tooltip
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -1522,10 +1514,9 @@ msgid "Closing preview"
 msgstr "プレビューを閉じています"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "プレビューが閉じられるまでお待ちください..."
+msgstr "プレビューが閉じられるまでお待ちください…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1676,10 +1667,9 @@ msgstr "保存"
 
 # @info:tooltip
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
-msgstr "入力して検索..."
+msgstr "入力して検索…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1694,12 +1684,10 @@ msgid "Show Information Panel"
 msgstr "情報パネルを表示"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "コピーを保存"
+msgstr "名前を付けてコピーを保存…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1708,12 +1696,10 @@ msgid "&Open in External Application"
 msgstr "外部アプリケーションで開く(&O)"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "アプリケーションで開く(&W)..."
+msgstr "アプリケーションで開く(&W)…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1764,11 +1750,9 @@ msgstr ""
 "開するかを指定できます。"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "ファイルを追加"
+msgstr "ファイルを追加(&F)…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1862,17 +1846,14 @@ msgid "The archive failed the integrity test."
 msgstr "アーカイブは整合性テストに失敗しました。"
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
 msgstr "展開先..."
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "クイック展開..."
+msgstr "クイック展開…"
 
 #: part/part.cpp:775
 #, kde-format
@@ -2184,18 +2165,14 @@ msgid "unknown"
 msgstr "不明"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"ヘッダ暗号化がないパスワード保護されたアーカイブのテストは、現在サポートされ"
-"ていません。"
+"アーカイブが破損しているか、ヘッダ暗号化が適用されている可能性があります。こ"
+"れは現在サポートされていません。"
 
 #: plugins/libarchive/libarchiveplugin.cpp:482
 #, kde-format
@@ -2207,7 +2184,7 @@ msgstr "致命的なエラーにより、展開は中止されました。"
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
-msgstr ""
+msgstr "暗号化されている 7-zip ファイルの展開は現在サポートされていません。"
 
 #: plugins/libarchive/libarchiveplugin.cpp:522
 #, kde-format
@@ -2356,23 +2333,3 @@ msgstr "エントリをコピーできませんでした: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "エントリのメタデータを設定できませんでした: %1"
-
-# @info:tooltip
-#~ msgid "Open Archive..."
-#~ msgstr "アーカイブを開く..."
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Save Copy As..."
-#~ msgstr "名前を付けてコピーを保存..."
-
-#~ msgid "Add &Files..."
-#~ msgstr "ファイルを追加(&F)..."
-
-#~ msgid "Extract To..."
-#~ msgstr "展開先..."
-
-#~ msgctxt ""
-#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
-#~ "filename"
-#~ msgid "Here as \"%1\""
-#~ msgstr "ここに \"%1\" として"
