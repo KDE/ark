@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
 "PO-Revision-Date: 2024-04-30 15:17+0200\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -111,12 +111,10 @@ msgid "Compress"
 msgstr "Zkomprimovat"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
-msgstr "Zkomprimovat do..."
+msgstr ""
 
 #: app/compressfileitemaction.cpp:105
 #, kde-format
@@ -167,10 +165,9 @@ msgid "KDE Archiving tool"
 msgstr "Archivační nástroj pro KDE"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "(c) 1997-2019, Vývojáři programu Ark"
+msgstr ""
 
 #: app/main.cpp:86
 #, kde-format
@@ -462,11 +459,9 @@ msgstr "Vítejte"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Otevřít archiv"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -814,10 +809,9 @@ msgstr "Název souboru:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
-msgstr "Napište název archivu..."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1215,10 +1209,9 @@ msgstr "ano (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "Počítám..."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1508,10 +1501,9 @@ msgid "Closing preview"
 msgstr "Zavírám náhled"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "Prosím, vyčkejte, než se náhled uzavře..."
+msgstr ""
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1664,10 +1656,9 @@ msgid "Save"
 msgstr "Uložit"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
-msgstr "Text k vyhledání..."
+msgstr "Text k vyhledání…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1682,12 +1673,10 @@ msgid "Show Information Panel"
 msgstr "Zobrazit informační panel"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "Uložit kopii jako"
+msgstr ""
 
 #: part/part.cpp:365
 #, kde-format
@@ -1696,12 +1685,10 @@ msgid "&Open in External Application"
 msgstr "&Otevřít v externí aplikaci"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "Otevřít po&mocí..."
+msgstr ""
 
 #: part/part.cpp:374
 #, kde-format
@@ -1752,11 +1739,9 @@ msgstr ""
 "všechny soubory nebo pouze označené"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Přidat soubory"
+msgstr ""
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1850,17 +1835,14 @@ msgid "The archive failed the integrity test."
 msgstr "Archiv neprošel ověřením neporušenosti."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
-msgstr "Rozbalit do…"
+msgstr ""
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "Rychle rozbalit do..."
+msgstr ""
 
 #: part/part.cpp:775
 #, kde-format
@@ -2344,16 +2326,3 @@ msgstr "Nelze kopírovat záznam: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Nelze nastavit metadata pro záznam: %1"
-
-#~ msgid "Open Archive..."
-#~ msgstr "Otevřít archiv..."
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Save Copy As..."
-#~ msgstr "Uložit kopii jako..."
-
-#~ msgid "Add &Files..."
-#~ msgstr "Přidat sou&bory..."
-
-#~ msgid "Extract To..."
-#~ msgstr "Rozbalit do..."
