@@ -55,6 +55,9 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 
     fileWidget->okButton()->setText(i18n("Extract"));
     fileWidget->okButton()->show();
+    fileWidget->okButton()->setEnabled(true);
+    fileWidget->setAllowOkWithEmptyLocationEdit(true);
+    fileWidget->setFilterWidgetVisible(false);
     connect(fileWidget->okButton(), &QPushButton::clicked, this, &ExtractionDialog::slotAccepted);
 
     fileWidget->cancelButton()->show();
