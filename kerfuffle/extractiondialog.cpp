@@ -83,8 +83,9 @@ ExtractionDialog::ExtractionDialog(QWidget *parent)
 
 void ExtractionDialog::slotAccepted()
 {
+    const bool extract = extractToSubfolder();
     // If extracting to a subfolder, we need to do some checks.
-    if (extractToSubfolder()) {
+    if (extract) {
         // Check if subfolder contains slashes.
         if (subfolder().contains(QLatin1String("/"))) {
             KMessageBox::error(this, i18n("The subfolder name may not contain the character '/'."));
@@ -96,7 +97,7 @@ void ExtractionDialog::slotAccepted()
     // We extract to selectedUrl().
     const auto destinationPath = fileWidget->selectedUrl().toLocalFile();
 
-    if (extractToSubfolder()) {
+    if (extract) {
         // Handle existing subfolder.
         const QString pathWithSubfolder = QDir(destinationPath).filePath(subfolder());
         while (1) {
