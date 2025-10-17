@@ -8,20 +8,20 @@
 # Svanur Palsson <svanur@tern.is>, 2004.
 # Þröstur Svanbergsson <throstur@bylur.net>, 2004.
 # Arnar Leosson <leosson@frisurf.no>, 2005.
-# Sveinn í Felli <sveinki@nett.is>, 2009, 2010, 2015, 2021, 2022, 2023, 2024.
+# SPDX-FileCopyrightText: 2009, 2010, 2015, 2021, 2022, 2023, 2024, 2025 Sveinn í Felli <sveinki@nett.is>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2024-05-09 12:36+0000\n"
+"PO-Revision-Date: 2025-10-16 13:19+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.04.3\n"
+"X-Generator: Lokalize 23.08.5\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n != 1;\n"
 "\n"
 "\n"
@@ -123,12 +123,10 @@ msgid "Compress"
 msgstr "Þjappa"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
-msgstr "Þjappa í..."
+msgstr "Þjappa í…"
 
 #: app/compressfileitemaction.cpp:105
 #, kde-format
@@ -179,10 +177,9 @@ msgid "KDE Archiving tool"
 msgstr "Safnskráaverkfæri KDE"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "(c) 1997-2019, þróunaraðilar Ark"
+msgstr "(c) 1997-2025, þróunaraðilar Ark"
 
 #: app/main.cpp:86
 #, kde-format
@@ -480,11 +477,9 @@ msgstr "Velkomin"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Opna safnskrá"
+msgstr "Opna safnskrá…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -836,10 +831,9 @@ msgstr "Skrárheiti:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
-msgstr "Sláðu inn heiti á safnskrá..."
+msgstr "Settu inn heiti safnskrár…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1227,10 +1221,9 @@ msgstr "já (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "Reikna..."
+msgstr "Reikna…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1521,10 +1514,9 @@ msgid "Closing preview"
 msgstr "Loka forskoðun"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "Hinkraðu á meðan forskoðuninni er lokað..."
+msgstr "Hinkraðu á meðan forskoðuninni er lokað…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1677,10 +1669,9 @@ msgid "Save"
 msgstr "Vista"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
-msgstr "Sláðu inn til að leita..."
+msgstr "Skrifaðu til að leita…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1695,12 +1686,10 @@ msgid "Show Information Panel"
 msgstr "Sýna upplýsingastiku"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "Vista afrit sem"
+msgstr "Vista afrit sem…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1709,12 +1698,10 @@ msgid "&Open in External Application"
 msgstr "&Opna í ytra forriti"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "O&pna með..."
+msgstr "O&pna með…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1765,11 +1752,9 @@ msgstr ""
 "annað hvort allar skrárnar eða bara þær sem hafa verið valdar"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Bæta við skrám"
+msgstr "&Bæta við skrám…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1864,17 +1849,14 @@ msgid "The archive failed the integrity test."
 msgstr "Safnskráin stóðst ekki heilleikaprófun."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
-msgstr "Afþjappa í..."
+msgstr "Afþjappa í…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "Flýtiafþjappa í..."
+msgstr "Flýtiafþjappa í…"
 
 #: part/part.cpp:775
 #, kde-format
