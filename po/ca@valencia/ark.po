@@ -1,11 +1,11 @@
 # Translation of ark.po to Catalan (Valencian)
 # Copyright (C) 1998-2025 This_file_is_part_of_KDE
 #
-# Sebastià Pla <sastia@redestb.es>, 1998.
-# Albert Astals Cid <aacid@kde.org>, 2002, 2003, 2004, 2005.
+# SPDX-FileCopyrightText: 1998 Sebastià Pla <sastia@redestb.es>
+# SPDX-FileCopyrightText: 2002, 2003, 2004, 2005 Albert Astals Cid <aacid@kde.org>
 # SPDX-FileCopyrightText: 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Josep M. Ferrer <txemaq@gmail.com>
-# Joan Maspons <joanmaspons@gmail.com>, 2009.
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2012, 2014, 2015, 2016, 2017, 2018, 2020, 2021, 2022.
+# SPDX-FileCopyrightText: 2009 Joan Maspons <joanmaspons@gmail.com>
+# SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2020, 2021, 2022 Antoni Bella Pérez <antonibella5@yahoo.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
