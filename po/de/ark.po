@@ -173,10 +173,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE-Archivprogramm"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "Copyright 1997–2019, Die Ark-Entwickler"
+msgstr "© 1997–2025 Die Ark-Entwickler"
 
 #: app/main.cpp:86
 #, kde-format
