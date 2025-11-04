@@ -312,7 +312,7 @@ msgstr "URL à ouvrir."
 msgid ""
 "Show a dialog for specifying the options for the operation (extract/add)"
 msgstr ""
-"Affiche une boîte de dialogue pour spécifier les options pour l'opération "
+"Affiche une boite de dialogue pour spécifier les options pour l'opération "
 "(extraire / ajouter)"
 
 #: app/main.cpp:120
@@ -371,7 +371,7 @@ msgid ""
 "Use the batch interface instead of the usual dialog. This option is implied "
 "if more than one url is specified."
 msgstr ""
-"Utiliser l'interface de traitement en lot au lieu de la boîte de dialogue "
+"Utiliser l'interface de traitement en lot au lieu de la boite de dialogue "
 "habituelle. Cette option est implicite si plus d'une URL est spécifiée."
 
 #: app/main.cpp:146
@@ -1017,7 +1017,7 @@ msgid ""
 "Extraction Dialog, when the archive has more than one top-level entry."
 msgstr ""
 "Activer par défaut ou non la l'extraction vers des sous-dossier dans la "
-"boîte de dialogue d'extraction pour le cas où l'archive a plus d'un élément "
+"boite de dialogue d'extraction pour le cas où l'archive a plus d'un élément "
 "au premier niveau."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
@@ -1757,7 +1757,7 @@ msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
 "the files in the archive"
 msgstr ""
-"Cliquez pour ouvrir une boîte de dialogue d'extraction, à partir de laquelle "
+"Cliquez pour ouvrir une boite de dialogue d'extraction, à partir de laquelle "
 "vous pourrez choisir d'extraire tous les fichiers de l'archive"
 
 #: part/part.cpp:396
@@ -1772,7 +1772,7 @@ msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
 "all files or just the selected ones"
 msgstr ""
-"Cliquez pour ouvrir une boîte de dialogue d'extraction, à partir de laquelle "
+"Cliquez pour ouvrir une boite de dialogue d'extraction, à partir de laquelle "
 "vous pourrez choisir d'extraire tous les fichiers ou seulement ceux "
 "sélectionnés"
 
@@ -2111,7 +2111,7 @@ msgid ""
 "configuration dialog."
 msgstr ""
 "L'opération de suppression a échoué. Essayez de mettre à jour le logiciel "
-"« 7z » ou de désactiver le module externe « 7z » dans la boîte de dialogue "
+"« 7z » ou de désactiver le module externe « 7z » dans la boite de dialogue "
 "de configuration."
 
 #: plugins/cliarjplugin/cliplugin.cpp:321
