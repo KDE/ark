@@ -176,7 +176,7 @@
 ></term>
 <listitem>
 <para
->Affiche une boîte de dialogue pour spécifier les options pour une opération par lot ou une opération d'ajout.</para>
+>Affiche une boite de dialogue pour spécifier les options pour une opération par lot ou une opération d'ajout.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -272,7 +272,7 @@
 ></term>
 <listitem>
 <para
->Utiliser l'interface de traitement en lot au lieu de la boîte de dialogue habituelle. Cette option est implicite si plus d'une URL est spécifiée.</para>
+>Utiliser l'interface de traitement en lot au lieu de la boite de dialogue habituelle. Cette option est implicite si plus d'une URL est spécifiée.</para>
 </listitem>
 </varlistentry>
 
@@ -375,11 +375,11 @@
 ></term>
 <listitem>
 <para
->Ceci affiche d'abord une boîte de dialogue d'options d'extraction puis extraie <replaceable
+>Ceci affiche d'abord une boite de dialogue d'options d'extraction puis extraie <replaceable
 >archive.tar.bz2</replaceable
 > et <replaceable
 >archive2.zip</replaceable
-> dans le dossier sélectionné dans la boîte de dialogue.</para>
+> dans le dossier sélectionné dans la boite de dialogue.</para>
 </listitem>
 </varlistentry>
 
