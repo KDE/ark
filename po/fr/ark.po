@@ -190,7 +190,7 @@ msgstr "Elvis Angelaccio"
 #: app/main.cpp:86
 #, kde-format
 msgid "Maintainer"
-msgstr "Mainteneur"
+msgstr "Mxxxx"
 
 #: app/main.cpp:87
 #, kde-format
