@@ -1,12 +1,12 @@
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2011, 2012, 2015, 2020.
 # Balázs Úr <urbalazs@gmail.com>, 2014.
-# SPDX-FileCopyrightText: 2021, 2022, 2024 Kristof Kiszel <kiszel.kristof@gmail.com>
+# SPDX-FileCopyrightText: 2021, 2022, 2024, 2025 Kristof Kiszel <kiszel.kristof@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-09 01:05+0000\n"
-"PO-Revision-Date: 2024-04-29 11:32+0200\n"
+"PO-Revision-Date: 2025-11-06 20:59+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.07.70\n"
+"X-Generator: Lokalize 25.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -106,9 +106,7 @@ msgid "Compress"
 msgstr "Tömörítés"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Tömörítés ide…"
@@ -162,10 +160,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE fájltömörítő alkalmazás"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "© Az Ark fejlesztői, 1997-2019."
+msgstr "© Az Ark fejlesztői, 1997-2025."
 
 #: app/main.cpp:86
 #, kde-format
@@ -462,11 +459,9 @@ msgstr "Üdvözöljük"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Archívum megnyitása"
+msgstr "Archívum megnyitása…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -815,8 +810,7 @@ msgstr "Fájlnév:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
 msgstr "Írja be az archívum nevét…"
 
@@ -1212,8 +1206,7 @@ msgstr "igen (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
 msgstr "Számolás…"
 
@@ -1505,8 +1498,7 @@ msgid "Closing preview"
 msgstr "Az előnézet bezáródik"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
 msgstr "Egy kis türelmet, az előnézet bezáródik…"
 
@@ -1661,8 +1653,7 @@ msgid "Save"
 msgstr "Mentés"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
 msgstr "Írja ide a keresett szöveget…"
 
@@ -1679,12 +1670,10 @@ msgid "Show Information Panel"
 msgstr "Információs panel megjelenítése"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "Másolat mentése másként"
+msgstr "Másolat mentése másként…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1693,9 +1682,7 @@ msgid "&Open in External Application"
 msgstr "&Megnyitás külső alkalmazásban"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
 msgstr "Megnyitás &mással…"
@@ -1749,11 +1736,9 @@ msgstr ""
 "fájl ki legyen-e bontva vagy csak a kijelöltek."
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Fájlok hozzáadása"
+msgstr "&Fájlok hozzáadása…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1847,15 +1832,12 @@ msgid "The archive failed the integrity test."
 msgstr "Az archívum integritástesztje sikertelen."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
 msgstr "Kibontás ide…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
 msgstr "Gyors kitömörítés ide…"
 
