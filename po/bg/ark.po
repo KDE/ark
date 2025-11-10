@@ -2336,16 +2336,3 @@ msgstr "Грешка при копиране на запис: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Грешка при задаване метаданните за запис: %1"
-
-#~ msgid "Open Archive..."
-#~ msgstr "Отваряне на архив…"
-
-#~ msgctxt "@action:inmenu"
-#~ msgid "Save Copy As..."
-#~ msgstr "Запазване на копие като…"
-
-#~ msgid "Add &Files..."
-#~ msgstr "Добавяне на &файлове…"
-
-#~ msgid "Extract To..."
-#~ msgstr "Извличане в…"
