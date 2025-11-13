@@ -198,7 +198,7 @@ private:
     Needle m_needle;
 };
 
-#include <qstringview.h>
+#include <QStringView>
 
 namespace QtPrivate
 {
