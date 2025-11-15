@@ -11,7 +11,7 @@ ecm_add_test(
     ${CMAKE_BINARY_DIR}/plugins/cliunarchiverplugin/ark_debug.cpp
     LINK_LIBRARIES testhelper kerfuffle Qt::Test
     TEST_NAME cliunarchivertest
-    NAME_PREFIX plugins-)
+)
 
 # cliunarchiver plugin needs exceptions enabled
 kde_target_enable_exceptions(cliunarchivertest PRIVATE)

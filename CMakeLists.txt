@@ -16,6 +16,13 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modul
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# setup use of ECMAddTest copy with newer features
+if(ECM_VERSION VERSION_LESS 7.21) # change to 6.21 once ECM MR is merged
+    list(PREPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/ecmcopy")
+elseif(NOT KF_MIN_VERSION VERSION_LESS 6.21)
+    message(WARNING "Remove copy of ECMAddTest, min. required ECM now provides it.")
+endif()
+
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
