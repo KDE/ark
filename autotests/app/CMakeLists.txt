@@ -6,4 +6,4 @@ ecm_add_test(
     ${CMAKE_BINARY_DIR}/app/ark_debug.cpp
     LINK_LIBRARIES Qt::Test KF6::KIOFileWidgets kerfuffle
     TEST_NAME batchextracttest
-    NAME_PREFIX app-)
+)
