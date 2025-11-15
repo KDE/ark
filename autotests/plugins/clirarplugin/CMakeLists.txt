@@ -11,4 +11,4 @@ ecm_add_test(
     ${CMAKE_BINARY_DIR}/plugins/clirarplugin/ark_debug.cpp
     LINK_LIBRARIES testhelper kerfuffle Qt::Test
     TEST_NAME clirartest
-    NAME_PREFIX plugins-)
+)

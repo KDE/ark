@@ -11,4 +11,4 @@ ecm_add_test(
     ${CMAKE_BINARY_DIR}/plugins/clizipplugin/ark_debug.cpp
     LINK_LIBRARIES testhelper kerfuffle Qt::Test
     TEST_NAME cliziptest
-    NAME_PREFIX plugins-)
+)
