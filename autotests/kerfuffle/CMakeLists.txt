@@ -20,17 +20,17 @@ ecm_add_tests(
     mimetypetest.cpp
     preservemetadatatest.cpp
     LINK_LIBRARIES testhelper kerfuffle Qt::Test KF6::ConfigCore KF6::KIOCore
-    NAME_PREFIX kerfuffle-)
+)
 
 ecm_add_test(
     adddialogtest.cpp
     LINK_LIBRARIES kerfuffle Qt::Test KF6::KIOFileWidgets
-    NAME_PREFIX kerfuffle-)
+)
 
 ecm_add_tests(
     jobstest.cpp
     LINK_LIBRARIES jsoninterface Qt::Test
-    NAME_PREFIX kerfuffle-)
+)
 
 # metadatatest needs the number of plugins actually installed by an install() command.
 list(REMOVE_ITEM INSTALLED_KERFUFFLE_PLUGINS "")

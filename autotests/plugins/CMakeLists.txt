@@ -1,3 +1,5 @@
+ecm_test_set_dir_properties(LAST_PREFIX_NAME)
+
 add_subdirectory(clizipplugin)
 add_subdirectory(cli7zplugin)
 add_subdirectory(clirarplugin)
