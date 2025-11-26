@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:55+0000\n"
+"POT-Creation-Date: 2025-11-26 00:46+0000\n"
 "PO-Revision-Date: 2006-12-17 13:36+0000\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -845,18 +845,18 @@ msgctxt "@title:window"
 msgid "Extract"
 msgstr "Ажратиш"
 
-#: kerfuffle/extractiondialog.cpp:56
+#: kerfuffle/extractiondialog.cpp:57
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract"
 msgstr "Ажратиш"
 
-#: kerfuffle/extractiondialog.cpp:103
+#: kerfuffle/extractiondialog.cpp:91
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:114
+#: kerfuffle/extractiondialog.cpp:108
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
@@ -865,43 +865,43 @@ msgid ""
 "extract here?"
 msgstr "Архив аллақачон мавжуд. Уни алмаштиришни истайсизми?"
 
-#: kerfuffle/extractiondialog.cpp:115
+#: kerfuffle/extractiondialog.cpp:109
 #, fuzzy, kde-format
 #| msgid "Archive Already Exists"
 msgid "Folder exists"
 msgstr "Архив аллақачон мавжуд"
 
-#: kerfuffle/extractiondialog.cpp:116
+#: kerfuffle/extractiondialog.cpp:110
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract here"
 msgstr "Ажратиш"
 
-#: kerfuffle/extractiondialog.cpp:117
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-format
 msgid "Retry"
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:127 kerfuffle/extractiondialog.cpp:133
+#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
 #, fuzzy, kde-kuit-format
 #| msgid "The folder could not be created. Please check permissions."
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Жилдни яратиб бўлмади. Илтимос ҳуқуқларни текширинг."
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:122
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "Архив аллақачон мавжуд. Уни алмаштиришни истайсизми?"
 
-#: kerfuffle/extractiondialog.cpp:134
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:172
+#: kerfuffle/extractiondialog.cpp:165
 #, fuzzy, kde-format
 #| msgid "Extract all files"
 msgid "Extract multiple archives"

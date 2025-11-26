@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:55+0000\n"
+"POT-Creation-Date: 2025-11-26 00:46+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -814,17 +814,17 @@ msgctxt "@title:window"
 msgid "Extract"
 msgstr "解压"
 
-#: kerfuffle/extractiondialog.cpp:56
+#: kerfuffle/extractiondialog.cpp:57
 #, kde-format
 msgid "Extract"
 msgstr "解压"
 
-#: kerfuffle/extractiondialog.cpp:103
+#: kerfuffle/extractiondialog.cpp:91
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "子目录名称不能包含“/”字符。"
 
-#: kerfuffle/extractiondialog.cpp:114
+#: kerfuffle/extractiondialog.cpp:108
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -832,39 +832,39 @@ msgid ""
 "extract here?"
 msgstr "文件夹 <filename>%1</filename> 已经存在。您确定要解压到这里吗？"
 
-#: kerfuffle/extractiondialog.cpp:115
+#: kerfuffle/extractiondialog.cpp:109
 #, kde-format
 msgid "Folder exists"
 msgstr "文件夹已存在"
 
-#: kerfuffle/extractiondialog.cpp:116
+#: kerfuffle/extractiondialog.cpp:110
 #, kde-format
 msgid "Extract here"
 msgstr "解压到此文件夹"
 
-#: kerfuffle/extractiondialog.cpp:117
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-format
 msgid "Retry"
 msgstr "重试"
 
-#: kerfuffle/extractiondialog.cpp:127 kerfuffle/extractiondialog.cpp:133
+#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "无法创建 <filename>%1</filename> 文件夹。"
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:122
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> 已存在，但它并不是文件夹。"
 
-#: kerfuffle/extractiondialog.cpp:134
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "请检查您是否具备创建该文件的权限。"
 
-#: kerfuffle/extractiondialog.cpp:172
+#: kerfuffle/extractiondialog.cpp:165
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "解压多个压缩文件"

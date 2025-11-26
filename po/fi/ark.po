@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:55+0000\n"
+"POT-Creation-Date: 2025-11-26 00:46+0000\n"
 "PO-Revision-Date: 2025-09-15 18:38+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -848,17 +848,17 @@ msgctxt "@title:window"
 msgid "Extract"
 msgstr "Pura"
 
-#: kerfuffle/extractiondialog.cpp:56
+#: kerfuffle/extractiondialog.cpp:57
 #, kde-format
 msgid "Extract"
 msgstr "Pura"
 
-#: kerfuffle/extractiondialog.cpp:103
+#: kerfuffle/extractiondialog.cpp:91
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "Alikansion nimi ei saa sisältää vinoviivaa (”/”)."
 
-#: kerfuffle/extractiondialog.cpp:114
+#: kerfuffle/extractiondialog.cpp:108
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -868,39 +868,39 @@ msgstr ""
 "Kansio <filename>%1</filename> on jo olemassa. Haluatko varmasti purkaa "
 "tiedostot sinne?"
 
-#: kerfuffle/extractiondialog.cpp:115
+#: kerfuffle/extractiondialog.cpp:109
 #, kde-format
 msgid "Folder exists"
 msgstr "Kansio on olemassa"
 
-#: kerfuffle/extractiondialog.cpp:116
+#: kerfuffle/extractiondialog.cpp:110
 #, kde-format
 msgid "Extract here"
 msgstr "Pura tähän"
 
-#: kerfuffle/extractiondialog.cpp:117
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-format
 msgid "Retry"
 msgstr "Yritä uudelleen"
 
-#: kerfuffle/extractiondialog.cpp:127 kerfuffle/extractiondialog.cpp:133
+#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Kansiota <filename>%1</filename> ei voitu luoda."
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:122
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> on jo olemassa, muttei ole kansio."
 
-#: kerfuffle/extractiondialog.cpp:134
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Tarkista oikeutesi sen luomiseen."
 
-#: kerfuffle/extractiondialog.cpp:172
+#: kerfuffle/extractiondialog.cpp:165
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Pura useampia arkistoja"

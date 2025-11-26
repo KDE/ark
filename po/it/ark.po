@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:55+0000\n"
+"POT-Creation-Date: 2025-11-26 00:46+0000\n"
 "PO-Revision-Date: 2025-09-09 15:15+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -849,17 +849,17 @@ msgctxt "@title:window"
 msgid "Extract"
 msgstr "Estrazione"
 
-#: kerfuffle/extractiondialog.cpp:56
+#: kerfuffle/extractiondialog.cpp:57
 #, kde-format
 msgid "Extract"
 msgstr "Estrazione"
 
-#: kerfuffle/extractiondialog.cpp:103
+#: kerfuffle/extractiondialog.cpp:91
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "Il nome della sottocartella non deve contenere il carattere «/»."
 
-#: kerfuffle/extractiondialog.cpp:114
+#: kerfuffle/extractiondialog.cpp:108
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -869,39 +869,39 @@ msgstr ""
 "La cartella <filename>%1</filename> esiste già. Sei sicuro di voler estrarre "
 "qui?"
 
-#: kerfuffle/extractiondialog.cpp:115
+#: kerfuffle/extractiondialog.cpp:109
 #, kde-format
 msgid "Folder exists"
 msgstr "Cartella esistente"
 
-#: kerfuffle/extractiondialog.cpp:116
+#: kerfuffle/extractiondialog.cpp:110
 #, kde-format
 msgid "Extract here"
 msgstr "Estrai qui"
 
-#: kerfuffle/extractiondialog.cpp:117
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-format
 msgid "Retry"
 msgstr "Riprova"
 
-#: kerfuffle/extractiondialog.cpp:127 kerfuffle/extractiondialog.cpp:133
+#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Impossibile creare la cartella <filename>%1</filename>."
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:122
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> esiste già, ma non è una cartella."
 
-#: kerfuffle/extractiondialog.cpp:134
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Controlla i permessi per crearla."
 
-#: kerfuffle/extractiondialog.cpp:172
+#: kerfuffle/extractiondialog.cpp:165
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Estrazione archivi multipli"

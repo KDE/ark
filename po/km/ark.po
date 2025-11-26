@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:55+0000\n"
+"POT-Creation-Date: 2025-11-26 00:46+0000\n"
 "PO-Revision-Date: 2012-06-11 15:59+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer\n"
@@ -889,19 +889,19 @@ msgctxt "@title:window"
 msgid "Extract"
 msgstr "ស្រង់​ចេញ"
 
-#: kerfuffle/extractiondialog.cpp:56
+#: kerfuffle/extractiondialog.cpp:57
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Extract"
 msgid "Extract"
 msgstr "ស្រង់​ចេញ"
 
-#: kerfuffle/extractiondialog.cpp:103
+#: kerfuffle/extractiondialog.cpp:91
 #, kde-format
 msgid "The subfolder name may not contain the character '/'."
 msgstr "ឈ្មោះ​ថត​រង​មិនអាច​មាន​តួអក្សរ '/' ទេ ។"
 
-#: kerfuffle/extractiondialog.cpp:114
+#: kerfuffle/extractiondialog.cpp:108
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -909,39 +909,39 @@ msgid ""
 "extract here?"
 msgstr "មាន​ថត <filename>%1</filename> រួច​ហើយ ។ តើ​អ្នក​ប្រាកដ​ជា​ចង់​ស្រង់​ចេញ​នៅ​ទីនេះ​ឬ ?"
 
-#: kerfuffle/extractiondialog.cpp:115
+#: kerfuffle/extractiondialog.cpp:109
 #, kde-format
 msgid "Folder exists"
 msgstr "មាន​ថត"
 
-#: kerfuffle/extractiondialog.cpp:116
+#: kerfuffle/extractiondialog.cpp:110
 #, kde-format
 msgid "Extract here"
 msgstr "ស្រង់​ចេញ​នៅ​ទីនេះ"
 
-#: kerfuffle/extractiondialog.cpp:117
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-format
 msgid "Retry"
 msgstr "ព្យាយាម​ម្ដង​ទៀត"
 
-#: kerfuffle/extractiondialog.cpp:127 kerfuffle/extractiondialog.cpp:133
+#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "មិន​អាច​បង្កើត​ថត <filename>%1</filename> បាន​ទេ ។"
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:122
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "មាន​<filename>%1</filename> រួច​ហើយ ប៉ុន្តែ​មិនមែនជា​ថត​ទេ ។"
 
-#: kerfuffle/extractiondialog.cpp:134
+#: kerfuffle/extractiondialog.cpp:128
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "សូម​ពិនិត្យ​មើល​សិទ្ធិ​របស់​អ្នក ដើម្បី​បង្កើត​វា ។"
 
-#: kerfuffle/extractiondialog.cpp:172
+#: kerfuffle/extractiondialog.cpp:165
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "ស្រង់​ប័ណ្ណសារ​ជា​ច្រើន​ចេញ"
