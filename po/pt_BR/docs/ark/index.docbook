@@ -1,6 +1,5 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
-  <!ENTITY kappname "&ark;">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % Brazilian-Portuguese "INCLUDE"
 > <!-- change language only here -->
@@ -96,13 +95,13 @@
 >&FDLNotice;</legalnotice>
 
 <date
->19/03/2016</date>
+>10/09/2016</date>
 <releaseinfo
->Applications 16.04</releaseinfo>
+>Applications 16.12</releaseinfo>
 
 <abstract>
 <para
->&ark; é um gerenciador de arquivos compactados para o &kde;.</para>
+>&ark; é um gerenciador de arquivos compactados do &kde;.</para>
 </abstract>
 
 <keywordset>
@@ -115,7 +114,7 @@
 <keyword
 >tar</keyword>
 <keyword
->arquivo</keyword>
+>arquivo compactado</keyword>
 <keyword
 >zip</keyword>
 <keyword
@@ -151,9 +150,13 @@
 >rpm</command
 >, <command
 >cab</command
-> e <command
+>, <command
 >deb</command
-> (o suporte a certos formatos de arquivos compactados dependem da instalação de programas de linha de comando apropriados).</para>
+>, <command
+>xar</command
+> e <command
+>AppImage</command
+>  (o suporte a certos formatos de arquivos compactados dependem da instalação de programas de linha de comando apropriados).</para>
 
 <mediaobject>
 <imageobject>
@@ -229,7 +232,74 @@
 >Propriedades</guimenuitem
 >.</para>
 
+<para
+>O &ark; tem a capacidade de testar a integridade de arquivos compactados. Essa funcionalidade está atualmente disponível para arquivos compactados <command
+>zip</command
+>, <command
+>rar</command
+> e <command
+>7z</command
+>. A ação de teste pode ser encontrada no menu <guimenu
+>Arquivo</guimenu
+>.</para>
+
 </sect2>
+
+<sect2 id="ark-archive-comments">
+<title
+>Comentários nos arquivos</title>
+
+<para
+>O &ark; consegue lidar com comentários incorporados em arquivos <literal role="extension"
+>zip</literal
+> e <literal role="extension"
+>rar</literal
+>.</para>
+
+<para
+>Os comentários incorporados em arquivos <literal role="extension"
+>zip</literal
+> são apresentados automaticamente.</para>
+
+<para
+>Ao usar arquivos <literal role="extension"
+>rar</literal
+>, você pode modificar um comentário com as ações <guimenuitem
+>Adicionar comentário</guimenuitem
+> ou <guimenuitem
+>Editar comentário</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>C</keycap
+></keycombo
+>) a partir do menu <guimenu
+>Arquivo compactado</guimenu
+>. </para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Editar um comentário</phrase>
+</textobject>
+</mediaobject>
+
+<note
+><para
+>O item de menu comentário só fica ativo para arquivos <literal role="extension"
+>rar</literal
+>. </para
+></note>
+
+<para
+>Para remover o comentário de um arquivo <literal role="extension"
+>rar</literal
+>, apague o texto na janela de comentário.</para>
+
+</sect2>
+
 </sect1>
 
 <sect1 id="ark-work-files">
@@ -267,6 +337,22 @@
 <listitem>
 <para
 ><guimenuitem
+>Renomear</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>F2</keycap
+></keycombo
+>) Esta ação permite alterar os nomes de arquivos e pastas. Assim como no gerenciador de arquivos Dolphin, esta ação pode ser chamada por meio de um atalho e a renomeação é feita através da edição em linha. Também existem verificações de nome de arquivo, que impedem o uso de caracteres inválidos como <userinput
+>/</userinput
+>, <userinput
+>.</userinput
+> e <userinput
+>..</userinput
+> em nomes de arquivos.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
 >Excluir</guimenuitem
 > (<keycap
 >Del</keycap
@@ -281,6 +367,38 @@
 >E</keycap
 ></keycombo
 >) abre um submenu com as pastas acessadas anteriormente, de onde você poderá optar por extrair rapidamente para uma delas ou escolher uma pasta que não está listada. Leia a próxima seção para obter mais detalhes sobre extração de arquivos.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Recortar</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+>) / <guimenuitem
+>Copiar</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>) / <guimenuitem
+>Colar</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+>): Como em gerenciadores de arquivos típicos, mover, colar e copiar estão disponíveis. Os usuários podem mover ou copiar arquivos de pastas diferentes (que podem ser expandidas na visualização em árvore) e colá-los no mesmo destino de uma só vez. Uma pasta pode ser copiada para dentro de si mesma, mas não pode ser movida. Existem também verificações para nomes de arquivos conflitantes: você não poderá copiar ou mover arquivos para uma pasta que tenha entradas com os mesmos nomes - isso pode levar à perda de dados.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Adicionar arquivos</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>A</keycap
+></keycombo
+>) Esta ação pode ser usada para adicionar arquivos em qualquer local dentro do arquivo. Se você selecionar uma pasta e usar esta ação, os arquivos serão adicionados à pasta selecionada. Caso contrário, os novos arquivos serão adicionados à raiz do arquivo. </para>
 </listitem>
 </itemizedlist>
 
@@ -393,6 +511,16 @@
 >Arquivo compactado</guimenu
 >.</para>
 
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Criar um arquivo compactado</phrase>
+</textobject>
+</mediaobject>
+
 <para
 >Você poderá então digitar o nome do arquivo compactado com a extensão apropriada (<literal role="extension"
 >tar.gz</literal
@@ -403,26 +531,50 @@
 >, &etc;) ou selecionar um formato suportado no campo <guilabel
 >Filtro</guilabel
 > e assinalar a opção <guilabel
->Selecionar automaticamente a extensão do nome do arquivo</guilabel
+>Adicionar automaticamente a <replaceable
+>extensão do arquivo</replaceable
+></guilabel
 >.</para>
 
 <para
->Para adicionar arquivos ou pastas ao novo arquivo compactado, escolha a opção <guimenuitem
->Adicionar arquivo...</guimenuitem
-> ou <guimenuitem
->Adicionar pasta...</guimenuitem
->, respectivamente, a partir do menu <guimenu
->Arquivo compactado</guimenu
+>Para adicionar arquivos ou pastas ao novo arquivo, escolha <guimenuitem
+>Adicionar Arquivos...</guimenuitem
+> no menu <guimenu
+>Arquivo</guimenu
 >.</para>
 
 <para
 >Uma forma alternativa de adicionar arquivos ao arquivo compactado é arrastar um ou mais arquivos do &dolphin; para a janela principal do &ark;, para que seja adicionado ao arquivo compactado atual. Lembre-se de que os arquivos adicionados dessa forma serão sempre adicionados à pasta principal do arquivo compactado.</para>
 
+<para
+>Opções adicionais são apresentadas em grupos recolhíveis na parte inferior da janela. </para>
+
+<sect2 id="ark-compression">
+<title
+>Compressão</title>
+<para
+>Um valor mais alto gera arquivos menores, mas resulta em tempos de compressão e descompressão mais longos. O nível de compressão padrão proposto pelo &ark; geralmente é um bom compromisso entre tamanho e velocidade de (des)compressão. Para a maioria dos formatos, o nível mínimo de compressão é equivalente a simplesmente armazenar os arquivos, ou seja, sem aplicar compressão. </para>
+<para
+>Para arquivos <literal role="extension"
+>rar</literal
+>, <literal role="extension"
+>7z</literal
+> e <literal role="extension"
+>zip</literal
+> você pode selecionar entre diferentes métodos de compressão. </para>
+<para
+>Observe que o uso de métodos de compressão diferentes dos padrões pré-selecionados pode limitar a compatibilidade com compactadores de arquivos. Por exemplo, abrir arquivos <literal role="extension"
+>zip</literal
+> com métodos de compressão diferentes de <quote
+>Deflate</quote
+> requer um software mais recente.</para>
+</sect2>
+
 <sect2 id="ark-password-protection">
 <title
 >Proteção com senha</title>
 <para
->Se criar um arquivo <literal role="extension"
+>Se você criar um arquivo <literal role="extension"
 >zip</literal
 >, <literal role="extension"
 >rar</literal
@@ -430,7 +582,13 @@
 >7zip</literal
 > ou <literal role="extension"
 >jar</literal
->, poderá proteger o seu conteúdo com uma senha.</para>
+>, poderá protegê-lo com uma senha. Atualmente, apenas o formato <literal role="extension"
+>zip</literal
+> suporta múltiplos métodos de criptografia. Para outros formatos que suportam apenas um método de criptografia, o método é exibido na caixa suspensa.</para>
+<para
+>Outros métodos de criptografia além do padrão <guilabel
+>ZipCrypto</guilabel
+> podem não ser suportados por todos os compactadores de arquivos.</para>
 
 <mediaobject>
 <imageobject>
@@ -448,39 +606,72 @@
 > e <literal role="extension"
 >7zip</literal
 >. A criptografia de cabeçalho está ativa por padrão (quando disponível), para poder oferecer o máximo de proteção para os usuários menos experientes.</para>
-
 </sect2>
+
+<sect2 id="ark-multi-volume">
+<title
+>Arquivo multivolume</title>
+<para
+>Com os formatos <literal role="extension"
+>zip</literal
+>, <literal role="extension"
+>rar</literal
+> e <literal role="extension"
+>7z</literal
+> você pode criar arquivos multivolume, também conhecidos como arquivos multipartes ou divididos.</para>
+<para
+>Um arquivo multivolume é um grande arquivo compactado dividido em vários arquivos. Este recurso é útil se o tamanho máximo do arquivo for limitado, por exemplo, pela capacidade de um meio de armazenamento ou pelo tamanho máximo de um e-mail com anexos.</para>
+<para
+>Para criar um arquivo com vários volumes, marque a caixa de seleção <guilabel
+>Criar arquivo multivolume</guilabel
+> e defina um tamanho máximo de volume na caixa de diálogo. Em seguida, adicione todos os arquivos ao arquivo e o &ark; irá gerar automaticamente o número necessário de volumes. Dependendo do formato selecionado, os arquivos terão uma extensão com numeração sequencial, por exemplo: <filename
+>xxx.7z.001</filename
+>, <filename
+>xxx.7z.002</filename
+> ou <filename
+>xxx.zip.001</filename
+>, <filename
+>xxx.zip.002</filename
+> ou <filename
+>xxx.part1.rar</filename
+>, <filename
+>xxx.part2.rar</filename
+> etc.</para>
+<para
+>Para extrair um arquivo multivolume, coloque todos os arquivos compactados em uma pasta e abra o arquivo com o menor número de extensão no &ark; e todas as outras partes do arquivo dividido serão abertas automaticamente.</para>
+</sect2>
+
 </sect1>
 
 </chapter>
 
 <chapter id="ark-in_filemanager">
 <title
->Usando o &ark; no Gerenciador de Arquivos</title>
+>Usando o &ark; no gerenciador de arquivos</title>
 
 <para
 >Clicar com o &RMB; sobre um arquivo compactado, em um gerenciador de arquivos como o &dolphin;, irá mostrar um menu de contexto com um item <guimenuitem
->Abrir com Ark</guimenuitem
+>Extrair</guimenuitem
 >. O menu possui estes itens adicionais para extrair um arquivo com o &ark;: </para>
 
 <itemizedlist>
 <listitem>
 <para
 ><guimenuitem
->Extrair aqui detectando subpasta</guimenuitem
-> cria uma subpasta da atual com o pacote e extrai as pastas e arquivos para dentro desta.</para>
-</listitem>
-<listitem>
-<para
->O item <guimenuitem
->Extrair arquivo para...</guimenuitem
-> abre uma caixa de diálogo onde poderá escolher a pasta de destino e outras opções diversas de extração.</para>
+>Extrair aqui</guimenuitem
+> cria uma subpasta na pasta com o arquivo e extrai as pastas e arquivos para dentro dela. Caso o arquivo contenha apenas um arquivo ou pasta, nenhuma subpasta será criada.</para>
 </listitem>
 <listitem>
 <para
 ><guimenuitem
->Extrair arquivo aqui</guimenuitem
-> extrai o conteúdo do arquivo para a mesma pasta.</para>
+>Extrair aqui e excluir arquivo</guimenuitem
+> cria uma subpasta na pasta com o arquivo, extrai as pastas e arquivos para dentro dela e exclui o arquivo.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>Extrair para…</guimenuitem
+> abre a caixa de diálogo para extrair onde você pode escolher a pasta de destino e várias opções de extração.</para>
 </listitem>
 </itemizedlist>
 
@@ -492,11 +683,11 @@
 <itemizedlist>
 <listitem>
 <para
->As ações <guimenuitem
->Aqui (como TAR.GZ)</guimenuitem
-> ou <guimenuitem
->Aqui (como ZIP)</guimenuitem
-> criam esses tipos de arquivo na pasta atual.</para>
+><guimenuitem
+>Compactar para "Arquivo.tar.gz"</guimenuitem
+> e<guimenuitem
+>Compactar para "Arquivo.zip"</guimenuitem
+> cria esses tipos de arquivo na pasta atual.</para>
 </listitem>
 <listitem>
 <para
@@ -534,7 +725,7 @@
 <listitem
 ><para
 >Elvis Angelaccio <email
->elvis.angelaccio@kdemail.net</email
+>elvis.angelaccio@kde.org</email
 ></para
 ></listitem>
 <listitem
@@ -620,8 +811,7 @@
 > e André Marcelo Alvarenga <email
 >alvarenga@kde.org</email
 ></para
-> 
-&underFDL; &underGPL; </chapter>
+> &underFDL; &underGPL; </chapter>
 
 &documentation.index;
 </book>
