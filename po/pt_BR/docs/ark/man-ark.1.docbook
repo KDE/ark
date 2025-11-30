@@ -124,7 +124,7 @@
 > pasta</replaceable
 ></group
 > <arg choice="opt"
->Opções genéricas do &kde;</arg
+>Opções genéricas do &kde-frameworks;</arg
 > <arg choice="opt"
 >Opções genéricas do &Qt;</arg
 > </cmdsynopsis>
@@ -328,9 +328,9 @@
 ></userinput
 >).</member>
 <member
->kf5options(7)</member>
+>kf6options(7)</member>
 <member
->qt5options(7)</member>
+>qt6options(7)</member>
 </simplelist>
 </refsect1>
 
