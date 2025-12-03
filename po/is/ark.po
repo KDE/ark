@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-26 00:46+0000\n"
-"PO-Revision-Date: 2025-10-16 13:19+0000\n"
+"PO-Revision-Date: 2025-12-02 10:56+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -342,7 +342,7 @@ msgid ""
 "Add the specified files to 'filename'. Create archive if it does not exist. "
 "Quit when finished."
 msgstr ""
-"Bæta tilgreindum skám í  'skrárheiti'. Búa til safnskrána ef hún er ekki "
+"Bæta tilgreindum skrám í  'skráarheiti'. Búa til safnskrána ef hún er ekki "
 "til. Hætta þegar því er lokið."
 
 #: app/main.cpp:134
@@ -360,7 +360,7 @@ msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
 "tar.gz, zip or any other supported types)"
 msgstr ""
-"Velja skrárheiti sjálfkrafa með valinni skráarendingu (til dæmis rar, tar."
+"Velja skráarheiti sjálfkrafa með valinni skráarendingu (til dæmis rar, tar."
 "gz, zip eða aðra studda gerð)"
 
 #: app/main.cpp:143
@@ -562,7 +562,7 @@ msgid ""
 "You need to either supply a filename for the archive or a suffix (such as "
 "rar, tar.gz) with the <command>--autofilename</command> argument."
 msgstr ""
-"Þú verður annaðhvort að tilgreina skrárheiti fyrir safnskrána eða "
+"Þú verður annaðhvort að tilgreina skráarheiti fyrir safnskrána eða "
 "skráarendingu (eins og rar, tar.gz) með <command>--autofilename</command> "
 "viðfanginu."
 
@@ -827,7 +827,7 @@ msgstr "Mappa:"
 #: kerfuffle/createdialog.ui:47
 #, kde-format
 msgid "Filename:"
-msgstr "Skrárheiti:"
+msgstr "Skráarheiti:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
@@ -1039,7 +1039,7 @@ msgstr "Birta viðvörun þegar búnar eru til zip-skrár me AES-dulritun"
 #: kerfuffle/jobs.cpp:100
 #, kde-format
 msgid "No suitable plugin found. Ark does not seem to support this file type."
-msgstr "Engin hentug viðbót fannst. Ark virðist ekki styðja þessa skrárgerð."
+msgstr "Engin hentug viðbót fannst. Ark virðist ekki styðja þessa skráargerð."
 
 #: kerfuffle/jobs.cpp:104
 #, kde-format
@@ -1550,8 +1550,8 @@ msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
-"Innbyggði skoðarinn getur ekki forskoðað þessa óþekktu skrárgerð.<nl/><nl/"
-">Viltu reyna að skoða hana sem hreinan texta?"
+"Innbyggði skoðarinn getur ekki forskoðað þessa óþekktu tegund skráar.<nl/"
+"><nl/>Viltu reyna að skoða hana sem hreinan texta?"
 
 #: part/arkviewer.cpp:201
 #, kde-format
@@ -1591,7 +1591,7 @@ msgstr "Upplýsingastika"
 #: part/infopanel.ui:64
 #, kde-format
 msgid "Unknown file type"
-msgstr "Óþekkt skrárgerð"
+msgstr "Óþekkt skráartegund"
 
 #. i18n: ectx: property (text), widget (QLabel, m_ownerLabel)
 #: part/infopanel.ui:113
@@ -1992,7 +1992,7 @@ msgstr "Bæta skrám í %1"
 #: part/part.cpp:1435
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
-msgstr "Skrárheiti mega ekki innihalda skástrik eða vera \".\" eða \"..\""
+msgstr "Skráaheiti mega ekki innihalda skástrik eða vera \".\" eða \"..\""
 
 #: part/part.cpp:1479
 #, kde-format
