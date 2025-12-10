@@ -1,6 +1,6 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023 Vít Pelčák <vit@pelcak.org>
+# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023, 2025 Vít Pelčák <vit@pelcak.org>
 # Lukáš Tinkl <ltinkl@redhat.com>, 2010.
 # David Kolibac <david@kolibac.cz>, 2010.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-26 00:46+0000\n"
-"PO-Revision-Date: 2024-04-30 15:17+0200\n"
+"PO-Revision-Date: 2025-12-02 11:51+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -114,7 +114,7 @@ msgstr "Zkomprimovat"
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
-msgstr ""
+msgstr "Zkomprimovat do..."
 
 #: app/compressfileitemaction.cpp:105
 #, kde-format
@@ -167,7 +167,7 @@ msgstr "Archivační nástroj pro KDE"
 #: app/main.cpp:80
 #, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr ""
+msgstr "(c) 1997-2025, Vývojáři aplikace Ark"
 
 #: app/main.cpp:86
 #, kde-format
@@ -461,7 +461,7 @@ msgstr "Vítejte"
 #: app/welcomeview/welcomeview.ui:179
 #, kde-format
 msgid "Open Archive…"
-msgstr ""
+msgstr "Otevřít archiv…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -811,7 +811,7 @@ msgstr "Název souboru:"
 #: kerfuffle/createdialog.ui:54
 #, kde-format
 msgid "Type archive name…"
-msgstr ""
+msgstr "Napište název archivu..."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1211,7 +1211,7 @@ msgstr "ano (%1)"
 #: kerfuffle/propertiesdialog.cpp:88
 #, kde-format
 msgid "Calculating…"
-msgstr ""
+msgstr "Počítám…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1503,7 +1503,7 @@ msgstr "Zavírám náhled"
 #: part/arkviewer.cpp:53
 #, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr ""
+msgstr "Prosím, vyčkejte, než se náhled uzavře..."
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1676,7 +1676,7 @@ msgstr "Zobrazit informační panel"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr ""
+msgstr "Uložit kopii jako…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1688,7 +1688,7 @@ msgstr "&Otevřít v externí aplikaci"
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr ""
+msgstr "Ote&vřít pomocí…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1741,7 +1741,7 @@ msgstr ""
 #: part/part.cpp:404
 #, kde-format
 msgid "Add &Files…"
-msgstr ""
+msgstr "Přidat sou&bory…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1837,12 +1837,12 @@ msgstr "Archiv neprošel ověřením neporušenosti."
 #: part/part.cpp:634
 #, kde-format
 msgid "Extract To…"
-msgstr ""
+msgstr "Rozbalit do…"
 
 #: part/part.cpp:646
 #, kde-format
 msgid "Quick Extract To…"
-msgstr ""
+msgstr "Rychle rozbalit do..."
 
 #: part/part.cpp:775
 #, kde-format
