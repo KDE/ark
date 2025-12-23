@@ -81,7 +81,7 @@
 >&FDLNotice;</legalnotice>
 
 <date
->2016-09-10</date>
+>2016‒09‒10</date>
 <releaseinfo
 >Uygulamalar 16.12</releaseinfo>
 
@@ -186,15 +186,15 @@
 >Arşivleri Açmak</title>
 
 <para
->&ark; içinde bir arşivi açmak için, <guimenuitem
->Aç...</guimenuitem
+>&ark; içinde bir arşivi açmak için <guimenuitem
+>Aç…</guimenuitem
 > (<keycombo action="simul"
 >&Ctrl;<keycap
 >O</keycap
 ></keycombo
 >) <guimenu
 >Arşiv</guimenu
-> menüsünü seçin. Ayrıca, &dolphin; içinden dosyaları sürükleyip bırakarak ta arşivi açabilirsiniz. Arşiv dosyaları &ark; ile ilişkilendirilmelidir, &dolphin;'de bir dosyayı tıklayıp açabilmeniz için <mousebutton
+> menüsünü seçin. Ayrıca, &dolphin; içinden dosyaları sürükleyip bırakarak ta arşivi açabilirsiniz. Arşiv dosyaları &ark; ile ilişkilendirilmelidir, &dolphin;’de bir dosyayı tıklayıp açabilmeniz için <mousebutton
 >sağ</mousebutton
 > fare düğmesine tıklayıp <guimenuitem
 >&ark; ile Aç</guimenuitem
@@ -213,7 +213,7 @@
 >Açık bir arşiv için <guimenu
 >Arşiv</guimenu
 > menüsünü kullanarak çeşitli işlemler yapılabilir. Örneğin, arşivi <guimenuitem
->Farklı Kaydet...</guimenuitem
+>Farklı Kaydet…</guimenuitem
 > kullanarak farklı bir adla kaydedebilirsiniz. Tür, boyut ve MD5 özeti gibi arşiv özellikleri, <guimenuitem
 > Özellikler</guimenuitem
 > ögesi kullanılarak görüntülenebilir.</para>
@@ -306,7 +306,7 @@
 >&Ctrl;<keycap
 >P</keycap
 ></keycombo
->), &ark;'ın içsel görüntüleyicisiyle açılır. Bu hızlı bir saltokunur görüntüleyicidir; ancak tüm dosya türlerini desteklemez.</para>
+>), &ark;’ın içsel görüntüleyicisiyle açılır. Bu hızlı bir saltokunur görüntüleyicidir; ancak tüm dosya türlerini desteklemez.</para>
 </listitem>
 <listitem>
 <para
@@ -317,7 +317,7 @@
 <listitem>
 <para
 ><guimenuitem
->Birlikte Aç...</guimenuitem
+>Birlikte Aç…</guimenuitem
 > ögesi, dosyayı açmak için kullanacağınız uygulamayı sizin seçmenize izin verir.</para>
 </listitem>
 <listitem>
@@ -395,7 +395,7 @@
 ><guimenuitem
 >Aç</guimenuitem
 > veya <guimenuitem
->Birlikte Aç...</guimenuitem
+>Birlikte Aç…</guimenuitem
 > kullanılarak açtığınız dosyaları düzenleyebilir ve kaydedebilirsiniz, Ark, arşivdeki dosyayı güncellemek isteyip istemediğinizi soracaktır. Evet yanıtı verirseniz, arşiv kaydedilen dosya ile güncellenecektir.</para>
 
 </sect2>
@@ -413,7 +413,7 @@
 > seçeneği seçilerek yapılır. Daha önce erişilen klasörleri içeren bir alt menü açar ve bunlardan herhangi birine tez eklemeyi seçebilirsiniz. Alternatif olarak, çıkarmayı etkileyen çeşitli seçenekleri ayarlayabileceğiniz <guilabel
 >Çıkar</guilabel
 > iletişim penceresini açmak için <guisubmenu
->Şuraya Çıkar...</guisubmenu
+>Şuraya Çıkar…</guisubmenu
 > alt menü ögesini seçin. Çıkar iletişim penceresinde olan kullanılabilir seçenekler hakkında bilgi için aşağıya bir göz atın.</para>
 
 <para
@@ -422,14 +422,14 @@
 > düğmesini de kullanabilirsiniz.</para>
 
 <para
->Tüm arşivi çıkarmak için, <guimenu
+>Tüm arşivi çıkarmak için <guimenu
 >Arşiv</guimenu
 > menüsündeki <guisubmenu
 >Tümünü Çıkar</guisubmenu
 > ögesini seçebilirsiniz. Bu eylem koşulsuz olarak arşivdeki tüm dosyaları çıkaracaktır.</para>
 
 <para
->Dosyaları ve klasörleri fare ile &dolphin;'deki bir klasöre sürükleyerek çıkarmak olanaklıdır.</para>
+>Dosyaları ve klasörleri fare ile &dolphin;’deki bir klasöre sürükleyerek çıkarmak olanaklıdır.</para>
 
 <para
 >Not: Dosyaları bir arşivden çıkarmak, arşivi ve içeriğini değiştirmez.</para>
@@ -460,7 +460,7 @@
 <para
 >Dosyaların bir alt klasöre çıkarılmasını belirtebilirsiniz. Bu alt klasörün öntanımlı adı, dosya adı uzantısı olmayan arşiv adıdır; ancak bunu gereksinimlerinize göre düzenleyebilirsiniz. Çıkarma sırasında yolları korumak istiyorsanız <guilabel
 >Çıkarırken dosya yollarını koru</guilabel
-> seçeneğini seçin. Hedef klasörü &dolphin;'de açmayı veya çıkarma işlemi tamamlandıktan sonra &ark;'ı kapatmayı da seçebilirsiniz.</para>
+> seçeneğini seçin. Hedef klasörü &dolphin;’de açmayı veya çıkarma işlemi tamamlandıktan sonra &ark;’ı kapatmayı da seçebilirsiniz.</para>
 
 <para
 >Arşiv listesinde bir veya daha fazla dosya vurgulanmışsa hangi dosyaların çıkarılacağını da seçebilirsiniz:</para>
@@ -526,7 +526,7 @@
 >Yeni arşive dosya veya klasörler eklemek için <guimenu
 >Arşiv</guimenu
 > menüsünden <guimenuitem
->Dosyalar Ekle...</guimenuitem
+>Dosyalar Ekle…</guimenuitem
 > ögesini seçin.</para>
 
 <para
@@ -606,13 +606,13 @@
 >7z</literal
 > biçimleriyle çok parçalı arşivler oluşturabilirsiniz. Bunlara çok kısımlı veya bölünmüş arşivler de denir.</para>
 <para
->Çok parçalı bir arşiv, birkaç dosyaya bölünmüş büyük bir sıkıştırılmış arşivdir. Bu özellik, en büyük dosya boyutu sınırlıysa kullanışlıdır; örneğin, depolama ortamının kapasitesine veya ekleri olan bir e-postanın en büyük boyutuna göre.</para>
+>Çok parçalı bir arşiv, birkaç dosyaya bölünmüş büyük bir sıkıştırılmış arşivdir. Bu özellik, en büyük dosya boyutu sınırlıysa kullanışlıdır; örneğin, depolama ortamının sığasına veya ekleri olan bir e-postanın en büyük boyutuna göre.</para>
 <para
 >Çok parçalı bir arşiv oluşturmak için <guilabel
 >Çok parçalı arşiv oluştur</guilabel
 > onay kutusunu işaretleyin ve iletişim kutusunda en büyük <guilabel
 >Parça boyutu</guilabel
->'nu ayarlayın. Sonrasında bütün dosyaları arşive ekleyin ve &ark; gereken arşiv parçası sayısını üretecektir. Seçilen biçime göre, dosyalar artan sıralı bir numaralandırma şemasına iye olabilir; örneğin, <filename
+>’nu ayarlayın. Sonrasında bütün dosyaları arşive ekleyin ve &ark; gereken arşiv parçası sayısını üretecektir. Seçilen biçime göre, dosyalar artan sıralı bir numaralandırma şemasına iye olabilir; örneğin, <filename
 >xxx.7z.001</filename
 >, <filename
 >xxx.7z.002</filename
@@ -635,7 +635,7 @@
 
 <chapter id="ark-in_filemanager">
 <title
->&ark;'ı Dosya Yöneticisinde Kullanmak</title>
+>&ark;’ı Dosya Yöneticisinde Kullanmak</title>
 
 <para
 >&dolphin; gibi bir dosya yöneticisinde bir arşive &RMB; ile tıklamak, <guimenuitem
@@ -664,7 +664,7 @@
 </itemizedlist>
 
 <para
->&dolphin;'in çeşitli dosya ve/veya klasörlere ilişkin bağlam menüsü, <guimenu
+>&dolphin;’in çeşitli dosya ve/veya klasörlere ilişkin bağlam menüsü, <guimenu
 >Sıkıştır</guimenu
 > alt menüsünde şu eylemleri görüntüler: </para>
 
@@ -680,7 +680,7 @@
 <listitem>
 <para
 ><guimenuitem
->Şuraya Sıkıştır...</guimenuitem
+>Şuraya Sıkıştır…</guimenuitem
 >, klasörü, adı ve arşiv türünü seçebileceğiniz bir iletişim kutusu açar.</para>
 </listitem>
 </itemizedlist>
@@ -705,7 +705,7 @@
 >Emeği Geçenler ve Lisans</title>
 
 <para
->&ark; Telif hakkı &copy; 1997-2016, &ark; Geliştirme Takımı.</para>
+>&ark; Telif hakkı &copy; 1997–2016, &ark; Geliştirme Takımı.</para>
 
 <itemizedlist>
 <title
@@ -788,10 +788,10 @@
 >Belgelendirme telif hakkı &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
 
 <para
->Belgelendirme güncellemesi, &kde; 3.3 - &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
+>Belgelendirme güncellemesi, &kde; 3.3 — &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
 
 <para
->Belgelendirme güncellemesi, KDE Uygulamalar 16.04 - &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
+>Belgelendirme güncellemesi, KDE Uygulamalar 16.04 — &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
 
 <para
 >Çeviri: Kaan Özdinçer <email

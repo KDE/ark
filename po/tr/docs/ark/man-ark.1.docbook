@@ -42,7 +42,7 @@
 ></author>
 
 <date
->2018-08-08</date
+>2018‒08‒08</date
 ><!--Update only when changing/reviewing this man page-->
 <releaseinfo
 >18.12</releaseinfo
@@ -200,7 +200,7 @@
 ><para
 >Çıkarma dizinini öntanımlı olarak <replaceable
 >dizin</replaceable
->'e ayarla. Geçirilmezse geçerli yol kullanılır.</para>
+>’e ayarla. Geçirilmezse geçerli yol kullanılır.</para>
 </listitem>
 </varlistentry>
 </variablelist>
@@ -230,7 +230,7 @@
 <para
 >Belirtilen dosyaları <replaceable
 >dosyaadı</replaceable
->'na ekle. Yoksa arşiv dosyası oluştur. İş bitince çıkılır.</para>
+>’na ekle. Yoksa arşiv dosyası oluştur. İş bitince çıkılır.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -320,7 +320,7 @@
 <member
 >Ayrıntılı kullanıcı belgelendirmesine <ulink url="help:/ark"
 >help:/ark</ulink
-> bölümünden ulaşabilirsiniz (ya bu &URL;'yi &konqueror;'a girin ya da <userinput
+> bölümünden ulaşabilirsiniz (ya bu &URL;’yi &konqueror;’a girin ya da <userinput
 ><command
 >khelpcenter</command
 > <parameter
@@ -328,9 +328,9 @@
 ></userinput
 > komutunu çalıştırın).</member>
 <member
->kf5options(7)</member>
+>kf6options(7)</member>
 <member
->qt5options(7)</member>
+>qt6options(7)</member>
 </simplelist>
 </refsect1>
 
