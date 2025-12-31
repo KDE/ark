@@ -37,6 +37,9 @@ parts:
     parse-info:
       - usr/share/metainfo/org.kde.ark.appdata.xml
     plugin: cmake
+    build-snaps:
+      - kde-qt6-core24-sdk/latest/beta
+      - kf6-core24-sdk/latest/beta
     build-packages:
       - libarchive-dev
       - libbz2-dev
@@ -52,7 +55,8 @@ parts:
       - unrar
       - unzip
       - zip
-      - rar
+      - on amd64:
+          - rar
       - libarchive13
       - libzip4
       - zlib1g
@@ -70,8 +74,7 @@ parts:
       - -DCMAKE_BUILD_TYPE=Release
       - -DQT_MAJOR_VERSION=6
       - -DBUILD_TESTING=OFF
-    build-environment:
-      - LD_LIBRARY_PATH: "/snap/mesa-2404/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$CRAFT_STAGE/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:/snap/kde-qt6-core24-sdk/current/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$LD_LIBRARY_PATH"
+      - -DBUILD_DOC=OFF
     prime:
       - -usr/lib/*/cmake/*
       - -usr/include/*
