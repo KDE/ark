@@ -66,7 +66,7 @@ msgid ""
 "There was an error while extracting <filename>%1</filename>. Any further "
 "archive will not be extracted."
 msgstr ""
-"S'ha produït un error mentre s'extragué <filename>%1</filename>. No "
+"S'ha produït un error mentre s'extreia <filename>%1</filename>. No "
 "s'extraurà cap arxiu més."
 
 #: app/batchextract.cpp:139
@@ -76,14 +76,14 @@ msgid ""
 "There was an error while extracting <filename>%1</filename>:<nl/><message>"
 "%2</message><nl/>Any further archive will not be extracted."
 msgstr ""
-"S'ha produït un error mentre s'extragué <filename>%1</filename>:<nl/"
-"><message>%2</message><nl/>No s'extraurà cap arxiu més."
+"S'ha produït un error mentre s'extreia <filename>%1</filename>:<nl/><message>"
+"%2</message><nl/>No s'extraurà cap arxiu més."
 
 #: app/batchextract.cpp:146
 #, kde-kuit-format
 msgctxt "@info"
 msgid "There was an error while extracting <filename>%1</filename>."
-msgstr "S'ha produït un error mentre s'extragué <filename>%1</filename>."
+msgstr "S'ha produït un error mentre s'extreia <filename>%1</filename>."
 
 #: app/batchextract.cpp:148
 #, kde-kuit-format
@@ -92,8 +92,8 @@ msgid ""
 "There was an error while extracting <filename>%1</filename>:<nl/><message>"
 "%2</message>"
 msgstr ""
-"S'ha produït un error mentre s'extragué <filename>%1</filename>:<nl/"
-"><message>%2</message>"
+"S'ha produït un error mentre s'extreia <filename>%1</filename>:<nl/><message>"
+"%2</message>"
 
 #: app/batchextract.cpp:300
 #, kde-kuit-format
