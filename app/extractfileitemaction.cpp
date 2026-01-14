@@ -81,7 +81,7 @@ QList<QAction *> ExtractFileItemAction::actions(const KFileItemListProperties &f
                                             AdditionalJobOptions::None));
 
         extractMenu->addAction(createAction(QIcon::fromTheme(QStringLiteral("archive-remove")),
-                                            i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract here and delete archive"),
+                                            i18nc("@action:inmenu Part of Extract submenu in Dolphin context menu", "Extract and trash archive"),
                                             parentWidget,
                                             supportedUrls,
                                             AdditionalJobOptions::AutoDelete));
