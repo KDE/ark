@@ -156,6 +156,28 @@
             ]
         },
         {
+            "name": "unrar",
+            "buildsystem": "simple",
+            "build-commands": [
+                "make",
+                "make PREFIX=/ DESTDIR=\"${FLATPAK_DEST}\" install"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://www.rarlab.com/rar/unrarsrc-7.2.3.tar.gz",
+                    "sha256": "3995af0aa32b1505a566da053725551a1f0698dc42b2fdf7ba7d65db0d004e33",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 13306,
+                        "stable-only": true,
+                        "url-template": "https://www.rarlab.com/rar/unrarsrc-$version.tar.gz"
+                    }
+
+                }
+            ]
+        },
+        {
             "name": "ark",
             "buildsystem": "cmake-ninja",
             "sources": [
