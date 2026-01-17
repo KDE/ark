@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 00:46+0000\n"
+"POT-Creation-Date: 2026-01-17 00:47+0000\n"
 "PO-Revision-Date: 2025-10-09 00:06+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -135,9 +135,11 @@ msgid "Extract here"
 msgstr "여기에 압축 풀기"
 
 #: app/extractfileitemaction.cpp:84
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#| msgid "Extract here and delete archive"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract here and delete archive"
+msgid "Extract and trash archive"
 msgstr "여기에 압축 풀고 압축 파일 삭제"
 
 #: app/extractfileitemaction.cpp:91

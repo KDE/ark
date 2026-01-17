@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 00:46+0000\n"
+"POT-Creation-Date: 2026-01-17 00:47+0000\n"
 "PO-Revision-Date: 2025-11-01 09:44+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -137,9 +137,11 @@ msgid "Extract here"
 msgstr "Wypakuj tutaj"
 
 #: app/extractfileitemaction.cpp:84
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
+#| msgid "Extract here and delete archive"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract here and delete archive"
+msgid "Extract and trash archive"
 msgstr "Wypakuj tutaj i usuń archiwum"
 
 #: app/extractfileitemaction.cpp:91

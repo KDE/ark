@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 00:46+0000\n"
+"POT-Creation-Date: 2026-01-17 00:47+0000\n"
 "PO-Revision-Date: 2007-12-22 09:56+0100\n"
 "Last-Translator: Erdal Ronahi <erdal.ronahi@nospam.gmail.com>\n"
 "Language-Team: Kurdish <gnu-ku-wergerandin at lists dot sourceforge dot "
@@ -137,7 +137,7 @@ msgstr "Derxistin"
 #, fuzzy, kde-format
 #| msgid "Extracting all files"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract here and delete archive"
+msgid "Extract and trash archive"
 msgstr "Hemû pel tên derxistin"
 
 #: app/extractfileitemaction.cpp:91

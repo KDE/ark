@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 00:46+0000\n"
+"POT-Creation-Date: 2026-01-17 00:47+0000\n"
 "PO-Revision-Date: 2011-07-22 16:59+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -180,7 +180,7 @@ msgstr "Otpakiraj ovdje"
 #, fuzzy, kde-format
 #| msgid "Extract multiple archives"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract here and delete archive"
+msgid "Extract and trash archive"
 msgstr "Otpakiraj višestruke arhive"
 
 #: app/extractfileitemaction.cpp:91

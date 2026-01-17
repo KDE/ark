@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 00:46+0000\n"
+"POT-Creation-Date: 2026-01-17 00:47+0000\n"
 "PO-Revision-Date: 2002-11-06 11:55+0200\n"
 "Last-Translator: Fundile Majola <fundile@translate.org.za>\n"
 "Language-Team: xhosa <fundile@translate.org.za>\n"
@@ -141,7 +141,7 @@ msgstr "Tsala"
 #: app/extractfileitemaction.cpp:84
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract here and delete archive"
+msgid "Extract and trash archive"
 msgstr "&Isilawulo sokugqibela socathsulo"
 
 #: app/extractfileitemaction.cpp:91

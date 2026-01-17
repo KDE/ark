@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ../cy/messages//kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-26 00:46+0000\n"
+"POT-Creation-Date: 2026-01-17 00:47+0000\n"
 "PO-Revision-Date: 2004-09-20 15:44+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandrakesoft.com>\n"
 "Language-Team: cy <LL@li.org>\n"
@@ -125,10 +125,11 @@ msgid "Extract here"
 msgstr "Alldynnu"
 
 #: app/extractfileitemaction.cpp:84
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Extract"
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-msgid "Extract here and delete archive"
-msgstr ""
+msgid "Extract and trash archive"
+msgstr "Alldynnu"
 
 #: app/extractfileitemaction.cpp:91
 #, fuzzy, kde-format
@@ -2319,12 +2320,6 @@ msgstr "Agor Efo:"
 #~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 #~ msgid "Extract archive to..."
 #~ msgstr "Pob Ffeil"
-
-#, fuzzy
-#~| msgid "Extract"
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive here"
-#~ msgstr "Alldynnu"
 
 #, fuzzy
 #~| msgid "All files"
