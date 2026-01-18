@@ -133,12 +133,10 @@ msgid "Extract here"
 msgstr "解压到当前文件夹"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract here and delete archive"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
-msgstr "解压到当前文件夹并删除压缩文件"
+msgstr ""
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format

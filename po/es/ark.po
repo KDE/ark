@@ -1,23 +1,23 @@
 # Spanish translations for ark.po package.
-# Copyright (C) 2000-2025 This file is copyright:
+# Copyright (C) 2000-2026 This file is copyright:
 # This file is distributed under the same license as the ark package.
 #
 # SPDX-FileCopyrightText: 2000-2002 Pablo de Vicente <vicente@oan.es>
-# SPDX-FileCopyrightText: 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 Eloy Cuadra <ecuadra@eloihr.net>
 # SPDX-FileCopyrightText: 2013 Javier Viñal <fjvinal@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-17 00:47+0000\n"
-"PO-Revision-Date: 2025-09-25 00:54+0100\n"
+"PO-Revision-Date: 2026-01-17 11:25+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.12.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -135,12 +135,10 @@ msgid "Extract here"
 msgstr "Extraer aquí"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract here and delete archive"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
-msgstr "Extraer aquí y borrar archivador"
+msgstr "Extraer y tirar archivador a la papelera"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
