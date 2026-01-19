@@ -11,7 +11,7 @@
 # Fahad Al-Saidi <fahad.alsaidi@gmail.com>, 2007.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # Youness BOUTYOUR <niceboy@linuxac.org>, 2008.
-# SPDX-FileCopyrightText: 2008, 2024, 2025 zayed <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2008, 2024, 2025, 2026 zayed <zayed.alsaidi@gmail.com>
 # Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2010, 2021, 2022, 2023.
 # Abdalrahim G. Fakhouri <abdilra7eem@yahoo.com>, 2014.
 msgid ""
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-17 00:47+0000\n"
-"PO-Revision-Date: 2025-09-15 12:59+0400\n"
+"PO-Revision-Date: 2026-01-18 18:43+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -142,12 +142,10 @@ msgid "Extract here"
 msgstr "استخرج هنا"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract here and delete archive"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
-msgstr "استخراج هنا واحذف الأرشيف"
+msgstr "استخرج الأرشيف واحذفه"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
