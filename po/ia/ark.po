@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# SPDX-FileCopyrightText: 2012, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025 g.sora <g.sora@tiscali.it>
+# SPDX-FileCopyrightText: 2012, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026 g.sora <g.sora@tiscali.it>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-17 00:47+0000\n"
-"PO-Revision-Date: 2025-09-24 17:01+0200\n"
+"PO-Revision-Date: 2026-01-19 12:23+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -132,12 +132,10 @@ msgid "Extract here"
 msgstr "Extrahe hic"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract here and delete archive"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
-msgstr "Extrahe hic e dele archivo"
+msgstr "Extrahe hic e pone in corbe archivo"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format

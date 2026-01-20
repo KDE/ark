@@ -136,7 +136,7 @@ msgstr "解压到当前文件夹"
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
-msgstr ""
+msgstr "解压并删除压缩包"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
