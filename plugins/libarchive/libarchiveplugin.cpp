@@ -349,6 +349,11 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
             entryName = QStringLiteral(".");
         }
 
+        // Remove trailing "/" if there are some.
+        while (entryName.endsWith(QLatin1Char('/'))) {
+            entryName.chop(1);
+        }
+
         // Should the entry be extracted?
         if (extractAll || remainingFiles.contains(entryName) || entryName == fileBeingRenamed) {
             // Find the index of entry.
@@ -433,6 +438,39 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
 
             // If there is an already existing directory.
             if (entryIsDir && entryFI.exists()) {
+                // if libarchive tells us entry is a dir, but existing one is
+                // actually a file
+                if (!entryFI.isDir()) {
+                    if (skipAll) {
+                        archive_read_data_skip(m_archiveReader.data());
+                        archive_entry_clear(entry);
+                        continue;
+                    } else if (!overwriteAll && !skipAll) {
+                        Kerfuffle::OverwriteQuery query(entryName);
+                        query.setNoRenameMode(true);
+                        Q_EMIT userQuery(&query);
+                        query.waitForResponse();
+
+                        if (query.responseCancelled()) {
+                            Q_EMIT cancelled();
+                            archive_read_data_skip(m_archiveReader.data());
+                            archive_entry_clear(entry);
+                            break;
+                        } else if (query.responseSkip()) {
+                            archive_read_data_skip(m_archiveReader.data());
+                            archive_entry_clear(entry);
+                            continue;
+                        } else if (query.responseAutoSkip()) {
+                            archive_read_data_skip(m_archiveReader.data());
+                            archive_entry_clear(entry);
+                            skipAll = true;
+                            continue;
+                        } else if (query.responseOverwriteAll()) {
+                            overwriteAll = true;
+                        }
+                    }
+                }
+
                 if (entryFI.isWritable()) {
                     qCWarning(ARK_LOG) << "Warning, existing, but writable dir";
                 } else {
