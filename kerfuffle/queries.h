@@ -71,12 +71,19 @@ public:
     bool responseAutoSkip();
     QString newFilename();
 
+    void setArchiveFileName(const QString &fileName);
+    void setArchiveMimeType(const QString &mimeType);
+    void setDestination(const QString &destination);
+
     void setNoRenameMode(bool enableNoRenameMode);
     bool noRenameMode();
     void setMultiMode(bool enableMultiMode);
     bool multiMode();
 
 private:
+    QString m_archiveFileName;
+    QString m_archiveMimeType;
+    QString m_destination;
     bool m_noRenameMode;
     bool m_multiMode;
 };

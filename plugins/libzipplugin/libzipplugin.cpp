@@ -840,6 +840,9 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
                 return true;
             } else {
                 Kerfuffle::OverwriteQuery query(renamedEntry);
+                query.setArchiveFileName(filename());
+                query.setArchiveMimeType(mimetype().name());
+                query.setDestination(destination);
                 Q_EMIT userQuery(&query);
                 query.waitForResponse();
 
