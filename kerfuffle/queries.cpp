@@ -12,6 +12,7 @@
 #include <KMessageBox>
 #include <KPasswordDialog>
 #include <KPasswordLineEdit>
+#include <KProtocolManager>
 
 #include <QApplication>
 #include <QDir>
@@ -67,8 +68,22 @@ void OverwriteQuery::execute()
         options = options | KIO::RenameDialog_MultipleItems;
     }
 
-    QUrl destUrl = QUrl::fromLocalFile(QDir::cleanPath(m_data.value(QStringLiteral("filename")).toString()));
-    const QUrl sourceUrl = QUrl(QStringLiteral("ark://%1").arg(destUrl.fileName()));
+    const QString sourcePath = m_data.value(QStringLiteral("filename")).toString();
+
+    QUrl sourceUrl;
+    // Try to use an archive KIO (e.g. zip:/) URL as source URL so we get a proper file preview.
+    if (!m_archiveMimeType.isEmpty()) {
+        if (const QString scheme = KProtocolManager::protocolForArchiveMimetype(m_archiveMimeType); !scheme.isEmpty()) {
+            sourceUrl.setScheme(scheme);
+        }
+    }
+    if (sourceUrl.scheme().isEmpty()) {
+        sourceUrl.setScheme(QStringLiteral("ark"));
+    }
+
+    sourceUrl.setPath(m_archiveFileName + QLatin1Char('/') + sourcePath);
+
+    QUrl destUrl = QUrl::fromLocalFile(m_destination);
 
     QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(nullptr, i18nc("@title:window", "File Already Exists"), sourceUrl, destUrl, options);
     dialog.data()->exec();
@@ -113,6 +128,21 @@ bool OverwriteQuery::responseAutoSkip()
 QString OverwriteQuery::newFilename()
 {
     return m_data.value(QStringLiteral("newFilename")).toString();
+}
+
+void OverwriteQuery::setArchiveFileName(const QString &fileName)
+{
+    m_archiveFileName = fileName;
+}
+
+void OverwriteQuery::setArchiveMimeType(const QString &mimeType)
+{
+    m_archiveMimeType = mimeType;
+}
+
+void OverwriteQuery::setDestination(const QString &destination)
+{
+    m_destination = destination;
 }
 
 void OverwriteQuery::setNoRenameMode(bool enableNoRenameMode)

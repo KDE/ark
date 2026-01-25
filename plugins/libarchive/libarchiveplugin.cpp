@@ -408,6 +408,9 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
                     continue;
                 } else if (!overwriteAll && !skipAll) {
                     Kerfuffle::OverwriteQuery query(entryName);
+                    query.setArchiveFileName(filename());
+                    query.setArchiveMimeType(mimetype().name());
+                    query.setDestination(entryFI.absoluteFilePath());
                     Q_EMIT userQuery(&query);
                     query.waitForResponse();
 
@@ -447,6 +450,9 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
                         continue;
                     } else if (!overwriteAll && !skipAll) {
                         Kerfuffle::OverwriteQuery query(entryName);
+                        query.setArchiveFileName(filename());
+                        query.setArchiveMimeType(mimetype().name());
+                        query.setDestination(entryFI.absoluteFilePath());
                         query.setNoRenameMode(true);
                         Q_EMIT userQuery(&query);
                         query.waitForResponse();
