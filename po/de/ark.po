@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-17 00:47+0000\n"
+"POT-Creation-Date: 2026-01-25 00:47+0000\n"
 "PO-Revision-Date: 2025-12-04 02:24+0100\n"
 "Last-Translator: Oliver Schramm <oliver.schramm97@gmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -2219,25 +2219,25 @@ msgstr ""
 "Defekte Archive oder Archive mit verschlüsseltem Vorspann werden derzeit "
 "nicht unterstützt."
 
-#: plugins/libarchive/libarchiveplugin.cpp:482
+#: plugins/libarchive/libarchiveplugin.cpp:520
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Schwerwiegender Fehler; Entpacken abgebrochen."
 
-#: plugins/libarchive/libarchiveplugin.cpp:508
+#: plugins/libarchive/libarchiveplugin.cpp:546
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr ""
 "Das Entpacken verschlüsselter 7-Zip-Daten wird derzeit nicht unterstützt."
 
-#: plugins/libarchive/libarchiveplugin.cpp:522
+#: plugins/libarchive/libarchiveplugin.cpp:560
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Der Archivlader kann nicht initialisiert werden."
 
-#: plugins/libarchive/libarchiveplugin.cpp:544
+#: plugins/libarchive/libarchiveplugin.cpp:582
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

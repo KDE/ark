@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-17 00:47+0000\n"
+"POT-Creation-Date: 2026-01-25 00:47+0000\n"
 "PO-Revision-Date: 2014-02-20 11:36+0100\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-doc@kde.org>\n"
@@ -2336,25 +2336,25 @@ msgid ""
 "supported."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:482
+#: plugins/libarchive/libarchiveplugin.cpp:520
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:508
+#: plugins/libarchive/libarchiveplugin.cpp:546
 #, fuzzy, kde-format
 #| msgid "Only extracting full archive is currently supported."
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "Opstunns warrt bloots dat Utpacken vun't hele Archiev ünnerstütt."
 
-#: plugins/libarchive/libarchiveplugin.cpp:522
+#: plugins/libarchive/libarchiveplugin.cpp:560
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "De Archievleser lett sik nich torechtmaken."
 
-#: plugins/libarchive/libarchiveplugin.cpp:544
+#: plugins/libarchive/libarchiveplugin.cpp:582
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

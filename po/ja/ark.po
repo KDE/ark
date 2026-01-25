@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-17 00:47+0000\n"
+"POT-Creation-Date: 2026-01-25 00:47+0000\n"
 "PO-Revision-Date: 2025-09-24 15:40+0900\n"
 "Last-Translator: Yuma Kakei <yumasansansan@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -2176,24 +2176,24 @@ msgstr ""
 "アーカイブが破損しているか、ヘッダ暗号化が適用されている可能性があります。こ"
 "れは現在サポートされていません。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:482
+#: plugins/libarchive/libarchiveplugin.cpp:520
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "致命的なエラーにより、展開は中止されました。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:508
+#: plugins/libarchive/libarchiveplugin.cpp:546
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "暗号化されている 7-zip ファイルの展開は現在サポートされていません。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:522
+#: plugins/libarchive/libarchiveplugin.cpp:560
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "アーカイブの読み取りコンポーネントを初期化できませんでした。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:544
+#: plugins/libarchive/libarchiveplugin.cpp:582
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
