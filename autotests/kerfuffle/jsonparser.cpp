@@ -43,7 +43,7 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
             continue;
         }
 
-        Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry();
+        auto e = std::make_unique<Kerfuffle::Archive::Entry>();
 
         QVariantMap::const_iterator entryIterator = entryMap.constBegin();
         for (; entryIterator != entryMap.constEnd(); ++entryIterator) {
@@ -56,7 +56,7 @@ JSONParser::JSONArchive JSONParser::createJSONArchive(const QVariant &json)
         }
 
         const QString fullPath = entryMap[QStringLiteral("fullPath")].toString();
-        archive[fullPath] = e;
+        archive[fullPath] = std::move(e);
     }
 
     return archive;
