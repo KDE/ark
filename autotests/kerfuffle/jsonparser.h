@@ -36,7 +36,7 @@
 class JSONParser
 {
 public:
-    typedef QMap<QString, Kerfuffle::Archive::Entry *> JSONArchive;
+    typedef std::map<QString, std::unique_ptr<Kerfuffle::Archive::Entry>> JSONArchive;
 
     ~JSONParser();
 

@@ -20,9 +20,9 @@ JSONArchiveInterface::~JSONArchiveInterface()
 
 bool JSONArchiveInterface::list()
 {
-    JSONParser::JSONArchive::const_iterator it = m_archive.constBegin();
-    for (; it != m_archive.constEnd(); ++it) {
-        Q_EMIT entry(*it);
+    JSONParser::JSONArchive::const_iterator it = m_archive.cbegin();
+    for (; it != m_archive.cend(); ++it) {
+        Q_EMIT entry(it->second.get());
     }
 
     return true;
@@ -42,7 +42,7 @@ bool JSONArchiveInterface::open()
 
     m_archive = JSONParser::parse(&file);
 
-    return !m_archive.isEmpty();
+    return !m_archive.empty();
 }
 
 bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry *> &files,
@@ -59,10 +59,10 @@ bool JSONArchiveInterface::addFiles(const QList<Kerfuffle::Archive::Entry *> &fi
             return false;
         }
 
-        Kerfuffle::Archive::Entry *e = new Kerfuffle::Archive::Entry(nullptr);
+        auto e = std::make_unique<Kerfuffle::Archive::Entry>(nullptr);
         e->setProperty("fullPath", path);
 
-        m_archive[path] = e;
+        m_archive[path] = std::move(e);
     }
 
     return true;
@@ -106,7 +106,7 @@ bool JSONArchiveInterface::deleteFiles(const QList<Kerfuffle::Archive::Entry *> 
     for (const Kerfuffle::Archive::Entry *file : files) {
         const QString &fileName = file->fullPath();
         if (m_archive.contains(fileName)) {
-            m_archive.remove(fileName);
+            m_archive.erase(fileName);
             Q_EMIT entryRemoved(fileName);
         }
     }
