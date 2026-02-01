@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-25 00:47+0000\n"
+"POT-Creation-Date: 2026-02-01 00:46+0000\n"
 "PO-Revision-Date: 2024-04-28 17:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -1316,13 +1316,13 @@ msgstr "பல பகுதிகளுடையது:"
 msgid "Compression method(s):"
 msgstr "சுருக்க முறை:"
 
-#: kerfuffle/queries.cpp:73
+#: kerfuffle/queries.cpp:88
 #, kde-format
 msgctxt "@title:window"
 msgid "File Already Exists"
 msgstr "கோப்பு ஏற்கனவே உள்ளது"
 
-#: kerfuffle/queries.cpp:169
+#: kerfuffle/queries.cpp:199
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1331,12 +1331,12 @@ msgid ""
 msgstr ""
 "<filename>%1</filename> என்ற காப்பகத்திற்கு கடவுச்சொல் தேவை. கடவுச்சொல்லை உள்ளிடுங்கள்."
 
-#: kerfuffle/queries.cpp:173
+#: kerfuffle/queries.cpp:203
 #, kde-format
 msgid "Incorrect password, please try again."
 msgstr "தவறான கடவுச்சொல். மீண்டும் முயற்சியுங்கள்."
 
-#: kerfuffle/queries.cpp:209
+#: kerfuffle/queries.cpp:239
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1346,35 +1346,35 @@ msgstr ""
 "நீங்கள் திறக்க முயற்சிக்கும் காப்பகம் சேதமடைந்துள்ளது.<nl/>அதிலுள்ள சில கோப்புகள் இல்லாமலோ "
 "சேதமடைந்தோ இருக்கலாம்."
 
-#: kerfuffle/queries.cpp:211
+#: kerfuffle/queries.cpp:241
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
 msgstr "சேதமடைந்த காப்பகம்"
 
-#: kerfuffle/queries.cpp:212
+#: kerfuffle/queries.cpp:242
 #, kde-format
 msgctxt "@action:button"
 msgid "Open as Read-Only"
 msgstr "படிக்க மட்டும் திற"
 
-#: kerfuffle/queries.cpp:213
+#: kerfuffle/queries.cpp:243
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
 msgstr "திறக்காதே"
 
-#: kerfuffle/queries.cpp:223
+#: kerfuffle/queries.cpp:253
 #, kde-format
 msgid "Don't ask again."
 msgstr "மீண்டும் கேட்காதே."
 
-#: kerfuffle/queries.cpp:235
+#: kerfuffle/queries.cpp:265
 #, kde-format
 msgid "Error during extraction"
 msgstr "பிரித்தெடுக்கும்போது சிக்கல்"
 
-#: kerfuffle/queries.cpp:236
+#: kerfuffle/queries.cpp:266
 #, kde-kuit-format
 msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
@@ -2177,24 +2177,24 @@ msgstr ""
 "இது முறையற்ற காப்பகமாக இருக்கலாம், அல்லது தற்போது ஆதரிக்கப்படாத தலைப்புப்பகுதி-"
 "மறையாக்கத்தைப் பயன்படுத்தும் காப்பகமாக இருக்கலாம்."
 
-#: plugins/libarchive/libarchiveplugin.cpp:520
+#: plugins/libarchive/libarchiveplugin.cpp:526
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "முறிவுண்டாக்கும் சிக்கல், பிரித்தெடுப்பது நிறுத்தப்பட்டது."
 
-#: plugins/libarchive/libarchiveplugin.cpp:546
+#: plugins/libarchive/libarchiveplugin.cpp:552
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "மறையாக்கிய 7-zip உருப்படிகளைப் பிரித்தெடுப்பது தற்போது ஆதரிக்கப்படாதது."
 
-#: plugins/libarchive/libarchiveplugin.cpp:560
+#: plugins/libarchive/libarchiveplugin.cpp:566
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "காப்பக படிப்பியை துவக்க முடியவில்லை."
 
-#: plugins/libarchive/libarchiveplugin.cpp:582
+#: plugins/libarchive/libarchiveplugin.cpp:588
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
@@ -2252,8 +2252,8 @@ msgstr "உருப்படியை சுருக்க முடியவ�
 #: plugins/libzipplugin/libzipplugin.cpp:297
 #: plugins/libzipplugin/libzipplugin.cpp:589
 #: plugins/libzipplugin/libzipplugin.cpp:637
-#: plugins/libzipplugin/libzipplugin.cpp:1001
-#: plugins/libzipplugin/libzipplugin.cpp:1055
+#: plugins/libzipplugin/libzipplugin.cpp:1004
+#: plugins/libzipplugin/libzipplugin.cpp:1058
 #, kde-kuit-format
 msgid "Failed to open archive: %1"
 msgstr "காப்பகத்தை திறக்க முடியவில்லை: %1"
@@ -2261,14 +2261,14 @@ msgstr "காப்பகத்தை திறக்க முடியவி�
 #: plugins/libzipplugin/libzipplugin.cpp:350
 #: plugins/libzipplugin/libzipplugin.cpp:621
 #: plugins/libzipplugin/libzipplugin.cpp:653
-#: plugins/libzipplugin/libzipplugin.cpp:1035
-#: plugins/libzipplugin/libzipplugin.cpp:1124
+#: plugins/libzipplugin/libzipplugin.cpp:1038
+#: plugins/libzipplugin/libzipplugin.cpp:1127
 #, kde-kuit-format
 msgid "Failed to write archive."
 msgstr "காப்பகத்தை எழுத முடியவில்லை."
 
 #: plugins/libzipplugin/libzipplugin.cpp:399
-#: plugins/libzipplugin/libzipplugin.cpp:1091
+#: plugins/libzipplugin/libzipplugin.cpp:1094
 #, kde-kuit-format
 msgid "Failed to add entry: %1"
 msgstr "பதிவை சேர்க்க முடியவில்லை: %1"
@@ -2279,8 +2279,8 @@ msgid "Failed to set compression options for entry: %1"
 msgstr "பதிவிற்கான சுருக்க விருப்பங்களை அமைக்க முடியவில்லை: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:559
-#: plugins/libzipplugin/libzipplugin.cpp:935
-#: plugins/libzipplugin/libzipplugin.cpp:1100
+#: plugins/libzipplugin/libzipplugin.cpp:938
+#: plugins/libzipplugin/libzipplugin.cpp:1103
 #, kde-kuit-format
 msgid "Failed to read metadata for entry: %1"
 msgstr "பதிவிற்கான மேனிலைத் தரவை (metadata-வை) படிக்க முடியவில்லை: %1"
@@ -2296,43 +2296,43 @@ msgstr "பதிவை நீக்க முடியவில்லை: %1"
 msgid "Failed to create directory: %1"
 msgstr "அடைவை உருவாக்க முடியவில்லை: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:891
+#: plugins/libzipplugin/libzipplugin.cpp:894
 #, kde-kuit-format
 msgid "Failed to open '%1':<nl/>%2"
 msgstr "'%1' என்பதை திறக்க முடியவில்லை:<nl/>%2"
 
-#: plugins/libzipplugin/libzipplugin.cpp:899
+#: plugins/libzipplugin/libzipplugin.cpp:902
 #, kde-kuit-format
 msgid "Failed to open file for writing: %1"
 msgstr "எழுதவதற்காக கோப்பை திறப்பது தோல்வியடைந்த‍து: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:912
+#: plugins/libzipplugin/libzipplugin.cpp:915
 #, kde-kuit-format
 msgid "Failed to read data for entry: %1"
 msgstr "பதிவிற்கான தரவை படிப்பது தோல்வியடைந்த‍து: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:917
+#: plugins/libzipplugin/libzipplugin.cpp:920
 #, kde-kuit-format
 msgid "Failed to write data for entry: %1"
 msgstr "பதிவிற்கான தரவை எழுதுவது தோல்வியடைந்த‍து: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:927
+#: plugins/libzipplugin/libzipplugin.cpp:930
 #, kde-kuit-format
 msgid "Failed to locate entry: %1"
 msgstr "பதிவை கண்டுபிடிக்க முடியவில்லை: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1014
-#: plugins/libzipplugin/libzipplugin.cpp:1020
+#: plugins/libzipplugin/libzipplugin.cpp:1017
+#: plugins/libzipplugin/libzipplugin.cpp:1023
 #, kde-kuit-format
 msgid "Failed to move entry: %1"
 msgstr "பதிவை நகர்த்த முடியவில்லை: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1077
+#: plugins/libzipplugin/libzipplugin.cpp:1080
 #, kde-kuit-format
 msgid "Failed to copy entry: %1"
 msgstr "பதிவை நகலெடுக்க முடியவில்லை: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1107
+#: plugins/libzipplugin/libzipplugin.cpp:1110
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "பதிவின் மேனிலைத் தரவை (metadata-வை) அமைக்க முடியவில்லை: %1"

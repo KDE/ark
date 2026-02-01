@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-25 00:47+0000\n"
+"POT-Creation-Date: 2026-02-01 00:46+0000\n"
 "PO-Revision-Date: 2026-01-17 07:37-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -1333,13 +1333,13 @@ msgstr "Multi-volume:"
 msgid "Compression method(s):"
 msgstr "Métodos de compactação:"
 
-#: kerfuffle/queries.cpp:73
+#: kerfuffle/queries.cpp:88
 #, kde-format
 msgctxt "@title:window"
 msgid "File Already Exists"
 msgstr "O arquivo já existe"
 
-#: kerfuffle/queries.cpp:169
+#: kerfuffle/queries.cpp:199
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1348,12 +1348,12 @@ msgid ""
 msgstr ""
 "O arquivo <filename>%1</filename> é protegido por senha. Digite a senha."
 
-#: kerfuffle/queries.cpp:173
+#: kerfuffle/queries.cpp:203
 #, kde-format
 msgid "Incorrect password, please try again."
 msgstr "Senha incorreta, tente novamente."
 
-#: kerfuffle/queries.cpp:209
+#: kerfuffle/queries.cpp:239
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1363,35 +1363,35 @@ msgstr ""
 "O arquivo compactado que está tentando abrir está corrompido.<nl/>Alguns dos "
 "arquivos nele incluídos podem estar faltando ou danificados."
 
-#: kerfuffle/queries.cpp:211
+#: kerfuffle/queries.cpp:241
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
 msgstr "Arquivo corrompido"
 
-#: kerfuffle/queries.cpp:212
+#: kerfuffle/queries.cpp:242
 #, kde-format
 msgctxt "@action:button"
 msgid "Open as Read-Only"
 msgstr "Abrir apenas para leitura"
 
-#: kerfuffle/queries.cpp:213
+#: kerfuffle/queries.cpp:243
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
 msgstr "Não abrir"
 
-#: kerfuffle/queries.cpp:223
+#: kerfuffle/queries.cpp:253
 #, kde-format
 msgid "Don't ask again."
 msgstr "Não perguntar novamente."
 
-#: kerfuffle/queries.cpp:235
+#: kerfuffle/queries.cpp:265
 #, kde-format
 msgid "Error during extraction"
 msgstr "Erro durante a extração"
 
-#: kerfuffle/queries.cpp:236
+#: kerfuffle/queries.cpp:266
 #, kde-kuit-format
 msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
@@ -2206,25 +2206,25 @@ msgstr ""
 "O arquivo pode estar corrompido ou tem criptografia de cabeçalho, a qual não "
 "é suportada atualmente."
 
-#: plugins/libarchive/libarchiveplugin.cpp:520
+#: plugins/libarchive/libarchiveplugin.cpp:526
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Erro fatal - a extração foi cancelada."
 
-#: plugins/libarchive/libarchiveplugin.cpp:546
+#: plugins/libarchive/libarchiveplugin.cpp:552
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr ""
 "A extração de entradas 7-zip criptografadas não é suportada atualmente."
 
-#: plugins/libarchive/libarchiveplugin.cpp:560
+#: plugins/libarchive/libarchiveplugin.cpp:566
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "O leitor de arquivo não pôde ser inicializado."
 
-#: plugins/libarchive/libarchiveplugin.cpp:582
+#: plugins/libarchive/libarchiveplugin.cpp:588
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
@@ -2282,8 +2282,8 @@ msgstr "ão foi possível compactar o item."
 #: plugins/libzipplugin/libzipplugin.cpp:297
 #: plugins/libzipplugin/libzipplugin.cpp:589
 #: plugins/libzipplugin/libzipplugin.cpp:637
-#: plugins/libzipplugin/libzipplugin.cpp:1001
-#: plugins/libzipplugin/libzipplugin.cpp:1055
+#: plugins/libzipplugin/libzipplugin.cpp:1004
+#: plugins/libzipplugin/libzipplugin.cpp:1058
 #, kde-kuit-format
 msgid "Failed to open archive: %1"
 msgstr "Não foi possível abrir o arquivo: %1"
@@ -2291,14 +2291,14 @@ msgstr "Não foi possível abrir o arquivo: %1"
 #: plugins/libzipplugin/libzipplugin.cpp:350
 #: plugins/libzipplugin/libzipplugin.cpp:621
 #: plugins/libzipplugin/libzipplugin.cpp:653
-#: plugins/libzipplugin/libzipplugin.cpp:1035
-#: plugins/libzipplugin/libzipplugin.cpp:1124
+#: plugins/libzipplugin/libzipplugin.cpp:1038
+#: plugins/libzipplugin/libzipplugin.cpp:1127
 #, kde-kuit-format
 msgid "Failed to write archive."
 msgstr "Não foi possível gravar o arquivo."
 
 #: plugins/libzipplugin/libzipplugin.cpp:399
-#: plugins/libzipplugin/libzipplugin.cpp:1091
+#: plugins/libzipplugin/libzipplugin.cpp:1094
 #, kde-kuit-format
 msgid "Failed to add entry: %1"
 msgstr "Não foi possível adicionar o item: %1"
@@ -2309,8 +2309,8 @@ msgid "Failed to set compression options for entry: %1"
 msgstr "Não foi possível definir as opções de compressão do item: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:559
-#: plugins/libzipplugin/libzipplugin.cpp:935
-#: plugins/libzipplugin/libzipplugin.cpp:1100
+#: plugins/libzipplugin/libzipplugin.cpp:938
+#: plugins/libzipplugin/libzipplugin.cpp:1103
 #, kde-kuit-format
 msgid "Failed to read metadata for entry: %1"
 msgstr "Não foi possível ler os metadados do item: %1"
@@ -2326,43 +2326,43 @@ msgstr "Não foi possível excluir o item: %1"
 msgid "Failed to create directory: %1"
 msgstr "Não foi possível criar a pasta: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:891
+#: plugins/libzipplugin/libzipplugin.cpp:894
 #, kde-kuit-format
 msgid "Failed to open '%1':<nl/>%2"
 msgstr "Não foi possível abrir '%1':<nl/>%2"
 
-#: plugins/libzipplugin/libzipplugin.cpp:899
+#: plugins/libzipplugin/libzipplugin.cpp:902
 #, kde-kuit-format
 msgid "Failed to open file for writing: %1"
 msgstr "Falha ao abrir o arquivo para gravação: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:912
+#: plugins/libzipplugin/libzipplugin.cpp:915
 #, kde-kuit-format
 msgid "Failed to read data for entry: %1"
 msgstr "Não foi possível ler os dados do item: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:917
+#: plugins/libzipplugin/libzipplugin.cpp:920
 #, kde-kuit-format
 msgid "Failed to write data for entry: %1"
 msgstr "Não foi possível gravar os dados do item: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:927
+#: plugins/libzipplugin/libzipplugin.cpp:930
 #, kde-kuit-format
 msgid "Failed to locate entry: %1"
 msgstr "Não foi possível localizar o item: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1014
-#: plugins/libzipplugin/libzipplugin.cpp:1020
+#: plugins/libzipplugin/libzipplugin.cpp:1017
+#: plugins/libzipplugin/libzipplugin.cpp:1023
 #, kde-kuit-format
 msgid "Failed to move entry: %1"
 msgstr "Não foi possível mover o item: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1077
+#: plugins/libzipplugin/libzipplugin.cpp:1080
 #, kde-kuit-format
 msgid "Failed to copy entry: %1"
 msgstr "Não foi possível copiar o item: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1107
+#: plugins/libzipplugin/libzipplugin.cpp:1110
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Não foi possível definir os metadados do item: %1"
