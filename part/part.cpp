@@ -1148,6 +1148,7 @@ void Part::slotShowExtractionDialog()
     }
 
     dialog.data()->setExtractToSubfolder(m_model->archive()->hasMultipleTopLevelEntries());
+    dialog.data()->setExtractSingleFolder(m_model->archive()->isSingleFolder());
     dialog.data()->setSubfolder(detectSubfolder());
 
     dialog.data()->setCurrentUrl(QUrl::fromLocalFile(QFileInfo(m_model->archive()->fileName()).absolutePath()));

@@ -96,9 +96,12 @@ void ExtractionDialog::slotAccepted()
     fileWidget->accept();
     // We extract to selectedUrl().
     const auto destinationPath = fileWidget->selectedUrl().toLocalFile();
-
-    if (extract) {
-        // Handle existing subfolder.
+    if (extract || m_extractSingleFolder) {
+        // Handle existing subfolder for both cases:
+        // 1. extracting to subfolder (when archive has many top-level-entries)
+        // 2. extracting to current folder (when archive has single folder as top-level-entry)
+        // in case (2) this single top-level-entry (returned by subfolder())
+        // can still already exist and we must ask user for confirmation!
         const QString pathWithSubfolder = QDir(destinationPath).filePath(subfolder());
         while (1) {
             if (QDir(pathWithSubfolder).exists()) {
@@ -122,7 +125,7 @@ void ExtractionDialog::slotAccepted()
                                                xi18nc("@info", "<filename>%1</filename> already exists, but is not a folder.", subfolder()));
                     return;
                 }
-            } else if (!QDir().mkdir(pathWithSubfolder)) {
+            } else if (!m_extractSingleFolder && !QDir().mkdir(pathWithSubfolder)) {
                 KMessageBox::detailedError(this,
                                            xi18nc("@info", "The folder <filename>%1</filename> could not be created.", subfolder()),
                                            i18n("Please check your permissions to create it."));
@@ -155,6 +158,11 @@ void ExtractionDialog::loadSettings()
 void ExtractionDialog::setExtractToSubfolder(bool extractToSubfolder)
 {
     m_ui->singleFolderGroup->setChecked(extractToSubfolder && ArkSettings::extractToSubfolder());
+}
+
+void ExtractionDialog::setExtractSingleFolder(bool extractSingleFolder)
+{
+    m_extractSingleFolder = extractSingleFolder;
 }
 
 void ExtractionDialog::batchModeOption()

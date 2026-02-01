@@ -26,6 +26,7 @@ public:
 
     void setShowSelectedFiles(bool);
     void setExtractToSubfolder(bool);
+    void setExtractSingleFolder(bool);
     void setPreservePaths(bool);
     void batchModeOption();
     void setOpenDestinationFolderAfterExtraction(bool);
@@ -57,6 +58,10 @@ private:
 
     class ExtractionDialogUI *m_ui;
     KFileWidget *fileWidget = nullptr;
+
+    // we need user confirmation before extracting (if target folder exists)
+    // so keep safely this flag 'true' by default (will be cleared when not needed)
+    bool m_extractSingleFolder = true;
 };
 }
 

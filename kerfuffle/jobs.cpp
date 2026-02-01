@@ -437,8 +437,9 @@ void BatchExtractJob::slotLoadingFinished(KJob *job)
 void BatchExtractJob::setupDestination()
 {
     const bool isSingleFolderRPM = (archive()->isSingleFolder() && (archive()->mimeType().name() == QLatin1String("application/x-rpm")));
+    const bool hasMultipleTopLevelEntries = archive()->hasMultipleTopLevelEntries();
 
-    if (m_autoSubfolder && (archive()->hasMultipleTopLevelEntries() || isSingleFolderRPM)) {
+    if (m_autoSubfolder && (hasMultipleTopLevelEntries || isSingleFolderRPM || archive()->isSingleFolder())) {
         const QDir d(m_destination);
         QString subfolderName = archive()->subfolderName();
 
@@ -449,13 +450,22 @@ void BatchExtractJob::setupDestination()
             subfolderName = QFileInfo(archive()->fileName()).completeBaseName();
         }
 
+        // KFileUtils::suggestName does not properly check if base file/folder exists
+        // so first suggested name already has " (1)" suffix even if base file/folder
+        // does not exist - thus we need to distinguish such a case here
         if (d.exists(subfolderName)) {
+            // target folder exists so we need to 'suggestName' and create a new one
+            // then add it to destination path
             subfolderName = KFileUtils::suggestName(QUrl::fromUserInput(m_destination, QDir::currentPath(), QUrl::AssumeLocalFile), subfolderName);
+            d.mkdir(subfolderName);
+            m_destination += QLatin1Char('/') + subfolderName;
+        } else if (hasMultipleTopLevelEntries || isSingleFolderRPM) {
+            // target folder does NOT exist but we will extract multi-top-level-entries or isSingleFolderRPM
+            // and we are in 'm_autoSubfolder == true' section here
+            // so we need to create a new folder and add it to destination path
+            d.mkdir(subfolderName);
+            m_destination += QLatin1Char('/') + subfolderName;
         }
-
-        d.mkdir(subfolderName);
-
-        m_destination += QLatin1Char('/') + subfolderName;
     }
 }
 
