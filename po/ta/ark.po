@@ -8,21 +8,21 @@
 #
 # Ambalam <tamilpc@ambalam.com>, 2004.
 # root <root@localhost.localdomain>, 2004.
-# SPDX-FileCopyrightText: 2021, 2022, 2023, 2024 Kishore G <kishore96@gmail.com>
+# SPDX-FileCopyrightText: 2021, 2022, 2023, 2024, 2026 Kishore G <kishore96@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-01 00:46+0000\n"
-"PO-Revision-Date: 2024-04-28 17:24+0530\n"
+"PO-Revision-Date: 2026-02-01 13:43+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
-"Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
+"Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
 "Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 25.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -115,12 +115,10 @@ msgid "Compress"
 msgstr "சுருக்கு"
 
 #: app/compressfileitemaction.cpp:97
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
-msgstr "இவ்வாறு சுருக்கு..."
+msgstr "வேறு இடத்தில் சுருக்கு…"
 
 #: app/compressfileitemaction.cpp:105
 #, kde-format
@@ -142,12 +140,10 @@ msgid "Extract here"
 msgstr "இங்கு பிரித்தெடு"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract here and delete archive"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
-msgstr "இங்கு பிரித்தெடுத்து காப்பகத்தை நீக்கு"
+msgstr "காப்பகத்தை பிரித்தெடுத்து நீக்கு"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -173,10 +169,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE காப்பகச் செயலி"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "(c) 1997-2019, ஆர்க் நிரலாளர்கள்"
+msgstr "(c) 1997-2025, ஆர்க் நிரலாளர்கள்"
 
 #: app/main.cpp:86
 #, kde-format
@@ -470,11 +465,9 @@ msgstr "நல்வரவு"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "காப்பகத்தை திற"
+msgstr "காப்பகத்தை திற…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -822,10 +815,9 @@ msgstr "கோப்புப்பெயர்:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
-msgstr "காப்பகத்தின் பெயரை உள்ளிடுங்கள்..."
+msgstr "காப்பகத்தின் பெயரை உள்ளிடவும்…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1214,10 +1206,9 @@ msgstr "ஆம் (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "கணிக்கப்படுகிறது..."
+msgstr "கணிக்கிறது…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1507,10 +1498,9 @@ msgid "Closing preview"
 msgstr "முன்னோட்டம் மூடப்படுகிறது"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "முன்னோட்டத்தை மூடும்வரை காத்திருங்கள்..."
+msgstr "முன்னோட்டத்தை மூடும்வரை காத்திருக்கவும்…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1660,10 +1650,9 @@ msgid "Save"
 msgstr "சேமி"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
-msgstr "தேட தட்டச்சிடவும்..."
+msgstr "தேட தட்டச்சிடவும்…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1678,12 +1667,10 @@ msgid "Show Information Panel"
 msgstr "விவர பலகையை காட்டு"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "நகலை இவ்வாறு சேமிப்பது"
+msgstr "நகலை வேறு பெயரில் சேமி…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1692,12 +1679,10 @@ msgid "&Open in External Application"
 msgstr "&வெளி செயலியில் திற"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "&இதனால் திற..."
+msgstr "வேறு செயலியில் திற…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1748,11 +1733,9 @@ msgstr ""
 "திறக்க இதை கிளிக் செய்யுங்கள்"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "கோப்புகளை சேர்த்தல்"
+msgstr "கோப்புகளை சேர்…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1841,17 +1824,14 @@ msgid "The archive failed the integrity test."
 msgstr "காப்பகம் ஒழுங்காக இல்லை."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
 msgstr "வேறிடத்திற்கு பிரித்தெடு…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "இதற்கு எளிதில் பிரித்தெடு..."
+msgstr "வேறிடத்திற்கு எளிதில் பிரித்தெடு…"
 
 #: part/part.cpp:775
 #, kde-format
