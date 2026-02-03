@@ -8,13 +8,13 @@
 # Svanur Palsson <svanur@tern.is>, 2004.
 # Þröstur Svanbergsson <throstur@bylur.net>, 2004.
 # Arnar Leosson <leosson@frisurf.no>, 2005.
-# SPDX-FileCopyrightText: 2009, 2010, 2015, 2021, 2022, 2023, 2024, 2025 Sveinn í Felli <sveinki@nett.is>
+# SPDX-FileCopyrightText: 2009, 2010, 2015, 2021, 2022, 2023, 2024, 2025, 2026 Sveinn í Felli <sveinki@nett.is>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-01 00:46+0000\n"
-"PO-Revision-Date: 2025-12-02 10:56+0000\n"
+"PO-Revision-Date: 2026-02-02 09:41+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -148,12 +148,10 @@ msgid "Extract here"
 msgstr "Afþjappa hér"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract here and delete archive"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
-msgstr "Afþjappa hér og eyða safnskrá"
+msgstr "Afþjappa og eyða safnskrá"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
