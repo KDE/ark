@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-01 00:46+0000\n"
+"POT-Creation-Date: 2026-02-04 00:47+0000\n"
 "PO-Revision-Date: 2026-01-19 19:18+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -94,7 +94,7 @@ msgid ""
 msgstr ""
 "解壓縮 <filename>%1</filename> 時發生錯誤：<nl/><message>%2</message><nl/>"
 
-#: app/batchextract.cpp:300
+#: app/batchextract.cpp:301
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -825,7 +825,7 @@ msgstr "解開"
 msgid "The subfolder name may not contain the character '/'."
 msgstr "子資料夾的名稱不能包含 / 字元。"
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -833,39 +833,39 @@ msgid ""
 "extract here?"
 msgstr "檔案 <filename>%1</filename> 已存在。您要在這裡展開嗎？"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:112
 #, kde-format
 msgid "Folder exists"
 msgstr "資料夾已存在"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:113
 #, kde-format
 msgid "Extract here"
 msgstr "在此解壓縮"
 
-#: kerfuffle/extractiondialog.cpp:111
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-format
 msgid "Retry"
 msgstr "重試"
 
-#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:124 kerfuffle/extractiondialog.cpp:130
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "無法建立資料夾 <filename>%1</filename>。"
 
-#: kerfuffle/extractiondialog.cpp:122
+#: kerfuffle/extractiondialog.cpp:125
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> 已存在，但不是資料夾。"
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:131
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "請檢查您是否有建立的權限。"
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:173
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "解開多個檔案"
@@ -1017,73 +1017,73 @@ msgstr "無法載入封存檔，因為其包含了格式錯誤的項目，且可
 msgid "Loading archive"
 msgstr "載入封存中"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
-#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
+#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Archive"
 msgstr "封存"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "裝置<filename>%1</filename>無可用空間"
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:554
 #, kde-format
 msgid "Extracting all files"
 msgstr "解開所有檔案"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "解開 %1 個檔案"
 
-#: kerfuffle/jobs.cpp:551
+#: kerfuffle/jobs.cpp:561
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "目的地"
 
-#: kerfuffle/jobs.cpp:555
+#: kerfuffle/jobs.cpp:565
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr "無法寫入目標 <filename>%1</filename>。<nl/>請檢查您的權限。"
 
-#: kerfuffle/jobs.cpp:731
+#: kerfuffle/jobs.cpp:741
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "正在壓縮 %1 個檔案"
 
-#: kerfuffle/jobs.cpp:783
+#: kerfuffle/jobs.cpp:793
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "正在移動 %1 個檔案"
 
-#: kerfuffle/jobs.cpp:820
+#: kerfuffle/jobs.cpp:830
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "正在複製 %1 檔案"
 
-#: kerfuffle/jobs.cpp:851
+#: kerfuffle/jobs.cpp:861
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "刪除 %1 個檔案。"
 
-#: kerfuffle/jobs.cpp:874
+#: kerfuffle/jobs.cpp:884
 #, kde-format
 msgid "Adding comment"
 msgstr "加入註解"
 
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Testing archive"
 msgstr "正在測試封存檔"
@@ -1894,39 +1894,39 @@ msgctxt "@action:button"
 msgid "Ignore"
 msgstr "忽略"
 
-#: part/part.cpp:1370
+#: part/part.cpp:1371
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "加入檔案"
 
-#: part/part.cpp:1375
+#: part/part.cpp:1376
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "加入檔案到 %1"
 
-#: part/part.cpp:1435
+#: part/part.cpp:1436
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "檔名不能包含斜線及「.」或「..」等等符號"
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "資料夾無法移動到它自己裡面"
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "正在移動資料夾到它自己裡面"
 
-#: part/part.cpp:1507
+#: part/part.cpp:1508
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "有相同名稱的項目不能貼到同一個目的地。"
 
-#: part/part.cpp:1606
+#: part/part.cpp:1607
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1934,20 +1934,20 @@ msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr[0] "刪除這些檔案後無法還原。您確定要這樣做嗎？"
 
-#: part/part.cpp:1609
+#: part/part.cpp:1610
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
 msgid_plural "Delete Files"
 msgstr[0] "刪除檔案"
 
-#: part/part.cpp:1648
+#: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "儲存副本為"
 
-#: part/part.cpp:1663
+#: part/part.cpp:1664
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1955,7 +1955,7 @@ msgid ""
 "another location."
 msgstr "此封存無法儲存為 <filename>%1</filename>。請試著存到其它位置。"
 
-#: part/part.cpp:1668
+#: part/part.cpp:1669
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

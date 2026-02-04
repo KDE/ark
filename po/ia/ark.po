@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-01 00:46+0000\n"
+"POT-Creation-Date: 2026-02-04 00:47+0000\n"
 "PO-Revision-Date: 2026-01-19 12:23+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -90,7 +90,7 @@ msgstr ""
 "Il habeva un error quando extraheva <filename>%1</filename> :<nl/><message> "
 "%2</message>"
 
-#: app/batchextract.cpp:300
+#: app/batchextract.cpp:301
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -852,7 +852,7 @@ msgstr "Extrahe"
 msgid "The subfolder name may not contain the character '/'."
 msgstr "Le nomine de subdossier poterea non continer le character '/'."
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -862,39 +862,39 @@ msgstr ""
 "Le dossier <filename>%1</filename> ja existe. Tu es secur que tu vole "
 "extraher lo hic?"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:112
 #, kde-format
 msgid "Folder exists"
 msgstr "Dossier ja existe"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:113
 #, kde-format
 msgid "Extract here"
 msgstr "Extrahe hic"
 
-#: kerfuffle/extractiondialog.cpp:111
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-format
 msgid "Retry"
 msgstr "Prova de nove"
 
-#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:124 kerfuffle/extractiondialog.cpp:130
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Le dossier <filename>%1</filename> non poteva esser create."
 
-#: kerfuffle/extractiondialog.cpp:122
+#: kerfuffle/extractiondialog.cpp:125
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> ja existe, ma il non es un dossier."
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:131
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Pro favor tu verifica tu permissiones per crear lo."
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:173
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Extrahe archivos multiple"
@@ -1056,38 +1056,38 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Cargante archivo"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
-#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
+#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Archive"
 msgstr "Archivo"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Nulle spatio disponibile sur dispositivo <filename>%1</filename>."
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:554
 #, kde-format
 msgid "Extracting all files"
 msgstr "Extrahente omne files"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "Extrahente un file"
 msgstr[1] "Extrahente %1 files"
 
-#: kerfuffle/jobs.cpp:551
+#: kerfuffle/jobs.cpp:561
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Destination"
 
-#: kerfuffle/jobs.cpp:555
+#: kerfuffle/jobs.cpp:565
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1096,40 +1096,40 @@ msgstr ""
 "Non poteva scriber a destination <filename>%1</filename>,<nl/>Verifica si tu "
 "ha permissiones sufficiente."
 
-#: kerfuffle/jobs.cpp:731
+#: kerfuffle/jobs.cpp:741
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "Comprimente un file"
 msgstr[1] "Comprimente %1 files"
 
-#: kerfuffle/jobs.cpp:783
+#: kerfuffle/jobs.cpp:793
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "Movente un file"
 msgstr[1] "Movente %1 files"
 
-#: kerfuffle/jobs.cpp:820
+#: kerfuffle/jobs.cpp:830
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "Copiante un file"
 msgstr[1] "Copiante %1 files"
 
-#: kerfuffle/jobs.cpp:851
+#: kerfuffle/jobs.cpp:861
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "Delente un file ex archivo"
 msgstr[1] "Delente %1 files"
 
-#: kerfuffle/jobs.cpp:874
+#: kerfuffle/jobs.cpp:884
 #, kde-format
 msgid "Adding comment"
 msgstr "Addente commento"
 
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Testing archive"
 msgstr "Essayante archivo"
@@ -1969,42 +1969,42 @@ msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Ignora"
 
-#: part/part.cpp:1370
+#: part/part.cpp:1371
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Adde Files"
 
-#: part/part.cpp:1375
+#: part/part.cpp:1376
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Adde Files  a %1"
 
-#: part/part.cpp:1435
+#: part/part.cpp:1436
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Nomine de files non pote continer slashes (i.e. \"\" o \"/\") e non pote "
 "esser equal a \".\" o \"..\""
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Dossieres non pote esser movite in se mesme."
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Movente un dossier sur se mesme"
 
-#: part/part.cpp:1507
+#: part/part.cpp:1508
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Entratas con le mesme nomine non pote esser collate al mesme destination."
 
-#: part/part.cpp:1606
+#: part/part.cpp:1607
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2015,7 +2015,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Deler iste files non es annullabile. Tu es secur que tu vole facer isto?"
 
-#: part/part.cpp:1609
+#: part/part.cpp:1610
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2023,13 +2023,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Dele file"
 msgstr[1] "Dele files"
 
-#: part/part.cpp:1648
+#: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Salveguarda copia como"
 
-#: part/part.cpp:1663
+#: part/part.cpp:1664
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2039,7 +2039,7 @@ msgstr ""
 "Le archivo non poteva esser salveguardate como <filename>%1</filename>. "
 "Essaya salveguardar lo in un altere location."
 
-#: part/part.cpp:1668
+#: part/part.cpp:1669
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

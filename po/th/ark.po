@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-01 00:46+0000\n"
+"POT-Creation-Date: 2026-02-04 00:47+0000\n"
 "PO-Revision-Date: 2025-12-18 23:53+0700\n"
 "Last-Translator: Satakun Utama <linesofcodes@dailitation.xyz>\n"
 "Language-Team: Thai\n"
@@ -92,7 +92,7 @@ msgid ""
 msgstr ""
 "เกิดข้อผิดพลาดระหว่างการแตกไฟล์ <filename>%1</filename>:<nl/><message>%2</message>"
 
-#: app/batchextract.cpp:300
+#: app/batchextract.cpp:301
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -831,7 +831,7 @@ msgstr "แตกไฟล์"
 msgid "The subfolder name may not contain the character '/'."
 msgstr "ชื่อของโฟลเดอร์ย่อยจะต้องไม่มีตัวอักษร '/' อยู่ด้วย"
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -839,39 +839,39 @@ msgid ""
 "extract here?"
 msgstr "มีโฟลเดอร์ <filename>%1</filename> อยู่แล้ว คุณแน่ใจหรือไม่ว่าจะทำการแตกไฟล์ไว้ที่นี่"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:112
 #, kde-format
 msgid "Folder exists"
 msgstr "มีโฟลเดอร์อยู่ก่อนแล้ว"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:113
 #, kde-format
 msgid "Extract here"
 msgstr "คลายแฟ้มไว้ที่นี่"
 
-#: kerfuffle/extractiondialog.cpp:111
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-format
 msgid "Retry"
 msgstr "ลองอีกครั้ง"
 
-#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:124 kerfuffle/extractiondialog.cpp:130
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "ไม่สามารถสร้างโฟลเดอร์ <filename>%1</filename> ได้"
 
-#: kerfuffle/extractiondialog.cpp:122
+#: kerfuffle/extractiondialog.cpp:125
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "มี <filename>%1</filename> อยู่ก่อนแล้ว แต่มันไม่ใช่โฟลเดอร์"
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:131
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "โปรดตรวจสอบสิทธ์ที่อนุญาตของคุณว่ามีสิทธิ์สร้างมันหรือไม่"
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:173
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "คลายแฟ้มจัดเก็บหลายแฟ้ม"
@@ -1027,37 +1027,37 @@ msgstr "ไม่สามารถโหลดอาร์ไคฟ์ได้
 msgid "Loading archive"
 msgstr "กำลังโหลดอาร์ไคฟ์..."
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
-#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
+#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Archive"
 msgstr "อาร์ไคฟ์"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "ไม่เหลือพื้นที่บนอุปกรณ์ <filename>%1</filename>"
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:554
 #, kde-format
 msgid "Extracting all files"
 msgstr "คลายแฟ้มทั้งหมด"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "คลาย %1 แฟ้ม"
 
-#: kerfuffle/jobs.cpp:551
+#: kerfuffle/jobs.cpp:561
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "โฟลเดอร์ปลายทาง"
 
-#: kerfuffle/jobs.cpp:555
+#: kerfuffle/jobs.cpp:565
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1066,36 +1066,36 @@ msgstr ""
 "ไม่สามารถเขียนไปยังปลายทาง <filename>%1</filename> ได้<nl/"
 ">โปรดตรวจสอบว่าคุณมีการอนุญาตที่เพียงพอ"
 
-#: kerfuffle/jobs.cpp:731
+#: kerfuffle/jobs.cpp:741
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "กำลังบีบอัด %1 ไฟล์"
 
-#: kerfuffle/jobs.cpp:783
+#: kerfuffle/jobs.cpp:793
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "กำลังย้าย %1 ไฟล์"
 
-#: kerfuffle/jobs.cpp:820
+#: kerfuffle/jobs.cpp:830
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "กำลังคัดลอก %1 ไฟล์"
 
-#: kerfuffle/jobs.cpp:851
+#: kerfuffle/jobs.cpp:861
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "ทำการลบแฟ้ม %1 แฟ้มออกจากแฟ้มจัดเก็บ"
 
-#: kerfuffle/jobs.cpp:874
+#: kerfuffle/jobs.cpp:884
 #, kde-format
 msgid "Adding comment"
 msgstr "กำลังเพิ่มหมายเหตุ"
 
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Testing archive"
 msgstr "กำลังทดสอบอาร์ไคฟ์"
@@ -1911,39 +1911,39 @@ msgctxt "@action:button"
 msgid "Ignore"
 msgstr "ไม่สนใจ"
 
-#: part/part.cpp:1370
+#: part/part.cpp:1371
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "เพิ่มแฟ้มต่างๆ"
 
-#: part/part.cpp:1375
+#: part/part.cpp:1376
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "เพิ่มไฟล์ไปยัง %1"
 
-#: part/part.cpp:1435
+#: part/part.cpp:1436
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "ชื่อไฟล์ไม่สามารถมีทับและไม่สามารถเท่ากับ \".\" หรือ \"..\" ได้"
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "โฟลเดอร์ไม่สามารถถูกย้ายเข้าไปยังตัวมันเองได้"
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "การย้ายโฟลเดอร์เข้าไปในตัวมันเอง"
 
-#: part/part.cpp:1507
+#: part/part.cpp:1508
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "รายการที่มีชื่อเดียวกันไม่สามารถถูกวางไว้ในที่หมายเดียวกันได้"
 
-#: part/part.cpp:1606
+#: part/part.cpp:1607
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1951,20 +1951,20 @@ msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr[0] "การลบไฟล์เหล่านี้ไม่สามารถย้อนกลับได้ คุณแน่ใจหรือว่าคุณจะทำสิ่งนี้"
 
-#: part/part.cpp:1609
+#: part/part.cpp:1610
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
 msgid_plural "Delete Files"
 msgstr[0] "ลบไฟล์"
 
-#: part/part.cpp:1648
+#: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "บันทึกสำเนาเป็น"
 
-#: part/part.cpp:1663
+#: part/part.cpp:1664
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1973,7 +1973,7 @@ msgid ""
 msgstr ""
 "ไม่สามารถบันทึกอาร์ไคฟ์เป็น <filename>%1</filename> ได้ โปรดลองทำการบันทึกไปยังตำแหน่งอื่น"
 
-#: part/part.cpp:1668
+#: part/part.cpp:1669
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-01 00:46+0000\n"
+"POT-Creation-Date: 2026-02-04 00:47+0000\n"
 "PO-Revision-Date: 2017-12-15 12:38+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -107,7 +107,7 @@ msgid ""
 "%2</message>"
 msgstr "Greška pri čitanju iz <filename>%1</filename> tokom raspakivanja."
 
-#: app/batchextract.cpp:300
+#: app/batchextract.cpp:301
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -904,7 +904,7 @@ msgstr "Raspakuj"
 msgid "The subfolder name may not contain the character '/'."
 msgstr "Ime fascikle ne može da sadrži znak ‘/’."
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -914,39 +914,39 @@ msgstr ""
 "Fascikla <filename>%1</filename> već postoji. Želite li zaista da "
 "raspakujete u nju?"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:112
 #, kde-format
 msgid "Folder exists"
 msgstr "Fascikla postoji"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:113
 #, kde-format
 msgid "Extract here"
 msgstr "Raspakuj ovde"
 
-#: kerfuffle/extractiondialog.cpp:111
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-format
 msgid "Retry"
 msgstr "Pokušaj ponovo"
 
-#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:124 kerfuffle/extractiondialog.cpp:130
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Ne mogu da napravim fasciklu <filename>%1</filename>."
 
-#: kerfuffle/extractiondialog.cpp:122
+#: kerfuffle/extractiondialog.cpp:125
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> već postoji, ali nije fascikla."
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:131
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Proverite imate li dozvole da je napravite."
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:173
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Raspakuj više arhiva"
@@ -1106,27 +1106,27 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Učitavam arhivu"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
-#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
+#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Archive"
 msgstr "Arhiva"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Ark could not extract <filename>%1</filename>."
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Ark ne može da raspakuje <filename>%1</filename>."
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:554
 #, kde-format
 msgid "Extracting all files"
 msgstr "Raspakujem sve fajlove"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1135,13 +1135,13 @@ msgstr[1] "Raspakujem %1 fajla"
 msgstr[2] "Raspakujem %1 fajlova"
 msgstr[3] "Raspakujem fajl"
 
-#: kerfuffle/jobs.cpp:551
+#: kerfuffle/jobs.cpp:561
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Odredište"
 
-#: kerfuffle/jobs.cpp:555
+#: kerfuffle/jobs.cpp:565
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1150,7 +1150,7 @@ msgstr ""
 "Ne mogu da pišem u odredište <filename>%1</filename>.<nl/>Proverite da li "
 "imate dovoljne dozvole."
 
-#: kerfuffle/jobs.cpp:731
+#: kerfuffle/jobs.cpp:741
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
@@ -1159,7 +1159,7 @@ msgstr[1] "Kompresujem %1 fajla"
 msgstr[2] "Kompresujem %1 fajlova"
 msgstr[3] "Kompresujem fajl"
 
-#: kerfuffle/jobs.cpp:783
+#: kerfuffle/jobs.cpp:793
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
@@ -1168,7 +1168,7 @@ msgstr[1] "Premeštam %1 fajla"
 msgstr[2] "Premeštam %1 fajlova"
 msgstr[3] "Premeštam fajl"
 
-#: kerfuffle/jobs.cpp:820
+#: kerfuffle/jobs.cpp:830
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
@@ -1178,7 +1178,7 @@ msgstr[2] "Kopiram %1 fajlova"
 msgstr[3] "Kopiram fajl"
 
 # rewrite-msgid: /from the archive//
-#: kerfuffle/jobs.cpp:851
+#: kerfuffle/jobs.cpp:861
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1187,12 +1187,12 @@ msgstr[1] "Brišem %1 fajla"
 msgstr[2] "Brišem %1 fajlova"
 msgstr[3] "Brišem fajl"
 
-#: kerfuffle/jobs.cpp:874
+#: kerfuffle/jobs.cpp:884
 #, kde-format
 msgid "Adding comment"
 msgstr "Dodajem komentar..."
 
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Testing archive"
 msgstr "Ispitujem arhivu..."
@@ -2073,40 +2073,40 @@ msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1370
+#: part/part.cpp:1371
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Dodavanje fajlova"
 
-#: part/part.cpp:1375
+#: part/part.cpp:1376
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Dodavanje fajlova u %1"
 
-#: part/part.cpp:1435
+#: part/part.cpp:1436
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "Ime fajla ne može da sadrži ‘/’ i ne može da bude jednako „.“ ili „..“."
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Fascikle ne mogu da se premeste na same sebe."
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "Premeštanje fascikle na samu sebe"
 
-#: part/part.cpp:1507
+#: part/part.cpp:1508
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "Unosi sa istim imenom ne mogu da se nalepe na isto odredište."
 
-#: part/part.cpp:1606
+#: part/part.cpp:1607
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2121,7 +2121,7 @@ msgstr[2] ""
 msgstr[3] ""
 "Brisanje ovog fajla ne može se opozvati. Želite li zaista da ga obrišete?"
 
-#: part/part.cpp:1609
+#: part/part.cpp:1610
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2131,13 +2131,13 @@ msgstr[1] "Brisanje fajlova"
 msgstr[2] "Brisanje fajlova"
 msgstr[3] "Brisanje fajla"
 
-#: part/part.cpp:1648
+#: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1663
+#: part/part.cpp:1664
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2147,7 +2147,7 @@ msgstr ""
 "Arhiva ne može da se sačuva kao <filename>%1</filename>. Pokušajte da je "
 "sačuvate na drugu lokaciju."
 
-#: part/part.cpp:1668
+#: part/part.cpp:1669
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""

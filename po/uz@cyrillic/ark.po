@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-01 00:46+0000\n"
+"POT-Creation-Date: 2026-02-04 00:47+0000\n"
 "PO-Revision-Date: 2006-12-17 13:36+0000\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -98,7 +98,7 @@ msgid ""
 "%2</message>"
 msgstr "Ажратишда ишлатилган охирги жилдлар"
 
-#: app/batchextract.cpp:300
+#: app/batchextract.cpp:301
 #, fuzzy, kde-kuit-format
 #| msgid "Last folders used for extraction"
 msgctxt "@info"
@@ -856,7 +856,7 @@ msgstr "Ажратиш"
 msgid "The subfolder name may not contain the character '/'."
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:111
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
@@ -865,43 +865,43 @@ msgid ""
 "extract here?"
 msgstr "Архив аллақачон мавжуд. Уни алмаштиришни истайсизми?"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:112
 #, fuzzy, kde-format
 #| msgid "Archive Already Exists"
 msgid "Folder exists"
 msgstr "Архив аллақачон мавжуд"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:113
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract here"
 msgstr "Ажратиш"
 
-#: kerfuffle/extractiondialog.cpp:111
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-format
 msgid "Retry"
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:124 kerfuffle/extractiondialog.cpp:130
 #, fuzzy, kde-kuit-format
 #| msgid "The folder could not be created. Please check permissions."
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Жилдни яратиб бўлмади. Илтимос ҳуқуқларни текширинг."
 
-#: kerfuffle/extractiondialog.cpp:122
+#: kerfuffle/extractiondialog.cpp:125
 #, fuzzy, kde-kuit-format
 #| msgid "Archive already exists. Do you wish to overwrite it?"
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "Архив аллақачон мавжуд. Уни алмаштиришни истайсизми?"
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:131
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:173
 #, fuzzy, kde-format
 #| msgid "Extract all files"
 msgid "Extract multiple archives"
@@ -1068,83 +1068,83 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Архив яратилмоқда..."
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
-#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
+#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
+#: kerfuffle/jobs.cpp:908
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
 msgid "Archive"
 msgstr "Архивни очиш"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
 #, fuzzy, kde-kuit-format
 #| msgid "Folder to extract to"
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Ажратиш учун жилд"
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:554
 #, fuzzy, kde-format
 #| msgid "Extract all files"
 msgid "Extracting all files"
 msgstr "Ҳамма файлларни ажратиш"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
 #, fuzzy, kde-format
 #| msgid "Extract all files"
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "Ҳамма файлларни ажратиш"
 
-#: kerfuffle/jobs.cpp:551
+#: kerfuffle/jobs.cpp:561
 #, fuzzy, kde-format
 #| msgid "Destination folder: "
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Мўлжал жилди: "
 
-#: kerfuffle/jobs.cpp:555
+#: kerfuffle/jobs.cpp:565
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:731
+#: kerfuffle/jobs.cpp:741
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "Файллар қўшилмоқда..."
 
-#: kerfuffle/jobs.cpp:783
+#: kerfuffle/jobs.cpp:793
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "Файллар қўшилмоқда..."
 
-#: kerfuffle/jobs.cpp:820
+#: kerfuffle/jobs.cpp:830
 #, fuzzy, kde-format
 #| msgid "Adding files..."
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "Файллар қўшилмоқда..."
 
-#: kerfuffle/jobs.cpp:851
+#: kerfuffle/jobs.cpp:861
 #, fuzzy, kde-format
 #| msgid "An error occurred while adding the files to the archive."
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "Файлларни архивга қўшишда хато рўй берди."
 
-#: kerfuffle/jobs.cpp:874
+#: kerfuffle/jobs.cpp:884
 #, fuzzy, kde-format
 #| msgid "Adding folder..."
 msgid "Adding comment"
 msgstr "Жилд қўшилмоқда..."
 
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:908
 #, fuzzy, kde-format
 #| msgid "Creating archive..."
 msgid "Testing archive"
@@ -2007,41 +2007,41 @@ msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1370
+#: part/part.cpp:1371
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Ҳамма файллар"
 
-#: part/part.cpp:1375
+#: part/part.cpp:1376
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Ҳамма файллар"
 
-#: part/part.cpp:1435
+#: part/part.cpp:1436
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr ""
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr ""
 
-#: part/part.cpp:1507
+#: part/part.cpp:1508
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1606
+#: part/part.cpp:1607
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2049,7 +2049,7 @@ msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr[0] ""
 
-#: part/part.cpp:1609
+#: part/part.cpp:1610
 #, fuzzy, kde-format
 #| msgid "Selected files only"
 msgctxt "@title:window"
@@ -2057,13 +2057,13 @@ msgid "Delete File"
 msgid_plural "Delete Files"
 msgstr[0] "Фақат танланган файллар"
 
-#: part/part.cpp:1648
+#: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1663
+#: part/part.cpp:1664
 #, fuzzy, kde-kuit-format
 #| msgid "Last folders used for extraction"
 msgctxt "@info"
@@ -2072,7 +2072,7 @@ msgid ""
 "another location."
 msgstr "Ажратишда ишлатилган охирги жилдлар"
 
-#: part/part.cpp:1668
+#: part/part.cpp:1669
 #, fuzzy, kde-kuit-format
 #| msgid "You must enter a password to extract the file:"
 msgctxt "@info"

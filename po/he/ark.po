@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-01 00:46+0000\n"
+"POT-Creation-Date: 2026-02-04 00:47+0000\n"
 "PO-Revision-Date: 2026-01-17 21:19+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -100,7 +100,7 @@ msgid ""
 "%2</message>"
 msgstr "אירעה שגיאה בחילוץ <filename>%1</filename>:‏<nl/><message>%2</message>"
 
-#: app/batchextract.cpp:300
+#: app/batchextract.cpp:301
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -839,7 +839,7 @@ msgstr "חילוץ"
 msgid "The subfolder name may not contain the character '/'."
 msgstr "שם תת־תיקייה לא יכול להכיל את התו ‚/’."
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -847,39 +847,39 @@ msgid ""
 "extract here?"
 msgstr "התיקייה <filename>%1</filename> כבר קיימת. בכל זאת לחלץ לכאן?"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:112
 #, kde-format
 msgid "Folder exists"
 msgstr "תיקייה קיימת"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:113
 #, kde-format
 msgid "Extract here"
 msgstr "חילוץ לכאן"
 
-#: kerfuffle/extractiondialog.cpp:111
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-format
 msgid "Retry"
 msgstr "לנסות שוב"
 
-#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:124 kerfuffle/extractiondialog.cpp:130
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "לא ניתן ליצור את התיקייה <filename>%1</filename>."
 
-#: kerfuffle/extractiondialog.cpp:122
+#: kerfuffle/extractiondialog.cpp:125
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> כבר קיים, אבל זאת לא תיקייה."
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:131
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "כדאי לבדוק אם יש לך הרשאות ליצור את זה."
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:173
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "חילוץ מספר ארכיונים"
@@ -1037,25 +1037,25 @@ msgstr ""
 msgid "Loading archive"
 msgstr "ארכיון נטען"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
-#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
+#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Archive"
 msgstr "ארכיון"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "אין מקום פנוי בהתקן <filename>%1</filename>"
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:554
 #, kde-format
 msgid "Extracting all files"
 msgstr "כל הקבצים מחולצים"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1064,13 +1064,13 @@ msgstr[1] "שני קבצים מחולצים"
 msgstr[2] "%1 קבצים מחולצים"
 msgstr[3] "%1 קבצים מחולצים"
 
-#: kerfuffle/jobs.cpp:551
+#: kerfuffle/jobs.cpp:561
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "יעד"
 
-#: kerfuffle/jobs.cpp:555
+#: kerfuffle/jobs.cpp:565
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1079,7 +1079,7 @@ msgstr ""
 "לא ניתן לכתוב ליעד <filename>%1</filename>.<nl/>כדאי לבדוק אם יש לך מספיק "
 "הרשאות."
 
-#: kerfuffle/jobs.cpp:731
+#: kerfuffle/jobs.cpp:741
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
@@ -1088,7 +1088,7 @@ msgstr[1] "שני קבצים נדחסים"
 msgstr[2] "%1 קבצים נדחסים"
 msgstr[3] "%1 קבצים נדחסים"
 
-#: kerfuffle/jobs.cpp:783
+#: kerfuffle/jobs.cpp:793
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
@@ -1097,7 +1097,7 @@ msgstr[1] "שני קבצים מועברים"
 msgstr[2] "%1 קבצים מועברים"
 msgstr[3] "%1 קבצים מועברים"
 
-#: kerfuffle/jobs.cpp:820
+#: kerfuffle/jobs.cpp:830
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
@@ -1106,7 +1106,7 @@ msgstr[1] "שני קבצים מועתקים"
 msgstr[2] "%1 קבצים מועתקים"
 msgstr[3] "%1 קבצים מועתקים"
 
-#: kerfuffle/jobs.cpp:851
+#: kerfuffle/jobs.cpp:861
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1115,12 +1115,12 @@ msgstr[1] "שני קבצים נמחקים מארכיון"
 msgstr[2] "%1 קבצים נמחקים מארכיון"
 msgstr[3] "%1 קבצים נמחקים מארכיון"
 
-#: kerfuffle/jobs.cpp:874
+#: kerfuffle/jobs.cpp:884
 #, kde-format
 msgid "Adding comment"
 msgstr "הוספת הערה"
 
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Testing archive"
 msgstr "בדיקת הארכיון"
@@ -1945,39 +1945,39 @@ msgctxt "@action:button"
 msgid "Ignore"
 msgstr "התעלמות"
 
-#: part/part.cpp:1370
+#: part/part.cpp:1371
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "הוספת קבצים"
 
-#: part/part.cpp:1375
+#: part/part.cpp:1376
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "הוספת קבצים אל %1"
 
-#: part/part.cpp:1435
+#: part/part.cpp:1436
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "שם קובץ לא יכול להכיל לוכסנים ולא יכול להיות זהה ל־„.” או ל־„..”"
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "אי אפשר להעביר תיקיות לתוך עצמן."
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "העברת תיקייה לתוך עצמה"
 
-#: part/part.cpp:1507
+#: part/part.cpp:1508
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "אי אפשר להדביק רשומות באותו השם לאותו היעד."
 
-#: part/part.cpp:1606
+#: part/part.cpp:1607
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1988,7 +1988,7 @@ msgstr[1] "מחיקת שני הקבצים האלה בלתי הפיכה. להמש
 msgstr[2] "מחיקת הקבצים האלה בלתי הפיכה. להמשיך?"
 msgstr[3] "מחיקת שני הקבצים האלה בלתי הפיכה. להמשיך?"
 
-#: part/part.cpp:1609
+#: part/part.cpp:1610
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1998,13 +1998,13 @@ msgstr[1] "מחיקת שני קבצים"
 msgstr[2] "מחיקת קבצים"
 msgstr[3] "מחיקת קבצים"
 
-#: part/part.cpp:1648
+#: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "שמירת עותק בשם"
 
-#: part/part.cpp:1663
+#: part/part.cpp:1664
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2014,7 +2014,7 @@ msgstr ""
 "אי אפשר לשמור את הארכיון בתור <filename>%1</filename>. כדאי לנסות לשמור אותו "
 "למקום אחר."
 
-#: part/part.cpp:1668
+#: part/part.cpp:1669
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

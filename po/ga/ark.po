@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-01 00:46+0000\n"
+"POT-Creation-Date: 2026-02-04 00:47+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -106,7 +106,7 @@ msgid ""
 msgstr ""
 "Tharla earráid agus <filename>%1</filename> á léamh le linn bainte amach."
 
-#: app/batchextract.cpp:300
+#: app/batchextract.cpp:301
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""
@@ -917,7 +917,7 @@ msgstr "Bain Amach"
 msgid "The subfolder name may not contain the character '/'."
 msgstr "Ní cheadaítear an carachtar '/' in ainm an fhofhillteáin."
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -927,39 +927,39 @@ msgstr ""
 "Tá fillteán <filename>%1</filename> ann cheana. An bhfuil tú cinnte gur mian "
 "leat baint amach anseo?"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:112
 #, kde-format
 msgid "Folder exists"
 msgstr "Tá an fillteán ann cheana"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:113
 #, kde-format
 msgid "Extract here"
 msgstr "Bain amach anseo"
 
-#: kerfuffle/extractiondialog.cpp:111
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-format
 msgid "Retry"
 msgstr ""
 
-#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:124 kerfuffle/extractiondialog.cpp:130
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "Níorbh fhéidir fillteán <filename>%1</filename> a chruthú."
 
-#: kerfuffle/extractiondialog.cpp:122
+#: kerfuffle/extractiondialog.cpp:125
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "Tá <filename>%1</filename> ann cheana, ach ní fillteán é."
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:131
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "Dearbhaigh go bhfuil cead agat é a chruthú."
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:173
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "Bain cartlanna éagsúla amach"
@@ -1130,28 +1130,28 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Cartlann á luchtú..."
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
-#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
+#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
+#: kerfuffle/jobs.cpp:908
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgid "Archive"
 msgstr "Oscail cartlann"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid "Error creating directory <filename>%1</filename>"
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Níorbh fhéidir comhadlann <filename>%1</filename> a chruthú"
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:554
 #, kde-format
 msgid "Extracting all files"
 msgstr "Gach comhad á bhaint amach"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1161,21 +1161,21 @@ msgstr[2] "%1 chomhad á mbaint amach"
 msgstr[3] "%1 gcomhad á mbaint amach"
 msgstr[4] "%1 comhad á mbaint amach"
 
-#: kerfuffle/jobs.cpp:551
+#: kerfuffle/jobs.cpp:561
 #, fuzzy, kde-format
 #| msgid "Destination"
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "Sprioc"
 
-#: kerfuffle/jobs.cpp:555
+#: kerfuffle/jobs.cpp:565
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:731
+#: kerfuffle/jobs.cpp:741
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1187,7 +1187,7 @@ msgstr[2] "%1 chomhad á gcur leis..."
 msgstr[3] "%1 gcomhad á gcur leis..."
 msgstr[4] "%1 comhad á gcur leis..."
 
-#: kerfuffle/jobs.cpp:783
+#: kerfuffle/jobs.cpp:793
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1199,7 +1199,7 @@ msgstr[2] "%1 chomhad á gcur leis..."
 msgstr[3] "%1 gcomhad á gcur leis..."
 msgstr[4] "%1 comhad á gcur leis..."
 
-#: kerfuffle/jobs.cpp:820
+#: kerfuffle/jobs.cpp:830
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1211,7 +1211,7 @@ msgstr[2] "%1 chomhad á gcur leis..."
 msgstr[3] "%1 gcomhad á gcur leis..."
 msgstr[4] "%1 comhad á gcur leis..."
 
-#: kerfuffle/jobs.cpp:851
+#: kerfuffle/jobs.cpp:861
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1221,14 +1221,14 @@ msgstr[2] "%1 chomhad á scriosadh ón chartlann"
 msgstr[3] "%1 gcomhad á scriosadh ón chartlann"
 msgstr[4] "%1 comhad á scriosadh ón chartlann"
 
-#: kerfuffle/jobs.cpp:874
+#: kerfuffle/jobs.cpp:884
 #, fuzzy, kde-format
 #| msgctxt "File comment"
 #| msgid "Comment"
 msgid "Adding comment"
 msgstr "Nóta"
 
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:908
 #, fuzzy, kde-format
 #| msgid "Loading archive..."
 msgid "Testing archive"
@@ -2145,13 +2145,13 @@ msgctxt "@action:button"
 msgid "Ignore"
 msgstr ""
 
-#: part/part.cpp:1370
+#: part/part.cpp:1371
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Cuir Comhaid Leis"
 
-#: part/part.cpp:1375
+#: part/part.cpp:1376
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Add Files"
@@ -2159,27 +2159,27 @@ msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Cuir Comhaid Leis"
 
-#: part/part.cpp:1435
+#: part/part.cpp:1436
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr ""
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr ""
 
-#: part/part.cpp:1507
+#: part/part.cpp:1508
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 
-#: part/part.cpp:1606
+#: part/part.cpp:1607
 #, fuzzy, kde-format
 #| msgid ""
 #| "Deleting these files is not undoable. Are you sure you want to do this?"
@@ -2203,7 +2203,7 @@ msgstr[4] ""
 "Ní féidir na comhaid seo a fháil ar ais tar éis iad a scriosadh.  An bhfuil "
 "tú cinnte?"
 
-#: part/part.cpp:1609
+#: part/part.cpp:1610
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Delete files"
@@ -2216,13 +2216,13 @@ msgstr[2] "Scrios comhaid"
 msgstr[3] "Scrios comhaid"
 msgstr[4] "Scrios comhaid"
 
-#: part/part.cpp:1648
+#: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr ""
 
-#: part/part.cpp:1663
+#: part/part.cpp:1664
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2232,7 +2232,7 @@ msgstr ""
 "Níorbh fhéidir an chartlann a shábháil mar <filename>%1</filename>. Bain "
 "triail as suíomh eile."
 
-#: part/part.cpp:1668
+#: part/part.cpp:1669
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info"
 #| msgid ""

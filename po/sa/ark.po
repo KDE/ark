@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-01 00:46+0000\n"
+"POT-Creation-Date: 2026-02-04 00:47+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -91,7 +91,7 @@ msgid ""
 msgstr ""
 "<filename>%1</filename>:<nl/><message>%2</message> इत्यस्य निष्कासनकाले दोषः अभवत्"
 
-#: app/batchextract.cpp:300
+#: app/batchextract.cpp:301
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -843,7 +843,7 @@ msgstr "निष्कर्शन"
 msgid "The subfolder name may not contain the character '/'."
 msgstr "उपपुटनाम्नि '/' इति वर्णः न स्यात् ।"
 
-#: kerfuffle/extractiondialog.cpp:108
+#: kerfuffle/extractiondialog.cpp:111
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -853,39 +853,39 @@ msgstr ""
 "<filename>%1</filename> इति पुटं पूर्वमेव अस्ति । किं भवन्तः अत्र निष्कासयितुम् इच्छन्ति "
 "इति निश्चितम्?"
 
-#: kerfuffle/extractiondialog.cpp:109
+#: kerfuffle/extractiondialog.cpp:112
 #, kde-format
 msgid "Folder exists"
 msgstr "समुच्चय अस्ति"
 
-#: kerfuffle/extractiondialog.cpp:110
+#: kerfuffle/extractiondialog.cpp:113
 #, kde-format
 msgid "Extract here"
 msgstr "अत्र निष्कासयतु"
 
-#: kerfuffle/extractiondialog.cpp:111
+#: kerfuffle/extractiondialog.cpp:114
 #, kde-format
 msgid "Retry"
 msgstr "पुनः प्रयासं कुर्वन्तु"
 
-#: kerfuffle/extractiondialog.cpp:121 kerfuffle/extractiondialog.cpp:127
+#: kerfuffle/extractiondialog.cpp:124 kerfuffle/extractiondialog.cpp:130
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The folder <filename>%1</filename> could not be created."
 msgstr "<filename>%1</filename> इति पुटं निर्मातुं न शक्यते स्म ।"
 
-#: kerfuffle/extractiondialog.cpp:122
+#: kerfuffle/extractiondialog.cpp:125
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
 msgstr "<filename>%1</filename> पूर्वमेव अस्ति, परन्तु पुटं नास्ति ।"
 
-#: kerfuffle/extractiondialog.cpp:128
+#: kerfuffle/extractiondialog.cpp:131
 #, kde-format
 msgid "Please check your permissions to create it."
 msgstr "कृपया तस्य निर्माणार्थं स्वस्य अनुमतिं पश्यन्तु।"
 
-#: kerfuffle/extractiondialog.cpp:165
+#: kerfuffle/extractiondialog.cpp:173
 #, kde-format
 msgid "Extract multiple archives"
 msgstr "अनेकाः अभिलेखागाराः निष्कासयन्तु"
@@ -1044,38 +1044,38 @@ msgstr ""
 msgid "Loading archive"
 msgstr "संग्रहं लोडयति"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:550 kerfuffle/jobs.cpp:732
-#: kerfuffle/jobs.cpp:784 kerfuffle/jobs.cpp:821 kerfuffle/jobs.cpp:852
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
+#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Archive"
 msgstr "लेखागार"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:581
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "<filename>%1</filename> इति उपकरणे स्थानं उपलब्धं नास्ति"
 
-#: kerfuffle/jobs.cpp:544
+#: kerfuffle/jobs.cpp:554
 #, kde-format
 msgid "Extracting all files"
 msgstr "सर्वाणि सञ्चिकानि निष्कासयन्"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:546 kerfuffle/jobs.cpp:655
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
 msgstr[0] "एकं सञ्चिकां निष्कासयन्"
 msgstr[1] "%1 सञ्चिकाः निष्कासयन्"
 
-#: kerfuffle/jobs.cpp:551
+#: kerfuffle/jobs.cpp:561
 #, kde-format
 msgctxt "extraction folder"
 msgid "Destination"
 msgstr "गन्तव्य"
 
-#: kerfuffle/jobs.cpp:555
+#: kerfuffle/jobs.cpp:565
 #, kde-kuit-format
 msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
@@ -1084,40 +1084,40 @@ msgstr ""
 "गन्तव्यस्थानं प्रति लिखितुं न शक्यते <filename>%1</filename>.<nl/>भवतः पर्याप्ताः "
 "अनुमतिः अस्ति वा इति परीक्ष्यताम् ।"
 
-#: kerfuffle/jobs.cpp:731
+#: kerfuffle/jobs.cpp:741
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "सञ्चिकां संपीडयन्"
 msgstr[1] "%1 सञ्चिकाः संपीडयन्"
 
-#: kerfuffle/jobs.cpp:783
+#: kerfuffle/jobs.cpp:793
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "सञ्चिकां चालयन्"
 msgstr[1] "%1 सञ्चिकाः स्थानान्तरयति"
 
-#: kerfuffle/jobs.cpp:820
+#: kerfuffle/jobs.cpp:830
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "सञ्चिकायाः प्रतिलिपिः"
 msgstr[1] "%1 सञ्चिकानां प्रतिलिपिः"
 
-#: kerfuffle/jobs.cpp:851
+#: kerfuffle/jobs.cpp:861
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "संग्रहात् सञ्चिकां विलोपनम्"
 msgstr[1] "%1 सञ्चिकाः विलोपयन्"
 
-#: kerfuffle/jobs.cpp:874
+#: kerfuffle/jobs.cpp:884
 #, kde-format
 msgid "Adding comment"
 msgstr "टिप्पणीं योजयन्"
 
-#: kerfuffle/jobs.cpp:898
+#: kerfuffle/jobs.cpp:908
 #, kde-format
 msgid "Testing archive"
 msgstr "अभिलेखागारस्य परीक्षणम्"
@@ -1965,41 +1965,41 @@ msgctxt "@action:button"
 msgid "Ignore"
 msgstr "उपेक्षा"
 
-#: part/part.cpp:1370
+#: part/part.cpp:1371
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "सञ्चिकाः योजयन्तु"
 
-#: part/part.cpp:1375
+#: part/part.cpp:1376
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "%1 मध्ये सञ्चिकाः योजयन्तु"
 
-#: part/part.cpp:1435
+#: part/part.cpp:1436
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "सञ्चिकानाम मध्ये स्लैशः न भवितुं शक्नोति तथा च \"\" इत्यस्य समं न भवितुम् अर्हति । वा \".."
 "\""
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "पुटं स्वयमेव स्थानान्तरयितुं न शक्यते।"
 
-#: part/part.cpp:1479
+#: part/part.cpp:1480
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "एकं पुटं स्वयमेव स्थानान्तरयन्"
 
-#: part/part.cpp:1507
+#: part/part.cpp:1508
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "समाननामयुक्तानि प्रविष्टयः एकस्मिन् गन्तव्यस्थाने चिपकितुं न शक्यन्ते ।"
 
-#: part/part.cpp:1606
+#: part/part.cpp:1607
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2009,7 +2009,7 @@ msgstr[0] "एतां सञ्चिकां विलोपनं पूर
 msgstr[1] ""
 "एतानि सञ्चिकानि विलोपनं पूर्ववत् न भवति । किं भवन्तः निश्चयेन एतत् कर्तुम् इच्छन्ति ?"
 
-#: part/part.cpp:1609
+#: part/part.cpp:1610
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2017,13 +2017,13 @@ msgid_plural "Delete Files"
 msgstr[0] "सञ्चिकां विलोपयतु"
 msgstr[1] "सञ्चिकाः विलोपयन्तु"
 
-#: part/part.cpp:1648
+#: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "प्रतिलिपिं यथा रक्षतु"
 
-#: part/part.cpp:1663
+#: part/part.cpp:1664
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2033,7 +2033,7 @@ msgstr ""
 "संग्रहणं <filename>%1</filename> इति रूपेण रक्षितुं न शक्यते स्म । अन्यस्मिन् स्थाने रक्षितुं "
 "प्रयतध्वम्।"
 
-#: part/part.cpp:1668
+#: part/part.cpp:1669
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
