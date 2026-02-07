@@ -40,6 +40,7 @@ public:
     void setPreservePaths(bool value);
     void setChangeToFirstPath(bool value);
     void setImmediateProgressReporting(bool immediateProgressReporting);
+    static QString findCommonPrefixForUrls(const QList<QUrl> &urls);
     static QString getFileNameForEntries(const QList<Archive::Entry *> &entries, const QString &suffix);
     static QString getFileNameForUrls(const QList<QUrl> &entries, const QString &suffix);
 

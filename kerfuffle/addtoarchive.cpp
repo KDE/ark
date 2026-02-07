@@ -228,7 +228,7 @@ void AddToArchive::slotFinished(KJob *job)
     emitResult();
 }
 
-QString findCommonPrefixForUrls(const QList<QUrl> &list)
+QString AddToArchive::findCommonPrefixForUrls(const QList<QUrl> &list)
 {
     Q_ASSERT(!list.isEmpty());
     QString prefix = list.front().fileName();

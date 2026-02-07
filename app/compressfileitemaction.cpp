@@ -16,7 +16,9 @@
 #include <KIO/StatJob>
 #include <KLocalizedString>
 #include <KPluginFactory>
+#include <KStringHandler>
 
+#include <KIO/NameFinderJob>
 #include <KIO/OpenFileManagerWindowJob>
 #include <algorithm>
 
@@ -92,20 +94,30 @@ QList<QAction *> CompressFileItemAction::actions(const KFileItemListProperties &
 
 QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent, const QList<QUrl> &urls, const QString &fileExtension)
 {
-    QString name;
+    QAction *action = new QAction(icon, QString(), parent);
+
     if (fileExtension.isEmpty()) {
-        name = i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Compress to…");
+        action->setText(i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Compress to…"));
     } else {
-        QString fileName = AddToArchive::getFileNameForUrls(urls, fileExtension).section(QDir::separator(), -1);
-        if (fileName.length() > 21) {
-            fileName = fileName.left(10) + QStringLiteral("…") + fileName.right(10);
+        // Placeholder until final name has been determined.
+        action->setText(i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename", "Compress to \"%1\"", fileExtension));
+
+        const QString suffix = QLatin1Char('.') + fileExtension;
+        // Basically an async version of AddToArchive::getFileNameForUrls.
+        QString base = AddToArchive::findCommonPrefixForUrls(urls);
+        if (urls.size() > 1 && base.length() < 5) {
+            base = i18nc("Default name of a newly-created multi-file archive", "Archive");
         }
 
-        fileName.replace(QStringLiteral("&"), QStringLiteral("&&"));
-        name = i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename", "Compress to \"%1\"", fileName);
+        auto *nameFinderJob = new KIO::NameFinderJob(urls.first().adjusted(QUrl::RemoveFilename), QString(base + suffix), nullptr);
+        connect(nameFinderJob, &KIO::NameFinderJob::result, action, [nameFinderJob, action] {
+            QString fileName = nameFinderJob->finalName();
+            fileName = KStringHandler::csqueeze(fileName, 30);
+            fileName.replace(QStringLiteral("&"), QStringLiteral("&&"));
+            action->setText(i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename", "Compress to \"%1\"", fileName));
+        });
+        nameFinderJob->start();
     }
-
-    QAction *action = new QAction(icon, name, parent);
 
     connect(action, &QAction::triggered, this, [fileExtension, urls, parent, this]() {
         // Don't pass a parent to the job, otherwise it will be killed if dolphin gets closed.
