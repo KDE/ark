@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2014-11-10 17:15+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -99,24 +99,30 @@ msgid ""
 "can only extract to local destinations."
 msgstr ""
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr ""
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Komprimer til  arkiv"
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, fuzzy, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "Komprimer til  arkiv"
+
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, kde-format
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr ""
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -553,12 +559,6 @@ msgstr ""
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Fila finnes"
-
-#: kerfuffle/addtoarchive.cpp:269
-#, kde-format
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr ""
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9

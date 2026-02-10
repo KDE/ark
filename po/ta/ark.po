@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2026-02-01 13:43+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -108,24 +108,30 @@ msgstr ""
 "உள்ளமை சேருமிடங்களுக்கு மட்டும்தான் ஆர்க்கால் காப்பகங்களை பிரித்தெடுக்க முடிவதால், "
 "காப்பகத்தை <filename>%1</filename> என்ற இடத்திற்கு பிரித்தெடுக்க முடியவில்லை."
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "சுருக்கு"
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "வேறு இடத்தில் சுருக்கு…"
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "\"%1\" என்பதற்கு சுருக்கு"
+
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, kde-format
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "காப்பகம்"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -566,12 +572,6 @@ msgstr "<filename>%1</filename> என்ற காப்பகம் ஏற்�
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "கோப்பு ஏற்கனவே உள்ளது"
-
-#: kerfuffle/addtoarchive.cpp:269
-#, kde-format
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr "காப்பகம்"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9

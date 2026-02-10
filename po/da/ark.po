@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2024-07-31 12:16+0200\n"
 "Last-Translator: rasmus rosendahl-kaa <rasmus@rosendahl-kaa.name>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -107,13 +107,13 @@ msgstr ""
 "Arkivet kunne ikke udpakkes til <filename>%1</filename> fordi Ark kun kan "
 "pakke ud til lokale destinationer."
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Komprimér"
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 #| msgid "Compress to..."
@@ -121,12 +121,18 @@ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Komprimér til..."
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "Komprimér til \"%1\""
+
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, kde-format
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "Arkiv"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -574,12 +580,6 @@ msgstr ""
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Filen findes"
-
-#: kerfuffle/addtoarchive.cpp:269
-#, kde-format
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr "Arkiv"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ../cy/messages//kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2004-09-20 15:44+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandrakesoft.com>\n"
 "Language-Team: cy <LL@li.org>\n"
@@ -90,25 +90,32 @@ msgid ""
 "can only extract to local destinations."
 msgstr ""
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr ""
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Pob Ffeil"
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr ""
+
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, fuzzy, kde-format
+#| msgid "Open with:"
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "Agor Efo:"
 
 #: app/extractfileitemaction.cpp:66
 #, fuzzy, kde-format
@@ -542,13 +549,6 @@ msgstr ""
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr ""
-
-#: kerfuffle/addtoarchive.cpp:269
-#, fuzzy, kde-format
-#| msgid "Open with:"
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr "Agor Efo:"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9

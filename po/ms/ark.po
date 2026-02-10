@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mimos\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2005-11-17 12:03+0800\n"
 "Last-Translator: MIMOS <opensource@mimos.my>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -97,27 +97,34 @@ msgid ""
 "can only extract to local destinations."
 msgstr "Buka folder destinasi selepas pengekstrakan"
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Fail Termampat"
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Fail Termampat"
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "Fail Termampat"
+
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "Buka 'arkib'"
 
 #: app/extractfileitemaction.cpp:66
 #, fuzzy, kde-format
@@ -564,13 +571,6 @@ msgstr "Arkib sudah wujud. Anda ingin menulisgantinya?"
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Arkib Sudah Wujud"
-
-#: kerfuffle/addtoarchive.cpp:269
-#, fuzzy, kde-format
-#| msgid "Open 'archive'"
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr "Buka 'arkib'"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9

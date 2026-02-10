@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2026-01-19 19:18+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -104,24 +104,30 @@ msgstr ""
 "此封存檔無法解壓縮至 <filename>%1</filename>，因為 Ark 僅能解壓縮到本機目的"
 "地。"
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "壓縮"
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "壓縮到…"
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "壓縮到 \"%1\""
+
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, kde-format
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "封存檔"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -550,12 +556,6 @@ msgstr "封存檔 <filename>%1</filename> 已存在。您要覆寫它嗎？"
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "檔案已存在"
-
-#: kerfuffle/addtoarchive.cpp:269
-#, kde-format
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr "封存檔"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9

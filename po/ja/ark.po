@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2025-09-24 15:40+0900\n"
 "Last-Translator: Yuma Kakei <yumasansansan@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -115,24 +115,31 @@ msgstr ""
 "アーカイブを <filename>%1</filename> に展開できませんでした。Ark はローカルの"
 "保存先にのみ展開できます。"
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "圧縮"
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "圧縮先…"
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "「%1」に圧縮"
+
+# @info:tooltip
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, kde-format
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "アーカイブ"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -580,13 +587,6 @@ msgstr "アーカイブ <filename>%1</filename> が既に存在します。上�
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "ファイルが存在します"
-
-# @info:tooltip
-#: kerfuffle/addtoarchive.cpp:269
-#, kde-format
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr "アーカイブ"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9

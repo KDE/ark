@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2006-12-17 13:36+0000\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -107,27 +107,34 @@ msgid ""
 "can only extract to local destinations."
 msgstr "Ajratishda ishlatilgan oxirgi jildlar"
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Qisilgan fayl"
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Qisilgan fayl"
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "Qisilgan fayl"
+
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "Arxivni ochish"
 
 #: app/extractfileitemaction.cpp:66
 #, fuzzy, kde-format
@@ -568,13 +575,6 @@ msgstr "Arxiv allaqachon mavjud. Uni almashtirishni istaysizmi?"
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Arxiv allaqachon mavjud"
-
-#: kerfuffle/addtoarchive.cpp:269
-#, fuzzy, kde-format
-#| msgid "Open 'archive'"
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr "Arxivni ochish"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9

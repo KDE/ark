@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2012-08-03 07:39+0600\n"
 "Last-Translator: Sairan Kikkarin\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -117,7 +117,7 @@ msgid ""
 msgstr ""
 "Архив <filename>%1</filename> деп сақталмады. Басқа орынға сақтап көріңіз."
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, fuzzy, kde-format
 #| msgctxt "Compressed size of a file inside an archive"
 #| msgid "Compressed"
@@ -125,7 +125,7 @@ msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Сығылған түрде"
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, fuzzy, kde-format
 #| msgctxt "Compressed size of a file inside an archive"
 #| msgid "Compressed"
@@ -133,7 +133,7 @@ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Сығылған түрде"
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, fuzzy, kde-format
 #| msgctxt "Compressed size of a file inside an archive"
 #| msgid "Compressed"
@@ -141,6 +141,13 @@ msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "Сығылған түрде"
+
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, fuzzy, kde-format
+#| msgid "Open an archive"
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "Архивті ашу"
 
 #: app/extractfileitemaction.cpp:66
 #, fuzzy, kde-format
@@ -600,13 +607,6 @@ msgstr "<filename>%1</filename> деген архиві бар екен. Сон�
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Файл бар екен"
-
-#: kerfuffle/addtoarchive.cpp:269
-#, fuzzy, kde-format
-#| msgid "Open an archive"
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr "Архивті ашу"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9

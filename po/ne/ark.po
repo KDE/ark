@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2007-08-26 13:40+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -108,27 +108,34 @@ msgid ""
 "can only extract to local destinations."
 msgstr "उद्धरणका लागि प्रयोग गरिएको अन्तिम फोल्डर"
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "सङ्कुचित फाइल"
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "सङ्कुचित फाइल"
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "सङ्कुचित फाइल"
+
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, fuzzy, kde-format
+#| msgid "Open 'archive'"
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "'सङ्ग्रह' खोल्नुहोस्"
 
 #: app/extractfileitemaction.cpp:66
 #, fuzzy, kde-format
@@ -573,13 +580,6 @@ msgstr "सङ्ग्रह पहिले नै अवस्थित छ �
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "सङ्ग्रह पहिले नै अवस्थित छ"
-
-#: kerfuffle/addtoarchive.cpp:269
-#, fuzzy, kde-format
-#| msgid "Open 'archive'"
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr "'सङ्ग्रह' खोल्नुहोस्"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9

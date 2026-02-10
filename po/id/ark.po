@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2022-09-27 17:54+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -104,13 +104,13 @@ msgstr ""
 "Arsip tidak dapat diekstrak ke <filename>%1</filename> karena Ark hanya "
 "dapat mengekstrak ke destinasi lokal."
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Kompres"
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 #| msgid "Compress to..."
@@ -118,7 +118,7 @@ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Kompres ke..."
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 #| msgid "Compress to..."
@@ -126,6 +126,12 @@ msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "Kompres ke..."
+
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, kde-format
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "Arsip"
 
 #: app/extractfileitemaction.cpp:66
 #, fuzzy, kde-format
@@ -581,12 +587,6 @@ msgstr "Arsip <filename>%1</filename> sudah ada. Apaka kamu ingin menimpanya?"
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "File Sudah Ada"
-
-#: kerfuffle/addtoarchive.cpp:269
-#, kde-format
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr "Arsip"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9

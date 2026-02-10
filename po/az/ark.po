@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-04 00:47+0000\n"
+"POT-Creation-Date: 2026-02-10 00:47+0000\n"
 "PO-Revision-Date: 2025-05-28 16:35+0400\n"
 "Last-Translator: linux <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -100,13 +100,13 @@ msgstr ""
 "Arxiv <filename>%1</filename> qovluğuna çıxarıla bilməz, çünki Ark yalnız "
 "yerli təyin edilmiş qovluqlara çıxara bilir."
 
-#: app/compressfileitemaction.cpp:71
+#: app/compressfileitemaction.cpp:73
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Sıxmaq"
 
-#: app/compressfileitemaction.cpp:97
+#: app/compressfileitemaction.cpp:100
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 #| msgid "Compress to..."
@@ -114,12 +114,18 @@ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Bu arxivdə sıxmaq..."
 
-#: app/compressfileitemaction.cpp:105
+#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "%1 arxivinə yerləşdirmək"
+
+#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#, kde-format
+msgctxt "Default name of a newly-created multi-file archive"
+msgid "Archive"
+msgstr "Arxiv"
 
 #: app/extractfileitemaction.cpp:66
 #, kde-format
@@ -568,12 +574,6 @@ msgstr ""
 msgctxt "@title:window"
 msgid "File Exists"
 msgstr "Fayl mövcuddur"
-
-#: kerfuffle/addtoarchive.cpp:269
-#, kde-format
-msgctxt "Default name of a newly-created multi-file archive"
-msgid "Archive"
-msgstr "Arxiv"
 
 #. i18n: ectx: label, entry (showEncryptionWarning), group (General)
 #: kerfuffle/ark.kcfg:9
