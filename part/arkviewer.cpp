@@ -230,6 +230,15 @@ std::optional<KPluginMetaData> ArkViewer::getInternalViewer(const QString &mimeT
     // Try to get a read-only kpart for the internal viewer
     QList<KPluginMetaData> offers = KParts::PartLoader::partsForMimeType(mimeType);
 
+    const auto usePartOnlyIfMatchesDirectly = [&mimeType, &offers](const QList<KPluginMetaData>::iterator &part) {
+        if (part != offers.end()) {
+            // Not using hasMimeType() as we're explicitly not interested in inheritance.
+            if (!part->mimeTypes().contains(mimeType)) {
+                offers.erase(part);
+            }
+        }
+    };
+
     auto arkPartIt = std::find_if(offers.begin(), offers.end(), [](const KPluginMetaData &service) {
         return service.pluginId() == QLatin1String("arkpart");
     });
@@ -237,12 +246,23 @@ std::optional<KPluginMetaData> ArkViewer::getInternalViewer(const QString &mimeT
     // Use the Ark part only when the mime type matches an archive type directly.
     // Many file types (e.g. Open Document) are technically just archives
     // but browsing their internals is typically not what the user wants.
-    if (arkPartIt != offers.end()) {
-        // Not using hasMimeType() as we're explicitly not interested in inheritance.
-        if (!arkPartIt->mimeTypes().contains(mimeType)) {
-            offers.erase(arkPartIt);
-        }
-    }
+    usePartOnlyIfMatchesDirectly(arkPartIt);
+
+    auto katePart = std::find_if(offers.begin(), offers.end(), [](const KPluginMetaData &service) {
+        return service.pluginId() == QLatin1String("katepart");
+    });
+
+    // Use the Kate part only when the mime type matches a text type directly.
+    // Because some types (e.g. RTF document) are inherited from text/plain
+    // but opening them with text editor is typically not what the user wants.
+    usePartOnlyIfMatchesDirectly(katePart);
+
+    auto okularPart = std::find_if(offers.begin(), offers.end(), [](const KPluginMetaData &service) {
+        return service.pluginId() == QLatin1String("okularpart");
+    });
+
+    // Similarly with the Okular part and text/plain documents.
+    usePartOnlyIfMatchesDirectly(okularPart);
 
     // Skip the KHTML part
     auto khtmlPart = std::find_if(offers.begin(), offers.end(), [](const KPluginMetaData &part) {
