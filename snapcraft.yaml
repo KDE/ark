@@ -15,13 +15,13 @@ apps:
     desktop: usr/share/applications/org.kde.ark.desktop
     command: usr/bin/ark
     plugs:
+      - audio-playback
       - home
+      - mount-observe
+      - raw-usb
+      - removable-media
       - system-backup
       - udisks2
-      - raw-usb
-      - mount-observe
-      - audio-playback
-      - removable-media
     environment:
       ALSA_CONFIG_PATH: "$SNAP/kf6/etc/asound.conf"
 layout:
@@ -41,32 +41,39 @@ parts:
       - kde-qt6-core24-sdk/latest/beta
       - kf6-core24-sdk/latest/beta
     build-packages:
+      - duktape
       - libarchive-dev
       - libbz2-dev
+      - libfreetype6
+      - liblhasa-dev
       - liblzma-dev
+      - libpulse0
+      - libxkbcommon0
       - libzip-dev
       - pkg-config
       - zlib1g-dev
-      - libpulse0
-      - liblhasa-dev
     stage-packages:
+      - arj
       - bzip2
+      - lhasa
+      - libarchive13
+      - libasound2
+      - libasound2-data
+      - libasound2-plugins
+      - liblhasa0
+      - libpulse0
+      - libzip4
+      - on amd64:
+        - rar
+      - lrzip
+      - lzop
       - p7zip-full
+      - unar
       - unrar
       - unzip
       - zip
-      - on amd64:
-          - rar
-      - libarchive13
-      - libzip4
       - zlib1g
-      - libpulse0
-      - libasound2
-      - libasound2-plugins
-      - libasound2-data
-      - unar
-      - lhasa
-      - liblhasa0
+      - zstd
     source: .
     source-type: local
     cmake-parameters:
