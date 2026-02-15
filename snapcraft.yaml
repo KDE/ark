@@ -64,7 +64,7 @@ parts:
       - libpulse0
       - libzip4
       - on amd64:
-        - rar
+          - rar
       - lrzip
       - lzop
       - p7zip-full
