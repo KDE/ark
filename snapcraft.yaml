@@ -41,9 +41,9 @@ parts:
       - kde-qt6-core24-sdk/latest/beta
       - kf6-core24-sdk/latest/beta
     build-packages:
-      - duktape
       - libarchive-dev
       - libbz2-dev
+      - libduktape207
       - libfreetype6
       - liblhasa-dev
       - liblzma-dev
