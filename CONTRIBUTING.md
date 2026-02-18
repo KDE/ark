@@ -18,7 +18,7 @@ and especially to avoid git mistakes (see the [Using git](#using-git) section).
 
 ## Using git
 
-The development model adopted by Ark is simple and rely on git's easy merging
+The development model adopted by Ark is simple and relies on git's easy merging
 and branching capabilities. If in doubt, do not hesitate to ask!
 
 First of all, you should do your work in a separate branch, and each commit
