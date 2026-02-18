@@ -40,7 +40,7 @@ CreateDialog::CreateDialog(QWidget *parent, const QString &caption, const QUrl &
     setWindowTitle(caption);
     setModal(true);
 
-    m_supportedMimeTypes = m_pluginManger.supportedWriteMimeTypes(PluginManager::SortByComment);
+    m_supportedMimeTypes = m_pluginManager.supportedWriteMimeTypes(PluginManager::SortByComment);
 
     m_vlayout = new QVBoxLayout();
     setLayout(m_vlayout);

@@ -21,7 +21,7 @@ using namespace Kerfuffle;
 
 void Cli7zTest::initTestCase()
 {
-    m_plugin = m_pluginManger.pluginById(QLatin1String("kerfuffle_cli7z"));
+    m_plugin = m_pluginManager.pluginById(QLatin1String("kerfuffle_cli7z"));
 }
 
 void Cli7zTest::testArchive_data()

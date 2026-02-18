@@ -30,7 +30,7 @@ using namespace Kerfuffle;
 
 void CliRarTest::initTestCase()
 {
-    m_plugin = m_pluginManger.pluginById(QLatin1String("kerfuffle_clirar"));
+    m_plugin = m_pluginManager.pluginById(QLatin1String("kerfuffle_clirar"));
 }
 
 void CliRarTest::testArchive_data()
