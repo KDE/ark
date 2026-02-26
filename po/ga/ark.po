@@ -2,20 +2,22 @@
 # Copyright (C) 2009 This_file_is_part_of_KDE
 # This file is distributed under the same license as the ark package.
 # Kevin Scannell <kscanne@gmail.com>, 2009.
+# SPDX-FileCopyrightText: 2026 charlotte <altronic25@protonmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils/ark.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 14:42+0000\n"
-"PO-Revision-Date: 2004-12-03 14:52-0500\n"
-"Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
-"Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
+"PO-Revision-Date: 2026-02-21 09:04+0000\n"
+"Last-Translator: charlotte <altronic25@protonmail.com>\n"
+"Language-Team: Irish\n"
 "Language: ga\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
 "3 : 4\n"
+"X-Generator: Lokalize 25.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -155,12 +157,12 @@ msgstr "Uirlis Chartlannaithe KDE"
 #: app/main.cpp:80
 #, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr ""
+msgstr "© 1997-2025, Forbróirí Ark"
 
 #: app/main.cpp:86
 #, kde-format
 msgid "Elvis Angelaccio"
-msgstr ""
+msgstr "Elvis Angelaccio"
 
 #: app/main.cpp:86
 #, kde-format
@@ -170,7 +172,7 @@ msgstr "Cothaitheoir"
 #: app/main.cpp:87
 #, kde-format
 msgid "Ragnar Thomsen"
-msgstr ""
+msgstr "Ragnar Thomsen"
 
 #: app/main.cpp:87
 #, kde-format
@@ -240,7 +242,7 @@ msgstr "Robert Palmbos"
 #: app/main.cpp:99
 #, kde-format
 msgid "Vladyslav Batyrenko"
-msgstr ""
+msgstr "Vladyslav Batyrenko"
 
 #: app/main.cpp:100
 #, kde-format
@@ -280,7 +282,7 @@ msgstr "Cód bkisofs"
 #: app/main.cpp:114
 #, kde-format
 msgid "URLs to open."
-msgstr ""
+msgstr "URLanna le hoscailt."
 
 #: app/main.cpp:117
 #, kde-format
@@ -376,17 +378,17 @@ msgstr "Ní féidir comhpháirt KPart Ark a aimsiú, déan seiceáil ar do chór
 #: app/mainwindow.cpp:182
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "Barra Taoibh"
 
 #: app/mainwindow.cpp:285
 #, kde-format
 msgid "Welcome Page"
-msgstr ""
+msgstr "Fáilte"
 
 #: app/mainwindow.cpp:287
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "Taispeáin an leathanach fáilte"
 
 #: app/mainwindow.cpp:295
 #, kde-kuit-format
@@ -416,7 +418,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.cpp:50
 #, kde-format
 msgid "Welcome to %1"
-msgstr ""
+msgstr "Fáilte go %1"
 
 #: app/welcomeview/welcomeview.cpp:55
 #, kde-format
@@ -426,7 +428,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.cpp:143
 #, kde-format
 msgid "Copy &Location"
-msgstr ""
+msgstr "Cóipeáil &Suíomh"
 
 #: app/welcomeview/welcomeview.cpp:149
 #, kde-format
@@ -442,7 +444,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.ui:17
 #, kde-format
 msgid "Welcome"
-msgstr ""
+msgstr "Fáilte"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
@@ -454,7 +456,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.ui:186
 #, kde-format
 msgid "New Archive"
-msgstr ""
+msgstr "Cartlann Nua"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
@@ -484,7 +486,7 @@ msgstr ""
 #: app/welcomeview/welcomeview.ui:286
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "Léigh an lámhleabhar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:345
@@ -694,13 +696,13 @@ msgstr ""
 #: kerfuffle/compressionoptionswidget.ui:35
 #, kde-format
 msgid "Level:"
-msgstr ""
+msgstr "Leibhéal:"
 
 #. i18n: ectx: property (text), widget (QLabel, lblCompLevel2)
 #: kerfuffle/compressionoptionswidget.ui:45
 #, kde-format
 msgid "Min"
-msgstr ""
+msgstr "Íos"
 
 #. i18n: ectx: property (text), widget (QLabel, lblCompMethod)
 #: kerfuffle/compressionoptionswidget.ui:83
@@ -712,7 +714,7 @@ msgstr ""
 #: kerfuffle/compressionoptionswidget.ui:93
 #, kde-format
 msgid "Max"
-msgstr ""
+msgstr "Uas"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleEncryption)
 #: kerfuffle/compressionoptionswidget.ui:118
@@ -799,7 +801,7 @@ msgstr ""
 #: kerfuffle/createdialog.ui:61 part/infopanel.ui:93
 #, kde-format
 msgid "Type:"
-msgstr ""
+msgstr "Cineál:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: kerfuffle/createdialog.ui:78
@@ -1137,13 +1139,13 @@ msgstr ""
 #: part/infopanel.ui:195
 #, kde-format
 msgid "yes"
-msgstr ""
+msgstr "tá"
 
 #: kerfuffle/propertiesdialog.cpp:49 kerfuffle/propertiesdialog.cpp:50
 #: kerfuffle/propertiesdialog.cpp:51 kerfuffle/propertiesdialog.cpp:63
 #, kde-format
 msgid "no"
-msgstr ""
+msgstr "níl"
 
 #: kerfuffle/propertiesdialog.cpp:50
 #, kde-format
@@ -1320,7 +1322,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Don't Open"
-msgstr ""
+msgstr "Ná Oscail"
 
 #: kerfuffle/queries.cpp:223
 #, kde-format
@@ -1583,7 +1585,7 @@ msgstr "Roinnt Eolais faoin jab"
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
@@ -1612,7 +1614,7 @@ msgstr ""
 #: part/part.cpp:130
 #, kde-format
 msgid "Save"
-msgstr ""
+msgstr "Sábháil"
 
 #: part/part.cpp:153
 #, kde-format
@@ -1879,7 +1881,7 @@ msgstr ""
 #: part/part.cpp:967
 #, kde-format
 msgid "Ark cannot open symlinks."
-msgstr ""
+msgstr "Ní féidir le Ark nasc siombalach a oscailt."
 
 #: part/part.cpp:1094
 #, kde-kuit-format
@@ -2012,17 +2014,17 @@ msgstr ""
 #: plugins/cliarjplugin/cliplugin.cpp:322
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:323
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:324
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:325
 #, kde-format
