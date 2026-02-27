@@ -74,6 +74,7 @@
         "Name[eu]": "RAR plugina",
         "Name[fi]": "RAR-liitännäinen",
         "Name[fr]": "Module externe « RAR »",
+        "Name[ga]": "Breiseán RAR",
         "Name[gl]": "Complemento de RAR",
         "Name[he]": "תוסף RAR",
         "Name[hu]": "RAR bővítmény",

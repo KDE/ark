@@ -74,6 +74,7 @@
         "Name[eu]": "7z plugina",
         "Name[fi]": "7z-liitännäinen",
         "Name[fr]": "Module externe « 7z »",
+        "Name[ga]": "Breiseán 7z",
         "Name[gl]": "Complemento de 7z",
         "Name[he]": "תוסף 7z",
         "Name[hu]": "7z bővítmény",

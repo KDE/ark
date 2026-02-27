@@ -67,6 +67,7 @@
         "Name[eu]": "ARJ plugina",
         "Name[fi]": "ARJ-liitännäinen",
         "Name[fr]": "Module externe « ARJ »",
+        "Name[ga]": "Breiseán ARJ",
         "Name[gl]": "Complemento de ARJ",
         "Name[he]": "תוסף ARJ",
         "Name[hu]": "ARJ bővítmény",
