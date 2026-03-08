@@ -155,7 +155,7 @@
 </mediaobject>
 
 <para
->&ark;’ı başarıyla kullanmak için KDE Framework 5’e gereksiniminiz vardır. libarchive kitaplığının 3.1 veya üzeri sürümü; tar, sıkıştırılmış tar, rpm, deb ve cab arşivleri de dahil olmak üzere çoğu arşiv türünü işlemek için gereklidir. Diğer dosya biçimlerini işlemek için uygun komut satırı programları gerekir; bunlar <command
+>&ark;’ı başarıyla kullanmak için KDE Frameworks 6’ya gereksiniminiz vardır. libarchive kitaplığının 3.1 veya üzeri sürümü; tar, sıkıştırılmış tar, rpm, deb ve cab arşivleri de dahil olmak üzere çoğu arşiv türünü işlemek için gereklidir. Diğer dosya biçimlerini işlemek için uygun komut satırı programları gerekir; bunlar <command
 >zipinfo</command
 >, <command
 >zip</command
@@ -396,7 +396,7 @@
 >Aç</guimenuitem
 > veya <guimenuitem
 >Birlikte Aç…</guimenuitem
-> kullanılarak açtığınız dosyaları düzenleyebilir ve kaydedebilirsiniz, Ark, arşivdeki dosyayı güncellemek isteyip istemediğinizi soracaktır. Evet yanıtı verirseniz, arşiv kaydedilen dosya ile güncellenecektir.</para>
+> kullanılarak açtığınız dosyaları düzenleyebilir ve kaydedebilirsiniz, Ark, arşivdeki dosyayı güncellemek isteyip istemediğinizi soracaktır. Evet yanıtı verirseniz arşiv kaydedilen dosya ile güncellenecektir.</para>
 
 </sect2>
 </sect1>
@@ -436,7 +436,7 @@
 
 <sect2 id="ark-extract-dialog">
 <title
->Çıkar iletişim kutusu</title>
+>Çıkar İletişim Kutusu</title>
 
 <para
 ><guilabel
@@ -672,9 +672,9 @@
 <listitem>
 <para
 ><guimenuitem
->"Arşiv.tar.gz" Olarak Sıkıştır</guimenuitem
+>“Arşiv.tar.gz” Olarak Sıkıştır</guimenuitem
 > ve <guimenuitem
->"Arşiv.zip" Olarak Sıkıştır</guimenuitem
+>“Arşiv.zip” Olarak Sıkıştır</guimenuitem
 >, bu arşiv türlerini geçerli klasörde oluşturur.</para>
 </listitem>
 <listitem>
@@ -705,7 +705,7 @@
 >Emeği Geçenler ve Lisans</title>
 
 <para
->&ark; Telif hakkı &copy; 1997–2016, &ark; Geliştirme Takımı.</para>
+>&ark; telif hakkı © 1997–2016, &ark; Geliştirme Takımı.</para>
 
 <itemizedlist>
 <title
@@ -785,7 +785,7 @@
 </itemizedlist>
 
 <para
->Belgelendirme telif hakkı &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
+>Belgelendirme telif hakkı © 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
 
 <para
 >Belgelendirme güncellemesi, &kde; 3.3 — &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
