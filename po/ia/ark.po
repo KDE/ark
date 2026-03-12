@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-10 00:47+0000\n"
-"PO-Revision-Date: 2026-02-04 10:23+0100\n"
+"PO-Revision-Date: 2026-03-11 18:57+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -2207,7 +2207,7 @@ msgstr "Archivo corrupte o permissiones insufficiente."
 #, kde-format
 msgctxt "@info"
 msgid "Failed to create a temporary file for writing data."
-msgstr "Falleva crear un file temporari per scriber datos."
+msgstr "Falleva crear un file temporanee per scriber datos."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:223
 #, kde-format
