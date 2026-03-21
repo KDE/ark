@@ -8,21 +8,21 @@
 # Anders Lund <anders@alweb.dk>, 2008, 2009.
 # Jan Madsen <jan-portugal@opensuse.org>, 2009.
 # scootergrisen, 2018.
-# SPDX-FileCopyrightText: 2024 rasmus rosendahl-kaa <rasmus@rosendahl-kaa.name>
+# SPDX-FileCopyrightText: 2024, 2026 rasmus rosendahl-kaa <rasmus@rosendahl-kaa.name>
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-10 00:47+0000\n"
-"PO-Revision-Date: 2024-07-31 12:16+0200\n"
-"Last-Translator: rasmus rosendahl-kaa <rasmus@rosendahl-kaa.name>\n"
+"PO-Revision-Date: 2026-03-20 21:59+0100\n"
+"Last-Translator: Rasmus Rosendahl-Kaa <rasmus@rosendahl-kaa.name>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -114,12 +114,10 @@ msgid "Compress"
 msgstr "Komprimér"
 
 #: app/compressfileitemaction.cpp:100
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
-msgstr "Komprimér til..."
+msgstr "Komprimér til…"
 
 #: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
 #, kde-format
@@ -147,12 +145,10 @@ msgid "Extract here"
 msgstr "Pak ud her"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract here and delete archive"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
-msgstr "Udpak her og slet arkiv"
+msgstr "Udpak og flyt arkiv til papirkurv"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -178,10 +174,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE Arkiveringsværktøj"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "(c) 1997-2019, Ark-udviklerne"
+msgstr "© 1997–2025 Ark-udviklerne"
 
 #: app/main.cpp:86
 #, kde-format
@@ -476,11 +471,9 @@ msgstr "Velkommen"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Åbn arkiv"
+msgstr "Åbn arkiv…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -826,10 +819,9 @@ msgstr "Filnavn:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
-msgstr "Skriv arkivnavnet..."
+msgstr "Skriv arkivnavnet…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1219,10 +1211,9 @@ msgstr "ja (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "Beregner..."
+msgstr "Beregner…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1513,10 +1504,9 @@ msgid "Closing preview"
 msgstr "Lukker forhåndsvisning"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "Vent venligst mens forhåndsvisningen lukkes..."
+msgstr "Vent venligst mens forhåndsvisningen lukkes…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1669,10 +1659,9 @@ msgid "Save"
 msgstr "Gem"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
-msgstr "Skriv for at søge..."
+msgstr "Skriv for at søge…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1687,12 +1676,10 @@ msgid "Show Information Panel"
 msgstr "Vis informationspanel"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "Gem kopi som"
+msgstr "Gem kopi som…"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1701,12 +1688,10 @@ msgid "&Open in External Application"
 msgstr "&Åbn i eksternt program"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "Åbn &med..."
+msgstr "Åbn &med…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1757,11 +1742,9 @@ msgstr ""
 "eller kun de markerede filer ud"
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Tilføj filer"
+msgstr "Tilføj &filer…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1855,17 +1838,14 @@ msgid "The archive failed the integrity test."
 msgstr "Arkivet klarede ikke integritetstesten."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
 msgstr "Pak ud til…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "Hurtig udpakning til..."
+msgstr "Hurtig udpakning til…"
 
 #: part/part.cpp:775
 #, kde-format
