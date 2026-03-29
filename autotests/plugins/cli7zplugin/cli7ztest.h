@@ -30,7 +30,7 @@ private Q_SLOTS:
     void testRDAAttributes();
 
 private:
-    PluginManager m_pluginManger;
+    PluginManager m_pluginManager;
     Plugin *m_plugin;
 };
 

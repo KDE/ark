@@ -70,7 +70,7 @@ private:
     QVBoxLayout *m_vlayout = nullptr;
     KConfigGroup m_config;
     QStringList m_supportedMimeTypes;
-    PluginManager m_pluginManger;
+    PluginManager m_pluginManager;
 
 private Q_SLOTS:
     void slotFileNameEdited(const QString &text);

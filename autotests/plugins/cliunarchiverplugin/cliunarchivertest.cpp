@@ -20,7 +20,7 @@ using namespace Kerfuffle;
 
 void CliUnarchiverTest::initTestCase()
 {
-    m_plugin = m_pluginManger.pluginById(QLatin1String("kerfuffle_cliunarchiver"));
+    m_plugin = m_pluginManager.pluginById(QLatin1String("kerfuffle_cliunarchiver"));
 }
 
 void CliUnarchiverTest::testArchive_data()

@@ -15,7 +15,7 @@ using namespace Kerfuffle;
 
 void CliZipTest::initTestCase()
 {
-    m_plugin = m_pluginManger.pluginById(QLatin1String("kerfuffle_clizip"));
+    m_plugin = m_pluginManager.pluginById(QLatin1String("kerfuffle_clizip"));
 }
 
 void CliZipTest::testListArgs_data()

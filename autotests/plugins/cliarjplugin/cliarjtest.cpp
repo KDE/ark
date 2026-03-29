@@ -15,7 +15,7 @@ using namespace Kerfuffle;
 
 void CliArjTest::initTestCase()
 {
-    m_plugin = m_pluginManger.pluginById(QLatin1String("kerfuffle_cliarj"));
+    m_plugin = m_pluginManager.pluginById(QLatin1String("kerfuffle_cliarj"));
 }
 
 void CliArjTest::testListArgs_data()
