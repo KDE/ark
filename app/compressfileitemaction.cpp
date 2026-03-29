@@ -58,17 +58,17 @@ QList<QAction *> CompressFileItemAction::actions(const KFileItemListProperties &
 
     QMenu *compressMenu = new QMenu(parentWidget);
 
-    compressMenu->addAction(createAction(icon, parentWidget, urlList, QStringLiteral("tar.gz")));
+    compressMenu->addAction(createAction(icon, compressMenu, urlList, QStringLiteral("tar.gz")));
     actionsToBeDisabledInReadOnlyDir << compressMenu->actions().last();
 
     const QMimeType zipMime = QMimeDatabase().mimeTypeForName(QStringLiteral("application/zip"));
     // Don't offer zip compression if no zip plugin is available.
     if (!m_pluginManager->preferredWritePluginsFor(zipMime).isEmpty()) {
-        compressMenu->addAction(createAction(icon, parentWidget, urlList, QStringLiteral("zip")));
+        compressMenu->addAction(createAction(icon, compressMenu, urlList, QStringLiteral("zip")));
         actionsToBeDisabledInReadOnlyDir << compressMenu->actions().last();
     }
 
-    compressMenu->addAction(createAction(icon, parentWidget, urlList, QString()));
+    compressMenu->addAction(createAction(icon, compressMenu, urlList, QString()));
 
     QAction *compressMenuAction = new QAction(i18nc("@action:inmenu Compress submenu in Dolphin context menu", "Compress"), parentWidget);
     compressMenuAction->setMenu(compressMenu);
