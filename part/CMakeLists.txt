@@ -1,28 +1,28 @@
-add_library(arkpart MODULE)
+kcoreaddons_add_plugin(arkpart
+    SOURCES
+            factory.cpp
+            part.cpp
+            infopanel.cpp
+            arkviewer.cpp
+            archivemodel.cpp
+            archivesortfiltermodel.cpp
+            archiveview.cpp
+            jobtracker.cpp
+            overwritedialog.cpp
 
-target_sources(arkpart PRIVATE
-    factory.cpp
-    part.cpp
-    infopanel.cpp
-    arkviewer.cpp
-    archivemodel.cpp
-    archivesortfiltermodel.cpp
-    archiveview.cpp
-    jobtracker.cpp
-    overwritedialog.cpp
+            factory.h
+            part.h
+            infopanel.h
+            arkviewer.h
+            archivemodel.h
+            archivesortfiltermodel.h
+            archiveview.h
+            jobtracker.h
+            overwritedialog.h
 
-    factory.h
-    part.h
-    infopanel.h
-    arkviewer.h
-    archivemodel.h
-    archivesortfiltermodel.h
-    archiveview.h
-    jobtracker.h
-    overwritedialog.h
-
-    arkpart.qrc
-    )
+            arkpart.qrc
+    INSTALL_NAMESPACE "kf6/parts"
+)
 
 ecm_qt_declare_logging_category(arkpart
                                 HEADER ark_debug.h
@@ -46,5 +46,3 @@ configure_file(
             ${CMAKE_CURRENT_SOURCE_DIR}/ark_part.json.cmake
             ${CMAKE_CURRENT_BINARY_DIR}/ark_part.json
 )
-
-install(TARGETS arkpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf6/parts)
