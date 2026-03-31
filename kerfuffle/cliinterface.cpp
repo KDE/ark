@@ -32,6 +32,9 @@
 
 namespace Kerfuffle
 {
+bool autoSkipFiles = false;
+bool overwriteAllFiles = false;
+
 CliInterface::CliInterface(QObject *parent, const QVariantList &args)
     : ReadWriteArchiveInterface(parent, args)
 {
@@ -942,20 +945,34 @@ bool CliInterface::handleFileExistsMessage(const QString &line)
         return false;
     }
 
+    QString responseToProcess;
+    const QStringList choices = m_cliProps->property("fileExistsInput").toStringList();
+
+    if (overwriteAllFiles) {
+        responseToProcess = choices.at(2) + QLatin1Char('\n');
+        writeToProcess(responseToProcess.toLocal8Bit());
+        return true;
+    }
+
+    if (autoSkipFiles) {
+        responseToProcess = choices.at(3) + QLatin1Char('\n');
+        writeToProcess(responseToProcess.toLocal8Bit());
+        return true;
+    }
+
     Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char('/') + m_storedFileName);
     query.setNoRenameMode(true);
     query.execute();
-
-    QString responseToProcess;
-    const QStringList choices = m_cliProps->property("fileExistsInput").toStringList();
 
     if (query.responseOverwrite()) {
         responseToProcess = choices.at(0);
     } else if (query.responseSkip()) {
         responseToProcess = choices.at(1);
     } else if (query.responseOverwriteAll()) {
+        overwriteAllFiles = true;
         responseToProcess = choices.at(2);
     } else if (query.responseAutoSkip()) {
+        autoSkipFiles = true;
         responseToProcess = choices.at(3);
     } else if (query.responseCancelled()) {
         Q_EMIT cancelled();
