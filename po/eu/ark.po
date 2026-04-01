@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-10 00:47+0000\n"
+"POT-Creation-Date: 2026-04-01 00:49+0000\n"
 "PO-Revision-Date: 2026-01-24 14:03+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -636,18 +636,18 @@ msgstr "Aurreikuspegia fitxategi-neurriaren arabera mugatu behar den."
 msgid "Preview file size limit in megabytes."
 msgstr "Aurreikuspegiaren fitxategi muga megabytetan."
 
-#: kerfuffle/cliinterface.cpp:233
+#: kerfuffle/cliinterface.cpp:236
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Failed to locate program <filename>%1</filename> on disk."
 msgstr "Ez da aurkitu diskoan <filename>%1</filename> programa."
 
-#: kerfuffle/cliinterface.cpp:343
+#: kerfuffle/cliinterface.cpp:346
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
 msgstr "Erauzteak huts egin du. Ziurtatu behar adina leku eskuragarri dagoela."
 
-#: kerfuffle/cliinterface.cpp:346
+#: kerfuffle/cliinterface.cpp:349
 #, kde-format
 msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
@@ -656,7 +656,7 @@ msgstr ""
 "Erauzteak huts egin du. Ziurtatu pasahitz zuzena hornitu duzula eta behar "
 "adina leku eskuragarri dagoela."
 
-#: kerfuffle/cliinterface.cpp:357 kerfuffle/cliinterface.cpp:478
+#: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
 #, kde-format
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
@@ -664,24 +664,24 @@ msgid_plural "Could not move the extracted files to the destination directory."
 msgstr[0] "Ezin izan da mugitu erauzitako fitxategia helburu-direktoriora."
 msgstr[1] "Ezin izan dira mugitu erauzitako fitxategiak helburu-direktoriora."
 
-#: kerfuffle/cliinterface.cpp:833
+#: kerfuffle/cliinterface.cpp:836
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "Erauzteak huts egin du diskoa beteta dagoelako."
 
-#: kerfuffle/cliinterface.cpp:840 plugins/cliarjplugin/cliplugin.cpp:145
+#: kerfuffle/cliinterface.cpp:843 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
 msgstr "Erauzteak huts egin du: Pasahitz okerra"
 
-#: kerfuffle/cliinterface.cpp:874
+#: kerfuffle/cliinterface.cpp:877
 #, kde-format
 msgid "Incorrect password."
 msgstr "Pasahitza okerra."
 
-#: kerfuffle/cliinterface.cpp:896
+#: kerfuffle/cliinterface.cpp:899
 #, kde-format
 msgid "Ark does not currently support testing this archive."
 msgstr "Ark-ek ez du oraingoz artxibo hau probatzen uzten."

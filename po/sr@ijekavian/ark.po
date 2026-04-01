@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-10 00:47+0000\n"
+"POT-Creation-Date: 2026-04-01 00:49+0000\n"
 "PO-Revision-Date: 2017-12-15 12:38+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -668,7 +668,7 @@ msgstr "Да ли ограничити преглед према величин�
 msgid "Preview file size limit in megabytes."
 msgstr "Ограничење величине фајла за преглед у мегабајтима."
 
-#: kerfuffle/cliinterface.cpp:233
+#: kerfuffle/cliinterface.cpp:236
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Failed to locate program <filename>%1</filename> on disk."
@@ -676,14 +676,14 @@ msgstr "Не могу да нађем програм <filename>%1</filename> н�
 
 # skip-rule: t-space
 # rewrite-msgid: /available/available on disk/
-#: kerfuffle/cliinterface.cpp:343
+#: kerfuffle/cliinterface.cpp:346
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
 msgstr "Распакивање пропало. Проверите има ли довољно простора на диску."
 
 # skip-rule: t-space
 # rewrite-msgid: /available/available on disk/
-#: kerfuffle/cliinterface.cpp:346
+#: kerfuffle/cliinterface.cpp:349
 #, kde-format
 msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
@@ -692,7 +692,7 @@ msgstr ""
 "Распакивање пропало. Проверите да ли сте унели тачну лозинку и да ли има "
 "довољно простора на диску."
 
-#: kerfuffle/cliinterface.cpp:357 kerfuffle/cliinterface.cpp:478
+#: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
 #, kde-format
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
@@ -702,24 +702,24 @@ msgstr[1] "Не могу преместим распаковане фајлов�
 msgstr[2] "Не могу преместим распаковане фајлове у одредишну фасциклу."
 msgstr[3] "Не могу преместим распаковани фајл у одредишну фасциклу."
 
-#: kerfuffle/cliinterface.cpp:833
+#: kerfuffle/cliinterface.cpp:836
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "Распакивање пропало јер је диск пун."
 
-#: kerfuffle/cliinterface.cpp:840 plugins/cliarjplugin/cliplugin.cpp:145
+#: kerfuffle/cliinterface.cpp:843 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
 msgstr "Распакивање пропало: погрешна лозинка."
 
-#: kerfuffle/cliinterface.cpp:874
+#: kerfuffle/cliinterface.cpp:877
 #, kde-format
 msgid "Incorrect password."
 msgstr "Погрешна лозинка."
 
-#: kerfuffle/cliinterface.cpp:896
+#: kerfuffle/cliinterface.cpp:899
 #, kde-format
 msgid "Ark does not currently support testing this archive."
 msgstr "Арк тренутно не подржава проверу ове архиве."

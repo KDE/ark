@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-10 00:47+0000\n"
+"POT-Creation-Date: 2026-04-01 00:49+0000\n"
 "PO-Revision-Date: 2025-09-15 18:38+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -643,18 +643,18 @@ msgstr "Rajoitetaanko esikatselua tiedostokoon perusteella."
 msgid "Preview file size limit in megabytes."
 msgstr "Esikatseltavien tiedostojen kokoraja megatavuina."
 
-#: kerfuffle/cliinterface.cpp:233
+#: kerfuffle/cliinterface.cpp:236
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Failed to locate program <filename>%1</filename> on disk."
 msgstr "Ohjelmaa <filename>%1</filename> ei löydy levyltä."
 
-#: kerfuffle/cliinterface.cpp:343
+#: kerfuffle/cliinterface.cpp:346
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
 msgstr "Purku epäonnistui. Tarkista, että levytilaa on tarpeeksi."
 
-#: kerfuffle/cliinterface.cpp:346
+#: kerfuffle/cliinterface.cpp:349
 #, kde-format
 msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
@@ -663,7 +663,7 @@ msgstr ""
 "Purku epäonnistui. Tarkista, että salasana on oikein ja levytilaa "
 "riittävästi."
 
-#: kerfuffle/cliinterface.cpp:357 kerfuffle/cliinterface.cpp:478
+#: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
 #, kde-format
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
@@ -671,24 +671,24 @@ msgid_plural "Could not move the extracted files to the destination directory."
 msgstr[0] "Puretun tiedoston siirtäminen kohdekansioon epäonnistui."
 msgstr[1] "Purettujen tiedostojen siirtäminen kohdekansioon epäonnistui."
 
-#: kerfuffle/cliinterface.cpp:833
+#: kerfuffle/cliinterface.cpp:836
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "Purkaminen epäonnistui, koska levy on täynnä."
 
-#: kerfuffle/cliinterface.cpp:840 plugins/cliarjplugin/cliplugin.cpp:145
+#: kerfuffle/cliinterface.cpp:843 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
 msgstr "Purkaminen epäonnistui: väärä salasana"
 
-#: kerfuffle/cliinterface.cpp:874
+#: kerfuffle/cliinterface.cpp:877
 #, kde-format
 msgid "Incorrect password."
 msgstr "Väärä salasana."
 
-#: kerfuffle/cliinterface.cpp:896
+#: kerfuffle/cliinterface.cpp:899
 #, kde-format
 msgid "Ark does not currently support testing this archive."
 msgstr "Ark ei tällä hetkellä tue tämän arkiston testaamista."

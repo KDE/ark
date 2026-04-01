@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-10 00:47+0000\n"
+"POT-Creation-Date: 2026-04-01 00:49+0000\n"
 "PO-Revision-Date: 2022-09-27 17:54+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -649,19 +649,19 @@ msgstr ""
 msgid "Preview file size limit in megabytes."
 msgstr "Batas ukuran file pratinjau dalam megabyte."
 
-#: kerfuffle/cliinterface.cpp:233
+#: kerfuffle/cliinterface.cpp:236
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Failed to locate program <filename>%1</filename> on disk."
 msgstr "Gagal menemukan program <filename>%1</filename> pada disk."
 
-#: kerfuffle/cliinterface.cpp:343
+#: kerfuffle/cliinterface.cpp:346
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
 msgstr ""
 "Pengekstrakan gagal. Pastikan bahwa memiliki ruang cukup yang tersedia."
 
-#: kerfuffle/cliinterface.cpp:346
+#: kerfuffle/cliinterface.cpp:349
 #, kde-format
 msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
@@ -670,7 +670,7 @@ msgstr ""
 "Pengekstrakan gagal. Pastikan bahwa kamu memberikan sandi yang benar dan "
 "memiliki ruang cukup yang tersedia."
 
-#: kerfuffle/cliinterface.cpp:357 kerfuffle/cliinterface.cpp:478
+#: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
 #, kde-format
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
@@ -678,24 +678,24 @@ msgid_plural "Could not move the extracted files to the destination directory."
 msgstr[0] "Tidak bisa memindah file yang diekstrak ke direktori tujuan."
 msgstr[1] "Tidak bisa memindah file-file yang diekstrak ke direktori tujuan."
 
-#: kerfuffle/cliinterface.cpp:833
+#: kerfuffle/cliinterface.cpp:836
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
 msgstr "Pengekstrakan gagal karena disk penuh."
 
-#: kerfuffle/cliinterface.cpp:840 plugins/cliarjplugin/cliplugin.cpp:145
+#: kerfuffle/cliinterface.cpp:843 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
 msgstr "Pengekstrakan gagal: Sandi salah"
 
-#: kerfuffle/cliinterface.cpp:874
+#: kerfuffle/cliinterface.cpp:877
 #, kde-format
 msgid "Incorrect password."
 msgstr "Sandi salah."
 
-#: kerfuffle/cliinterface.cpp:896
+#: kerfuffle/cliinterface.cpp:899
 #, kde-format
 msgid "Ark does not currently support testing this archive."
 msgstr "Ark saat ini tidak mendukung pengujian arsip ini."
