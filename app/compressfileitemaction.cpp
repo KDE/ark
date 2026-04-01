@@ -58,17 +58,17 @@ QList<QAction *> CompressFileItemAction::actions(const KFileItemListProperties &
 
     QMenu *compressMenu = new QMenu(parentWidget);
 
-    compressMenu->addAction(createAction(icon, compressMenu, urlList, QStringLiteral("tar.gz")));
+    compressMenu->addAction(createAction(icon, parentWidget, urlList, QStringLiteral("tar.gz")));
     actionsToBeDisabledInReadOnlyDir << compressMenu->actions().last();
 
     const QMimeType zipMime = QMimeDatabase().mimeTypeForName(QStringLiteral("application/zip"));
     // Don't offer zip compression if no zip plugin is available.
     if (!m_pluginManager->preferredWritePluginsFor(zipMime).isEmpty()) {
-        compressMenu->addAction(createAction(icon, compressMenu, urlList, QStringLiteral("zip")));
+        compressMenu->addAction(createAction(icon, parentWidget, urlList, QStringLiteral("zip")));
         actionsToBeDisabledInReadOnlyDir << compressMenu->actions().last();
     }
 
-    compressMenu->addAction(createAction(icon, compressMenu, urlList, QString()));
+    compressMenu->addAction(createAction(icon, parentWidget, urlList, QString()));
 
     QAction *compressMenuAction = new QAction(i18nc("@action:inmenu Compress submenu in Dolphin context menu", "Compress"), parentWidget);
     compressMenuAction->setMenu(compressMenu);
@@ -78,9 +78,10 @@ QList<QAction *> CompressFileItemAction::actions(const KFileItemListProperties &
     if (compressMenuAction->isEnabled()) {
         const KFileItemList items = fileItemInfos.items();
         const KFileItem &first = items.first();
-        auto *job = KIO::stat(first.url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash), KIO::HideProgressInfo);
-        connect(job, &KJob::result, compressMenu, [actionsToBeDisabledInReadOnlyDir, job]() {
-            if (!job->error() && !KFileItem(job->statResult(), job->url()).isWritable()) {
+        auto *statJob = KIO::stat(first.url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash), KIO::HideProgressInfo);
+        statJob->setParent(parentWidget);
+        connect(statJob, &KJob::result, parentWidget, [actionsToBeDisabledInReadOnlyDir, statJob]() {
+            if (!statJob->error() && !KFileItem(statJob->statResult(), statJob->url()).isWritable()) {
                 for (auto action : actionsToBeDisabledInReadOnlyDir) {
                     action->setEnabled(false);
                 }
@@ -92,9 +93,9 @@ QList<QAction *> CompressFileItemAction::actions(const KFileItemListProperties &
     return actions;
 }
 
-QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent, const QList<QUrl> &urls, const QString &fileExtension)
+QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parentWidget, const QList<QUrl> &urls, const QString &fileExtension)
 {
-    QAction *action = new QAction(icon, QString(), parent);
+    QAction *action = new QAction(icon, QString(), parentWidget);
 
     if (fileExtension.isEmpty()) {
         action->setText(i18nc("@action:inmenu Part of Compress submenu in Dolphin context menu", "Compress to…"));
@@ -109,8 +110,8 @@ QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent
             base = i18nc("Default name of a newly-created multi-file archive", "Archive");
         }
 
-        auto *nameFinderJob = new KIO::NameFinderJob(urls.first().adjusted(QUrl::RemoveFilename), QString(base + suffix), nullptr);
-        connect(nameFinderJob, &KIO::NameFinderJob::result, action, [nameFinderJob, action] {
+        auto *nameFinderJob = new KIO::NameFinderJob(urls.first().adjusted(QUrl::RemoveFilename), QString(base + suffix), parentWidget);
+        connect(nameFinderJob, &KIO::NameFinderJob::result, parentWidget, [nameFinderJob, action] {
             QString fileName = nameFinderJob->finalName();
             fileName = KStringHandler::csqueeze(fileName, 30);
             fileName.replace(QStringLiteral("&"), QStringLiteral("&&"));
@@ -119,7 +120,7 @@ QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent
         nameFinderJob->start();
     }
 
-    connect(action, &QAction::triggered, this, [fileExtension, urls, parent, this]() {
+    connect(action, &QAction::triggered, this, [fileExtension, urls, parentWidget, this]() {
         // Don't pass a parent to the job, otherwise it will be killed if dolphin gets closed.
         auto *addToArchiveJob = new AddToArchive(nullptr);
         addToArchiveJob->setImmediateProgressReporting(true);
@@ -130,7 +131,7 @@ QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent
         if (!fileExtension.isEmpty()) {
             addToArchiveJob->setAutoFilenameSuffix(fileExtension);
         } else {
-            if (!addToArchiveJob->showAddDialog(parent)) {
+            if (!addToArchiveJob->showAddDialog(parentWidget)) {
                 delete addToArchiveJob;
                 return;
             }
