@@ -112,3 +112,8 @@ set_target_properties(kerfuffle PROPERTIES VERSION ${KERFUFFLE_VERSION} SOVERSIO
 install(TARGETS kerfuffle ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 install(FILES ark.kcfg                DESTINATION ${KDE_INSTALL_KCFGDIR})
+
+install(FILES
+    ark_move_dirhistory_to_state_config.upd
+    ark_move_dirhistory_to_state_config.py
+    DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR})

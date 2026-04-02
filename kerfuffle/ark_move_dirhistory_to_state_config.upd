@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Lyosha Kirpel <lyoshakirpel@gmail.com>
+# SPDX-License-Identifier: BSD-2-Clause
+
+Version=6
+
+Id=ark-move-dirhistory-to-state-config
+Script=ark_move_dirhistory_to_state_config.py,python3

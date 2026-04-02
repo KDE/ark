@@ -135,8 +135,8 @@ void ExtractionDialog::slotAccepted()
         }
     }
 
-    // Add new destination value to arkrc for quickExtractMenu.
-    KConfigGroup conf(KSharedConfig::openConfig(), QStringLiteral("ExtractDialog"));
+    // Add new destination value to arkstaterc for quickExtractMenu.
+    KConfigGroup conf(KSharedConfig::openStateConfig(), QStringLiteral("ExtractDialog"));
     QStringList destHistory = conf.readPathEntry("DirHistory", QStringList());
     destHistory.prepend(destinationPath);
     destHistory.removeDuplicates();
