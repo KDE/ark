@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-01 00:49+0000\n"
+"POT-Creation-Date: 2026-04-02 00:47+0000\n"
 "PO-Revision-Date: 2023-12-06 19:15+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -117,7 +117,7 @@ msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Komprimovať"
 
-#: app/compressfileitemaction.cpp:100
+#: app/compressfileitemaction.cpp:101
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 #| msgid "Compress to..."
@@ -125,7 +125,7 @@ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Komprimovať do..."
 
-#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
+#: app/compressfileitemaction.cpp:104 app/compressfileitemaction.cpp:118
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 #| msgid "Compress to..."
@@ -134,7 +134,7 @@ msgctxt ""
 msgid "Compress to \"%1\""
 msgstr "Komprimovať do..."
 
-#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#: app/compressfileitemaction.cpp:110 kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"

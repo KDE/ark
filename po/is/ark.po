@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-01 00:49+0000\n"
+"POT-Creation-Date: 2026-04-02 00:47+0000\n"
 "PO-Revision-Date: 2026-02-02 09:41+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -122,20 +122,20 @@ msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Þjappa"
 
-#: app/compressfileitemaction.cpp:100
+#: app/compressfileitemaction.cpp:101
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Þjappa í…"
 
-#: app/compressfileitemaction.cpp:103 app/compressfileitemaction.cpp:117
+#: app/compressfileitemaction.cpp:104 app/compressfileitemaction.cpp:118
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "Þjappa í \"%1\""
 
-#: app/compressfileitemaction.cpp:109 kerfuffle/addtoarchive.cpp:269
+#: app/compressfileitemaction.cpp:110 kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
