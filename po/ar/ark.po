@@ -439,7 +439,7 @@ msgstr "أنشئ أرشيفًا"
 #: app/welcomeview/welcomeview.cpp:50
 #, kde-format
 msgid "Welcome to %1"
-msgstr "مرحبا بك في %1"
+msgstr "مرحبًا بك في %1"
 
 #: app/welcomeview/welcomeview.cpp:55
 #, kde-format
@@ -465,7 +465,7 @@ msgstr "أ&زل"
 #: app/welcomeview/welcomeview.ui:17
 #, kde-format
 msgid "Welcome"
-msgstr "مرحباً"
+msgstr "مرحبًا"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
