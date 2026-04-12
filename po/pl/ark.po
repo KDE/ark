@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-02 00:47+0000\n"
-"PO-Revision-Date: 2026-01-18 15:25+0100\n"
+"PO-Revision-Date: 2026-04-11 08:48+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -742,7 +742,7 @@ msgstr "Maks"
 #: kerfuffle/compressionoptionswidget.ui:118
 #, kde-format
 msgid "Password Protection"
-msgstr "Ochrona hasłem"
+msgstr "Zabezpieczenie hasłem"
 
 #. i18n: ectx: property (text), widget (QLabel, lblEncMethod)
 #: kerfuffle/compressionoptionswidget.ui:130
