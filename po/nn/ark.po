@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-02 00:47+0000\n"
-"PO-Revision-Date: 2024-05-15 20:35+0200\n"
+"PO-Revision-Date: 2026-04-18 15:46+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
@@ -111,9 +111,7 @@ msgid "Compress"
 msgstr "Komprimer"
 
 #: app/compressfileitemaction.cpp:101
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Komprimer til …"
@@ -144,12 +142,10 @@ msgid "Extract here"
 msgstr "Pakk ut her"
 
 #: app/extractfileitemaction.cpp:84
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract here and delete archive"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
-msgstr "Pakk ut her og slett arkivfila"
+msgstr "Pakk og slett arkivfila"
 
 #: app/extractfileitemaction.cpp:91
 #, kde-format
@@ -175,10 +171,9 @@ msgid "KDE Archiving tool"
 msgstr "Arkivverktøy frå KDE"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2019, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "© 1997–2019 Ark-utviklarane"
+msgstr "© 1997–2025 Ark-utviklarane"
 
 #: app/main.cpp:86
 #, kde-format
@@ -471,11 +466,9 @@ msgstr "Velkommen"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Opna arkiv"
+msgstr "Opna arkiv …"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -818,8 +811,7 @@ msgstr "Filnamn:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
 msgstr "Skriv inn arkivnamn …"
 
@@ -1211,8 +1203,7 @@ msgstr "ja (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
 msgstr "Reknar ut …"
 
@@ -1504,8 +1495,7 @@ msgid "Closing preview"
 msgstr "Lukkar førehandsvisinga"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
 msgstr "Vent mens førehandsvisinga vert lukka …"
 
@@ -1660,8 +1650,7 @@ msgid "Save"
 msgstr "Lagra"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
 msgstr "Skriv for å søkja …"
 
@@ -1678,12 +1667,10 @@ msgid "Show Information Panel"
 msgstr "Vis informasjonspanel"
 
 #: part/part.cpp:361
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Save Copy As"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr "Lagra kopi som"
+msgstr "Lagra kopi som …"
 
 #: part/part.cpp:365
 #, kde-format
@@ -1692,9 +1679,7 @@ msgid "&Open in External Application"
 msgstr "&Opna i eksternt program"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
 msgstr "Opna &med …"
@@ -1748,11 +1733,9 @@ msgstr ""
 "utvalde filer."
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Legg til filer"
+msgstr "Legg til &filer …"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1845,15 +1828,12 @@ msgid "The archive failed the integrity test."
 msgstr "Integritetstesten var mislukka."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#| msgid "Extract to…"
+#, kde-format
 msgid "Extract To…"
 msgstr "Pakk ut til …"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
 msgstr "Pakk ut smart til …"
 
