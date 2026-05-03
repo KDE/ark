@@ -20,21 +20,21 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-02 00:47+0000\n"
-"PO-Revision-Date: 2026-01-17 16:01+0300\n"
-"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
+"PO-Revision-Date: 2026-05-02 19:56+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.12.0\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
-"Necdet Yücel, Serdar Soytetir, H. İbrahim Güngör, Volkan Gezer, Emir SARI"
+"Necdet Yücel, Serdar SOYTETİR, H. İbrahim GÜNGÖR, Volkan GEZER, Emir SARI"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -1642,7 +1642,7 @@ msgid ""
 "Files with the following paths already exist. Remove them if you really want "
 "to overwrite."
 msgstr ""
-"Aşağıdaki yollardaki dosyalar halihazırda var. Üzerine yazmayı gerçekten "
+"Aşağıdaki yollardaki dosyalar hâlihazırda var. Üzerine yazmayı gerçekten "
 "isterseniz bunları kaldırın."
 
 #: part/overwritedialog.cpp:28
@@ -1651,7 +1651,7 @@ msgid ""
 "Files with the following paths already exist. Do you want to continue "
 "overwriting them?"
 msgstr ""
-"Aşağıdaki yollardaki dosyalar halihazırda var. Üzerine yazmayı gerçekten "
+"Aşağıdaki yollardaki dosyalar hâlihazırda var. Üzerine yazmayı gerçekten "
 "istiyor musunuz?"
 
 #: part/part.cpp:112
