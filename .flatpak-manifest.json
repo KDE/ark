@@ -29,68 +29,6 @@
     ],
     "modules": [
         {
-            "name": "zstd",
-            "buildsystem": "simple",
-            "build-commands": [
-                "make",
-                "make PREFIX=/ DESTDIR=\"${FLATPAK_DEST}\" install"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/facebook/zstd/releases/download/v1.5.7/zstd-1.5.7.tar.gz",
-                    "sha256": "eb33e51f49a15e023950cd7825ca74a4a2b43db8354825ac24fc1b7ee09e6fa3",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 12083,
-                        "stable-only": true,
-                        "url-template": "https://github.com/facebook/zstd/releases/download/v$version/zstd-$version.tar.gz"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "lz4",
-            "buildsystem": "simple",
-            "build-commands": [
-                "make -C lib PREFIX=/",
-                "make -C programs PREFIX=/usr lz4 lz4",
-                "make install PREFIX=/ DESTDIR=\"${FLATPAK_DEST}\" install"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/lz4/lz4/archive/v1.10.0.tar.gz",
-                    "sha256": "537512904744b35e232912055ccf8ec66d768639ff3abe5788d90d792ec5f48b",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 1865,
-                        "stable-only": true,
-                        "url-template": "https://github.com/lz4/lz4/archive/v$version.tar.gz"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "libarchive",
-            "config-opts": [
-                "--without-xml2"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://github.com/libarchive/libarchive/releases/download/v3.8.5/libarchive-3.8.5.tar.xz",
-                    "sha256": "d68068e74beee3a0ec0dd04aee9037d5757fcc651591a6dcf1b6d542fb15a703",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 1558,
-                        "stable-only": true,
-                        "url-template": "https://github.com/libarchive/libarchive/releases/download/v3.8.5/libarchive-3.8.5.tar.xz"
-                    }
-                }
-            ]
-        },
-        {
             "name": "libzip",
             "buildsystem": "cmake-ninja",
             "sources": [
@@ -103,22 +41,6 @@
                         "project-id": 10649,
                         "stable-only": true,
                         "url-template": "https://libzip.org/download/libzip-$version.tar.xz"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "lzo",
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz",
-                    "sha256": "c0f892943208266f9b6543b3ae308fab6284c5c90e627931446fb49b4221a072",
-                    "x-checker-data": {
-                        "type": "anitya",
-                        "project-id": 1868,
-                        "stable-only": true,
-                        "url-template": "https://www.oberhumer.com/opensource/lzo/download/lzo-$version.tar.gz"
                     }
                 }
             ]
