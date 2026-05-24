@@ -87,6 +87,28 @@
             ]
         },
         {
+            "name": "7zip",
+            "buildsystem": "simple",
+            "subdir": "CPP/7zip/Bundles/Alone7z",
+            "build-commands": [
+                "make -j $FLATPAK_BUILDER_N_JOBS -f makefile.gcc",
+                "install -D ./_o/7zr -t /app/bin",
+                "ln -s /app/bin/7zr /app/bin/7z"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/ip7z/7zip/archive/refs/tags/26.01.tar.gz",
+                    "sha256": "f4212b508641b3584f7089ab67bc0aba028c631f049b4dd603ff07853e72e749",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 372314,
+                        "url-template": "https://github.com/ip7z/7zip/archive/refs/tags/$version.tar.gz"
+                    }
+                }
+            ]
+        },
+        {
             "name": "unrar",
             "buildsystem": "simple",
             "build-commands": [
