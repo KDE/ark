@@ -146,7 +146,6 @@ Name[ta]=ஆர்க்
 Name[tg]=Ark
 Name[th]=อาร์ก
 Name[tr]=Ark
-Name[ug]=Ark
 Name[uk]=Ark
 Name[uz]=Ark
 Name[uz@cyrillic]=Ark

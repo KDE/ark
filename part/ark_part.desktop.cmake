@@ -69,6 +69,7 @@ Name[ta]=காப்பகம் உருவாக்கி
 Name[tg]=Бойгонигар
 Name[th]=ตัวสร้างแฟ้มจัดเก็บ
 Name[tr]=Arşivleyici
+Name[ug]=ئارخىپلاشتۇرغۇچ
 Name[uk]=Архіватор
 Name[uz]=Arxivlagich
 Name[uz@cyrillic]=Архивлагич
