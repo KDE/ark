@@ -106,6 +106,7 @@
         "Name[sv]": "RAR-insticksprogram",
         "Name[ta]": "RAR செருகுநிரல்",
         "Name[tr]": "RAR eklentisi",
+        "Name[ug]": "RAR قىستۇرمىسى",
         "Name[uk]": "Додаток RAR",
         "Name[zh_CN]": "RAR 插件",
         "Name[zh_TW]": "RAR 外掛程式",

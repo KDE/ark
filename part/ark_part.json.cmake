@@ -95,6 +95,7 @@
         "Name[sv]": "Arkiverare",
         "Name[ta]": "காப்பக உருவாக்கி",
         "Name[tr]": "Arşivleyici",
+        "Name[ug]": "ئارخىپلاشتۇرغۇچ",
         "Name[uk]": "Архіватор",
         "Name[zh_CN]": "压缩文件管理工具",
         "Name[zh_TW]": "封存工具",

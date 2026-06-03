@@ -95,6 +95,7 @@
         "Name[sv]": "ARJ-insticksprogram",
         "Name[ta]": "ARJ செருகுநிரல்",
         "Name[tr]": "ARJ eklentisi",
+        "Name[ug]": "ARJ قىستۇرمىسى",
         "Name[uk]": "Додаток ARJ",
         "Name[zh_CN]": "ARJ 插件",
         "Name[zh_TW]": "ARJ 外掛程式",

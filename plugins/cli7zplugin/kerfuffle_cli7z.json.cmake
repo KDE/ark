@@ -102,6 +102,7 @@
         "Name[sv]": "7z-insticksprogram",
         "Name[ta]": "7z செருகுநிரல்",
         "Name[tr]": "7z eklentisi",
+        "Name[ug]": "7z قىستۇرمىسى",
         "Name[uk]": "Додаток 7z",
         "Name[zh_CN]": "7z 插件",
         "Name[zh_TW]": "7z 外掛程式",
