@@ -117,6 +117,7 @@
   <summary xml:lang="sv">Arkiveringsverktyg</summary>
   <summary xml:lang="ta">காப்பகச்செயலி</summary>
   <summary xml:lang="tr">Arşivleme Aracı</summary>
+  <summary xml:lang="ug">ئارخىپ قورالى</summary>
   <summary xml:lang="uk">Інструмент роботи з архівами</summary>
   <summary xml:lang="zh-CN">压缩文件管理工具</summary>
   <summary xml:lang="zh-TW">壓縮工具</summary>
@@ -232,6 +233,7 @@
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="ta">அம்சங்கள்:</p>
     <p xml:lang="tr">Özellikler:</p>
+    <p xml:lang="ug">ئىقتىدار:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="zh-CN">程序功能：</p>
     <p xml:lang="zh-TW">功能：</p>
