@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-02 00:47+0000\n"
-"PO-Revision-Date: 2026-06-27 14:00+0330\n"
+"PO-Revision-Date: 2026-06-29 12:20+0330\n"
 "Last-Translator: Sohrab Behdani <behdanisohrab@proton.me>\n"
-"Language-Team: Persian < kde-i18n-fa@kde.org>\n"
+"Language-Team: fa\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,12 +61,14 @@ msgid "The following files could not be extracted:"
 msgstr "پرونده‌های زیر استخراج نشدند:"
 
 #: app/batchextract.cpp:137
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "There was an error while extracting <filename>%1</filename>. Any further "
 "archive will not be extracted."
-msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
+msgstr ""
+"هنگام استخراج <filename>%1</filename> خطایی رخ داد. هیچ بایگانی دیگری "
+"استخراج نخواهد شد."
 
 #: app/batchextract.cpp:139
 #, kde-kuit-format
@@ -1782,6 +1784,8 @@ msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
 "all files or just the selected ones"
 msgstr ""
+"برای باز کردن گفت‌وگوی استخراج کلیک کنید. در آنجا می‌توانید همهٔ پرونده‌ها یا "
+"فقط پرونده‌های انتخاب‌شده را استخراج کنید."
 
 #: part/part.cpp:404
 #, fuzzy, kde-format
@@ -1807,7 +1811,7 @@ msgstr "باز کردن بایگانی"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
-msgstr ""
+msgstr "&ویژگی‌ها"
 
 #: part/part.cpp:424
 #, fuzzy, kde-format
@@ -1827,7 +1831,7 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
-msgstr ""
+msgstr "&آزمودن یکپارچگی"
 
 #: part/part.cpp:437 part/part.cpp:467
 #, fuzzy, kde-format
@@ -1844,6 +1848,10 @@ msgid ""
 "encryption is currently not supported.<nl/><nl/>Extract the files and create "
 "a new archive if you want to add files."
 msgstr ""
+"در حال حاضر افزودن پرونده‌ها به بایگانی‌های موجودِ محافظت‌شده با گذرواژه که از "
+"رمزگذاری سرآیند استفاده نمی‌کنند، پشتیبانی نمی‌شود.<nl/><nl/>اگر می‌خواهید "
+"پرونده‌ای بیفزایید، ابتدا پرونده‌ها را استخراج کرده و سپس یک بایگانی جدید "
+"ایجاد کنید."
 
 #: part/part.cpp:464
 #, kde-kuit-format
@@ -1852,33 +1860,35 @@ msgid ""
 "Testing password-protected archives with no header-encryption is currently "
 "not supported."
 msgstr ""
+"در حال حاضر آزمودن بایگانی‌های محافظت‌شده با گذرواژه که از رمزگذاری سرآیند "
+"استفاده نمی‌کنند، پشتیبانی نمی‌شود."
 
 #: part/part.cpp:505
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
-msgstr ""
+msgstr "ویرایش &توضیح"
 
 #: part/part.cpp:506 part/part.cpp:512
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
-msgstr ""
+msgstr "افزودن &توضیح"
 
 #: part/part.cpp:612
 #, kde-format
 msgid "The archive passed the integrity test."
-msgstr ""
+msgstr "بایگانی آزمون یکپارچگی را با موفقیت گذراند."
 
 #: part/part.cpp:612 part/part.cpp:614
 #, kde-format
 msgid "Test Results"
-msgstr ""
+msgstr "نتایج آزمون"
 
 #: part/part.cpp:614
 #, kde-format
 msgid "The archive failed the integrity test."
-msgstr ""
+msgstr "این بایگانی در آزمون یکپارچگی شکست خورد."
 
 #: part/part.cpp:634
 #, fuzzy, kde-format
@@ -1927,7 +1937,7 @@ msgstr "&پیش‌نمایش‌"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
-msgstr ""
+msgstr "<filename>%1</filename> یک پوشه است."
 
 #: part/part.cpp:802
 #, fuzzy, kde-kuit-format
@@ -1949,7 +1959,7 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
-msgstr ""
+msgstr "بایگانی <filename>%1</filename> یافت نشد."
 
 #: part/part.cpp:817
 #, fuzzy, kde-kuit-format
@@ -1963,13 +1973,13 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
-msgstr ""
+msgstr "بایگانی خالی است یا آرک نتوانست محتوای آن را باز کند."
 
 #: part/part.cpp:875
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
-msgstr ""
+msgstr "آرک در حال حاضر از پرونده‌های ISO با سامانهٔ پروندهٔ UDF پشتیبانی نمی‌کند."
 
 #: part/part.cpp:907
 #, kde-kuit-format
@@ -1978,11 +1988,13 @@ msgid ""
 "Loading the archive <filename>%1</filename> failed with the following error:"
 "<nl/><message>%2</message>"
 msgstr ""
+"بارگذاری بایگانی <filename>%1</filename> با خطای زیر ناموفق بود:<nl/"
+"><message>%2</message>"
 
 #: part/part.cpp:967
 #, kde-format
 msgid "Ark cannot open symlinks."
-msgstr ""
+msgstr "آرک نمی‌تواند پیوندهای نمادین را باز کند."
 
 #: part/part.cpp:1094
 #, fuzzy, kde-kuit-format
@@ -1995,19 +2007,19 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
-msgstr ""
+msgstr "تاریخ تغییر پرونده"
 
 #: part/part.cpp:1096
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "به‌روزرسانی"
 
 #: part/part.cpp:1097
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "نادیده‌گرفتن"
 
 #: part/part.cpp:1371
 #, fuzzy, kde-format
@@ -2027,21 +2039,22 @@ msgstr "افزودن پرونده‌ها"
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
+"نام پرونده نمی‌تواند شامل «/» باشد و همچنین نمی‌تواند برابر «.» یا «..» باشد."
 
 #: part/part.cpp:1480
 #, kde-format
 msgid "Folders can't be moved into themselves."
-msgstr ""
+msgstr "پوشه‌ها را نمی‌توان به داخل خودشان منتقل کرد."
 
 #: part/part.cpp:1480
 #, kde-format
 msgid "Moving a folder into itself"
-msgstr ""
+msgstr "انتقال یک پوشه به داخل خودش"
 
 #: part/part.cpp:1508
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
-msgstr ""
+msgstr "مدخل‌هایی با نام یکسان نمی‌توانند در یک مقصد یکسان جای‌گذاری شوند."
 
 #: part/part.cpp:1607
 #, kde-format
@@ -2050,22 +2063,25 @@ msgid "Deleting this file is not undoable. Are you sure you want to do this?"
 msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr[0] ""
+"حذف این پرونده قابل بازگشت نیست. آیا مطمئن هستید که می‌خواهید این کار را "
+"انجام دهید؟"
 msgstr[1] ""
+"حذف این پرونده‌ها قابل بازگشت نیست. آیا مطمئن هستید که می‌خواهید این کار را "
+"انجام دهید؟"
 
 #: part/part.cpp:1610
-#, fuzzy, kde-format
-#| msgid "Add Files"
+#, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
 msgid_plural "Delete Files"
-msgstr[0] "افزودن پرونده‌ها"
-msgstr[1] ""
+msgstr[0] "حذف پرونده"
+msgstr[1] "حذف پرونده‌ها"
 
 #: part/part.cpp:1649
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
-msgstr ""
+msgstr "ذخیره رونوشت به‌عنوان"
 
 #: part/part.cpp:1664
 #, fuzzy, kde-kuit-format
@@ -2103,6 +2119,8 @@ msgid ""
 "Extraction failed due to one or more corrupt files. Any extracted files may "
 "be damaged."
 msgstr ""
+"استخراج به دلیل وجود یک یا چند پروندهٔ خراب ناموفق بود. ممکن است پرونده‌های "
+"استخراج‌شده آسیب‌دیده باشند."
 
 #: plugins/cli7zplugin/cliplugin.cpp:319
 #, kde-format
@@ -2110,43 +2128,45 @@ msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
 "configuration dialog."
 msgstr ""
+"عملیات حذف ناموفق بود. سعی کنید 7z را به‌روزرسانی کنید یا افزونهٔ 7z را در "
+"گفت‌وگوی پیکربندی غیرفعال کنید."
 
 #: plugins/cliarjplugin/cliplugin.cpp:321
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "ARJ قدیمی"
 
 #: plugins/cliarjplugin/cliplugin.cpp:322
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:323
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:324
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:325
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40-bit"
 
 #: plugins/cliarjplugin/cliplugin.cpp:327
 #, kde-format
 msgid "unknown"
-msgstr ""
+msgstr "نامشخص"
 
 #: plugins/clirarplugin/cliplugin.cpp:153
 #: plugins/clirarplugin/cliplugin.cpp:293
 #: plugins/clirarplugin/cliplugin.cpp:540
 #, kde-format
 msgid "Failed to find all archive volumes."
-msgstr ""
+msgstr "نمی‌توان تمامی بخش‌های بایگانی را پیدا کرد."
 
 #: plugins/clirarplugin/cliplugin.cpp:314
 #, kde-format
@@ -2154,6 +2174,8 @@ msgid ""
 "Your unrar executable is version %1, which is too old to handle this "
 "archive. Please update to a more recent version."
 msgstr ""
+"نسخهٔ اجرایی unrar شما %1 است که برای مدیریت این بایگانی بیش از حد قدیمی است. "
+"لطفاً آن را به نسخهٔ جدیدتری به‌روزرسانی کنید."
 
 #: plugins/clirarplugin/cliplugin.cpp:320
 #, kde-format
@@ -2161,11 +2183,13 @@ msgid ""
 "Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
 "Try updating your unrar."
 msgstr ""
+"ابزار unrar گزارش داده است که این یک بایگانی RAR نیست. نسخهٔ نصب‌شدهٔ unrar "
+"(%1) قدیمی است. لطفاً unrar را به‌روزرسانی کنید."
 
 #: plugins/clirarplugin/cliplugin.cpp:535
 #, kde-format
 msgid "One or more wrong checksums"
-msgstr ""
+msgstr "یک یا چند جمع‌بررسی نادرست است."
 
 #: plugins/cliunarchiverplugin/cliplugin.cpp:100
 #, fuzzy, kde-format
@@ -2177,28 +2201,28 @@ msgstr "استخراج %1 پرونده"
 #: plugins/cliunarchiverplugin/cliplugin.cpp:134
 #, kde-format
 msgid "Not enough memory for loading the archive."
-msgstr ""
+msgstr "حافظهٔ کافی برای بارگذاری بایگانی وجود ندارد."
 
 #: plugins/cliunarchiverplugin/cliplugin.cpp:185
 #, kde-format
 msgid "Wrong password."
-msgstr ""
+msgstr "گذرواژه اشتباه"
 
 #: plugins/clizipplugin/cliplugin.cpp:181
 #, kde-format
 msgid "Extraction failed due to unsupported compression method (%1)."
-msgstr ""
+msgstr "استخراج به دلیل روش فشرده‌سازی پشتیبانی‌نشده (%1) ناموفق بود."
 
 #: plugins/clizipplugin/cliplugin.cpp:186
 #, kde-format
 msgid "Extraction failed due to unsupported encryption method."
-msgstr ""
+msgstr "استخراج به دلیل روش رمزگذاری پشتیبانی‌نشده ناموفق بود."
 
 #: plugins/clizipplugin/cliplugin.cpp:315
 #, kde-format
 msgctxt "referred to compression method"
 msgid "unknown"
-msgstr ""
+msgstr "نامشخص"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
 #, kde-format
@@ -2207,29 +2231,31 @@ msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
+"ممکن است بایگانی خراب باشد یا دارای رمزگذاری سرآیند باشد که در حال حاضر "
+"پشتیبانی نمی‌شود."
 
 #: plugins/libarchive/libarchiveplugin.cpp:526
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
-msgstr ""
+msgstr "خطای بحرانی، استخراج متوقف شد."
 
 #: plugins/libarchive/libarchiveplugin.cpp:552
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
-msgstr ""
+msgstr "استخراج مدخل‌های رمزگذاری‌شدهٔ 7-zip در حال حاضر پشتیبانی نمی‌شود."
 
 #: plugins/libarchive/libarchiveplugin.cpp:566
 #, kde-format
 msgid "The archive reader could not be initialized."
-msgstr ""
+msgstr "خوانندهٔ بایگانی قابل راه‌اندازی نیست."
 
 #: plugins/libarchive/libarchiveplugin.cpp:588
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
-msgstr ""
+msgstr "بایگانی خراب است یا مجوزهای کافی وجود ندارد."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:217
 #, fuzzy, kde-format
@@ -2240,7 +2266,7 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:223
 #, kde-format
 msgid "The archive writer could not be initialized."
-msgstr ""
+msgstr "نویسندهٔ بایگانی قابل راه‌اندازی نیست."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:240
 #, fuzzy, kde-format
@@ -2251,7 +2277,7 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:287
 #, kde-format
 msgid "The compression type '%1' is not supported by Ark."
-msgstr ""
+msgstr "نوع فشرده‌سازی «%1» توسط آرک پشتیبانی نمی‌شود."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:294
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:364
@@ -2271,7 +2297,7 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #, kde-format
 msgctxt "@info"
 msgid "Could not compress entry, operation aborted."
-msgstr ""
+msgstr "فشرده‌سازی مدخل ممکن نیست، عملیات متوقف شد."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:559
 #, fuzzy, kde-format
@@ -2287,7 +2313,7 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #: plugins/libzipplugin/libzipplugin.cpp:1058
 #, kde-kuit-format
 msgid "Failed to open archive: %1"
-msgstr ""
+msgstr "باز کردن بایگانی ناموفق بود: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:350
 #: plugins/libzipplugin/libzipplugin.cpp:621
@@ -2303,7 +2329,7 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #: plugins/libzipplugin/libzipplugin.cpp:1094
 #, kde-kuit-format
 msgid "Failed to add entry: %1"
-msgstr ""
+msgstr "افزودن مدخل ناموفق بود: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:454
 #, fuzzy, kde-kuit-format
@@ -2321,17 +2347,17 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #: plugins/libzipplugin/libzipplugin.cpp:607
 #, kde-kuit-format
 msgid "Failed to delete entry: %1"
-msgstr ""
+msgstr "حذف مدخل ناموفق بود: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:820
 #, kde-kuit-format
 msgid "Failed to create directory: %1"
-msgstr ""
+msgstr "ایجاد مسیر ناموفق بود: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:894
 #, kde-kuit-format
 msgid "Failed to open '%1':<nl/>%2"
-msgstr ""
+msgstr "باز کردن «%1» ناموفق بود:<nl/>%2"
 
 #: plugins/libzipplugin/libzipplugin.cpp:902
 #, fuzzy, kde-kuit-format
@@ -2341,12 +2367,12 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #: plugins/libzipplugin/libzipplugin.cpp:915
 #, kde-kuit-format
 msgid "Failed to read data for entry: %1"
-msgstr ""
+msgstr "خواندن داده‌های مدخل ناموفق بود: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:920
 #, kde-kuit-format
 msgid "Failed to write data for entry: %1"
-msgstr ""
+msgstr "نوشتن داده‌های مدخل ناموفق بود: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:930
 #, fuzzy, kde-kuit-format
@@ -2357,12 +2383,12 @@ msgstr "فشار برای افزودن پرونده‌ها به بایگانی"
 #: plugins/libzipplugin/libzipplugin.cpp:1023
 #, kde-kuit-format
 msgid "Failed to move entry: %1"
-msgstr ""
+msgstr "انتقال مدخل ناموفق بود: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:1080
 #, kde-kuit-format
 msgid "Failed to copy entry: %1"
-msgstr ""
+msgstr "کپی مدخل ناموفق بود: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:1110
 #, fuzzy, kde-kuit-format
