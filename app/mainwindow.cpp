@@ -209,6 +209,7 @@ bool MainWindow::loadPart()
     hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
 
     setXMLFile(QStringLiteral("arkui.rc"));
+    menuBar()->hide();
     setupGUI(ToolBar | Keys | Save);
 
     // NOTE : apply default sidebar width only after calling setupGUI(...)

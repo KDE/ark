@@ -90,7 +90,6 @@ configure_file(
 install(TARGETS ark  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.ark.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/org.kde.ark.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-install(FILES arkrc DESTINATION ${KDE_INSTALL_CONFDIR})
 
 ############ ark_extract_here plugin ###############
 
