@@ -34,7 +34,7 @@
         "Description[nn]": "Verktøy for arkivhandsaming",
         "Description[pa]": "ਅਕਾਇਵ ਹੈਡਲਿੰਗ ਟੂਲ",
         "Description[pl]": "Program obsługi archiwów",
-        "Description[pt]": "Ferramenta de Tratamento de Pacotes",
+        "Description[pt]": "Ferramenta de Gestão de Arquivos",
         "Description[pt_BR]": "Ferramenta de manipulação de arquivos",
         "Description[ro]": "Utilitar de manipulare a arhivelor",
         "Description[ru]": "Программа для работы с архивами",

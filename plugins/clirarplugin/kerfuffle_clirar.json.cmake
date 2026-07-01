@@ -36,7 +36,7 @@
         "Description[nn]": "Full støtte for arkivformatet RAR",
         "Description[pa]": "RAR ਅਕਾਇਵ ਫਾਰਮੈਟ ਲਈ ਪੂਰਾ ਸਹਿਯੋਗ",
         "Description[pl]": "Pełna obsługa dla archiwów RAR",
-        "Description[pt]": "Suporte total para o formato de pacotes RAR",
+        "Description[pt]": "Suporte total para o formato de arquivos RAR",
         "Description[pt_BR]": "Suporte total para o formato de arquivos RAR",
         "Description[ro]": "Suport complet pentru formatul de arhivă RAR",
         "Description[ru]": "Полная поддержка архивов RAR",

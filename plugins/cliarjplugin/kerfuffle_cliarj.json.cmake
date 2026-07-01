@@ -34,7 +34,7 @@
         "Description[nn]": "Full støtte for arkivformatet ARJ",
         "Description[pa]": "ARJ ਅਕਾਇਵ ਫਾਰਮੈਟ ਲਈ ਪੂਰਾ ਸਹਿਯੋਗ",
         "Description[pl]": "Pełna obsługa dla archiwów ARJ",
-        "Description[pt]": "Suporte total para o formato de pacotes ARJ",
+        "Description[pt]": "Suporte total para o formato de arquivos ARJ",
         "Description[pt_BR]": "Suporte total para o formato de arquivos ARJ",
         "Description[ro]": "Suport deplin pentru formatul de arhivă ARJ",
         "Description[ru]": "Полная поддержка архивов ARJ",

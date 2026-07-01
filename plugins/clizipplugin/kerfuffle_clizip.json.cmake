@@ -36,7 +36,7 @@
         "Description[nn]": "Støtte for for det eldre arkivformatet ZIP",
         "Description[pa]": "ਜ਼ਿਪ ਅਕਾਇਵ ਫਾਰਮੈਟ ਲਈ ਪੁਰਾਣਾ ਸਹਿਯੋਗ",
         "Description[pl]": "Obsługa przestarzałego formatu archiwów zip",
-        "Description[pt]": "Suporte antigo para o formato de pacotes ZIP",
+        "Description[pt]": "Suporte para o antigo formato de arquivo ZIP",
         "Description[pt_BR]": "Suporte antigo para o formato de arquivo ZIP",
         "Description[ro]": "Suport moștenit pentru formatul de arhivă zip",
         "Description[ru]": "Старый способ поддержки архивов ZIP",

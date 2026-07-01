@@ -35,7 +35,7 @@
         "Description[nn]": "Opna og pakk ut RAR- og LHA-arkiv",
         "Description[pa]": "RAR ਅਤੇ LHA ਅਕਾਇਵਾਂ ਨੂੰ ਖੋਲ੍ਹੋ ਅਤੇ ਖਿਲਾਰੋ",
         "Description[pl]": "Otwiera i wypakowuje archiwa RAR oraz LHA",
-        "Description[pt]": "Abrir e extrair os pacotes RAR e LHA",
+        "Description[pt]": "Abrir e extrair os arquivos RAR e LHA",
         "Description[pt_BR]": "Abrir e extrair arquivos RAR e LHA",
         "Description[ro]": "Deschide și extrage arhive RAR și LHA",
         "Description[ru]": "Открытие и распаковка архивов RAR и LHA",
