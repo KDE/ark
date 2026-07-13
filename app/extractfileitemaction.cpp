@@ -10,11 +10,13 @@
 #include <QFileInfo>
 #include <QMenu>
 
+#include <KFileSystemType>
 #include <KIO/CopyJob>
 #include <KIO/JobUiDelegate>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KLocalizedString>
 #include <KPluginFactory>
+#include <kcoreaddons_version.h>
 
 #include "batchextract.h"
 #include "mimetypes.h"
@@ -44,7 +46,14 @@ QList<QAction *> ExtractFileItemAction::actions(const KFileItemListProperties &f
         if (!url.isLocalFile()) {
             continue;
         }
-        const QMimeType mimeType = determineMimeType(url.toLocalFile());
+        const QString localFile = url.toLocalFile();
+        const KFileSystemType::Type fsType = KFileSystemType::fileSystemType(localFile);
+#if KCOREADDONS_VERSION >= QT_VERSION_CHECK(6, 30, 0)
+        const bool isSlowFs = fsType == KFileSystemType::Nfs || fsType == KFileSystemType::Smb || fsType == KFileSystemType::FuseNoDev;
+#else
+        const bool isSlowFs = fsType == KFileSystemType::Nfs || fsType == KFileSystemType::Smb;
+#endif
+        const QMimeType mimeType = determineMimeType(localFile, PreferContentsMime, !isSlowFs);
         if (m_pluginManager->preferredPluginsFor(mimeType).isEmpty()) {
             continue;
         }

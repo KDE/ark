@@ -123,6 +123,7 @@ kcoreaddons_add_plugin(extractfileitemaction
 
 target_link_libraries(extractfileitemaction
     kerfuffle
+    KF6::CoreAddons
     KF6::I18n
     KF6::ConfigGui
     KF6::KIOWidgets

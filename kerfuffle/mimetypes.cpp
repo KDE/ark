@@ -15,9 +15,13 @@
 
 namespace Kerfuffle
 {
-QMimeType determineMimeType(const QString &filename, MimePreference mp)
+QMimeType determineMimeType(const QString &filename, MimePreference mp, bool allowContentDetection)
 {
     QMimeDatabase db;
+
+    if (!allowContentDetection) {
+        return db.mimeTypeForFile(filename, QMimeDatabase::MatchExtension);
+    }
 
     QFileInfo fileinfo(filename);
 
