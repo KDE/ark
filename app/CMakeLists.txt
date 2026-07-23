@@ -1,4 +1,4 @@
-find_package(KF6BreezeIcons ${KF_DEP_VERSION} QUIET)
+find_package(KF6BreezeIcons ${KF_MIN_VERSION} QUIET)
 
 add_subdirectory(icons)
 
