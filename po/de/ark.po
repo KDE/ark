@@ -363,8 +363,8 @@ msgid ""
 "Automatically choose a filename, with the selected suffix (for example rar, "
 "tar.gz, zip or any other supported types)"
 msgstr ""
-"Automatisch einen Dateinamen wählen inkl. ausgewählter Dateierweiterung (z. "
-"B. rar, tar.gz, zip oder eines anderen unterstützten Typs)"
+"Automatisch einen Dateinamen wählen inkl. ausgewählter Dateierweiterung "
+"(z. B. rar, tar.gz, zip oder eines anderen unterstützten Typs)"
 
 #: app/main.cpp:143
 #, kde-format
