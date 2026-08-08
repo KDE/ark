@@ -141,18 +141,18 @@ bool CliPlugin::handleLine(const QString &line)
         if (isPasswordPrompt(line)) {
             qCDebug(ARK_LOG) << "Detected header-encrypted RAR archive";
 
-            Kerfuffle::PasswordNeededQuery query(filename());
-            Q_EMIT userQuery(&query);
-            query.waitForResponse();
+            auto query = std::make_shared<Kerfuffle::PasswordNeededQuery>(filename());
+            Q_EMIT userQuery(query);
+            query->waitForResponse();
 
-            if (query.responseCancelled()) {
+            if (query->responseCancelled()) {
                 Q_EMIT cancelled();
                 // Process is gone, so we emit finished() manually and we return true.
                 Q_EMIT finished(false);
                 return true;
             }
 
-            setPassword(query.password());
+            setPassword(query->password());
             CliPlugin::list();
         }
     }

@@ -21,6 +21,7 @@
 
 #include <QCoreApplication>
 #include <QDir>
+
 #include <QDirIterator>
 #include <QFile>
 #include <QMimeDatabase>
@@ -29,6 +30,7 @@
 #include <QTemporaryFile>
 #include <QThread>
 #include <QUrl>
+#include <memory>
 
 namespace Kerfuffle
 {
@@ -302,9 +304,9 @@ void CliInterface::processFinished(int exitCode, QProcess::ExitStatus exitStatus
     if (m_operationMode == Add && !isMultiVolume()) {
         list();
     } else if (m_operationMode == List && isCorrupt()) {
-        Kerfuffle::LoadCorruptQuery query(filename());
-        query.execute();
-        if (!query.responseYes()) {
+        auto query = std::make_shared<Kerfuffle::LoadCorruptQuery>(filename());
+        query->execute();
+        if (!query->responseYes()) {
             Q_EMIT cancelled();
             Q_EMIT finished(false);
         } else {
@@ -436,25 +438,25 @@ bool CliInterface::moveDroppedFilesToDest(const QList<Archive::Entry *> &files, 
                 qCWarning(ARK_LOG) << "File" << absDestEntry.absoluteFilePath() << "exists.";
 
                 if (!skipAll && !overwriteAll) {
-                    Kerfuffle::OverwriteQuery query(absDestEntry.absoluteFilePath());
-                    query.setNoRenameMode(true);
-                    query.execute();
+                    auto query = std::make_shared<Kerfuffle::OverwriteQuery>(absDestEntry.absoluteFilePath());
+                    query->setNoRenameMode(true);
+                    query->execute();
 
-                    if (query.responseOverwrite() || query.responseOverwriteAll()) {
-                        if (query.responseOverwriteAll()) {
+                    if (query->responseOverwrite() || query->responseOverwriteAll()) {
+                        if (query->responseOverwriteAll()) {
                             overwriteAll = true;
                         }
                         if (!QFile::remove(absDestEntry.absoluteFilePath())) {
                             qCWarning(ARK_LOG) << "Failed to remove" << absDestEntry.absoluteFilePath();
                         }
 
-                    } else if (query.responseSkip() || query.responseAutoSkip()) {
-                        if (query.responseAutoSkip()) {
+                    } else if (query->responseSkip() || query->responseAutoSkip()) {
+                        if (query->responseAutoSkip()) {
                             skipAll = true;
                         }
                         continue;
 
-                    } else if (query.responseCancelled()) {
+                    } else if (query->responseCancelled()) {
                         Q_EMIT cancelled();
                         Q_EMIT finished(false);
                         return false;
@@ -557,24 +559,24 @@ bool CliInterface::moveToDestination(const QDir &tempDir, const QDir &destDir, b
         if (absDestEntry.exists()) {
             qCWarning(ARK_LOG) << "File" << absDestEntry.absoluteFilePath() << "exists.";
 
-            Kerfuffle::OverwriteQuery query(absDestEntry.absoluteFilePath());
-            query.setNoRenameMode(true);
-            query.execute();
+            auto query = std::make_shared<Kerfuffle::OverwriteQuery>(absDestEntry.absoluteFilePath());
+            query->setNoRenameMode(true);
+            query->execute();
 
-            if (query.responseOverwrite() || query.responseOverwriteAll()) {
-                if (query.responseOverwriteAll()) {
+            if (query->responseOverwrite() || query->responseOverwriteAll()) {
+                if (query->responseOverwriteAll()) {
                     overwriteAll = true;
                 }
                 if (!QFile::remove(absDestEntry.absoluteFilePath())) {
                     qCWarning(ARK_LOG) << "Failed to remove" << absDestEntry.absoluteFilePath();
                 }
 
-            } else if (query.responseSkip() || query.responseAutoSkip()) {
-                if (query.responseAutoSkip()) {
+            } else if (query->responseSkip() || query->responseAutoSkip()) {
+                if (query->responseAutoSkip()) {
                     skipAll = true;
                 }
                 continue;
-            } else if (query.responseCancelled()) {
+            } else if (query->responseCancelled()) {
                 qCDebug(ARK_LOG) << "Copy action cancelled.";
                 return false;
             }
@@ -684,17 +686,17 @@ void CliInterface::killProcess(bool emitFinished)
 
 bool CliInterface::passwordQuery()
 {
-    Kerfuffle::PasswordNeededQuery query(filename());
-    query.execute();
+    auto query = std::make_shared<Kerfuffle::PasswordNeededQuery>(filename());
+    query->execute();
 
-    if (query.responseCancelled()) {
+    if (query->responseCancelled()) {
         Q_EMIT cancelled();
         // There is no process running, so finished() must be emitted manually.
         Q_EMIT finished(false);
         return false;
     }
 
-    setPassword(query.password());
+    setPassword(query->password());
     return true;
 }
 
@@ -815,15 +817,15 @@ bool CliInterface::handleLine(const QString &line)
         if (isPasswordPrompt(line)) {
             qCDebug(ARK_LOG) << "Found a password prompt";
 
-            Kerfuffle::PasswordNeededQuery query(filename());
-            query.execute();
+            auto query = std::make_shared<Kerfuffle::PasswordNeededQuery>(filename());
+            query->execute();
 
-            if (query.responseCancelled()) {
+            if (query->responseCancelled()) {
                 Q_EMIT cancelled();
                 return false;
             }
 
-            setPassword(query.password());
+            setPassword(query->password());
 
             const QString response(password() + QLatin1Char('\n'));
             writeToProcess(response.toLocal8Bit());
@@ -855,15 +857,15 @@ bool CliInterface::handleLine(const QString &line)
         if (isPasswordPrompt(line)) {
             qCDebug(ARK_LOG) << "Found a password prompt";
 
-            Kerfuffle::PasswordNeededQuery query(filename());
-            query.execute();
+            auto query = std::make_shared<Kerfuffle::PasswordNeededQuery>(filename());
+            query->execute();
 
-            if (query.responseCancelled()) {
+            if (query->responseCancelled()) {
                 Q_EMIT cancelled();
                 return false;
             }
 
-            setPassword(query.password());
+            setPassword(query->password());
 
             const QString response(password() + QLatin1Char('\n'));
             writeToProcess(response.toLocal8Bit());
@@ -960,21 +962,21 @@ bool CliInterface::handleFileExistsMessage(const QString &line)
         return true;
     }
 
-    Kerfuffle::OverwriteQuery query(QDir::current().path() + QLatin1Char('/') + m_storedFileName);
-    query.setNoRenameMode(true);
-    query.execute();
+    auto query = std::make_shared<Kerfuffle::OverwriteQuery>(QDir::current().path() + QLatin1Char('/') + m_storedFileName);
+    query->setNoRenameMode(true);
+    query->execute();
 
-    if (query.responseOverwrite()) {
+    if (query->responseOverwrite()) {
         responseToProcess = choices.at(0);
-    } else if (query.responseSkip()) {
+    } else if (query->responseSkip()) {
         responseToProcess = choices.at(1);
-    } else if (query.responseOverwriteAll()) {
+    } else if (query->responseOverwriteAll()) {
         overwriteAllFiles = true;
         responseToProcess = choices.at(2);
-    } else if (query.responseAutoSkip()) {
+    } else if (query->responseAutoSkip()) {
         autoSkipFiles = true;
         responseToProcess = choices.at(3);
-    } else if (query.responseCancelled()) {
+    } else if (query->responseCancelled()) {
         Q_EMIT cancelled();
         if (choices.count() < 5) { // If the program has no way to cancel the extraction, we resort to killing it
             return doKill();

@@ -66,7 +66,7 @@ bool BatchExtract::doKill()
     return subjobs().first()->kill();
 }
 
-void BatchExtract::slotUserQuery(Kerfuffle::Query *query)
+void BatchExtract::slotUserQuery(std::shared_ptr<Kerfuffle::Query> query)
 {
     query->execute();
 }

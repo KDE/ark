@@ -182,7 +182,7 @@ private Q_SLOTS:
     /**
      * Shows a query dialog, which may happen when a file already exists.
      */
-    void slotUserQuery(Kerfuffle::Query *query);
+    void slotUserQuery(std::shared_ptr<Kerfuffle::Query> query);
 
     /**
      * Does the real work for start() and extracts all scheduled files.

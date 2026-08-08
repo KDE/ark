@@ -59,17 +59,19 @@ protected Q_SLOTS:
     virtual void onProgress(double progress);
     virtual void onEntryRemoved(const QString &path);
     virtual void onFinished(bool result);
-    virtual void onUserQuery(Kerfuffle::Query *query);
+    virtual void onUserQuery(std::shared_ptr<Kerfuffle::Query> query);
 
 Q_SIGNALS:
     void entryRemoved(const QString &entry);
     void newEntry(Kerfuffle::Archive::Entry *);
-    void userQuery(Kerfuffle::Query *);
+    void userQuery(std::shared_ptr<Kerfuffle::Query>);
 
 private:
     Archive *m_archive = nullptr;
     ReadOnlyArchiveInterface *m_archiveInterface = nullptr;
     QElapsedTimer jobTimer;
+    // The question the job is waiting for an answer to, if there is one.
+    std::weak_ptr<Query> m_pendingQuery;
 
     class Private;
     Private *const d;

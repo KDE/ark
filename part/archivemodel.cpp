@@ -407,7 +407,7 @@ void ArchiveModel::slotEntryRemoved(const QString &path)
     }
 }
 
-void ArchiveModel::slotUserQuery(Kerfuffle::Query *query)
+void ArchiveModel::slotUserQuery(std::shared_ptr<Kerfuffle::Query> query)
 {
     query->execute();
 }

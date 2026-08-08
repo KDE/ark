@@ -29,21 +29,52 @@ Query::Query()
 
 QVariant Query::response() const
 {
-    return m_data.value(QStringLiteral("response"));
+    return data(QStringLiteral("response"));
+}
+
+QVariant Query::data(const QString &key) const
+{
+    QMutexLocker locker(&m_responseMutex);
+    return m_data.value(key);
+}
+
+void Query::setData(const QString &key, const QVariant &value)
+{
+    QMutexLocker locker(&m_responseMutex);
+    m_data[key] = value;
 }
 
 void Query::waitForResponse()
 {
     QMutexLocker locker(&m_responseMutex);
-    // if there is no response set yet, wait
-    if (!m_data.contains(QLatin1String("response"))) {
+    // A thread can be woken for no reason of ours, so the answer is what says to go on.
+    while (!m_data.contains(QLatin1String("response"))) {
         m_responseCondition.wait(&m_responseMutex);
     }
 }
 
 void Query::setResponse(const QVariant &response)
 {
+    QMutexLocker locker(&m_responseMutex);
+    // The question was given up on and answered already, and whoever asked it has moved
+    // on, so a dialog that ends after that has nothing left to say.
+    if (m_aborted) {
+        return;
+    }
     m_data[QStringLiteral("response")] = response;
+    m_responseCondition.wakeAll();
+}
+
+void Query::abort()
+{
+    QMutexLocker locker(&m_responseMutex);
+    // An answered question has nothing left to give up on, and its answer stands.
+    if (m_data.contains(QLatin1String("response"))) {
+        return;
+    }
+
+    m_aborted = true;
+    m_data[QStringLiteral("response")] = cancelledResponse();
     m_responseCondition.wakeAll();
 }
 
@@ -51,7 +82,7 @@ OverwriteQuery::OverwriteQuery(const QString &filename)
     : m_noRenameMode(false)
     , m_multiMode(true)
 {
-    m_data[QStringLiteral("filename")] = filename;
+    setData(QStringLiteral("filename"), filename);
 }
 
 void OverwriteQuery::execute()
@@ -68,7 +99,7 @@ void OverwriteQuery::execute()
         options = options | KIO::RenameDialog_MultipleItems;
     }
 
-    const QString sourcePath = m_data.value(QStringLiteral("filename")).toString();
+    const QString sourcePath = data(QStringLiteral("filename")).toString();
 
     QUrl sourceUrl;
     // Try to use an archive KIO (e.g. zip:/) URL as source URL so we get a proper file preview.
@@ -88,7 +119,7 @@ void OverwriteQuery::execute()
     QPointer<KIO::RenameDialog> dialog = new KIO::RenameDialog(nullptr, i18nc("@title:window", "File Already Exists"), sourceUrl, destUrl, options);
     dialog.data()->exec();
 
-    m_data[QStringLiteral("newFilename")] = dialog.data()->newDestUrl().toDisplayString(QUrl::PreferLocalFile);
+    setData(QStringLiteral("newFilename"), dialog.data()->newDestUrl().toDisplayString(QUrl::PreferLocalFile));
 
     setResponse(dialog.data()->result());
 
@@ -97,37 +128,42 @@ void OverwriteQuery::execute()
     QApplication::restoreOverrideCursor();
 }
 
+QVariant OverwriteQuery::cancelledResponse() const
+{
+    return QVariant(KIO::Result_Cancel);
+}
+
 bool OverwriteQuery::responseCancelled()
 {
-    return m_data.value(QStringLiteral("response")).toInt() == KIO::Result_Cancel;
+    return data(QStringLiteral("response")).toInt() == KIO::Result_Cancel;
 }
 bool OverwriteQuery::responseOverwriteAll()
 {
-    return m_data.value(QStringLiteral("response")).toInt() == KIO::Result_OverwriteAll;
+    return data(QStringLiteral("response")).toInt() == KIO::Result_OverwriteAll;
 }
 bool OverwriteQuery::responseOverwrite()
 {
-    return m_data.value(QStringLiteral("response")).toInt() == KIO::Result_Overwrite;
+    return data(QStringLiteral("response")).toInt() == KIO::Result_Overwrite;
 }
 
 bool OverwriteQuery::responseRename()
 {
-    return m_data.value(QStringLiteral("response")).toInt() == KIO::Result_Rename;
+    return data(QStringLiteral("response")).toInt() == KIO::Result_Rename;
 }
 
 bool OverwriteQuery::responseSkip()
 {
-    return m_data.value(QStringLiteral("response")).toInt() == KIO::Result_Skip;
+    return data(QStringLiteral("response")).toInt() == KIO::Result_Skip;
 }
 
 bool OverwriteQuery::responseAutoSkip()
 {
-    return m_data.value(QStringLiteral("response")).toInt() == KIO::Result_AutoSkip;
+    return data(QStringLiteral("response")).toInt() == KIO::Result_AutoSkip;
 }
 
 QString OverwriteQuery::newFilename()
 {
-    return m_data.value(QStringLiteral("newFilename")).toString();
+    return data(QStringLiteral("newFilename")).toString();
 }
 
 void OverwriteQuery::setArchiveFileName(const QString &fileName)
@@ -167,8 +203,8 @@ bool OverwriteQuery::multiMode()
 
 PasswordNeededQuery::PasswordNeededQuery(const QString &archiveFilename, bool incorrectTryAgain)
 {
-    m_data[QStringLiteral("archiveFilename")] = archiveFilename;
-    m_data[QStringLiteral("incorrectTryAgain")] = incorrectTryAgain;
+    setData(QStringLiteral("archiveFilename"), archiveFilename);
+    setData(QStringLiteral("incorrectTryAgain"), incorrectTryAgain);
 }
 
 void PasswordNeededQuery::execute()
@@ -197,16 +233,16 @@ void PasswordNeededQuery::execute()
 
     dlg.data()->setPrompt(xi18nc("@info",
                                  "The archive <filename>%1</filename> is password protected. Please enter the password.",
-                                 m_data.value(QStringLiteral("archiveFilename")).toString()));
+                                 data(QStringLiteral("archiveFilename")).toString()));
 
-    if (m_data.value(QStringLiteral("incorrectTryAgain")).toBool()) {
+    if (data(QStringLiteral("incorrectTryAgain")).toBool()) {
         dlg.data()->showErrorMessage(i18n("Incorrect password, please try again."), KPasswordDialog::PasswordError);
     }
 
     const bool notCancelled = dlg.data()->exec();
     const QString password = dlg.data()->password();
 
-    m_data[QStringLiteral("password")] = password;
+    setData(QStringLiteral("password"), password);
     setResponse(notCancelled && !password.isEmpty());
 
     QApplication::restoreOverrideCursor();
@@ -216,17 +252,22 @@ void PasswordNeededQuery::execute()
 
 QString PasswordNeededQuery::password()
 {
-    return m_data.value(QStringLiteral("password")).toString();
+    return data(QStringLiteral("password")).toString();
+}
+
+QVariant PasswordNeededQuery::cancelledResponse() const
+{
+    return QVariant(false);
 }
 
 bool PasswordNeededQuery::responseCancelled()
 {
-    return !m_data.value(QStringLiteral("response")).toBool();
+    return !data(QStringLiteral("response")).toBool();
 }
 
 LoadCorruptQuery::LoadCorruptQuery(const QString &archiveFilename)
 {
-    m_data[QStringLiteral("archiveFilename")] = archiveFilename;
+    setData(QStringLiteral("archiveFilename"), archiveFilename);
 }
 
 void LoadCorruptQuery::execute()
@@ -244,16 +285,21 @@ void LoadCorruptQuery::execute()
     QApplication::restoreOverrideCursor();
 }
 
+QVariant LoadCorruptQuery::cancelledResponse() const
+{
+    return QVariant(KMessageBox::SecondaryAction);
+}
+
 bool LoadCorruptQuery::responseYes()
 {
-    return (m_data.value(QStringLiteral("response")).toInt() == KMessageBox::PrimaryAction);
+    return (data(QStringLiteral("response")).toInt() == KMessageBox::PrimaryAction);
 }
 
 ContinueExtractionQuery::ContinueExtractionQuery(const QString &error, const QString &archiveEntry)
     : m_chkDontAskAgain(i18n("Don't ask again."))
 {
-    m_data[QStringLiteral("error")] = error;
-    m_data[QStringLiteral("archiveEntry")] = archiveEntry;
+    setData(QStringLiteral("error"), error);
+    setData(QStringLiteral("archiveEntry"), archiveEntry);
 }
 
 void ContinueExtractionQuery::execute()
@@ -267,17 +313,22 @@ void ContinueExtractionQuery::execute()
                           "    <filename>%1</filename><nl/>"
                           "failed with the error message:<nl/>    %2<nl/><nl/>"
                           "Do you want to continue extraction?<nl/>",
-                          m_data.value(QStringLiteral("archiveEntry")).toString(),
-                          m_data.value(QStringLiteral("error")).toString()),
+                          data(QStringLiteral("archiveEntry")).toString(),
+                          data(QStringLiteral("error")).toString()),
                     QMessageBox::Yes | QMessageBox::Cancel);
     box.setCheckBox(&m_chkDontAskAgain);
     setResponse(box.exec());
     QApplication::restoreOverrideCursor();
 }
 
+QVariant ContinueExtractionQuery::cancelledResponse() const
+{
+    return QVariant(QMessageBox::Cancel);
+}
+
 bool ContinueExtractionQuery::responseCancelled()
 {
-    return (m_data.value(QStringLiteral("response")).toInt() == QMessageBox::Cancel);
+    return (data(QStringLiteral("response")).toInt() == QMessageBox::Cancel);
 }
 
 bool ContinueExtractionQuery::dontAskAgain()

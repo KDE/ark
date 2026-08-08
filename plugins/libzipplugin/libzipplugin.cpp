@@ -839,29 +839,29 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
             if (m_skipAll) {
                 return true;
             } else {
-                Kerfuffle::OverwriteQuery query(renamedEntry);
-                query.setArchiveFileName(filename());
-                query.setArchiveMimeType(mimetype().name());
-                query.setDestination(destination);
-                Q_EMIT userQuery(&query);
-                query.waitForResponse();
+                auto query = std::make_shared<Kerfuffle::OverwriteQuery>(renamedEntry);
+                query->setArchiveFileName(filename());
+                query->setArchiveMimeType(mimetype().name());
+                query->setDestination(destination);
+                Q_EMIT userQuery(query);
+                query->waitForResponse();
 
-                if (query.responseCancelled()) {
+                if (query->responseCancelled()) {
                     Q_EMIT cancelled();
                     return false;
-                } else if (query.responseSkip()) {
+                } else if (query->responseSkip()) {
                     return true;
-                } else if (query.responseAutoSkip()) {
+                } else if (query->responseAutoSkip()) {
                     m_skipAll = true;
                     return true;
-                } else if (query.responseRename()) {
-                    const QString newName(query.newFilename());
+                } else if (query->responseRename()) {
+                    const QString newName(query->newFilename());
                     destination = QFileInfo(destination).path() + QDir::separator() + QFileInfo(newName).fileName();
                     renamedEntry = QFileInfo(entry).path() + QDir::separator() + QFileInfo(newName).fileName();
-                } else if (query.responseOverwriteAll()) {
+                } else if (query->responseOverwriteAll()) {
                     m_overwriteAll = true;
                     break;
-                } else if (query.responseOverwrite()) {
+                } else if (query->responseOverwrite()) {
                     break;
                 }
             }
@@ -875,15 +875,15 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
             if (zipFile) {
                 break;
             } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD || zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_WRONGPASSWD) {
-                Kerfuffle::PasswordNeededQuery query(filename(), !firstTry);
-                Q_EMIT userQuery(&query);
-                query.waitForResponse();
+                auto query = std::make_shared<Kerfuffle::PasswordNeededQuery>(filename(), !firstTry);
+                Q_EMIT userQuery(query);
+                query->waitForResponse();
 
-                if (query.responseCancelled()) {
+                if (query->responseCancelled()) {
                     Q_EMIT cancelled();
                     return false;
                 }
-                setPassword(query.password());
+                setPassword(query->password());
 
                 if (zip_set_default_password(archive, password().toUtf8().constData())) {
                     qCDebug(ARK_LOG) << "Failed to set password for:" << entry;

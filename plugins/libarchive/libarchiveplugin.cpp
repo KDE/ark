@@ -15,9 +15,11 @@
 #include <KLocalizedString>
 
 #include <QDir>
+
 #include <QFileInfo>
 #include <QMimeDatabase>
 #include <QThread>
+#include <memory>
 
 #include <archive_entry.h>
 
@@ -133,10 +135,10 @@ bool LibarchivePlugin::list()
 
 bool LibarchivePlugin::emitCorruptArchive()
 {
-    Kerfuffle::LoadCorruptQuery query(filename());
-    Q_EMIT userQuery(&query);
-    query.waitForResponse();
-    if (!query.responseYes()) {
+    auto query = std::make_shared<Kerfuffle::LoadCorruptQuery>(filename());
+    Q_EMIT userQuery(query);
+    query->waitForResponse();
+    if (!query->responseYes()) {
         Q_EMIT cancelled();
         archive_read_close(m_archiveReader.data());
         return false;
@@ -407,33 +409,33 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
                     archive_entry_clear(entry);
                     continue;
                 } else if (!overwriteAll && !skipAll) {
-                    Kerfuffle::OverwriteQuery query(entryName);
-                    query.setArchiveFileName(filename());
-                    query.setArchiveMimeType(mimetype().name());
-                    query.setDestination(entryFI.absoluteFilePath());
-                    Q_EMIT userQuery(&query);
-                    query.waitForResponse();
+                    auto query = std::make_shared<Kerfuffle::OverwriteQuery>(entryName);
+                    query->setArchiveFileName(filename());
+                    query->setArchiveMimeType(mimetype().name());
+                    query->setDestination(entryFI.absoluteFilePath());
+                    Q_EMIT userQuery(query);
+                    query->waitForResponse();
 
-                    if (query.responseCancelled()) {
+                    if (query->responseCancelled()) {
                         Q_EMIT cancelled();
                         archive_read_data_skip(m_archiveReader.data());
                         archive_entry_clear(entry);
                         break;
-                    } else if (query.responseSkip()) {
+                    } else if (query->responseSkip()) {
                         archive_read_data_skip(m_archiveReader.data());
                         archive_entry_clear(entry);
                         continue;
-                    } else if (query.responseAutoSkip()) {
+                    } else if (query->responseAutoSkip()) {
                         archive_read_data_skip(m_archiveReader.data());
                         archive_entry_clear(entry);
                         skipAll = true;
                         continue;
-                    } else if (query.responseRename()) {
-                        const QString newName(query.newFilename());
+                    } else if (query->responseRename()) {
+                        const QString newName(query->newFilename());
                         fileBeingRenamed = newName;
                         archive_entry_copy_pathname(entry, QFile::encodeName(newName).constData());
                         goto retry;
-                    } else if (query.responseOverwriteAll()) {
+                    } else if (query->responseOverwriteAll()) {
                         overwriteAll = true;
                     }
                 }
@@ -449,29 +451,29 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
                         archive_entry_clear(entry);
                         continue;
                     } else if (!overwriteAll && !skipAll) {
-                        Kerfuffle::OverwriteQuery query(entryName);
-                        query.setArchiveFileName(filename());
-                        query.setArchiveMimeType(mimetype().name());
-                        query.setDestination(entryFI.absoluteFilePath());
-                        query.setNoRenameMode(true);
-                        Q_EMIT userQuery(&query);
-                        query.waitForResponse();
+                        auto query = std::make_shared<Kerfuffle::OverwriteQuery>(entryName);
+                        query->setArchiveFileName(filename());
+                        query->setArchiveMimeType(mimetype().name());
+                        query->setDestination(entryFI.absoluteFilePath());
+                        query->setNoRenameMode(true);
+                        Q_EMIT userQuery(query);
+                        query->waitForResponse();
 
-                        if (query.responseCancelled()) {
+                        if (query->responseCancelled()) {
                             Q_EMIT cancelled();
                             archive_read_data_skip(m_archiveReader.data());
                             archive_entry_clear(entry);
                             break;
-                        } else if (query.responseSkip()) {
+                        } else if (query->responseSkip()) {
                             archive_read_data_skip(m_archiveReader.data());
                             archive_entry_clear(entry);
                             continue;
-                        } else if (query.responseAutoSkip()) {
+                        } else if (query->responseAutoSkip()) {
                             archive_read_data_skip(m_archiveReader.data());
                             archive_entry_clear(entry);
                             skipAll = true;
                             continue;
-                        } else if (query.responseOverwriteAll()) {
+                        } else if (query->responseOverwriteAll()) {
                             overwriteAll = true;
                         }
                     }
@@ -509,15 +511,15 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
                 // don't bother prompting again.
                 if (!dontPromptErrors) {
                     // Ask the user if he wants to continue extraction despite an error for this entry.
-                    Kerfuffle::ContinueExtractionQuery query(QLatin1String(archive_error_string(writer.data())), entryName);
-                    Q_EMIT userQuery(&query);
-                    query.waitForResponse();
+                    auto query = std::make_shared<Kerfuffle::ContinueExtractionQuery>(QLatin1String(archive_error_string(writer.data())), entryName);
+                    Q_EMIT userQuery(query);
+                    query->waitForResponse();
 
-                    if (query.responseCancelled()) {
+                    if (query->responseCancelled()) {
                         Q_EMIT cancelled();
                         return false;
                     }
-                    dontPromptErrors = query.dontAskAgain();
+                    dontPromptErrors = query->dontAskAgain();
                 }
                 break;
 

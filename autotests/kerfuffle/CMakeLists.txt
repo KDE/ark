@@ -32,6 +32,15 @@ ecm_add_tests(
     LINK_LIBRARIES jsoninterface Qt::Test
 )
 
+ecm_add_tests(
+    queryjobtest.cpp
+    LINK_LIBRARIES kerfuffle Qt::Test
+)
+
+# A job that waits for its thread while that thread waits for an answer never gets there,
+# so this one ends by running out of time rather than by failing an assertion.
+set_tests_properties(kerfuffle-queryjobtest PROPERTIES TIMEOUT 30)
+
 # metadatatest needs the number of plugins actually installed by an install() command.
 list(REMOVE_ITEM INSTALLED_KERFUFFLE_PLUGINS "")
 list(LENGTH INSTALLED_KERFUFFLE_PLUGINS INSTALLED_COUNT)

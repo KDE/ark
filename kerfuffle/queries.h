@@ -15,6 +15,7 @@
 #include <QString>
 #include <QVariant>
 #include <QWaitCondition>
+#include <memory>
 
 namespace Kerfuffle
 {
@@ -34,6 +35,14 @@ public:
      */
     void waitForResponse();
 
+    /**
+     * Answers the question with a no and lets whoever waits for it carry on.
+     *
+     * Whatever the dialog answers afterwards is dropped, so a question can be given up on
+     * while it is still on the screen. Can be called from any thread.
+     */
+    void abort();
+
     QVariant response() const;
 
 protected:
@@ -47,11 +56,19 @@ protected:
 
     void setResponse(const QVariant &response);
 
-    QueryData m_data;
+    /**
+     * The answer that stands for a no for this question, given when it is given up on.
+     */
+    virtual QVariant cancelledResponse() const = 0;
+
+    QVariant data(const QString &key) const;
+    void setData(const QString &key, const QVariant &value);
 
 private:
+    QueryData m_data;
+    bool m_aborted = false;
     QWaitCondition m_responseCondition;
-    QMutex m_responseMutex;
+    mutable QMutex m_responseMutex;
 };
 
 /* *****************************************************************
@@ -61,6 +78,7 @@ private:
 class KERFUFFLE_EXPORT OverwriteQuery : public Query
 {
 public:
+    QVariant cancelledResponse() const override;
     explicit OverwriteQuery(const QString &filename);
     void execute() override;
     bool responseCancelled();
@@ -95,6 +113,7 @@ private:
 class KERFUFFLE_EXPORT PasswordNeededQuery : public Query
 {
 public:
+    QVariant cancelledResponse() const override;
     explicit PasswordNeededQuery(const QString &archiveFilename, bool incorrectTryAgain = false);
     void execute() override;
 
@@ -109,6 +128,7 @@ public:
 class KERFUFFLE_EXPORT LoadCorruptQuery : public Query
 {
 public:
+    QVariant cancelledResponse() const override;
     explicit LoadCorruptQuery(const QString &archiveFilename);
     void execute() override;
 
@@ -118,6 +138,7 @@ public:
 class KERFUFFLE_EXPORT ContinueExtractionQuery : public Query
 {
 public:
+    QVariant cancelledResponse() const override;
     explicit ContinueExtractionQuery(const QString &error, const QString &archiveEntry);
     void execute() override;
 
@@ -130,6 +151,6 @@ private:
 
 }
 
-Q_DECLARE_METATYPE(Kerfuffle::Query *)
+Q_DECLARE_METATYPE(std::shared_ptr<Kerfuffle::Query>)
 
 #endif /* ifndef QUERIES_H */

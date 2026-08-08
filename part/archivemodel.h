@@ -139,7 +139,7 @@ private Q_SLOTS:
     void slotListEntry(Kerfuffle::Archive::Entry *entry);
     void slotLoadingFinished(KJob *job);
     void slotEntryRemoved(const QString &path);
-    void slotUserQuery(Kerfuffle::Query *query);
+    void slotUserQuery(std::shared_ptr<Kerfuffle::Query> query);
     void slotCleanupEmptyDirs();
 
 private:

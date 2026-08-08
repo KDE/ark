@@ -66,6 +66,12 @@ Job::Job(ReadOnlyArchiveInterface *interface)
 
 Job::~Job()
 {
+    // The thread is stopped for as long as a question of its own goes unanswered, and
+    // nobody is going to answer it now, so it is given up on before waiting for it.
+    if (auto query = m_pendingQuery.lock()) {
+        query->abort();
+    }
+
     if (d->isRunning()) {
         d->wait();
     }
@@ -204,17 +210,26 @@ void Job::onFinished(bool result)
     }
 }
 
-void Job::onUserQuery(Query *query)
+void Job::onUserQuery(std::shared_ptr<Query> query)
 {
     if (archiveInterface()->waitForFinishedSignal()) {
         qCWarning(ARK_LOG) << "Plugins run from the main thread should call directly query->execute()";
     }
+
+    // The question outlives this call: whoever shows the dialog can answer it later, and
+    // the thread waits all the while, so it is remembered until it goes away by itself.
+    m_pendingQuery = query;
 
     Q_EMIT userQuery(query);
 }
 
 bool Job::doKill()
 {
+    // A thread waiting for an answer notices nothing else, so the question goes first.
+    if (auto query = m_pendingQuery.lock()) {
+        query->abort();
+    }
+
     const bool killed = archiveInterface()->doKill();
     if (killed) {
         return true;

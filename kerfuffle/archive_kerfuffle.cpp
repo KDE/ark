@@ -509,7 +509,7 @@ void Archive::onAddFinished(KJob *job)
     restoreUserMetadata();
 }
 
-void Archive::onUserQuery(Query *query)
+void Archive::onUserQuery(std::shared_ptr<Query> query)
 {
     query->execute();
 }
