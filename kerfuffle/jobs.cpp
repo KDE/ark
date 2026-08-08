@@ -220,7 +220,35 @@ void Job::onUserQuery(std::shared_ptr<Query> query)
     // the thread waits all the while, so it is remembered until it goes away by itself.
     m_pendingQuery = query;
 
+    m_openQueries++;
     Q_EMIT userQuery(query);
+    m_openQueries--;
+
+    if (m_openQueries == 0 && m_deleteWhenAnswered) {
+        m_deleteWhenAnswered = false;
+        // Qt takes note of the first deleteLater() and ignores the ones after it, so the
+        // request that was held back is carried out here, on a stack of its own.
+        QMetaObject::invokeMethod(
+            this,
+            [this] {
+                delete this;
+            },
+            Qt::QueuedConnection);
+    }
+}
+
+bool Job::event(QEvent *event)
+{
+    // The thread doing the work stops until the answer to its question arrives, and the
+    // destructor waits for that thread to end, so a job deleted while a question is open
+    // would have the two wait for each other. The deletion is held back until the answer
+    // has been given.
+    if (event->type() == QEvent::DeferredDelete && m_openQueries > 0) {
+        m_deleteWhenAnswered = true;
+        return true;
+    }
+
+    return KJob::event(event);
 }
 
 bool Job::doKill()

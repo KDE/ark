@@ -19,6 +19,7 @@
 #include <KJob>
 
 #include <QElapsedTimer>
+#include <QEvent>
 #include <QPointer>
 #include <QTemporaryDir>
 
@@ -48,6 +49,8 @@ protected:
 
     void connectToArchiveInterfaceSignals();
 
+    bool event(QEvent *event) override;
+
 public Q_SLOTS:
     virtual void doWork() = 0;
 
@@ -70,8 +73,11 @@ private:
     Archive *m_archive = nullptr;
     ReadOnlyArchiveInterface *m_archiveInterface = nullptr;
     QElapsedTimer jobTimer;
-    // The question the job is waiting for an answer to, if there is one.
+    // How many questions the job is waiting for an answer to, the last of them, and
+    // whether the job was asked to delete itself while waiting for one.
+    int m_openQueries = 0;
     std::weak_ptr<Query> m_pendingQuery;
+    bool m_deleteWhenAnswered = false;
 
     class Private;
     Private *const d;
