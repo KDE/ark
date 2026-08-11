@@ -917,11 +917,9 @@ msgid "Extract"
 msgstr "Otpakiraj"
 
 #: kerfuffle/extractiondialog.cpp:57
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Extract"
+#, kde-format
 msgid "Extract"
-msgstr "Otpakiraj"
+msgstr "&Raspakiravanje"
 
 #: kerfuffle/extractiondialog.cpp:91
 #, kde-format
@@ -1046,22 +1044,19 @@ msgstr "Sve &datoteke"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_openDestinationFolderAfterExtraction)
 #: kerfuffle/extractionsettingspage.ui:17
-#, fuzzy, kde-format
-#| msgid "Open destination folder after extraction"
+#, kde-format
 msgid "Open destination folder after extraction"
 msgstr "Otvori odredišnu mapu nakon otpakiravanja"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_closeAfterExtraction)
 #: kerfuffle/extractionsettingspage.ui:24
-#, fuzzy, kde-format
-#| msgid "Close Ark after extraction"
+#, kde-format
 msgid "Close Ark after extraction"
 msgstr "Zatvori Ark nakon otpakiravanja"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_preservePaths)
 #: kerfuffle/extractionsettingspage.ui:31
-#, fuzzy, kde-format
-#| msgid "Preserve paths when extracting"
+#, kde-format
 msgid "Preserve paths when extracting"
 msgstr "Sačuvaj putanje prilikom otpakiravanja"
 
