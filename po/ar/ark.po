@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-02 00:47+0000\n"
-"PO-Revision-Date: 2026-01-18 18:43+0400\n"
+"PO-Revision-Date: 2026-08-10 18:36+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -884,7 +884,7 @@ msgstr "<filename>%1</filename> موجود مسبقاً، ولكنه ليس مج
 #: kerfuffle/extractiondialog.cpp:131
 #, kde-format
 msgid "Please check your permissions to create it."
-msgstr "الرجاء تأكد من الصلاحيات لإنشائه."
+msgstr "الرجاء تأكد من أذونك لإنشائه."
 
 #: kerfuffle/extractiondialog.cpp:173
 #, kde-format
@@ -1085,7 +1085,7 @@ msgid ""
 "you have sufficient permissions."
 msgstr ""
 "تعذرت الكتابة إلى الوجهة <filename>%1</filename>.<nl/> تحقق مما إذا كان لديك "
-"أذونات كافية."
+"أذون كافية."
 
 #: kerfuffle/jobs.cpp:741
 #, kde-format
@@ -2207,7 +2207,7 @@ msgstr "لا يمكن بدء قارئ الأرشيف"
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
-msgstr "الأرشيف معطوب أو أذونات غير كافية."
+msgstr "الأرشيف معطوب أو أذون غير كافية."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:217
 #, kde-format
