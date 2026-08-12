@@ -10,6 +10,7 @@
 #include <QDir>
 #include <QMenu>
 #include <QMimeDatabase>
+#include <QPointer>
 
 #include <KFileItem>
 #include <KIO/ApplicationLauncherJob>
@@ -120,7 +121,10 @@ QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent
         nameFinderJob->start();
     }
 
-    connect(action, &QAction::triggered, this, [fileExtension, urls, parentWidget, this]() {
+    // The dialog below runs an event loop of its own, and the file manager is free to drop this
+    // plugin while it is open, so the plugin is held through a guard that is taken here, while it
+    // is still there to be taken. (See Bug 521633)
+    connect(action, &QAction::triggered, this, [fileExtension, urls, parentWidget, self = QPointer(this)]() {
         // Don't pass a parent to the job, otherwise it will be killed if dolphin gets closed.
         auto *addToArchiveJob = new AddToArchive(nullptr);
         addToArchiveJob->setImmediateProgressReporting(true);
@@ -136,15 +140,17 @@ QAction *CompressFileItemAction::createAction(const QIcon &icon, QWidget *parent
                 return;
             }
         }
-        addToArchiveJob->start();
-        connect(addToArchiveJob, &KJob::finished, this, [this, addToArchiveJob]() {
+        // The job carries the compression on its own and reaches back into the plugin only for as
+        // long as there is something left to reach.
+        QObject::connect(addToArchiveJob, &KJob::finished, addToArchiveJob, [addToArchiveJob, self]() {
             if (addToArchiveJob->error() == 0) {
                 KIO::highlightInFileManager({QUrl::fromLocalFile(addToArchiveJob->fileName())});
-            } else if (!addToArchiveJob->errorString().isEmpty()) {
-                Q_EMIT error(addToArchiveJob->errorString());
+            } else if (self && !addToArchiveJob->errorString().isEmpty()) {
+                Q_EMIT self->error(addToArchiveJob->errorString());
             }
             addToArchiveJob->deleteLater();
         });
+        addToArchiveJob->start();
     });
 
     return action;
