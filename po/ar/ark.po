@@ -429,7 +429,7 @@ msgstr "اقفل الشريط الجانبي"
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
-msgstr "افتح أرشيفاً"
+msgstr "افتح أرشيفًا"
 
 #: app/mainwindow.cpp:484
 #, kde-format
@@ -471,7 +471,7 @@ msgstr "مرحبًا"
 #: app/welcomeview/welcomeview.ui:179
 #, kde-format
 msgid "Open Archive…"
-msgstr "افتح أرشيفاً…"
+msgstr "افتح أرشيفًا…"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
@@ -879,7 +879,7 @@ msgstr "تعذر إنشاء المجلد <filename>%1</filename>."
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> already exists, but is not a folder."
-msgstr "<filename>%1</filename> موجود مسبقاً، ولكنه ليس مجلداً."
+msgstr "<filename>%1</filename> موجود مسبقًا، ولكنه ليس مجلدًا."
 
 #: kerfuffle/extractiondialog.cpp:131
 #, kde-format
@@ -1943,7 +1943,7 @@ msgid ""
 "Loading the archive <filename>%1</filename> failed with the following error:"
 "<nl/><message>%2</message>"
 msgstr ""
-"فشل تحميل الأرشيف <filename>%1</filename>، معطياً الخطأ التالي:<nl/><message>"
+"فشل تحميل الأرشيف <filename>%1</filename>، معطيًا الخطأ التالي:<nl/><message>"
 "%2</message>"
 
 #: part/part.cpp:967
