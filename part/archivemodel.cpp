@@ -96,11 +96,10 @@ QVariant ArchiveModel::data(const QModelIndex &index, int role) const
                     if (compressedSize == 0 || size == 0) {
                         return QVariant();
                     } else {
-                        // do not set ratio if compressed size bigger than original size
+                        // do not set ratio if compressed size is bigger than the original size
                         if (compressedSize > size) {
                             return QStringLiteral("--");
                         }
-                        //
                         int ratio = int(100 * ((double)size - compressedSize) / size);
                         return QString(QString::number(ratio) + QStringLiteral(" %"));
                     }
