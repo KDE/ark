@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-02 00:47+0000\n"
+"POT-Creation-Date: 2026-08-14 00:48+0000\n"
 "PO-Revision-Date: 2025-12-18 23:53+0700\n"
 "Last-Translator: Satakun Utama <linesofcodes@dailitation.xyz>\n"
 "Language-Team: Thai\n"
@@ -1340,90 +1340,90 @@ msgstr ""
 "การแตกไฟล์ของรายการ:<nl/>    <filename>%1</filename><nl/"
 ">ล้มเหลวด้วยข้อความผิดพลาด:<nl/>    %2<nl/><nl/>คุณต้องการแตกไฟล์ต่อหรือไม่<nl/>"
 
-#: part/archivemodel.cpp:154
+#: part/archivemodel.cpp:158
 #, kde-format
 msgctxt "Name of a file inside an archive"
 msgid "Name"
 msgstr " ชื่อ "
 
-#: part/archivemodel.cpp:156
+#: part/archivemodel.cpp:160
 #, kde-format
 msgctxt "Uncompressed size of a file inside an archive"
 msgid "Original Size"
 msgstr "ขนาดต้นฉบับ"
 
-#: part/archivemodel.cpp:158
+#: part/archivemodel.cpp:162
 #, kde-format
 msgctxt "Compressed size of a file inside an archive"
 msgid "Compressed Size"
 msgstr "ขนาดเมื่อบีบอัด"
 
-#: part/archivemodel.cpp:160
+#: part/archivemodel.cpp:164
 #, kde-format
 msgctxt "Compression rate of file"
 msgid "Rate"
 msgstr "อัตราการบีบอัด"
 
-#: part/archivemodel.cpp:162
+#: part/archivemodel.cpp:166
 #, kde-format
 msgctxt "File's owner username"
 msgid "Owner"
 msgstr "เจ้าของ"
 
-#: part/archivemodel.cpp:164
+#: part/archivemodel.cpp:168
 #, kde-format
 msgctxt "File's group"
 msgid "Group"
 msgstr "กลุ่ม"
 
-#: part/archivemodel.cpp:166
+#: part/archivemodel.cpp:170
 #, kde-format
 msgctxt "File permissions"
 msgid "Mode"
 msgstr "โหมด"
 
-#: part/archivemodel.cpp:168
+#: part/archivemodel.cpp:172
 #, kde-format
 msgctxt "CRC hash code"
 msgid "CRC checksum"
 msgstr "CRC checksum"
 
-#: part/archivemodel.cpp:170
+#: part/archivemodel.cpp:174
 #, kde-format
 msgctxt "BLAKE2 hash code"
 msgid "BLAKE2 checksum"
 msgstr "BLAKE2 checksum"
 
-#: part/archivemodel.cpp:172
+#: part/archivemodel.cpp:176
 #, kde-format
 msgctxt "Compression method"
 msgid "Method"
 msgstr "วิธีการ"
 
-#: part/archivemodel.cpp:175
+#: part/archivemodel.cpp:179
 #, kde-format
 msgctxt "File version"
 msgid "Version"
 msgstr "รุ่น"
 
-#: part/archivemodel.cpp:177
+#: part/archivemodel.cpp:181
 #, kde-format
 msgctxt "Timestamp"
 msgid "Date"
 msgstr "วันที่"
 
-#: part/archivemodel.cpp:179
+#: part/archivemodel.cpp:183
 #, kde-format
 msgctxt "Unnamed column"
 msgid "??"
 msgstr "??"
 
-#: part/archivemodel.cpp:279
+#: part/archivemodel.cpp:283
 #, kde-format
 msgid "Adding files is not supported for this archive."
 msgstr "การเพิ่มไฟล์ไม่ถูกรองรับโดยอาร์ไคฟ์นี้"
 
-#: part/archivemodel.cpp:287
+#: part/archivemodel.cpp:291
 #, kde-format
 msgid "You can only add local files to an archive."
 msgstr "คุณสามารถเพิ่มไฟล์ภายในเครื่องในอาร์ไคฟ์ได้เท่านั้น"

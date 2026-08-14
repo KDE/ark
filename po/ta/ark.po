@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-02 00:47+0000\n"
+"POT-Creation-Date: 2026-08-14 00:48+0000\n"
 "PO-Revision-Date: 2026-02-01 13:43+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -1374,90 +1374,90 @@ msgstr ""
 "இப்பதிவு:<nl/>    <filename>%1</filename><nl/>இச்சிக்கலால் தோல்வியடைந்த‍து:<nl/>    "
 "%2<nl/><nl/>பிரித்தெடுப்பதை தொடர வேண்டுமா?<nl/>"
 
-#: part/archivemodel.cpp:154
+#: part/archivemodel.cpp:158
 #, kde-format
 msgctxt "Name of a file inside an archive"
 msgid "Name"
 msgstr "பெயர்"
 
-#: part/archivemodel.cpp:156
+#: part/archivemodel.cpp:160
 #, kde-format
 msgctxt "Uncompressed size of a file inside an archive"
 msgid "Original Size"
 msgstr "உண்மையான அளவு"
 
-#: part/archivemodel.cpp:158
+#: part/archivemodel.cpp:162
 #, kde-format
 msgctxt "Compressed size of a file inside an archive"
 msgid "Compressed Size"
 msgstr "சுருக்கப்பட்ட அளவு"
 
-#: part/archivemodel.cpp:160
+#: part/archivemodel.cpp:164
 #, kde-format
 msgctxt "Compression rate of file"
 msgid "Rate"
 msgstr "வீதம்"
 
-#: part/archivemodel.cpp:162
+#: part/archivemodel.cpp:166
 #, kde-format
 msgctxt "File's owner username"
 msgid "Owner"
 msgstr "உரிமையாளர்"
 
-#: part/archivemodel.cpp:164
+#: part/archivemodel.cpp:168
 #, kde-format
 msgctxt "File's group"
 msgid "Group"
 msgstr "குழு"
 
-#: part/archivemodel.cpp:166
+#: part/archivemodel.cpp:170
 #, kde-format
 msgctxt "File permissions"
 msgid "Mode"
 msgstr "அனுமதிகள்"
 
-#: part/archivemodel.cpp:168
+#: part/archivemodel.cpp:172
 #, kde-format
 msgctxt "CRC hash code"
 msgid "CRC checksum"
 msgstr "CRC சரிகாண்தொகை"
 
-#: part/archivemodel.cpp:170
+#: part/archivemodel.cpp:174
 #, kde-format
 msgctxt "BLAKE2 hash code"
 msgid "BLAKE2 checksum"
 msgstr "BLAKE2 சரிகாண்தொகை"
 
-#: part/archivemodel.cpp:172
+#: part/archivemodel.cpp:176
 #, kde-format
 msgctxt "Compression method"
 msgid "Method"
 msgstr "முறை"
 
-#: part/archivemodel.cpp:175
+#: part/archivemodel.cpp:179
 #, kde-format
 msgctxt "File version"
 msgid "Version"
 msgstr "பதிப்பு"
 
-#: part/archivemodel.cpp:177
+#: part/archivemodel.cpp:181
 #, kde-format
 msgctxt "Timestamp"
 msgid "Date"
 msgstr "தேதி"
 
-#: part/archivemodel.cpp:179
+#: part/archivemodel.cpp:183
 #, kde-format
 msgctxt "Unnamed column"
 msgid "??"
 msgstr "??"
 
-#: part/archivemodel.cpp:279
+#: part/archivemodel.cpp:283
 #, kde-format
 msgid "Adding files is not supported for this archive."
 msgstr "இக்காப்பத்தில் கோப்புகளை சேர்ப்பது ஆதரிக்கப்படாத‍து."
 
-#: part/archivemodel.cpp:287
+#: part/archivemodel.cpp:291
 #, kde-format
 msgid "You can only add local files to an archive."
 msgstr "இக்கணினியிலுள்ள கோப்புகளையே காப்பகத்தில் சேர்க்க முடியும்."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-02 00:47+0000\n"
+"POT-Creation-Date: 2026-08-14 00:48+0000\n"
 "PO-Revision-Date: 2008-03-11 11:41+0200\n"
 "Last-Translator: Petri Jooste <Petri.Jooste@nwu.ac.za>\n"
 "Language-Team: Afrikaans <translate-discuss-af@lists.sourceforge.net>\n"
@@ -1391,92 +1391,92 @@ msgid ""
 "error message:<nl/>    %2<nl/><nl/>Do you want to continue extraction?<nl/>"
 msgstr ""
 
-#: part/archivemodel.cpp:154
+#: part/archivemodel.cpp:158
 #, kde-format
 msgctxt "Name of a file inside an archive"
 msgid "Name"
 msgstr "Naam"
 
-#: part/archivemodel.cpp:156
+#: part/archivemodel.cpp:160
 #, kde-format
 msgctxt "Uncompressed size of a file inside an archive"
 msgid "Original Size"
 msgstr ""
 
-#: part/archivemodel.cpp:158
+#: part/archivemodel.cpp:162
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt "Compressed size of a file inside an archive"
 msgid "Compressed Size"
 msgstr "Maak 'n argief oop"
 
-#: part/archivemodel.cpp:160
+#: part/archivemodel.cpp:164
 #, kde-format
 msgctxt "Compression rate of file"
 msgid "Rate"
 msgstr ""
 
-#: part/archivemodel.cpp:162
+#: part/archivemodel.cpp:166
 #, kde-format
 msgctxt "File's owner username"
 msgid "Owner"
 msgstr ""
 
-#: part/archivemodel.cpp:164
+#: part/archivemodel.cpp:168
 #, kde-format
 msgctxt "File's group"
 msgid "Group"
 msgstr ""
 
-#: part/archivemodel.cpp:166
+#: part/archivemodel.cpp:170
 #, kde-format
 msgctxt "File permissions"
 msgid "Mode"
 msgstr ""
 
-#: part/archivemodel.cpp:168
+#: part/archivemodel.cpp:172
 #, kde-format
 msgctxt "CRC hash code"
 msgid "CRC checksum"
 msgstr ""
 
-#: part/archivemodel.cpp:170
+#: part/archivemodel.cpp:174
 #, kde-format
 msgctxt "BLAKE2 hash code"
 msgid "BLAKE2 checksum"
 msgstr ""
 
-#: part/archivemodel.cpp:172
+#: part/archivemodel.cpp:176
 #, kde-format
 msgctxt "Compression method"
 msgid "Method"
 msgstr ""
 
-#: part/archivemodel.cpp:175
+#: part/archivemodel.cpp:179
 #, kde-format
 msgctxt "File version"
 msgid "Version"
 msgstr ""
 
-#: part/archivemodel.cpp:177
+#: part/archivemodel.cpp:181
 #, kde-format
 msgctxt "Timestamp"
 msgid "Date"
 msgstr ""
 
-#: part/archivemodel.cpp:179
+#: part/archivemodel.cpp:183
 #, kde-format
 msgctxt "Unnamed column"
 msgid "??"
 msgstr ""
 
-#: part/archivemodel.cpp:279
+#: part/archivemodel.cpp:283
 #, fuzzy, kde-format
 #| msgid "Adding directories is not supported yet, sorry."
 msgid "Adding files is not supported for this archive."
 msgstr "Byvoeg van vouers/gidse word nog nie ondersteun nie, jammer."
 
-#: part/archivemodel.cpp:287
+#: part/archivemodel.cpp:291
 #, fuzzy, kde-format
 #| msgid "Click to add files to the archive"
 msgid "You can only add local files to an archive."

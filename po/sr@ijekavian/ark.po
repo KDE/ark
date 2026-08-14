@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-02 00:47+0000\n"
+"POT-Creation-Date: 2026-08-14 00:48+0000\n"
 "PO-Revision-Date: 2017-12-15 12:38+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -1450,20 +1450,20 @@ msgstr ""
 "распакивање?<nl/>"
 
 # >> @title:column +
-#: part/archivemodel.cpp:154
+#: part/archivemodel.cpp:158
 #, kde-format
 msgctxt "Name of a file inside an archive"
 msgid "Name"
 msgstr "име"
 
-#: part/archivemodel.cpp:156
+#: part/archivemodel.cpp:160
 #, kde-format
 msgctxt "Uncompressed size of a file inside an archive"
 msgid "Original Size"
 msgstr ""
 
 # >> @title:column +
-#: part/archivemodel.cpp:158
+#: part/archivemodel.cpp:162
 #, fuzzy, kde-format
 #| msgctxt "Compressed size of a file inside an archive"
 #| msgid "Compressed"
@@ -1472,79 +1472,79 @@ msgid "Compressed Size"
 msgstr "компресовано"
 
 # >> @title:column +
-#: part/archivemodel.cpp:160
+#: part/archivemodel.cpp:164
 #, kde-format
 msgctxt "Compression rate of file"
 msgid "Rate"
 msgstr "однос"
 
 # >> @title:column +
-#: part/archivemodel.cpp:162
+#: part/archivemodel.cpp:166
 #, kde-format
 msgctxt "File's owner username"
 msgid "Owner"
 msgstr "власник"
 
 # >> @title:column +
-#: part/archivemodel.cpp:164
+#: part/archivemodel.cpp:168
 #, kde-format
 msgctxt "File's group"
 msgid "Group"
 msgstr "група"
 
 # >> @title:column +
-#: part/archivemodel.cpp:166
+#: part/archivemodel.cpp:170
 #, kde-format
 msgctxt "File permissions"
 msgid "Mode"
 msgstr "режим"
 
-#: part/archivemodel.cpp:168
+#: part/archivemodel.cpp:172
 #, kde-format
 msgctxt "CRC hash code"
 msgid "CRC checksum"
 msgstr ""
 
-#: part/archivemodel.cpp:170
+#: part/archivemodel.cpp:174
 #, kde-format
 msgctxt "BLAKE2 hash code"
 msgid "BLAKE2 checksum"
 msgstr ""
 
 # >> @title:column +
-#: part/archivemodel.cpp:172
+#: part/archivemodel.cpp:176
 #, kde-format
 msgctxt "Compression method"
 msgid "Method"
 msgstr "метод"
 
 # >> @title:column +
-#: part/archivemodel.cpp:175
+#: part/archivemodel.cpp:179
 #, kde-format
 msgctxt "File version"
 msgid "Version"
 msgstr "верзија"
 
 # >> @title:column +
-#: part/archivemodel.cpp:177
+#: part/archivemodel.cpp:181
 #, kde-format
 msgctxt "Timestamp"
 msgid "Date"
 msgstr "датум"
 
 # >> @title:column +
-#: part/archivemodel.cpp:179
+#: part/archivemodel.cpp:183
 #, kde-format
 msgctxt "Unnamed column"
 msgid "??"
 msgstr "??"
 
-#: part/archivemodel.cpp:279
+#: part/archivemodel.cpp:283
 #, kde-format
 msgid "Adding files is not supported for this archive."
 msgstr "Додавање фајлова није подржано за ову архиву."
 
-#: part/archivemodel.cpp:287
+#: part/archivemodel.cpp:291
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Click to add files to the archive"

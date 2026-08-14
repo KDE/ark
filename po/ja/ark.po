@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-02 00:47+0000\n"
+"POT-Creation-Date: 2026-08-14 00:48+0000\n"
 "PO-Revision-Date: 2026-06-14 21:21+0900\n"
 "Last-Translator: Mint <5602mint@gmail.com>\n"
 "Language-Team: Japanese <kde-i18n-doc@kde.org>\n"
@@ -1389,91 +1389,91 @@ msgstr ""
 "エントリの展開に失敗しました:<nl/>    <filename>%1</filename><nl/>エラーメッ"
 "セージ:<nl/>    %2<nl/><nl/>展開を続行しますか？<nl/>"
 
-#: part/archivemodel.cpp:154
+#: part/archivemodel.cpp:158
 #, kde-format
 msgctxt "Name of a file inside an archive"
 msgid "Name"
 msgstr "名前"
 
-#: part/archivemodel.cpp:156
+#: part/archivemodel.cpp:160
 #, kde-format
 msgctxt "Uncompressed size of a file inside an archive"
 msgid "Original Size"
 msgstr "元のサイズ"
 
-#: part/archivemodel.cpp:158
+#: part/archivemodel.cpp:162
 #, kde-format
 msgctxt "Compressed size of a file inside an archive"
 msgid "Compressed Size"
 msgstr "圧縮後のサイズ"
 
-#: part/archivemodel.cpp:160
+#: part/archivemodel.cpp:164
 #, kde-format
 msgctxt "Compression rate of file"
 msgid "Rate"
 msgstr "圧縮率"
 
-#: part/archivemodel.cpp:162
+#: part/archivemodel.cpp:166
 #, kde-format
 msgctxt "File's owner username"
 msgid "Owner"
 msgstr "所有者"
 
-#: part/archivemodel.cpp:164
+#: part/archivemodel.cpp:168
 #, kde-format
 msgctxt "File's group"
 msgid "Group"
 msgstr "グループ"
 
 # カラムのヘッダなので「パーミッション」にすると長すぎる？
-#: part/archivemodel.cpp:166
+#: part/archivemodel.cpp:170
 #, kde-format
 msgctxt "File permissions"
 msgid "Mode"
 msgstr "モード"
 
-#: part/archivemodel.cpp:168
+#: part/archivemodel.cpp:172
 #, kde-format
 msgctxt "CRC hash code"
 msgid "CRC checksum"
 msgstr "CRC チェックサム"
 
-#: part/archivemodel.cpp:170
+#: part/archivemodel.cpp:174
 #, kde-format
 msgctxt "BLAKE2 hash code"
 msgid "BLAKE2 checksum"
 msgstr "BLAKE2 チェックサム"
 
-#: part/archivemodel.cpp:172
+#: part/archivemodel.cpp:176
 #, kde-format
 msgctxt "Compression method"
 msgid "Method"
 msgstr "方式"
 
-#: part/archivemodel.cpp:175
+#: part/archivemodel.cpp:179
 #, kde-format
 msgctxt "File version"
 msgid "Version"
 msgstr "バージョン"
 
-#: part/archivemodel.cpp:177
+#: part/archivemodel.cpp:181
 #, kde-format
 msgctxt "Timestamp"
 msgid "Date"
 msgstr "日付"
 
-#: part/archivemodel.cpp:179
+#: part/archivemodel.cpp:183
 #, kde-format
 msgctxt "Unnamed column"
 msgid "??"
 msgstr "??"
 
-#: part/archivemodel.cpp:279
+#: part/archivemodel.cpp:283
 #, kde-format
 msgid "Adding files is not supported for this archive."
 msgstr "このアーカイブではファイルの追加はサポートされていません。"
 
-#: part/archivemodel.cpp:287
+#: part/archivemodel.cpp:291
 #, kde-format
 msgid "You can only add local files to an archive."
 msgstr "アーカイブに追加できるのはローカルファイルのみです。"
