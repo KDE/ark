@@ -407,6 +407,9 @@
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=ark</url>
   <url type="help">https://docs.kde.org/?application=ark</url>
   <url type="donation">https://www.kde.org/community/donations/?app=ark&amp;source=appdata</url>
+  <custom>
+    <value key="KDE::mailinglist-devel">kde-devel@kde.org</value>
+  </custom>
   <project_group>KDE</project_group>
   <update_contact>kde-utils-devel_AT_kde.org</update_contact>
   <provides>
