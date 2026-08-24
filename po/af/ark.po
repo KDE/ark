@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-14 00:48+0000\n"
+"POT-Creation-Date: 2026-08-24 00:48+0000\n"
 "PO-Revision-Date: 2008-03-11 11:41+0200\n"
 "Last-Translator: Petri Jooste <Petri.Jooste@nwu.ac.za>\n"
 "Language-Team: Afrikaans <translate-discuss-af@lists.sourceforge.net>\n"
@@ -102,21 +102,21 @@ msgid ""
 "can only extract to local destinations."
 msgstr "Kon nie die argief '%1' oopmaak om daarin te skryf nie."
 
-#: app/compressfileitemaction.cpp:73
+#: app/compressfileitemaction.cpp:74
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Maak 'n argief oop"
 
-#: app/compressfileitemaction.cpp:101
+#: app/compressfileitemaction.cpp:102
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Maak 'n argief oop"
 
-#: app/compressfileitemaction.cpp:104 app/compressfileitemaction.cpp:118
+#: app/compressfileitemaction.cpp:105 app/compressfileitemaction.cpp:119
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt ""
@@ -124,7 +124,7 @@ msgctxt ""
 msgid "Compress to \"%1\""
 msgstr "Maak 'n argief oop"
 
-#: app/compressfileitemaction.cpp:110 kerfuffle/addtoarchive.cpp:269
+#: app/compressfileitemaction.cpp:111 kerfuffle/addtoarchive.cpp:269
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt "Default name of a newly-created multi-file archive"

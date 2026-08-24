@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-14 00:48+0000\n"
+"POT-Creation-Date: 2026-08-24 00:48+0000\n"
 "PO-Revision-Date: 2002-11-06 11:55+0200\n"
 "Last-Translator: Fundile Majola <fundile@translate.org.za>\n"
 "Language-Team: xhosa <fundile@translate.org.za>\n"
@@ -105,26 +105,26 @@ msgid ""
 "can only extract to local destinations."
 msgstr "Ikhangela impazamo kwindawo yokugcina...."
 
-#: app/compressfileitemaction.cpp:73
+#: app/compressfileitemaction.cpp:74
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Indawo yokugcina Ecinizelweyo Elula"
 
-#: app/compressfileitemaction.cpp:101
+#: app/compressfileitemaction.cpp:102
 #, fuzzy, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Indawo yokugcina Ecinizelweyo Elula"
 
-#: app/compressfileitemaction.cpp:104 app/compressfileitemaction.cpp:118
+#: app/compressfileitemaction.cpp:105 app/compressfileitemaction.cpp:119
 #, fuzzy, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "Indawo yokugcina Ecinizelweyo Elula"
 
-#: app/compressfileitemaction.cpp:110 kerfuffle/addtoarchive.cpp:269
+#: app/compressfileitemaction.cpp:111 kerfuffle/addtoarchive.cpp:269
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
 msgctxt "Default name of a newly-created multi-file archive"
