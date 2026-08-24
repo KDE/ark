@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-02 00:47+0000\n"
+"POT-Creation-Date: 2026-08-24 02:42+0000\n"
 "PO-Revision-Date: 2025-12-18 23:53+0700\n"
 "Last-Translator: Satakun Utama <linesofcodes@dailitation.xyz>\n"
 "Language-Team: Thai\n"
@@ -102,26 +102,26 @@ msgstr ""
 "ไม่สามารถแตกไฟล์ไปยัง <filename>%1</filename> ได้ เนื่องจาก Ark "
 "สามารถแตกไฟล์ไปยังสถานที่ภายในเครื่องเท่านั้น"
 
-#: app/compressfileitemaction.cpp:73
+#: app/compressfileitemaction.cpp:74
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "บีบอัด"
 
-#: app/compressfileitemaction.cpp:101
+#: app/compressfileitemaction.cpp:102
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "บีบอัดไปยัง..."
 
-#: app/compressfileitemaction.cpp:104 app/compressfileitemaction.cpp:118
+#: app/compressfileitemaction.cpp:105 app/compressfileitemaction.cpp:119
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "บีบอัดเป็น \"%1\""
 
-#: app/compressfileitemaction.cpp:110 kerfuffle/addtoarchive.cpp:269
+#: app/compressfileitemaction.cpp:111 kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"

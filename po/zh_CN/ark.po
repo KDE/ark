@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-02 00:47+0000\n"
+"POT-Creation-Date: 2026-08-24 02:42+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -101,26 +101,26 @@ msgstr ""
 "压缩文件无法被解压到 <filename>%1</filename>，因为 Ark 只能将文件解压到本地目"
 "标位置。"
 
-#: app/compressfileitemaction.cpp:73
+#: app/compressfileitemaction.cpp:74
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "压缩"
 
-#: app/compressfileitemaction.cpp:101
+#: app/compressfileitemaction.cpp:102
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "压缩为…"
 
-#: app/compressfileitemaction.cpp:104 app/compressfileitemaction.cpp:118
+#: app/compressfileitemaction.cpp:105 app/compressfileitemaction.cpp:119
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "压缩为“%1”"
 
-#: app/compressfileitemaction.cpp:110 kerfuffle/addtoarchive.cpp:269
+#: app/compressfileitemaction.cpp:111 kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"

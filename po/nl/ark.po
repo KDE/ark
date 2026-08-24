@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-02 00:47+0000\n"
+"POT-Creation-Date: 2026-08-24 02:42+0000\n"
 "PO-Revision-Date: 2026-01-17 10:41+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -115,26 +115,26 @@ msgstr ""
 "Het archief kon niet worden uitgepakt naar <filename>%1</filename> omdat Ark "
 "alleen kan uitpakken naar locale bestemming."
 
-#: app/compressfileitemaction.cpp:73
+#: app/compressfileitemaction.cpp:74
 #, kde-format
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Comprimeren"
 
-#: app/compressfileitemaction.cpp:101
+#: app/compressfileitemaction.cpp:102
 #, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Comprimeren naar…"
 
-#: app/compressfileitemaction.cpp:104 app/compressfileitemaction.cpp:118
+#: app/compressfileitemaction.cpp:105 app/compressfileitemaction.cpp:119
 #, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
 msgstr "Comprimeer naar \"%1\""
 
-#: app/compressfileitemaction.cpp:110 kerfuffle/addtoarchive.cpp:269
+#: app/compressfileitemaction.cpp:111 kerfuffle/addtoarchive.cpp:269
 #, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-02 00:47+0000\n"
+"POT-Creation-Date: 2026-08-24 02:42+0000\n"
 "PO-Revision-Date: 2006-12-17 13:36+0000\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -107,21 +107,21 @@ msgid ""
 "can only extract to local destinations."
 msgstr "Ажратишда ишлатилган охирги жилдлар"
 
-#: app/compressfileitemaction.cpp:73
+#: app/compressfileitemaction.cpp:74
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Compress submenu in Dolphin context menu"
 msgid "Compress"
 msgstr "Қисилган файл"
 
-#: app/compressfileitemaction.cpp:101
+#: app/compressfileitemaction.cpp:102
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
 msgstr "Қисилган файл"
 
-#: app/compressfileitemaction.cpp:104 app/compressfileitemaction.cpp:118
+#: app/compressfileitemaction.cpp:105 app/compressfileitemaction.cpp:119
 #, fuzzy, kde-format
 #| msgid "Compressed File"
 msgctxt ""
@@ -129,7 +129,7 @@ msgctxt ""
 msgid "Compress to \"%1\""
 msgstr "Қисилган файл"
 
-#: app/compressfileitemaction.cpp:110 kerfuffle/addtoarchive.cpp:269
+#: app/compressfileitemaction.cpp:111 kerfuffle/addtoarchive.cpp:269
 #, fuzzy, kde-format
 #| msgid "Open 'archive'"
 msgctxt "Default name of a newly-created multi-file archive"
