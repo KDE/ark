@@ -1,0 +1,428 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Russian "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Руководство пользователя &ark;</title>
+
+<author
+><firstname
+>Lauri</firstname
+><surname
+>Watts</surname
+> <contrib
+>Первоначальная 
+версия справочной страницы &ark; в 2005 году.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Raphael</firstname
+><surname
+>Kubo da Costa</surname
+> <contrib
+>Обновление справочной страницы &ark; в 2009 году.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+> <contrib
+>Обновление страницы руководства &ark; в 2015 и 2016 годах.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>8 августа 2018 г.</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>18.12</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>Приложения KDE</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>Архиватор &kde;</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+>суффикс</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+>файл</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-m</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+>каталог</replaceable
+></group
+> <arg choice="opt"
+>&kde-frameworks; Общие параметры</arg
+> <arg choice="opt"
+>&Qt; Общие параметры</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Описание</title>
+<para
+>&ark; — программа для управления различными форматами сжатых файлов в среде &kde;. С помощью &ark; можно просматривать, извлекать, создавать и изменять архивы. Программа поддерживает множество форматов, таких как <application
+>tar</application
+>, <application
+>gzip</application
+>, <application
+>bzip2</application
+>, <application
+>zip</application
+>, <application
+>rar</application
+> (при наличии соответствующих библиотек или консольных программ).</para>
+</refsect1>
+
+<refsect1>
+<title
+>Режимы работы</title>
+<para
+>&ark; возможно использовать как в качестве отдельного &GUI; приложения, так и в качестве программы командной строки для выполнения определённых задач.</para>
+<para
+>Если запущена без параметров -b (--batch) или -c (--add), &ark; запускается как обычное приложение с графическим интерфейсом.</para>
+<para
+>При использовании параметра -b (--batch) &ark; позволяет извлекать содержимое одного или нескольких файлов непосредственно из командной строки, без запуска его &GUI;.</para>
+<para
+>При использовании параметра -c (--add) &ark; запрашивает файлы, которые следует добавить в новый или существующий архив.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>Параметры</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>Показать диалог для указания параметров пакетной операции или добавления.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-m, --mimetypes</option
+></term>
+<listitem>
+<para
+>Вывести список поддерживаемых типов &MIME;.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>каталог</replaceable
+></option
+></term>
+<listitem
+><para
+>По умолчанию для каталога извлечения используется <replaceable
+>каталог</replaceable
+>. Если не задан, используется текущий путь.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>Параметры добавления файлов</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>Запросить у пользователя имя архива и добавить в него указанные файлы. Завершить работу после окончания.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>имя_файла</replaceable
+></option
+></term>
+<listitem>
+<para
+>Добавить указанные файлы в <replaceable
+>filename</replaceable
+>. Создать архив, если он не существует. Завершить работу по окончании.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>Сменить текущий каталог на первую запись и добавить все остальные записи относительно неё.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>суффикс</replaceable
+></option
+></term>
+<listitem>
+<para
+>Автоматически выбрать имя файла с указанным <replaceable
+>суффиксом</replaceable
+> (например, rar, tar.gz, zip или другим поддерживаемым типом).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Параметры пакетного извлечения</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>Использовать пакетный интерфейс вместо обычного диалога. Эта опция подразумевается, если указано более одного адреса.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --автоназначение</option
+></term>
+<listitem>
+<para
+>Аргумент назначения будет установлен в путь первого указанного файла.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>Содержимое архива будет прочитано; если в нём не одна папка, будет создана вложенная папка с тем же именем, что и у архива.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>Открыть папку назначения после завершения извлечения.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>Смотрите также</title>
+<simplelist>
+<member
+>Более подробная документация доступна по адресу <ulink url="help:/ark"
+>help:/ark</ulink
+> (либо введите этот адрес в &konqueror;, либо выполните команду <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+>).</member>
+<member
+>kf6options(7)</member>
+<member
+>qt6options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Примеры</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>archive.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Извлечение содержимого файла <replaceable
+>archive.tar.bz2</replaceable
+> в текущий каталог без вывода графического интерфейса пользователя. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>archive.tar.bz2</replaceable
+> <replaceable
+>archive2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Вызов диалога с параметрами извлечения и последующее извлечение содержимого <replaceable
+>archive.tar.bz2</replaceable
+> и <replaceable
+>archive2.zip</replaceable
+> в указанный с помощью этого диалога каталог.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>my-archive.zip</replaceable
+> <replaceable
+>photo1.jpg</replaceable
+> <replaceable
+>text.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>Создание файла <replaceable
+>my-archive.zip</replaceable
+> (если он ещё не создан) и последующее добавление в него <replaceable
+>photo1.jpg</replaceable
+> и <replaceable
+>text.txt</replaceable
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>Сопровождение</title>
+<para
+>В настоящее время сопровождающими &ark; являются <emphasis role="bold"
+>Elvis Angelaccio</emphasis
+> и <emphasis role="bold"
+>Ragnar Thomsen</emphasis
+>.</para>
+</refsect1>
+
+</refentry>
