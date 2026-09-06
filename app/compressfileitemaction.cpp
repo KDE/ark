@@ -38,10 +38,6 @@ CompressFileItemAction::CompressFileItemAction(QObject *parent, const QVariantLi
 
 QList<QAction *> CompressFileItemAction::actions(const KFileItemListProperties &fileItemInfos, QWidget *parentWidget)
 {
-    // #268163: don't offer compression on already compressed archives, unless the user selected 2 or more of them.
-    if (fileItemInfos.items().count() == 1 && m_pluginManager->supportedMimeTypes().contains(fileItemInfos.mimeType())) {
-        return {};
-    }
 
     // KFileItemListProperties::isLocal() doesn't check target URL (e.g. files on the desktop)
     const auto urlList = fileItemInfos.urlList();
