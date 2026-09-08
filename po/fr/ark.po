@@ -928,7 +928,7 @@ msgstr "Extraire plusieurs archives"
 #: kerfuffle/extractiondialog.ui:21
 #, kde-format
 msgid "Extraction Dialog"
-msgstr "Boîte de dialogue d'extraction"
+msgstr "Boite de dialogue d'extraction"
 
 #. i18n: ectx: property (text), widget (QLabel, extractAllLabel)
 #: kerfuffle/extractiondialog.ui:70
