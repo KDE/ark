@@ -536,7 +536,7 @@
 <para
 >Tingueu en compte que l'ús de mètodes de compressió diferents dels predeterminats preseleccionats poden limitar la compatibilitat amb els arxivadors de fitxers. Per exemple, l'obertura d'arxius <literal role="extension"
 >zip</literal
-> amb mètodes de compressió diferents de «Desinflat» requereix un programari d'arxivament més nou.</para>
+> amb mètodes de compressió diferents de «Deflate» requereix un programari d'arxivament més nou.</para>
 </sect2>
 
 <sect2 id="ark-password-protection">
