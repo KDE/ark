@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-24 00:48+0000\n"
+"POT-Creation-Date: 2026-09-12 00:48+0000\n"
 "PO-Revision-Date: 2026-03-12 13:20+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -126,25 +126,25 @@ msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
 msgstr "Arhivă"
 
-#: app/extractfileitemaction.cpp:66
+#: app/extractfileitemaction.cpp:75
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
 msgstr "Extrage la…"
 
-#: app/extractfileitemaction.cpp:78
+#: app/extractfileitemaction.cpp:87
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Extrage aici"
 
-#: app/extractfileitemaction.cpp:84
+#: app/extractfileitemaction.cpp:93
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
 msgstr "Extrage și mută arhiva la gunoi"
 
-#: app/extractfileitemaction.cpp:91
+#: app/extractfileitemaction.cpp:100
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"

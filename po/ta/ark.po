@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-24 00:48+0000\n"
+"POT-Creation-Date: 2026-09-12 00:48+0000\n"
 "PO-Revision-Date: 2026-02-01 13:43+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -133,25 +133,25 @@ msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
 msgstr "காப்பகம்"
 
-#: app/extractfileitemaction.cpp:66
+#: app/extractfileitemaction.cpp:75
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
 msgstr "வேறிடத்திற்கு பிரித்தெடு…"
 
-#: app/extractfileitemaction.cpp:78
+#: app/extractfileitemaction.cpp:87
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "இங்கு பிரித்தெடு"
 
-#: app/extractfileitemaction.cpp:84
+#: app/extractfileitemaction.cpp:93
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
 msgstr "காப்பகத்தை பிரித்தெடுத்து நீக்கு"
 
-#: app/extractfileitemaction.cpp:91
+#: app/extractfileitemaction.cpp:100
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"

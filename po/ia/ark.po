@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-24 00:48+0000\n"
+"POT-Creation-Date: 2026-09-12 00:48+0000\n"
 "PO-Revision-Date: 2026-03-11 18:40+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -125,25 +125,25 @@ msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
 msgstr "Archivo"
 
-#: app/extractfileitemaction.cpp:66
+#: app/extractfileitemaction.cpp:75
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
 msgstr "Extrahe a…"
 
-#: app/extractfileitemaction.cpp:78
+#: app/extractfileitemaction.cpp:87
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Extrahe hic"
 
-#: app/extractfileitemaction.cpp:84
+#: app/extractfileitemaction.cpp:93
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
 msgstr "Extrahe hic e pone in corbe archivo"
 
-#: app/extractfileitemaction.cpp:91
+#: app/extractfileitemaction.cpp:100
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"

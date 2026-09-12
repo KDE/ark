@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-24 00:48+0000\n"
+"POT-Creation-Date: 2026-09-12 00:48+0000\n"
 "PO-Revision-Date: 2026-01-17 07:37-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -140,25 +140,25 @@ msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
 msgstr "Arquivo compactado"
 
-#: app/extractfileitemaction.cpp:66
+#: app/extractfileitemaction.cpp:75
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
 msgstr "Extrair para…"
 
-#: app/extractfileitemaction.cpp:78
+#: app/extractfileitemaction.cpp:87
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Extrair aqui"
 
-#: app/extractfileitemaction.cpp:84
+#: app/extractfileitemaction.cpp:93
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
 msgstr "Extrair e enviar arquivo para lixeira"
 
-#: app/extractfileitemaction.cpp:91
+#: app/extractfileitemaction.cpp:100
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"

@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-24 00:48+0000\n"
+"POT-Creation-Date: 2026-09-12 00:48+0000\n"
 "PO-Revision-Date: 2026-08-10 18:36+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -135,25 +135,25 @@ msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
 msgstr "أرشيف"
 
-#: app/extractfileitemaction.cpp:66
+#: app/extractfileitemaction.cpp:75
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
 msgstr "استخرج إلى…"
 
-#: app/extractfileitemaction.cpp:78
+#: app/extractfileitemaction.cpp:87
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "استخرج هنا"
 
-#: app/extractfileitemaction.cpp:84
+#: app/extractfileitemaction.cpp:93
 #, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
 msgstr "استخرج الأرشيف واحذفه"
 
-#: app/extractfileitemaction.cpp:91
+#: app/extractfileitemaction.cpp:100
 #, kde-format
 msgctxt "@action:inmenu Extract submenu in Dolphin context menu"
 msgid "Extract"
