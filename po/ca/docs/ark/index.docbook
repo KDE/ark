@@ -524,7 +524,7 @@
 <title
 >Compressió</title>
 <para
->Un valor més alt genera arxius més petits, però resulta en temps de compressió i descompressió més llargs. El nivell de compressió per defecte proposat per l'&ark; sol ser un bon compromís entre la mida i la velocitat de descompressió. Per a la majoria de formats el nivell mínim de compressió és equivalent a simplement emmagatzemar els fitxers, &ead;, no aplicar cap compressió. </para>
+>Un valor més alt genera arxius més petits, però dona com a resultat un temps de compressió i descompressió més llargs. El nivell de compressió predeterminat proposat per l'&ark; sol ser un bon compromís entre la mida i la velocitat de descompressió. Per a la majoria de formats el nivell mínim de compressió és equivalent a simplement emmagatzemar els fitxers, &ead;, no aplicar cap compressió. </para>
 <para
 >Per als arxius <literal role="extension"
 >rar</literal
