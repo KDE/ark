@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-12 00:48+0000\n"
-"PO-Revision-Date: 2026-05-28 17:04-0400\n"
+"PO-Revision-Date: 2026-09-22 18:02+0900\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
-"Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
+"Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -167,7 +167,7 @@ msgstr ""
 #: app/main.cpp:86
 #, kde-format
 msgid "Elvis Angelaccio"
-msgstr "Elvis Angelaccio"
+msgstr ""
 
 #: app/main.cpp:86
 #, kde-format
@@ -207,7 +207,7 @@ msgstr ""
 #: app/main.cpp:91
 #, kde-format
 msgid "Helio Chissini de Castro"
-msgstr "Helio Chissini de Castro"
+msgstr ""
 
 #: app/main.cpp:91
 #, kde-format
@@ -300,8 +300,6 @@ msgstr ""
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr ""
-"يايىدىغان نىشان قىسقۇچ. بېكىتىلمىگەن بولسا كۆڭۈلدىكىسى نۆۋەتتىكى قىسقۇچ "
-"بولىدۇ."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
 #: app/main.cpp:124 kerfuffle/ark.kcfg:23
@@ -1548,7 +1546,7 @@ msgstr "خىزمەت ھەققىدىكى بەزى ئۇچۇرلار"
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr "%p%"
+msgstr ""
 
 #: part/overwritedialog.cpp:26
 #, kde-format
