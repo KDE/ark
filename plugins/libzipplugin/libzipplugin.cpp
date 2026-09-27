@@ -1023,14 +1023,14 @@ bool LibzipPlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entr
 
     int i;
     for (i = 0; i < filePaths.size(); ++i) {
-        const int index = zip_name_locate(archive.get(), filePaths.at(i).toUtf8().constData(), ZIP_FL_ENC_GUESS);
+        const int index = zip_name_locate(archive.get(), fromUnixSeparator(filePaths.at(i)).toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (index == -1) {
             qCCritical(ARK_LOG) << "Could not find entry to move:" << filePaths.at(i);
             Q_EMIT error(xi18n("Failed to move entry: %1", filePaths.at(i)));
             return false;
         }
 
-        if (zip_file_rename(archive.get(), index, destPaths.at(i).toUtf8().constData(), ZIP_FL_ENC_GUESS) == -1) {
+        if (zip_file_rename(archive.get(), index, fromUnixSeparator(destPaths.at(i)).toUtf8().constData(), ZIP_FL_ENC_GUESS) == -1) {
             qCCritical(ARK_LOG) << "Could not move entry:" << filePaths.at(i);
             Q_EMIT error(xi18n("Failed to move entry: %1", filePaths.at(i)));
             return false;
@@ -1081,14 +1081,14 @@ bool LibzipPlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entr
         QString dest = destPaths.at(i);
 
         if (dest.endsWith(QDir::separator())) {
-            if (zip_dir_add(archive.get(), dest.toUtf8().constData(), ZIP_FL_ENC_GUESS) == -1) {
+            if (zip_dir_add(archive.get(), fromUnixSeparator(dest).toUtf8().constData(), ZIP_FL_ENC_GUESS) == -1) {
                 // If directory already exists in archive, we get an error.
                 qCWarning(ARK_LOG) << "Failed to add dir " << dest << ":" << zip_strerror(archive.get());
                 continue;
             }
         }
 
-        const int srcIndex = zip_name_locate(archive.get(), filePaths.at(i).toUtf8().constData(), ZIP_FL_ENC_GUESS);
+        const int srcIndex = zip_name_locate(archive.get(), fromUnixSeparator(filePaths.at(i)).toUtf8().constData(), ZIP_FL_ENC_GUESS);
         if (srcIndex == -1) {
             qCCritical(ARK_LOG) << "Could not find entry to copy:" << filePaths.at(i);
             Q_EMIT error(xi18n("Failed to copy entry: %1", filePaths.at(i)));
@@ -1101,7 +1101,7 @@ bool LibzipPlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entr
             return false;
         }
 
-        const int destIndex = zip_file_add(archive.get(), dest.toUtf8().constData(), src, ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
+        const int destIndex = zip_file_add(archive.get(), fromUnixSeparator(dest).toUtf8().constData(), src, ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
         if (destIndex == -1) {
             zip_source_free(src);
             qCCritical(ARK_LOG) << "Could not add entry" << dest << ":" << zip_strerror(archive.get());
