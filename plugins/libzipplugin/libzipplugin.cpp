@@ -254,6 +254,8 @@ bool LibzipPlugin::list()
         return false;
     }
 
+    detectBackslashedZip(archive.get());
+
     // Fetch archive comment.
     m_comment = QString::fromUtf8(zip_get_archive_comment(archive.get(), nullptr, ZIP_FL_ENC_GUESS));
 
@@ -297,6 +299,8 @@ bool LibzipPlugin::addFiles(const QList<Archive::Entry *> &files,
         Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
+
+    detectBackslashedZip(archive.get());
 
     uint i = 0;
     for (const Archive::Entry *e : files) {
@@ -590,6 +594,8 @@ bool LibzipPlugin::deleteFiles(const QList<Archive::Entry *> &files)
         return false;
     }
 
+    detectBackslashedZip(archive.get());
+
     qulonglong i = 0;
     for (const Archive::Entry *e : files) {
         if (QThread::currentThread()->isInterruptionRequested()) {
@@ -666,6 +672,8 @@ bool LibzipPlugin::testArchive()
         return false;
     }
 
+    detectBackslashedZip(archive.get());
+
     // Check CRC-32 for each archive entry.
     const int nofEntries = zip_get_num_entries(archive.get(), 0);
     for (int i = 0; i < nofEntries; i++) {
@@ -717,6 +725,8 @@ bool LibzipPlugin::extractFiles(const QList<Archive::Entry *> &files, const QStr
     if (!archive) {
         return false;
     }
+
+    detectBackslashedZip(archive.get());
 
     // Set password if known.
     if (!password().isEmpty()) {
@@ -1005,6 +1015,8 @@ bool LibzipPlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entr
         return false;
     }
 
+    detectBackslashedZip(archive.get());
+
     QStringList filePaths = entryFullPaths(files);
     filePaths.sort();
     const QStringList destPaths = entryPathsFromDestination(filePaths, destination, entriesWithoutChildren(files).count());
@@ -1058,6 +1070,8 @@ bool LibzipPlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entr
         Q_EMIT error(xi18n("Failed to open archive: %1", QString::fromUtf8(zip_error_strerror(&err))));
         return false;
     }
+
+    detectBackslashedZip(archive.get());
 
     const QStringList filePaths = entryFullPaths(files);
     const QStringList destPaths = entryPathsFromDestination(filePaths, destination, 0);
@@ -1151,14 +1165,46 @@ QString LibzipPlugin::fromUnixSeparator(const QString &path)
 
 QString LibzipPlugin::toUnixSeparator(const QString &path)
 {
-    // Even though the two contains may look similar they are not, the first is the \ char
-    // that needs to be escaped, the second is the string with two \ that doesn't need escaping
-    // so they look similar but they aren't
-    if (path.contains(QLatin1Char('\\')) && !path.contains(QLatin1String("\\"))) {
-        m_backslashedZip = true;
-        return QString(path).replace(QLatin1Char('\\'), QLatin1Char('/'));
+    if (!m_backslashedZip) {
+        return path;
     }
-    return path;
+    return QString(path).replace(QLatin1Char('\\'), QLatin1Char('/'));
+}
+
+// The zip format separates folders with a forward slash, and a backslash is a valid character in
+// an entry name. Some Windows programs write the native separator instead. Read a backslash as a
+// separator only in an archive that was written on DOS or Windows and that holds no forward slash
+// at all, which is the rule libarchive follows.
+void LibzipPlugin::detectBackslashedZip(zip_t *archive)
+{
+    m_backslashedZip = false;
+
+    bool backslashSeen = false;
+    const qlonglong nofEntries = zip_get_num_entries(archive, 0);
+    for (qlonglong i = 0; i < nofEntries; i++) {
+        const char *name = zip_get_name(archive, i, ZIP_FL_ENC_GUESS);
+        if (!name) {
+            continue;
+        }
+
+        const QByteArrayView entry(name);
+        if (entry.contains('/')) {
+            return;
+        }
+        if (!entry.contains('\\')) {
+            continue;
+        }
+
+        zip_uint8_t opsys;
+        zip_uint32_t attributes;
+        if (zip_file_get_external_attributes(archive, i, ZIP_FL_UNCHANGED, &opsys, &attributes) == -1
+            || (opsys != ZIP_OPSYS_DOS && opsys != ZIP_OPSYS_WINDOWS_NTFS)) {
+            return;
+        }
+        backslashSeen = true;
+    }
+
+    m_backslashedZip = backslashSeen;
 }
 
 bool LibzipPlugin::hasBatchExtractionProgress() const
