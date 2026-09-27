@@ -48,6 +48,7 @@ private:
     void emitProgress(double percentage);
     QString fromUnixSeparator(const QString &path);
     QString toUnixSeparator(const QString &path);
+    void detectBackslashedZip(zip_t *archive);
     static void progressCallback(zip_t *, double progress, void *that);
     static int cancelCallback(zip_t *, void *that);
 
