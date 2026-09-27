@@ -20,6 +20,7 @@ private Q_SLOTS:
     void testPathSeparator_data();
     void testPathSeparator();
     void testExtractionWithWindowsSeparators();
+    void testMoveWithWindowsSeparators();
 
 private:
     PluginManager m_pluginManager;

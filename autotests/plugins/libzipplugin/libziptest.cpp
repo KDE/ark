@@ -10,6 +10,7 @@
 #include "testhelper.h"
 
 #include <QDir>
+#include <QFile>
 #include <QTemporaryDir>
 #include <QTest>
 
@@ -94,6 +95,46 @@ void LibzipTest::testExtractionWithWindowsSeparators()
     TestHelper::startAndWaitForResult(singleEntryJob);
 
     QVERIFY(QDir(singleEntryDir.path()).exists(QStringLiteral("addon/lang/en.lua")));
+}
+
+void LibzipTest::testMoveWithWindowsSeparators()
+{
+    if (!m_plugin || !m_plugin->isValid()) {
+        QSKIP("libzip plugin not available. Skipping test.", SkipSingle);
+    }
+
+    QTemporaryDir temporaryDir;
+    QVERIFY(temporaryDir.isValid());
+    const QString archivePath = temporaryDir.filePath(QStringLiteral("windows-separators.zip"));
+    QVERIFY(QFile::copy(QFINDTESTDATA("data/windows-separators.zip"), archivePath));
+
+    auto loadJob = Archive::load(archivePath, m_plugin, this);
+    QVERIFY(loadJob);
+    TestHelper::startAndWaitForResult(loadJob);
+
+    auto archive = loadJob->archive();
+    QVERIFY(archive);
+    QVERIFY(archive->isValid());
+
+    Archive::Entry entry(this, QStringLiteral("readme.txt"), QString());
+    Archive::Entry destination(this, QStringLiteral("addon/readme.txt"), QString());
+    auto moveJob = archive->moveFiles({&entry}, &destination, CompressionOptions());
+    QVERIFY(moveJob);
+    TestHelper::startAndWaitForResult(moveJob);
+
+    QStringList paths;
+    auto reloadJob = Archive::load(archivePath, m_plugin, this);
+    QVERIFY(reloadJob);
+    connect(reloadJob, &Job::newEntry, this, [&paths](Archive::Entry *entry) {
+        paths << entry->fullPath();
+    });
+    TestHelper::startAndWaitForResult(reloadJob);
+
+    paths.sort();
+    QCOMPARE(
+        paths,
+        QStringList(
+            {QStringLiteral("addon/addon.lua"), QStringLiteral("addon/lang/en.lua"), QStringLiteral("addon/lang/fr.lua"), QStringLiteral("addon/readme.txt")}));
 }
 
 #include "moc_libziptest.cpp"
