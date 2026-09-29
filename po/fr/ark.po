@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-29 00:48+0000\n"
 "PO-Revision-Date: 2026-09-16 13:12+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
@@ -415,17 +415,17 @@ msgstr ""
 msgid "Sidebar"
 msgstr "Barre latérale"
 
-#: app/mainwindow.cpp:285
+#: app/mainwindow.cpp:286
 #, kde-format
 msgid "Welcome Page"
 msgstr "Page d'accueil"
 
-#: app/mainwindow.cpp:287
+#: app/mainwindow.cpp:288
 #, kde-format
 msgid "Show the welcome page"
 msgstr "Afficher la page d'accueil"
 
-#: app/mainwindow.cpp:295
+#: app/mainwindow.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -438,18 +438,18 @@ msgstr ""
 "contiennent majoritairement les mêmes commandes et les mêmes options de "
 "configuration."
 
-#: app/mainwindow.cpp:315
+#: app/mainwindow.cpp:316
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "Verrouiller la barre latérale"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:372
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Ouvrir une archive"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:485
 #, kde-format
 msgid "Create New Archive"
 msgstr "Créer une nouvelle archive"

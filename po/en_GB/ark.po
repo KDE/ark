@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-29 00:48+0000\n"
 "PO-Revision-Date: 2024-05-21 19:35+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -401,17 +401,17 @@ msgstr "Unable to find Ark's KPart component, please check your installation."
 msgid "Sidebar"
 msgstr "Sidebar"
 
-#: app/mainwindow.cpp:285
+#: app/mainwindow.cpp:286
 #, kde-format
 msgid "Welcome Page"
 msgstr "Welcome Page"
 
-#: app/mainwindow.cpp:287
+#: app/mainwindow.cpp:288
 #, kde-format
 msgid "Show the welcome page"
 msgstr "Show the welcome page"
 
-#: app/mainwindow.cpp:295
+#: app/mainwindow.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -423,18 +423,18 @@ msgstr ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 
-#: app/mainwindow.cpp:315
+#: app/mainwindow.cpp:316
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "Lock Sidebar"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:372
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Open Archive"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:485
 #, kde-format
 msgid "Create New Archive"
 msgstr "Create New Archive"

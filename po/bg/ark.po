@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-29 00:48+0000\n"
 "PO-Revision-Date: 2026-01-19 22:36+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -399,17 +399,17 @@ msgstr ""
 msgid "Sidebar"
 msgstr "Страничен панел"
 
-#: app/mainwindow.cpp:285
+#: app/mainwindow.cpp:286
 #, kde-format
 msgid "Welcome Page"
 msgstr "Приветствена страница"
 
-#: app/mainwindow.cpp:287
+#: app/mainwindow.cpp:288
 #, kde-format
 msgid "Show the welcome page"
 msgstr "Показване на приветствената страница"
 
-#: app/mainwindow.cpp:295
+#: app/mainwindow.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -421,18 +421,18 @@ msgstr ""
 "<interface>Меню</interface>. И двете менюта съдържат предимно едни и същи "
 "команди и опции за конфигуриране."
 
-#: app/mainwindow.cpp:315
+#: app/mainwindow.cpp:316
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "Заключване на страничния панел"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:372
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Отваряне на архив"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:485
 #, kde-format
 msgid "Create New Archive"
 msgstr "Създаване на нов архив"

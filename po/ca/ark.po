@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-29 00:48+0000\n"
 "PO-Revision-Date: 2026-01-17 12:39+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -403,17 +403,17 @@ msgstr ""
 msgid "Sidebar"
 msgstr "Barra lateral"
 
-#: app/mainwindow.cpp:285
+#: app/mainwindow.cpp:286
 #, kde-format
 msgid "Welcome Page"
 msgstr "Pàgina de benvinguda"
 
-#: app/mainwindow.cpp:287
+#: app/mainwindow.cpp:288
 #, kde-format
 msgid "Show the welcome page"
 msgstr "Mostra la pàgina de benvinguda"
 
-#: app/mainwindow.cpp:295
+#: app/mainwindow.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -425,18 +425,18 @@ msgstr ""
 "botó <interface>Menú d'hamburguesa</interface>. Ambdós contenen "
 "majoritàriament les mateixes ordres i opcions de configuració."
 
-#: app/mainwindow.cpp:315
+#: app/mainwindow.cpp:316
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "Bloca la barra lateral"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:372
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Obre un arxiu"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:485
 #, kde-format
 msgid "Create New Archive"
 msgstr "Crea un arxiu nou"

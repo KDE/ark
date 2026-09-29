@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-29 00:48+0000\n"
 "PO-Revision-Date: 2020-10-23 11:22+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
@@ -409,17 +409,17 @@ msgstr "Arki KParti komponenti ei leitud, palun kontrolli paigaldust."
 msgid "Sidebar"
 msgstr ""
 
-#: app/mainwindow.cpp:285
+#: app/mainwindow.cpp:286
 #, kde-format
 msgid "Welcome Page"
 msgstr ""
 
-#: app/mainwindow.cpp:287
+#: app/mainwindow.cpp:288
 #, kde-format
 msgid "Show the welcome page"
 msgstr ""
 
-#: app/mainwindow.cpp:295
+#: app/mainwindow.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -428,18 +428,18 @@ msgid ""
 "commands and configuration options."
 msgstr ""
 
-#: app/mainwindow.cpp:315
+#: app/mainwindow.cpp:316
 #, kde-format
 msgid "Lock Sidebar"
 msgstr ""
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:372
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Arhiivi avamine"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:485
 #, kde-format
 msgid "Create New Archive"
 msgstr "Uue arhiivi loomine"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-29 00:48+0000\n"
 "PO-Revision-Date: 2026-07-08 18:23-0500\n"
 "Last-Translator: A S Alam <aman@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -389,17 +389,17 @@ msgstr "ਆਰਕ ਦਾ KPart ਭਾਗ ਲੱਭਣ ਲਈ ਅਸਮਰੱਥ 
 msgid "Sidebar"
 msgstr "ਬਾਹੀ"
 
-#: app/mainwindow.cpp:285
+#: app/mainwindow.cpp:286
 #, kde-format
 msgid "Welcome Page"
 msgstr "ਜੀ ਆਇਆਂ ਨੂੰ ਸਫ਼ਾ"
 
-#: app/mainwindow.cpp:287
+#: app/mainwindow.cpp:288
 #, kde-format
 msgid "Show the welcome page"
 msgstr "ਜੀ ਆਇਆਂ ਨੂੰ ਸਫ਼ਾ ਵੇਖਾਓ"
 
-#: app/mainwindow.cpp:295
+#: app/mainwindow.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -408,18 +408,18 @@ msgid ""
 "commands and configuration options."
 msgstr ""
 
-#: app/mainwindow.cpp:315
+#: app/mainwindow.cpp:316
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "ਬਾਹੀ ਲਾਕ ਕਰੋ"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:372
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "ਅਕਾਇਵ ਖੋਲ੍ਹੋ"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:485
 #, kde-format
 msgid "Create New Archive"
 msgstr "ਨਵਾਂ ਅਕਾਇਵ ਬਣਾਓ"

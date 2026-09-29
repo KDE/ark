@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-29 00:48+0000\n"
 "PO-Revision-Date: 2026-06-29 12:20+0330\n"
 "Last-Translator: Sohrab Behdani <behdanisohrab@proton.me>\n"
 "Language-Team: fa\n"
@@ -405,17 +405,17 @@ msgstr "مؤلفهٔ KPart برنامهٔ آرک پیدا نشد، لطفاً ن
 msgid "Sidebar"
 msgstr "میلهٔ کناری"
 
-#: app/mainwindow.cpp:285
+#: app/mainwindow.cpp:286
 #, kde-format
 msgid "Welcome Page"
 msgstr "صفحه خوش‌آمد"
 
-#: app/mainwindow.cpp:287
+#: app/mainwindow.cpp:288
 #, kde-format
 msgid "Show the welcome page"
 msgstr "صفحه خوش‌آمد را نشان بده"
 
-#: app/mainwindow.cpp:295
+#: app/mainwindow.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -427,19 +427,19 @@ msgstr ""
 "همبرگری</interface> جابه‌جا می‌کند. هر دو عمدتاً شامل همان فرمان‌ها و گزینه‌های "
 "پیکربندی هستند."
 
-#: app/mainwindow.cpp:315
+#: app/mainwindow.cpp:316
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "قفل کردن میلهٔ کناری"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:372
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "باز کردن بایگانی"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:485
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgid "Create New Archive"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-29 00:48+0000\n"
 "PO-Revision-Date: 2024-08-02 15:34+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -385,17 +385,17 @@ msgstr ""
 msgid "Sidebar"
 msgstr "Panel lateral"
 
-#: app/mainwindow.cpp:285
+#: app/mainwindow.cpp:286
 #, kde-format
 msgid "Welcome Page"
 msgstr "Págine Benevenit"
 
-#: app/mainwindow.cpp:287
+#: app/mainwindow.cpp:288
 #, fuzzy, kde-format
 msgid "Show the welcome page"
 msgstr "Ne successat listar li archive."
 
-#: app/mainwindow.cpp:295
+#: app/mainwindow.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -407,18 +407,18 @@ msgstr ""
 "hamburger</interface>. Amb optiones provide presc li sam comandes e "
 "parametres de configuration."
 
-#: app/mainwindow.cpp:315
+#: app/mainwindow.cpp:316
 #, fuzzy, kde-format
 msgid "Lock Sidebar"
 msgstr "Panel lateral"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:372
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "Aperter un archive"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:485
 #, kde-format
 msgid "Create New Archive"
 msgstr "Crear un nov archive"

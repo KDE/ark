@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-29 00:48+0000\n"
 "PO-Revision-Date: 2025-12-18 23:53+0700\n"
 "Last-Translator: Satakun Utama <linesofcodes@dailitation.xyz>\n"
 "Language-Team: Thai\n"
@@ -391,17 +391,17 @@ msgstr "ไม่สามารถค้นพบคอมโพเนนต์
 msgid "Sidebar"
 msgstr "แถบด้านข้าง"
 
-#: app/mainwindow.cpp:285
+#: app/mainwindow.cpp:286
 #, kde-format
 msgid "Welcome Page"
 msgstr "หน้ายินดีต้อนรับ"
 
-#: app/mainwindow.cpp:287
+#: app/mainwindow.cpp:288
 #, kde-format
 msgid "Show the welcome page"
 msgstr "แสดงหน้ายินดีต้อนรับ"
 
-#: app/mainwindow.cpp:295
+#: app/mainwindow.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -412,18 +412,18 @@ msgstr ""
 "ตัวเลือกนี้สลับระหว่างการมี<emphasis>แถบเมนู</emphasis> "
 "และการมีปุ่ม<interface>เมนูสามขีด</interface> โดยทั้งคู่มีคำสั่งและตัวเลือกในการตั้งค่าเหมือนกัน"
 
-#: app/mainwindow.cpp:315
+#: app/mainwindow.cpp:316
 #, kde-format
 msgid "Lock Sidebar"
 msgstr "ล็อกแถบด้านข้าง"
 
-#: app/mainwindow.cpp:371
+#: app/mainwindow.cpp:372
 #, kde-format
 msgctxt "to open an archive"
 msgid "Open Archive"
 msgstr "เปิดอาร์ไคฟ์"
 
-#: app/mainwindow.cpp:484
+#: app/mainwindow.cpp:485
 #, kde-format
 msgid "Create New Archive"
 msgstr "สร้างอาร์ไคฟ์ใหม่"
