@@ -104,6 +104,7 @@ void CliPlugin::setupCliProperties()
                                 QStringLiteral("N"), // Autoskip
                             });
     m_cliProps->setProperty("extractionFailedPatterns", QStringList{QStringLiteral("unsupported compression method")});
+    m_cliProps->setProperty("argumentDelimiterSwitch", QStringLiteral("--"));
 }
 
 bool CliPlugin::readListLine(const QString &line)

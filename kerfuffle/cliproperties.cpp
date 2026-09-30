@@ -51,7 +51,13 @@ QStringList CliProperties::addArgs(const QString &archive,
         args << substituteMultiVolumeSwitch(volumeSize);
     }
     args << archive;
-    args << files;
+
+    QStringList fileArgs = files;
+    fileArgs.removeAll(QString());
+    if (!m_argumentDelimiterSwitch.isEmpty() && !fileArgs.isEmpty()) {
+        args << m_argumentDelimiterSwitch;
+    }
+    args << fileArgs;
 
     args.removeAll(QString());
     return args;
@@ -78,9 +84,16 @@ QStringList CliProperties::deleteArgs(const QString &archive, const QList<Archiv
         args << substitutePasswordSwitch(password);
     }
     args << archive;
+
+    QStringList fileArgs;
     for (const Archive::Entry *e : files) {
-        args << e->fullPath(NoTrailingSlash);
+        fileArgs << e->fullPath(NoTrailingSlash);
     }
+    fileArgs.removeAll(QString());
+    if (!m_argumentDelimiterSwitch.isEmpty() && !fileArgs.isEmpty()) {
+        args << m_argumentDelimiterSwitch;
+    }
+    args << fileArgs;
 
     args.removeAll(QString());
     return args;
@@ -100,9 +113,14 @@ QStringList CliProperties::extractArgs(const QString &archive, const QStringList
         args << substitutePasswordSwitch(password);
     }
     args << archive;
-    args << files;
 
-    args.removeAll(QString());
+    QStringList fileArgs = files;
+    fileArgs.removeAll(QString());
+    if (!m_argumentDelimiterSwitch.isEmpty() && !fileArgs.isEmpty()) {
+        args << m_argumentDelimiterSwitch;
+    }
+    args << fileArgs;
+
     return args;
 }
 
@@ -131,6 +149,9 @@ QStringList CliProperties::moveArgs(const QString &archive, const QList<Archive:
         args << substitutePasswordSwitch(password);
     }
     args << archive;
+    if (!m_argumentDelimiterSwitch.isEmpty()) {
+        args << m_argumentDelimiterSwitch;
+    }
     if (entries.count() > 1) {
         for (const Archive::Entry *file : entries) {
             args << file->fullPath(NoTrailingSlash);

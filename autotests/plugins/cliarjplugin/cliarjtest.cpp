@@ -109,6 +109,7 @@ void CliArjTest::testExtractArgs_data()
                                                       QStringLiteral("-jyc"),
                                                       QStringLiteral("-g1234"),
                                                       QStringLiteral("/tmp/foo.arj"),
+                                                      QStringLiteral("--"),
                                                       QStringLiteral("aDir/textfile2.txt"),
                                                       QStringLiteral("c.txt"),
                                                   };
@@ -124,6 +125,7 @@ void CliArjTest::testExtractArgs_data()
                                                         QStringLiteral("-p1"),
                                                         QStringLiteral("-jyc"),
                                                         QStringLiteral("/tmp/foo.arj"),
+                                                        QStringLiteral("--"),
                                                         QStringLiteral("aDir/textfile2.txt"),
                                                         QStringLiteral("c.txt"),
                                                     };
@@ -138,6 +140,7 @@ void CliArjTest::testExtractArgs_data()
                                                      QStringLiteral("e"),
                                                      QStringLiteral("-g1234"),
                                                      QStringLiteral("/tmp/foo.arj"),
+                                                     QStringLiteral("--"),
                                                      QStringLiteral("aDir/textfile2.txt"),
                                                      QStringLiteral("c.txt"),
                                                  };
@@ -151,6 +154,7 @@ void CliArjTest::testExtractArgs_data()
                                                 << QStringList{
                                                        QStringLiteral("e"),
                                                        QStringLiteral("/tmp/foo.arj"),
+                                                       QStringLiteral("--"),
                                                        QStringLiteral("aDir/textfile2.txt"),
                                                        QStringLiteral("c.txt"),
                                                    };

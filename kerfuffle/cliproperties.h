@@ -37,6 +37,7 @@ class KERFUFFLE_EXPORT CliProperties : public QObject
     Q_PROPERTY(QHash<QString, QVariant> compressionMethodSwitch MEMBER m_compressionMethodSwitch)
     Q_PROPERTY(QHash<QString, QVariant> encryptionMethodSwitch MEMBER m_encryptionMethodSwitch)
     Q_PROPERTY(QString multiVolumeSwitch MEMBER m_multiVolumeSwitch)
+    Q_PROPERTY(QString argumentDelimiterSwitch MEMBER m_argumentDelimiterSwitch)
 
     Q_PROPERTY(QStringList testPassedPatterns MEMBER m_testPassedPatterns)
     Q_PROPERTY(QStringList fileExistsFileNameRegExp MEMBER m_fileExistsFileNameRegExp)
@@ -96,6 +97,7 @@ private:
     QHash<QString, QVariant> m_compressionMethodSwitch;
     QHash<QString, QVariant> m_encryptionMethodSwitch;
     QString m_multiVolumeSwitch;
+    QString m_argumentDelimiterSwitch;
 
     QStringList m_testPassedPatterns;
     QStringList m_fileExistsFileNameRegExp;
