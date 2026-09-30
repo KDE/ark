@@ -105,6 +105,7 @@ void CliPlugin::setupCliProperties()
     // rar will sometimes create multi-volume archives where first volume is
     // called name.part1.rar and other times name.part01.rar.
     m_cliProps->setProperty("multiVolumeSuffix", QStringList{QStringLiteral("part01.$Suffix"), QStringLiteral("part1.$Suffix")});
+    m_cliProps->setProperty("argumentDelimiterSwitch", QStringLiteral("--"));
 }
 
 bool CliPlugin::readListLine(const QString &line)

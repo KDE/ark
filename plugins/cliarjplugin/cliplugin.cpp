@@ -225,6 +225,7 @@ void CliPlugin::setupCliProperties()
                               QStringLiteral("Quit"), // Cancel
                           });
     cliProps->setProperty("multiVolumeSuffix", QStringList{QStringLiteral("$Suffix.001")});
+    cliProps->setProperty("argumentDelimiterSwitch", QStringLiteral("--"));
 }
 
 void CliPlugin::ignoreLines(int lines, ParseState nextState)

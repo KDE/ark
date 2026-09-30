@@ -112,6 +112,7 @@ void CliZipTest::testExtractArgs_data()
                                                << QStringList{
                                                       QStringLiteral("-P1234"),
                                                       QStringLiteral("/tmp/foo.zip"),
+                                                      QStringLiteral("--"),
                                                       QStringLiteral("aDir/textfile2.txt"),
                                                       QStringLiteral("c.txt"),
                                                   };
@@ -124,6 +125,7 @@ void CliZipTest::testExtractArgs_data()
                                                  << true << QString()
                                                  << QStringList{
                                                         QStringLiteral("/tmp/foo.zip"),
+                                                        QStringLiteral("--"),
                                                         QStringLiteral("aDir/textfile2.txt"),
                                                         QStringLiteral("c.txt"),
                                                     };
@@ -138,6 +140,7 @@ void CliZipTest::testExtractArgs_data()
                                                      QStringLiteral("-j"),
                                                      QStringLiteral("-P1234"),
                                                      QStringLiteral("/tmp/foo.zip"),
+                                                     QStringLiteral("--"),
                                                      QStringLiteral("aDir/textfile2.txt"),
                                                      QStringLiteral("c.txt"),
                                                  };
@@ -151,6 +154,7 @@ void CliZipTest::testExtractArgs_data()
                                                 << QStringList{
                                                        QStringLiteral("-j"),
                                                        QStringLiteral("/tmp/foo.zip"),
+                                                       QStringLiteral("--"),
                                                        QStringLiteral("aDir/textfile2.txt"),
                                                        QStringLiteral("c.txt"),
                                                    };
