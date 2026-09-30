@@ -309,6 +309,7 @@ void CliUnarchiverTest::testExtractArgs_data()
                                                       QStringLiteral("-password"),
                                                       QStringLiteral("1234"),
                                                       QStringLiteral("/tmp/foo.rar"),
+                                                      QStringLiteral("--"),
                                                       QStringLiteral("aDir/b.txt"),
                                                       QStringLiteral("c.txt"),
                                                   };
@@ -320,6 +321,7 @@ void CliUnarchiverTest::testExtractArgs_data()
                                                  << QStringList{
                                                         QStringLiteral("-D"),
                                                         QStringLiteral("/tmp/foo.rar"),
+                                                        QStringLiteral("--"),
                                                         QStringLiteral("aDir/b.txt"),
                                                         QStringLiteral("c.txt"),
                                                     };

@@ -78,6 +78,10 @@ void CliPlugin::setupCliProperties()
     m_cliProps->setProperty("listSwitch", QStringList{QStringLiteral("-json")});
 
     m_cliProps->setProperty("passwordSwitch", QStringList{QStringLiteral("-password"), QStringLiteral("$Password")});
+
+    // Not documented in many places but https://github.com/MacPaw/XADMaster/blob/master/CSCommandLineParser.m
+    // has a // Check for a stop marker. if([argument isEqual:@"--"]) code
+    m_cliProps->setProperty("argumentDelimiterSwitch", QStringLiteral("--"));
 }
 
 bool CliPlugin::readListLine(const QString &line)

@@ -110,6 +110,7 @@ void CliPlugin::setupCliProperties()
                                 QStringLiteral("Q"), // Cancel
                             });
     m_cliProps->setProperty("multiVolumeSuffix", QStringList{QStringLiteral("$Suffix.001")});
+    m_cliProps->setProperty("argumentDelimiterSwitch", QStringLiteral("--"));
 }
 
 void CliPlugin::fixDirectoryFullName()

@@ -359,6 +359,7 @@ void Cli7zTest::testExtractArgs_data()
                                                       QStringLiteral("x"),
                                                       QStringLiteral("-p1234"),
                                                       QStringLiteral("/tmp/foo.7z"),
+                                                      QStringLiteral("--"),
                                                       QStringLiteral("aDir/textfile2.txt"),
                                                       QStringLiteral("c.txt"),
                                                   };
@@ -372,6 +373,7 @@ void Cli7zTest::testExtractArgs_data()
                                                  << QStringList{
                                                         QStringLiteral("x"),
                                                         QStringLiteral("/tmp/foo.7z"),
+                                                        QStringLiteral("--"),
                                                         QStringLiteral("aDir/textfile2.txt"),
                                                         QStringLiteral("c.txt"),
                                                     };
@@ -386,6 +388,7 @@ void Cli7zTest::testExtractArgs_data()
                                                      QStringLiteral("e"),
                                                      QStringLiteral("-p1234"),
                                                      QStringLiteral("/tmp/foo.7z"),
+                                                     QStringLiteral("--"),
                                                      QStringLiteral("aDir/textfile2.txt"),
                                                      QStringLiteral("c.txt"),
                                                  };
@@ -399,6 +402,7 @@ void Cli7zTest::testExtractArgs_data()
                                                 << QStringList{
                                                        QStringLiteral("e"),
                                                        QStringLiteral("/tmp/foo.7z"),
+                                                       QStringLiteral("--"),
                                                        QStringLiteral("aDir/textfile2.txt"),
                                                        QStringLiteral("c.txt"),
                                                    };
