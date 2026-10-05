@@ -4,13 +4,14 @@
 # Chusslove Illich <caslav.ilic@gmx.net>, 2004, 2005, 2006, 2009, 2010, 2011, 2012, 2014, 2015, 2016, 2017.
 # Slobodan Simic <slsimic@gmail.com>, 2005, 2007, 2008, 2009, 2010.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2010, 2011.
+# Nemanja Hiršl <nemhirsl@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-29 00:48+0000\n"
-"PO-Revision-Date: 2017-12-15 12:38+0100\n"
-"Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
+"PO-Revision-Date: 2026-10-04 23:13+0200\n"
+"Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@ijekavianlatin\n"
 "MIME-Version: 1.0\n"
@@ -26,17 +27,17 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Toplica Tanasković,Časlav Ilić,Slobodan Simić"
+msgstr "Toplica Tanasković,Časlav Ilić,Slobodan Simić,Nemanja Hiršl"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "toptan@kde.org.yu,caslav.ilic@gmx.net,slsimic@gmail.com"
+msgstr ""
+"toptan@kde.org.yu,caslav.ilic@gmx.net,slsimic@gmail.com,nemhirsl@gmail.com"
 
 #. i18n: ectx: Menu (archive)
 #: app/arkui.rc:5
-#, fuzzy, kde-format
-#| msgid "&Archive"
+#, kde-format
 msgctxt "Noun, not a verb. Top level menu item, i.e. like File"
 msgid "&Archive"
 msgstr "&Arhiva"
@@ -62,64 +63,49 @@ msgid "The following files could not be extracted:"
 msgstr "Fajlovi koji se ne mogu raspakovati:"
 
 #: app/batchextract.cpp:137
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "There was an error while reading <filename>%1</filename> during "
-#| "extraction."
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "There was an error while extracting <filename>%1</filename>. Any further "
 "archive will not be extracted."
-msgstr "Greška pri čitanju iz <filename>%1</filename> tokom raspakivanja."
+msgstr ""
+"Greška pri raspakivanju <filename>%1</filename>. Ostale arhive neće biti "
+"raspakovane."
 
 #: app/batchextract.cpp:139
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "There was an error while reading <filename>%1</filename> during "
-#| "extraction."
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "There was an error while extracting <filename>%1</filename>:<nl/><message>"
 "%2</message><nl/>Any further archive will not be extracted."
-msgstr "Greška pri čitanju iz <filename>%1</filename> tokom raspakivanja."
+msgstr ""
+"Greška pri raspakivanju <filename>%1</filename>:<nl/><message>%2</"
+"message><nl/>Ostale arhive neće biti raspakovane."
 
 #: app/batchextract.cpp:146
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "There was an error while reading <filename>%1</filename> during "
-#| "extraction."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "There was an error while extracting <filename>%1</filename>."
-msgstr "Greška pri čitanju iz <filename>%1</filename> tokom raspakivanja."
+msgstr "Greška pri raspakivanju <filename>%1</filename>."
 
 #: app/batchextract.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "There was an error while reading <filename>%1</filename> during "
-#| "extraction."
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "There was an error while extracting <filename>%1</filename>:<nl/><message>"
 "%2</message>"
-msgstr "Greška pri čitanju iz <filename>%1</filename> tokom raspakivanja."
+msgstr ""
+"Greška pri raspakivanju <filename>%1</filename>:<nl/><message>%2</message>"
 
 #: app/batchextract.cpp:301
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "The archive could not be saved as <filename>%1</filename>. Try saving it "
-#| "to another location."
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "The archive could not be extracted to <filename>%1</filename> because Ark "
 "can only extract to local destinations."
 msgstr ""
-"Arhiva ne može da se sačuva kao <filename>%1</filename>. Pokušajte da je "
-"sačuvate na drugu lokaciju."
+"Arhiva ne može da se raspakuje u <filename>%1</filename> jer Ark umije da "
+"raspakuje samo na lokalna odredišta."
 
 #: app/compressfileitemaction.cpp:74
 #, kde-format
@@ -128,49 +114,41 @@ msgid "Compress"
 msgstr "Kompresuj"
 
 #: app/compressfileitemaction.cpp:102
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
 msgid "Compress to…"
-msgstr "Kompresuj u..."
+msgstr "Kompresuj u…"
 
 #: app/compressfileitemaction.cpp:105 app/compressfileitemaction.cpp:119
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#| msgid "Compress to..."
+#, kde-format
 msgctxt ""
 "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 filename"
 msgid "Compress to \"%1\""
-msgstr "Kompresuj u..."
+msgstr "Kompresuj u „%1“"
 
 #: app/compressfileitemaction.cpp:111 kerfuffle/addtoarchive.cpp:269
-#, fuzzy, kde-format
-#| msgid "Archive"
+#, kde-format
 msgctxt "Default name of a newly-created multi-file archive"
 msgid "Archive"
 msgstr "Arhiva"
 
 #: app/extractfileitemaction.cpp:75
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract to…"
-msgstr "Raspakuj"
+msgstr "Raspakuj u…"
 
 #: app/extractfileitemaction.cpp:87
-#, fuzzy, kde-format
-#| msgid "Extract here"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract here"
 msgstr "Raspakuj ovdje"
 
 #: app/extractfileitemaction.cpp:93
-#, fuzzy, kde-format
-#| msgid "Extract multiple archives"
+#, kde-format
 msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 msgid "Extract and trash archive"
-msgstr "Raspakuj više arhiva"
+msgstr "Raspakuj i premjesti arhivu u smeće"
 
 #: app/extractfileitemaction.cpp:100
 #, kde-format
@@ -196,10 +174,9 @@ msgid "KDE Archiving tool"
 msgstr "KDE‑ova alatka za arhiviranje"
 
 #: app/main.cpp:80
-#, fuzzy, kde-format
-#| msgid "(c) 1997-2017, The Ark Developers"
+#, kde-format
 msgid "© 1997–2025 The Ark Developers"
-msgstr "© 1997–2017, programeri Arka"
+msgstr "© 1997–2025, programeri Arka"
 
 #: app/main.cpp:86
 #, kde-format
@@ -401,42 +378,40 @@ msgid ""
 msgstr "Argument odredišta će biti postavljen na putanju prvog zadatog fajla."
 
 #: app/main.cpp:149
-#, fuzzy, kde-format
-#| msgid ""
-#| "Archive contents will be read, and if detected to not be a single folder "
-#| "archive, a subfolder with the name of the archive will be created."
+#, kde-format
 msgid ""
 "Archive contents will be read, and if detected to not be a single folder or "
 "a single file archive, a subfolder with the name of the archive will be "
 "created."
 msgstr ""
 "Sadržaj arhive će biti iščitan, pa ako se utvrdi da nije u pitanju arhiva "
-"jedne fascikle, biće napravljena potfascikla prema imenu arhive."
+"jedne fascikle ili jednog fajla, biće napravljena potfascikla prema imenu "
+"arhive."
 
 #: app/main.cpp:152
 #, kde-format
 msgid "List supported MIME types."
-msgstr ""
+msgstr "Ispiši podržane MIME tipove."
 
 #: app/mainwindow.cpp:167
 #, kde-format
 msgid "Unable to find Ark's KPart component, please check your installation."
-msgstr "Ne mogu da nađem komponentu Arka dela; provjerite instalaciju."
+msgstr "Ne mogu da nađem komponentu Arka dijela; provjerite instalaciju."
 
 #: app/mainwindow.cpp:182
 #, kde-format
 msgid "Sidebar"
-msgstr ""
+msgstr "Bočna traka"
 
 #: app/mainwindow.cpp:286
 #, kde-format
 msgid "Welcome Page"
-msgstr ""
+msgstr "Stranica dobrodošlice"
 
 #: app/mainwindow.cpp:288
 #, kde-format
 msgid "Show the welcome page"
-msgstr ""
+msgstr "Prikaži stranicu dobrodošlice"
 
 #: app/mainwindow.cpp:296
 #, kde-kuit-format
@@ -446,11 +421,14 @@ msgid ""
 "<interface>Hamburger Menu</interface> button. Both contain mostly the same "
 "commands and configuration options."
 msgstr ""
+"Ovim se bira između <emphasis>trake menija</emphasis> i dugmeta "
+"<interface>Hamburger meni</interface>. Oboje sadrže uglavnom iste naredbe i "
+"opcije postave."
 
 #: app/mainwindow.cpp:316
 #, kde-format
 msgid "Lock Sidebar"
-msgstr ""
+msgstr "Zaključaj bočnu traku"
 
 # >> @title:window
 #: app/mainwindow.cpp:372
@@ -468,96 +446,89 @@ msgstr "Stvaranje nove arhive"
 #: app/welcomeview/welcomeview.cpp:50
 #, kde-format
 msgid "Welcome to %1"
-msgstr ""
+msgstr "Dobro došli u %1"
 
 #: app/welcomeview/welcomeview.cpp:55
 #, kde-format
 msgid "No recent files"
-msgstr ""
+msgstr "Nema nedavnih fajlova"
 
 #: app/welcomeview/welcomeview.cpp:143
 #, kde-format
 msgid "Copy &Location"
-msgstr ""
+msgstr "Kopiraj &lokaciju"
 
 #: app/welcomeview/welcomeview.cpp:149
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr ""
+msgstr "&Otvori obuhvatajuću fasciklu"
 
 #: app/welcomeview/welcomeview.cpp:156
 #, kde-format
 msgid "&Remove"
-msgstr ""
+msgstr "&Ukloni"
 
 #. i18n: ectx: property (windowTitle), widget (QScrollArea, WelcomeView)
 #: app/welcomeview/welcomeview.ui:17
 #, kde-format
 msgid "Welcome"
-msgstr ""
+msgstr "Dobro došli"
 
 # >> @title:window
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "Open Archive…"
-msgstr "Otvaranje arhive"
+msgstr "Otvori arhivu…"
 
 # >> @title:window
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewArchive)
 #: app/welcomeview/welcomeview.ui:186
-#, fuzzy, kde-format
-#| msgctxt "to open an archive"
-#| msgid "Open Archive"
+#, kde-format
 msgid "New Archive"
-msgstr "Otvaranje arhive"
+msgstr "Nova arhiva"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClearRecentFiles)
 #: app/welcomeview/welcomeview.ui:193
 #, kde-format
 msgid "Clear Recent Files"
-msgstr ""
+msgstr "Očisti nedavne fajlove"
 
 #. i18n: ectx: property (text), widget (QLabel, labelRecentFiles)
 #: app/welcomeview/welcomeview.ui:222
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Delete File"
-#| msgid_plural "Delete Files"
+#, kde-format
 msgid "Recent Files"
-msgstr "Brisanje fajlova"
+msgstr "Nedavni fajlovi"
 
 #. i18n: ectx: property (text), widget (QLabel, labelHelp)
 #: app/welcomeview/welcomeview.ui:263
 #, kde-format
 msgid "Help"
-msgstr ""
+msgstr "Pomoć"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHomepage)
 #: app/welcomeview/welcomeview.ui:273
 #, kde-format
 msgid "Visit homepage"
-msgstr ""
+msgstr "Posjeti domaću stranicu"
 
 #. i18n: ectx: property (text), widget (KUrlLabel, labelHandbook)
 #: app/welcomeview/welcomeview.ui:286
 #, kde-format
 msgid "Read handbook"
-msgstr ""
+msgstr "Pročitaj priručnik"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBoxShowOnStartup)
 #: app/welcomeview/welcomeview.ui:345
 #, kde-format
 msgid "Show on startup"
-msgstr ""
+msgstr "Prikaži pri pokretanju"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, buttonClose)
 #: app/welcomeview/welcomeview.ui:400
 #, kde-format
 msgid "Close Welcome Page"
-msgstr ""
+msgstr "Zatvori stranicu dobrodošlice"
 
 #: kerfuffle/adddialog.cpp:32 kerfuffle/adddialog.cpp:70
 #, kde-format
@@ -623,7 +594,7 @@ msgstr "Da li prikazati upozorenje kad se pravi ZIP arhiva sa AES šifrovanjem."
 #: kerfuffle/ark.kcfg:13
 #, kde-format
 msgid "Default action when opening archive entries."
-msgstr "Podrazumevana radnja pri otvaranju stavki u arhivi."
+msgstr "Podrazumijevana radnja pri otvaranju stavki u arhivi."
 
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
 #: kerfuffle/ark.kcfg:27
@@ -649,7 +620,7 @@ msgstr ""
 #: kerfuffle/ark.kcfg:41
 #, kde-format
 msgid "How the main window is divided."
-msgstr "Kako se deli glavni prozor."
+msgstr "Kako se dijeli glavni prozor."
 
 #. i18n: ectx: label, entry (showInfoPanel), group (MainWindow)
 #: kerfuffle/ark.kcfg:45
@@ -680,7 +651,7 @@ msgstr "Ne mogu da nađem program <filename>%1</filename> na disku."
 #: kerfuffle/cliinterface.cpp:346
 #, kde-format
 msgid "Extraction failed. Make sure that enough space is available."
-msgstr "Raspakivanje propalo. Proverite ima li dovoljno prostora na disku."
+msgstr "Raspakivanje propalo. Provjerite ima li dovoljno prostora na disku."
 
 # skip-rule: t-space
 # rewrite-msgid: /available/available on disk/
@@ -690,7 +661,7 @@ msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
 "enough space is available."
 msgstr ""
-"Raspakivanje propalo. Proverite da li ste uneli tačnu lozinku i da li ima "
+"Raspakivanje propalo. Provjerite da li ste unijeli tačnu lozinku i da li ima "
 "dovoljno prostora na disku."
 
 #: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
@@ -698,10 +669,10 @@ msgstr ""
 msgctxt "@info"
 msgid "Could not move the extracted file to the destination directory."
 msgid_plural "Could not move the extracted files to the destination directory."
-msgstr[0] "Ne mogu premestim raspakovane fajlove u odredišnu fasciklu."
-msgstr[1] "Ne mogu premestim raspakovane fajlove u odredišnu fasciklu."
-msgstr[2] "Ne mogu premestim raspakovane fajlove u odredišnu fasciklu."
-msgstr[3] "Ne mogu premestim raspakovani fajl u odredišnu fasciklu."
+msgstr[0] "Ne mogu da premjestim raspakovane fajlove u odredišnu fasciklu."
+msgstr[1] "Ne mogu da premjestim raspakovane fajlove u odredišnu fasciklu."
+msgstr[2] "Ne mogu da premjestim raspakovane fajlove u odredišnu fasciklu."
+msgstr[3] "Ne mogu da premjestim raspakovani fajl u odredišnu fasciklu."
 
 #: kerfuffle/cliinterface.cpp:836
 #, kde-format
@@ -723,7 +694,7 @@ msgstr "Pogrešna lozinka."
 #: kerfuffle/cliinterface.cpp:899
 #, kde-format
 msgid "Ark does not currently support testing this archive."
-msgstr "Ark trenutno ne podržava proveru ove arhive."
+msgstr "Ark trenutno ne podržava provjeru ove arhive."
 
 #: kerfuffle/compressionoptionswidget.cpp:133
 #, kde-format
@@ -758,8 +729,8 @@ msgstr ""
 #, kde-format
 msgid "The %1 format does not support multi-volume archives."
 msgstr ""
-"Format %1 ne podržava višedelne arhive.|/|Format $[nom %1] ne podržava "
-"višedelne arhive."
+"Format %1 ne podržava višedijelne arhive.|/|Format $[nom %1] ne podržava "
+"višedijelne arhive."
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, collapsibleCompression)
 #: kerfuffle/compressionoptionswidget.ui:20
@@ -809,7 +780,7 @@ msgstr "Metod šifrovanja:"
 #: kerfuffle/compressionoptionswidget.ui:160
 #, kde-format
 msgid "Ask for password before showing the list of files in the archive"
-msgstr "Traži lozinku pre prikazivanja spiska fajlova u arhivi"
+msgstr "Traži lozinku prije prikazivanja spiska fajlova u arhivi"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, warningMsgWidget)
 #: kerfuffle/compressionoptionswidget.ui:170
@@ -823,19 +794,19 @@ msgstr ""
 #: kerfuffle/compressionoptionswidget.ui:183
 #, kde-format
 msgid "Multi-volume Archive"
-msgstr "Višedelne arhive"
+msgstr "Višedijelne arhive"
 
 #. i18n: ectx: property (text), widget (QCheckBox, multiVolumeCheckbox)
 #: kerfuffle/compressionoptionswidget.ui:192
 #, kde-format
 msgid "Create multi-volume archive"
-msgstr "Napravi višedelnu arhivu"
+msgstr "Napravi višedijelnu arhivu"
 
 #. i18n: ectx: property (text), widget (QLabel, lblVolumeSize)
 #: kerfuffle/compressionoptionswidget.ui:210
 #, kde-format
 msgid "Volume size:"
-msgstr "Veličina delova:"
+msgstr "Veličina dijelova:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_previewFileSizeLimit)
 #. i18n: ectx: property (suffix), widget (QDoubleSpinBox, volumeSizeSpinbox)
@@ -854,7 +825,7 @@ msgstr "Automatski dodaj .%1"
 #: kerfuffle/createdialog.cpp:204
 #, kde-format
 msgid "The chosen password does not match the given verification password."
-msgstr "Izabrana lozinka ne odgovara zadatoj lozinci za overu."
+msgstr "Izabrana lozinka ne odgovara zadatoj lozinci za ovjeru."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/createdialog.ui:30
@@ -870,10 +841,9 @@ msgstr "Ime fajla:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filenameLineEdit)
 #: kerfuffle/createdialog.ui:54
-#, fuzzy, kde-format
-#| msgid "Type archive name..."
+#, kde-format
 msgid "Type archive name…"
-msgstr "Unesite ime arhive..."
+msgstr "Unesite ime arhive…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, m_typeLabel)
@@ -1045,8 +1015,8 @@ msgid ""
 "Whether to check by default the extraction into subfolder checkbox in the "
 "Extraction Dialog, when the archive has more than one top-level entry."
 msgstr ""
-"Da li da kućica za raspakivanje u potfasciklu bude podrazumevano popunjena u "
-"dijalogu raspakivanja, kada arhiva ima više od jedne stavke gornjeg nivoa."
+"Da li da kućica za raspakivanje u potfasciklu bude podrazumijevano popunjena "
+"u dijalogu raspakivanja, kada arhiva ima više od jedne stavke gornjeg nivoa."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
 #: kerfuffle/extractionsettingspage.ui:44
@@ -1091,7 +1061,7 @@ msgid ""
 "Failed to load a suitable plugin. Make sure any executables needed to handle "
 "the archive type are installed."
 msgstr ""
-"Ne mogu da učitam pogodan priključak. Proverite da li su instalirane sve "
+"Ne mogu da učitam pogodan priključak. Provjerite da li su instalirane sve "
 "naredbe za rukovanje ovim tipom arhive."
 
 #: kerfuffle/jobs.cpp:169
@@ -1100,6 +1070,8 @@ msgid ""
 "Could not load the archive because it contains ill-formed entries and might "
 "be a malicious archive."
 msgstr ""
+"Ne mogu da učitam arhivu zato što sadrži loše oblikovane unose i možda je "
+"zlonamjerna."
 
 #: kerfuffle/jobs.cpp:257
 #, kde-format
@@ -1114,11 +1086,9 @@ msgid "Archive"
 msgstr "Arhiva"
 
 #: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Ark could not extract <filename>%1</filename>."
+#, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
-msgstr "Ark ne može da raspakuje <filename>%1</filename>."
+msgstr "Nema slobodnog prostora na uređaju <filename>%1</filename>"
 
 #: kerfuffle/jobs.cpp:554
 #, kde-format
@@ -1147,7 +1117,7 @@ msgid ""
 "Could not write to destination <filename>%1</filename>.<nl/>Check whether "
 "you have sufficient permissions."
 msgstr ""
-"Ne mogu da pišem u odredište <filename>%1</filename>.<nl/>Proverite da li "
+"Ne mogu da pišem u odredište <filename>%1</filename>.<nl/>Provjerite da li "
 "imate dovoljne dozvole."
 
 #: kerfuffle/jobs.cpp:741
@@ -1163,10 +1133,10 @@ msgstr[3] "Kompresujem fajl"
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
-msgstr[0] "Premeštam %1 fajl"
-msgstr[1] "Premeštam %1 fajla"
-msgstr[2] "Premeštam %1 fajlova"
-msgstr[3] "Premeštam fajl"
+msgstr[0] "Premiještam %1 fajl"
+msgstr[1] "Premiještam %1 fajla"
+msgstr[2] "Premiještam %1 fajlova"
+msgstr[3] "Premiještam fajl"
 
 #: kerfuffle/jobs.cpp:830
 #, kde-format
@@ -1203,8 +1173,8 @@ msgid ""
 "The plugin cannot be used because one or more required executables are "
 "missing. Check your installation."
 msgstr ""
-"Priključak ne može da se instalira zato što nedostaje jedna ili više "
-"neophodnih naredbi. Proverite instalaciju."
+"Priključak ne može da se koristi zato što nedostaje jedna ili više "
+"neophodnih naredbi. Provjerite instalaciju."
 
 #. i18n: @title:column
 #. i18n: ectx: property (text), widget (QTreeWidget, kcfg_disabledPlugins)
@@ -1249,7 +1219,7 @@ msgstr "ne"
 #: kerfuffle/propertiesdialog.cpp:50
 #, kde-format
 msgid "yes (%1 volumes)"
-msgstr "da (%1 delova)|/|da (%1 $[množ ^1 deo dela delova])"
+msgstr "da (%1 dijelova)|/|da (%1 $[množ ^1 dio dijela dijelova])"
 
 #: kerfuffle/propertiesdialog.cpp:52
 #, kde-format
@@ -1281,10 +1251,9 @@ msgstr "da (%1)"
 
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "Calculating..."
+#, kde-format
 msgid "Calculating…"
-msgstr "Računam..."
+msgstr "Računam…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1351,7 +1320,7 @@ msgstr "Stepen kompresovanja:"
 #: kerfuffle/propertiesdialog.ui:207
 #, kde-format
 msgid "Last modified:"
-msgstr "Poslednja izmena:"
+msgstr "Posljednja izmjena:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: kerfuffle/propertiesdialog.ui:224
@@ -1375,7 +1344,7 @@ msgstr "SHA‑256 disperzija:"
 #: kerfuffle/propertiesdialog.ui:278
 #, kde-format
 msgid "Multi-volume:"
-msgstr "Višedelna:"
+msgstr "Višedijelna:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: kerfuffle/propertiesdialog.ui:295
@@ -1447,8 +1416,8 @@ msgid ""
 "Extraction of the entry:<nl/>    <filename>%1</filename><nl/>failed with the "
 "error message:<nl/>    %2<nl/><nl/>Do you want to continue extraction?<nl/>"
 msgstr ""
-"Raspakivanje stavke:<nl/>    <filename>%1</filename><nl/>nije uspelo, uz "
-"sledeću poruku greške:<nl/>    %2<nl/><nl/>Želite li da nastavite "
+"Raspakivanje stavke:<nl/>    <filename>%1</filename><nl/>nije uspjelo, uz "
+"sljedeću poruku greške:<nl/>    %2<nl/><nl/>Želite li da nastavite "
 "raspakivanje?<nl/>"
 
 # >> @title:column +
@@ -1462,16 +1431,14 @@ msgstr "ime"
 #, kde-format
 msgctxt "Uncompressed size of a file inside an archive"
 msgid "Original Size"
-msgstr ""
+msgstr "izvorna veličina"
 
 # >> @title:column +
 #: part/archivemodel.cpp:162
-#, fuzzy, kde-format
-#| msgctxt "Compressed size of a file inside an archive"
-#| msgid "Compressed"
+#, kde-format
 msgctxt "Compressed size of a file inside an archive"
 msgid "Compressed Size"
-msgstr "kompresovano"
+msgstr "kompresovana veličina"
 
 # >> @title:column +
 #: part/archivemodel.cpp:164
@@ -1505,13 +1472,13 @@ msgstr "režim"
 #, kde-format
 msgctxt "CRC hash code"
 msgid "CRC checksum"
-msgstr ""
+msgstr "CRC kontrolna suma"
 
 #: part/archivemodel.cpp:174
 #, kde-format
 msgctxt "BLAKE2 hash code"
 msgid "BLAKE2 checksum"
-msgstr ""
+msgstr "BLAKE2 kontrolna suma"
 
 # >> @title:column +
 #: part/archivemodel.cpp:176
@@ -1547,11 +1514,9 @@ msgid "Adding files is not supported for this archive."
 msgstr "Dodavanje fajlova nije podržano za ovu arhivu."
 
 #: part/archivemodel.cpp:291
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Click to add files to the archive"
+#, kde-format
 msgid "You can only add local files to an archive."
-msgstr "Kliknite da dodate fajlove u arhivu."
+msgstr "U arhivu možete dodati samo lokalne fajlove."
 
 #. i18n: ectx: Menu (archive)
 #: part/ark_part.rc:5
@@ -1581,7 +1546,7 @@ msgstr "Glavna traka"
 #: part/ark_viewer.rc:5
 #, kde-format
 msgid "&Help"
-msgstr ""
+msgstr "&Pomoć"
 
 # >> @title:window
 #: part/arkviewer.cpp:52
@@ -1590,10 +1555,9 @@ msgid "Closing preview"
 msgstr "Zatvaranje pregleda"
 
 #: part/arkviewer.cpp:53
-#, fuzzy, kde-format
-#| msgid "Please wait while the preview is being closed..."
+#, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "Sačekajte dok se pregled ne zatvori..."
+msgstr "Sačekajte dok se pregled ne zatvori…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1634,7 +1598,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "About Viewer Component"
-msgstr ""
+msgstr "O komponenti prikazivača"
 
 #: part/infopanel.cpp:53
 #, kde-format
@@ -1713,7 +1677,7 @@ msgstr "Neki podaci o poslu"
 #: part/jobtracker.ui:88
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: part/overwritedialog.cpp:26
 #, kde-format
@@ -1741,7 +1705,7 @@ msgstr "Komentar"
 #: part/part.cpp:125
 #, kde-format
 msgid "Comment has been modified."
-msgstr "Komentar je izmenjen."
+msgstr "Komentar je izmijenjen."
 
 #: part/part.cpp:130
 #, kde-format
@@ -1749,18 +1713,15 @@ msgid "Save"
 msgstr "Sačuvaj"
 
 #: part/part.cpp:153
-#, fuzzy, kde-format
-#| msgid "Type to search..."
+#, kde-format
 msgid "Type to search…"
-msgstr "Kucajte za pretragu..."
+msgstr "Kucajte za pretragu…"
 
 #: part/part.cpp:303
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid "Ark can only extract to local destinations."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
-msgstr "Ark ume da raspakuje samo na lokalna odredišta."
+msgstr "Ark umije da raspakuje arhive samo na lokalna odredišta."
 
 #: part/part.cpp:355
 #, kde-format
@@ -1772,21 +1733,19 @@ msgstr "Prikaži panel sa podacima"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
-msgstr ""
+msgstr "Sačuvaj kopiju kao…"
 
 #: part/part.cpp:365
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
-msgstr ""
+msgstr "&Otvori u spoljašnjem programu"
 
 #: part/part.cpp:372
-#, fuzzy, kde-format
-#| msgctxt "open a file with external program"
-#| msgid "Open &With..."
+#, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "Otvori &pomoću..."
+msgstr "Otvori &pomoću…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1838,11 +1797,9 @@ msgstr ""
 "raspakovati sve fajlove ili samo izabrane."
 
 #: part/part.cpp:404
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Add Files"
+#, kde-format
 msgid "Add &Files…"
-msgstr "Dodavanje fajlova"
+msgstr "Dodaj &fajlove…"
 
 #: part/part.cpp:405 part/part.cpp:466
 #, kde-format
@@ -1852,11 +1809,10 @@ msgstr "Kliknite da dodate fajlove u arhivu."
 
 # >> @title:window
 #: part/part.cpp:412
-#, fuzzy, kde-format
-#| msgid "Compress to Archive"
+#, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
-msgstr "Kompresovanje u arhivu"
+msgstr "Ukloni iz arhive"
 
 #: part/part.cpp:422
 #, kde-format
@@ -1880,13 +1836,13 @@ msgstr "Kliknite da dodate ili uredite komentar."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
-msgstr "&Proveri celovitost"
+msgstr "&Provjeri cjelovitost"
 
 #: part/part.cpp:437 part/part.cpp:467
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
-msgstr "Kliknite da proverite celovitost arhive."
+msgstr "Kliknite da provjerite cjelovitost arhive."
 
 #: part/part.cpp:462
 #, kde-kuit-format
@@ -1907,7 +1863,7 @@ msgid ""
 "Testing password-protected archives with no header-encryption is currently "
 "not supported."
 msgstr ""
-"Provera arhiva zaštićenih lozinkom bez šifrovanja zaglavlja trenutno nije "
+"Provjera arhiva zaštićenih lozinkom bez šifrovanja zaglavlja trenutno nije "
 "podržana."
 
 #: part/part.cpp:505
@@ -1925,61 +1881,52 @@ msgstr "Dodaj &komentar"
 #: part/part.cpp:612
 #, kde-format
 msgid "The archive passed the integrity test."
-msgstr "Arhiva je prošla proveru celovitosti."
+msgstr "Arhiva je prošla provjeru cjelovitosti."
 
 #: part/part.cpp:612 part/part.cpp:614
 #, kde-format
 msgid "Test Results"
-msgstr "Rezultati provere"
+msgstr "Rezultati provjere"
 
 #: part/part.cpp:614
 #, kde-format
 msgid "The archive failed the integrity test."
-msgstr "Arhiva nije prošla proveru celovitosti."
+msgstr "Arhiva nije prošla provjeru cjelovitosti."
 
 #: part/part.cpp:634
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgid "Extract To…"
-msgstr "Raspakuj"
+msgstr "Raspakuj u…"
 
 #: part/part.cpp:646
-#, fuzzy, kde-format
-#| msgid "Quick Extract To..."
+#, kde-format
 msgid "Quick Extract To…"
-msgstr "Brzo raspakuj u..."
+msgstr "Brzo raspakuj u…"
 
 #: part/part.cpp:775
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "General Settings"
+#, kde-format
 msgctxt "@title:tab"
 msgid "General"
-msgstr "Opšte postavke"
+msgstr "Opšte"
 
 #: part/part.cpp:776
-#, fuzzy, kde-format
-#| msgid "Extract"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
-msgstr "Raspakuj"
+msgstr "Raspakivanje"
 
 #: part/part.cpp:777
-#, fuzzy, kde-format
-#| msgctxt "@title:tab"
-#| msgid "Plugin Settings"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
-msgstr "Postavke priključka"
+msgstr "Priključci"
 
 # rewrite-msgid: /Preview/View/
 #: part/part.cpp:778
-#, fuzzy, kde-format
-#| msgctxt "to preview a file inside an archive"
-#| msgid "Pre&view"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
-msgstr "P&rikaži"
+msgstr "Pregledi"
 
 #: part/part.cpp:794
 #, kde-kuit-format
@@ -1994,7 +1941,7 @@ msgid ""
 "Could not overwrite <filename>%1</filename>. Check whether you have write "
 "permission."
 msgstr ""
-"Ne mogu da prebrišem <filename>%1</filename>. Proverite imate li dozvolu za "
+"Ne mogu da prebrišem <filename>%1</filename>. Provjerite imate li dozvolu za "
 "pisanje."
 
 #: part/part.cpp:808
@@ -2040,8 +1987,8 @@ msgid ""
 "Loading the archive <filename>%1</filename> failed with the following error:"
 "<nl/><message>%2</message>"
 msgstr ""
-"Učitavanje arhive <filename>%1</filename> nije uspelo, uz sledeću grešku:<nl/"
-"><message>%2</message>"
+"Učitavanje arhive <filename>%1</filename> nije uspjelo, uz sljedeću grešku:"
+"<nl/><message>%2</message>"
 
 #: part/part.cpp:967
 #, kde-format
@@ -2054,25 +2001,25 @@ msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
 "archive?"
 msgstr ""
-"Fajl <filename>%1</filename> je izmenjen. Želite li da ažurirate arhivu?"
+"Fajl <filename>%1</filename> je izmijenjen. Želite li da ažurirate arhivu?"
 
 #: part/part.cpp:1095
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
-msgstr "Fajl izmenjen"
+msgstr "Fajl izmijenjen"
 
 #: part/part.cpp:1096
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
-msgstr ""
+msgstr "Ažuriraj"
 
 #: part/part.cpp:1097
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
-msgstr ""
+msgstr "Ignoriši"
 
 #: part/part.cpp:1371
 #, kde-format
@@ -2095,17 +2042,17 @@ msgstr ""
 #: part/part.cpp:1480
 #, kde-format
 msgid "Folders can't be moved into themselves."
-msgstr "Fascikle ne mogu da se premeste na same sebe."
+msgstr "Fascikle ne mogu da se premjeste na same sebe."
 
 #: part/part.cpp:1480
 #, kde-format
 msgid "Moving a folder into itself"
-msgstr "Premeštanje fascikle na samu sebe"
+msgstr "Premiještanje fascikle na samu sebe"
 
 #: part/part.cpp:1508
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
-msgstr "Unosi sa istim imenom ne mogu da se nalepe na isto odredište."
+msgstr "Unosi sa istim imenom ne mogu da se nalijepe na isto odredište."
 
 #: part/part.cpp:1607
 #, kde-format
@@ -2136,7 +2083,7 @@ msgstr[3] "Brisanje fajla"
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
-msgstr ""
+msgstr "Upisivanje kopije kao"
 
 #: part/part.cpp:1664
 #, kde-kuit-format
@@ -2149,18 +2096,14 @@ msgstr ""
 "sačuvate na drugu lokaciju."
 
 #: part/part.cpp:1669
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info"
-#| msgid ""
-#| "The archive <filename>%1</filename> cannot be copied to the specified "
-#| "location. The archive does not exist anymore."
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "The archive <filename>%1</filename> does not exist anymore, therefore it "
 "cannot be copied to the specified location."
 msgstr ""
-"Arhiva <filename>%1</filename> ne može da se kopira na navedenu lokaciju. "
-"Arhiva više ne postoji."
+"Arhiva <filename>%1</filename> više ne postoji, pa ne može da se kopira na "
+"navedenu lokaciju."
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
 #: plugins/cliunarchiverplugin/cliplugin.cpp:88
@@ -2183,46 +2126,41 @@ msgstr ""
 "raspakovanih fajlova može biti oštećen."
 
 #: plugins/cli7zplugin/cliplugin.cpp:319
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delete operation failed. Try upgrading p7zip or disabling the p7zip "
-#| "plugin in the configuration dialog."
+#, kde-format
 msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
 "configuration dialog."
 msgstr ""
-"Postupak brisanja propao. Pokušajte da nadogradite p7zip ili da isključite "
-"priključak za p7zip u dijalogu za podešavanje."
+"Postupak brisanja propao. Pokušajte da nadogradite 7zip ili da isključite "
+"priključak za 7zip u dijalogu za podešavanje."
 
 #: plugins/cliarjplugin/cliplugin.cpp:321
 #, kde-format
 msgid "ARJ old"
-msgstr ""
+msgstr "stari ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:322
 #, kde-format
 msgid "ARJ"
-msgstr ""
+msgstr "ARJ"
 
 #: plugins/cliarjplugin/cliplugin.cpp:323
 #, kde-format
 msgid "GOST256"
-msgstr ""
+msgstr "GOST256"
 
 #: plugins/cliarjplugin/cliplugin.cpp:324
 #, kde-format
 msgid "GOST256L"
-msgstr ""
+msgstr "GOST256L"
 
 #: plugins/cliarjplugin/cliplugin.cpp:325
 #, kde-format
 msgid "GOST 40-bit"
-msgstr ""
+msgstr "GOST 40‑bitni"
 
 #: plugins/cliarjplugin/cliplugin.cpp:327
-#, fuzzy, kde-format
-#| msgctxt "referred to compression method"
-#| msgid "unknown"
+#, kde-format
 msgid "unknown"
 msgstr "nepoznat"
 
@@ -2231,7 +2169,7 @@ msgstr "nepoznat"
 #: plugins/clirarplugin/cliplugin.cpp:540
 #, kde-format
 msgid "Failed to find all archive volumes."
-msgstr "Ne mogu da nađem sve delove arhive."
+msgstr "Ne mogu da nađem sve dijelove arhive."
 
 #: plugins/clirarplugin/cliplugin.cpp:314
 #, kde-format
@@ -2288,18 +2226,14 @@ msgid "unknown"
 msgstr "nepoznat"
 
 #: plugins/libarchive/libarchiveplugin.cpp:123
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid ""
-#| "Testing password-protected archives with no header-encryption is "
-#| "currently not supported."
+#, kde-format
 msgctxt "@info"
 msgid ""
 "The archive may be corrupt or has header-encryption, which is currently not "
 "supported."
 msgstr ""
-"Provera arhiva zaštićenih lozinkom bez šifrovanja zaglavlja trenutno nije "
-"podržana."
+"Arhiva je možda iskvarena ili ima šifrovano zaglavlje, što trenutno nije "
+"podržano."
 
 #: plugins/libarchive/libarchiveplugin.cpp:526
 #, kde-format
@@ -2311,7 +2245,7 @@ msgstr "Kobna greška, raspakivanje obustavljeno."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
-msgstr ""
+msgstr "Raspakivanje šifrovanih 7zip unosa trenutno nije podržano."
 
 #: plugins/libarchive/libarchiveplugin.cpp:566
 #, kde-format
@@ -2449,7 +2383,7 @@ msgstr "Ne mogu da nađem stavku: %1"
 #: plugins/libzipplugin/libzipplugin.cpp:1023
 #, kde-kuit-format
 msgid "Failed to move entry: %1"
-msgstr "Ne mogu da premestim stavku: %1"
+msgstr "Ne mogu da premjestim stavku: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:1080
 #, kde-kuit-format
@@ -2460,92 +2394,3 @@ msgstr "Ne mogu da kopiram stavku: %1"
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Ne mogu da postavim metapodatke za stavku: %1"
-
-# >> @title:window
-#, fuzzy
-#~| msgctxt "to open an archive"
-#~| msgid "Open Archive"
-#~ msgid "Open Archive..."
-#~ msgstr "Otvaranje arhive"
-
-#~ msgid "Add &Files..."
-#~ msgstr "Dodaj &fajlove..."
-
-#~ msgid "Extract To..."
-#~ msgstr "Raspakuj u..."
-
-#, fuzzy
-#~| msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#~| msgid "Here (as ZIP)"
-#~ msgctxt ""
-#~ "@action:inmenu Part of Compress submenu in Dolphin context menu, %1 "
-#~ "filename"
-#~ msgid "Here as \"%1\""
-#~ msgstr "Ovdje (kao *.zip)"
-
-#~ msgctxt "@action:inmenu Part of Compress submenu in Dolphin context menu"
-#~ msgid "Here (as TAR.GZ)"
-#~ msgstr "Ovdje (kao *.tar.gz)"
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive here"
-#~ msgstr "Raspakuj arhivu ovdje"
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive to..."
-#~ msgstr "Raspakuj arhivu u..."
-
-#~ msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
-#~ msgid "Extract archive here, autodetect subfolder"
-#~ msgstr "Raspakuj arhivu ovdje, pogodi potfasciklu"
-
-#~ msgctxt "action, to open an archive"
-#~ msgid "Open"
-#~ msgstr "Otvori"
-
-#~ msgid "Open an archive"
-#~ msgstr "Otvori arhivu"
-
-# >> @title:column +
-#~ msgctxt "Uncompressed size of a file inside an archive"
-#~ msgid "Size"
-#~ msgstr "veličina"
-
-#~ msgid "ArkPart"
-#~ msgstr "Ark deo"
-
-#~ msgctxt "open a file with external program"
-#~ msgid "&Open"
-#~ msgstr "&Otvori"
-
-#~ msgctxt "@info:tooltip"
-#~ msgid "Click to open the selected file with the associated application"
-#~ msgstr "Kliknite da otvorite izabrani fajl pridruženim programom."
-
-#~ msgctxt "@title:window"
-#~ msgid "Save Archive As"
-#~ msgstr "Upisivanje arhive kao"
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "An archive named <filename>%1</filename> already exists. Are you sure you "
-#~ "want to overwrite it?"
-#~ msgstr ""
-#~ "Arhiva po imenu <filename>%1</filename> već postoji. Želite li zaista da "
-#~ "je prebrišete?"
-
-#~ msgid ""
-#~ "This archive contains archive entries with absolute paths, which are not "
-#~ "supported by Ark."
-#~ msgstr ""
-#~ "Ova arhiva sadrži stavke sa apsolutnim putanjama, što Ark ne podržava."
-
-#~ msgctxt "@info"
-#~ msgid "Ark could not open <filename>%1</filename> for extraction."
-#~ msgstr "Ark ne može da otvori <filename>%1</filename> radi raspakivanja."
-
-#~ msgctxt "@info"
-#~ msgid ""
-#~ "There was an error while reading <filename>%1</filename> during "
-#~ "extraction."
-#~ msgstr "Greška pri čitanju iz <filename>%1</filename> tokom raspakivanja."
