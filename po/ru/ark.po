@@ -72,7 +72,7 @@ msgstr "Назначение"
 #: app/batchextract.cpp:117
 #, kde-format
 msgid "The following files could not be extracted:"
-msgstr "Следующий файл не может быть извлечён"
+msgstr "Не удалось распаковать следующие файлы:"
 
 #: app/batchextract.cpp:137
 #, kde-kuit-format
@@ -92,7 +92,7 @@ msgid ""
 "%2</message><nl/>Any further archive will not be extracted."
 msgstr ""
 "Во время распаковки <filename>%1</filename> произошла ошибка: <nl/><message>"
-"%2</message><nl/>. Все последующие архивы не будут распакованы."
+"%2</message><nl/>Все последующие архивы не будут распакованы."
 
 #: app/batchextract.cpp:146
 #, kde-kuit-format
@@ -108,7 +108,7 @@ msgid ""
 "%2</message>"
 msgstr ""
 "Во время распаковки <filename>%1</filename> произошла ошибка: <nl/><message>"
-"%2</message><nl/>."
+"%2</message>"
 
 #: app/batchextract.cpp:301
 #, kde-kuit-format
@@ -117,8 +117,8 @@ msgid ""
 "The archive could not be extracted to <filename>%1</filename> because Ark "
 "can only extract to local destinations."
 msgstr ""
-"Невозможно распаковать архив в <filename>%1</filename>, поддерживаются "
-"распаковка только в папки, расположенные на этом устройстве."
+"Невозможно распаковать архив в <filename>%1</filename>, поддерживается "
+"распаковка только в локальные папки."
 
 #: app/compressfileitemaction.cpp:74
 #, kde-format
@@ -356,7 +356,9 @@ msgstr ""
 msgid ""
 "Change the current dir to the first entry and add all other entries relative "
 "to this one."
-msgstr "Сменить каталог размещения целевых файлов."
+msgstr ""
+"Сменить текущий каталог на первый элемент и добавить остальные относительно "
+"него."
 
 #: app/main.cpp:138
 #, kde-format
@@ -464,7 +466,7 @@ msgstr "Копировать &расположение"
 #: app/welcomeview/welcomeview.cpp:149
 #, kde-format
 msgid "&Open Containing Folder"
-msgstr "Открыть &папку файла"
+msgstr "Открыть &папку с файлом"
 
 #: app/welcomeview/welcomeview.cpp:156
 #, kde-format
@@ -632,8 +634,7 @@ msgstr "Показывать панель сведений."
 #, kde-format
 msgid "Whether to limit the preview according to file size."
 msgstr ""
-"Запретить предварительный просмотр файлов, превышающий установленный "
-"допустимый размер."
+"Запретить предварительный просмотр файлов, размер которых превышает заданный."
 
 #. i18n: ectx: label, entry (previewFileSizeLimit), group (Preview)
 #: kerfuffle/ark.kcfg:59
@@ -661,8 +662,8 @@ msgid ""
 "Extraction failed. Make sure you provided the correct password and that "
 "enough space is available."
 msgstr ""
-"Ошибка при извлечении. Убедитесь, что вы предоставили верный пароль, и что "
-"на диске достаточно места."
+"Ошибка при извлечении. Убедитесь, что вы предоставили верный пароль и что на "
+"диске достаточно места."
 
 #: kerfuffle/cliinterface.cpp:360 kerfuffle/cliinterface.cpp:481
 #, kde-format
@@ -678,13 +679,13 @@ msgstr[3] "Не удалось переместить извлечённый ф�
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed because the disk is full."
-msgstr "Не удалось распаковать, потому что диск полон."
+msgstr "Не удалось распаковать, на диске нет места."
 
 #: kerfuffle/cliinterface.cpp:843 plugins/cliarjplugin/cliplugin.cpp:145
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
-msgstr "Не удалось распаковать по причине неправильного пароля."
+msgstr "Не удалось распаковать: неверный пароль."
 
 #: kerfuffle/cliinterface.cpp:877
 #, kde-format
@@ -823,7 +824,7 @@ msgstr "Пароли, указанные в двух полях, не совпа
 #: kerfuffle/createdialog.ui:30
 #, kde-format
 msgid "Folder:"
-msgstr "Путь:"
+msgstr "Папка:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: kerfuffle/createdialog.ui:47
@@ -1020,7 +1021,7 @@ msgstr ""
 #: kerfuffle/generalsettingspage.ui:17
 #, kde-format
 msgid "When clicking a file in an archive or pressing the Return key:"
-msgstr "При нажатии на файле или нажатии клавиши Enter:"
+msgstr "При щелчке по файлу в архиве или нажатии клавиши Enter:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton)
 #: kerfuffle/generalsettingspage.ui:33
@@ -1032,7 +1033,7 @@ msgstr "&Открыть файл во встроенном средстве пр
 #: kerfuffle/generalsettingspage.ui:43
 #, kde-format
 msgid "Open the fi&le with associated application"
-msgstr "От&крыть файл в программе по умолчанию"
+msgstr "От&крыть файл в приложении по умолчанию"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showEncryptionWarning)
 #: kerfuffle/generalsettingspage.ui:60
@@ -1062,8 +1063,8 @@ msgid ""
 "Could not load the archive because it contains ill-formed entries and might "
 "be a malicious archive."
 msgstr ""
-"Открытие архива небезопасно так как он содержит повреждённые сведения об "
-"объектах."
+"Не удалось открыть архив: он содержит некорректные записи и может быть "
+"вредоносным."
 
 #: kerfuffle/jobs.cpp:257
 #, kde-format
@@ -1244,7 +1245,7 @@ msgstr "да (%1)"
 #: kerfuffle/propertiesdialog.cpp:88
 #, kde-format
 msgid "Calculating…"
-msgstr "Вычисление..."
+msgstr "Вычисление…"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: kerfuffle/propertiesdialog.ui:37
@@ -1369,15 +1370,13 @@ msgid ""
 "The archive you're trying to open is corrupt.<nl/>Some files may be missing "
 "or damaged."
 msgstr ""
-"Архив испорчен. Попытаться загрузить архив несмотря на это?<nl/><nl/"
-">Некоторые файлы могут отсутствовать или содержать неправильные данные. "
-"Возможность редактирования архива будет отключена."
+"Архив повреждён.<nl/>Некоторые файлы могут отсутствовать или быть повреждены."
 
 #: kerfuffle/queries.cpp:241
 #, kde-format
 msgctxt "@title:window"
 msgid "Corrupt archive"
-msgstr "Архив испорчен"
+msgstr "Архив повреждён"
 
 #: kerfuffle/queries.cpp:242
 #, kde-format
@@ -1532,12 +1531,12 @@ msgstr "&Справка"
 #: part/arkviewer.cpp:52
 #, kde-format
 msgid "Closing preview"
-msgstr "Закрыть предпросмотр"
+msgstr "Закрытие предварительного просмотра"
 
 #: part/arkviewer.cpp:53
 #, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "Подождите, пока предпросмотр будет закрыт…"
+msgstr "Подождите, пока предварительный просмотр будет закрыт…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1550,8 +1549,8 @@ msgid ""
 "The internal viewer cannot preview this type of file<nl/>(%1).<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
-"Встроенный просмотрщик не поддерживает этот тип файла<nl/>(%1).<nl/><nl/"
-">Показать содержимое файла в виде обычного текста?"
+"Встроенное средство просмотра не поддерживает этот тип файла<nl/>(%1).<nl/"
+"><nl/>Показать содержимое файла в виде обычного текста?"
 
 #: part/arkviewer.cpp:117 part/arkviewer.cpp:129
 #, kde-format
@@ -1571,8 +1570,8 @@ msgid ""
 "The internal viewer cannot preview this unknown type of file.<nl/><nl/>Do "
 "you want to try to view it as plain text?"
 msgstr ""
-"Встроенный просмотрщик не поддерживает этот неизвестный тип файла.<nl/><nl/"
-">Показать содержимое файла в виде обычного текста?"
+"Встроенное средство просмотра не поддерживает этот неизвестный тип файла.<nl/"
+"><nl/>Показать содержимое файла в виде обычного текста?"
 
 #: part/arkviewer.cpp:201
 #, kde-format
@@ -1681,7 +1680,7 @@ msgstr "Комментарий"
 #: part/part.cpp:125
 #, kde-format
 msgid "Comment has been modified."
-msgstr "Комментарий был изменен."
+msgstr "Комментарий был изменён."
 
 #: part/part.cpp:130
 #, kde-format
@@ -1691,7 +1690,7 @@ msgstr "Сохранить"
 #: part/part.cpp:153
 #, kde-format
 msgid "Type to search…"
-msgstr "Введите текст для поиска..."
+msgstr "Введите текст для поиска…"
 
 #: part/part.cpp:303
 #, kde-kuit-format
@@ -1729,7 +1728,7 @@ msgstr "Открыть &с помощью…"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
-msgstr "Нажмите чтобы открыть выбранный файл во внешней программе"
+msgstr "Нажмите, чтобы открыть выбранный файл во внешнем приложении"
 
 #: part/part.cpp:380
 #, kde-format
@@ -1800,7 +1799,7 @@ msgstr "&Свойства"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
-msgstr "Нажмите для просмотра свойства архива"
+msgstr "Нажмите для просмотра свойств архива"
 
 #: part/part.cpp:430
 #, kde-format
@@ -1828,7 +1827,7 @@ msgid ""
 "encryption is currently not supported.<nl/><nl/>Extract the files and create "
 "a new archive if you want to add files."
 msgstr ""
-"Добавление файлов в существующий архив, защищенный паролем, но с "
+"Добавление файлов в существующий архив, защищённый паролем, но с "
 "незашифрованным списком файлов в настоящее время не поддерживается.<nl/><nl/"
 ">Извлеките файлы и создайте новый архив, если хотите добавить файлы."
 
@@ -1839,7 +1838,7 @@ msgid ""
 "Testing password-protected archives with no header-encryption is currently "
 "not supported."
 msgstr ""
-"Проверка архива, защищенного паролем, но с незашифрованным списком файлов в "
+"Проверка архива, защищённого паролем, но с незашифрованным списком файлов в "
 "настоящее время не поддерживается."
 
 # BUGME: please add ellipsis if this opens a dialog --aspotashev
@@ -1847,14 +1846,14 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
-msgstr "Изменить &комментарий..."
+msgstr "Изменить &комментарий"
 
 # BUGME: please add ellipsis if this opens a dialog --aspotashev
 #: part/part.cpp:506 part/part.cpp:512
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
-msgstr "Добавить &комментарий..."
+msgstr "Добавить &комментарий"
 
 #: part/part.cpp:612
 #, kde-format
@@ -1909,7 +1908,7 @@ msgstr "Пред. просмотр"
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
-msgstr "<filename>%1</filename> — это каталог."
+msgstr "<filename>%1</filename> — это папка."
 
 #: part/part.cpp:802
 #, kde-kuit-format
@@ -2064,8 +2063,8 @@ msgid ""
 "The archive could not be saved as <filename>%1</filename>. Try saving it to "
 "another location."
 msgstr ""
-"Не удалось сохранить архив как <b>%1</b>. Попробуйте сохранить его в другом "
-"месте."
+"Не удалось сохранить архив как <filename>%1</filename>. Попробуйте сохранить "
+"его в другом месте."
 
 #: part/part.cpp:1669
 #, kde-kuit-format
@@ -2074,8 +2073,8 @@ msgid ""
 "The archive <filename>%1</filename> does not exist anymore, therefore it "
 "cannot be copied to the specified location."
 msgstr ""
-"Архив <b>%1</b> не может быть скопирован в указанное место. Архив больше не "
-"существует."
+"Архив <filename>%1</filename> не может быть скопирован в указанное место. "
+"Архив больше не существует."
 
 #: plugins/cli7zplugin/cliplugin.cpp:132
 #: plugins/cliunarchiverplugin/cliplugin.cpp:88
@@ -2150,7 +2149,7 @@ msgid ""
 "archive. Please update to a more recent version."
 msgstr ""
 "Используется программа unrar версии %1, она слишком старая для работы с этим "
-"архивов. Обновите программу unrar до более новой версии."
+"архивом. Обновите программу unrar до более новой версии."
 
 #: plugins/clirarplugin/cliplugin.cpp:320
 #, kde-format
@@ -2220,7 +2219,7 @@ msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr ""
 "Распаковка зашифрованных объектов из архивов 7-zip в настоящее время не "
-"поддерживается в полном объёме."
+"поддерживается."
 
 #: plugins/libarchive/libarchiveplugin.cpp:566
 #, kde-format
@@ -2231,7 +2230,7 @@ msgstr "Программа чтения архива не может быть и
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
-msgstr "Либо архив испорчен, либо у вас недостаточно прав доступа к нему."
+msgstr "Либо архив повреждён, либо у вас недостаточно прав доступа к нему."
 
 #: plugins/libarchive/readwritelibarchiveplugin.cpp:217
 #, kde-format
@@ -2322,7 +2321,7 @@ msgstr "Не удалось прочитать метаданные для об�
 #: plugins/libzipplugin/libzipplugin.cpp:607
 #, kde-kuit-format
 msgid "Failed to delete entry: %1"
-msgstr "Не получилось удалить объект: %1"
+msgstr "Не удалось удалить объект: %1"
 
 #: plugins/libzipplugin/libzipplugin.cpp:820
 #, kde-kuit-format
