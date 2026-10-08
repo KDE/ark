@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 00:48+0000\n"
+"POT-Creation-Date: 2026-10-08 00:49+0000\n"
 "PO-Revision-Date: 2026-06-09 21:42+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -2035,18 +2035,18 @@ msgstr ""
 "A(z) <filename>%1</filename> archívumot nem sikerült a megadott mappába "
 "másolni. Már nem létezik az archívum."
 
-#: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:88
+#: plugins/cli7zplugin/cliplugin.cpp:133
+#: plugins/cliunarchiverplugin/cliplugin.cpp:92
 #, kde-format
 msgid "Listing the archive failed."
 msgstr "Az archívum listázása meghiúsult."
 
-#: plugins/cli7zplugin/cliplugin.cpp:304
+#: plugins/cli7zplugin/cliplugin.cpp:305
 #, kde-format
 msgid "Extraction failed due to an unknown error."
 msgstr "A kibontás ismeretlen hiba miatt meghiúsult."
 
-#: plugins/cli7zplugin/cliplugin.cpp:309 plugins/clizipplugin/cliplugin.cpp:191
+#: plugins/cli7zplugin/cliplugin.cpp:310 plugins/clizipplugin/cliplugin.cpp:192
 #, kde-format
 msgid ""
 "Extraction failed due to one or more corrupt files. Any extracted files may "
@@ -2055,7 +2055,7 @@ msgstr ""
 "A kibontás meghiúsult egy vagy több sérült fájl miatt. Minden kibontott fájl "
 "hibás lehet."
 
-#: plugins/cli7zplugin/cliplugin.cpp:319
+#: plugins/cli7zplugin/cliplugin.cpp:320
 #, kde-format
 msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
@@ -2064,44 +2064,44 @@ msgstr ""
 "A törlési művelet meghiúsult. Próbálja meg frissíteni a 7z-tt vagy "
 "kikapcsolni a 7z bővítményt a beállításoknál."
 
-#: plugins/cliarjplugin/cliplugin.cpp:321
+#: plugins/cliarjplugin/cliplugin.cpp:322
 #, kde-format
 msgid "ARJ old"
 msgstr "ARJ (régi)"
 
-#: plugins/cliarjplugin/cliplugin.cpp:322
+#: plugins/cliarjplugin/cliplugin.cpp:323
 #, kde-format
 msgid "ARJ"
 msgstr "ARJ"
 
-#: plugins/cliarjplugin/cliplugin.cpp:323
+#: plugins/cliarjplugin/cliplugin.cpp:324
 #, kde-format
 msgid "GOST256"
 msgstr "GOST256"
 
-#: plugins/cliarjplugin/cliplugin.cpp:324
+#: plugins/cliarjplugin/cliplugin.cpp:325
 #, kde-format
 msgid "GOST256L"
 msgstr "GOST256L"
 
-#: plugins/cliarjplugin/cliplugin.cpp:325
+#: plugins/cliarjplugin/cliplugin.cpp:326
 #, kde-format
 msgid "GOST 40-bit"
 msgstr "GOST 40 bit"
 
-#: plugins/cliarjplugin/cliplugin.cpp:327
+#: plugins/cliarjplugin/cliplugin.cpp:328
 #, kde-format
 msgid "unknown"
 msgstr "ismeretlen"
 
-#: plugins/clirarplugin/cliplugin.cpp:153
-#: plugins/clirarplugin/cliplugin.cpp:293
-#: plugins/clirarplugin/cliplugin.cpp:540
+#: plugins/clirarplugin/cliplugin.cpp:154
+#: plugins/clirarplugin/cliplugin.cpp:294
+#: plugins/clirarplugin/cliplugin.cpp:541
 #, kde-format
 msgid "Failed to find all archive volumes."
 msgstr "Nem sikerült megtalálni az összes archívumkötetet."
 
-#: plugins/clirarplugin/cliplugin.cpp:314
+#: plugins/clirarplugin/cliplugin.cpp:315
 #, kde-format
 msgid ""
 "Your unrar executable is version %1, which is too old to handle this "
@@ -2110,7 +2110,7 @@ msgstr ""
 "Az unrar verziója %1, amely túl régi ennek az archívumnak a kezeléséhez. "
 "Frissítse egy újabb verzióra."
 
-#: plugins/clirarplugin/cliplugin.cpp:320
+#: plugins/clirarplugin/cliplugin.cpp:321
 #, kde-format
 msgid ""
 "Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
@@ -2119,37 +2119,37 @@ msgstr ""
 "Az Unrar egy nem RAR-típusú archívumot jelzett. A telepített unrar verzió "
 "(%1) régi. Próbálja meg frissíteni."
 
-#: plugins/clirarplugin/cliplugin.cpp:535
+#: plugins/clirarplugin/cliplugin.cpp:536
 #, kde-format
 msgid "One or more wrong checksums"
 msgstr "Egy vagy több hibás ellenőrzőösszeg."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:100
+#: plugins/cliunarchiverplugin/cliplugin.cpp:104
 #, kde-format
 msgid "Extraction failed."
 msgstr "A kibontás meghiúsult."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:134
+#: plugins/cliunarchiverplugin/cliplugin.cpp:138
 #, kde-format
 msgid "Not enough memory for loading the archive."
 msgstr "Nincs elég memória az archívum betöltéséhez."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:185
+#: plugins/cliunarchiverplugin/cliplugin.cpp:189
 #, kde-format
 msgid "Wrong password."
 msgstr "Hibás jelszó."
 
-#: plugins/clizipplugin/cliplugin.cpp:181
+#: plugins/clizipplugin/cliplugin.cpp:182
 #, kde-format
 msgid "Extraction failed due to unsupported compression method (%1)."
 msgstr "A kibontás nem támogatott titkosítási mód miatt megszakadt (%1)."
 
-#: plugins/clizipplugin/cliplugin.cpp:186
+#: plugins/clizipplugin/cliplugin.cpp:187
 #, kde-format
 msgid "Extraction failed due to unsupported encryption method."
 msgstr "A kibontás nem támogatott titkosítási mód miatt megszakadt."
 
-#: plugins/clizipplugin/cliplugin.cpp:315
+#: plugins/clizipplugin/cliplugin.cpp:316
 #, kde-format
 msgctxt "referred to compression method"
 msgid "unknown"

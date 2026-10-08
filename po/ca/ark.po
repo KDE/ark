@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 00:48+0000\n"
+"POT-Creation-Date: 2026-10-08 00:49+0000\n"
 "PO-Revision-Date: 2026-01-17 12:39+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -2054,18 +2054,18 @@ msgstr ""
 "L'arxiu <filename>%1</filename> ja no existeix i, per tant, no s'ha pogut "
 "copiar a la ubicació indicada."
 
-#: plugins/cli7zplugin/cliplugin.cpp:132
-#: plugins/cliunarchiverplugin/cliplugin.cpp:88
+#: plugins/cli7zplugin/cliplugin.cpp:133
+#: plugins/cliunarchiverplugin/cliplugin.cpp:92
 #, kde-format
 msgid "Listing the archive failed."
 msgstr "Ha fallat el llistat de l'arxiu."
 
-#: plugins/cli7zplugin/cliplugin.cpp:304
+#: plugins/cli7zplugin/cliplugin.cpp:305
 #, kde-format
 msgid "Extraction failed due to an unknown error."
 msgstr "Ha fallat l'extracció a causa d'un error desconegut."
 
-#: plugins/cli7zplugin/cliplugin.cpp:309 plugins/clizipplugin/cliplugin.cpp:191
+#: plugins/cli7zplugin/cliplugin.cpp:310 plugins/clizipplugin/cliplugin.cpp:192
 #, kde-format
 msgid ""
 "Extraction failed due to one or more corrupt files. Any extracted files may "
@@ -2074,7 +2074,7 @@ msgstr ""
 "Ha fallat l'extracció a causa d'un o més fitxers corromputs. Els fitxers "
 "extrets poden estar malmesos."
 
-#: plugins/cli7zplugin/cliplugin.cpp:319
+#: plugins/cli7zplugin/cliplugin.cpp:320
 #, kde-format
 msgid ""
 "Delete operation failed. Try upgrading 7z or disabling the 7z plugin in the "
@@ -2083,44 +2083,44 @@ msgstr ""
 "Ha fallat l'operació de supressió. Intenteu actualitzar el «7z» o desactiveu "
 "el connector «7z» en el diàleg de configuració."
 
-#: plugins/cliarjplugin/cliplugin.cpp:321
+#: plugins/cliarjplugin/cliplugin.cpp:322
 #, kde-format
 msgid "ARJ old"
 msgstr "ARJ antic"
 
-#: plugins/cliarjplugin/cliplugin.cpp:322
+#: plugins/cliarjplugin/cliplugin.cpp:323
 #, kde-format
 msgid "ARJ"
 msgstr "ARJ"
 
-#: plugins/cliarjplugin/cliplugin.cpp:323
+#: plugins/cliarjplugin/cliplugin.cpp:324
 #, kde-format
 msgid "GOST256"
 msgstr "GOST256"
 
-#: plugins/cliarjplugin/cliplugin.cpp:324
+#: plugins/cliarjplugin/cliplugin.cpp:325
 #, kde-format
 msgid "GOST256L"
 msgstr "GOST256L"
 
-#: plugins/cliarjplugin/cliplugin.cpp:325
+#: plugins/cliarjplugin/cliplugin.cpp:326
 #, kde-format
 msgid "GOST 40-bit"
 msgstr "GOST de 40 bits"
 
-#: plugins/cliarjplugin/cliplugin.cpp:327
+#: plugins/cliarjplugin/cliplugin.cpp:328
 #, kde-format
 msgid "unknown"
 msgstr "desconegut"
 
-#: plugins/clirarplugin/cliplugin.cpp:153
-#: plugins/clirarplugin/cliplugin.cpp:293
-#: plugins/clirarplugin/cliplugin.cpp:540
+#: plugins/clirarplugin/cliplugin.cpp:154
+#: plugins/clirarplugin/cliplugin.cpp:294
+#: plugins/clirarplugin/cliplugin.cpp:541
 #, kde-format
 msgid "Failed to find all archive volumes."
 msgstr "Ha fallat en trobar tots els volums de l'arxiu."
 
-#: plugins/clirarplugin/cliplugin.cpp:314
+#: plugins/clirarplugin/cliplugin.cpp:315
 #, kde-format
 msgid ""
 "Your unrar executable is version %1, which is too old to handle this "
@@ -2129,7 +2129,7 @@ msgstr ""
 "L'executable de l'Unrar té la versió %1, la qual és massa antiga per a "
 "gestionar aquest arxiu. Si us plau, actualitzeu-lo a una versió més recent."
 
-#: plugins/clirarplugin/cliplugin.cpp:320
+#: plugins/clirarplugin/cliplugin.cpp:321
 #, kde-format
 msgid ""
 "Unrar reported a non-RAR archive. The installed unrar version (%1) is old. "
@@ -2138,37 +2138,37 @@ msgstr ""
 "L'Unrar ha informat d'un arxiu no RAR. La versió instal·lada de l'Unrar (%1) "
 "és antiga. Intenteu actualitzar l'Unrar."
 
-#: plugins/clirarplugin/cliplugin.cpp:535
+#: plugins/clirarplugin/cliplugin.cpp:536
 #, kde-format
 msgid "One or more wrong checksums"
 msgstr "Hi ha una o més sumes de verificació incorrectes"
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:100
+#: plugins/cliunarchiverplugin/cliplugin.cpp:104
 #, kde-format
 msgid "Extraction failed."
 msgstr "Ha fallat l'extracció."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:134
+#: plugins/cliunarchiverplugin/cliplugin.cpp:138
 #, kde-format
 msgid "Not enough memory for loading the archive."
 msgstr "No hi ha memòria suficient per a carregar l'arxiu."
 
-#: plugins/cliunarchiverplugin/cliplugin.cpp:185
+#: plugins/cliunarchiverplugin/cliplugin.cpp:189
 #, kde-format
 msgid "Wrong password."
 msgstr "Contrasenya errònia."
 
-#: plugins/clizipplugin/cliplugin.cpp:181
+#: plugins/clizipplugin/cliplugin.cpp:182
 #, kde-format
 msgid "Extraction failed due to unsupported compression method (%1)."
 msgstr "Ha fallat l'extracció a causa d'un mètode de compressió no admès (%1)."
 
-#: plugins/clizipplugin/cliplugin.cpp:186
+#: plugins/clizipplugin/cliplugin.cpp:187
 #, kde-format
 msgid "Extraction failed due to unsupported encryption method."
 msgstr "Ha fallat l'extracció a causa d'un mètode d'encriptatge no admès."
 
-#: plugins/clizipplugin/cliplugin.cpp:315
+#: plugins/clizipplugin/cliplugin.cpp:316
 #, kde-format
 msgctxt "referred to compression method"
 msgid "unknown"
