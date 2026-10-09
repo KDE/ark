@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-08 00:49+0000\n"
+"POT-Creation-Date: 2026-10-09 00:50+0000\n"
 "PO-Revision-Date: 2026-09-16 13:12+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: fr\n"
@@ -2297,90 +2297,90 @@ msgid "Could not compress entry."
 msgstr "Impossible de compresser l'élément."
 
 #: plugins/libzipplugin/libzipplugin.cpp:198
-#: plugins/libzipplugin/libzipplugin.cpp:297
-#: plugins/libzipplugin/libzipplugin.cpp:589
-#: plugins/libzipplugin/libzipplugin.cpp:637
-#: plugins/libzipplugin/libzipplugin.cpp:1004
-#: plugins/libzipplugin/libzipplugin.cpp:1058
+#: plugins/libzipplugin/libzipplugin.cpp:299
+#: plugins/libzipplugin/libzipplugin.cpp:593
+#: plugins/libzipplugin/libzipplugin.cpp:643
+#: plugins/libzipplugin/libzipplugin.cpp:1014
+#: plugins/libzipplugin/libzipplugin.cpp:1070
 #, kde-kuit-format
 msgid "Failed to open archive: %1"
 msgstr "Impossible d'ouvrir l'archive : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:350
-#: plugins/libzipplugin/libzipplugin.cpp:621
-#: plugins/libzipplugin/libzipplugin.cpp:653
-#: plugins/libzipplugin/libzipplugin.cpp:1038
-#: plugins/libzipplugin/libzipplugin.cpp:1127
+#: plugins/libzipplugin/libzipplugin.cpp:354
+#: plugins/libzipplugin/libzipplugin.cpp:627
+#: plugins/libzipplugin/libzipplugin.cpp:659
+#: plugins/libzipplugin/libzipplugin.cpp:1050
+#: plugins/libzipplugin/libzipplugin.cpp:1141
 #, kde-kuit-format
 msgid "Failed to write archive."
 msgstr "Impossible d'écrire dans l'archive."
 
-#: plugins/libzipplugin/libzipplugin.cpp:399
-#: plugins/libzipplugin/libzipplugin.cpp:1094
+#: plugins/libzipplugin/libzipplugin.cpp:403
+#: plugins/libzipplugin/libzipplugin.cpp:1108
 #, kde-kuit-format
 msgid "Failed to add entry: %1"
 msgstr "Impossible d'ajouter l'entrée : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:454
+#: plugins/libzipplugin/libzipplugin.cpp:458
 #, kde-kuit-format
 msgid "Failed to set compression options for entry: %1"
 msgstr "Impossible de définir les options de compression pour l'entrée : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:559
-#: plugins/libzipplugin/libzipplugin.cpp:938
-#: plugins/libzipplugin/libzipplugin.cpp:1103
+#: plugins/libzipplugin/libzipplugin.cpp:563
+#: plugins/libzipplugin/libzipplugin.cpp:948
+#: plugins/libzipplugin/libzipplugin.cpp:1117
 #, kde-kuit-format
 msgid "Failed to read metadata for entry: %1"
 msgstr "Impossible de lire les métadonnées pour l'entrée : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:602
-#: plugins/libzipplugin/libzipplugin.cpp:607
+#: plugins/libzipplugin/libzipplugin.cpp:608
+#: plugins/libzipplugin/libzipplugin.cpp:613
 #, kde-kuit-format
 msgid "Failed to delete entry: %1"
 msgstr "Impossible de supprimer l'entrée : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:820
+#: plugins/libzipplugin/libzipplugin.cpp:830
 #, kde-kuit-format
 msgid "Failed to create directory: %1"
 msgstr "Impossible de créer le dossier : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:894
+#: plugins/libzipplugin/libzipplugin.cpp:904
 #, kde-kuit-format
 msgid "Failed to open '%1':<nl/>%2"
 msgstr "Impossible d'ouvrir « %1 » :<nl/>%2"
 
-#: plugins/libzipplugin/libzipplugin.cpp:902
+#: plugins/libzipplugin/libzipplugin.cpp:912
 #, kde-kuit-format
 msgid "Failed to open file for writing: %1"
 msgstr "Impossible d'ouvrir le fichier en l'écriture : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:915
+#: plugins/libzipplugin/libzipplugin.cpp:925
 #, kde-kuit-format
 msgid "Failed to read data for entry: %1"
 msgstr "Impossible de lire les données pour l'entrée : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:920
+#: plugins/libzipplugin/libzipplugin.cpp:930
 #, kde-kuit-format
 msgid "Failed to write data for entry: %1"
 msgstr "Impossible d'écrire les données pour l'entrée : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:930
+#: plugins/libzipplugin/libzipplugin.cpp:940
 #, kde-kuit-format
 msgid "Failed to locate entry: %1"
 msgstr "Impossible de trouver l'entrée : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1017
-#: plugins/libzipplugin/libzipplugin.cpp:1023
+#: plugins/libzipplugin/libzipplugin.cpp:1029
+#: plugins/libzipplugin/libzipplugin.cpp:1035
 #, kde-kuit-format
 msgid "Failed to move entry: %1"
 msgstr "Impossible de déplacer l'entrée : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1080
+#: plugins/libzipplugin/libzipplugin.cpp:1094
 #, kde-kuit-format
 msgid "Failed to copy entry: %1"
 msgstr "Impossible de copier l'entrée : %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1110
+#: plugins/libzipplugin/libzipplugin.cpp:1124
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Impossible de définir les métadonnées pour l'entrée : %1"
