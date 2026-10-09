@@ -29,7 +29,6 @@ set(LibZip_INCLUDE_DIRS ${LibZip_INCLUDE_DIR} ${LibZip_INCLUDE_CONF_DIR})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(LibZip
-                                  FOUND_VAR LibZip_FOUND
                                   REQUIRED_VARS LibZip_LIBRARIES LibZip_INCLUDE_DIR LibZip_INCLUDE_CONF_DIR
                                   VERSION_VAR LibZip_VERSION)
 
