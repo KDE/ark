@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-08 02:59+0000\n"
-"PO-Revision-Date: 2026-10-04 23:13+0200\n"
+"PO-Revision-Date: 2026-10-09 16:00+0200\n"
 "Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@latin\n"
@@ -684,7 +684,7 @@ msgstr "Raspakivanje propalo jer je disk pun."
 #, kde-format
 msgctxt "@info"
 msgid "Extraction failed: Incorrect password"
-msgstr "Raspakivanje propalo: pogrešna lozinka."
+msgstr "Raspakivanje propalo: pogrešna lozinka"
 
 #: kerfuffle/cliinterface.cpp:877
 #, kde-format
