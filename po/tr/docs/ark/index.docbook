@@ -587,11 +587,11 @@
 </mediaobject>
 
 <para
->Dosya listesini göstermeden önce şifre istenip istenmeyeceğini seçin. Buna üstbilgi şifrelemesi denir ve yalnızca <literal role="extension"
+>Dosya listesini göstermeden önce şifre istenip istenmeyeceğini seçin. Buna üst bilgi şifrelemesi denir ve yalnızca <literal role="extension"
 >rar</literal
 > ve <literal role="extension"
 >7zip</literal
-> biçimleri tarafından desteklenir. Acemi kullanıcılara en yüksek korumayı sağlamak amacıyla üstbilgi şifrelemesi öntanımlı olarak etkindir (kullanılabilir olduğunda).</para>
+> biçimleri tarafından desteklenir. Acemi kullanıcılara en yüksek korumayı sağlamak amacıyla üst bilgi şifrelemesi öntanımlı olarak etkindir (kullanılabilir olduğunda).</para>
 </sect2>
 
 <sect2 id="ark-multi-volume">
