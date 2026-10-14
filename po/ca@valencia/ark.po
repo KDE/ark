@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-09 00:50+0000\n"
-"PO-Revision-Date: 2026-01-17 12:39+0100\n"
+"PO-Revision-Date: 2026-10-12 17:50+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2151,7 +2151,7 @@ msgstr "No s'ha pogut fer l'extracció."
 #: plugins/cliunarchiverplugin/cliplugin.cpp:138
 #, kde-format
 msgid "Not enough memory for loading the archive."
-msgstr "No hi ha memòria suficient per a carregar l'arxiu."
+msgstr "No hi ha prou memòria per a carregar l'arxiu."
 
 #: plugins/cliunarchiverplugin/cliplugin.cpp:189
 #, kde-format
