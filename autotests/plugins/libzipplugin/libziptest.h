@@ -21,6 +21,9 @@ private Q_SLOTS:
     void testPathSeparator();
     void testExtractionWithWindowsSeparators();
     void testMoveWithWindowsSeparators();
+    void testLegacyCodePageNames_data();
+    void testLegacyCodePageNames();
+    void testReplaceLegacyCodePageEntry();
 
 private:
     PluginManager m_pluginManager;

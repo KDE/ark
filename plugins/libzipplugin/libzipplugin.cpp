@@ -20,6 +20,7 @@
 #include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
+#include <QLocale>
 #include <QThread>
 #include <qplatformdefs.h>
 
@@ -218,6 +219,121 @@ int LibzipPlugin::cancelCallback(zip_t *, void * /* unused that*/)
     return QThread::currentThread()->isInterruptionRequested();
 }
 
+// Link: https://learn.microsoft.com/en-us/windows/win32/intl/code-page-identifiers
+// Link: https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Globalization/IcuLocaleData.cs
+static const char *windowsOemCodePage()
+{
+    const QLocale locale;
+    switch (locale.language()) {
+    case QLocale::Russian:
+    case QLocale::Ukrainian:
+    case QLocale::Belarusian:
+    case QLocale::Bulgarian:
+    case QLocale::Macedonian:
+    case QLocale::Kyrgyz:
+    case QLocale::Tatar:
+    case QLocale::Bashkir:
+    case QLocale::Sakha:
+        return "IBM866";
+    case QLocale::Tajik:
+    case QLocale::Mongolian:
+        return locale.script() == QLocale::CyrillicScript ? "IBM866" : nullptr;
+    case QLocale::Azerbaijani:
+    case QLocale::Uzbek:
+        if (locale.script() == QLocale::CyrillicScript) {
+            return "IBM866";
+        }
+        return locale.script() == QLocale::LatinScript ? "IBM857" : nullptr;
+    case QLocale::Serbian:
+    case QLocale::Bosnian:
+        if (locale.script() == QLocale::CyrillicScript) {
+            return "IBM855";
+        }
+        return "IBM852";
+    case QLocale::Polish:
+    case QLocale::Czech:
+    case QLocale::Slovak:
+    case QLocale::Hungarian:
+    case QLocale::Slovenian:
+    case QLocale::Croatian:
+    case QLocale::Romanian:
+    case QLocale::Albanian:
+    case QLocale::Turkmen:
+        return "IBM852";
+    case QLocale::Lithuanian:
+    case QLocale::Latvian:
+    case QLocale::Estonian:
+        return "IBM775";
+    case QLocale::Greek:
+        return "IBM737";
+    case QLocale::Turkish:
+        return "IBM857";
+    case QLocale::Hebrew:
+        return "IBM862";
+    case QLocale::Arabic:
+    case QLocale::Persian:
+    case QLocale::Uyghur:
+    case QLocale::Urdu:
+        return "IBM720";
+    case QLocale::Punjabi:
+    case QLocale::Sindhi:
+        return locale.script() == QLocale::ArabicScript ? "IBM720" : nullptr;
+    case QLocale::CentralAtlasTamazight:
+        if (locale.script() == QLocale::ArabicScript) {
+            return "IBM720";
+        }
+        if (locale.script() == QLocale::LatinScript && locale.territory() == QLocale::Algeria) {
+            return "IBM850";
+        }
+        return nullptr;
+    case QLocale::Kurdish:
+        return locale.script() == QLocale::ArabicScript && locale.territory() != QLocale::Iran ? "IBM720" : nullptr;
+    case QLocale::Japanese:
+        return "Shift_JIS";
+    case QLocale::Korean:
+        return locale.territory() == QLocale::NorthKorea ? nullptr : "windows-949";
+    case QLocale::Chinese:
+        if (locale.script() == QLocale::TraditionalHanScript) {
+            return "Big5";
+        }
+        return "GBK";
+    case QLocale::Thai:
+        return "windows-874";
+    case QLocale::Vietnamese:
+        return "windows-1258";
+    case QLocale::C:
+    case QLocale::AnyLanguage:
+    case QLocale::Kazakh:
+        return nullptr;
+    case QLocale::Filipino:
+    case QLocale::Hausa:
+    case QLocale::Hawaiian:
+    case QLocale::Igbo:
+    case QLocale::Kinyarwanda:
+    case QLocale::Latin:
+    case QLocale::Swahili:
+    case QLocale::Yoruba:
+        return "IBM437";
+    case QLocale::Inuktitut:
+        return locale.script() == QLocale::LatinScript ? "IBM437" : nullptr;
+    case QLocale::English:
+        switch (locale.territory()) {
+        case QLocale::India:
+        case QLocale::Malaysia:
+        case QLocale::Philippines:
+        case QLocale::Singapore:
+        case QLocale::SouthAfrica:
+        case QLocale::UnitedStates:
+        case QLocale::Zimbabwe:
+            return "IBM437";
+        default:
+            return "IBM850";
+        }
+    default:
+        return "IBM850";
+    }
+}
+
 LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList &args)
     : ReadWriteArchiveInterface(parent, args)
     , m_overwriteAll(false)
@@ -227,6 +343,13 @@ LibzipPlugin::LibzipPlugin(QObject *parent, const QVariantList &args)
     , m_zipSource(std::make_unique<ZipSource>(filename()))
 {
     qCDebug(ARK_LOG) << "Initializing libzip plugin";
+
+    if (const char *const codePage = windowsOemCodePage()) {
+        m_oemNameDecoder = QStringDecoder(codePage, QStringDecoder::Flag::Stateless);
+        if (!m_oemNameDecoder.isValid()) {
+            qCDebug(ARK_LOG) << "No decoder for code page" << codePage;
+        }
+    }
 
     if (m_zipSource->numberOfVolumes() > 1) {
         m_numberOfVolumes = m_zipSource->numberOfVolumes();
@@ -396,7 +519,12 @@ bool LibzipPlugin::writeEntry(zip_t *archive, const QString &file, const Archive
         zip_source_t *src = zip_source_file(archive, QFile::encodeName(file).constData(), 0, -1);
         Q_ASSERT(src);
 
-        index = zip_file_add(archive, destFile.constData(), src, ZIP_FL_ENC_GUESS | ZIP_FL_OVERWRITE);
+        index = locateEntry(archive, QString::fromUtf8(destFile));
+        if (index == -1) {
+            index = zip_file_add(archive, destFile.constData(), src, ZIP_FL_ENC_GUESS);
+        } else if (zip_file_replace(archive, index, src, 0) == -1) {
+            index = -1;
+        }
         if (index == -1) {
             zip_source_free(src);
             qCCritical(ARK_LOG) << "Could not add entry" << file << ":" << zip_strerror(archive);
@@ -473,7 +601,7 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
     }
 
     auto e = new Archive::Entry();
-    auto name = toUnixSeparator(QString::fromUtf8(statBuffer.name));
+    auto name = toUnixSeparator(entryName(archive, index));
 
     if (statBuffer.valid & ZIP_STAT_NAME) {
         e->setFullPath(name);
@@ -602,7 +730,7 @@ bool LibzipPlugin::deleteFiles(const QList<Archive::Entry *> &files)
             break;
         }
 
-        const qlonglong index = zip_name_locate(archive.get(), fromUnixSeparator(e->fullPath()).toUtf8().constData(), ZIP_FL_ENC_GUESS);
+        const qlonglong index = locateEntry(archive.get(), fromUnixSeparator(e->fullPath()));
         if (index == -1) {
             qCCritical(ARK_LOG) << "Could not find entry to delete:" << e->fullPath();
             Q_EMIT error(xi18n("Failed to delete entry: %1", e->fullPath()));
@@ -684,7 +812,7 @@ bool LibzipPlugin::testArchive()
         // Get statistic for entry. Used to get entry size.
         zip_stat_t statBuffer;
         int stat_index = zip_stat_index(archive.get(), i, 0, &statBuffer);
-        auto name = toUnixSeparator(QString::fromUtf8(statBuffer.name));
+        auto name = toUnixSeparator(entryName(archive.get(), i));
         if (stat_index != 0) {
             qCCritical(ARK_LOG) << "Failed to read stat for" << name;
             return false;
@@ -747,7 +875,8 @@ bool LibzipPlugin::extractFiles(const QList<Archive::Entry *> &files, const QStr
                 break;
             }
             if (!extractEntry(archive.get(),
-                              toUnixSeparator(QString::fromUtf8(zip_get_name(archive.get(), i, ZIP_FL_ENC_GUESS))),
+                              i,
+                              toUnixSeparator(entryName(archive.get(), i)),
                               QString(),
                               destinationDirectory,
                               options.preservePaths(),
@@ -764,7 +893,8 @@ bool LibzipPlugin::extractFiles(const QList<Archive::Entry *> &files, const QStr
             if (QThread::currentThread()->isInterruptionRequested()) {
                 break;
             }
-            if (!extractEntry(archive.get(), e->fullPath(), e->rootNode, destinationDirectory, options.preservePaths(), removeRootNode)) {
+            const qlonglong index = locateEntry(archive.get(), fromUnixSeparator(e->fullPath()));
+            if (!extractEntry(archive.get(), index, e->fullPath(), e->rootNode, destinationDirectory, options.preservePaths(), removeRootNode)) {
                 qCDebug(ARK_LOG) << "Extraction failed";
                 return false;
             }
@@ -775,7 +905,13 @@ bool LibzipPlugin::extractFiles(const QList<Archive::Entry *> &files, const QStr
     return true;
 }
 
-bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths, bool removeRootNode)
+bool LibzipPlugin::extractEntry(zip_t *archive,
+                                const qlonglong index,
+                                const QString &entry,
+                                const QString &rootNode,
+                                const QString &destDir,
+                                bool preservePaths,
+                                bool removeRootNode)
 {
     const bool isDirectory = entry.endsWith(QDir::separator());
 
@@ -832,12 +968,18 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
     }
 
     // Get statistic for entry. Used to get entry size and mtime.
-    zip_stat_t statBuffer;
-    if (zip_stat(archive, fromUnixSeparator(entry).toUtf8().constData(), 0, &statBuffer) != 0) {
-        if (isDirectory && zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOENT) {
+    if (index == -1) {
+        if (isDirectory) {
             qCWarning(ARK_LOG) << "Skipping folder without entry:" << entry;
             return true;
         }
+        qCCritical(ARK_LOG) << "Could not locate entry:" << entry;
+        Q_EMIT error(xi18n("Failed to locate entry: %1", entry));
+        return false;
+    }
+
+    zip_stat_t statBuffer;
+    if (zip_stat_index(archive, index, 0, &statBuffer) != 0) {
         qCCritical(ARK_LOG) << "Failed to read stat for entry" << entry;
         return false;
     }
@@ -881,7 +1023,7 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
         ark_unique_ptr<zip_file, zip_fclose> zipFile{nullptr};
         bool firstTry = true;
         while (!zipFile) {
-            zipFile.reset(zip_fopen(archive, fromUnixSeparator(entry).toUtf8().constData(), 0));
+            zipFile.reset(zip_fopen_index(archive, index, 0));
             if (zipFile) {
                 break;
             } else if (zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_NOPASSWD || zip_error_code_zip(zip_get_error(archive)) == ZIP_ER_WRONGPASSWD) {
@@ -932,13 +1074,6 @@ bool LibzipPlugin::extractEntry(zip_t *archive, const QString &entry, const QStr
             }
 
             sum += readBytes;
-        }
-
-        const auto index = zip_name_locate(archive, fromUnixSeparator(entry).toUtf8().constData(), ZIP_FL_ENC_GUESS);
-        if (index == -1) {
-            qCCritical(ARK_LOG) << "Could not locate entry:" << entry;
-            Q_EMIT error(xi18n("Failed to locate entry: %1", entry));
-            return false;
         }
 
         zip_uint8_t opsys;
@@ -1023,7 +1158,7 @@ bool LibzipPlugin::moveFiles(const QList<Archive::Entry *> &files, Archive::Entr
 
     int i;
     for (i = 0; i < filePaths.size(); ++i) {
-        const int index = zip_name_locate(archive.get(), fromUnixSeparator(filePaths.at(i)).toUtf8().constData(), ZIP_FL_ENC_GUESS);
+        const int index = locateEntry(archive.get(), fromUnixSeparator(filePaths.at(i)));
         if (index == -1) {
             qCCritical(ARK_LOG) << "Could not find entry to move:" << filePaths.at(i);
             Q_EMIT error(xi18n("Failed to move entry: %1", filePaths.at(i)));
@@ -1088,7 +1223,7 @@ bool LibzipPlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entr
             }
         }
 
-        const int srcIndex = zip_name_locate(archive.get(), fromUnixSeparator(filePaths.at(i)).toUtf8().constData(), ZIP_FL_ENC_GUESS);
+        const int srcIndex = locateEntry(archive.get(), fromUnixSeparator(filePaths.at(i)));
         if (srcIndex == -1) {
             qCCritical(ARK_LOG) << "Could not find entry to copy:" << filePaths.at(i);
             Q_EMIT error(xi18n("Failed to copy entry: %1", filePaths.at(i)));
@@ -1153,6 +1288,46 @@ bool LibzipPlugin::copyFiles(const QList<Archive::Entry *> &files, Archive::Entr
     qCDebug(ARK_LOG) << "Copied" << i << "entries";
 
     return true;
+}
+
+QString LibzipPlugin::entryName(zip_t *const archive, const zip_uint64_t index)
+{
+    const char *const rawName = zip_get_name(archive, index, ZIP_FL_ENC_RAW);
+    if (!rawName) {
+        return QString();
+    }
+
+    QStringDecoder fromUtf8(QStringDecoder::Utf8, QStringDecoder::Flag::Stateless);
+    QString name = fromUtf8(QByteArrayView(rawName));
+    if (!fromUtf8.hasError()) {
+        return name;
+    }
+
+    if (m_oemNameDecoder.isValid()) {
+        name = m_oemNameDecoder(QByteArrayView(rawName));
+        if (!m_oemNameDecoder.hasError()) {
+            return name;
+        }
+        m_oemNameDecoder.resetState();
+    }
+
+    return QString::fromUtf8(zip_get_name(archive, index, ZIP_FL_ENC_GUESS));
+}
+
+qlonglong LibzipPlugin::locateEntry(zip_t *const archive, const QString &name)
+{
+    const qlonglong index = zip_name_locate(archive, name.toUtf8().constData(), ZIP_FL_ENC_GUESS);
+    if (index != -1) {
+        return index;
+    }
+
+    const qlonglong nofEntries = zip_get_num_entries(archive, 0);
+    for (qlonglong i = 0; i < nofEntries; ++i) {
+        if (entryName(archive, i) == name) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 QString LibzipPlugin::fromUnixSeparator(const QString &path)

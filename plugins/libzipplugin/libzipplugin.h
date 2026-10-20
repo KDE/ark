@@ -9,6 +9,8 @@
 
 #include "archiveinterface.h"
 
+#include <QStringDecoder>
+
 #include <zip.h>
 
 using namespace Kerfuffle;
@@ -42,10 +44,18 @@ public:
     QString multiVolumeName() const override;
 
 private:
-    bool extractEntry(zip_t *archive, const QString &entry, const QString &rootNode, const QString &destDir, bool preservePaths, bool removeRootNode);
+    bool extractEntry(zip_t *archive,
+                      qlonglong index,
+                      const QString &entry,
+                      const QString &rootNode,
+                      const QString &destDir,
+                      bool preservePaths,
+                      bool removeRootNode);
     bool writeEntry(zip_t *archive, const QString &entry, const Archive::Entry *destination, const CompressionOptions &options, bool isDir = false);
     bool emitEntryForIndex(zip_t *archive, qlonglong index);
     void emitProgress(double percentage);
+    QString entryName(zip_t *archive, zip_uint64_t index);
+    qlonglong locateEntry(zip_t *archive, const QString &name);
     QString fromUnixSeparator(const QString &path);
     QString toUnixSeparator(const QString &path);
     void detectBackslashedZip(zip_t *archive);
@@ -58,6 +68,7 @@ private:
     bool m_listAfterAdd;
     bool m_backslashedZip;
     QString m_multiVolumeName;
+    QStringDecoder m_oemNameDecoder;
     std::unique_ptr<ZipSource> m_zipSource;
 };
 
