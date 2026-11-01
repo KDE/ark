@@ -81,7 +81,7 @@ int main(int argc, char **argv)
                          QString(),
                          QStringLiteral("https://apps.kde.org/ark"));
 
-    aboutData.setProgramLogo(QIcon::fromTheme(QStringLiteral(":/ark/ark.svgz")));
+    aboutData.setProgramLogo(QIcon::fromTheme(QStringLiteral(":/ark/ark.svg")));
 
     aboutData.addAuthor(i18n("Elvis Angelaccio"), i18n("Maintainer"), QStringLiteral("elvis.angelaccio@kde.org"));
     aboutData.addAuthor(i18n("Ragnar Thomsen"), i18n("Maintainer, KF5 port"), QStringLiteral("rthomsen6@gmail.com"));
