@@ -1022,8 +1022,11 @@ void Part::slotOpenExtractedEntry(KJob *job)
             job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
             job->start();
         }
-    } else if (job->error() != KJob::KilledJobError) {
-        KMessageBox::error(widget(), job->errorString());
+    } else {
+        delete qobject_cast<TempExtractJob *>(job)->tempDir();
+        if (job->error() != KJob::KilledJobError) {
+            KMessageBox::error(widget(), job->errorString());
+        }
     }
     setReadyGui();
 }
@@ -1043,8 +1046,11 @@ void Part::slotPreviewExtractedEntry(KJob *job)
             ArkViewer::view(previewJob->validatedFilePath(), previewJob->entry()->fullPath(PathFormat::NoTrailingSlash), mimeType);
         }
 
-    } else if (job->error() != KJob::KilledJobError) {
-        KMessageBox::error(widget(), job->errorString());
+    } else {
+        delete qobject_cast<TempExtractJob *>(job)->tempDir();
+        if (job->error() != KJob::KilledJobError) {
+            KMessageBox::error(widget(), job->errorString());
+        }
     }
     setReadyGui();
 }
