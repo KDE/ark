@@ -86,6 +86,10 @@ BatchExtractJob *Archive::batchExtract(const QString &fileName, const QString &d
     auto loadJob = load(fileName, parent);
     auto batchJob = new BatchExtractJob(loadJob, destination, autoSubfolder, preservePaths);
 
+    if (!parent) {
+        batchJob->takeArchiveOwnership();
+    }
+
     return batchJob;
 }
 

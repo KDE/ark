@@ -137,6 +137,13 @@ class KERFUFFLE_EXPORT BatchExtractJob : public Job
 
 public:
     explicit BatchExtractJob(LoadJob *loadJob, const QString &destination, bool autoSubfolder, bool preservePaths);
+    ~BatchExtractJob() override;
+
+    /**
+     * Make this job delete its archive when it is destroyed.
+     * Used when the archive was created without a parent.
+     */
+    void takeArchiveOwnership();
 
 public Q_SLOTS:
     void doWork() override;
@@ -161,8 +168,9 @@ private:
     void setupDestination();
 
     Step m_step = Loading;
-    ExtractJob *m_extractJob = nullptr;
-    LoadJob *m_loadJob = nullptr;
+    QPointer<ExtractJob> m_extractJob;
+    QPointer<LoadJob> m_loadJob;
+    bool m_ownsArchive = false;
     QString m_destination;
     bool m_autoSubfolder;
     bool m_preservePaths;

@@ -354,6 +354,22 @@ BatchExtractJob::BatchExtractJob(LoadJob *loadJob, const QString &destination, b
     qCDebug(ARK_LOG) << "Created job instance";
 }
 
+BatchExtractJob::~BatchExtractJob()
+{
+    if (!m_ownsArchive) {
+        return;
+    }
+
+    delete m_extractJob.data();
+    delete m_loadJob.data();
+    delete archive();
+}
+
+void BatchExtractJob::takeArchiveOwnership()
+{
+    m_ownsArchive = true;
+}
+
 void BatchExtractJob::doWork()
 {
     connect(m_loadJob, &KJob::result, this, &BatchExtractJob::slotLoadingFinished);
