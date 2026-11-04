@@ -574,6 +574,9 @@ bool LibzipPlugin::emitEntryForIndex(zip_t *archive, qlonglong index)
         break;
     }
 
+    // Hand entry over to our thread so that the deleteLater() in our destructor is processed.
+    e->moveToThread(thread());
+
     Q_EMIT entry(e);
     m_emittedEntries << e;
 

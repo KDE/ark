@@ -661,6 +661,9 @@ void LibarchivePlugin::emitEntryFromArchiveEntry(struct archive_entry *aentry, b
         e->setProperty("isSparse", true);
     }
 
+    // Hand entry over to our thread so that the deleteLater() in our destructor is processed.
+    e->moveToThread(thread());
+
     Q_EMIT entry(e);
     m_emittedEntries << e;
 }
