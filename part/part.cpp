@@ -1577,6 +1577,9 @@ void Part::slotAddFilesDone(KJob *job)
 
 void Part::slotPasteFilesDone(KJob *job)
 {
+    delete m_destination;
+    m_destination = nullptr;
+
     if (job->error() && job->error() != KJob::KilledJobError) {
         KMessageBox::error(widget(), job->errorString());
     } else {

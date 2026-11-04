@@ -222,7 +222,7 @@ private:
     OpenFileMode m_openFileMode;
     QUrl m_lastUsedAddPath;
     QList<Kerfuffle::Archive::Entry *> m_jobTempEntries;
-    Kerfuffle::Archive::Entry *m_destination;
+    Kerfuffle::Archive::Entry *m_destination = nullptr;
     QModelIndexList m_cutIndexes;
 
     QTimer m_watchedFileChangeTimer;
