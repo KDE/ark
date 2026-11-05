@@ -10,6 +10,8 @@
 #include "pluginmanager.h"
 #include "testhelper.h"
 
+#include <KLocalizedString>
+
 #include <QStandardPaths>
 #include <QTest>
 
@@ -20,11 +22,18 @@ class LoadTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void testProperties_data();
     void testProperties();
 };
 
 QTEST_GUILESS_MAIN(LoadTest)
+
+void LoadTest::initTestCase()
+{
+    // Initialize KI18n in the main thread, like the application does in main().
+    KLocalizedString::setApplicationDomain("ark");
+}
 
 void LoadTest::testProperties_data()
 {
