@@ -88,6 +88,16 @@ bool LibarchivePlugin::list()
             firstEntry = false;
         }
 
+#if ARCHIVE_VERSION_NUMBER < 3008010
+        // libarchive before 3.8.10 returns the "/" and "//" tables of static libraries (*.a) as entries.
+        // extractFiles() skips them, so they are not listed either.
+        const char *pathname = archive_entry_pathname(aentry);
+        if (pathname && (qstrcmp(pathname, "/") == 0 || qstrcmp(pathname, "//") == 0)) {
+            archive_read_data_skip(m_archiveReader.data());
+            continue;
+        }
+#endif
+
         if (!m_emitNoEntries) {
             const bool isRawFormat = (archive_format(m_archiveReader.data()) == ARCHIVE_FORMAT_RAW);
             emitEntryFromArchiveEntry(aentry, isRawFormat);
@@ -332,12 +342,14 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
             entryName.remove(0, 2);
         }
 
+#if ARCHIVE_VERSION_NUMBER < 3008010
         // Static libraries (*.a) contain the two entries "/" and "//".
         // We just skip these to allow extracting this archive type.
         if (entryName == QLatin1String("/") || entryName == QLatin1String("//")) {
             archive_read_data_skip(m_archiveReader.data());
             continue;
         }
+#endif
 
         // Don't allow absolute paths, instead, treat them like relative to the root of the archive.
         while (entryName.startsWith(QLatin1Char('/'))) {

@@ -56,12 +56,8 @@ void LoadTest::testProperties_data()
     QTest::newRow("simple compressed tar archive") << QFINDTESTDATA("data/simplearchive.tar.gz") << QStringLiteral("simplearchive") << false << false << false
                                                    << false << false << 0 << Archive::Unencrypted << 4 << QStringLiteral("simplearchive") << QString();
 
-    QTest::newRow("simple C++ static library") << QFINDTESTDATA("data/libdummy.a")
-                                               << QStringLiteral("libdummy")
-                                               // NOTE: there are 2 objects in this library, but libarchive also reports the "archive symbol table"
-                                               // as a separate entry with path "/", which is then skipped by the ArchiveModel.
-                                               << true << false << false << false << false << 0 << Archive::Unencrypted << 2 + 1 << QStringLiteral("libdummy")
-                                               << QString();
+    QTest::newRow("simple C++ static library") << QFINDTESTDATA("data/libdummy.a") << QStringLiteral("libdummy") << true << false << false << false << false
+                                               << 0 << Archive::Unencrypted << 2 << QStringLiteral("libdummy") << QString();
 
     QTest::newRow("encrypted zip, single entry") << QFINDTESTDATA("data/archivetest_encrypted.zip") << QStringLiteral("archivetest_encrypted") << false << true
                                                  << true << false << false << 0 << Archive::Encrypted << 1 << QStringLiteral("archivetest_encrypted")
