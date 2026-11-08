@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-09 00:50+0000\n"
+"POT-Creation-Date: 2026-11-08 03:01+0000\n"
 "PO-Revision-Date: 2022-09-27 17:54+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -2205,7 +2205,7 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "Tak diketahui"
 
-#: plugins/libarchive/libarchiveplugin.cpp:123
+#: plugins/libarchive/libarchiveplugin.cpp:133
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid ""
@@ -2219,24 +2219,24 @@ msgstr ""
 "Pengujian arsip yang diproteksi sandi dengan tidak adanya header enkripsi "
 "saat ini tidaklah didukung."
 
-#: plugins/libarchive/libarchiveplugin.cpp:526
+#: plugins/libarchive/libarchiveplugin.cpp:538
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Error fatal, pengekstrakan digugurkan."
 
-#: plugins/libarchive/libarchiveplugin.cpp:552
+#: plugins/libarchive/libarchiveplugin.cpp:564
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:566
+#: plugins/libarchive/libarchiveplugin.cpp:578
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Pembaca arsip tidak dapat diinisialisasi."
 
-#: plugins/libarchive/libarchiveplugin.cpp:588
+#: plugins/libarchive/libarchiveplugin.cpp:600
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

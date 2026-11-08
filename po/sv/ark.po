@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-09 00:50+0000\n"
+"POT-Creation-Date: 2026-11-08 03:01+0000\n"
 "PO-Revision-Date: 2026-01-19 21:59+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -2166,7 +2166,7 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "okänd"
 
-#: plugins/libarchive/libarchiveplugin.cpp:123
+#: plugins/libarchive/libarchiveplugin.cpp:133
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -2176,24 +2176,24 @@ msgstr ""
 "Arkivet kan vara skadat eller har huvudkryptering, vilket för närvarande "
 "inte stöds."
 
-#: plugins/libarchive/libarchiveplugin.cpp:526
+#: plugins/libarchive/libarchiveplugin.cpp:538
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Allvarligt fel, uppackning avbruten."
 
-#: plugins/libarchive/libarchiveplugin.cpp:552
+#: plugins/libarchive/libarchiveplugin.cpp:564
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "Extrahering av krypterade 7zip-poster stöds för närvarande inte."
 
-#: plugins/libarchive/libarchiveplugin.cpp:566
+#: plugins/libarchive/libarchiveplugin.cpp:578
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Arkivläsning kunde inte initieras."
 
-#: plugins/libarchive/libarchiveplugin.cpp:588
+#: plugins/libarchive/libarchiveplugin.cpp:600
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
