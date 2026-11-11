@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-08 00:16+0000\n"
+"POT-Creation-Date: 2026-11-11 03:15+0000\n"
 "PO-Revision-Date: 2025-09-24 12:03+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -2162,7 +2162,7 @@ msgctxt "referred to compression method"
 msgid "unknown"
 msgstr "nezināms"
 
-#: plugins/libarchive/libarchiveplugin.cpp:123
+#: plugins/libarchive/libarchiveplugin.cpp:133
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -2172,24 +2172,24 @@ msgstr ""
 "Arhīvs var būt bojāts vai ir šifrēta tā galvene. Arhīvus ar šifrētu galveni "
 "programma šobrīd neatbalsta."
 
-#: plugins/libarchive/libarchiveplugin.cpp:526
+#: plugins/libarchive/libarchiveplugin.cpp:538
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Fatāla kļūda, atspiešana ir atcelta."
 
-#: plugins/libarchive/libarchiveplugin.cpp:552
+#: plugins/libarchive/libarchiveplugin.cpp:564
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "Šobrīd programma neatbalsta šifrētus „7-zip“ ierakstus."
 
-#: plugins/libarchive/libarchiveplugin.cpp:566
+#: plugins/libarchive/libarchiveplugin.cpp:578
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Neizdevās palaist arhīva lasītāju."
 
-#: plugins/libarchive/libarchiveplugin.cpp:588
+#: plugins/libarchive/libarchiveplugin.cpp:600
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
