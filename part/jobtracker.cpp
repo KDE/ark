@@ -30,7 +30,7 @@ JobTracker::~JobTracker()
     }
 }
 
-void JobTracker::description(KJob *job, const QString &title, const QPair<QString, QString> &f1, const QPair<QString, QString> &f2)
+void JobTracker::description(KJob *job, const QString &title, const std::pair<QString, QString> &f1, const std::pair<QString, QString> &f2)
 {
     Q_UNUSED(job)
     Q_UNUSED(f1)

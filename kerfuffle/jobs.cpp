@@ -254,7 +254,7 @@ LoadJob::LoadJob(ReadOnlyArchiveInterface *interface)
 
 void LoadJob::doWork()
 {
-    Q_EMIT description(this, i18n("Loading archive"), qMakePair(i18n("Archive"), archiveInterface()->filename()));
+    Q_EMIT description(this, i18n("Loading archive"), std::make_pair(i18n("Archive"), archiveInterface()->filename()));
     connectToArchiveInterfaceSignals();
 
     bool ret = archiveInterface()->list();
@@ -506,7 +506,7 @@ void CreateJob::doWork()
         connect(m_addJob,
                 &KJob::description,
                 this,
-                [this](KJob *, const QString &title, const QPair<QString, QString> &field1, const QPair<QString, QString> &) {
+                [this](KJob *, const QString &title, const std::pair<QString, QString> &field1, const std::pair<QString, QString> &) {
                     Q_EMIT description(this, title, field1);
                 });
 
@@ -557,8 +557,8 @@ void ExtractJob::doWork()
     }
     Q_EMIT description(this,
                        desc,
-                       qMakePair(i18n("Archive"), archiveInterface()->filename()),
-                       qMakePair(i18nc("extraction folder", "Destination"), m_destinationDir));
+                       std::make_pair(i18n("Archive"), archiveInterface()->filename()),
+                       std::make_pair(i18nc("extraction folder", "Destination"), m_destinationDir));
 
     QFileInfo destDirInfo(m_destinationDir);
     if (destDirInfo.isDir() && (!destDirInfo.isWritable() || !destDirInfo.isExecutable())) {
@@ -739,7 +739,7 @@ void AddJob::doWork()
     qCDebug(ARK_LOG) << "Going to add" << totalCount << "entries, counted in" << timer.elapsed() << "ms";
 
     const QString desc = i18np("Compressing a file", "Compressing %1 files", totalCount);
-    Q_EMIT description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
+    Q_EMIT description(this, desc, std::make_pair(i18n("Archive"), archiveInterface()->filename()));
 
     ReadWriteArchiveInterface *m_writeInterface = qobject_cast<ReadWriteArchiveInterface *>(archiveInterface());
 
@@ -791,7 +791,7 @@ void MoveJob::doWork()
     qCDebug(ARK_LOG) << "Going to move" << m_entries.count() << "file(s)";
 
     QString desc = i18np("Moving a file", "Moving %1 files", m_entries.count());
-    Q_EMIT description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
+    Q_EMIT description(this, desc, std::make_pair(i18n("Archive"), archiveInterface()->filename()));
 
     ReadWriteArchiveInterface *m_writeInterface = qobject_cast<ReadWriteArchiveInterface *>(archiveInterface());
 
@@ -828,7 +828,7 @@ void CopyJob::doWork()
     qCDebug(ARK_LOG) << "Going to copy" << m_entries.count() << "file(s)";
 
     QString desc = i18np("Copying a file", "Copying %1 files", m_entries.count());
-    Q_EMIT description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
+    Q_EMIT description(this, desc, std::make_pair(i18n("Archive"), archiveInterface()->filename()));
 
     ReadWriteArchiveInterface *m_writeInterface = qobject_cast<ReadWriteArchiveInterface *>(archiveInterface());
 
@@ -859,7 +859,7 @@ DeleteJob::DeleteJob(const QList<Archive::Entry *> &entries, ReadWriteArchiveInt
 void DeleteJob::doWork()
 {
     QString desc = i18np("Deleting a file from the archive", "Deleting %1 files", m_entries.count());
-    Q_EMIT description(this, desc, qMakePair(i18n("Archive"), archiveInterface()->filename()));
+    Q_EMIT description(this, desc, std::make_pair(i18n("Archive"), archiveInterface()->filename()));
 
     ReadWriteArchiveInterface *m_writeInterface = qobject_cast<ReadWriteArchiveInterface *>(archiveInterface());
 
@@ -905,7 +905,7 @@ void TestJob::doWork()
 {
     qCDebug(ARK_LOG) << "Job started";
 
-    Q_EMIT description(this, i18n("Testing archive"), qMakePair(i18n("Archive"), archiveInterface()->filename()));
+    Q_EMIT description(this, i18n("Testing archive"), std::make_pair(i18n("Archive"), archiveInterface()->filename()));
 
     connectToArchiveInterfaceSignals();
     connect(archiveInterface(), &ReadOnlyArchiveInterface::testSuccess, this, &TestJob::onTestSuccess);

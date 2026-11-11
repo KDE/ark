@@ -36,7 +36,7 @@ public Q_SLOTS:
     void unregisterJob(KJob *job) override;
 
 protected Q_SLOTS:
-    void description(KJob *job, const QString &title, const QPair<QString, QString> &f1, const QPair<QString, QString> &f2) override;
+    void description(KJob *job, const QString &title, const std::pair<QString, QString> &f1, const std::pair<QString, QString> &f2) override;
     void infoMessage(KJob *job, const QString &message) override;
     void warning(KJob *job, const QString &message) override;
 

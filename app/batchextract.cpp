@@ -50,7 +50,7 @@ void BatchExtract::addExtraction(const QUrl &url)
 
     addSubjob(job);
 
-    m_fileNames[job] = qMakePair(url.toLocalFile(), destination);
+    m_fileNames[job] = std::make_pair(url.toLocalFile(), destination);
 
     connect(job, &KJob::percentChanged, this, &BatchExtract::forwardProgress);
 
@@ -101,8 +101,8 @@ void BatchExtract::slotStartJob()
 
     Q_EMIT description(this,
                        i18n("Extracting Files"),
-                       qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
-                       qMakePair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second));
+                       std::make_pair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
+                       std::make_pair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second));
 
     m_initialJobCount = subjobs().size();
 
@@ -172,8 +172,8 @@ void BatchExtract::slotResult(KJob *job)
         qCDebug(ARK_LOG) << "Starting the next job";
         Q_EMIT description(this,
                            i18n("Extracting Files"),
-                           qMakePair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
-                           qMakePair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second));
+                           std::make_pair(i18n("Source archive"), m_fileNames.value(subjobs().at(0)).first),
+                           std::make_pair(i18n("Destination"), m_fileNames.value(subjobs().at(0)).second));
         subjobs().at(0)->start();
     }
 }
