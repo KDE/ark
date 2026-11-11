@@ -13,6 +13,8 @@
 #include <QList>
 #include <QMap>
 
+#include <utility>
+
 namespace Kerfuffle
 {
 class Archive;
@@ -194,7 +196,7 @@ private Q_SLOTS:
 
 private:
     int m_initialJobCount;
-    QMap<KJob *, QPair<QString, QString>> m_fileNames;
+    QMap<KJob *, std::pair<QString, QString>> m_fileNames;
     bool m_autoSubfolder;
 
     QList<QUrl> m_inputs;
