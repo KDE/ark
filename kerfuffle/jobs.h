@@ -216,10 +216,14 @@ public:
 public Q_SLOTS:
     void doWork() override;
 
+protected Q_SLOTS:
+    void onProgress(double progress) override;
+
 private:
     QList<Archive::Entry *> m_entries;
     QString m_destinationDir;
     ExtractionOptions m_options;
+    qulonglong m_totalUncompressedSize = 0;
 };
 
 /**

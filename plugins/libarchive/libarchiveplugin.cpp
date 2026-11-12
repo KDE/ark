@@ -174,7 +174,7 @@ const QString LibarchivePlugin::uncompressedFileName() const
     return uncompressedName + QLatin1String(".uncompressed");
 }
 
-void LibarchivePlugin::copyDataBlock(const QString &filename, archive *source, archive *dest, bool partialprogress)
+void LibarchivePlugin::copyDataBlock(const QString &filename, archive *source, archive *dest, ExtractionProgress progressMode)
 {
     while (!QThread::currentThread()->isInterruptionRequested()) {
         const void *buff;
@@ -193,9 +193,16 @@ void LibarchivePlugin::copyDataBlock(const QString &filename, archive *source, a
             qCCritical(ARK_LOG) << "Error while writing" << filename << ":" << archive_error_string(dest) << "(error no =" << archive_errno(dest) << ')';
             return;
         }
-        if (partialprogress) {
+        switch (progressMode) {
+        case ExtractionProgress::UncompressedBytes:
             m_currentExtractedFilesSize += size;
-            Q_EMIT progress(float(m_currentExtractedFilesSize) / m_extractedFilesSize);
+            Q_EMIT progress(double(m_currentExtractedFilesSize) / double(m_extractionTotalSize));
+            break;
+        case ExtractionProgress::CompressedBytes:
+            Q_EMIT progress(float(archive_filter_bytes(source, -1)) / float(m_compressedArchiveSize));
+            break;
+        case ExtractionProgress::None:
+            break;
         }
     }
 }
@@ -305,6 +312,29 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
     // entries, we maintain a list of remaining entries and stop when it's empty.
     const QStringList fullPaths = entryFullPaths(files);
     QStringList remainingFiles = entryFullPaths(files);
+
+    // Report progress as the fraction of the uncompressed size of the extracted entries that has been
+    // written, if that size is known. Otherwise (e.g. single-file .xz, whose entry has no known size),
+    // for compressed streams use the position in the compressed file: these are read front to back,
+    // so the position grows steadily. Archives without a compression filter (e.g. zip, 7z) may be read
+    // in any order, so they fall back to progress by number of extracted entries.
+    if (extractAll) {
+        m_extractionTotalSize = static_cast<qulonglong>(m_extractedFilesSize);
+    } else {
+        m_extractionTotalSize = 0;
+        for (const auto file : files) {
+            if (!file->isDir()) {
+                m_extractionTotalSize += file->isSparse() ? file->sparseSize() : file->size();
+            }
+        }
+    }
+    m_compressedArchiveSize = QFileInfo(filename()).size();
+    auto progressMode = ExtractionProgress::None;
+    if (m_extractionTotalSize > 0) {
+        progressMode = ExtractionProgress::UncompressedBytes;
+    } else if (archive_filter_count(m_archiveReader.data()) > 1 && m_compressedArchiveSize > 0) {
+        progressMode = ExtractionProgress::CompressedBytes;
+    }
 
     // Iterate through all entries in archive.
     while (!QThread::currentThread()->isInterruptionRequested() && (archive_read_next_header(m_archiveReader.data(), &entry) == ARCHIVE_OK)) {
@@ -509,9 +539,7 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
             const int returnCode = archive_write_header(writer.data(), entry);
             switch (returnCode) {
             case ARCHIVE_OK:
-                // If the whole archive is extracted and the total filesize is
-                // available, we use partial progress.
-                copyDataBlock(entryName, m_archiveReader.data(), writer.data(), (extractAll && m_extractedFilesSize));
+                copyDataBlock(entryName, m_archiveReader.data(), writer.data(), progressMode);
                 break;
 
             case ARCHIVE_FAILED:
@@ -545,7 +573,7 @@ bool LibarchivePlugin::extractFiles(const QList<Archive::Entry *> &files, const 
             // If we only partially extract the archive and the number of
             // archive entries is available we use a simple progress based on
             // number of items extracted.
-            if (!extractAll && m_cachedArchiveEntryCount) {
+            if (!extractAll && m_cachedArchiveEntryCount && progressMode == ExtractionProgress::None) {
                 ++progressEntryCount;
                 Q_EMIT progress(float(progressEntryCount) / totalEntriesCount);
             }
