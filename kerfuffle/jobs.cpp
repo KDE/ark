@@ -585,6 +585,11 @@ void ExtractJob::doWork()
         }
     }
 
+    m_totalUncompressedSize = totalUncompressedSize;
+    if (m_totalUncompressedSize > 0) {
+        setTotalAmount(Bytes, m_totalUncompressedSize);
+    }
+
     QStorageInfo destinationStorage(m_destinationDir);
 
     if (totalUncompressedSize > static_cast<qulonglong>(destinationStorage.bytesAvailable())) {
@@ -598,6 +603,16 @@ void ExtractJob::doWork()
     if (!archiveInterface()->waitForFinishedSignal()) {
         onFinished(ret);
     }
+}
+
+void ExtractJob::onProgress(double progress)
+{
+    if (m_totalUncompressedSize == 0) {
+        Job::onProgress(progress);
+        return;
+    }
+
+    setProcessedAmount(Bytes, static_cast<qulonglong>(progress * static_cast<double>(m_totalUncompressedSize)));
 }
 
 QString ExtractJob::destinationDirectory() const
