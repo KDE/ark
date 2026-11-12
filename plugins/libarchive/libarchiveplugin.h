@@ -78,9 +78,17 @@ private:
     QString convertCompressionName(const QString &method);
     bool emitCorruptArchive();
     const QString uncompressedFileName() const;
-    void copyDataBlock(const QString &filename, struct archive *source, struct archive *dest, bool partialprogress = true);
+    enum class ExtractionProgress {
+        None,
+        UncompressedBytes,
+        CompressedBytes,
+    };
+
+    void copyDataBlock(const QString &filename, struct archive *source, struct archive *dest, ExtractionProgress progressMode);
 
     int m_cachedArchiveEntryCount;
+    qint64 m_compressedArchiveSize = 0;
+    qulonglong m_extractionTotalSize = 0;
     qlonglong m_currentExtractedFilesSize;
     bool m_emitNoEntries;
     qlonglong m_extractedFilesSize;
