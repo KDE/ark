@@ -1,0 +1,812 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Arabic "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY Ragnar.Thomsen '<personname
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+></personname
+>'>
+  <!ENTITY Ragnar.Thomsen.mail '<email
+>rthomsen6@gmail.com</email
+>'>
+  <!ENTITY Henrique.Pinto '<personname
+><firstname
+>Henrique</firstname
+><surname
+>Pinto</surname
+></personname
+>'>
+  <!ENTITY Henrique.Pinto.mail '<email
+>henrique.pinto@kdemail.net</email
+>'>
+]>
+
+<book id="ark" lang="&language;">
+
+<bookinfo>
+<title
+>دليل أرك</title>
+
+<authorgroup>
+<author
+>&Matt.Johnston; &Matt.Johnston.mail; </author>
+<author
+>&Henrique.Pinto; &Henrique.Pinto.mail; </author>
+<author
+>&Ragnar.Thomsen; &Ragnar.Thomsen.mail; </author>
+
+<othercredit role="translator"
+><firstname
+>زايد</firstname
+><surname
+>السعيدي</surname
+><affiliation
+><address
+><email
+>zayed.alsaidi@gmail.com</email
+></address
+></affiliation
+><contrib
+>التّرجمة العربيّة</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Matt.Johnston;</holder>
+</copyright>
+
+<copyright>
+<year
+>2004</year>
+<holder
+>&Henrique.Pinto;</holder>
+</copyright>
+
+<copyright>
+<year
+>2015, 2016</year>
+<holder
+>&Ragnar.Thomsen;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2016-09-10</date>
+<releaseinfo
+>تطبيقات 16.12</releaseinfo>
+
+<abstract>
+<para
+>أرك هو مدير الأرشيف من كيدي.</para>
+</abstract>
+
+<keywordset>
+<keyword
+>كيدي</keyword>
+<keyword
+>gzip</keyword>
+<keyword
+>gunzip</keyword>
+<keyword
+>tar</keyword>
+<keyword
+>أرشيف</keyword>
+<keyword
+>zip</keyword>
+<keyword
+>الضغط</keyword>
+<keyword
+>7z</keyword>
+<keyword
+>kdeutils</keyword>
+<keyword
+>ark</keyword>
+</keywordset>
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>مقدمة</title>
+<para
+>أرك برنامج لعرض الأرشيفات واستخراجها وإنشائها وتعديلها. يمكن لأرك التعامل مع تنسيقات أرشيف مختلفة مثل <command
+>tar</command
+> و <command
+>gzip</command
+> و <command
+>bzip2</command
+> و <command
+>zip</command
+> و <command
+>rar</command
+> و <command
+>7zip</command
+> و <command
+>xz</command
+> و <command
+>rpm</command
+> و <command
+>cab</command
+> و <command
+>deb</command
+> و <command
+>xar</command
+> و <command
+>AppImage</command
+> (يعتمد دعم تنسيقات أرشيف معينة على تثبيت برامج سطر الأوامر المناسبة).</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-mainwindow.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>نافذة أرك الرئيسة</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>لاستخدام أرك بنجاح، تحتاج إلى كيدي Frameworks 5. تتطلب معالجة معظم أنواع الأرشيفات مكتبة libarchive الإصدار 3.1 أو أحدث، بما في ذلك أرشيفات tar و tar المضغوطة و rpm و deb و cab. للتعامل مع تنسيقات الملفات الأخرى، ستحتاج إلى برامج سطر الأوامر المناسبة، مثل <command
+>zipinfo</command
+> و <command
+>zip</command
+> و <command
+>unzip</command
+> و <command
+>rar</command
+> و <command
+>unrar</command
+> و <command
+>7z</command
+> و <command
+>lsar</command
+> و <command
+>unar</command
+> و <command
+>lrzip</command
+>.</para>
+
+</chapter>
+
+<chapter id="using-ark">
+<title
+>استخدام أرك</title>
+
+<sect1 id="ark-open">
+<title
+>فتح الأرشيفات</title>
+
+<para
+>لفتح أرشيف في أرك، اختر <guimenuitem
+>افتح...</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+>) من قائمة <guimenu
+>أرشيف</guimenu
+>. يمكنك أيضًا فتح ملفات الأرشيف بالسحب والإفلات من دولفين. يُفترض ربط ملفات الأرشيف بأرك، لذا يمكنك أيضًا النقر بزر الفأرة <mousebutton
+>الأيمن</mousebutton
+> على ملف في دولفين واختيار <guimenuitem
+>افتح بواسطة أرك</guimenuitem
+> لفتحه أو اختيار إجراء استخراج لهذا الملف.</para>
+
+<para
+>تُعرض معلومات إضافية عن المجلدات أو الملفات المحددة في الأرشيف إذا فُعّلت لوحة المعلومات في قائمة <guimenu
+>الإعدادات</guimenu
+>.</para>
+
+<sect2 id="ark-archive-operations">
+<title
+>عمليات الأرشيف</title>
+
+<para
+>يمكن إجراء عمليات متنوعة على الأرشيف المفتوح باستخدام قائمة <guimenu
+>أرشيف</guimenu
+>. على سبيل المثال، يمكن حفظ الأرشيف باسم مختلف باستخدام <guimenuitem
+>احفظ باسم...</guimenuitem
+>. كما يمكن عرض خصائص الأرشيف مثل النوع والحجم وبصمة MD5 باستخدام عنصر <guimenuitem
+>خصائص</guimenuitem
+>.</para>
+
+<para
+>يملك أرك القدرة على اختبار سلامة الأرشيفات. تتوفر هذه الوظيفة حاليًا لأرشيفات <command
+>zip</command
+> و <command
+>rar</command
+> و <command
+>7z</command
+>. يمكن العثور على إجراء الاختبار في قائمة <guimenu
+>أرشيف</guimenu
+>.</para>
+
+</sect2>
+
+<sect2 id="ark-archive-comments">
+<title
+>تعليقات الأرشيف</title>
+
+<para
+>يمكن لأرك التعامل مع التعليقات المضمنة في أرشيفات <literal role="extension"
+>zip</literal
+> و <literal role="extension"
+>rar</literal
+>.</para>
+
+<para
+>تُعرض التعليقات المضمنة في أرشيفات <literal role="extension"
+>zip</literal
+> آليًا.</para>
+
+<para
+>في أرشيفات <literal role="extension"
+>rar</literal
+>، يمكن تعديل التعليق باستخدام إجرائي <guimenuitem
+>أضف تعليقًا</guimenuitem
+> أو <guimenuitem
+>حرر التعليق</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>C</keycap
+></keycombo
+>) من قائمة <guimenu
+>أرشيف</guimenu
+>. </para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ark-comment.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>تحرير تعليق</phrase>
+</textobject>
+</mediaobject>
+
+<note
+><para
+>يُفعّل عنصر قائمة التعليق فقط لأرشيفات <literal role="extension"
+>rar</literal
+>. </para
+></note>
+
+<para
+>لإزالة تعليق من أرشيف <literal role="extension"
+>rar</literal
+>، يُحذف النص في نافذة التعليق.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="ark-work-files">
+<title
+>العمل مع الملفات</title>
+
+<para
+>بمجرد فتح الأرشيف، يمكن إجراء عمليات متنوعة على الملفات داخله. باختيار ملف واستخدام قائمة <guimenu
+>ملف</guimenu
+>، يمكن اختيار عمليات مختلفة لتنفيذها:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>سيفتح عنصر <guimenuitem
+>عاين</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>P</keycap
+></keycombo
+>) الملف باستخدام عارض أرك الداخلي. هذا عارض سريع للقراءة فقط، لكنه لا يدعم جميع أنواع الملفات.</para>
+</listitem>
+<listitem>
+<para
+>سيفتح عنصر <guimenuitem
+>افتح</guimenuitem
+> الملف في التطبيق المرتبط بهذا النوع من الملفات.</para>
+</listitem>
+<listitem>
+<para
+>يسمح <guimenuitem
+>افتح بواسطة...</guimenuitem
+> باختيار التطبيق الذي سيُفتح الملف باستخدامه.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>أعد التسمية</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>F2</keycap
+></keycombo
+>) يسمح هذا الإجراء بتغيير أسماء الملفات والمجلدات. وكما في مدير ملفات دولفين، يمكن استدعاء هذا الإجراء عبر اختصار، وتجري إعادة التسمية عبر التحرير المضمن. توجد أيضًا فحوصات لأسماء الملفات، تمنع استخدام محارف غير صالحة مثل <userinput
+>/</userinput
+> و <userinput
+>.</userinput
+> و <userinput
+>..</userinput
+> في أسماء الملفات.</para>
+</listitem>
+<listitem>
+<para
+>سيحذف <guimenuitem
+>احذف</guimenuitem
+> (<keycap
+>Del</keycap
+>) الملفات المحددة حاليًا من الأرشيف. لاحظ أن هذا الإجراء غير قابل للتراجع.</para>
+</listitem>
+<listitem>
+<para
+>يفتح <guimenuitem
+>استخرج</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>) قائمة فرعية بالمجلدات التي تم الوصول إليها مسبقًا، ويمكن اختيار الاستخراج السريع في أي منها أو تصفح مجلد غير مدرج. راجع القسم التالي لمزيد من التفاصيل حول الاستخراج.</para>
+</listitem>
+<listitem>
+<para
+><guimenuitem
+>قص</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+>) / <guimenuitem
+>انسخ</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>) / <guimenuitem
+>الصق</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+>): تتوفر ميزات النقل واللصق والنسخ كما في مديري الملفات التقليديين. يمكن للمستخدمين نقل الملفات أو نسخها من مجلدات مختلفة (والتي يمكن توسيعها في العرض الشجري) ولصقها في نفس الوجهة دفعة واحدة. يمكن نسخ المجلد داخل نفسه، ولكن لا يمكن نقله. توجد أيضًا فحوصات لتضارب أسماء الملفات: لن تتمكن من نسخ الملفات أو نقلها إلى مجلد يحتوي على مدخلات بنفس الأسماء - فقد يؤدي ذلك إلى فقدان البيانات.</para>
+</listitem>
+<listitem>
+<para
+>يمكن استخدام إجراء <guimenuitem
+>أضف ملفات</guimenuitem
+> (<keycombo action="simul"
+>&Alt;<keycap
+>A</keycap
+></keycombo
+>) لإضافة ملفات في أي مكان داخل الأرشيف. إذا حُدد مجلد واستُخدم هذا الإجراء، فستُضاف الملفات إلى المجلد المحدد. وخلاف ذلك، ستُضاف الملفات الجديدة إلى جذر الأرشيف. </para>
+</listitem>
+</itemizedlist>
+
+<sect2 id="ark-editing-files">
+<title
+>تحرير الملفات</title>
+<para
+>إذا حُرر ملف وحُفظ بعد فتحه باستخدام <guimenuitem
+>افتح</guimenuitem
+> أو <guimenuitem
+>افتح بواسطة...</guimenuitem
+>، سيسألك أرك عما إذا كنت تريد تحديث الملف في الأرشيف. إذا أجبت بنعم، فسيُحدّث الأرشيف بالملف المحفوظ.</para>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-extract">
+<title
+>يستخرج الملفات</title>
+
+<para
+>بمجرد فتح الأرشيف في أرك، يمكن استخراجه. يمكن القيام بذلك باختيار <guisubmenu
+>استخرج</guisubmenu
+> من قائمة <guimenu
+>ملف</guimenu
+>. يفتح هذا قائمة فرعية بالمجلدات التي تم الوصول إليها مسبقًا، ويمكن اختيار الاستخراج السريع في أي منها. بدلًا من ذلك، اختر عنصر القائمة الفرعية <guisubmenu
+>استخرج إلى...</guisubmenu
+> لفتح حوار <guilabel
+>استخراج</guilabel
+>، حيث يمكنك ضبط خيارات متنوعة تؤثر على عملية الاستخراج. راجع أدناه للحصول على معلومات حول الخيارات المتاحة في حوار الاستخراج.</para>
+
+<para
+>يمكن أيضًا استخدام زر <guibutton
+>استخرج</guibutton
+> في شريط الأدوات للوصول إلى نفس خيارات الاستخراج.</para>
+
+<para
+>لاستخراج الأرشيف بالكامل، يمكن اختيار <guisubmenu
+>استخرج الكل</guisubmenu
+> من قائمة <guimenu
+>أرشيف</guimenu
+>. يستخرج هذا الإجراء جميع الملفات في الأرشيف دون شروط.</para>
+
+<para
+>يمكن استخراج الملفات والمجلدات ببساطة عن طريق سحبها بالفأرة إلى مجلد في دولفين.</para>
+
+<para
+>ملاحظة: استخراج الملفات من الأرشيف لا يغير الأرشيف ولا محتوياته.</para>
+
+<sect2 id="ark-extract-dialog">
+<title
+>حوار الاستخراج</title>
+
+<para
+>يسمح حوار <guilabel
+>استخراج</guilabel
+> باختيار مكان استخراج الملفات. الموقع المبدئي هو المجلد الذي يوجد فيه الأرشيف. يمكن أيضًا فتح الحوار بالضغط على <keycombo action="simul"
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="extract-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>حوار استخراج أرك</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>يمكن تحديد استخراج الملفات إلى مجلد فرعي. الاسم المبدئي لهذا المجلد الفرعي هو اسم الأرشيف بدون امتداد الملف، ولكن يمكن تحريره حسب الحاجة. إذا كنت ترغب في الحفاظ على المسارات عند الاستخراج، فاختر خيار <guilabel
+>حافظ على المسارات عند الاستخراج</guilabel
+>. كما يمكنك اختيار فتح مجلد الوجهة في دولفين أو إغلاق أرك بمجرد اكتمال الاستخراج.</para>
+
+<para
+>إذا تم تمييز ملف واحد أو أكثر في قائمة الأرشيف، يمكن أيضًا اختيار أي الملفات سيُستخرج:</para>
+<itemizedlist>
+<listitem>
+<para
+>يستخرج خيار <guilabel
+>الملفات المحددة فقط</guilabel
+> الملفات التي تم تحديدها فقط.</para>
+</listitem>
+<listitem>
+<para
+>يستخرج خيار <guilabel
+>كل الملفات</guilabel
+> كامل محتويات الأرشيف.</para>
+</listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
+<sect1 id="ark-create">
+<title
+>إنشاء الأرشيفات وإضافة الملفات</title>
+
+<para
+>لإنشاء أرشيف جديد في أرك، اختر <guimenuitem
+>جديد</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+>) من قائمة <guimenu
+>أرشيف</guimenu
+>.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>إنشاء أرشيف</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>يمكنك بعد ذلك كتابة اسم الأرشيف، مع الامتداد المناسب (<literal role="extension"
+>tar.gz</literal
+>، أو <literal role="extension"
+>zip</literal
+>، أو <literal role="extension"
+>7z</literal
+>، إلخ) أو اختيار تنسيق مدعوم من مربع تحرير وسرد <guilabel
+>المرشح</guilabel
+> وتفعيل خيار <guilabel
+>أضف <replaceable
+>امتداد الملف</replaceable
+> آليًا</guilabel
+>.</para>
+
+<para
+>لإضافة ملفات أو مجلدات إلى الأرشيف الجديد، اختر <guimenuitem
+>أضف ملفات...</guimenuitem
+> من قائمة <guimenu
+>أرشيف</guimenu
+>.</para>
+
+<para
+>طريقة بديلة لإضافة ملفات إلى الأرشيف هي سحب ملف واحد أو أكثر من دولفين مثلًا إلى نافذة أرك الرئيسة، وستُضاف إلى الأرشيف الحالي. لاحظ أن الملفات المضافة بهذه الطريقة ستُضاف دائمًا إلى الدليل الجذري للأرشيف.</para>
+
+<para
+>تُعرض خيارات إضافية في مجموعات قابلة للطي أسفل الحوار. </para>
+
+<sect2 id="ark-compression">
+<title
+>الضغط</title>
+<para
+>تؤدي القيمة الأعلى إلى إنشاء أرشيفات أصغر، ولكنها تؤدي إلى أوقات أطول للضغط وفك الضغط. مستوى الضغط المبدئي الذي يقترحه أرك هو عادةً حل وسط جيد بين الحجم وسرعة (فك) الضغط. بالنسبة لمعظم التنسيقات، يعادل الحد الأدنى لمستوى الضغط مجرد تخزين الملفات، أي عدم تطبيق أي ضغط. </para>
+<para
+>بالنسبة لأرشيفات <literal role="extension"
+>rar</literal
+> و <literal role="extension"
+>7z</literal
+> و <literal role="extension"
+>zip</literal
+>، يمكنك الاختيار بين طرق ضغط مختلفة. </para>
+<para
+>لاحظ أن استخدام طرق ضغط غير الإعدادات المبدئية المختارة مسبقًا قد يحد من التوافق مع أرشفة الملفات. على سبيل المثال، يتطلب فتح أرشيفات <literal role="extension"
+>zip</literal
+> بطرق ضغط غير <quote
+>Deflate</quote
+> برامج أرشفة أحدث.</para>
+</sect2>
+
+<sect2 id="ark-password-protection">
+<title
+>حماية كلمة السر</title>
+<para
+>إذا أنشأت أرشيف <literal role="extension"
+>zip</literal
+> أو <literal role="extension"
+>rar</literal
+> أو <literal role="extension"
+>7zip</literal
+> أو <literal role="extension"
+>jar</literal
+> فيمكنك حمايته بكلمة سر. حاليًا، يدعم تنسيق <literal role="extension"
+>zip</literal
+> فقط طرق تعمية متعددة. بالنسبة للتنسيقات الأخرى التي تدعم طريقة تعمية واحدة فقط، تُعرض الطريقة في المربع المنسدل.</para>
+<para
+>قد لا تدعم جميع برامج الأرشفة طرق تعمية أخرى غير <guilabel
+>ZipCrypto</guilabel
+> المبدئية.</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="create-protected-archive.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>إنشاء أرشيف محمي بكلمة سر</phrase>
+</textobject>
+</mediaobject>
+
+<para
+>اختر ما إذا كنت تريد طلب كلمة السر قبل عرض قائمة الملفات. يسمى هذا تعمية الترويسة وهو متاح فقط في تنسيقات <literal role="extension"
+>rar</literal
+> و <literal role="extension"
+>7zip</literal
+>. تُفعّل تعمية الترويسة مبدئيًا (عند توفرها)، من أجل توفير أقصى قدر من الحماية للمستخدمين المبتدئين.</para>
+</sect2>
+
+<sect2 id="ark-multi-volume">
+<title
+>أرشيف متعدد الأجزاء</title>
+<para
+>مع تنسيقات <literal role="extension"
+>zip</literal
+> و <literal role="extension"
+>rar</literal
+> و <literal role="extension"
+>7z</literal
+> يمكنك إنشاء أرشيفات متعددة الأجزاء، وتعرف أيضًا بالأرشيفات المجزأة.</para>
+<para
+>الأرشيف متعدد الأجزاء هو أرشيف مضغوط واحد كبير مقسم إلى عدة ملفات. تفيد هذه الميزة إذا كان الحجم الأقصى للملف محدودًا، مثلًا بسعة وسيط التخزين أو الحجم الأقصى لرسالة بريد إلكتروني تحتوي على مرفقات.</para>
+<para
+>لإنشاء أرشيف متعدد الأجزاء، فعّل خانة الاختيار <guilabel
+>أنشئ أرشيفًا متعدد الأجزاء</guilabel
+> واضبط الحجم الأقصى لـ <guilabel
+>حجم الجزء</guilabel
+> في الحوار. ثم أضف جميع الملفات إلى الأرشيف وسيقوم أرك آليًا بتوليد العدد المطلوب من أجزاء الأرشيف. بناءً على التنسيق المختار، سيكون للملفات امتداد بنظام ترقيم متسلسل، مثل <filename
+>xxx.7z.001</filename
+>، و <filename
+>xxx.7z.002</filename
+> أو <filename
+>xxx.zip.001</filename
+>، و <filename
+>xxx.zip.002</filename
+> أو <filename
+>xxx.part1.rar</filename
+>، و <filename
+>xxx.part2.rar</filename
+> إلخ.</para>
+<para
+>لاستخراج أرشيف متعدد الأجزاء، ضع جميع ملفات الأرشيف في مجلد واحد وافتح الملف الذي يحمل أقل رقم امتداد في أرك، وسيُفتح باقي أجزاء الأرشيف المجزأ آليًا.</para>
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="ark-in_filemanager">
+<title
+>استخدام أرك في مدير الملفات</title>
+
+<para
+>يؤدي النقر بزر الفأرة الأيمن على أرشيف في مدير ملفات مثل دولفين إلى عرض قائمة سياقية تحتوي على عنصر <guimenuitem
+>استخرج</guimenuitem
+>. تحتوي القائمة على هذه العناصر الإضافية لاستخراج الأرشيف باستخدام أرك: </para>
+
+<itemizedlist>
+<listitem>
+<para
+>ينشئ <guimenuitem
+>استخرج هنا</guimenuitem
+> مجلدًا فرعيًا في المجلد الذي يحتوي على الأرشيف ويستخرج المجلدات والملفات إليه. في حال كان الأرشيف يحتوي على ملف أو مجلد واحد فقط، فلن يُنشأ أي مجلد فرعي.</para>
+</listitem>
+<listitem>
+<para
+>ينشئ <guimenuitem
+>استخرج هنا واحذف الأرشيف</guimenuitem
+> مجلدًا فرعيًا في المجلد الذي يحتوي على الأرشيف، ويستخرج المجلدات والملفات إليه ويحذف الأرشيف.</para>
+</listitem>
+<listitem>
+<para
+>يفتح <guimenuitem
+>استخرج إلى…</guimenuitem
+> حوار الاستخراج حيث يمكنك اختيار مجلد الوجهة وخيارات الاستخراج المتنوعة.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>تعرض قائمة السياق في دولفين لمجموعة مختارة من الملفات و/أو المجلدات هذه الإجراءات في قائمة <guimenu
+>اضغط</guimenu
+> الفرعية: </para>
+
+<itemizedlist>
+<listitem>
+<para
+>ينشئ <guimenuitem
+>اضغط إلى "Archive.tar.gz"</guimenuitem
+> و <guimenuitem
+>اضغط إلى "Archive.zip"</guimenuitem
+> أنواع الأرشيف هذه في المجلد الحالي.</para>
+</listitem>
+<listitem>
+<para
+>يفتح <guimenuitem
+>اضغط إلى...</guimenuitem
+> حوارًا حيث يمكنك اختيار المجلد والاسم ونوع الأرشيف.</para>
+</listitem>
+</itemizedlist>
+
+</chapter>
+
+<chapter id="batchmode">
+<title
+>وضع الدفعة المتقدم</title>
+<para
+>يملك أرك وضع دفعة متقدمًا لإدارة الأرشيفات دون تشغيل واجهة مستخدم رسومية. يسمح هذا الوضع باستخراج الأرشيفات أو إنشائها وإضافة الملفات إليها.</para>
+
+<para
+>وُثّق وضع الدفعة في <ulink url="man:/ark"
+>صفحة دليل أرك</ulink
+>. </para>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>الحقوق والترخيص</title>
+
+<para
+>أرك حقوق النشر &copy; 1997-2016، فريق تطوير أرك.</para>
+
+<itemizedlist>
+<title
+>المؤلفون:</title>
+<listitem
+><para
+>إلفيس أنجيلاشيو <email
+>elvis.angelaccio@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>راجنار تومسن <email
+>rthomsen6@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>رافاييل كوبو دا كوستا <email
+>rakuco@FreeBSD.org</email
+></para
+></listitem>
+<listitem
+><para
+>هارالد هفال <email
+>haraldhv@stud.ntnu.no</email
+></para
+></listitem>
+<listitem
+><para
+>هيليو شيسيني دي كاسترو <email
+>helio@conectiva.com.br</email
+></para
+></listitem>
+<listitem
+><para
+>جورج روبرز <email
+>Georg.Robbers@urz.uni-hd.de</email
+></para
+></listitem>
+<listitem
+><para
+>هنريك بينتو <email
+>henrique.pinto@kdemail.net</email
+></para
+></listitem>
+<listitem
+><para
+>روبرتو سيلباخ تيكسيرا <email
+>maragato@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>روبرت بالمبوس <email
+>palm9744@kettering.edu</email
+></para
+></listitem>
+<listitem
+><para
+>فرانسوا كزافييه دورانسو <email
+>duranceau@kde.org</email
+></para
+></listitem>
+<listitem
+><para
+>شركة كوريل (المؤلفة: إيميلي إيزوست) <email
+>emilye@corel.com</email
+></para
+></listitem>
+<listitem
+><para
+>شركة كوريل (المؤلف: مايكل جاريت) <email
+>michaelj@corel.com</email
+></para
+></listitem>
+</itemizedlist>
+
+<para
+>حقوق نشر التوثيق &copy; 2000 &Matt.Johnston; &Matt.Johnston.mail;</para>
+
+<para
+>حُدّث التوثيق لكيدي 3.3 بواسطة &Henrique.Pinto; &Henrique.Pinto.mail;.</para>
+
+<para
+>حُدّث التوثيق لتطبيقات كيدي 16.04 بواسطة &Ragnar.Thomsen; &Ragnar.Thomsen.mail;.</para>
+
+<para
+>الترجمة: زايد السعيدي <email
+>zayed.alsaidi@gmail.com</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+End:
+-->
+

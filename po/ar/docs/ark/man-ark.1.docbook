@@ -1,0 +1,427 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Arabic "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>دليل مستخدم أرك</title>
+
+<author
+><firstname
+>Lauri</firstname
+><surname
+>Watts</surname
+> <contrib
+>Initial version of &ark; man page in 2005.</contrib
+> <email
+>lauri@kde.org</email
+></author>
+
+<author
+><firstname
+>Raphael</firstname
+><surname
+>Kubo da Costa</surname
+> <contrib
+>Update of &ark; man page in 2009.</contrib
+> <email
+>rakuco@FreeBSD.org</email
+></author>
+
+<author
+><firstname
+>Ragnar</firstname
+><surname
+>Thomsen</surname
+> <contrib
+>Update of &ark; man page in 2015 and 2016.</contrib
+> <email
+>rthomsen6@gmail.com</email
+></author>
+
+<date
+>2018-08-08</date
+><!--Update only when changing/reviewing this man page-->
+<releaseinfo
+>18.12</releaseinfo
+><!--Update only when changing/reviewing this man page-->
+<productname
+>تطبيقات كِيدِي</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>ark</command
+></refentrytitle>
+<manvolnum
+>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>ark</command
+></refname>
+<refpurpose
+>أداة أرشفة من كيدي</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>ark</command
+> <group choice="opt"
+><option
+>-b</option
+></group
+> <group choice="opt"
+><option
+>-a</option
+></group
+> <group choice="opt"
+><option
+>-e</option
+></group
+> <group choice="opt"
+><option
+>-O</option
+></group
+> <group choice="opt"
+><option
+>-c</option
+></group
+> <group choice="opt"
+><option
+>-f</option
+> <replaceable
+> اللاحقة</replaceable
+></group
+> <group choice="opt"
+><option
+>-p</option
+></group
+> <group choice="opt"
+><option
+>-t</option
+> <replaceable
+> ملف</replaceable
+></group
+> <group choice="opt"
+><option
+>-d</option
+></group
+> <group choice="opt"
+><option
+>-m</option
+></group
+> <group choice="opt"
+><option
+>-o</option
+> <replaceable
+> دليل</replaceable
+></group
+> <arg choice="opt"
+>خيارات &kde-frameworks; عامة</arg
+> <arg choice="opt"
+>خيارات &Qt; عامة</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>الوصف</title>
+<para
+>أرك برنامج لإدارة تنسيقات الملفات المضغوطة المختلفة ضمن كيدي. يمكن عرض الأرشيفات واستخراجها وإنشاؤها وتعديلها بواسطة أرك. يمكن للبرنامج التعامل مع تنسيقات متنوعة مثل <application
+>tar</application
+> و <application
+>gzip</application
+> و <application
+>bzip2</application
+> و <application
+>zip</application
+> و <application
+>rar</application
+> (عند تثبيت المكتبات أو برامج سطر الأوامر المناسبة).</para>
+</refsect1>
+
+<refsect1>
+<title
+>أوضاع التشغيل</title>
+<para
+>يمكن استخدام أرك إما كبرنامج واجهة مستخدم رسومية مستقل أو كبرنامج سطر أوامر لتنفيذ بعض المهام المحددة.</para>
+<para
+>إذا استُدعي بدون خياري -b (--batch) أو -c (--add)، فسيُشغل أرك كبرنامج واجهة مستخدم رسومية عادي.</para>
+<para
+>عند استخدام خيار -b (--batch)، يمكن استخدام أرك لاستخراج محتويات ملف واحد أو أكثر مباشرة من سطر الأوامر، دون تشغيل واجهته الرسومية.</para>
+<para
+>عند استخدام خيار -c (--add)، يطلب أرك الملفات التي يجب إضافتها إلى أرشيف جديد أو إلى أرشيف موجود.</para>
+<para
+></para>
+<para
+></para>
+</refsect1>
+
+<refsect1>
+<title
+>الخيارات</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>-d, --dialog</option
+></term>
+<listitem>
+<para
+>يعرض حوارًا لتحديد خيارات عملية الدفعة أو الإضافة.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-m, --mimetypes</option
+></term>
+<listitem>
+<para
+>يسرد أنواع MIME المدعومة.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-o, --destination <replaceable
+>الدليل</replaceable
+></option
+></term>
+<listitem
+><para
+>يجعل دليل الاستخراج المبدئي هو <replaceable
+>الدليل</replaceable
+>. إذا لم يُمرر، سيُستخدم المسار الحالي.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<refsect2>
+<title
+>خيارات إضافة الملفات</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-c, --add</option
+></term>
+<listitem>
+<para
+>يسأل المستخدم عن اسم ملف أرشيف ويضيف الملفات المحددة إليه. ينتهي عند الاكتمال.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-t, --add-to <replaceable
+>اسم_الملف</replaceable
+></option
+></term>
+<listitem>
+<para
+>يضيف الملفات المحددة إلى <replaceable
+>اسم_الملف</replaceable
+>. يُنشأ الأرشيف إذا لم يكن موجودًا. ينتهي عند الاكتمال.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>-p, --changetofirstpath</option
+></term>
+<listitem>
+<para
+>يغير الدليل الحالي إلى المدخل الأول ويضيف جميع المدخلات الأخرى نسبةً إلى هذا المدخل.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-f, --autofilename <replaceable
+>اللاحقة</replaceable
+></option
+></term>
+<listitem>
+<para
+>يختار اسم ملف آليًا، مع <replaceable
+>اللاحقة</replaceable
+> المختارة (على سبيل المثال rar، أو tar.gz، أو zip أو أي أنواع أخرى مدعومة).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>خيارات استخراج الدفعة</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>-b, --batch</option
+></term>
+<listitem>
+<para
+>يستخدم واجهة الدفعة بدلًا من الحوار المعتاد. يُفترض هذا الخيار إذا تم تحديد أكثر من عنوان URL.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-e, --autodestination</option
+></term>
+<listitem>
+<para
+>سيُضبط وسيط الوجهة على مسار أول ملف مُزود.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-a, --autosubfolder</option
+></term>
+<listitem>
+<para
+>تُقرأ محتويات الأرشيف، وإذا اكتُشف أنه ليس أرشيفًا لمجلد واحد، سيُنشأ مجلد فرعي باسم الأرشيف.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-O, --opendestination</option
+></term>
+<listitem>
+<para
+>يفتح مجلد الوجهة عند اكتمال الاستخراج.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+</refsect1>
+
+<refsect1>
+<title
+>انظر أيضًا</title>
+<simplelist>
+<member
+>يتوفر توثيق مستخدم أكثر تفصيلًا من <ulink url="help:/ark"
+>help:/ark</ulink
+> (إما بإدخال عنوان URL هذا في كنكرر، أو بتشغيل <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/ark</parameter
+></userinput
+>).</member>
+<member
+>kf6options(7)</member>
+<member
+>qt6options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>أمثلة</title>
+
+<variablelist>
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--batch</option
+> <replaceable
+>أرشيف.tar.bz2</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>سيُستخرج <replaceable
+>أرشيف.tar.bz2</replaceable
+> في الدليل الحالي دون إظهار أي واجهة مستخدم رسومية. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>-b</option
+> <option
+>-d</option
+> <replaceable
+>أرشيف.tar.bz2</replaceable
+> <replaceable
+>أرشيف2.zip</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>سيُعرض أولًا حوار خيارات الاستخراج ثم يُستخرج كلًا من <replaceable
+>أرشيف.tar.bz2</replaceable
+> و <replaceable
+>أرشيف2.zip</replaceable
+> في الدليل الذي تم اختياره في الحوار.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><userinput
+><command
+>ark</command
+> <option
+>--add-to</option
+> <replaceable
+>أرشيفي.zip</replaceable
+> <replaceable
+>صورة1.jpg</replaceable
+> <replaceable
+>نص.txt</replaceable
+></userinput
+></term>
+<listitem>
+<para
+>سيُنشأ <replaceable
+>أرشيفي.zip</replaceable
+> إذا لم يكن موجودًا ثم تُضاف <replaceable
+>صورة1.jpg</replaceable
+> و <replaceable
+>نص.txt</replaceable
+> إليه. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title
+>الصيانة</title>
+<para
+>أرك مصان حاليًا بواسطة <emphasis role="bold"
+>إلفيس أنجيلاشيو</emphasis
+> و <emphasis role="bold"
+>راجنار تومسن</emphasis
+>.</para>
+</refsect1>
+
+</refentry>
