@@ -20,6 +20,8 @@
 #include <QModelIndex>
 #include <QTimer>
 
+#include <functional>
+
 class ArchiveModel;
 class ArchiveSortFilterModel;
 class ArchiveView;
@@ -36,6 +38,7 @@ class QTemporaryDir;
 class QVBoxLayout;
 class QFileSystemWatcher;
 class QGroupBox;
+class QMimeData;
 class QPlainTextEdit;
 class QPushButton;
 
@@ -89,8 +92,12 @@ public:
     bool confirmAndDelete(const QString &targetFile);
 
 public Q_SLOTS:
+    // org.kde.ark.DndExtract
     // Extracts selected files to @p localPath when drag and drop'ing from Ark to e.g. Dolphin
     void extractSelectedFilesTo(const QString &localPath);
+    // org.kde.ark.ClipboardExtract
+    // Extract files last copied to clipboard to @p localPath when past'ing from Ark to e.g. Dolphin
+    void pasteFilesTo(const QString &localPath, const QVariantMap &args);
 
 protected:
     void guiActivateEvent(KParts::GUIActivateEvent *event) override;
@@ -106,6 +113,7 @@ private Q_SLOTS:
     void slotExtractArchive();
     void slotShowExtractionDialog();
     void slotExtractionDone(KJob *);
+    void slotClipboardOrDndExtractionDone(KJob *job);
     void slotQuickExtractFiles(QAction *);
 
     /**
@@ -195,6 +203,10 @@ private:
     QModelIndexList getSelectedIndexes();
     void readCompressionOptions();
 
+    QMimeData *createClipboardMimeData() const;
+    void extractFilesTo(const QUrl &destinationUrl, const std::function<QList<Kerfuffle::Archive::Entry *>()> &filesCb);
+    void deleteFiles(const QList<Kerfuffle::Archive::Entry *> &entries);
+
     ArchiveModel *m_model;
     ArchiveView *m_view;
     QAction *m_previewAction;
@@ -223,7 +235,9 @@ private:
     QUrl m_lastUsedAddPath;
     QList<Kerfuffle::Archive::Entry *> m_jobTempEntries;
     Kerfuffle::Archive::Entry *m_destination;
-    QModelIndexList m_cutIndexes;
+    QModelIndexList m_copiedIndexes;
+    QString m_clipboardDBusObjectPath;
+    bool m_indexesCut = false;
 
     QTimer m_watchedFileChangeTimer;
     QString m_lastChangedFilename;

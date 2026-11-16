@@ -15,6 +15,7 @@
 #include "archiveview.h"
 #include "ark_debug.h"
 #include "arkviewer.h"
+#include "clipboarddbusinterfaceadaptor.h"
 #include "dnddbusinterfaceadaptor.h"
 #include "extractiondialog.h"
 #include "extractionsettingspage.h"
@@ -38,6 +39,7 @@
 #include <KIO/JobUiDelegate>
 #include <KIO/JobUiDelegateFactory>
 #include <KIO/OpenUrlJob>
+#include <KIO/Paste>
 #include <KIO/StatJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
@@ -47,10 +49,14 @@
 #include <KPluginMetaData>
 #include <KStandardGuiItem>
 #include <KToggleAction>
+#include <KWindowSystem>
 #include <KXMLGUIFactory>
 
 #include <QAction>
+#include <QApplication>
+#include <QClipboard>
 #include <QCursor>
+#include <QDBusConnection>
 #include <QFileDialog>
 #include <QFileSystemWatcher>
 #include <QGroupBox>
@@ -58,6 +64,7 @@
 #include <QIcon>
 #include <QLineEdit>
 #include <QMenu>
+#include <QMimeData>
 #include <QPlainTextEdit>
 #include <QPointer>
 #include <QPushButton>
@@ -78,6 +85,7 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
 {
     Q_UNUSED(args)
 
+    new ClipboardExtractAdaptor(this);
     new DndExtractAdaptor(this);
 
     // Since QFileSystemWatcher::fileChanged is emitted for each part of the file that is flushed,
@@ -90,10 +98,17 @@ Part::Part(QWidget *parentWidget, QObject *parent, const KPluginMetaData &metaDa
         slotWatchedFileModified(m_lastChangedFilename);
     });
 
-    const QString pathName = QStringLiteral("/DndExtract/%1").arg(s_instanceCounter++);
+    const QString pathName = QStringLiteral("/DndExtract/%1").arg(s_instanceCounter);
     if (!QDBusConnection::sessionBus().registerObject(pathName, this)) {
         qCCritical(ARK_LOG) << "Could not register a D-Bus object for drag'n'drop";
     }
+
+    m_clipboardDBusObjectPath = QStringLiteral("/org/kde/ark/ClipboardExtract/%1").arg(s_instanceCounter);
+    if (!QDBusConnection::sessionBus().registerObject(m_clipboardDBusObjectPath, this)) {
+        qCCritical(ARK_LOG) << "Could not register a D-Bus object for clipboard";
+    }
+
+    ++s_instanceCounter;
 
     // m_vlayout is needed for later insertion of QMessageWidget
     QWidget *mainWidget = new QWidget;
@@ -266,32 +281,26 @@ void Part::registerJob(KJob *job)
 // TODO: KIO::mostLocalHere is used here to resolve some KIO URLs to local
 // paths (e.g. desktop:/), but more work is needed to support extraction
 // to non-local destinations. See bugs #189322 and #204323.
-void Part::extractSelectedFilesTo(const QString &localPath)
+void Part::extractFilesTo(const QUrl &destinationUrl, const std::function<QList<Kerfuffle::Archive::Entry *>()> &filesCb)
 {
-    if (!m_model) {
-        return;
-    }
-
-    const QUrl url = QUrl::fromUserInput(localPath, QDir::currentPath());
-
-    auto doExtract = [this](const QString &destination) {
+    auto doExtract = [this, filesCb](const QString &destination) {
         qCDebug(ARK_LOG) << "Extract to" << destination;
 
         Kerfuffle::ExtractionOptions options;
         options.setDragAndDropEnabled(true);
 
         // Create and start the ExtractJob.
-        ExtractJob *job = m_model->extractFiles(filesAndRootNodesForIndexes(addChildren(getSelectedIndexes())), destination, options);
+        ExtractJob *job = m_model->extractFiles(filesCb(), destination, options);
         registerJob(job);
-        connect(job, &KJob::result, this, &Part::slotExtractionDone);
+        connect(job, &KJob::result, this, &Part::slotClipboardOrDndExtractionDone);
         job->start();
     };
 
-    if (!url.isLocalFile() && !url.scheme().isEmpty()) {
+    if (!destinationUrl.isLocalFile() && !destinationUrl.scheme().isEmpty()) {
         // Try to resolve the URL to a local path.
-        KIO::StatJob *statJob = KIO::mostLocalUrl(url);
+        KIO::StatJob *statJob = KIO::mostLocalUrl(destinationUrl);
 
-        connect(statJob, &KJob::result, this, [this, statJob, localPath, doExtract]() {
+        connect(statJob, &KJob::result, this, [this, statJob, destinationUrl, doExtract]() {
             if (statJob->error()) {
                 KMessageBox::error(widget(), statJob->errorString());
                 return;
@@ -299,18 +308,44 @@ void Part::extractSelectedFilesTo(const QString &localPath)
 
             const QString udsLocalPath = statJob->statResult().stringValue(KIO::UDSEntry::UDS_LOCAL_PATH);
             if (udsLocalPath.isEmpty()) { // The URL could not be resolved to a local path
-                qCWarning(ARK_LOG) << "Ark cannot extract to non-local destination:" << localPath;
+                qCWarning(ARK_LOG) << "Ark cannot extract to non-local destination:" << destinationUrl;
                 KMessageBox::error(widget(), xi18nc("@info", "Ark can extract archives to local destinations only."));
                 return;
             }
 
             doExtract(udsLocalPath);
         });
+    } else {
+        doExtract(destinationUrl.toLocalFile());
+    }
+}
 
+void Part::extractSelectedFilesTo(const QString &localPath)
+{
+    if (!m_model) {
         return;
     }
 
-    doExtract(localPath);
+    const QUrl url = QUrl::fromUserInput(localPath, QDir::currentPath());
+    extractFilesTo(url, [this] {
+        return filesAndRootNodesForIndexes(addChildren(getSelectedIndexes()));
+    });
+}
+
+void Part::pasteFilesTo(const QString &localPath, const QVariantMap &args)
+{
+    if (!m_model) {
+        return;
+    }
+
+    if (const QString token = args.value(QStringLiteral("activation_token")).toString(); !token.isEmpty()) {
+        KWindowSystem::setCurrentXdgActivationToken(token);
+    }
+
+    const QUrl url = QUrl::fromUserInput(localPath, QDir::currentPath());
+    extractFilesTo(url, [this] {
+        return filesAndRootNodesForIndexes(addChildren(m_copiedIndexes));
+    });
 }
 
 void Part::guiActivateEvent(KParts::GUIActivateEvent *event)
@@ -1275,6 +1310,20 @@ void Part::slotExtractionDone(KJob *job)
     }
 }
 
+void Part::slotClipboardOrDndExtractionDone(KJob *job)
+{
+    if (job->error()) {
+        if (job->error() != KJob::KilledJobError) {
+            KMessageBox::error(widget(), job->errorString());
+        }
+        return;
+    }
+
+    if (m_indexesCut) {
+        deleteFiles(filesForIndexes(m_copiedIndexes));
+    }
+}
+
 void Part::slotAddFiles(const QStringList &filesToAdd, const Archive::Entry *destination, const QString &relPath, OverwriteBehaviour onOverwrite)
 {
     if (!m_model->archive() || filesToAdd.isEmpty()) {
@@ -1402,32 +1451,54 @@ void Part::slotAddFiles()
     delete dlg;
 }
 
+QMimeData *Part::createClipboardMimeData() const
+{
+    auto *mimeData = new QMimeData();
+    mimeData->setData(QStringLiteral("application/x-kde-ark-clipboardextract-service"), QDBusConnection::sessionBus().baseService().toUtf8());
+    mimeData->setData(QStringLiteral("application/x-kde-ark-clipboardextract-path"), m_clipboardDBusObjectPath.toUtf8());
+    return mimeData;
+}
+
 void Part::slotCutFiles()
 {
     QModelIndexList selectedRows = addChildren(getSelectedIndexes());
     m_model->filesToMove = ArchiveModel::entryMap(filesForIndexes(selectedRows));
     qCDebug(ARK_LOG) << "Entries marked to cut:" << m_model->filesToMove.values();
     m_model->filesToCopy.clear();
-    for (const QModelIndex &row : std::as_const(m_cutIndexes)) {
-        m_view->dataChanged(row, row);
+    if (m_indexesCut) {
+        for (const QModelIndex &row : std::as_const(m_copiedIndexes)) {
+            m_view->dataChanged(row, row);
+        }
     }
-    m_cutIndexes = selectedRows;
-    for (const QModelIndex &row : std::as_const(m_cutIndexes)) {
+    m_indexesCut = true;
+    m_copiedIndexes = selectedRows;
+    for (const QModelIndex &row : std::as_const(m_copiedIndexes)) {
         m_view->dataChanged(row, row);
     }
     updateActions();
+
+    auto *mimeData = createClipboardMimeData();
+    KIO::setClipboardDataCut(mimeData, true);
+    qApp->clipboard()->setMimeData(mimeData);
 }
 
 void Part::slotCopyFiles()
 {
-    m_model->filesToCopy = ArchiveModel::entryMap(filesForIndexes(addChildren(getSelectedIndexes())));
+    QModelIndexList selectedRows = addChildren(getSelectedIndexes());
+    m_model->filesToCopy = ArchiveModel::entryMap(filesForIndexes(selectedRows));
     qCDebug(ARK_LOG) << "Entries marked to copy:" << m_model->filesToCopy.values();
-    for (const QModelIndex &row : std::as_const(m_cutIndexes)) {
-        m_view->dataChanged(row, row);
+    if (m_indexesCut) {
+        for (const QModelIndex &row : std::as_const(m_copiedIndexes)) {
+            m_view->dataChanged(row, row);
+        }
     }
-    m_cutIndexes.clear();
+    m_indexesCut = false;
+    m_copiedIndexes = selectedRows;
     m_model->filesToMove.clear();
     updateActions();
+
+    auto *mimeData = createClipboardMimeData();
+    qApp->clipboard()->setMimeData(mimeData);
 }
 
 void Part::slotRenameFile(const QString &name)
@@ -1490,7 +1561,7 @@ void Part::slotPasteFiles()
         slotPasteFiles(entryList, m_destination, 0);
         m_model->filesToCopy.clear();
     }
-    m_cutIndexes.clear();
+    m_copiedIndexes.clear();
     updateActions();
 }
 
@@ -1570,7 +1641,7 @@ void Part::slotAddFilesDone(KJob *job)
             m_model->countEntriesAndSize();
         }
     }
-    m_cutIndexes.clear();
+    m_copiedIndexes.clear();
     m_model->filesToMove.clear();
     m_model->filesToCopy.clear();
 }
@@ -1582,7 +1653,7 @@ void Part::slotPasteFilesDone(KJob *job)
     } else {
         m_model->countEntriesAndSize();
     }
-    m_cutIndexes.clear();
+    m_copiedIndexes.clear();
     m_model->filesToMove.clear();
     m_model->filesToCopy.clear();
 }
@@ -1594,20 +1665,28 @@ void Part::slotDeleteFilesDone(KJob *job)
     } else {
         m_model->countEntriesAndSize();
     }
-    m_cutIndexes.clear();
+    m_copiedIndexes.clear();
     m_model->filesToMove.clear();
     m_model->filesToCopy.clear();
 }
 
 void Part::slotDeleteFiles()
 {
-    const int selectionsCount = m_view->selectionModel()->selectedRows().count();
+    deleteFiles(filesForIndexes(addChildren(getSelectedIndexes())));
+}
+
+void Part::deleteFiles(const QList<Archive::Entry *> &files)
+{
+    if (files.isEmpty()) {
+        return;
+    }
+
     const auto reallyDelete = KMessageBox::questionTwoActions(widget(),
                                                               i18ncp("@info",
                                                                      "Deleting this file is not undoable. Are you sure you want to do this?",
                                                                      "Deleting these files is not undoable. Are you sure you want to do this?",
-                                                                     selectionsCount),
-                                                              i18ncp("@title:window", "Delete File", "Delete Files", selectionsCount),
+                                                                     files.size()),
+                                                              i18ncp("@title:window", "Delete File", "Delete Files", files.size()),
                                                               KStandardGuiItem::del(),
                                                               KStandardGuiItem::cancel(),
                                                               QString(),
@@ -1617,7 +1696,7 @@ void Part::slotDeleteFiles()
         return;
     }
 
-    DeleteJob *job = m_model->deleteFiles(filesForIndexes(addChildren(getSelectedIndexes())));
+    DeleteJob *job = m_model->deleteFiles(files);
     connect(job, &KJob::result, this, &Part::slotDeleteFilesDone);
     registerJob(job);
     job->start();

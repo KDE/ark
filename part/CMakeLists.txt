@@ -30,6 +30,7 @@ ecm_qt_declare_logging_category(arkpart
                                 CATEGORY_NAME ark.part DESCRIPTION "Ark KPart" EXPORT ARK)
 set(ark_adaptor_SRCS)
 qt_add_dbus_adaptor(ark_adaptor_SRCS dnddbusinterface.xml part.h Ark::Part)
+qt_add_dbus_adaptor(ark_adaptor_SRCS clipboarddbusinterface.xml part.h Ark::Part)
 target_sources(arkpart PRIVATE ${ark_adaptor_SRCS})
 ki18n_wrap_ui(arkpart
     arkviewer.ui
@@ -37,7 +38,7 @@ ki18n_wrap_ui(arkpart
     jobtracker.ui)
 
 
-target_link_libraries(arkpart kerfuffle KF6::Parts KF6::KIOFileWidgets Qt6::DBus)
+target_link_libraries(arkpart kerfuffle KF6::Parts KF6::KIOFileWidgets KF6::WindowSystem Qt6::DBus)
 
 list(POP_BACK SUPPORTED_ARK_MIMETYPES)
 list(JOIN SUPPORTED_ARK_MIMETYPES "\", \"" SUPPORTED_ARK_MIMETYPES_JSON)

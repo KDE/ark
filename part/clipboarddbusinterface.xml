@@ -1,0 +1,15 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<!--
+SPDX-FileCopyrightText: 2026 Kai Uwe Broulik <kde@broulik.de>
+
+SPDX-License-Identifier: BSD-3-Clause
+-->
+<node>
+	<interface name="org.kde.ark.ClipboardExtract">
+		<method name="pasteFilesTo">
+			<arg direction="in" type="s" name="destination_path" />
+			<arg direction="in" type="a{sv}" name="args"/>
+			<annotation name="org.qtproject.QtDBus.QtTypeName.In1" value="QVariantMap"/>
+		</method>
+	</interface>
+</node>
