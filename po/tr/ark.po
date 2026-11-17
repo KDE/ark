@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-11 03:15+0000\n"
-"PO-Revision-Date: 2026-10-12 11:37+0300\n"
+"PO-Revision-Date: 2026-11-16 19:00+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1021,7 +1021,7 @@ msgstr ""
 #: kerfuffle/generalsettingspage.ui:33
 #, kde-format
 msgid "Pre&view the file with internal previewer"
-msgstr "Dosyayı iç görüntüleyici ile ö&nizle"
+msgstr "Dosyayı iç görüntüleyici ile ö&n izle"
 
 #. i18n: ectx: property (text), widget (QRadioButton, radioButton_2)
 #: kerfuffle/generalsettingspage.ui:43
@@ -1170,7 +1170,7 @@ msgstr "Hedef"
 #: kerfuffle/previewsettingspage.ui:22
 #, kde-format
 msgid "Disable preview for files larger than:"
-msgstr "Önizleme için en büyük dosya boyutu:"
+msgstr "Ön izleme için en büyük dosya boyutu:"
 
 #: kerfuffle/propertiesdialog.cpp:41
 #, kde-format
@@ -1512,12 +1512,12 @@ msgstr "&Yardım"
 #: part/arkviewer.cpp:52
 #, kde-format
 msgid "Closing preview"
-msgstr "Önizleme kapatılıyor"
+msgstr "Ön izleme kapatılıyor"
 
 #: part/arkviewer.cpp:53
 #, kde-format
 msgid "Please wait while the preview is being closed…"
-msgstr "Önizleme kapatılırken lütfen bekleyin…"
+msgstr "Ön izleme kapatılırken lütfen bekleyin…"
 
 #: part/arkviewer.cpp:99
 #, kde-format
@@ -1537,13 +1537,13 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Cannot Preview File"
-msgstr "Dosya Önizlenemiyor"
+msgstr "Dosya Ön İzlenemiyor"
 
 #: part/arkviewer.cpp:118 part/arkviewer.cpp:130
 #, kde-format
 msgctxt "@action:button"
 msgid "Preview as Text"
-msgstr "Metin Olarak Önizle"
+msgstr "Metin Olarak Ön İzle"
 
 #: part/arkviewer.cpp:128
 #, kde-kuit-format
@@ -1714,7 +1714,7 @@ msgstr "Seçili dosyayı harici bir programla açmak için tıkla"
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
-msgstr "&Önizleme"
+msgstr "Ö&n İzle"
 
 #: part/part.cpp:382
 #, kde-format
@@ -1880,7 +1880,7 @@ msgstr "Eklentiler"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
-msgstr "Önizlemeler"
+msgstr "Ön İzlemeler"
 
 #: part/part.cpp:794
 #, kde-kuit-format
