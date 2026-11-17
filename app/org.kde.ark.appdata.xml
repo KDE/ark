@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>org.kde.ark.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-2.0+</project_license>
+  <project_license>GPL-2.0-or-later</project_license>
   <launchable type="desktop-id">org.kde.ark.desktop</launchable>
   <developer id="org.kde">
     <name translate="no">KDE</name>
@@ -411,6 +411,8 @@
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=ark</url>
   <url type="help">https://docs.kde.org/?application=ark</url>
   <url type="donation">https://www.kde.org/community/donations/?app=ark&amp;source=appdata</url>
+  <url type="vcs-browser">https://invent.kde.org/utilities/ark</url>
+  <url type="contribute">https://community.kde.org/Get_Involved</url>
   <custom>
     <value key="KDE::mailinglist-devel">kde-devel@kde.org</value>
   </custom>
