@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-08 03:01+0000\n"
+"POT-Creation-Date: 2026-11-19 01:11+0000\n"
 "PO-Revision-Date: 2026-06-14 21:21+0900\n"
 "Last-Translator: Mint <5602mint@gmail.com>\n"
 "Language-Team: Japanese <kde-i18n-doc@kde.org>\n"
@@ -573,7 +573,7 @@ msgstr ""
 "アーカイブのファイル名を指定するか、<command>--autofilename</command> 引数で"
 "拡張子 (rar、tar.gz など) を指定する必要があります。"
 
-#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:865
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -581,7 +581,7 @@ msgid ""
 "it?"
 msgstr "アーカイブ <filename>%1</filename> が既に存在します。上書きしますか？"
 
-#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:866
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
@@ -1651,82 +1651,82 @@ msgid ""
 "overwriting them?"
 msgstr "以下のパスのファイルは既に存在します。上書きを続行しますか？"
 
-#: part/part.cpp:112
+#: part/part.cpp:127
 #, kde-format
 msgid "Comment"
 msgstr "コメント"
 
-#: part/part.cpp:125
+#: part/part.cpp:140
 #, kde-format
 msgid "Comment has been modified."
 msgstr "コメントが変更されました。"
 
-#: part/part.cpp:130
+#: part/part.cpp:145
 #, kde-format
 msgid "Save"
 msgstr "保存"
 
 # @info:tooltip
-#: part/part.cpp:153
+#: part/part.cpp:168
 #, kde-format
 msgid "Type to search…"
 msgstr "入力して検索…"
 
-#: part/part.cpp:303
+#: part/part.cpp:312
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark はローカルの保存先にのみアーカイブを展開できます。"
 
-#: part/part.cpp:355
+#: part/part.cpp:390
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "情報パネルを表示"
 
-#: part/part.cpp:361
+#: part/part.cpp:396
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Save Copy As…"
 msgstr "名前を付けてコピーを保存…"
 
-#: part/part.cpp:365
+#: part/part.cpp:400
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "外部アプリケーションで開く(&O)"
 
-#: part/part.cpp:372
+#: part/part.cpp:407
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
 msgstr "アプリケーションで開く(&W)…"
 
-#: part/part.cpp:374
+#: part/part.cpp:409
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "選択したファイルを外部プログラムで開きます"
 
-#: part/part.cpp:380
+#: part/part.cpp:415
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "プレビュー(&V)"
 
-#: part/part.cpp:382
+#: part/part.cpp:417
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "選択したファイルをプレビューします"
 
-#: part/part.cpp:389
+#: part/part.cpp:424
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "すべて展開(&X)"
 
-#: part/part.cpp:391
+#: part/part.cpp:426
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1735,13 +1735,13 @@ msgstr ""
 "展開ダイアログが開き、アーカイブ内のすべてのファイルを展開する方法を指定でき"
 "ます"
 
-#: part/part.cpp:396
+#: part/part.cpp:431
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "展開(&E)"
 
-#: part/part.cpp:399
+#: part/part.cpp:434
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1750,54 +1750,54 @@ msgstr ""
 "展開ダイアログが開き、すべてのファイルを展開するか、選択したファイルのみを展"
 "開するかを指定できます。"
 
-#: part/part.cpp:404
+#: part/part.cpp:439
 #, kde-format
 msgid "Add &Files…"
 msgstr "ファイルを追加(&F)…"
 
-#: part/part.cpp:405 part/part.cpp:466
+#: part/part.cpp:440 part/part.cpp:501
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "アーカイブにファイルを追加します"
 
-#: part/part.cpp:412
+#: part/part.cpp:447
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "アーカイブから削除"
 
-#: part/part.cpp:422
+#: part/part.cpp:457
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "プロパティ(&P)"
 
-#: part/part.cpp:424
+#: part/part.cpp:459
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "アーカイブのプロパティを表示します"
 
-#: part/part.cpp:430
+#: part/part.cpp:465
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "コメントを追加または編集します"
 
-#: part/part.cpp:435
+#: part/part.cpp:470
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "整合性をテスト(&T)"
 
-#: part/part.cpp:437 part/part.cpp:467
+#: part/part.cpp:472 part/part.cpp:502
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "アーカイブの整合性をテストします"
 
-#: part/part.cpp:462
+#: part/part.cpp:497
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1809,7 +1809,7 @@ msgstr ""
 "ポートされていません。<nl/><nl/>ファイルを追加する場合、ファイルを展開して新"
 "しいアーカイブを作成してください。"
 
-#: part/part.cpp:464
+#: part/part.cpp:499
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1819,74 +1819,74 @@ msgstr ""
 "ヘッダ暗号化がないパスワード保護されたアーカイブのテストは、現在サポートされ"
 "ていません。"
 
-#: part/part.cpp:505
+#: part/part.cpp:540
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "コメントを編集(&C)"
 
-#: part/part.cpp:506 part/part.cpp:512
+#: part/part.cpp:541 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "コメントを追加(&C)"
 
-#: part/part.cpp:612
+#: part/part.cpp:647
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "アーカイブは整合性テストに成功しました。"
 
-#: part/part.cpp:612 part/part.cpp:614
+#: part/part.cpp:647 part/part.cpp:649
 #, kde-format
 msgid "Test Results"
 msgstr "テスト結果"
 
-#: part/part.cpp:614
+#: part/part.cpp:649
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "アーカイブは整合性テストに失敗しました。"
 
-#: part/part.cpp:634
+#: part/part.cpp:669
 #, kde-format
 msgid "Extract To…"
 msgstr "展開先..."
 
-#: part/part.cpp:646
+#: part/part.cpp:681
 #, kde-format
 msgid "Quick Extract To…"
 msgstr "クイック展開…"
 
-#: part/part.cpp:775
+#: part/part.cpp:810
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "全般"
 
-#: part/part.cpp:776
+#: part/part.cpp:811
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "展開"
 
-#: part/part.cpp:777
+#: part/part.cpp:812
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "プラグイン"
 
-#: part/part.cpp:778
+#: part/part.cpp:813
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "プレビュー"
 
-#: part/part.cpp:794
+#: part/part.cpp:829
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> はディレクトリです。"
 
-#: part/part.cpp:802
+#: part/part.cpp:837
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1896,7 +1896,7 @@ msgstr ""
 "<filename>%1</filename> に上書きできませんでした。書き込み権限があることを確"
 "認してください。"
 
-#: part/part.cpp:808
+#: part/part.cpp:843
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1905,13 +1905,13 @@ msgid ""
 msgstr ""
 "アーカイブ <filename>%1</filename> はファイルを追加するとすぐに作成されます。"
 
-#: part/part.cpp:811
+#: part/part.cpp:846
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "アーカイブ <filename>%1</filename> が見つかりませんでした。"
 
-#: part/part.cpp:817
+#: part/part.cpp:852
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1919,19 +1919,19 @@ msgid ""
 "possible to read from it."
 msgstr "アーカイブ <filename>%1</filename> を読み込めませんでした。"
 
-#: part/part.cpp:868
+#: part/part.cpp:903
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "アーカイブが空であるか、Ark がアーカイブの内容を開けませんでした。"
 
-#: part/part.cpp:875
+#: part/part.cpp:910
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark は現在 UDF ファイルシステムの ISO ファイルをサポートしていません。"
 
-#: part/part.cpp:907
+#: part/part.cpp:942
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1941,12 +1941,12 @@ msgstr ""
 "アーカイブ <filename>%1</filename> の読み込みが以下のエラーで失敗しました:"
 "<nl/><message>%2</message>"
 
-#: part/part.cpp:967
+#: part/part.cpp:1002
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark はシンボリックリンクを開くことができません。"
 
-#: part/part.cpp:1094
+#: part/part.cpp:1129
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1954,57 +1954,57 @@ msgid ""
 msgstr ""
 "ファイル <filename>%1</filename> が変更されました。アーカイブを更新しますか？"
 
-#: part/part.cpp:1095
+#: part/part.cpp:1130
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "ファイルが変更されました"
 
-#: part/part.cpp:1096
+#: part/part.cpp:1131
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "更新"
 
-#: part/part.cpp:1097
+#: part/part.cpp:1132
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "無視"
 
-#: part/part.cpp:1371
+#: part/part.cpp:1420
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "ファイルを追加"
 
-#: part/part.cpp:1376
+#: part/part.cpp:1425
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "ファイルを %1 に追加"
 
-#: part/part.cpp:1436
+#: part/part.cpp:1507
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "ファイル名はスラッシュを含むものや \".\" や \"..\" にできません"
 
-#: part/part.cpp:1480
+#: part/part.cpp:1551
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "フォルダは自身の中に移動できません。"
 
-#: part/part.cpp:1480
+#: part/part.cpp:1551
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "フォルダを自身の中に移動中"
 
-#: part/part.cpp:1508
+#: part/part.cpp:1579
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "同じ名前のエントリは同じ保存先に貼り付けられません。"
 
-#: part/part.cpp:1607
+#: part/part.cpp:1686
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2012,20 +2012,20 @@ msgid_plural ""
 "Deleting these files is not undoable. Are you sure you want to do this?"
 msgstr[0] "これらのファイルの削除は元に戻せません。実行してよろしいですか？"
 
-#: part/part.cpp:1610
+#: part/part.cpp:1689
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
 msgid_plural "Delete Files"
 msgstr[0] "ファイルを削除"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1728
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "コピーを保存"
 
-#: part/part.cpp:1664
+#: part/part.cpp:1743
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2035,7 +2035,7 @@ msgstr ""
 "アーカイブを <filename>%1</filename> に保存できませんでした。他の場所に保存し"
 "てください。"
 
-#: part/part.cpp:1669
+#: part/part.cpp:1748
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

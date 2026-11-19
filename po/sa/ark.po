@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-08 03:01+0000\n"
+"POT-Creation-Date: 2026-11-19 01:11+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -555,7 +555,7 @@ msgstr ""
 "भवद्भिः संग्रहस्य कृते सञ्चिकानाम अथवा <command>--autofilename</command> तर्केन सह "
 "प्रत्ययः (यथा rar, tar.gz) आपूर्तिः कर्तव्यः ।"
 
-#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:865
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -565,7 +565,7 @@ msgstr ""
 "<filename>%1</filename> इति संग्रहः पूर्वमेव अस्ति । किं भवन्तः तस्य अधिलेखनं कर्तुम् "
 "इच्छन्ति ?"
 
-#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:866
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
@@ -1634,40 +1634,40 @@ msgstr ""
 "निम्नलिखितमार्गयुक्ताः सञ्चिकाः पूर्वमेव विद्यन्ते । किं भवन्तः तान् अधिलेखनं निरन्तरं कर्तुम् "
 "इच्छन्ति ?"
 
-#: part/part.cpp:112
+#: part/part.cpp:127
 #, kde-format
 msgid "Comment"
 msgstr "टिप्पणी"
 
-#: part/part.cpp:125
+#: part/part.cpp:140
 #, kde-format
 msgid "Comment has been modified."
 msgstr "टिप्पणी परिवर्तिता अस्ति।"
 
-#: part/part.cpp:130
+#: part/part.cpp:145
 #, kde-format
 msgid "Save"
 msgstr "रक्ष्"
 
-#: part/part.cpp:153
+#: part/part.cpp:168
 #, fuzzy, kde-format
 #| msgid "Type to search..."
 msgid "Type to search…"
 msgstr "अन्वेषणार्थं टङ्कयन्तु..."
 
-#: part/part.cpp:303
+#: part/part.cpp:312
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "आर्क केवलं स्थानीयगन्तव्यस्थानेषु अभिलेखागारं निष्कासयितुं शक्नोति ।"
 
-#: part/part.cpp:355
+#: part/part.cpp:390
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "सूचनापटलं दर्शयतु"
 
-#: part/part.cpp:361
+#: part/part.cpp:396
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Save Copy As"
@@ -1675,13 +1675,13 @@ msgctxt "@action:inmenu"
 msgid "Save Copy As…"
 msgstr "प्रतिलिपिं यथा रक्षतु"
 
-#: part/part.cpp:365
+#: part/part.cpp:400
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "&बाह्य अनुप्रयोगे उद्घाटितम्"
 
-#: part/part.cpp:372
+#: part/part.cpp:407
 #, fuzzy, kde-format
 #| msgctxt "open a file with external program"
 #| msgid "Open &With..."
@@ -1689,31 +1689,31 @@ msgctxt "open a file with external program"
 msgid "Open &With…"
 msgstr "Open &With..."
 
-#: part/part.cpp:374
+#: part/part.cpp:409
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "चयनितसञ्चिकां बाह्यप्रोग्रामेन उद्घाटयितुं क्लिक् कुर्वन्तु"
 
-#: part/part.cpp:380
+#: part/part.cpp:415
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "पूर्व&दृश्यम्"
 
-#: part/part.cpp:382
+#: part/part.cpp:417
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "चयनितसञ्चिकायाः पूर्वावलोकनार्थं नुदन्तु"
 
-#: part/part.cpp:389
+#: part/part.cpp:424
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "E&xtract All"
 
-#: part/part.cpp:391
+#: part/part.cpp:426
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
@@ -1722,13 +1722,13 @@ msgstr ""
 "एकं निष्कर्षणसंवादं उद्घाटयितुं नुदन्तु, यत्र भवान् संग्रहे सर्वाणि सञ्चिकाः कथं निष्कासयितुं "
 "शक्नोति इति चिन्वतु"
 
-#: part/part.cpp:396
+#: part/part.cpp:431
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&निष्कर्शन"
 
-#: part/part.cpp:399
+#: part/part.cpp:434
 #, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
@@ -1737,56 +1737,56 @@ msgstr ""
 "निष्कर्षणसंवादं उद्घाटयितुं नुदन्तु, यत्र भवान् सर्वाणि सञ्चिकाः अथवा केवलं चयनितसञ्चिकाः "
 "निष्कासयितुं चिन्वतु"
 
-#: part/part.cpp:404
+#: part/part.cpp:439
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Add Files"
 msgid "Add &Files…"
 msgstr "सञ्चिकाः योजयन्तु"
 
-#: part/part.cpp:405 part/part.cpp:466
+#: part/part.cpp:440 part/part.cpp:501
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "संग्रहे सञ्चिकाः योजयितुं क्लिक् कुर्वन्तु"
 
-#: part/part.cpp:412
+#: part/part.cpp:447
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "अभिलेखागारात् निष्कासयन्तु"
 
-#: part/part.cpp:422
+#: part/part.cpp:457
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&गुणाः"
 
-#: part/part.cpp:424
+#: part/part.cpp:459
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "संग्रहणार्थं गुणाः द्रष्टुं क्लिक् कुर्वन्तु"
 
-#: part/part.cpp:430
+#: part/part.cpp:465
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "टिप्पणीं योजयितुं सम्पादयितुं वा क्लिक् कुर्वन्तु"
 
-#: part/part.cpp:435
+#: part/part.cpp:470
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "&परीक्षा अखण्डता"
 
-#: part/part.cpp:437 part/part.cpp:467
+#: part/part.cpp:472 part/part.cpp:502
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "अभिलेखस्य अखण्डतायाः परीक्षणार्थं क्लिक् कुर्वन्तु"
 
-#: part/part.cpp:462
+#: part/part.cpp:497
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1798,7 +1798,7 @@ msgstr ""
 "समर्थितं नास्ति।<nl/><nl/>सञ्चिकाः निष्कास्य यदि भवान् सञ्चिकाः योजयितुम् इच्छति तर्हि "
 "नूतनं संग्रहं रचयतु।"
 
-#: part/part.cpp:464
+#: part/part.cpp:499
 #, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1806,77 +1806,77 @@ msgid ""
 "not supported."
 msgstr "शीर्षक-गोपनं विना गुप्तशब्द-संरक्षित-संग्रहालयस्य परीक्षणं सम्प्रति समर्थितं नास्ति ।"
 
-#: part/part.cpp:505
+#: part/part.cpp:540
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "सम्पादन एवं टिप्पणी"
 
-#: part/part.cpp:506 part/part.cpp:512
+#: part/part.cpp:541 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "योजयतु &टिप्पणी कुरुत"
 
-#: part/part.cpp:612
+#: part/part.cpp:647
 #, kde-format
 msgid "The archive passed the integrity test."
 msgstr "अभिलेखागारः अखण्डतापरीक्षायां उत्तीर्णः अभवत् ।"
 
-#: part/part.cpp:612 part/part.cpp:614
+#: part/part.cpp:647 part/part.cpp:649
 #, kde-format
 msgid "Test Results"
 msgstr "परीक्षाफलम्"
 
-#: part/part.cpp:614
+#: part/part.cpp:649
 #, kde-format
 msgid "The archive failed the integrity test."
 msgstr "अभिलेखागारः अखण्डतापरीक्षायां असफलः अभवत् ।"
 
-#: part/part.cpp:634
+#: part/part.cpp:669
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 #| msgid "Extract to…"
 msgid "Extract To…"
 msgstr "अर्कं कृत्वा…"
 
-#: part/part.cpp:646
+#: part/part.cpp:681
 #, fuzzy, kde-format
 #| msgid "Quick Extract To..."
 msgid "Quick Extract To…"
 msgstr "त्वरित अर्क To..."
 
-#: part/part.cpp:775
+#: part/part.cpp:810
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "सामान्य"
 
-#: part/part.cpp:776
+#: part/part.cpp:811
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "निष्कर्षणम्"
 
-#: part/part.cpp:777
+#: part/part.cpp:812
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "प्लगिन्स्"
 
-#: part/part.cpp:778
+#: part/part.cpp:813
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "पूर्वावलोकनम्"
 
-#: part/part.cpp:794
+#: part/part.cpp:829
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> इति निर्देशिका अस्ति ।"
 
-#: part/part.cpp:802
+#: part/part.cpp:837
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1886,7 +1886,7 @@ msgstr ""
 "<filename>%1</filename> इत्यस्य अधिलेखनं कर्तुं न शक्यते । भवतः लेखनस्य अनुमतिः अस्ति वा "
 "इति पश्यन्तु।"
 
-#: part/part.cpp:808
+#: part/part.cpp:843
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1895,13 +1895,13 @@ msgid ""
 msgstr ""
 "भवता सञ्चिकां योजयित्वा एव <filename>%1</filename> इति संग्रहः निर्मितः भविष्यति ।"
 
-#: part/part.cpp:811
+#: part/part.cpp:846
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "<filename>%1</filename> इति संग्रहणं न लब्धम् ।"
 
-#: part/part.cpp:817
+#: part/part.cpp:852
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1911,19 +1911,19 @@ msgstr ""
 "<filename>%1</filename> इति संग्रहणं लोड् कर्तुं न शक्यते स्म, यतः तस्मात् पठितुं न शक्यते "
 "स्म ।"
 
-#: part/part.cpp:868
+#: part/part.cpp:903
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "अभिलेखागारः रिक्तः अस्ति अथवा आर्कः स्वस्य सामग्रीं उद्घाटयितुं न शक्तवान् ।"
 
-#: part/part.cpp:875
+#: part/part.cpp:910
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Ark सम्प्रति UDF सञ्चिकातन्त्रेण सह ISO सञ्चिकानां समर्थनं न करोति ।"
 
-#: part/part.cpp:907
+#: part/part.cpp:942
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1933,12 +1933,12 @@ msgstr ""
 "<filename>%1</filename> संग्रहणं लोड् करणं निम्नलिखितदोषेण विफलम्:<nl/><message>%2</"
 "message>"
 
-#: part/part.cpp:967
+#: part/part.cpp:1002
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "आर्क सिम्लिङ्क्स् उद्घाटयितुं न शक्नोति।"
 
-#: part/part.cpp:1094
+#: part/part.cpp:1129
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1947,59 +1947,59 @@ msgstr ""
 "<filename>%1</filename> इति सञ्चिका परिवर्तिता । किं भवान् अभिलेखागारं अद्यतनीकर्तुं "
 "इच्छति ?"
 
-#: part/part.cpp:1095
+#: part/part.cpp:1130
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "सञ्चिका परिवर्तिता"
 
-#: part/part.cpp:1096
+#: part/part.cpp:1131
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "अद्यतन"
 
-#: part/part.cpp:1097
+#: part/part.cpp:1132
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "उपेक्षा"
 
-#: part/part.cpp:1371
+#: part/part.cpp:1420
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "सञ्चिकाः योजयन्तु"
 
-#: part/part.cpp:1376
+#: part/part.cpp:1425
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "%1 मध्ये सञ्चिकाः योजयन्तु"
 
-#: part/part.cpp:1436
+#: part/part.cpp:1507
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr ""
 "सञ्चिकानाम मध्ये स्लैशः न भवितुं शक्नोति तथा च \"\" इत्यस्य समं न भवितुम् अर्हति । वा \".."
 "\""
 
-#: part/part.cpp:1480
+#: part/part.cpp:1551
 #, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "पुटं स्वयमेव स्थानान्तरयितुं न शक्यते।"
 
-#: part/part.cpp:1480
+#: part/part.cpp:1551
 #, kde-format
 msgid "Moving a folder into itself"
 msgstr "एकं पुटं स्वयमेव स्थानान्तरयन्"
 
-#: part/part.cpp:1508
+#: part/part.cpp:1579
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr "समाननामयुक्तानि प्रविष्टयः एकस्मिन् गन्तव्यस्थाने चिपकितुं न शक्यन्ते ।"
 
-#: part/part.cpp:1607
+#: part/part.cpp:1686
 #, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -2009,7 +2009,7 @@ msgstr[0] "एतां सञ्चिकां विलोपनं पूर
 msgstr[1] ""
 "एतानि सञ्चिकानि विलोपनं पूर्ववत् न भवति । किं भवन्तः निश्चयेन एतत् कर्तुम् इच्छन्ति ?"
 
-#: part/part.cpp:1610
+#: part/part.cpp:1689
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -2017,13 +2017,13 @@ msgid_plural "Delete Files"
 msgstr[0] "सञ्चिकां विलोपयतु"
 msgstr[1] "सञ्चिकाः विलोपयन्तु"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1728
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "प्रतिलिपिं यथा रक्षतु"
 
-#: part/part.cpp:1664
+#: part/part.cpp:1743
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2033,7 +2033,7 @@ msgstr ""
 "संग्रहणं <filename>%1</filename> इति रूपेण रक्षितुं न शक्यते स्म । अन्यस्मिन् स्थाने रक्षितुं "
 "प्रयतध्वम्।"
 
-#: part/part.cpp:1669
+#: part/part.cpp:1748
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""

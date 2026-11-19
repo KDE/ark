@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-08 03:01+0000\n"
+"POT-Creation-Date: 2026-11-19 01:11+0000\n"
 "PO-Revision-Date: 2024-08-02 15:34+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -545,7 +545,7 @@ msgid ""
 "rar, tar.gz) with the <command>--autofilename</command> argument."
 msgstr "&Archive"
 
-#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:830
+#: kerfuffle/addtoarchive.cpp:206 part/part.cpp:865
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -554,7 +554,7 @@ msgid ""
 msgstr ""
 "Li archive <filename>%1</filename> ja existe. Esque vu vole superscrir it?"
 
-#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:831
+#: kerfuffle/addtoarchive.cpp:207 part/part.cpp:866
 #, kde-format
 msgctxt "@title:window"
 msgid "File Exists"
@@ -1613,40 +1613,40 @@ msgid ""
 "overwriting them?"
 msgstr "Files con li sequent rutes ja existe. Esque vu vole substituer les?"
 
-#: part/part.cpp:112
+#: part/part.cpp:127
 #, kde-format
 msgid "Comment"
 msgstr "Comenta"
 
-#: part/part.cpp:125
+#: part/part.cpp:140
 #, kde-format
 msgid "Comment has been modified."
 msgstr "Comenta sta modificat."
 
-#: part/part.cpp:130
+#: part/part.cpp:145
 #, kde-format
 msgid "Save"
 msgstr "Gardar"
 
-#: part/part.cpp:153
+#: part/part.cpp:168
 #, fuzzy, kde-format
 #| msgid "Type to search..."
 msgid "Type to search…"
 msgstr "Tippa por serchar..."
 
-#: part/part.cpp:303
+#: part/part.cpp:312
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark can extract archives to local destinations only."
 msgstr "Ark posse extracter archives solmen a local destinationes."
 
-#: part/part.cpp:355
+#: part/part.cpp:390
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Information Panel"
 msgstr "Monstrar li panel de information"
 
-#: part/part.cpp:361
+#: part/part.cpp:396
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Save Copy As"
@@ -1654,13 +1654,13 @@ msgctxt "@action:inmenu"
 msgid "Save Copy As…"
 msgstr "Gardar un copie quam"
 
-#: part/part.cpp:365
+#: part/part.cpp:400
 #, kde-format
 msgctxt "open a file with external program"
 msgid "&Open in External Application"
 msgstr "&Aperter in un extern application"
 
-#: part/part.cpp:372
+#: part/part.cpp:407
 #, fuzzy, kde-format
 #| msgctxt "open a file with external program"
 #| msgid "Open &With..."
@@ -1668,100 +1668,100 @@ msgctxt "open a file with external program"
 msgid "Open &With…"
 msgstr "Aperter &per..."
 
-#: part/part.cpp:374
+#: part/part.cpp:409
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to open the selected file with an external program"
 msgstr "Aperter li selectet file con un programma extern"
 
-#: part/part.cpp:380
+#: part/part.cpp:415
 #, kde-format
 msgctxt "to preview a file inside an archive"
 msgid "Pre&view"
 msgstr "Pre&vider"
 
-#: part/part.cpp:382
+#: part/part.cpp:417
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to preview the selected file"
 msgstr "Previder li selectet file"
 
-#: part/part.cpp:389
+#: part/part.cpp:424
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
 msgstr "E&xtraer omni"
 
-#: part/part.cpp:391
+#: part/part.cpp:426
 #, fuzzy, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose how to extract all "
 "the files in the archive"
 msgstr "Extraer"
 
-#: part/part.cpp:396
+#: part/part.cpp:431
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
 msgstr "&Extraher"
 
-#: part/part.cpp:399
+#: part/part.cpp:434
 #, fuzzy, kde-format
 msgid ""
 "Click to open an extraction dialog, where you can choose to extract either "
 "all files or just the selected ones"
 msgstr "Extraer"
 
-#: part/part.cpp:404
+#: part/part.cpp:439
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Add Files"
 msgid "Add &Files…"
 msgstr "Adjunter files"
 
-#: part/part.cpp:405 part/part.cpp:466
+#: part/part.cpp:440 part/part.cpp:501
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add files to the archive"
 msgstr "Adjunter files al archive"
 
-#: part/part.cpp:412
+#: part/part.cpp:447
 #, kde-format
 msgctxt "@action"
 msgid "Remove from Archive"
 msgstr "Remover ex li archive"
 
-#: part/part.cpp:422
+#: part/part.cpp:457
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Properties"
 msgstr "&Proprietás"
 
-#: part/part.cpp:424
+#: part/part.cpp:459
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to see properties for archive"
 msgstr "Monstrar proprietás del archive"
 
-#: part/part.cpp:430
+#: part/part.cpp:465
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to add or edit comment"
 msgstr "Adjunter o redacter un comenta"
 
-#: part/part.cpp:435
+#: part/part.cpp:470
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Test Integrity"
 msgstr "&Provar li integritá"
 
-#: part/part.cpp:437 part/part.cpp:467
+#: part/part.cpp:472 part/part.cpp:502
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Click to test the archive for integrity"
 msgstr "Provar li integritá del archive"
 
-#: part/part.cpp:462
+#: part/part.cpp:497
 #, fuzzy, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1770,7 +1770,7 @@ msgid ""
 "a new archive if you want to add files."
 msgstr "Adjunter files al archive"
 
-#: part/part.cpp:464
+#: part/part.cpp:499
 #, fuzzy, kde-kuit-format
 msgctxt "@info:tooltip"
 msgid ""
@@ -1778,77 +1778,77 @@ msgid ""
 "not supported."
 msgstr "Aperter li fi&le per li associat application"
 
-#: part/part.cpp:505
+#: part/part.cpp:540
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Add &Comment"
 msgid "Edit &Comment"
 msgstr "Redacter li &comenta"
 
-#: part/part.cpp:506 part/part.cpp:512
+#: part/part.cpp:541 part/part.cpp:547
 #, kde-format
 msgctxt "@action:inmenu mutually exclusive with Edit &Comment"
 msgid "Add &Comment"
 msgstr "Adjunter un &comenta"
 
-#: part/part.cpp:612
+#: part/part.cpp:647
 #, fuzzy, kde-format
 msgid "The archive passed the integrity test."
 msgstr "&Archive"
 
-#: part/part.cpp:612 part/part.cpp:614
+#: part/part.cpp:647 part/part.cpp:649
 #, kde-format
 msgid "Test Results"
 msgstr "Resultates del prova"
 
-#: part/part.cpp:614
+#: part/part.cpp:649
 #, fuzzy, kde-format
 msgid "The archive failed the integrity test."
 msgstr "&Archive"
 
-#: part/part.cpp:634
+#: part/part.cpp:669
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Part of Extract submenu in Dolphin context menu"
 #| msgid "Extract to…"
 msgid "Extract To…"
 msgstr "Extraer a..."
 
-#: part/part.cpp:646
+#: part/part.cpp:681
 #, fuzzy, kde-format
 #| msgid "Quick Extract To..."
 msgid "Quick Extract To…"
 msgstr "Rapid extraction a..."
 
-#: part/part.cpp:775
+#: part/part.cpp:810
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr "General"
 
-#: part/part.cpp:776
+#: part/part.cpp:811
 #, kde-format
 msgctxt "@title:tab"
 msgid "Extraction"
 msgstr "Extration"
 
-#: part/part.cpp:777
+#: part/part.cpp:812
 #, kde-format
 msgctxt "@title:tab"
 msgid "Plugins"
 msgstr "Plugines"
 
-#: part/part.cpp:778
+#: part/part.cpp:813
 #, kde-format
 msgctxt "@title:tab"
 msgid "Previews"
 msgstr "Previder"
 
-#: part/part.cpp:794
+#: part/part.cpp:829
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<filename>%1</filename> is a directory."
 msgstr "<filename>%1</filename> es un folder."
 
-#: part/part.cpp:802
+#: part/part.cpp:837
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1856,7 +1856,7 @@ msgid ""
 "permission."
 msgstr "Ne successat compresser un element, li operation anullat."
 
-#: part/part.cpp:808
+#: part/part.cpp:843
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1866,13 +1866,13 @@ msgstr ""
 "Li archive <filename>%1</filename> va esser creat quande vu va adjunter un "
 "file."
 
-#: part/part.cpp:811
+#: part/part.cpp:846
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive <filename>%1</filename> was not found."
 msgstr "Li archive <filename>%1</filename> ne esset trovat."
 
-#: part/part.cpp:817
+#: part/part.cpp:852
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1882,19 +1882,19 @@ msgstr ""
 "Un errore evenit extraente <filename>%1</filename>. Omni sequent archives ne "
 "va esser extraet."
 
-#: part/part.cpp:868
+#: part/part.cpp:903
 #, kde-kuit-format
 msgctxt "@info"
 msgid "The archive is empty or Ark could not open its content."
 msgstr "Li archive es vacui o Ark ne posse aperter su contenete."
 
-#: part/part.cpp:875
+#: part/part.cpp:910
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Ark does not currently support ISO files with UDF filesystem."
 msgstr "Actualmen, Ark ne supporta files ISO con li sistema de files UDF."
 
-#: part/part.cpp:907
+#: part/part.cpp:942
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -1904,12 +1904,12 @@ msgstr ""
 "Un errore evenit extraente <filename>%1</filename>:<nl/><message>%2</"
 "message><nl/>Omni sequent archives ne va esser extraet."
 
-#: part/part.cpp:967
+#: part/part.cpp:1002
 #, kde-format
 msgid "Ark cannot open symlinks."
 msgstr "Ark ne posse aperter simbolic ligamentes."
 
-#: part/part.cpp:1094
+#: part/part.cpp:1129
 #, kde-kuit-format
 msgid ""
 "The file <filename>%1</filename> was modified. Do you want to update the "
@@ -1918,58 +1918,58 @@ msgstr ""
 "Li file <filename>%1</filename> esset modificat. Esque vu vole actualisar it "
 "in li archive?"
 
-#: part/part.cpp:1095
+#: part/part.cpp:1130
 #, kde-format
 msgctxt "@title:window"
 msgid "File Modified"
 msgstr "File sta modificat"
 
-#: part/part.cpp:1096
+#: part/part.cpp:1131
 #, kde-format
 msgctxt "@action:button"
 msgid "Update"
 msgstr "Actualisar"
 
-#: part/part.cpp:1097
+#: part/part.cpp:1132
 #, kde-format
 msgctxt "@action:button"
 msgid "Ignore"
 msgstr "Ignorar"
 
-#: part/part.cpp:1371
+#: part/part.cpp:1420
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files"
 msgstr "Adjunter files"
 
-#: part/part.cpp:1376
+#: part/part.cpp:1425
 #, kde-format
 msgctxt "@title:window"
 msgid "Add Files to %1"
 msgstr "Adjunter files a %1"
 
-#: part/part.cpp:1436
+#: part/part.cpp:1507
 #, kde-format
 msgid "Filename can't contain slashes and can't be equal to \".\" or \"..\""
 msgstr "Un nómine de file ne posse contener obliqui strecs o esser «.» o «..»"
 
-#: part/part.cpp:1480
+#: part/part.cpp:1551
 #, fuzzy, kde-format
 msgid "Folders can't be moved into themselves."
 msgstr "Files o fólderes a compresser"
 
-#: part/part.cpp:1480
+#: part/part.cpp:1551
 #, fuzzy, kde-format
 msgid "Moving a folder into itself"
 msgstr ", %1 fólder"
 
-#: part/part.cpp:1508
+#: part/part.cpp:1579
 #, kde-format
 msgid "Entries with the same names can't be pasted to the same destination."
 msgstr ""
 "Elementes con li sam nómines ne posse esser collat a un sam destination."
 
-#: part/part.cpp:1607
+#: part/part.cpp:1686
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Deleting this file is not undoable. Are you sure you want to do this?"
@@ -1979,7 +1979,7 @@ msgstr[0] ""
 "Li fólder <filename>%1</filename> ja existe. Esque vu vole extraer a ci?"
 msgstr[1] "%1 files"
 
-#: part/part.cpp:1610
+#: part/part.cpp:1689
 #, kde-format
 msgctxt "@title:window"
 msgid "Delete File"
@@ -1987,13 +1987,13 @@ msgid_plural "Delete Files"
 msgstr[0] "Remover un file"
 msgstr[1] "Remover files"
 
-#: part/part.cpp:1649
+#: part/part.cpp:1728
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy As"
 msgstr "Gardar un copie quam"
 
-#: part/part.cpp:1664
+#: part/part.cpp:1743
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -2003,7 +2003,7 @@ msgstr ""
 "Li archive ne posser esser gardat quam <filename>%1</filename>. Prova gardar "
 "it a un altri loc."
 
-#: part/part.cpp:1669
+#: part/part.cpp:1748
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
