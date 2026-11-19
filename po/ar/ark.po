@@ -11,7 +11,7 @@
 # Fahad Al-Saidi <fahad.alsaidi@gmail.com>, 2007.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # Youness BOUTYOUR <niceboy@linuxac.org>, 2008.
-# SPDX-FileCopyrightText: 2008, 2024, 2025, 2026 zayed <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2008, 2024-2026 zayed <zayed.alsaidi@gmail.com>
 # Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2010, 2021, 2022, 2023.
 # Abdalrahim G. Fakhouri <abdilra7eem@yahoo.com>, 2014.
 msgid ""
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-11 03:15+0000\n"
-"PO-Revision-Date: 2026-08-10 18:36+0400\n"
+"PO-Revision-Date: 2026-11-15 19:29+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -833,12 +833,12 @@ msgstr "الامتداد:"
 #, kde-format
 msgctxt "@title:window"
 msgid "Extract"
-msgstr "الاستخراج"
+msgstr "استخرج"
 
 #: kerfuffle/extractiondialog.cpp:57
 #, kde-format
 msgid "Extract"
-msgstr "الاستخراج"
+msgstr "استخراج"
 
 #: kerfuffle/extractiondialog.cpp:91
 #, kde-format
@@ -1710,7 +1710,7 @@ msgstr "ا&فتح في تطبيق خارجي"
 #, kde-format
 msgctxt "open a file with external program"
 msgid "Open &With…"
-msgstr "ا&فتح في…"
+msgstr "افتح &في…"
 
 #: part/part.cpp:374
 #, kde-format
@@ -1734,7 +1734,7 @@ msgstr "انقر لمعاينة الملف المحدد"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "E&xtract All"
-msgstr "ا&ستخراج الكل"
+msgstr "استخراج ال&كل"
 
 #: part/part.cpp:391
 #, kde-format
@@ -1749,7 +1749,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "&Extract"
-msgstr "&استخراج"
+msgstr "ا&ستخراج"
 
 #: part/part.cpp:399
 #, kde-format
