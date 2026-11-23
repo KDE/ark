@@ -23,6 +23,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QFile>
+#include <QMap>
 #include <QMimeDatabase>
 #include <QStandardPaths>
 #include <QTemporaryDir>

@@ -10,6 +10,7 @@
 #include "archive_kerfuffle.h"
 
 #include <KPluginMetaData>
+#include <QMap>
 
 namespace Kerfuffle
 {

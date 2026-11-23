@@ -9,6 +9,7 @@
 
 #include <QDateTime>
 #include <QFileInfo>
+#include <QMap>
 #include <QStringView>
 
 #include <KLocalizedString>

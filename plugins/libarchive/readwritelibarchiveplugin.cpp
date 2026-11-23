@@ -14,6 +14,7 @@
 #include <KPluginFactory>
 
 #include <QDirIterator>
+#include <QMap>
 #include <QThread>
 
 #include <archive_entry.h>

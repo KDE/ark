@@ -11,6 +11,7 @@
 #include <KSharedConfig>
 
 #include <QFileInfo>
+#include <QMap>
 #include <QMimeDatabase>
 #include <QPluginLoader>
 #include <QProcess>

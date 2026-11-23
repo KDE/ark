@@ -15,6 +15,7 @@
 
 #include <QDir>
 #include <QFileInfo>
+#include <QMap>
 
 namespace Kerfuffle
 {

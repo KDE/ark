@@ -13,6 +13,7 @@
 #include <KMessageWidget>
 
 #include <QAbstractItemModel>
+#include <QMap>
 #include <QScopedPointer>
 
 using Kerfuffle::Archive;
