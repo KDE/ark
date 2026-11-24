@@ -198,7 +198,7 @@
 ></term>
 <listitem
 ><para
->Çıkarma dizinini öntanımlı olarak <replaceable
+>Çıkarma dizinini varsayılan olarak <replaceable
 >dizin</replaceable
 >’e ayarla. Geçirilmezse geçerli yol kullanılır.</para>
 </listitem>

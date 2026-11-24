@@ -301,7 +301,7 @@
 <listitem>
 <para
 ><guimenuitem
->Önizleme</guimenuitem
+>Ön İzleme</guimenuitem
 > (<keycombo action="simul"
 >&Ctrl;<keycap
 >P</keycap
@@ -441,7 +441,7 @@
 <para
 ><guilabel
 >Çıkar</guilabel
-> iletişim kutusu, dosyaların nereye çıkarılacağını seçmenize olanak sağlar. Öntanımlı konum, arşivin bulunduğu klasördür. Ayrıca, bu pencere <keycombo action="simul"
+> iletişim kutusu, dosyaların nereye çıkarılacağını seçmenize olanak sağlar. Varsayılan konum, arşivin bulunduğu klasördür. Ayrıca, bu pencere <keycombo action="simul"
 >&Ctrl;<keycap
 >E</keycap
 ></keycombo
@@ -458,7 +458,7 @@
 </mediaobject>
 
 <para
->Dosyaların bir alt klasöre çıkarılmasını belirtebilirsiniz. Bu alt klasörün öntanımlı adı, dosya adı uzantısı olmayan arşiv adıdır; ancak bunu gereksinimlerinize göre düzenleyebilirsiniz. Çıkarma sırasında yolları korumak istiyorsanız <guilabel
+>Dosyaların bir alt klasöre çıkarılmasını belirtebilirsiniz. Bu alt klasörün varsayılan adı, dosya adı uzantısı olmayan arşiv adıdır; ancak bunu gereksinimlerinize göre düzenleyebilirsiniz. Çıkarma sırasında yolları korumak istiyorsanız <guilabel
 >Çıkarırken dosya yollarını koru</guilabel
 > seçeneğini seçin. Hedef klasörü &dolphin;’de açmayı veya çıkarma işlemi tamamlandıktan sonra &ark;’ı kapatmayı da seçebilirsiniz.</para>
 
@@ -539,7 +539,7 @@
 <title
 >Sıkıştırma</title>
 <para
->Daha yüksek bir değer daha küçük arşivler oluşturur; ancak daha uzun sıkıştırma ve açma süreleri ile sonuçlanır. &ark; tarafından önerilen öntanımlı sıkıştırma düzeyi; genellikle boyut ve sıkıştırma (açma) hızı arasında iyi bir uzlaşmadır. Çoğu biçim için minimum sıkıştırma düzeyi yalnızca dosyaların saklanmasına eşdeğerdir; &ie; hiçbir sıkıştırma uygulanmaz. </para>
+>Daha yüksek bir değer daha küçük arşivler oluşturur; ancak daha uzun sıkıştırma ve açma süreleri ile sonuçlanır. &ark; tarafından önerilen varsayılan sıkıştırma düzeyi; genellikle boyut ve sıkıştırma (açma) hızı arasında iyi bir uzlaşmadır. Çoğu biçim için minimum sıkıştırma düzeyi yalnızca dosyaların saklanmasına eşdeğerdir; &ie; hiçbir sıkıştırma uygulanmaz. </para>
 <para
 ><literal role="extension"
 >rar</literal
@@ -549,7 +549,7 @@
 >zip</literal
 > arşivleri için farklı sıkıştırma yöntemleri arasından seçim yapabilirsiniz. </para>
 <para
->Önceden seçili öntanımlılar dışındaki sıkıştırma yöntemlerinin kullanılmasının dosya arşivleyicilerle uyumluluğu sınırlayabileceğini unutmayın. Örneğin, <literal role="extension"
+>Önceden seçili varsayılanlar dışındaki sıkıştırma yöntemlerinin kullanılmasının dosya arşivleyicilerle uyumluluğu sınırlayabileceğini unutmayın. Örneğin, <literal role="extension"
 >zip</literal
 > arşivlerini <quote
 >Deflate</quote
@@ -572,7 +572,7 @@
 >zip</literal
 > biçimi çoklu şifrelemeyi desteklemektedir. Yalnızca bir şifreleme yöntemini destekleyen diğer biçimler için yöntem, açılır kutuda gösterilir.</para>
 <para
->Öntanımlı <guilabel
+>Varsayılan <guilabel
 >ZipCrypto</guilabel
 > dışındaki diğer şifreleme yöntemleri tüm dosya arşivleyicileri tarafından desteklenmeyebilir.</para>
 
@@ -591,7 +591,7 @@
 >rar</literal
 > ve <literal role="extension"
 >7zip</literal
-> biçimleri tarafından desteklenir. Acemi kullanıcılara en yüksek korumayı sağlamak amacıyla üst bilgi şifrelemesi öntanımlı olarak etkindir (kullanılabilir olduğunda).</para>
+> biçimleri tarafından desteklenir. Acemi kullanıcılara en yüksek korumayı sağlamak amacıyla üst bilgi şifrelemesi varsayılan olarak etkindir (kullanılabilir olduğunda).</para>
 </sect2>
 
 <sect2 id="ark-multi-volume">
