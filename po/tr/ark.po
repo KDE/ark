@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-19 01:11+0000\n"
-"PO-Revision-Date: 2026-11-16 19:00+0300\n"
+"PO-Revision-Date: 2026-11-23 18:10+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -325,8 +325,8 @@ msgstr ""
 msgid ""
 "Destination folder to extract to. Defaults to current path if not specified."
 msgstr ""
-"Dosyaların çıkarılacağı hedef klasör. Belirtilmezse öntanımlı olarak geçerli "
-"yol kullanılır."
+"Dosyaların çıkarılacağı hedef klasör. Belirtilmezse varsayılan olarak "
+"geçerli yol kullanılır."
 
 #. i18n: ectx: label, entry (openDestinationFolderAfterExtraction), group (Extraction)
 #: app/main.cpp:124 kerfuffle/ark.kcfg:23
@@ -599,7 +599,7 @@ msgstr ""
 #: kerfuffle/ark.kcfg:13
 #, kde-format
 msgid "Default action when opening archive entries."
-msgstr "Arşiv girdilerini açarken öntanımlı eylem."
+msgstr "Arşiv girdilerini açarken varsayılan eylem."
 
 #. i18n: ectx: label, entry (closeAfterExtraction), group (Extraction)
 #: kerfuffle/ark.kcfg:27
@@ -1001,7 +1001,7 @@ msgid ""
 "Extraction Dialog, when the archive has more than one top-level entry."
 msgstr ""
 "Arşiv birden fazla üst düzey girdiye sahip olduğunda, Çıkarma İletişim "
-"Kutusu’nda öntanımlı olarak alt klasöre çıkarma onay kutusunun imlenip "
+"Kutusu’nda varsayılan olarak alt klasöre çıkarma onay kutusunun imlenip "
 "imlenmeyeceği."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_extractToSubfolder)
