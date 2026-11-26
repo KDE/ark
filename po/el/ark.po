@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-19 01:11+0000\n"
+"POT-Creation-Date: 2026-11-26 01:08+0000\n"
 "PO-Revision-Date: 2024-08-26 09:39+0300\n"
 "Last-Translator: Αντώνης Γέραλης <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-doc@kde.org>\n"
@@ -1090,14 +1090,14 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Φόρτωση αρχειοθήκης"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
-#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:757
+#: kerfuffle/jobs.cpp:809 kerfuffle/jobs.cpp:846 kerfuffle/jobs.cpp:877
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Archive"
 msgstr "Αρχειοθήκη"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:596
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Δεν υπάρχει διαθέσιμος χώρος στη συσκευή <filename>%1</filename>"
@@ -1108,7 +1108,7 @@ msgid "Extracting all files"
 msgstr "Εξαγωγή όλων των αρχείων"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:680
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1130,40 +1130,40 @@ msgstr ""
 "Αδυναμία εγγραφής στον προορισμό <filename>%1</filename>.<nl/> Ελέγξτε αν "
 "έχετε επαρκή δικαιώματα."
 
-#: kerfuffle/jobs.cpp:741
+#: kerfuffle/jobs.cpp:756
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "Συμπίεση ενός αρχείου"
 msgstr[1] "Προσθήκη %1 αρχείων"
 
-#: kerfuffle/jobs.cpp:793
+#: kerfuffle/jobs.cpp:808
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "Μεταφορά ενός αρχείου"
 msgstr[1] "Προσθήκη %1 αρχείων"
 
-#: kerfuffle/jobs.cpp:830
+#: kerfuffle/jobs.cpp:845
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "Αντιγραφή ενός αρχείου"
 msgstr[1] "Προσθήκη %1 αρχείων"
 
-#: kerfuffle/jobs.cpp:861
+#: kerfuffle/jobs.cpp:876
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "Διαγραφή ενός αρχείου από την αρχειοθήκη"
 msgstr[1] "Διαγραφή %1 αρχείων"
 
-#: kerfuffle/jobs.cpp:884
+#: kerfuffle/jobs.cpp:899
 #, kde-format
 msgid "Adding comment"
 msgstr "Προσθήκη σχολίου"
 
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Testing archive"
 msgstr "Έλεγχος αρχειοθήκης"
@@ -2236,13 +2236,13 @@ msgstr ""
 "Το αρχείο μπορεί να είναι κατεστραμμένο ή να έχει κρυπτογράφηση κεφαλίδας, η "
 "οποία προς το παρόν δεν υποστηρίζεται."
 
-#: plugins/libarchive/libarchiveplugin.cpp:538
+#: plugins/libarchive/libarchiveplugin.cpp:566
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Μοιραίο σφάλμα, η εξαγωγή ματαιώθηκε."
 
-#: plugins/libarchive/libarchiveplugin.cpp:564
+#: plugins/libarchive/libarchiveplugin.cpp:592
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
@@ -2250,12 +2250,12 @@ msgstr ""
 "Προς το παρόν δεν υποστηρίζεται η εξαγωγή κρυπτογραφημένων καταχωρήσεων 7-"
 "zip."
 
-#: plugins/libarchive/libarchiveplugin.cpp:578
+#: plugins/libarchive/libarchiveplugin.cpp:606
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Ο αναγνώστης αρχειοθήκης δεν μπορεί να αρχικοποιηθεί."
 
-#: plugins/libarchive/libarchiveplugin.cpp:600
+#: plugins/libarchive/libarchiveplugin.cpp:628
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

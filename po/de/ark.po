@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-19 01:11+0000\n"
+"POT-Creation-Date: 2026-11-26 01:08+0000\n"
 "PO-Revision-Date: 2026-01-25 20:38+0100\n"
 "Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -1082,14 +1082,14 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Archiv wird geladen"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
-#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:757
+#: kerfuffle/jobs.cpp:809 kerfuffle/jobs.cpp:846 kerfuffle/jobs.cpp:877
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Archive"
 msgstr "Archiv"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:596
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Auf dem Gerät <filename>%1</filename> ist kein Speicherplatz verfügbar"
@@ -1100,7 +1100,7 @@ msgid "Extracting all files"
 msgstr "Alle Dateien entpacken"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:680
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1122,40 +1122,40 @@ msgstr ""
 "Das Ziel <filename>%1</filename> kann nicht geschrieben werden.<nl/"
 ">Überprüfen Sie, ob Sie die nötigen Berechtigungen haben."
 
-#: kerfuffle/jobs.cpp:741
+#: kerfuffle/jobs.cpp:756
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "Eine Datei wird komprimiert"
 msgstr[1] "%1 Dateien werden komprimiert"
 
-#: kerfuffle/jobs.cpp:793
+#: kerfuffle/jobs.cpp:808
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "Eine Datei wird verschoben"
 msgstr[1] "%1 Dateien werden verschoben"
 
-#: kerfuffle/jobs.cpp:830
+#: kerfuffle/jobs.cpp:845
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "Eine Datei wird kopiert"
 msgstr[1] "%1 Dateien werden kopiert"
 
-#: kerfuffle/jobs.cpp:861
+#: kerfuffle/jobs.cpp:876
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "Eine Datei wird gelöscht"
 msgstr[1] "%1 Dateien werden gelöscht"
 
-#: kerfuffle/jobs.cpp:884
+#: kerfuffle/jobs.cpp:899
 #, kde-format
 msgid "Adding comment"
 msgstr "Kommentar wird hinzugefügt"
 
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Testing archive"
 msgstr "Archiv wird getestet"
@@ -2217,25 +2217,25 @@ msgstr ""
 "Defekte Archive oder Archive mit verschlüsseltem Vorspann werden derzeit "
 "nicht unterstützt."
 
-#: plugins/libarchive/libarchiveplugin.cpp:538
+#: plugins/libarchive/libarchiveplugin.cpp:566
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Schwerwiegender Fehler; Entpacken abgebrochen."
 
-#: plugins/libarchive/libarchiveplugin.cpp:564
+#: plugins/libarchive/libarchiveplugin.cpp:592
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr ""
 "Das Entpacken verschlüsselter 7-Zip-Daten wird derzeit nicht unterstützt."
 
-#: plugins/libarchive/libarchiveplugin.cpp:578
+#: plugins/libarchive/libarchiveplugin.cpp:606
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Der Archivlader kann nicht initialisiert werden."
 
-#: plugins/libarchive/libarchiveplugin.cpp:600
+#: plugins/libarchive/libarchiveplugin.cpp:628
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

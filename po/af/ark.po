@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-19 01:11+0000\n"
+"POT-Creation-Date: 2026-11-26 01:08+0000\n"
 "PO-Revision-Date: 2008-03-11 11:41+0200\n"
 "Last-Translator: Petri Jooste <Petri.Jooste@nwu.ac.za>\n"
 "Language-Team: Afrikaans <translate-discuss-af@lists.sourceforge.net>\n"
@@ -1056,15 +1056,15 @@ msgstr ""
 msgid "Loading archive"
 msgstr "Maak 'n argief oop"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
-#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:757
+#: kerfuffle/jobs.cpp:809 kerfuffle/jobs.cpp:846 kerfuffle/jobs.cpp:877
+#: kerfuffle/jobs.cpp:923
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgid "Archive"
 msgstr "Maak 'n argief oop"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:596
 #, fuzzy, kde-kuit-format
 #| msgid "Could not open the archive '%1' for writing."
 msgid "No space available on device <filename>%1</filename>"
@@ -1076,7 +1076,7 @@ msgid "Extracting all files"
 msgstr "Alle lêers word uitgepak"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:680
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1096,7 +1096,7 @@ msgid ""
 "you have sufficient permissions."
 msgstr ""
 
-#: kerfuffle/jobs.cpp:741
+#: kerfuffle/jobs.cpp:756
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1105,7 +1105,7 @@ msgid_plural "Compressing %1 files"
 msgstr[0] "'n Lêer word bygevoeg"
 msgstr[1] "%1 lêers word bygevoeg"
 
-#: kerfuffle/jobs.cpp:793
+#: kerfuffle/jobs.cpp:808
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1114,7 +1114,7 @@ msgid_plural "Moving %1 files"
 msgstr[0] "'n Lêer word bygevoeg"
 msgstr[1] "%1 lêers word bygevoeg"
 
-#: kerfuffle/jobs.cpp:830
+#: kerfuffle/jobs.cpp:845
 #, fuzzy, kde-format
 #| msgid "Adding a file"
 #| msgid_plural "Adding %1 files"
@@ -1123,19 +1123,19 @@ msgid_plural "Copying %1 files"
 msgstr[0] "'n Lêer word bygevoeg"
 msgstr[1] "%1 lêers word bygevoeg"
 
-#: kerfuffle/jobs.cpp:861
+#: kerfuffle/jobs.cpp:876
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "'n lêer word uitgevee uit die argief"
 msgstr[1] "%1 lêers word uitgevee uit die argief"
 
-#: kerfuffle/jobs.cpp:884
+#: kerfuffle/jobs.cpp:899
 #, kde-format
 msgid "Adding comment"
 msgstr ""
 
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:923
 #, fuzzy, kde-format
 #| msgid "Open an archive"
 msgid "Testing archive"
@@ -2193,24 +2193,24 @@ msgid ""
 "supported."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:538
+#: plugins/libarchive/libarchiveplugin.cpp:566
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:564
+#: plugins/libarchive/libarchiveplugin.cpp:592
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:578
+#: plugins/libarchive/libarchiveplugin.cpp:606
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr ""
 
-#: plugins/libarchive/libarchiveplugin.cpp:600
+#: plugins/libarchive/libarchiveplugin.cpp:628
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

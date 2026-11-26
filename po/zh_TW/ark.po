@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-19 01:11+0000\n"
+"POT-Creation-Date: 2026-11-26 01:08+0000\n"
 "PO-Revision-Date: 2026-01-19 19:18+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -1017,14 +1017,14 @@ msgstr "無法載入封存檔，因為其包含了格式錯誤的項目，且可
 msgid "Loading archive"
 msgstr "載入封存中"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
-#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:757
+#: kerfuffle/jobs.cpp:809 kerfuffle/jobs.cpp:846 kerfuffle/jobs.cpp:877
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Archive"
 msgstr "封存"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:596
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "裝置<filename>%1</filename>無可用空間"
@@ -1035,7 +1035,7 @@ msgid "Extracting all files"
 msgstr "解開所有檔案"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:680
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1054,36 +1054,36 @@ msgid ""
 "you have sufficient permissions."
 msgstr "無法寫入目標 <filename>%1</filename>。<nl/>請檢查您的權限。"
 
-#: kerfuffle/jobs.cpp:741
+#: kerfuffle/jobs.cpp:756
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "正在壓縮 %1 個檔案"
 
-#: kerfuffle/jobs.cpp:793
+#: kerfuffle/jobs.cpp:808
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "正在移動 %1 個檔案"
 
-#: kerfuffle/jobs.cpp:830
+#: kerfuffle/jobs.cpp:845
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "正在複製 %1 檔案"
 
-#: kerfuffle/jobs.cpp:861
+#: kerfuffle/jobs.cpp:876
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "刪除 %1 個檔案。"
 
-#: kerfuffle/jobs.cpp:884
+#: kerfuffle/jobs.cpp:899
 #, kde-format
 msgid "Adding comment"
 msgstr "加入註解"
 
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Testing archive"
 msgstr "正在測試封存檔"
@@ -2088,24 +2088,24 @@ msgid ""
 "supported."
 msgstr "封存檔可能已毀損，或是使用目前不支援的標頭加密功能。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:538
+#: plugins/libarchive/libarchiveplugin.cpp:566
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "發生嚴重錯誤，中止解壓縮。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:564
+#: plugins/libarchive/libarchiveplugin.cpp:592
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "目前不支援解開已加密的 7-zip 項目。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:578
+#: plugins/libarchive/libarchiveplugin.cpp:606
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "封存讀取器無法初始化。"
 
-#: plugins/libarchive/libarchiveplugin.cpp:600
+#: plugins/libarchive/libarchiveplugin.cpp:628
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

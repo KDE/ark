@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-19 01:11+0000\n"
+"POT-Creation-Date: 2026-11-26 01:08+0000\n"
 "PO-Revision-Date: 2024-08-02 15:34+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <>\n"
@@ -1030,14 +1030,14 @@ msgstr "Archive"
 msgid "Loading archive"
 msgstr "Cargante un archive"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
-#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:757
+#: kerfuffle/jobs.cpp:809 kerfuffle/jobs.cpp:846 kerfuffle/jobs.cpp:877
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Archive"
 msgstr "Archive"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:596
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "Null spacie disponibil sur li aparate <filename>%1</filename>"
@@ -1048,7 +1048,7 @@ msgid "Extracting all files"
 msgstr "Extraente omni files"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:680
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1068,40 +1068,40 @@ msgid ""
 "you have sufficient permissions."
 msgstr "Destination"
 
-#: kerfuffle/jobs.cpp:741
+#: kerfuffle/jobs.cpp:756
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "Compressente ún file"
 msgstr[1] "Compressente %1 files"
 
-#: kerfuffle/jobs.cpp:793
+#: kerfuffle/jobs.cpp:808
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "Movente ún file"
 msgstr[1] "Movente %1 files"
 
-#: kerfuffle/jobs.cpp:830
+#: kerfuffle/jobs.cpp:845
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "Copiante ún file"
 msgstr[1] "Copiante %1 file"
 
-#: kerfuffle/jobs.cpp:861
+#: kerfuffle/jobs.cpp:876
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "Removente ún file del archive"
 msgstr[1] "Removente %1 files"
 
-#: kerfuffle/jobs.cpp:884
+#: kerfuffle/jobs.cpp:899
 #, kde-format
 msgid "Adding comment"
 msgstr "Adjuntente un comenta"
 
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Testing archive"
 msgstr "Provante li archive"
@@ -2140,24 +2140,24 @@ msgid ""
 "supported."
 msgstr "Ne successat aperter li archive por scrir elementes."
 
-#: plugins/libarchive/libarchiveplugin.cpp:538
+#: plugins/libarchive/libarchiveplugin.cpp:566
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "Extraction ne successat pro que li disco es plen."
 
-#: plugins/libarchive/libarchiveplugin.cpp:564
+#: plugins/libarchive/libarchiveplugin.cpp:592
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "Extraction de ciffrat elementes 7-zip es presentmen ínsupportat."
 
-#: plugins/libarchive/libarchiveplugin.cpp:578
+#: plugins/libarchive/libarchiveplugin.cpp:606
 #, fuzzy, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "Archive"
 
-#: plugins/libarchive/libarchiveplugin.cpp:600
+#: plugins/libarchive/libarchiveplugin.cpp:628
 #, fuzzy, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."

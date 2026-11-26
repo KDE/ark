@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-19 01:11+0000\n"
+"POT-Creation-Date: 2026-11-26 01:08+0000\n"
 "PO-Revision-Date: 2026-02-01 13:43+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-l10n-ta@kde.org>\n"
@@ -1049,14 +1049,14 @@ msgstr ""
 msgid "Loading archive"
 msgstr "காப்பகம் ஏற்றப்படுகிறது"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
-#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:757
+#: kerfuffle/jobs.cpp:809 kerfuffle/jobs.cpp:846 kerfuffle/jobs.cpp:877
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Archive"
 msgstr "காப்பகம்"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:596
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "<filename>%1</filename> என்பதில் இடம் இல்லை"
@@ -1067,7 +1067,7 @@ msgid "Extracting all files"
 msgstr "எல்லா கோப்புகளையும் பிரித்தெடுப்பது"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:680
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1089,40 +1089,40 @@ msgstr ""
 "<filename>%1</filename> என்ற சேருமிடத்திற்கு எழுத முடியவில்லை.<nl/>உங்களுக்கு "
 "போதுமான அனுமதி உள்ளதா என்பதை சரிபாருங்கள்."
 
-#: kerfuffle/jobs.cpp:741
+#: kerfuffle/jobs.cpp:756
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
 msgstr[0] "ஒரு கோப்பு சுருக்கப்படுகிறது"
 msgstr[1] "%1 கோப்புகள் சுருக்கப்படுகின்றன"
 
-#: kerfuffle/jobs.cpp:793
+#: kerfuffle/jobs.cpp:808
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
 msgstr[0] "ஒரு கோப்பு நகர்த்தப்படுகிறது"
 msgstr[1] "%1 கோப்புகள் நகர்த்தப்படுகின்றன"
 
-#: kerfuffle/jobs.cpp:830
+#: kerfuffle/jobs.cpp:845
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
 msgstr[0] "ஒரு கோப்பு நகலெடுக்கப்படுகிறது"
 msgstr[1] "%1 கோப்புகள் நகலெடுக்கப்படுகின்றன"
 
-#: kerfuffle/jobs.cpp:861
+#: kerfuffle/jobs.cpp:876
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
 msgstr[0] "காப்பகத்திலிருந்து ஒரு கோப்பு நீக்கப்படுகிறது"
 msgstr[1] "காப்பகத்திலிருந்து %1 கோப்புகள் நீக்கப்படுகின்றன"
 
-#: kerfuffle/jobs.cpp:884
+#: kerfuffle/jobs.cpp:899
 #, kde-format
 msgid "Adding comment"
 msgstr "குறிப்பு சேர்க்கப்படுகிறது"
 
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Testing archive"
 msgstr "காப்பகம் சோதிக்கப்படுகிறது"
@@ -2157,24 +2157,24 @@ msgstr ""
 "இது முறையற்ற காப்பகமாக இருக்கலாம், அல்லது தற்போது ஆதரிக்கப்படாத தலைப்புப்பகுதி-"
 "மறையாக்கத்தைப் பயன்படுத்தும் காப்பகமாக இருக்கலாம்."
 
-#: plugins/libarchive/libarchiveplugin.cpp:538
+#: plugins/libarchive/libarchiveplugin.cpp:566
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "முறிவுண்டாக்கும் சிக்கல், பிரித்தெடுப்பது நிறுத்தப்பட்டது."
 
-#: plugins/libarchive/libarchiveplugin.cpp:564
+#: plugins/libarchive/libarchiveplugin.cpp:592
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "மறையாக்கிய 7-zip உருப்படிகளைப் பிரித்தெடுப்பது தற்போது ஆதரிக்கப்படாதது."
 
-#: plugins/libarchive/libarchiveplugin.cpp:578
+#: plugins/libarchive/libarchiveplugin.cpp:606
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "காப்பக படிப்பியை துவக்க முடியவில்லை."
 
-#: plugins/libarchive/libarchiveplugin.cpp:600
+#: plugins/libarchive/libarchiveplugin.cpp:628
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
