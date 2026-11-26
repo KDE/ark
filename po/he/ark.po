@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-11 03:15+0000\n"
+"POT-Creation-Date: 2026-11-26 03:18+0000\n"
 "PO-Revision-Date: 2026-01-17 21:19+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -1037,14 +1037,14 @@ msgstr ""
 msgid "Loading archive"
 msgstr "ארכיון נטען"
 
-#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:742
-#: kerfuffle/jobs.cpp:794 kerfuffle/jobs.cpp:831 kerfuffle/jobs.cpp:862
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:257 kerfuffle/jobs.cpp:560 kerfuffle/jobs.cpp:757
+#: kerfuffle/jobs.cpp:809 kerfuffle/jobs.cpp:846 kerfuffle/jobs.cpp:877
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Archive"
 msgstr "ארכיון"
 
-#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:591
+#: kerfuffle/jobs.cpp:409 kerfuffle/jobs.cpp:596
 #, kde-kuit-format
 msgid "No space available on device <filename>%1</filename>"
 msgstr "אין מקום פנוי בהתקן <filename>%1</filename>"
@@ -1055,7 +1055,7 @@ msgid "Extracting all files"
 msgstr "כל הקבצים מחולצים"
 
 #. i18np on purpose so this translation may properly be reused.
-#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:665
+#: kerfuffle/jobs.cpp:556 kerfuffle/jobs.cpp:680
 #, kde-format
 msgid "Extracting one file"
 msgid_plural "Extracting %1 files"
@@ -1079,7 +1079,7 @@ msgstr ""
 "לא ניתן לכתוב ליעד <filename>%1</filename>.<nl/>כדאי לבדוק אם יש לך מספיק "
 "הרשאות."
 
-#: kerfuffle/jobs.cpp:741
+#: kerfuffle/jobs.cpp:756
 #, kde-format
 msgid "Compressing a file"
 msgid_plural "Compressing %1 files"
@@ -1088,7 +1088,7 @@ msgstr[1] "שני קבצים נדחסים"
 msgstr[2] "%1 קבצים נדחסים"
 msgstr[3] "%1 קבצים נדחסים"
 
-#: kerfuffle/jobs.cpp:793
+#: kerfuffle/jobs.cpp:808
 #, kde-format
 msgid "Moving a file"
 msgid_plural "Moving %1 files"
@@ -1097,7 +1097,7 @@ msgstr[1] "שני קבצים מועברים"
 msgstr[2] "%1 קבצים מועברים"
 msgstr[3] "%1 קבצים מועברים"
 
-#: kerfuffle/jobs.cpp:830
+#: kerfuffle/jobs.cpp:845
 #, kde-format
 msgid "Copying a file"
 msgid_plural "Copying %1 files"
@@ -1106,7 +1106,7 @@ msgstr[1] "שני קבצים מועתקים"
 msgstr[2] "%1 קבצים מועתקים"
 msgstr[3] "%1 קבצים מועתקים"
 
-#: kerfuffle/jobs.cpp:861
+#: kerfuffle/jobs.cpp:876
 #, kde-format
 msgid "Deleting a file from the archive"
 msgid_plural "Deleting %1 files"
@@ -1115,12 +1115,12 @@ msgstr[1] "שני קבצים נמחקים מארכיון"
 msgstr[2] "%1 קבצים נמחקים מארכיון"
 msgstr[3] "%1 קבצים נמחקים מארכיון"
 
-#: kerfuffle/jobs.cpp:884
+#: kerfuffle/jobs.cpp:899
 #, kde-format
 msgid "Adding comment"
 msgstr "הוספת הערה"
 
-#: kerfuffle/jobs.cpp:908
+#: kerfuffle/jobs.cpp:923
 #, kde-format
 msgid "Testing archive"
 msgstr "בדיקת הארכיון"
@@ -2151,24 +2151,24 @@ msgid ""
 "supported."
 msgstr "הארכיון פגום או שהכותרת שלו מוצפנת, אין בזה תמיכה כרגע."
 
-#: plugins/libarchive/libarchiveplugin.cpp:538
+#: plugins/libarchive/libarchiveplugin.cpp:566
 #, kde-format
 msgctxt "@info"
 msgid "Fatal error, extraction aborted."
 msgstr "שגיאה משמעותית, החילוץ נכשל."
 
-#: plugins/libarchive/libarchiveplugin.cpp:564
+#: plugins/libarchive/libarchiveplugin.cpp:592
 #, kde-format
 msgctxt "@info"
 msgid "Extraction of encrypted 7-zip entries is currently not supported."
 msgstr "אין תמיכה בחילוץ של רשומות ‎7-zip מוצפנות כרגע."
 
-#: plugins/libarchive/libarchiveplugin.cpp:578
+#: plugins/libarchive/libarchiveplugin.cpp:606
 #, kde-format
 msgid "The archive reader could not be initialized."
 msgstr "לא ניתן להפעיל את קורא הארכיונים."
 
-#: plugins/libarchive/libarchiveplugin.cpp:600
+#: plugins/libarchive/libarchiveplugin.cpp:628
 #, kde-format
 msgctxt "@info"
 msgid "Archive corrupted or insufficient permissions."
