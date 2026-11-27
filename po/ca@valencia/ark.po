@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-26 01:08+0000\n"
+"POT-Creation-Date: 2026-11-27 01:08+0000\n"
 "PO-Revision-Date: 2026-10-12 17:50+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -2259,92 +2259,92 @@ msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
 msgstr "No s'ha pogut comprimir l'entrada."
 
-#: plugins/libzipplugin/libzipplugin.cpp:198
-#: plugins/libzipplugin/libzipplugin.cpp:299
-#: plugins/libzipplugin/libzipplugin.cpp:593
-#: plugins/libzipplugin/libzipplugin.cpp:643
-#: plugins/libzipplugin/libzipplugin.cpp:1014
-#: plugins/libzipplugin/libzipplugin.cpp:1070
+#: plugins/libzipplugin/libzipplugin.cpp:199
+#: plugins/libzipplugin/libzipplugin.cpp:422
+#: plugins/libzipplugin/libzipplugin.cpp:721
+#: plugins/libzipplugin/libzipplugin.cpp:771
+#: plugins/libzipplugin/libzipplugin.cpp:1149
+#: plugins/libzipplugin/libzipplugin.cpp:1205
 #, kde-kuit-format
 msgid "Failed to open archive: %1"
 msgstr "Ha fallat mentre s'obria l'arxiu: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:354
-#: plugins/libzipplugin/libzipplugin.cpp:627
-#: plugins/libzipplugin/libzipplugin.cpp:659
-#: plugins/libzipplugin/libzipplugin.cpp:1050
-#: plugins/libzipplugin/libzipplugin.cpp:1141
+#: plugins/libzipplugin/libzipplugin.cpp:477
+#: plugins/libzipplugin/libzipplugin.cpp:755
+#: plugins/libzipplugin/libzipplugin.cpp:787
+#: plugins/libzipplugin/libzipplugin.cpp:1185
+#: plugins/libzipplugin/libzipplugin.cpp:1276
 #, kde-kuit-format
 msgid "Failed to write archive."
 msgstr "Ha fallat mentre s'escrivia a l'arxiu."
 
-#: plugins/libzipplugin/libzipplugin.cpp:403
-#: plugins/libzipplugin/libzipplugin.cpp:1108
+#: plugins/libzipplugin/libzipplugin.cpp:531
+#: plugins/libzipplugin/libzipplugin.cpp:1243
 #, kde-kuit-format
 msgid "Failed to add entry: %1"
 msgstr "Ha fallat mentre s'afegia l'entrada: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:458
+#: plugins/libzipplugin/libzipplugin.cpp:586
 #, kde-kuit-format
 msgid "Failed to set compression options for entry: %1"
 msgstr ""
 "Ha fallat mentre s'establien les opcions de compressió de l'entrada: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:563
-#: plugins/libzipplugin/libzipplugin.cpp:948
-#: plugins/libzipplugin/libzipplugin.cpp:1117
+#: plugins/libzipplugin/libzipplugin.cpp:691
+#: plugins/libzipplugin/libzipplugin.cpp:1083
+#: plugins/libzipplugin/libzipplugin.cpp:1252
 #, kde-kuit-format
 msgid "Failed to read metadata for entry: %1"
 msgstr "Ha fallat mentre es llegien les metadades de l'entrada: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:608
-#: plugins/libzipplugin/libzipplugin.cpp:613
+#: plugins/libzipplugin/libzipplugin.cpp:736
+#: plugins/libzipplugin/libzipplugin.cpp:741
 #, kde-kuit-format
 msgid "Failed to delete entry: %1"
 msgstr "Ha fallat mentre se suprimia l'entrada: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:830
+#: plugins/libzipplugin/libzipplugin.cpp:966
 #, kde-kuit-format
 msgid "Failed to create directory: %1"
 msgstr "Ha fallat mentre es creava el directori: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:904
-#, kde-kuit-format
-msgid "Failed to open '%1':<nl/>%2"
-msgstr "Ha fallat mentre s'obria «%1»:<nl/>%2"
-
-#: plugins/libzipplugin/libzipplugin.cpp:912
-#, kde-kuit-format
-msgid "Failed to open file for writing: %1"
-msgstr "Ha fallat mentre s'obria el fitxer per a escriptura: %1"
-
-#: plugins/libzipplugin/libzipplugin.cpp:925
-#, kde-kuit-format
-msgid "Failed to read data for entry: %1"
-msgstr "Ha fallat mentre es llegien les dades per a l'entrada: %1"
-
-#: plugins/libzipplugin/libzipplugin.cpp:930
-#, kde-kuit-format
-msgid "Failed to write data for entry: %1"
-msgstr "Ha fallat mentre s'escrivien les dades per a l'entrada: %1"
-
-#: plugins/libzipplugin/libzipplugin.cpp:940
+#: plugins/libzipplugin/libzipplugin.cpp:977
 #, kde-kuit-format
 msgid "Failed to locate entry: %1"
 msgstr "No s'ha pogut localitzar l'entrada: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1029
-#: plugins/libzipplugin/libzipplugin.cpp:1035
+#: plugins/libzipplugin/libzipplugin.cpp:1046
+#, kde-kuit-format
+msgid "Failed to open '%1':<nl/>%2"
+msgstr "Ha fallat mentre s'obria «%1»:<nl/>%2"
+
+#: plugins/libzipplugin/libzipplugin.cpp:1054
+#, kde-kuit-format
+msgid "Failed to open file for writing: %1"
+msgstr "Ha fallat mentre s'obria el fitxer per a escriptura: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:1067
+#, kde-kuit-format
+msgid "Failed to read data for entry: %1"
+msgstr "Ha fallat mentre es llegien les dades per a l'entrada: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:1072
+#, kde-kuit-format
+msgid "Failed to write data for entry: %1"
+msgstr "Ha fallat mentre s'escrivien les dades per a l'entrada: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:1164
+#: plugins/libzipplugin/libzipplugin.cpp:1170
 #, kde-kuit-format
 msgid "Failed to move entry: %1"
 msgstr "Ha fallat mentre es movia l'entrada: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1094
+#: plugins/libzipplugin/libzipplugin.cpp:1229
 #, kde-kuit-format
 msgid "Failed to copy entry: %1"
 msgstr "Ha fallat mentre es copiava l'entrada: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1124
+#: plugins/libzipplugin/libzipplugin.cpp:1259
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Ha fallat mentre s'establien les metadades de l'entrada: %1"

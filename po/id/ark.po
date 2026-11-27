@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ark\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-26 01:08+0000\n"
+"POT-Creation-Date: 2026-11-27 01:08+0000\n"
 "PO-Revision-Date: 2022-09-27 17:54+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -2290,91 +2290,91 @@ msgctxt "@info Error in a message box"
 msgid "Could not compress entry."
 msgstr "Tidak bisa mengompres entri."
 
-#: plugins/libzipplugin/libzipplugin.cpp:198
-#: plugins/libzipplugin/libzipplugin.cpp:299
-#: plugins/libzipplugin/libzipplugin.cpp:593
-#: plugins/libzipplugin/libzipplugin.cpp:643
-#: plugins/libzipplugin/libzipplugin.cpp:1014
-#: plugins/libzipplugin/libzipplugin.cpp:1070
+#: plugins/libzipplugin/libzipplugin.cpp:199
+#: plugins/libzipplugin/libzipplugin.cpp:422
+#: plugins/libzipplugin/libzipplugin.cpp:721
+#: plugins/libzipplugin/libzipplugin.cpp:771
+#: plugins/libzipplugin/libzipplugin.cpp:1149
+#: plugins/libzipplugin/libzipplugin.cpp:1205
 #, kde-kuit-format
 msgid "Failed to open archive: %1"
 msgstr "Gagal membuka arsip: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:354
-#: plugins/libzipplugin/libzipplugin.cpp:627
-#: plugins/libzipplugin/libzipplugin.cpp:659
-#: plugins/libzipplugin/libzipplugin.cpp:1050
-#: plugins/libzipplugin/libzipplugin.cpp:1141
+#: plugins/libzipplugin/libzipplugin.cpp:477
+#: plugins/libzipplugin/libzipplugin.cpp:755
+#: plugins/libzipplugin/libzipplugin.cpp:787
+#: plugins/libzipplugin/libzipplugin.cpp:1185
+#: plugins/libzipplugin/libzipplugin.cpp:1276
 #, kde-kuit-format
 msgid "Failed to write archive."
 msgstr "Gagal menulis arsip."
 
-#: plugins/libzipplugin/libzipplugin.cpp:403
-#: plugins/libzipplugin/libzipplugin.cpp:1108
+#: plugins/libzipplugin/libzipplugin.cpp:531
+#: plugins/libzipplugin/libzipplugin.cpp:1243
 #, kde-kuit-format
 msgid "Failed to add entry: %1"
 msgstr "Gagal menambahkan entri: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:458
+#: plugins/libzipplugin/libzipplugin.cpp:586
 #, kde-kuit-format
 msgid "Failed to set compression options for entry: %1"
 msgstr "Gagal mengeset opsi kompresi untuk entri: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:563
-#: plugins/libzipplugin/libzipplugin.cpp:948
-#: plugins/libzipplugin/libzipplugin.cpp:1117
+#: plugins/libzipplugin/libzipplugin.cpp:691
+#: plugins/libzipplugin/libzipplugin.cpp:1083
+#: plugins/libzipplugin/libzipplugin.cpp:1252
 #, kde-kuit-format
 msgid "Failed to read metadata for entry: %1"
 msgstr "Gagal membaca metadata untuk entri: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:608
-#: plugins/libzipplugin/libzipplugin.cpp:613
+#: plugins/libzipplugin/libzipplugin.cpp:736
+#: plugins/libzipplugin/libzipplugin.cpp:741
 #, kde-kuit-format
 msgid "Failed to delete entry: %1"
 msgstr "Gagal menghapus entri: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:830
+#: plugins/libzipplugin/libzipplugin.cpp:966
 #, kde-kuit-format
 msgid "Failed to create directory: %1"
 msgstr "Gagal menciptakan direktori: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:904
-#, kde-kuit-format
-msgid "Failed to open '%1':<nl/>%2"
-msgstr "Gagal membuka '%1':<nl/>%2"
-
-#: plugins/libzipplugin/libzipplugin.cpp:912
-#, kde-kuit-format
-msgid "Failed to open file for writing: %1"
-msgstr "Gagal membuka file untuk penulisan: %1"
-
-#: plugins/libzipplugin/libzipplugin.cpp:925
-#, kde-kuit-format
-msgid "Failed to read data for entry: %1"
-msgstr "Gagal membaca data untuk entri: %1"
-
-#: plugins/libzipplugin/libzipplugin.cpp:930
-#, kde-kuit-format
-msgid "Failed to write data for entry: %1"
-msgstr "Gagal menulis data untuk entri: %1"
-
-#: plugins/libzipplugin/libzipplugin.cpp:940
+#: plugins/libzipplugin/libzipplugin.cpp:977
 #, kde-kuit-format
 msgid "Failed to locate entry: %1"
 msgstr "Gagal menemukan entri: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1029
-#: plugins/libzipplugin/libzipplugin.cpp:1035
+#: plugins/libzipplugin/libzipplugin.cpp:1046
+#, kde-kuit-format
+msgid "Failed to open '%1':<nl/>%2"
+msgstr "Gagal membuka '%1':<nl/>%2"
+
+#: plugins/libzipplugin/libzipplugin.cpp:1054
+#, kde-kuit-format
+msgid "Failed to open file for writing: %1"
+msgstr "Gagal membuka file untuk penulisan: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:1067
+#, kde-kuit-format
+msgid "Failed to read data for entry: %1"
+msgstr "Gagal membaca data untuk entri: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:1072
+#, kde-kuit-format
+msgid "Failed to write data for entry: %1"
+msgstr "Gagal menulis data untuk entri: %1"
+
+#: plugins/libzipplugin/libzipplugin.cpp:1164
+#: plugins/libzipplugin/libzipplugin.cpp:1170
 #, kde-kuit-format
 msgid "Failed to move entry: %1"
 msgstr "Gagal memindah entri: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1094
+#: plugins/libzipplugin/libzipplugin.cpp:1229
 #, kde-kuit-format
 msgid "Failed to copy entry: %1"
 msgstr "Gagal menyalin entri: %1"
 
-#: plugins/libzipplugin/libzipplugin.cpp:1124
+#: plugins/libzipplugin/libzipplugin.cpp:1259
 #, kde-kuit-format
 msgid "Failed to set metadata for entry: %1"
 msgstr "Gagal mengeset metadata untuk entri: %1"
