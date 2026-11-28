@@ -440,7 +440,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonOpenArchive)
 #: app/welcomeview/welcomeview.ui:179
 #, fuzzy, kde-format
-#| msgid "Archive"
 msgid "Open Archive…"
 msgstr "Vuorká"
 
@@ -1155,7 +1154,6 @@ msgstr ""
 #: kerfuffle/propertiesdialog.cpp:86 kerfuffle/propertiesdialog.cpp:87
 #: kerfuffle/propertiesdialog.cpp:88
 #, fuzzy, kde-format
-#| msgid "Calculating..."
 msgid "Calculating…"
 msgstr "Rehkenastimin …"
 
